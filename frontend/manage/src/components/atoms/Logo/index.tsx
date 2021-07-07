@@ -9,4 +9,3 @@ const Logo = ({ width }: Props) => {
 };
 
 export default Logo;
-
