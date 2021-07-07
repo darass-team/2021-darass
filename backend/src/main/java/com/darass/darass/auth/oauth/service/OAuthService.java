@@ -1,8 +1,11 @@
 package com.darass.darass.auth.oauth.service;
 
+import com.darass.darass.auth.oauth.controller.JwtTokenProvider;
 import com.darass.darass.user.domain.OAuthPlatform;
 import com.darass.darass.user.domain.SocialLoginUser;
+import com.darass.darass.user.domain.User;
 import com.darass.darass.user.repository.UserRepository;
+import lombok.AllArgsConstructor;
 import org.json.JSONObject;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -11,15 +14,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 @Service
+@AllArgsConstructor
 public class OAuthService {
 
     private final UserRepository userRepository;
+    private final JwtTokenProvider tokenProvider;
 
-    public OAuthService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
-
-    public void login(String accessToken) {
+    public String login(String accessToken) {
         RestTemplate restTemplate = new RestTemplate();
 
         HttpHeaders apiRequestHeader = new HttpHeaders();
@@ -41,10 +42,13 @@ public class OAuthService {
         JSONObject profile = (JSONObject) kakao_account.get("profile");
         String nickname = profile.getString("nickname");
 
-        SocialLoginUser socialLoginUser = new SocialLoginUser(nickname, oauth_id.toString(),
+        User socialLoginUser = new SocialLoginUser(nickname, oauth_id.toString(),
             OAuthPlatform.KAKAO, email);
 
         userRepository.save(socialLoginUser);
+
+        // 토큰 발급
+        return tokenProvider.createToken(socialLoginUser.getId().toString());
     }
 
 }
