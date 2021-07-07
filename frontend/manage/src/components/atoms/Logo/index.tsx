@@ -1,11 +1,15 @@
 import logo from "../../../assets/svg/logo.svg";
+import { Container } from "./styles";
+
+export type Size = "SM" | "MD" | "LG";
 
 export interface Props {
-  width: number;
+  size?: Size;
 }
 
-const Logo = ({ width }: Props) => {
-  return <img src={logo} width={width} height={width} />;
+const Logo = ({ size = "MD" }: Props) => {
+  return <Container src={logo} size={size} />;
 };
 
 export default Logo;
+
