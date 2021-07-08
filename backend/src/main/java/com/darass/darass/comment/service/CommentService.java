@@ -8,10 +8,10 @@ import com.darass.darass.comment.repository.CommentRepository;
 import com.darass.darass.project.domain.Project;
 import com.darass.darass.project.repository.ProjectRepository;
 import com.darass.darass.user.domain.GuestUser;
-import com.darass.darass.user.domain.User;
 import com.darass.darass.user.repository.UserRepository;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -77,5 +77,11 @@ public class CommentService {
 
     public void delete(Long id) {
         comments.deleteById(id);
+    }
+
+    public void updateContent(Long id, String content) {
+        Comment comment = comments.findById(id).get();
+        comment.changeContent(content);
+        comments.save(comment);
     }
 }

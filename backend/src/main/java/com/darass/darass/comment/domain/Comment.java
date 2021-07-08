@@ -41,4 +41,8 @@ public class Comment {
         this.url = url;
         this.content = content;
     }
+
+    public void changeContent(String content) {
+        this.content = content;
+    }
 }
