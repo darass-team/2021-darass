@@ -32,6 +32,7 @@ public class Comment {
 
     private String url;
     private String content;
+
     @Builder
     public Comment(Long id, User user, Project project, String url, String content) {
         this.id = id;

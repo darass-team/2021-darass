@@ -10,6 +10,8 @@ import com.darass.darass.project.repository.ProjectRepository;
 import com.darass.darass.user.domain.GuestUser;
 import com.darass.darass.user.domain.User;
 import com.darass.darass.user.repository.UserRepository;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -59,5 +61,17 @@ public class CommentService {
         String userType = users.findUserTypeById(comment.getUser().getId());
 
         return CommentResponse.of(comment, UserResponse.of(comment.getUser(), userType));
+    }
+
+    public List<CommentResponse> findAllComments(String url) {
+        List<Comment> foundComments = comments.findByUrl(url);
+        List<CommentResponse> commentResponses = new ArrayList<>();
+        for (Comment comment : foundComments) {
+            String userType = users.findUserTypeById(comment.getId());
+            CommentResponse commentResponse = CommentResponse
+                .of(comment, UserResponse.of(comment.getUser(), userType));
+            commentResponses.add(commentResponse);
+        }
+        return commentResponses;
     }
 }
