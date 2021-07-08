@@ -55,7 +55,6 @@ public class CommentService {
             .build();
 
         users.save(guestUser);
-        projects.save(new Project(guestUser, "jPro", "1234"));
 
         Project project = projects.findBySecretKey(commentRequest.getProjectSecretKey());
         Comment comment = Comment.builder()
