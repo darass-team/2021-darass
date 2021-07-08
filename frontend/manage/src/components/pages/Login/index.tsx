@@ -1,8 +1,6 @@
-import axios from "axios";
 import { useEffect } from "react";
 import { PALETTE } from "../../../styles/palette";
 import ScreenContainer from "../../../styles/ScreenContainer";
-import Nav from "../../organisms/Nav";
 import LoginTemplate from "../../templates/Login";
 
 const { Kakao } = window;

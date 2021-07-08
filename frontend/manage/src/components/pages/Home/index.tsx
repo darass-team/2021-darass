@@ -1,6 +1,5 @@
 import { PALETTE } from "../../../styles/palette";
 import ScreenContainer from "../../../styles/ScreenContainer";
-import Nav from "../../organisms/Nav";
 import HomeTemplate from "../../templates/Home";
 
 const Home = () => {
