@@ -74,4 +74,8 @@ public class CommentService {
         }
         return commentResponses;
     }
+
+    public void delete(Long id) {
+        comments.deleteById(id);
+    }
 }

@@ -9,7 +9,9 @@ import lombok.RequiredArgsConstructor;
 import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -45,4 +47,12 @@ public class CommentController {
         List<CommentResponse> commentResponses = commentService.findAllComments(url);
         return ResponseEntity.status(HttpStatus.OK).body(commentResponses);
     }
+
+    @DeleteMapping
+    public ResponseEntity<Void> delete(Long id) {
+        commentService.delete(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+
 }
