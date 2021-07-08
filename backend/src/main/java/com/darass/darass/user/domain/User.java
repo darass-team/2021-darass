@@ -8,15 +8,18 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-@DiscriminatorColumn
+@DiscriminatorColumn(name = "user_type")
 @RequiredArgsConstructor
 @NoArgsConstructor
+@Getter
 public abstract class User {
 
     @Id
@@ -26,5 +29,8 @@ public abstract class User {
     @NonNull
     @Column(nullable = false)
     private String nickName;
+
+    @Column(name="user_type", insertable = false, updatable = false)
+    private String userType;
 
 }
