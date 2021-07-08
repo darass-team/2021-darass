@@ -2,6 +2,8 @@ plugins {
     id 'org.springframework.boot' version '2.5.2'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'java'
+    // RestDocs 관련
+    id 'org.asciidoctor.jvm.convert' version '3.1.0'
 }
 
 group = 'com.darass'
@@ -19,17 +21,49 @@ repositories {
 }
 
 dependencies {
+    // DB
+    runtimeOnly 'com.h2database:h2'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+    // 스프링 부트
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'io.jsonwebtoken:jjwt:0.9.1'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
     implementation group: 'javax.xml.bind', name: 'jaxb-api', version: '2.2.4'
 
+    // jwt
+    implementation 'io.jsonwebtoken:jjwt:0.9.1'
+
+    // 롬복(lombok)
     compileOnly 'org.projectlombok:lombok'
-    runtimeOnly 'com.h2database:h2'
     annotationProcessor 'org.projectlombok:lombok'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    // RestDocs 관련
+    testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
 }
 
 test {
     useJUnitPlatform()
+}
+
+ext {
+    snippetsDir = file('build/generated-snippets')
+}
+
+asciidoctor {
+    sourceDir file('src/docs/asciidoc')
+    outputDir file('build/html5')
+    attributes 'snippets': snippetsDir
+    mustRunAfter test
+}
+
+asciidoctor.doLast {
+    copy {
+        from file('build/html5')
+        into file('src/main/resources/static/docs')
+        include '*.html'
+    }
+}
+
+build {
+    dependsOn asciidoctor
 }
