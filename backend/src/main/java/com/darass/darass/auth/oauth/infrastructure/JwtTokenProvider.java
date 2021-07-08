@@ -1,6 +1,6 @@
 package com.darass.darass.auth.oauth.infrastructure;
 
-import com.darass.darass.auth.oauth.exception.AuthorizationException;
+import com.darass.darass.auth.oauth.exception.AuthenticationException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
@@ -38,7 +38,7 @@ public class JwtTokenProvider {
         try {
             Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
         } catch (JwtException | IllegalArgumentException e) {
-            throw new AuthorizationException("유효하지 않은 토큰 입니다.");
+            throw new AuthenticationException("유효하지 않은 토큰 입니다.");
         }
     }
 }

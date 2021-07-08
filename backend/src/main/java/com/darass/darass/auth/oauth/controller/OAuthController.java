@@ -1,6 +1,6 @@
 package com.darass.darass.auth.oauth.controller;
 
-import com.darass.darass.auth.oauth.exception.AuthorizationException;
+import com.darass.darass.auth.oauth.exception.AuthenticationException;
 import com.darass.darass.auth.oauth.service.OAuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -19,8 +19,8 @@ public class OAuthController {
         return oAuthService.login(accessToken);
     }
 
-    @ExceptionHandler(AuthorizationException.class)
-    public String authorizationExceptionHandler(AuthorizationException exception) {
+    @ExceptionHandler(AuthenticationException.class)
+    public String authenticationExceptionHandler(AuthenticationException exception) {
         return exception.getMessage();
     }
 

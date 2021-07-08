@@ -1,7 +1,7 @@
 package com.darass.darass.auth.oauth.api.domain;
 
 import com.darass.darass.auth.oauth.api.domain.dto.SocialLoginResponse;
-import com.darass.darass.auth.oauth.exception.AuthorizationException;
+import com.darass.darass.auth.oauth.exception.AuthenticationException;
 import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -15,7 +15,7 @@ import org.springframework.web.client.RestTemplate;
 @Component
 public class UserInfoProvider {
 
-    private static final String KAKAO_API_SERVER_URI = "https://kapi.kakao.com/v2/user/me";
+    public static final String KAKAO_API_SERVER_URI = "https://kapi.kakao.com/v2/user/me";
 
     private final RestTemplate restTemplate;
 
@@ -29,7 +29,7 @@ public class UserInfoProvider {
             return restTemplate
                 .postForObject(KAKAO_API_SERVER_URI, apiRequest, SocialLoginResponse.class);
         } catch (HttpClientErrorException e) {
-            throw new AuthorizationException("로그인에 실패하였습니다.");
+            throw new AuthenticationException("토큰 인증에 실패하였습니다.");
         }
     }
 
