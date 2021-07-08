@@ -12,13 +12,16 @@ public class LoginInterceptor implements HandlerInterceptor {
         this.jwtTokenProvider = jwtTokenProvider;
     }
 
-//    @Override
-//    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
-//        if ("OPTIONS".equals(request.getMethod())) {
-//            return true;
-//        }
-//        final String accessToken = AuthorizationExtractor.extract(request);
-//        jwtTokenProvider.validateToken(accessToken);
-//        return true;
-//    }
+    @Override
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
+        if ("OPTIONS".equals(request.getMethod())) {
+            return true;
+        }
+        final String accessToken = AuthorizationExtractor.extract(request);
+        if(accessToken == null){
+            return true;
+        }
+        jwtTokenProvider.validateToken(accessToken);
+        return true;
+    }
 }
