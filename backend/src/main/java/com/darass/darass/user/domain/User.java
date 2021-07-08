@@ -16,7 +16,7 @@ import lombok.RequiredArgsConstructor;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-@DiscriminatorColumn
+@DiscriminatorColumn(name = "user_type")
 @RequiredArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -29,5 +29,8 @@ public abstract class User {
     @NonNull
     @Column(nullable = false)
     private String nickName;
+
+    @Column(name="user_type", insertable = false, updatable = false)
+    private String userType;
 
 }
