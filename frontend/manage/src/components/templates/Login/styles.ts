@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { pageMaxWidth } from "../../../styles/constants";
 import { PALETTE } from "../../../styles/palette";
 
 const Container = styled.div`
@@ -6,6 +7,7 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  max-width: ${pageMaxWidth};
 `;
 
 const Introduction = styled.h2`

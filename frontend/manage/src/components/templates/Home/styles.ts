@@ -1,18 +1,20 @@
 import styled from "styled-components";
+import { pageMaxWidth } from "../../../styles/constants";
 import { PALETTE } from "../../../styles/palette";
 
 const Container = styled.div`
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  max-width: ${pageMaxWidth};
 `;
 
 const Introduction = styled.h2`
-    font-size: 3rem;
-    color: ${PALETTE.WHITE};
-    font-weight: 800;
-    text-align: center;
+  font-size: 3rem;
+  color: ${PALETTE.WHITE};
+  font-weight: 800;
+  text-align: center;
 `;
 
 const Button = styled.button`
@@ -26,6 +28,5 @@ const Button = styled.button`
   color: ${PALETTE.BLACK_700};
   margin-top: 8.8rem;
 `;
-
 
 export { Container, Introduction, Button };

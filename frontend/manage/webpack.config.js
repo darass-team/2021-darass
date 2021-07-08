@@ -4,7 +4,7 @@ const Dotenv = require("dotenv-webpack");
 const path = require("path");
 
 module.exports = {
-  entry: "./src/index.tsx",
+  entry: ["babel-polyfill", "./src/index.tsx"],
   output: {
     path: path.resolve(__dirname, "dist/js"),
     filename: "bundle.js"
@@ -48,19 +48,7 @@ module.exports = {
   plugins: [
     new Dotenv(),
     new HtmlWebpackPlugin({
-      template: "./public/index.html",
-      templateParameters(compilation, assets, options) {
-        return {
-          compilation: compilation,
-          webpack: compilation.getStats().toJson(),
-          webpackConfig: compilation.options,
-          htmlWebpackPlugin: {
-            files: assets,
-            options: options
-          },
-          process
-        };
-      }
+      template: "./public/index.html"
     }),
     new CleanWebpackPlugin()
   ],
@@ -68,5 +56,11 @@ module.exports = {
     extensions: [".tsx", ".ts", ".jsx", ".js"]
   },
   devtool: "inline-source-map",
-  mode: "development"
+  mode: "development",
+  devServer: {
+    host: "localhost",
+    port: 8080,
+    historyApiFallback: true,
+    open: true
+  }
 };
