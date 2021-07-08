@@ -3,10 +3,13 @@ package com.darass.darass.user.domain;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 @Entity
+@Getter
 public class SocialLoginUser extends User {
 
     private String oauthId;
