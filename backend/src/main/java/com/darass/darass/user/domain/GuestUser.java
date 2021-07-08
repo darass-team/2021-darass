@@ -17,4 +17,8 @@ public class GuestUser extends User {
         this.password = password;
     }
 
+    @Override
+    public boolean isLoginUser() {
+        return false;
+    }
 }
