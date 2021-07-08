@@ -4,6 +4,7 @@ import { PALETTE } from "../../../styles/palette";
 
 const Container = styled.nav`
   width: 100%;
+  height: 40px;
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -15,6 +16,7 @@ const NavLink = styled(Link)`
   font-size: 2.4rem;
   font-weight: 800;
   color: ${PALETTE.WHITE};
+  line-height: 40px;
 `;
 
 export { Container, NavLink };
