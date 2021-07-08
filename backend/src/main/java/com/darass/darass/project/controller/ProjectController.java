@@ -29,6 +29,12 @@ public class ProjectController {
         return ResponseEntity.ok(projectResponses);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<ProjectResponse> findById(@PathVariable("id") Long projectId) {
+        ProjectResponse projectResponse = projectService.findById(projectId);
+        return ResponseEntity.ok(projectResponse);
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteById(@PathVariable("id") Long projectId) {
         projectService.deleteById(projectId);

@@ -42,6 +42,12 @@ public class ProjectService {
         return projects.findByUserId(userId);
     }
 
+    public ProjectResponse findById(Long projectId) {
+        Project project = projects.findById(projectId)
+                .orElseThrow(() -> new NotFoundException("해당하는 프로젝트가 없습니다."));
+        return ProjectResponse.of(project);
+    }
+
     public void deleteById(Long projectId) {
         projects.deleteById(projectId);
     }
