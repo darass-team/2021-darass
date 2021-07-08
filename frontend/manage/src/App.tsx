@@ -1,16 +1,6 @@
-interface titleProps {
-  title: String;
-}
-
-const Title = ({ title }: titleProps) => {
-  return <h1>{title} from Title component</h1>;
-};
+import Login from "./components/pages/Login";
 
 const App = () => {
-  return (
-    <div>
-      <Title title="Dobi & Goni" />
-    </div>
-  );
+  return <Login />;
 };
 export default App;
