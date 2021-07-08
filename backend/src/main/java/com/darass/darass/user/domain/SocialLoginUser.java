@@ -27,4 +27,9 @@ public class SocialLoginUser extends User {
         this.email = email;
     }
 
+    @Override
+    public boolean isLoginUser() {
+        return true;
+    }
+
 }

@@ -1,9 +1,11 @@
 package com.darass.darass.comment.controller;
 
+import com.darass.darass.auth.oauth.domain.AuthenticationPrincipal;
 import com.darass.darass.comment.controller.dto.CommentCreateRequest;
 import com.darass.darass.comment.controller.dto.CommentResponse;
 import com.darass.darass.comment.controller.dto.CommentUpdateRequest;
 import com.darass.darass.comment.service.CommentService;
+import com.darass.darass.user.domain.User;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -18,8 +20,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
-
 @RestController
 @RequestMapping("/api/v1/comments")
 @RequiredArgsConstructor
@@ -28,17 +28,10 @@ public class CommentController {
     private final CommentService commentService;
 
     @PostMapping
-    public ResponseEntity<CommentResponse> save(@RequestBody CommentCreateRequest commentRequest, HttpServletRequest httpRequest) {
-        String authorization = httpRequest.getHeader("authorization");
-        CommentResponse commentResponse = getCommentResponse(authorization, commentRequest);
+    public ResponseEntity<CommentResponse> save(@AuthenticationPrincipal User user,
+        @RequestBody CommentCreateRequest commentRequest) {
+        CommentResponse commentResponse = commentService.save(user, commentRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(commentResponse);
-    }
-
-    private CommentResponse getCommentResponse(String authorization, CommentCreateRequest commentRequest) {
-        if (authorization == null) {
-            return commentService.saveGuestComment(commentRequest);
-        }
-        return commentService.saveLoginComment(commentRequest);
     }
 
     @GetMapping
