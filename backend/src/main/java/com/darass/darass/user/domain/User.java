@@ -33,4 +33,6 @@ public abstract class User {
     @Column(name="user_type", insertable = false, updatable = false)
     private String userType;
 
+    public abstract boolean isLoginUser();
+
 }

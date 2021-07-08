@@ -8,10 +8,10 @@ import com.darass.darass.comment.repository.CommentRepository;
 import com.darass.darass.project.domain.Project;
 import com.darass.darass.project.repository.ProjectRepository;
 import com.darass.darass.user.domain.GuestUser;
+import com.darass.darass.user.domain.User;
 import com.darass.darass.user.repository.UserRepository;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,15 +25,23 @@ public class CommentService {
     private final ProjectRepository projects;
     private final UserRepository users;
 
-    public CommentResponse saveLoginComment(CommentCreateRequest commentRequest) {
+    public CommentResponse save(User user, CommentCreateRequest commentCreateRequest) {
+        if (user.isLoginUser()) {
+            return saveLoginComment(user, commentCreateRequest);
+        }
+        return saveGuestComment(commentCreateRequest);
+    }
+
+    public CommentResponse saveLoginComment(User user, CommentCreateRequest commentRequest) {
         //TODO : 로그인 유저 저장 기능
 
         Project project = projects.findBySecretKey(commentRequest.getProjectSecretKey());
         Comment comment = Comment.builder()
-                .content(commentRequest.getContent())
-                .project(project)
-                .url(commentRequest.getUrl())
-                .build();
+            .user(user)
+            .content(commentRequest.getContent())
+            .project(project)
+            .url(commentRequest.getUrl())
+            .build();
         comments.save(comment);
         String userType = users.findUserTypeById(comment.getUser().getId());
         return CommentResponse.of(comment, UserResponse.of(comment.getUser(), userType));
@@ -42,20 +50,20 @@ public class CommentService {
     public CommentResponse saveGuestComment(CommentCreateRequest commentRequest) {
 
         GuestUser guestUser = GuestUser.builder()
-                .nickName(commentRequest.getGuestNickName())
-                .password(commentRequest.getGuestPassword())
-                .build();
+            .nickName(commentRequest.getGuestNickName())
+            .password(commentRequest.getGuestPassword())
+            .build();
 
         users.save(guestUser);
         projects.save(new Project(guestUser, "jPro", "1234"));
 
         Project project = projects.findBySecretKey(commentRequest.getProjectSecretKey());
         Comment comment = Comment.builder()
-                .user(guestUser)
-                .content(commentRequest.getContent())
-                .project(project)
-                .url(commentRequest.getUrl())
-                .build();
+            .user(guestUser)
+            .content(commentRequest.getContent())
+            .project(project)
+            .url(commentRequest.getUrl())
+            .build();
         comments.save(comment);
 
         String userType = users.findUserTypeById(comment.getUser().getId());
