@@ -39,6 +39,9 @@ public class ProjectService {
     }
 
     public List<ProjectResponse> findByUserId(Long userId) {
+        if (!users.existsById(userId)) {
+            throw new NotFoundException("해당하는 유저가 없습니다.");
+        }
         return projects.findByUserId(userId);
     }
 
@@ -49,6 +52,9 @@ public class ProjectService {
     }
 
     public void deleteById(Long projectId) {
+        if (!projects.existsById(projectId)) {
+            throw new NotFoundException("해당하는 프로젝트가 없습니다.");
+        }
         projects.deleteById(projectId);
     }
 }
