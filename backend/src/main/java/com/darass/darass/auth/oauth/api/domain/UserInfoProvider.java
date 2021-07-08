@@ -1,6 +1,7 @@
 package com.darass.darass.auth.oauth.api.domain;
 
 import com.darass.darass.auth.oauth.api.domain.dto.SocialLoginResponse;
+import com.darass.darass.auth.oauth.exception.AuthorizationException;
 import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -25,7 +26,8 @@ public class UserInfoProvider {
     public SocialLoginResponse findSocialLoginResponse(String accessToken) {
         HttpEntity<HttpHeaders> apiRequest = prepareRequest(accessToken);
         try {
-            return restTemplate.postForObject(KAKAO_API_SERVER_URI, apiRequest, SocialLoginResponse.class);
+            return restTemplate
+                .postForObject(KAKAO_API_SERVER_URI, apiRequest, SocialLoginResponse.class);
         } catch (HttpClientErrorException e) {
             throw new AuthorizationException("로그인에 실패하였습니다.");
         }

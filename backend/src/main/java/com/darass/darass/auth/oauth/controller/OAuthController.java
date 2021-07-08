@@ -1,6 +1,6 @@
 package com.darass.darass.auth.oauth.controller;
 
-import com.darass.darass.auth.oauth.api.domain.AuthorizationException;
+import com.darass.darass.auth.oauth.exception.AuthorizationException;
 import com.darass.darass.auth.oauth.service.OAuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.ExceptionHandler;

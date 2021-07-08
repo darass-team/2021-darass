@@ -1,4 +1,4 @@
-package com.darass.darass.auth.oauth.api.domain;
+package com.darass.darass.auth.oauth.exception;
 
 public class AuthorizationException extends RuntimeException {
 

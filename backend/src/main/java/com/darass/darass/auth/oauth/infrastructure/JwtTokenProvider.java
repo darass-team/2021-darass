@@ -1,44 +1,44 @@
-package com.darass.darass.auth.oauth.controller;
+package com.darass.darass.auth.oauth.infrastructure;
 
+import com.darass.darass.auth.oauth.exception.AuthorizationException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import org.springframework.stereotype.Component;
-
 import java.util.Date;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 @Component
 public class JwtTokenProvider {
 
-    private String secretKey = "secret";
-    private long validityInMilliseconds = 100000000000000000L;
+    @Value("${security.jwt.token.secret-key}")
+    private String secretKey;
+    @Value("${security.jwt.token.expire-length}")
+    private long validityInMilliseconds;
 
-    // payload를 받아서 Token 생성
     public String createToken(String payload) {
         Claims claims = Jwts.claims().setSubject(payload);
         Date now = new Date();
         Date validity = new Date(now.getTime() + validityInMilliseconds);
 
         return Jwts.builder()
-                .setClaims(claims)
-                .setIssuedAt(now)
-                .setExpiration(validity)
-                .signWith(SignatureAlgorithm.HS256, secretKey)
-                .compact();
+            .setClaims(claims)
+            .setIssuedAt(now)
+            .setExpiration(validity)
+            .signWith(SignatureAlgorithm.HS256, secretKey)
+            .compact();
     }
 
-    // Token으로부터 payload 추출
     public String getPayload(String token) {
         return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
     }
 
-    // 유효한 토큰인지 검증
     public void validateToken(String token) {
         try {
             Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
         } catch (JwtException | IllegalArgumentException e) {
-            throw new IllegalArgumentException();
+            throw new AuthorizationException("유효하지 않은 토큰 입니다.");
         }
     }
 }

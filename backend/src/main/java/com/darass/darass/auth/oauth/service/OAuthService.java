@@ -4,16 +4,16 @@ import com.darass.darass.auth.oauth.api.domain.UserInfoProvider;
 import com.darass.darass.auth.oauth.api.domain.dto.KaKaoAccount;
 import com.darass.darass.auth.oauth.api.domain.dto.Profile;
 import com.darass.darass.auth.oauth.api.domain.dto.SocialLoginResponse;
-import com.darass.darass.auth.oauth.controller.JwtTokenProvider;
+import com.darass.darass.auth.oauth.infrastructure.JwtTokenProvider;
 import com.darass.darass.user.domain.OAuthPlatform;
 import com.darass.darass.user.domain.SocialLoginUser;
 import com.darass.darass.user.domain.User;
 import com.darass.darass.user.repository.UserRepository;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class OAuthService {
 
     private final UserRepository userRepository;
