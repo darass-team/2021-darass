@@ -7,8 +7,8 @@ import com.darass.darass.auth.oauth.api.domain.dto.SocialLoginResponse;
 import com.darass.darass.auth.oauth.infrastructure.JwtTokenProvider;
 import com.darass.darass.user.domain.OAuthPlatform;
 import com.darass.darass.user.domain.SocialLoginUser;
-import com.darass.darass.user.domain.User;
-import com.darass.darass.user.repository.UserRepository;
+import com.darass.darass.user.repository.SocialLoginUserRepository;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,17 +16,22 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class OAuthService {
 
-    private final UserRepository userRepository;
+    private final SocialLoginUserRepository socialLoginUserRepository;
     private final JwtTokenProvider tokenProvider;
     private final UserInfoProvider userInfoProvider;
 
     public String login(String accessToken) {
-        User socialLoginUser = parseUser(userInfoProvider.findSocialLoginResponse(accessToken));
-        userRepository.save(socialLoginUser);
-        return tokenProvider.createToken(socialLoginUser.getId().toString());
+        SocialLoginUser socialLoginUser = parseUser(userInfoProvider.findSocialLoginResponse(accessToken));
+        Optional<SocialLoginUser> foundSocialLoginUser = socialLoginUserRepository.findByOauthId(socialLoginUser.getOauthId());
+
+        if (foundSocialLoginUser.isEmpty()) {
+            socialLoginUserRepository.save(socialLoginUser);
+            return tokenProvider.createToken(socialLoginUser.getId().toString());
+        }
+        return tokenProvider.createToken(foundSocialLoginUser.get().getId().toString());
     }
 
-    private User parseUser(SocialLoginResponse socialLoginResponse) {
+    private SocialLoginUser parseUser(SocialLoginResponse socialLoginResponse) {
         String oauthId = socialLoginResponse.getId();
         KaKaoAccount kaKaoAccount = socialLoginResponse.getKaKaoAccount();
         String email = kaKaoAccount.getEmail();

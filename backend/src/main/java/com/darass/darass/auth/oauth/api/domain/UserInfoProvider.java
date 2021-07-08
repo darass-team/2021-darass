@@ -26,8 +26,7 @@ public class UserInfoProvider {
     public SocialLoginResponse findSocialLoginResponse(String accessToken) {
         HttpEntity<HttpHeaders> apiRequest = prepareRequest(accessToken);
         try {
-            return restTemplate
-                .postForObject(KAKAO_API_SERVER_URI, apiRequest, SocialLoginResponse.class);
+            return restTemplate.postForObject(KAKAO_API_SERVER_URI, apiRequest, SocialLoginResponse.class);
         } catch (HttpClientErrorException e) {
             throw new AuthenticationException("토큰 인증에 실패하였습니다.");
         }
