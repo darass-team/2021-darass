@@ -9,12 +9,16 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+
+import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
 public class Project {
 
     @Id
@@ -29,6 +33,7 @@ public class Project {
 
     private String secretKey;
 
+    @Builder
     public Project(User user, String name, String secretKey) {
         this.user = user;
         this.name = name;
