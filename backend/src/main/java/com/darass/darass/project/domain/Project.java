@@ -1,15 +1,20 @@
 package com.darass.darass.project.domain;
 
 import com.darass.darass.user.domain.User;
+import lombok.AllArgsConstructor;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import lombok.NoArgsConstructor;
 
 
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 public class Project {
 
     @Id
@@ -24,4 +29,9 @@ public class Project {
 
     private String secretKey;
 
+    public Project(User user, String name, String secretKey) {
+        this.user = user;
+        this.name = name;
+        this.secretKey = secretKey;
+    }
 }
