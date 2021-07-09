@@ -1,6 +1,7 @@
 package com.darass.darass.project.domain;
 
 import com.darass.darass.user.domain.User;
+import javax.persistence.FetchType;
 import lombok.AllArgsConstructor;
 
 import javax.persistence.Entity;
@@ -25,7 +26,7 @@ public class Project {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn
     private User user;
 
