@@ -23,6 +23,7 @@ repositories {
 dependencies {
     // DB
     runtimeOnly 'com.h2database:h2'
+    implementation 'org.mariadb.jdbc:mariadb-java-client'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 
     // 스프링 부트
