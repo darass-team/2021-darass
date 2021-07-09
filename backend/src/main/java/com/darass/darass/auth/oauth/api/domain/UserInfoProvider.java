@@ -1,7 +1,11 @@
 package com.darass.darass.auth.oauth.api.domain;
 
+import com.darass.darass.auth.oauth.api.domain.dto.KaKaoAccount;
+import com.darass.darass.auth.oauth.api.domain.dto.Profile;
 import com.darass.darass.auth.oauth.api.domain.dto.SocialLoginResponse;
 import com.darass.darass.auth.oauth.exception.AuthenticationException;
+import com.darass.darass.user.domain.OAuthPlatform;
+import com.darass.darass.user.domain.SocialLoginUser;
 import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -23,10 +27,13 @@ public class UserInfoProvider {
         this.restTemplate = restTemplateBuilder.build();
     }
 
-    public SocialLoginResponse findSocialLoginResponse(String accessToken) {
+    public SocialLoginUser findSocialLoginUser(String accessToken) {
         HttpEntity<HttpHeaders> apiRequest = prepareRequest(accessToken);
         try {
-            return restTemplate.postForObject(KAKAO_API_SERVER_URI, apiRequest, SocialLoginResponse.class);
+            SocialLoginResponse socialLoginResponse
+                = restTemplate.postForObject(KAKAO_API_SERVER_URI, apiRequest, SocialLoginResponse.class);
+            return parseUser(socialLoginResponse);
+
         } catch (HttpClientErrorException e) {
             throw new AuthenticationException("토큰 인증에 실패하였습니다.");
         }
@@ -38,5 +45,14 @@ public class UserInfoProvider {
         apiRequestHeader.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
         apiRequestHeader.setAcceptCharset(Collections.singletonList(StandardCharsets.UTF_8));
         return new HttpEntity<>(apiRequestHeader);
+    }
+
+    private SocialLoginUser parseUser(SocialLoginResponse socialLoginResponse) {
+        String oauthId = socialLoginResponse.getId();
+        KaKaoAccount kaKaoAccount = socialLoginResponse.getKaKaoAccount();
+        String email = kaKaoAccount.getEmail();
+        Profile profile = socialLoginResponse.getKaKaoAccount().getProfile();
+        String nickname = profile.getNickname();
+        return new SocialLoginUser(nickname, oauthId, OAuthPlatform.KAKAO, email);
     }
 }
