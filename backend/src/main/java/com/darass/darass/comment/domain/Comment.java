@@ -2,6 +2,7 @@ package com.darass.darass.comment.domain;
 
 import com.darass.darass.project.domain.Project;
 import com.darass.darass.user.domain.User;
+import javax.persistence.FetchType;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,11 +23,11 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn
     private User user;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn
     private Project project;
 
