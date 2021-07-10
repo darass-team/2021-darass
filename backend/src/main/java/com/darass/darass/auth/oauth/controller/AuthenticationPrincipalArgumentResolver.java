@@ -2,7 +2,8 @@ package com.darass.darass.auth.oauth.controller;
 
 import com.darass.darass.auth.oauth.domain.AuthenticationPrincipal;
 import com.darass.darass.auth.oauth.infrastructure.AuthorizationExtractor;
-import com.darass.darass.auth.oauth.service.AuthService;
+import com.darass.darass.auth.oauth.service.OAuthService;
+import com.darass.darass.user.domain.GuestUser;
 import com.darass.darass.user.domain.User;
 import java.util.Objects;
 import javax.servlet.http.HttpServletRequest;
@@ -16,11 +17,7 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 @RequiredArgsConstructor
 public class AuthenticationPrincipalArgumentResolver implements HandlerMethodArgumentResolver {
 
-    private AuthService authService;
-
-    public AuthenticationPrincipalArgumentResolver(AuthService authService) {
-        this.authService = authService;
-    }
+    private final OAuthService oAuthService;
 
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
@@ -31,6 +28,11 @@ public class AuthenticationPrincipalArgumentResolver implements HandlerMethodArg
     public User resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
         NativeWebRequest webRequest, WebDataBinderFactory binderFactory) {
         String accessToken = AuthorizationExtractor.extract(Objects.requireNonNull(webRequest.getNativeRequest(HttpServletRequest.class)));
-        return authService.findUserByToken(accessToken);
+
+        if (Objects.isNull(accessToken)) {
+            return new GuestUser();
+        }
+
+        return oAuthService.findSocialLoginUserByAccessToken(accessToken);
     }
 }
