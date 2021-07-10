@@ -3,7 +3,7 @@ package com.darass.darass.auth.oauth.api.domain;
 import com.darass.darass.auth.oauth.api.domain.dto.KaKaoAccount;
 import com.darass.darass.auth.oauth.api.domain.dto.Profile;
 import com.darass.darass.auth.oauth.api.domain.dto.SocialLoginResponse;
-import com.darass.darass.auth.oauth.exception.AuthenticationException;
+import com.darass.darass.exception.ExceptionWithMessageAndCode;
 import com.darass.darass.user.domain.OAuthPlatform;
 import com.darass.darass.user.domain.SocialLoginUser;
 import java.nio.charset.StandardCharsets;
@@ -35,7 +35,7 @@ public class UserInfoProvider {
             return parseUser(socialLoginResponse);
 
         } catch (HttpClientErrorException e) {
-            throw new AuthenticationException("토큰 인증에 실패하였습니다.");
+            throw ExceptionWithMessageAndCode.FOR_BIDDEN.getException();
         }
     }
 

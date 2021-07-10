@@ -9,7 +9,7 @@ import static org.springframework.test.web.client.response.MockRestResponseCreat
 import com.darass.darass.auth.oauth.api.domain.dto.KaKaoAccount;
 import com.darass.darass.auth.oauth.api.domain.dto.Profile;
 import com.darass.darass.auth.oauth.api.domain.dto.SocialLoginResponse;
-import com.darass.darass.auth.oauth.exception.AuthenticationException;
+import com.darass.darass.exception.ExceptionWithMessageAndCode;
 import com.darass.darass.user.domain.SocialLoginUser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -50,14 +50,15 @@ class UserInfoProviderTest {
         assertThat(socialLoginUser.getEmail()).isEqualTo(kaKaoAccount.getEmail());
     }
 
+
     @Test
-    @DisplayName("findSocialLoginUser 메서드는 카카오 api 서버에 잘못된 액세스 토큰을 전송하면 401번 예외를 던진다.")
+    @DisplayName("findSocialLoginUser 메서드는 카카오 api 서버에 잘못된 액세스 토큰을 전송하면 예외를 던진다.")
     void findSocialLoginResponse_fail() {
         mockServer.expect(requestTo(UserInfoProvider.KAKAO_API_SERVER_URI))
             .andRespond(withUnauthorizedRequest());
 
         assertThatThrownBy(() -> userInfoProvider.findSocialLoginUser("test"))
-            .isInstanceOf(AuthenticationException.class)
-            .hasMessage("토큰 인증에 실패하였습니다.");
+            .isInstanceOf(ExceptionWithMessageAndCode.FOR_BIDDEN.getException().getClass())
+            .hasMessage("유효하지 않은 토큰입니다.");
     }
 }

@@ -1,6 +1,6 @@
 package com.darass.darass.auth.oauth.infrastructure;
 
-import com.darass.darass.auth.oauth.exception.AuthenticationException;
+import com.darass.darass.exception.ExceptionWithMessageAndCode;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
@@ -35,7 +35,7 @@ public class JwtTokenProvider {
         try {
             return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(accessToken).getBody().getSubject();
         } catch (MalformedJwtException e) {
-            throw new AuthenticationException("유효하지 않은 토큰 입니다.");
+            throw ExceptionWithMessageAndCode.FOR_BIDDEN.getException();
         }
     }
 
@@ -43,7 +43,7 @@ public class JwtTokenProvider {
         try {
             Jwts.parser().setSigningKey(secretKey).parseClaimsJws(accessToken);
         } catch (JwtException | IllegalArgumentException e) {
-            throw new AuthenticationException("유효하지 않은 토큰 입니다.");
+            throw ExceptionWithMessageAndCode.FOR_BIDDEN.getException();
         }
     }
 }

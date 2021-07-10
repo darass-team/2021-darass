@@ -2,7 +2,7 @@ package com.darass.darass.auth.oauth.service;
 
 import com.darass.darass.auth.oauth.api.domain.UserInfoProvider;
 import com.darass.darass.auth.oauth.infrastructure.JwtTokenProvider;
-import com.darass.darass.project.exception.NotFoundException;
+import com.darass.darass.exception.ExceptionWithMessageAndCode;
 import com.darass.darass.user.domain.SocialLoginUser;
 import com.darass.darass.user.repository.SocialLoginUserRepository;
 import java.util.Optional;
@@ -35,7 +35,8 @@ public class OAuthService {
     public SocialLoginUser findSocialLoginUserByAccessToken(String accessToken) {
         jwtTokenProvider.validateAccessToken(accessToken);
         String userId = jwtTokenProvider.getPayload(accessToken);
-        return socialLoginUserRepository.findById(Long.parseLong(userId)).orElseThrow(() -> new NotFoundException("유저가 존재하지 않습니다."));
+
+        return socialLoginUserRepository.findById(Long.parseLong(userId)).orElseThrow(ExceptionWithMessageAndCode.NOT_FOUND_USER::getException);
     }
 
 }

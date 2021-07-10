@@ -1,7 +1,7 @@
 package com.darass.darass.auth.oauth;
 
-import com.darass.darass.auth.oauth.exception.AuthenticationException;
-import com.darass.darass.project.exception.NotFoundException;
+import com.darass.darass.exception.httpbasicexception.auth.AuthenticationException;
+import com.darass.darass.exception.httpbasicexception.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
