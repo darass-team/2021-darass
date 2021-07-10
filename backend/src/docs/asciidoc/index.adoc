@@ -1,15 +1,31 @@
-= 다라쓰 API
+= 다라쓰 API Docs
 :toc: left
 
-== 회원 (/members)
+== 프로젝트 (/api/v1/projects)
 
-=== 가입
+=== 생성
 
 ==== Request
 
-include::{snippets}/projects/test/test/http-request.adoc[]
-include::{snippets}/projects/test/test/request-fields.adoc[]
+include::{snippets}/api/v1/projects/post/http-request.adoc[]
+include::{snippets}/api/v1/projects/post/request-headers.adoc[]
+include::{snippets}/api/v1/projects/post/request-fields.adoc[]
 
 ==== Response
 
-include::{snippets}/projects/test/test/http-response.adoc[]
+include::{snippets}/api/v1/projects/post/http-response.adoc[]
+include::{snippets}/api/v1/projects/post/response-fields.adoc[]
+
+
+=== 조회
+
+==== Request
+
+include::{snippets}/api/v1/projects/get/http-request.adoc[]
+include::{snippets}/api/v1/projects/get/request-headers.adoc[]
+include::{snippets}/api/v1/projects/get/request-parameters.adoc[]
+
+==== Response
+
+include::{snippets}/api/v1/projects/get/http-response.adoc[]
+include::{snippets}/api/v1/projects/get/response-fields.adoc[]

@@ -32,8 +32,6 @@ public class AcceptanceTest {
 
     protected MockMvc mockMvc;
 
-    protected User user;
-
     @Autowired
     private UserRepository users;
     @Autowired
@@ -41,12 +39,10 @@ public class AcceptanceTest {
     @Autowired
     private CommentRepository comments;
 
-    // Json을 Object로 변환 (Jackson을 활용한 것)
     protected static String asJsonString(Object obj) throws JsonProcessingException {
         return new ObjectMapper().writeValueAsString(obj);
     }
 
-    // Object를 Json으로 변환
     protected <T> T asObject(String json, Class<T> objectClass) throws JsonProcessingException {
         return new ObjectMapper().readValue(json, objectClass);
     }

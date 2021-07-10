@@ -38,11 +38,12 @@ public class ProjectService {
         return ProjectResponse.of(project);
     }
 
-    public List<ProjectResponse> findByUserId(Long userId) {
-        if (!users.existsById(userId)) {
-            throw ExceptionWithMessageAndCode.NOT_FOUND_PROJECT.getException();
+    public List<ProjectResponse> findByUserId(User user) {
+        if (!user.isLoginUser()) {
+            throw ExceptionWithMessageAndCode.INVALID_AUTHENTICATION.getException();
         }
-        return projects.findByUserId(userId);
+
+        return projects.findByUserId(user.getId());
     }
 
     public ProjectResponse findById(Long projectId) {

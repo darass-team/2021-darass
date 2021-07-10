@@ -1,8 +1,10 @@
 package com.darass.darass.project.controller;
 
+import com.darass.darass.auth.oauth.domain.AuthenticationPrincipal;
 import com.darass.darass.project.controller.dto.ProjectRequest;
 import com.darass.darass.project.controller.dto.ProjectResponse;
 import com.darass.darass.project.service.ProjectService;
+import com.darass.darass.user.domain.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,8 +26,8 @@ public class ProjectController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ProjectResponse>> findByUser(@RequestParam Long userId) {
-        List<ProjectResponse> projectResponses = projectService.findByUserId(userId);
+    public ResponseEntity<List<ProjectResponse>> findByUser(@AuthenticationPrincipal User user) {
+        List<ProjectResponse> projectResponses = projectService.findByUserId(user);
         return ResponseEntity.ok(projectResponses);
     }
 

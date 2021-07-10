@@ -35,7 +35,7 @@ public class UserInfoProvider {
             return parseUser(socialLoginResponse);
 
         } catch (HttpClientErrorException e) {
-            throw ExceptionWithMessageAndCode.FOR_BIDDEN.getException();
+            throw ExceptionWithMessageAndCode.INVALID_JWT_TOKEN.getException();
         }
     }
 
