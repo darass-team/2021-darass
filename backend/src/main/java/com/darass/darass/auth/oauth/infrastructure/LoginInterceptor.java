@@ -1,5 +1,6 @@
 package com.darass.darass.auth.oauth.infrastructure;
 
+import java.util.Objects;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -21,7 +22,7 @@ public class LoginInterceptor implements HandlerInterceptor {
 
         final String accessToken = AuthorizationExtractor.extract(request);
 
-        if (accessToken == null) {
+        if (Objects.isNull(accessToken)) {
             return true;
         }
         jwtTokenProvider.validateAccessToken(accessToken);
