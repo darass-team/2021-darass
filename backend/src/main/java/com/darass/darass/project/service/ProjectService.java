@@ -1,9 +1,9 @@
 package com.darass.darass.project.service;
 
+import com.darass.darass.exception.ExceptionWithMessageAndCode;
 import com.darass.darass.project.controller.dto.ProjectRequest;
 import com.darass.darass.project.controller.dto.ProjectResponse;
 import com.darass.darass.project.domain.Project;
-import com.darass.darass.project.exception.NotFoundException;
 import com.darass.darass.project.repository.ProjectRepository;
 import com.darass.darass.user.domain.OAuthPlatform;
 import com.darass.darass.user.domain.SocialLoginUser;
@@ -28,7 +28,7 @@ public class ProjectService {
         users.save(new SocialLoginUser("aaron", "ouathId", OAuthPlatform.KAKAO, "wooteco@email.com"));
 
         User user = users.findById(projectRequest.getUserId())
-                .orElseThrow(() -> new NotFoundException("해당하는 유저가 없습니다."));
+                .orElseThrow(() -> ExceptionWithMessageAndCode.NOT_FOUND_USER.getException());
         Project project = Project.builder()
                 .name(projectRequest.getName())
                 .secretKey(projectRequest.getSecretKey())
@@ -40,20 +40,20 @@ public class ProjectService {
 
     public List<ProjectResponse> findByUserId(Long userId) {
         if (!users.existsById(userId)) {
-            throw new NotFoundException("해당하는 유저가 없습니다.");
+            throw ExceptionWithMessageAndCode.NOT_FOUND_PROJECT.getException();
         }
         return projects.findByUserId(userId);
     }
 
     public ProjectResponse findById(Long projectId) {
         Project project = projects.findById(projectId)
-                .orElseThrow(() -> new NotFoundException("해당하는 프로젝트가 없습니다."));
+                .orElseThrow(() -> ExceptionWithMessageAndCode.NOT_FOUND_PROJECT.getException());
         return ProjectResponse.of(project);
     }
 
     public void deleteById(Long projectId) {
         if (!projects.existsById(projectId)) {
-            throw new NotFoundException("해당하는 프로젝트가 없습니다.");
+            throw ExceptionWithMessageAndCode.NOT_FOUND_PROJECT.getException();
         }
         projects.deleteById(projectId);
     }
