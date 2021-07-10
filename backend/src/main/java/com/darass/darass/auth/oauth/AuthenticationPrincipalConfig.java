@@ -3,7 +3,7 @@ package com.darass.darass.auth.oauth;
 import com.darass.darass.auth.oauth.controller.AuthenticationPrincipalArgumentResolver;
 import com.darass.darass.auth.oauth.infrastructure.JwtTokenProvider;
 import com.darass.darass.auth.oauth.infrastructure.LoginInterceptor;
-import com.darass.darass.auth.oauth.service.AuthService;
+import com.darass.darass.auth.oauth.service.OAuthService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -17,8 +17,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class AuthenticationPrincipalConfig implements WebMvcConfigurer {
 
     private final JwtTokenProvider jwtTokenProvider;
-    private final AuthService authService;
-
+    private final OAuthService oAuthService;
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
@@ -39,6 +38,6 @@ public class AuthenticationPrincipalConfig implements WebMvcConfigurer {
 
     @Bean
     public AuthenticationPrincipalArgumentResolver createAuthenticationPrincipalArgumentResolver() {
-        return new AuthenticationPrincipalArgumentResolver(authService);
+        return new AuthenticationPrincipalArgumentResolver(oAuthService);
     }
 }

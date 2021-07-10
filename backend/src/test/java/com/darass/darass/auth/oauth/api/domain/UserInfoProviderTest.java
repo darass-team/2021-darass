@@ -20,6 +20,7 @@ import org.springframework.boot.test.autoconfigure.web.client.RestClientTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.client.MockRestServiceServer;
 
+@DisplayName("UserInfoProvider 클래스")
 @RestClientTest(UserInfoProvider.class)
 class UserInfoProviderTest {
 
@@ -33,7 +34,7 @@ class UserInfoProviderTest {
     private ObjectMapper objectMapper;
 
     @Test
-    @DisplayName("카카오 api 서버에 액세스 토큰을 전송하면 SocialLoginUser 객체를 리턴한다.")
+    @DisplayName("findSocialLoginUser 메서드는 카카오 api 서버에 액세스 토큰을 전송하면 SocialLoginUser 객체를 리턴한다.")
     void findSocialLoginUser() throws JsonProcessingException {
         Profile profile = new Profile("우기");
         KaKaoAccount kaKaoAccount = new KaKaoAccount("jujubat@kakao.com", profile);
@@ -50,7 +51,7 @@ class UserInfoProviderTest {
     }
 
     @Test
-    @DisplayName("카카오 api 서버에 잘못된 액세스 토큰을 전송하면 401번 예외를 던진다.")
+    @DisplayName("findSocialLoginUser 메서드는 카카오 api 서버에 잘못된 액세스 토큰을 전송하면 401번 예외를 던진다.")
     void findSocialLoginResponse_fail() {
         mockServer.expect(requestTo(UserInfoProvider.KAKAO_API_SERVER_URI))
             .andRespond(withUnauthorizedRequest());
