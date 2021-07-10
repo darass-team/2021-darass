@@ -36,7 +36,8 @@ public class OAuthService {
         jwtTokenProvider.validateAccessToken(accessToken);
         String userId = jwtTokenProvider.getPayload(accessToken);
 
-        return socialLoginUserRepository.findById(Long.parseLong(userId)).orElseThrow(ExceptionWithMessageAndCode.NOT_FOUND_USER::getException);
+        return socialLoginUserRepository.findById(Long.parseLong(userId))
+            .orElseThrow(ExceptionWithMessageAndCode.INVALID_JWT_NOT_FOUND_USER_TOKEN::getException);
     }
 
 }

@@ -1,6 +1,7 @@
 package com.darass.darass.auth.oauth;
 
 import com.darass.darass.auth.oauth.controller.AuthenticationPrincipalArgumentResolver;
+import com.darass.darass.auth.oauth.controller.RequiredLoginArgumentResolver;
 import com.darass.darass.auth.oauth.service.OAuthService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -22,5 +23,10 @@ public class AuthenticationPrincipalConfig implements WebMvcConfigurer {
     @Bean
     public AuthenticationPrincipalArgumentResolver createAuthenticationPrincipalArgumentResolver() {
         return new AuthenticationPrincipalArgumentResolver(oAuthService);
+    }
+
+    @Bean
+    public RequiredLoginArgumentResolver createRequiredLoginArgumentResolver() {
+        return new RequiredLoginArgumentResolver(oAuthService);
     }
 }

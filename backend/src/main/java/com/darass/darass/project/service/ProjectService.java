@@ -40,7 +40,7 @@ public class ProjectService {
 
     public List<ProjectResponse> findByUserId(User user) {
         if (!user.isLoginUser()) {
-            throw ExceptionWithMessageAndCode.INVALID_AUTHENTICATION.getException();
+            throw ExceptionWithMessageAndCode.SHOULD_LOGIN.getException();
         }
 
         return projects.findByUserId(user.getId());

@@ -18,7 +18,7 @@ public enum ExceptionWithMessageAndCode {
     NOT_FOUND_PROJECT(new NotFoundException("해당하는 프로젝트가 없습니다.", 700)),
 
     // 로그인 관련 : 8xx
-    INVALID_AUTHENTICATION(new UnauthorizedException("로그인을 해야 합니다.", 800)),
+    SHOULD_LOGIN(new UnauthorizedException("로그인을 해야 합니다.", 800)),
     INVALID_JWT_TOKEN(new UnauthorizedException("유효하지 않은 토큰입니다.", 801)),
     INVALID_JWT_NOT_FOUND_USER_TOKEN(new UnauthorizedException("존재하지 않는 사용자의 토큰입니다.", 802));
 
