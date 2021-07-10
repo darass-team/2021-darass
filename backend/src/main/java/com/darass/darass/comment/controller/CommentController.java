@@ -28,8 +28,7 @@ public class CommentController {
     private final CommentService commentService;
 
     @PostMapping
-    public ResponseEntity<CommentResponse> save(@AuthenticationPrincipal User user,
-        @RequestBody CommentCreateRequest commentRequest) {
+    public ResponseEntity<CommentResponse> save(@AuthenticationPrincipal User user, @RequestBody CommentCreateRequest commentRequest) {
         CommentResponse commentResponse = commentService.save(user, commentRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(commentResponse);
     }
