@@ -18,6 +18,7 @@ public class AuthenticationPrincipalConfig implements WebMvcConfigurer {
     @Override
     public void addArgumentResolvers(List argumentResolvers) {
         argumentResolvers.add(createAuthenticationPrincipalArgumentResolver());
+        argumentResolvers.add(createRequiredLoginArgumentResolver());
     }
 
     @Bean

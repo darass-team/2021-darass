@@ -15,8 +15,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.darass.darass.AcceptanceTest;
 import com.darass.darass.auth.oauth.infrastructure.JwtTokenProvider;
 import com.darass.darass.project.controller.dto.ProjectRequest;
-import com.darass.darass.user.domain.GuestUser;
+import com.darass.darass.project.controller.dto.ProjectResponse;
+import com.darass.darass.user.domain.OAuthPlatform;
+import com.darass.darass.user.domain.SocialLoginUser;
 import com.darass.darass.user.repository.UserRepository;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -33,17 +36,20 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
     private UserRepository users;
     @Autowired
     private JwtTokenProvider tokenProvider;
-    private GuestUser guestUser;
+    private SocialLoginUser socialLoginUser;
     private String token;
 
     @BeforeEach
     public void setUser() {
-        guestUser = GuestUser.builder()
-            .password("password")
-            .nickName("익명123")
+        socialLoginUser = SocialLoginUser
+            .builder()
+            .nickName("nickname")
+            .oauthId("abc13gag")
+            .oauthPlatform(OAuthPlatform.KAKAO)
+            .email("qkrwotjd1445@naver.com")
             .build();
-        users.save(guestUser);
-        token = tokenProvider.createAccessToken(guestUser.getId().toString());
+        users.save(socialLoginUser);
+        token = tokenProvider.createAccessToken(socialLoginUser.getId().toString());
     }
 
     @Test
@@ -71,11 +77,15 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
         return this.mockMvc.perform(post("/api/v1/projects")
             .contentType(MediaType.APPLICATION_JSON)
             .header("Authorization", "Bearer " + token)
-            .content(asJsonString(new ProjectRequest("프로젝트이름", "a1nc3K", guestUser.getId())))
+            .content(asJsonString(new ProjectRequest("프로젝트이름", "a1nc3K", socialLoginUser.getId())))
         )
             .andDo(MockMvcResultHandlers.print()) // 로깅
             .andExpect(status().isCreated());
+    }
 
+    private ProjectResponse 프로젝트_생성됨_Response_반환() throws Exception {
+        String responseJson = 프로젝트_생성됨().andReturn().getResponse().getContentAsString();
+        return new ObjectMapper().readValue(responseJson, ProjectResponse.class);
     }
 
     @Test
@@ -104,12 +114,13 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
     @Test
     @DisplayName("/api/v1/projects/{id} GET - 성공")
     public void findOne() throws Exception {
-        프로젝트_생성됨();
+        ProjectResponse projectResponse = 프로젝트_생성됨_Response_반환();
+        Long projectId = projectResponse.getId();
 
-        this.mockMvc.perform(get("/api/v1/projects/" + guestUser.getId().toString())
+        this.mockMvc.perform(get("/api/v1/projects/" + projectId)
             .contentType(MediaType.APPLICATION_JSON)
             .header("Authorization", "Bearer " + token)
-            .param("userId", guestUser.getId().toString())
+            .param("userId", socialLoginUser.getId().toString())
         )
             .andDo(MockMvcResultHandlers.print()) // 로깅
             .andExpect(status().isOk())

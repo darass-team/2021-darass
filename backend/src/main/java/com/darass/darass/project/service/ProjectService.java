@@ -5,15 +5,12 @@ import com.darass.darass.project.controller.dto.ProjectRequest;
 import com.darass.darass.project.controller.dto.ProjectResponse;
 import com.darass.darass.project.domain.Project;
 import com.darass.darass.project.repository.ProjectRepository;
-import com.darass.darass.user.domain.OAuthPlatform;
-import com.darass.darass.user.domain.SocialLoginUser;
 import com.darass.darass.user.domain.User;
 import com.darass.darass.user.repository.UserRepository;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Service
 @Transactional
@@ -23,12 +20,7 @@ public class ProjectService {
     private final ProjectRepository projects;
     private final UserRepository users;
 
-    public ProjectResponse save(ProjectRequest projectRequest) {
-        //TODO : user api 구현 후 삭제
-        users.save(new SocialLoginUser("aaron", "ouathId", OAuthPlatform.KAKAO, "wooteco@email.com"));
-
-        User user = users.findById(projectRequest.getUserId())
-                .orElseThrow(() -> ExceptionWithMessageAndCode.NOT_FOUND_USER.getException());
+    public ProjectResponse save(ProjectRequest projectRequest, User user) {
         Project project = Project.builder()
                 .name(projectRequest.getName())
                 .secretKey(projectRequest.getSecretKey())
@@ -38,16 +30,12 @@ public class ProjectService {
         return ProjectResponse.of(project);
     }
 
-    public List<ProjectResponse> findByUserId(User user) {
-        if (!user.isLoginUser()) {
-            throw ExceptionWithMessageAndCode.SHOULD_LOGIN.getException();
-        }
-
-        return projects.findByUserId(user.getId());
+    public List<ProjectResponse> findByUserId(Long id) {
+        return projects.findByUserId(id);
     }
 
-    public ProjectResponse findById(Long projectId) {
-        Project project = projects.findById(projectId)
+    public ProjectResponse findByIdAndUserId(Long projectId, Long userId) {
+        Project project = projects.findByIdAndUserId(projectId, userId)
                 .orElseThrow(() -> ExceptionWithMessageAndCode.NOT_FOUND_PROJECT.getException());
         return ProjectResponse.of(project);
     }

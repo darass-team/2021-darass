@@ -1,11 +1,9 @@
 package com.darass.darass.auth.oauth.controller;
 
-import com.darass.darass.auth.oauth.domain.AuthenticationPrincipal;
 import com.darass.darass.auth.oauth.domain.RequiredLogin;
 import com.darass.darass.auth.oauth.infrastructure.AuthorizationExtractor;
 import com.darass.darass.auth.oauth.service.OAuthService;
 import com.darass.darass.exception.ExceptionWithMessageAndCode;
-import com.darass.darass.user.domain.GuestUser;
 import com.darass.darass.user.domain.User;
 import java.util.Objects;
 import javax.servlet.http.HttpServletRequest;

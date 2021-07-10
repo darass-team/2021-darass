@@ -53,6 +53,13 @@ public class UserInfoProvider {
         String email = kaKaoAccount.getEmail();
         Profile profile = socialLoginResponse.getKaKaoAccount().getProfile();
         String nickname = profile.getNickname();
-        return new SocialLoginUser(nickname, oauthId, OAuthPlatform.KAKAO, email);
+        return SocialLoginUser
+            .builder()
+            .nickName(nickname)
+            .oauthId(oauthId)
+            .oauthPlatform(OAuthPlatform.KAKAO)
+            .email(email)
+            .build();
+
     }
 }
