@@ -3,6 +3,7 @@ package com.darass.darass.auth.oauth.infrastructure;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 
+import com.darass.darass.exception.ExceptionWithMessageAndCode;
 import com.darass.darass.exception.httpbasicexception.auth.AuthenticationException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -39,7 +40,7 @@ class JwtTokenProviderTest {
     @DisplayName("validateAccessToken 메서드는 유효하지 않은 accessToken이 주어지면, 예외를 던진다.")
     @Test
     void validateAccessToken_exception() {
-        Assertions.assertThrows(AuthenticationException.class,
+        Assertions.assertThrows(ExceptionWithMessageAndCode.INVALID_JWT_TOKEN.getException().getClass(),
             () -> jwtTokenProvider.validateAccessToken("IncorrectToken"));
     }
 
@@ -57,7 +58,7 @@ class JwtTokenProviderTest {
     @DisplayName("getPayload 메서드는 유효하지 않은 accessToken이 주어지면, 예외를 던진다.")
     @Test
     void getPayload_exception() {
-        Assertions.assertThrows(AuthenticationException.class,
+        Assertions.assertThrows(ExceptionWithMessageAndCode.INVALID_JWT_TOKEN.getException().getClass(),
             () -> jwtTokenProvider.getPayload("IncorrectToken"));
     }
 

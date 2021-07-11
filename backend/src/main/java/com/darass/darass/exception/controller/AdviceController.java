@@ -1,11 +1,10 @@
-package com.darass.darass.eception.controller;
+package com.darass.darass.exception.controller;
 
+import com.darass.darass.exception.dto.ExceptionResponse;
 import com.darass.darass.exception.httpbasicexception.BadRequestException;
 import com.darass.darass.exception.httpbasicexception.ConflictException;
-import com.darass.darass.exception.ExceptionWithMessageAndCode;
 import com.darass.darass.exception.httpbasicexception.NotFoundException;
 import com.darass.darass.exception.httpbasicexception.UnauthorizedException;
-import com.darass.darass.exception.dto.ExceptionResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -41,6 +40,7 @@ public class AdviceController {
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ExceptionResponse handle(Exception e) {
+        e.printStackTrace();
         return new ExceptionResponse(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR.value());
     }
 }

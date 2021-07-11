@@ -1,7 +1,6 @@
 package com.darass.darass.user.domain;
 
 import javax.persistence.Entity;
-
 import lombok.Builder;
 import lombok.NoArgsConstructor;
 
