@@ -33,10 +33,7 @@ const OptionContainer = styled.div`
 
   & > button {
     width: 100%;
-    border: none;
-    outline: none;
     background-color: ${PALETTE.WHITE};
-    cursor: pointer;
     font-weight: 600;
     margin-bottom: 0.3rem;
 
