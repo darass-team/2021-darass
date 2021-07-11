@@ -58,7 +58,7 @@ class UserInfoProviderTest {
             .andRespond(withUnauthorizedRequest());
 
         assertThatThrownBy(() -> userInfoProvider.findSocialLoginUser("test"))
-            .isInstanceOf(ExceptionWithMessageAndCode.FOR_BIDDEN.getException().getClass())
+            .isInstanceOf(ExceptionWithMessageAndCode.INVALID_JWT_TOKEN.getException().getClass())
             .hasMessage("유효하지 않은 토큰입니다.");
     }
 }

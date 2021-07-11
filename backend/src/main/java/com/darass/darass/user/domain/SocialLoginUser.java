@@ -3,7 +3,7 @@ package com.darass.darass.user.domain;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -19,6 +19,7 @@ public class SocialLoginUser extends User {
 
     private String email;
 
+    @Builder
     public SocialLoginUser(String nickName, String oauthId,
         OAuthPlatform oauthPlatform, String email) {
         super(nickName);

@@ -1,9 +1,9 @@
 package com.darass.darass.exception;
 
-import com.darass.darass.exception.httpbasicexception.auth.AuthenticationException;
 import com.darass.darass.exception.httpbasicexception.CustomException;
 import com.darass.darass.exception.httpbasicexception.InternalServerException;
 import com.darass.darass.exception.httpbasicexception.NotFoundException;
+import com.darass.darass.exception.httpbasicexception.UnauthorizedException;
 import lombok.Getter;
 
 @Getter
@@ -17,8 +17,10 @@ public enum ExceptionWithMessageAndCode {
     // 프로젝트 관련 : 7xx
     NOT_FOUND_PROJECT(new NotFoundException("해당하는 프로젝트가 없습니다.", 700)),
 
-    // 토큰 인증 관련
-    FOR_BIDDEN(new AuthenticationException("유효하지 않은 토큰입니다.", 403));
+    // 로그인 관련 : 8xx
+    SHOULD_LOGIN(new UnauthorizedException("로그인을 해야 합니다.", 800)),
+    INVALID_JWT_TOKEN(new UnauthorizedException("유효하지 않은 토큰입니다.", 801)),
+    INVALID_JWT_NOT_FOUND_USER_TOKEN(new UnauthorizedException("존재하지 않는 사용자의 토큰입니다.", 802));
 
     private CustomException exception;
 
