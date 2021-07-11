@@ -9,12 +9,12 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWit
 import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
-import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
+import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.darass.darass.AcceptanceTest;
 import com.darass.darass.auth.oauth.infrastructure.JwtTokenProvider;
-import com.darass.darass.project.controller.dto.ProjectRequest;
+import com.darass.darass.project.controller.dto.ProjectCreateRequest;
 import com.darass.darass.project.controller.dto.ProjectResponse;
 import com.darass.darass.user.domain.OAuthPlatform;
 import com.darass.darass.user.domain.SocialLoginUser;
@@ -77,7 +77,7 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
     public void save_fail() throws Exception {
         this.mockMvc.perform(post("/api/v1/projects")
             .contentType(MediaType.APPLICATION_JSON)
-            .content(asJsonString(new ProjectRequest("프로젝트이름", "a1nc3K", socialLoginUser.getId())))
+            .content(asJsonString(new ProjectCreateRequest("프로젝트이름", "a1nc3K", socialLoginUser.getId())))
         )
             .andExpect(status().isUnauthorized())
             .andDo(
@@ -93,7 +93,7 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
         return this.mockMvc.perform(post("/api/v1/projects")
             .contentType(MediaType.APPLICATION_JSON)
             .header("Authorization", "Bearer " + token)
-            .content(asJsonString(new ProjectRequest("프로젝트이름", "a1nc3K", socialLoginUser.getId())))
+            .content(asJsonString(new ProjectCreateRequest("프로젝트이름", "a1nc3K", socialLoginUser.getId())))
         )
             .andExpect(status().isCreated());
     }
@@ -149,7 +149,7 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
         ProjectResponse projectResponse = 프로젝트_생성됨_Response_반환();
         Long projectId = projectResponse.getId();
 
-        this.mockMvc.perform(get("/api/v1/projects/" + projectId)
+        this.mockMvc.perform(get("/api/v1/projects/{projectId}", projectId)
             .contentType(MediaType.APPLICATION_JSON)
             .header("Authorization", "Bearer " + token)
             .param("userId", socialLoginUser.getId().toString())
@@ -160,8 +160,8 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
                     requestHeaders(
                         headerWithName("Authorization").description("JWT - Bearer 토큰")
                     ),
-                    requestParameters(
-                        parameterWithName("userId").description("사용자 id")
+                    pathParameters(
+                        parameterWithName("projectId").description("프로젝트 id")
                     ),
                     responseFields(
                         fieldWithPath("id").type(JsonFieldType.NUMBER).description("프로젝트 id"),
