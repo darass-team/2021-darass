@@ -1,7 +1,6 @@
 package com.darass.darass;
 
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 
 import com.darass.darass.comment.repository.CommentRepository;
 import com.darass.darass.project.repository.ProjectRepository;
@@ -18,6 +17,7 @@ import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
@@ -48,10 +48,9 @@ public class AcceptanceTest {
     public void setUp(WebApplicationContext webApplicationContext,
         RestDocumentationContextProvider restDocumentation) {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext)
-            .addFilters(new CharacterEncodingFilter("UTF-8", true)) // 한글 인코딩
-            .apply(documentationConfiguration(restDocumentation).operationPreprocessors()
-                .withRequestDefaults(prettyPrint()) // 요청값 콘솔에 출력
-                .withResponseDefaults(prettyPrint())) // 응답값 콘솔에 출력
+            .addFilters(new CharacterEncodingFilter("UTF-8", true))
+            .apply(documentationConfiguration(restDocumentation))
+            .alwaysDo(MockMvcResultHandlers.print())
             .build();
     }
 

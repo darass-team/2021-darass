@@ -1,7 +1,7 @@
 package com.darass.darass.project.service;
 
 import com.darass.darass.exception.ExceptionWithMessageAndCode;
-import com.darass.darass.project.controller.dto.ProjectRequest;
+import com.darass.darass.project.controller.dto.ProjectCreateRequest;
 import com.darass.darass.project.controller.dto.ProjectResponse;
 import com.darass.darass.project.domain.Project;
 import com.darass.darass.project.repository.ProjectRepository;
@@ -18,7 +18,7 @@ public class ProjectService {
 
     private final ProjectRepository projects;
 
-    public ProjectResponse save(ProjectRequest projectRequest, User user) {
+    public ProjectResponse save(ProjectCreateRequest projectRequest, User user) {
         Project project = Project.builder()
                 .name(projectRequest.getName())
                 .secretKey(projectRequest.getSecretKey())
@@ -38,10 +38,10 @@ public class ProjectService {
         return ProjectResponse.of(project);
     }
 
-    public void deleteById(Long projectId) {
-        if (!projects.existsById(projectId)) {
+    public void deleteByIdAndUserId(Long projectId, Long userId) {
+        if (!projects.existsByIdAndUserId(projectId, userId)) {
             throw ExceptionWithMessageAndCode.NOT_FOUND_PROJECT.getException();
         }
-        projects.deleteById(projectId);
+        projects.deleteByIdAndUserId(projectId, userId);
     }
 }
