@@ -35,7 +35,7 @@ public class JwtTokenProvider {
         try {
             return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(accessToken).getBody().getSubject();
         } catch (MalformedJwtException e) {
-            throw ExceptionWithMessageAndCode.FOR_BIDDEN.getException();
+            throw ExceptionWithMessageAndCode.INVALID_JWT_TOKEN.getException();
         }
     }
 
@@ -43,7 +43,7 @@ public class JwtTokenProvider {
         try {
             Jwts.parser().setSigningKey(secretKey).parseClaimsJws(accessToken);
         } catch (JwtException | IllegalArgumentException e) {
-            throw ExceptionWithMessageAndCode.FOR_BIDDEN.getException();
+            throw ExceptionWithMessageAndCode.INVALID_JWT_TOKEN.getException();
         }
     }
 }

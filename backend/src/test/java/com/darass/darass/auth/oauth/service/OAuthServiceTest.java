@@ -49,7 +49,13 @@ class OAuthServiceTest {
         ReflectionTestUtils.setField(oAuthService, "socialLoginUserRepository", socialLoginUserRepositoryMock);
 
         oauthAccessToken = "LiCNQrImAFxi3LJAdt9ipGMSeOhmR4hw33Ao9cx6jkvW5w";
-        SocialLoginUser socialLoginUser = new SocialLoginUser("우기", "6752453", OAuthPlatform.KAKAO, "jujubebat@kakao.com");
+        SocialLoginUser socialLoginUser = SocialLoginUser
+            .builder()
+            .nickName("우기")
+            .oauthId("6752453")
+            .oauthPlatform(OAuthPlatform.KAKAO)
+            .email("jujubebat@kakao.com")
+            .build();
         given(userInfoProvider.findSocialLoginUser(oauthAccessToken)).willReturn(socialLoginUser);
     }
 

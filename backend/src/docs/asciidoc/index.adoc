@@ -1,15 +1,5 @@
-= 다라쓰 API
+= 다라쓰 API Docs
 :toc: left
 
-== 회원 (/members)
-
-=== 가입
-
-==== Request
-
-include::{snippets}/projects/test/test/http-request.adoc[]
-include::{snippets}/projects/test/test/request-fields.adoc[]
-
-==== Response
-
-include::{snippets}/projects/test/test/http-response.adoc[]
+== 프로젝트 (/api/v1/projects)
+include::{snippets}/../../src/docs/asciidoc/api/v1/projects.adoc[]

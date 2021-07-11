@@ -7,13 +7,11 @@ import com.darass.darass.user.domain.SocialLoginUser;
 import com.darass.darass.user.repository.SocialLoginUserRepository;
 import java.util.Optional;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @AllArgsConstructor
-@NoArgsConstructor
 @Transactional
 public class OAuthService {
 
@@ -36,7 +34,8 @@ public class OAuthService {
         jwtTokenProvider.validateAccessToken(accessToken);
         String userId = jwtTokenProvider.getPayload(accessToken);
 
-        return socialLoginUserRepository.findById(Long.parseLong(userId)).orElseThrow(ExceptionWithMessageAndCode.NOT_FOUND_USER::getException);
+        return socialLoginUserRepository.findById(Long.parseLong(userId))
+            .orElseThrow(ExceptionWithMessageAndCode.INVALID_JWT_NOT_FOUND_USER_TOKEN::getException);
     }
 
 }
