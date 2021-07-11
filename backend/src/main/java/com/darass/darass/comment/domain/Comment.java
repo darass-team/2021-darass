@@ -1,5 +1,6 @@
 package com.darass.darass.comment.domain;
 
+import com.darass.darass.common.domain.BaseTimeEntity;
 import com.darass.darass.project.domain.Project;
 import com.darass.darass.user.domain.User;
 import javax.persistence.Entity;
@@ -16,7 +17,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor
 @Getter
-public class Comment {
+public class Comment extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
