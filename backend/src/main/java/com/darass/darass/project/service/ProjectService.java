@@ -6,7 +6,6 @@ import com.darass.darass.project.controller.dto.ProjectResponse;
 import com.darass.darass.project.domain.Project;
 import com.darass.darass.project.repository.ProjectRepository;
 import com.darass.darass.user.domain.User;
-import com.darass.darass.user.repository.UserRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,7 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class ProjectService {
 
     private final ProjectRepository projects;
-    private final UserRepository users;
 
     public ProjectResponse save(ProjectRequest projectRequest, User user) {
         Project project = Project.builder()

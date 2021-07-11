@@ -1,23 +1,18 @@
 package com.darass.darass;
 
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 
-import com.darass.darass.comment.controller.dto.CommentResponse;
 import com.darass.darass.comment.repository.CommentRepository;
 import com.darass.darass.project.repository.ProjectRepository;
-import com.darass.darass.user.domain.GuestUser;
-import com.darass.darass.user.domain.User;
 import com.darass.darass.user.repository.UserRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.aspectj.lang.annotation.After;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Profile;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.test.context.ActiveProfiles;
@@ -34,8 +29,6 @@ public class AcceptanceTest {
 
     protected MockMvc mockMvc;
 
-    @Autowired
-    private WebApplicationContext ctx;
     @Autowired
     private UserRepository users;
     @Autowired
@@ -55,8 +48,10 @@ public class AcceptanceTest {
     public void setUp(WebApplicationContext webApplicationContext,
         RestDocumentationContextProvider restDocumentation) {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext)
-            .addFilters(new CharacterEncodingFilter("UTF-8", true))
-            .apply(documentationConfiguration(restDocumentation))
+            .addFilters(new CharacterEncodingFilter("UTF-8", true)) // 한글 인코딩
+            .apply(documentationConfiguration(restDocumentation).operationPreprocessors()
+                .withRequestDefaults(prettyPrint()) // 요청값 콘솔에 출력
+                .withResponseDefaults(prettyPrint())) // 응답값 콘솔에 출력
             .build();
     }
 

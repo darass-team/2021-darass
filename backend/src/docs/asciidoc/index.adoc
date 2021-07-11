@@ -2,30 +2,4 @@
 :toc: left
 
 == 프로젝트 (/api/v1/projects)
-
-=== 생성
-
-==== Request
-
-include::{snippets}/api/v1/projects/post/http-request.adoc[]
-include::{snippets}/api/v1/projects/post/request-headers.adoc[]
-include::{snippets}/api/v1/projects/post/request-fields.adoc[]
-
-==== Response
-
-include::{snippets}/api/v1/projects/post/http-response.adoc[]
-include::{snippets}/api/v1/projects/post/response-fields.adoc[]
-
-
-=== 조회
-
-==== Request
-
-include::{snippets}/api/v1/projects/get/http-request.adoc[]
-include::{snippets}/api/v1/projects/get/request-headers.adoc[]
-include::{snippets}/api/v1/projects/get/request-parameters.adoc[]
-
-==== Response
-
-include::{snippets}/api/v1/projects/get/http-response.adoc[]
-include::{snippets}/api/v1/projects/get/response-fields.adoc[]
+include::{snippets}/../../src/docs/asciidoc/api/v1/projects.adoc[]

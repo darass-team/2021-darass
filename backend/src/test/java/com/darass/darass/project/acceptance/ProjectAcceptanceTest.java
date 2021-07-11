@@ -27,7 +27,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
 @DisplayName("Project 인수 테스트")
 public class ProjectAcceptanceTest extends AcceptanceTest {
@@ -57,7 +56,7 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
     public void save() throws Exception {
         프로젝트_생성됨()
             .andDo(
-                document("api/v1/projects/post",
+                document("api/v1/projects/post/1",
                     requestHeaders(
                         headerWithName("Authorization").description("JWT - Bearer 토큰")
                     ),
@@ -73,13 +72,29 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
             );
     }
 
+    @Test
+    @DisplayName("/api/v1/projects POST - JWT 토큰을 안 넣었을 경우")
+    public void save_fail() throws Exception {
+        this.mockMvc.perform(post("/api/v1/projects")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(asJsonString(new ProjectRequest("프로젝트이름", "a1nc3K", socialLoginUser.getId())))
+        )
+            .andExpect(status().isUnauthorized())
+            .andDo(
+                document("api/v1/projects/post/2",
+                    responseFields(
+                        fieldWithPath("message").type(JsonFieldType.STRING).description("에러 메시지"),
+                        fieldWithPath("code").type(JsonFieldType.NUMBER).description("에러 코드")
+                    ))
+            );
+    }
+
     private ResultActions 프로젝트_생성됨() throws Exception {
         return this.mockMvc.perform(post("/api/v1/projects")
             .contentType(MediaType.APPLICATION_JSON)
             .header("Authorization", "Bearer " + token)
             .content(asJsonString(new ProjectRequest("프로젝트이름", "a1nc3K", socialLoginUser.getId())))
         )
-            .andDo(MockMvcResultHandlers.print()) // 로깅
             .andExpect(status().isCreated());
     }
 
@@ -97,16 +112,33 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
             .contentType(MediaType.APPLICATION_JSON)
             .header("Authorization", "Bearer " + token)
         )
-            .andDo(MockMvcResultHandlers.print()) // 로깅
             .andExpect(status().isOk())
             .andDo(
-                document("api/v1/projects/get",
+                document("api/v1/projects/get/1",
                     requestHeaders(
                         headerWithName("Authorization").description("JWT - Bearer 토큰")
                     ),
                     responseFields(
                         fieldWithPath("[].id").type(JsonFieldType.NUMBER).description("프로젝트 id"),
                         fieldWithPath("[].name").type(JsonFieldType.STRING).description("프로젝트 이름")
+                    ))
+            );
+    }
+
+    @Test
+    @DisplayName("/api/v1/projects GET - JWT 토큰을 안 넣었을 경우")
+    public void findAll_fail() throws Exception {
+        프로젝트_생성됨();
+
+        this.mockMvc.perform(get("/api/v1/projects")
+            .contentType(MediaType.APPLICATION_JSON)
+        )
+            .andExpect(status().isUnauthorized())
+            .andDo(
+                document("api/v1/projects/get/2",
+                    responseFields(
+                        fieldWithPath("message").type(JsonFieldType.STRING).description("에러 메시지"),
+                        fieldWithPath("code").type(JsonFieldType.NUMBER).description("에러 코드")
                     ))
             );
     }
@@ -122,10 +154,9 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
             .header("Authorization", "Bearer " + token)
             .param("userId", socialLoginUser.getId().toString())
         )
-            .andDo(MockMvcResultHandlers.print()) // 로깅
             .andExpect(status().isOk())
             .andDo(
-                document("api/v1/projects/{id}/get",
+                document("api/v1/projects/{id}/get/1",
                     requestHeaders(
                         headerWithName("Authorization").description("JWT - Bearer 토큰")
                     ),
@@ -135,6 +166,26 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
                     responseFields(
                         fieldWithPath("id").type(JsonFieldType.NUMBER).description("프로젝트 id"),
                         fieldWithPath("name").type(JsonFieldType.STRING).description("프로젝트 이름")
+                    ))
+            );
+    }
+
+    @Test
+    @DisplayName("/api/v1/projects/{id} GET - JWT 토큰을 안 넣었을 경우")
+    public void findOne_fail() throws Exception {
+        ProjectResponse projectResponse = 프로젝트_생성됨_Response_반환();
+        Long projectId = projectResponse.getId();
+
+        this.mockMvc.perform(get("/api/v1/projects/" + projectId)
+            .contentType(MediaType.APPLICATION_JSON)
+            .param("userId", socialLoginUser.getId().toString())
+        )
+            .andExpect(status().isUnauthorized())
+            .andDo(
+                document("api/v1/projects/{id}/get/2",
+                    responseFields(
+                        fieldWithPath("message").type(JsonFieldType.STRING).description("에러 메시지"),
+                        fieldWithPath("code").type(JsonFieldType.NUMBER).description("에러 코드")
                     ))
             );
     }
