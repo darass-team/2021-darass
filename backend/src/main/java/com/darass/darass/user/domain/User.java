@@ -10,22 +10,18 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "user_type")
-@RequiredArgsConstructor
-@NoArgsConstructor
 @Getter
+@NoArgsConstructor
 public abstract class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NonNull
     @Column(nullable = false)
     private String nickName;
 
@@ -34,4 +30,7 @@ public abstract class User {
 
     public abstract boolean isLoginUser();
 
+    public User(String nickName) {
+        this.nickName = nickName;
+    }
 }
