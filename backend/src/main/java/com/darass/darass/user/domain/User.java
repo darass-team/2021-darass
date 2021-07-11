@@ -26,12 +26,12 @@ public abstract class User extends BaseTimeEntity {
     @Column(nullable = false)
     private String nickName;
 
-    @Column(name="user_type", insertable = false, updatable = false)
+    @Column(name = "user_type", insertable = false, updatable = false)
     private String userType;
-
-    public abstract boolean isLoginUser();
 
     public User(String nickName) {
         this.nickName = nickName;
     }
+
+    public abstract boolean isLoginUser();
 }
