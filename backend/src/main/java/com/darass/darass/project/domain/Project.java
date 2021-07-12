@@ -1,5 +1,6 @@
 package com.darass.darass.project.domain;
 
+import com.darass.darass.common.domain.BaseTimeEntity;
 import com.darass.darass.user.domain.User;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -18,7 +19,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-public class Project {
+public class Project extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
