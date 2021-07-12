@@ -21,6 +21,7 @@ import static org.springframework.restdocs.headers.HeaderDocumentation.requestHe
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @DisplayName("Comment 인수 테스트")
@@ -75,7 +76,7 @@ public class CommentAcceptanceTest extends AcceptanceTest {
     @DisplayName("/api/v1/comments POST - 성공 (비로그인 유저)")
     void saveGuestUser() throws Exception {
         비로그인_댓글_등록됨().andDo(
-                document("api/v1/comments/post/1",
+                document("api/v1/comments/post/2",
                         requestFields(
                                 fieldWithPath("guestNickName").type(JsonFieldType.STRING).description("비로그인 유저 닉네입"),
                                 fieldWithPath("guestPassword").type(JsonFieldType.STRING).description("비로그인 유저 비밀번호"),
@@ -94,13 +95,31 @@ public class CommentAcceptanceTest extends AcceptanceTest {
         );
     }
 
+    @Test
+    @DisplayName("/api/v1/comments POST - 프로젝트 시크릿 키 존재하지 않는 경우")
+    void saveWithInvalidSecretKey() throws Exception {
+        mockMvc.perform(post("/api/v1/comments")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJsonString(new CommentCreateRequest("guest", "password", "invalidKey", "content", "url")))
+        )
+                .andExpect(status().isNotFound())
+                .andDo(
+                        document("api/v1/comments/post/3",
+                                responseFields(
+                                        fieldWithPath("message").type(JsonFieldType.STRING).description("에러 메시지"),
+                                        fieldWithPath("code").type(JsonFieldType.NUMBER).description("에러 코드")
+                                ))
+                );
+    }
+
     private ResultActions 소셜_로그인_댓글_등록됨() throws Exception {
         return mockMvc.perform(post("/api/v1/comments")
                 .contentType(MediaType.APPLICATION_JSON)
                 .header("Authorization", "Bearer " + token)
                 .content(asJsonString(new CommentCreateRequest(null, null, secretKey, "content", "url")))
         )
-                .andExpect(status().isCreated());
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.user..userType").value("SocialLoginUser"));
     }
 
     private ResultActions 비로그인_댓글_등록됨() throws Exception {
@@ -108,7 +127,8 @@ public class CommentAcceptanceTest extends AcceptanceTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(asJsonString(new CommentCreateRequest("guest", "password", secretKey, "content", "url")))
         )
-                .andExpect(status().isCreated());
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.user..userType").value("GuestUser"));
     }
 
     private void setUpProject() {
