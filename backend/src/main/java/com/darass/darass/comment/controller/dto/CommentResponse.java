@@ -8,11 +8,13 @@ import lombok.Getter;
 @AllArgsConstructor
 public class CommentResponse {
 
+    private Long id;
+
     private String content;
 
-    private UserResponse userResponse;
+    private UserResponse user;
 
     public static CommentResponse of(Comment comment, UserResponse userResponse) {
-        return new CommentResponse(comment.getContent(), userResponse);
+        return new CommentResponse(comment.getId(), comment.getContent(), userResponse);
     }
 }
