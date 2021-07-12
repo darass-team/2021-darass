@@ -1,22 +1,9 @@
-import { BrowserRouter as Router, Redirect, Route, RouteProps, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Redirect, Route, Switch } from "react-router-dom";
 import Login from "./components/pages/Login";
 import Home from "./components/pages/Home";
 import { ROUTE } from "./constants";
 import Nav from "./components/organisms/Nav";
-
-interface AuthenticatedRouterProps extends RouteProps {
-  shouldAuthenticated?: boolean;
-}
-
-const AuthenticatedRoute = ({ component, path, shouldAuthenticated }: AuthenticatedRouterProps) => {
-  const user = false;
-  console.log(shouldAuthenticated);
-  if (shouldAuthenticated) {
-    return user ? <Route exact path={path} component={component} /> : <Redirect to={ROUTE.HOME} />;
-  }
-
-  return user ? <Redirect to={ROUTE.HOME} /> : <Route exact path={path} component={component} />;
-};
+import { ConditionalRoute } from "./components/HOC/ConditionalRoute";
 
 const App = () => {
   const user = {
@@ -31,7 +18,7 @@ const App = () => {
         <Nav user={user} />
         <Switch>
           <Route exact path={ROUTE.HOME} component={Home} />
-          <AuthenticatedRoute path={ROUTE.LOGIN} component={Login} />
+          <ConditionalRoute path={ROUTE.LOGIN} component={Login} condition={!user} />
           <Redirect to={ROUTE.HOME} />
         </Switch>
       </Router>
