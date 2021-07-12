@@ -117,6 +117,7 @@ public class CommentAcceptanceTest extends AcceptanceTest {
                 .secretKey("secretKey")
                 .user(socialLoginUser)
                 .build();
+        projects.save(project);
         secretKey = project.getSecretKey();
     }
 

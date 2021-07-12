@@ -5,6 +5,7 @@ import com.darass.darass.comment.controller.dto.CommentResponse;
 import com.darass.darass.comment.controller.dto.UserResponse;
 import com.darass.darass.comment.domain.Comment;
 import com.darass.darass.comment.repository.CommentRepository;
+import com.darass.darass.exception.ExceptionWithMessageAndCode;
 import com.darass.darass.project.domain.Project;
 import com.darass.darass.project.repository.ProjectRepository;
 import com.darass.darass.user.domain.GuestUser;
@@ -25,49 +26,37 @@ public class CommentService {
     private final ProjectRepository projects;
     private final UserRepository users;
 
-    public CommentResponse save(User user, CommentCreateRequest commentCreateRequest) {
-        if (user.isLoginUser()) {
-            return saveLoginComment(user, commentCreateRequest);
+    public CommentResponse save(User user, CommentCreateRequest commentRequest) {
+        if (!user.isLoginUser()) {
+            user = savedGuestUser(commentRequest);
         }
-        return saveGuestComment(commentCreateRequest);
-    }
-
-    public CommentResponse saveLoginComment(User user, CommentCreateRequest commentRequest) {
-        //TODO : 로그인 유저 저장 기능
-
-        Project project = projects.findBySecretKey(commentRequest.getProjectSecretKey());
-        Comment comment = Comment.builder()
-            .user(user)
-            .content(commentRequest.getContent())
-            .project(project)
-            .url(commentRequest.getUrl())
-            .build();
-        comments.save(comment);
-        String userType = users.findUserTypeById(comment.getUser().getId());
+        Project project = getBySecretKey(commentRequest);
+        Comment comment = savedComment(user, commentRequest, project);
+        String userType = users.findUserTypeById(user.getId());
         return CommentResponse.of(comment, UserResponse.of(comment.getUser(), userType));
     }
 
-    public CommentResponse saveGuestComment(CommentCreateRequest commentRequest) {
+    private Project getBySecretKey(CommentCreateRequest commentRequest) {
+        return projects.findBySecretKey(commentRequest.getProjectSecretKey())
+                .orElseThrow(ExceptionWithMessageAndCode.NOT_FOUND_PROJECT::getException);
+    }
 
-        GuestUser guestUser = GuestUser.builder()
-            .nickName(commentRequest.getGuestNickName())
-            .password(commentRequest.getGuestPassword())
-            .build();
-
-        users.save(guestUser);
-
-        Project project = projects.findBySecretKey(commentRequest.getProjectSecretKey());
+    private Comment savedComment(User user, CommentCreateRequest commentRequest, Project project) {
         Comment comment = Comment.builder()
-            .user(guestUser)
-            .content(commentRequest.getContent())
-            .project(project)
-            .url(commentRequest.getUrl())
-            .build();
-        comments.save(comment);
+                .user(user)
+                .content(commentRequest.getContent())
+                .project(project)
+                .url(commentRequest.getUrl())
+                .build();
+        return comments.save(comment);
+    }
 
-        String userType = users.findUserTypeById(comment.getUser().getId());
-
-        return CommentResponse.of(comment, UserResponse.of(comment.getUser(), userType));
+    private User savedGuestUser(CommentCreateRequest commentRequest) {
+        User user = GuestUser.builder()
+                .nickName(commentRequest.getGuestNickName())
+                .password(commentRequest.getGuestPassword())
+                .build();
+        return users.save(user);
     }
 
     public List<CommentResponse> findAllComments(String url) {
