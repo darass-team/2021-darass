@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class AdviceController {
 
-    @ExceptionHandler({ ConstraintViolationException.class, BadRequestException.class })
+    @ExceptionHandler({ConstraintViolationException.class, BadRequestException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ExceptionResponse handle(ConstraintViolationException e) {
         return new ExceptionResponse(e.getMessage(), HttpStatus.BAD_REQUEST.value());

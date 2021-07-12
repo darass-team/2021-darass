@@ -1,5 +1,6 @@
 package com.darass.darass.user.domain;
 
+import com.darass.darass.common.domain.BaseTimeEntity;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
@@ -16,7 +17,7 @@ import lombok.NoArgsConstructor;
 @DiscriminatorColumn(name = "user_type")
 @Getter
 @NoArgsConstructor
-public abstract class User {
+public abstract class User extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,12 +26,12 @@ public abstract class User {
     @Column(nullable = false)
     private String nickName;
 
-    @Column(name="user_type", insertable = false, updatable = false)
+    @Column(name = "user_type", insertable = false, updatable = false)
     private String userType;
-
-    public abstract boolean isLoginUser();
 
     public User(String nickName) {
         this.nickName = nickName;
     }
+
+    public abstract boolean isLoginUser();
 }

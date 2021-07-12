@@ -16,6 +16,7 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 
 @RequiredArgsConstructor
 public class RequiredLoginArgumentResolver implements HandlerMethodArgumentResolver {
+
     private final OAuthService oAuthService;
 
     @Override
