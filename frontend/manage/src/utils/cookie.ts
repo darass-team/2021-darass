@@ -1,4 +1,4 @@
-const setCookie = (key: string, value: string, keepAliveMinutes: number) => {
+const setCookie = (key: string, value: string, keepAliveMinutes = 60) => {
   const expiryDate = new Date();
   expiryDate.setDate(expiryDate.getDate() + keepAliveMinutes);
 
@@ -19,7 +19,7 @@ const getCookie = (key: string) => {
     }
   }
 
-  throw new Error("Cookie not found.");
+  return null;
 };
 
 export { setCookie, getCookie };
