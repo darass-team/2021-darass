@@ -20,10 +20,10 @@ public class ProjectService {
 
     public ProjectResponse save(ProjectCreateRequest projectRequest, User user) {
         Project project = Project.builder()
-                .name(projectRequest.getName())
-                .secretKey(projectRequest.getSecretKey())
-                .user(user)
-                .build();
+            .name(projectRequest.getName())
+            .secretKey(projectRequest.getSecretKey())
+            .user(user)
+            .build();
         projects.save(project);
         return ProjectResponse.of(project);
     }
@@ -34,7 +34,7 @@ public class ProjectService {
 
     public ProjectResponse findByIdAndUserId(Long projectId, Long userId) {
         Project project = projects.findByIdAndUserId(projectId, userId)
-                .orElseThrow(() -> ExceptionWithMessageAndCode.NOT_FOUND_PROJECT.getException());
+            .orElseThrow(() -> ExceptionWithMessageAndCode.NOT_FOUND_PROJECT.getException());
         return ProjectResponse.of(project);
     }
 
