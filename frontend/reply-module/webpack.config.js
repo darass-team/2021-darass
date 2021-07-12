@@ -15,20 +15,7 @@ module.exports = {
         test: /\.(ts|tsx|js|jsx)$/,
         use: [
           {
-            loader: "babel-loader",
-            options: {
-              presets: [
-                "@babel/preset-env",
-                [
-                  "@babel/preset-react",
-                  {
-                    runtime: "automatic"
-                  }
-                ],
-                "@babel/preset-typescript"
-              ],
-              plugins: [["@babel/transform-runtime"]]
-            }
+            loader: "babel-loader"
           }
         ],
         exclude: /node_modules/
