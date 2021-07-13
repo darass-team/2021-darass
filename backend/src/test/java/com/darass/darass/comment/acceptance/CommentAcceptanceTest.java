@@ -19,8 +19,10 @@ import org.springframework.test.web.servlet.ResultActions;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -51,7 +53,7 @@ public class CommentAcceptanceTest extends AcceptanceTest {
     @Test
     @DisplayName("/api/v1/comments POST - 성공 (소셜 로그인 유저)")
     void saveLoginUser() throws Exception {
-        소셜_로그인_댓글_등록됨().andDo(
+        소셜_로그인_댓글_등록됨("content", "url").andDo(
                 document("api/v1/comments/post/1",
                         requestHeaders(
                                 headerWithName("Authorization").description("JWT - Bearer 토큰")
@@ -75,7 +77,7 @@ public class CommentAcceptanceTest extends AcceptanceTest {
     @Test
     @DisplayName("/api/v1/comments POST - 성공 (비로그인 유저)")
     void saveGuestUser() throws Exception {
-        비로그인_댓글_등록됨().andDo(
+        비로그인_댓글_등록됨("content", "url").andDo(
                 document("api/v1/comments/post/2",
                         requestFields(
                                 fieldWithPath("guestNickName").type(JsonFieldType.STRING).description("비로그인 유저 닉네입"),
@@ -112,20 +114,46 @@ public class CommentAcceptanceTest extends AcceptanceTest {
                 );
     }
 
-    private ResultActions 소셜_로그인_댓글_등록됨() throws Exception {
+    @Test
+    @DisplayName("/api/v1/comments GET - 성공")
+    void read() throws Exception {
+        소셜_로그인_댓글_등록됨("content1", "url");
+        소셜_로그인_댓글_등록됨("content2", "url");
+
+        mockMvc.perform(get("/api/v1/comments")
+                .contentType(MediaType.APPLICATION_JSON)
+                .param("url", "url")
+        )
+                .andExpect(status().isOk())
+                .andDo(document("api/v1/comments/get/1",
+                        requestParameters(
+                                parameterWithName("url").description("조회 url")
+                        ),
+                        responseFields(
+                                fieldWithPath("[].id").type(JsonFieldType.NUMBER).description("댓글 id"),
+                                fieldWithPath("[].content").type(JsonFieldType.STRING).description("댓글 내용"),
+                                fieldWithPath("[].user").type(JsonFieldType.OBJECT).description("댓글 작성 유저 정보"),
+                                fieldWithPath("[].user.id").type(JsonFieldType.NUMBER).description("유저 id"),
+                                fieldWithPath("[].user.nickName").type(JsonFieldType.STRING).description("유저 닉네임"),
+                                fieldWithPath("[].user.userType").type(JsonFieldType.STRING).description("유저 유형")
+                        )
+                ));
+    }
+
+    private ResultActions 소셜_로그인_댓글_등록됨(String content, String url) throws Exception {
         return mockMvc.perform(post("/api/v1/comments")
                 .contentType(MediaType.APPLICATION_JSON)
                 .header("Authorization", "Bearer " + token)
-                .content(asJsonString(new CommentCreateRequest(null, null, secretKey, "content", "url")))
+                .content(asJsonString(new CommentCreateRequest(null, null, secretKey, content, url)))
         )
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.user..userType").value("SocialLoginUser"));
     }
 
-    private ResultActions 비로그인_댓글_등록됨() throws Exception {
+    private ResultActions 비로그인_댓글_등록됨(String content, String url) throws Exception {
         return mockMvc.perform(post("/api/v1/comments")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(asJsonString(new CommentCreateRequest("guest", "password", secretKey, "content", "url")))
+                .content(asJsonString(new CommentCreateRequest("guest", "password", secretKey, content, url)))
         )
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.user..userType").value("GuestUser"));
