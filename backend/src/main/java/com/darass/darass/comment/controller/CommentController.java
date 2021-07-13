@@ -2,6 +2,7 @@ package com.darass.darass.comment.controller;
 
 import com.darass.darass.auth.oauth.domain.AuthenticationPrincipal;
 import com.darass.darass.comment.controller.dto.CommentCreateRequest;
+import com.darass.darass.comment.controller.dto.CommentDeleteRequest;
 import com.darass.darass.comment.controller.dto.CommentResponse;
 import com.darass.darass.comment.controller.dto.CommentUpdateRequest;
 import com.darass.darass.comment.service.CommentService;
@@ -40,8 +41,9 @@ public class CommentController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable("id") Long id) {
-        commentService.delete(id);
+    public ResponseEntity<Void> delete(@PathVariable("id") Long id, @AuthenticationPrincipal User user,
+                                       @ModelAttribute CommentDeleteRequest request) {
+        commentService.delete(id, user, request);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }

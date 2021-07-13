@@ -1,9 +1,6 @@
 package com.darass.darass.comment.service;
 
-import com.darass.darass.comment.controller.dto.CommentCreateRequest;
-import com.darass.darass.comment.controller.dto.CommentResponse;
-import com.darass.darass.comment.controller.dto.CommentUpdateRequest;
-import com.darass.darass.comment.controller.dto.UserResponse;
+import com.darass.darass.comment.controller.dto.*;
 import com.darass.darass.comment.domain.Comment;
 import com.darass.darass.comment.repository.CommentRepository;
 import com.darass.darass.exception.ExceptionWithMessageAndCode;
@@ -70,21 +67,34 @@ public class CommentService {
                 .collect(Collectors.toList());
     }
 
-    public void delete(Long id) {
+    public void updateContent(Long id, User user, CommentUpdateRequest request) {
+        user = findRegisteredUser(user, request.getGuestUserId(), request.getGuestUserPassword());
+        modifiableComment(id, user);
+        Comment comment = modifiableComment(id, user);
+        comment.changeContent(request.getContent());
+        comments.save(comment);
+    }
+
+    public void delete(Long id, User user, CommentDeleteRequest request) {
+        user = findRegisteredUser(user, request.getGuestUserId(), request.getGuestUserPassword());
+        modifiableComment(id, user);
         comments.deleteById(id);
     }
 
-    public void updateContent(Long id, User user, CommentUpdateRequest request) {
-        if (!user.isLoginUser()) {
-            user = users.findById(request.getGuestUserId())
-                    .orElseThrow(ExceptionWithMessageAndCode.NOT_FOUND_USER::getException);
-            validateGuestUser(user, request);
-        }
+    private Comment modifiableComment(Long id, User user) {
         Comment comment = comments.findById(id)
                 .orElseThrow(ExceptionWithMessageAndCode.NOT_FOUND_COMMENT::getException);
         matchUserWithComment(user, comment);
-        comment.changeContent(request.getContent());
-        comments.save(comment);
+        return comment;
+    }
+
+    private User findRegisteredUser(User user, Long guestUserId, String guestUserPassword) {
+        if (!user.isLoginUser()) {
+            user = users.findById(guestUserId)
+                    .orElseThrow(ExceptionWithMessageAndCode.NOT_FOUND_USER::getException);
+            validateGuestUser(user, guestUserPassword);
+        }
+        return user;
     }
 
     private void matchUserWithComment(User user, Comment comment) {
@@ -93,8 +103,8 @@ public class CommentService {
         }
     }
 
-    private void validateGuestUser(User user, CommentUpdateRequest request) {
-        if (!user.isValidGuestPassword(request.getGuestUserPassword())) {
+    private void validateGuestUser(User user, String password) {
+        if (!user.isValidGuestPassword(password)) {
             throw ExceptionWithMessageAndCode.INVALID_GUEST_PASSWORD.getException();
         }
     }

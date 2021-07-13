@@ -2,10 +2,7 @@ package com.darass.darass.comment.acceptance;
 
 import com.darass.darass.AcceptanceTest;
 import com.darass.darass.auth.oauth.infrastructure.JwtTokenProvider;
-import com.darass.darass.comment.controller.dto.CommentCreateRequest;
-import com.darass.darass.comment.controller.dto.CommentResponse;
-import com.darass.darass.comment.controller.dto.CommentUpdateRequest;
-import com.darass.darass.comment.controller.dto.UserResponse;
+import com.darass.darass.comment.controller.dto.*;
 import com.darass.darass.project.domain.Project;
 import com.darass.darass.project.repository.ProjectRepository;
 import com.darass.darass.user.domain.OAuthPlatform;
@@ -229,6 +226,69 @@ public class CommentAcceptanceTest extends AcceptanceTest {
                 .andExpect(status().isUnauthorized())
                 .andExpect(jsonPath("$.code").value(901))
                 .andDo(document("api/v1/comments/patch/4",
+                        responseFields(
+                                fieldWithPath("message").type(JsonFieldType.STRING).description("에러 메시지"),
+                                fieldWithPath("code").type(JsonFieldType.NUMBER).description("에러 코드")
+                        )
+                ));
+    }
+
+    @Test
+    @DisplayName("/api/v1/comments/{id} DELETE - 성공 (소셜 로그인 유저)")
+    void deleteLoginUser() throws Exception {
+        CommentResponse commentResponse = 소셜_로그인_댓글_등록됨_Response_반환("content1", "url");
+        Long commentId = commentResponse.getId();
+
+        mockMvc.perform(delete("/api/v1/comments/{id}", commentId)
+                .header("Authorization", "Bearer " + token)
+                .contentType(MediaType.APPLICATION_JSON)
+        )
+                .andExpect(status().isNoContent())
+                .andDo(document("api/v1/comments/delete/1",
+                        pathParameters(
+                                parameterWithName("id").description("삭제할 댓글 id")
+                        )
+                ));
+    }
+
+    @Test
+    @DisplayName("/api/v1/comments/{id} DELETE - 성공 (비로그인 유저)")
+    void deleteGuestUser() throws Exception {
+        CommentResponse commentResponse = 비로그인_댓글_등록됨_Response_반환("content1", "url");
+        Long commentId = commentResponse.getId();
+        UserResponse user = commentResponse.getUser();
+
+        mockMvc.perform(delete("/api/v1/comments/{id}", commentId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .param("guestUserId", user.getId().toString())
+                .param("guestUserPassword", "password")
+        )
+                .andExpect(status().isNoContent())
+                .andDo(document("api/v1/comments/delete/2",
+                        pathParameters(
+                                parameterWithName("id").description("삭제할 댓글 id")
+                        ),
+                        requestParameters(
+                                parameterWithName("guestUserId").description("비로그인 작성자 id"),
+                                parameterWithName("guestUserPassword").description("비로그인 작성자 비밀번호")
+                        )
+                ));
+    }
+
+    @Test
+    @DisplayName("/api/v1/comments/{id} DELETE - 남의 댓글을 삭제하는 경우")
+    void deleteUnauthorized() throws Exception {
+        CommentResponse commentResponse1 = 소셜_로그인_댓글_등록됨_Response_반환("content1", "url");
+        CommentResponse commentResponse2 = 비로그인_댓글_등록됨_Response_반환("content2", "url");
+        Long commentId2 = commentResponse2.getId();
+
+        mockMvc.perform(delete("/api/v1/comments/{id}", commentId2)
+                .contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization", "Bearer " + token)
+        )
+                .andExpect(status().isUnauthorized())
+                .andExpect(jsonPath("$.code").value(903))
+                .andDo(document("api/v1/comments/delete/3",
                         responseFields(
                                 fieldWithPath("message").type(JsonFieldType.STRING).description("에러 메시지"),
                                 fieldWithPath("code").type(JsonFieldType.NUMBER).description("에러 코드")
