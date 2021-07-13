@@ -1,8 +1,5 @@
 package com.darass.darass.auth.oauth.service;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.BDDMockito.given;
-
 import com.darass.darass.auth.oauth.api.domain.UserInfoProvider;
 import com.darass.darass.auth.oauth.infrastructure.JwtTokenProvider;
 import com.darass.darass.user.domain.OAuthPlatform;
@@ -21,6 +18,9 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.util.ReflectionTestUtils;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.BDDMockito.given;
 
 @DisplayName("OAuthService 클래스")
 @ActiveProfiles("test")
@@ -45,17 +45,17 @@ class OAuthServiceTest {
     public void setup() {
         MockitoAnnotations.openMocks(this);
         SocialLoginUserRepository socialLoginUserRepositoryMock =
-            Mockito.mock(SocialLoginUserRepository.class, AdditionalAnswers.delegatesTo(socialLoginUserRepository));
+                Mockito.mock(SocialLoginUserRepository.class, AdditionalAnswers.delegatesTo(socialLoginUserRepository));
         ReflectionTestUtils.setField(oAuthService, "socialLoginUserRepository", socialLoginUserRepositoryMock);
 
         oauthAccessToken = "LiCNQrImAFxi3LJAdt9ipGMSeOhmR4hw33Ao9cx6jkvW5w";
         SocialLoginUser socialLoginUser = SocialLoginUser
-            .builder()
-            .nickName("우기")
-            .oauthId("6752453")
-            .oauthPlatform(OAuthPlatform.KAKAO)
-            .email("jujubebat@kakao.com")
-            .build();
+                .builder()
+                .nickName("우기")
+                .oauthId("6752453")
+                .oauthPlatform(OAuthPlatform.KAKAO)
+                .email("jujubebat@kakao.com")
+                .build();
         given(userInfoProvider.findSocialLoginUser(oauthAccessToken)).willReturn(socialLoginUser);
     }
 

@@ -3,16 +3,11 @@ package com.darass.darass.comment.domain;
 import com.darass.darass.common.domain.BaseTimeEntity;
 import com.darass.darass.project.domain.Project;
 import com.darass.darass.user.domain.User;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
 
 @Entity
 @NoArgsConstructor

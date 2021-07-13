@@ -2,7 +2,10 @@ package com.darass.darass.comment.acceptance;
 
 import com.darass.darass.AcceptanceTest;
 import com.darass.darass.auth.oauth.infrastructure.JwtTokenProvider;
-import com.darass.darass.comment.controller.dto.*;
+import com.darass.darass.comment.controller.dto.CommentCreateRequest;
+import com.darass.darass.comment.controller.dto.CommentResponse;
+import com.darass.darass.comment.controller.dto.CommentUpdateRequest;
+import com.darass.darass.comment.controller.dto.UserResponse;
 import com.darass.darass.project.domain.Project;
 import com.darass.darass.project.repository.ProjectRepository;
 import com.darass.darass.user.domain.OAuthPlatform;
@@ -30,14 +33,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class CommentAcceptanceTest extends AcceptanceTest {
 
     @Autowired
+    JwtTokenProvider jwtTokenProvider;
+    @Autowired
     private UserRepository users;
-
     @Autowired
     private ProjectRepository projects;
-
-    @Autowired
-    JwtTokenProvider jwtTokenProvider;
-
     private SocialLoginUser socialLoginUser;
     private Project project;
     private String token;
