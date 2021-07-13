@@ -165,3 +165,9 @@ task testCoverage(type: Test) {
     tasks['jacocoTestReport'].mustRunAfter(tasks['test'])
     tasks['jacocoTestCoverageVerification'].mustRunAfter(tasks['jacocoTestReport'])
 }
+
+
+// 빌드 시 jar 파일이 2개 생성되는 것을 방지
+jar {
+    enabled = false
+}
