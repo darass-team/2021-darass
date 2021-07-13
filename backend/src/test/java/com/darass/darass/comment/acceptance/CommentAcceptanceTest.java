@@ -3,11 +3,14 @@ package com.darass.darass.comment.acceptance;
 import com.darass.darass.AcceptanceTest;
 import com.darass.darass.auth.oauth.infrastructure.JwtTokenProvider;
 import com.darass.darass.comment.controller.dto.CommentCreateRequest;
+import com.darass.darass.comment.controller.dto.CommentResponse;
+import com.darass.darass.comment.controller.dto.CommentUpdateRequest;
 import com.darass.darass.project.domain.Project;
 import com.darass.darass.project.repository.ProjectRepository;
 import com.darass.darass.user.domain.OAuthPlatform;
 import com.darass.darass.user.domain.SocialLoginUser;
 import com.darass.darass.user.repository.UserRepository;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -19,8 +22,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -140,6 +142,31 @@ public class CommentAcceptanceTest extends AcceptanceTest {
                 ));
     }
 
+    @Test
+    @DisplayName("/api/v1/comments/{id} PATCH - 성공")
+    void update() throws Exception {
+        CommentResponse commentResponse = 소셜_로그인_댓글_등록됨_Response_반환("content1", "url");
+        Long commentId = commentResponse.getId();
+
+        mockMvc.perform(patch("/api/v1/comments/{id}", commentId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization", "Bearer " + token)
+                .content(asJsonString(new CommentUpdateRequest("updateContent")))
+        )
+                .andExpect(status().isNoContent())
+                .andDo(document("api/v1/comments/patch/1",
+                        requestHeaders(
+                                headerWithName("Authorization").description("JWT - Bearer 토큰")
+                        ),
+                        pathParameters(
+                                parameterWithName("id").description("수정할 댓글 id")
+                        ),
+                        requestFields(
+                                fieldWithPath("content").type(JsonFieldType.STRING).description("수정 내용")
+                        )
+                ));
+    }
+
     private ResultActions 소셜_로그인_댓글_등록됨(String content, String url) throws Exception {
         return mockMvc.perform(post("/api/v1/comments")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -148,6 +175,11 @@ public class CommentAcceptanceTest extends AcceptanceTest {
         )
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.user..userType").value("SocialLoginUser"));
+    }
+
+    private CommentResponse 소셜_로그인_댓글_등록됨_Response_반환(String content, String url) throws Exception {
+        String responseJson = 소셜_로그인_댓글_등록됨(content, url).andReturn().getResponse().getContentAsString();
+        return new ObjectMapper().readValue(responseJson, CommentResponse.class);
     }
 
     private ResultActions 비로그인_댓글_등록됨(String content, String url) throws Exception {

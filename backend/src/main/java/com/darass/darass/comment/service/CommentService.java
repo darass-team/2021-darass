@@ -74,8 +74,9 @@ public class CommentService {
         comments.deleteById(id);
     }
 
-    public void updateContent(Long id, String content) {
-        Comment comment = comments.findById(id).get();
+    public void updateContent(Long id, User user, String content) {
+        Comment comment = comments.findById(id)
+                .orElseThrow(ExceptionWithMessageAndCode.NOT_FOUND_COMMENT::getException);
         comment.changeContent(content);
         comments.save(comment);
     }

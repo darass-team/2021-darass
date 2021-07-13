@@ -3,9 +3,11 @@ package com.darass.darass.comment.controller.dto;
 import com.darass.darass.comment.domain.Comment;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
 @AllArgsConstructor
+@NoArgsConstructor
 public class CommentResponse {
 
     private Long id;

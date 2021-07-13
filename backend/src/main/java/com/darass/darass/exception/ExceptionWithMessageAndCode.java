@@ -20,7 +20,10 @@ public enum ExceptionWithMessageAndCode {
     // 로그인 관련 : 8xx
     SHOULD_LOGIN(new UnauthorizedException("로그인을 해야 합니다.", 800)),
     INVALID_JWT_TOKEN(new UnauthorizedException("유효하지 않은 토큰입니다.", 801)),
-    INVALID_JWT_NOT_FOUND_USER_TOKEN(new UnauthorizedException("존재하지 않는 사용자의 토큰입니다.", 802));
+    INVALID_JWT_NOT_FOUND_USER_TOKEN(new UnauthorizedException("존재하지 않는 사용자의 토큰입니다.", 802)),
+
+    // 댓글 관련 : 9xx
+    NOT_FOUND_COMMENT(new NotFoundException("해당하는 댓글이 없습니다.", 900));
 
     private CustomException exception;
 
