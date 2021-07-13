@@ -7,7 +7,7 @@ const Container = styled.section`
   flex-direction: column;
 `;
 
-const OrderButtonCotainer = styled.div`
+const OrderButtonContainer = styled.div`
   width: 100%;
   display: flex;
   justify-content: flex-end;
@@ -41,4 +41,4 @@ const CommentContainer = styled.div`
   }
 `;
 
-export { Container, OrderButtonCotainer, OrderButtonWrapper, OrderButton, CommentContainer };
+export { Container, OrderButtonContainer, OrderButtonWrapper, OrderButton, CommentContainer };

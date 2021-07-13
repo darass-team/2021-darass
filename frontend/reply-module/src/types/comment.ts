@@ -1,11 +1,8 @@
+import { User } from "./user";
+
 export interface Comment {
   id: number;
   content: string;
-  user: {
-    id: number;
-    imageURL: string;
-    nickName: string;
-    type: string;
-  };
+  user: User;
   createdAt: string;
 }
