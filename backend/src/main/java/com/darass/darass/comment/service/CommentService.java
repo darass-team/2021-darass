@@ -69,19 +69,18 @@ public class CommentService {
 
     public void updateContent(Long id, User user, CommentUpdateRequest request) {
         user = findRegisteredUser(user, request.getGuestUserId(), request.getGuestUserPassword());
-        modifiableComment(id, user);
-        Comment comment = modifiableComment(id, user);
+        Comment comment = returnValidatedComment(id, user);
         comment.changeContent(request.getContent());
         comments.save(comment);
     }
 
     public void delete(Long id, User user, CommentDeleteRequest request) {
         user = findRegisteredUser(user, request.getGuestUserId(), request.getGuestUserPassword());
-        modifiableComment(id, user);
+        returnValidatedComment(id, user);
         comments.deleteById(id);
     }
 
-    private Comment modifiableComment(Long id, User user) {
+    private Comment returnValidatedComment(Long id, User user) {
         Comment comment = comments.findById(id)
                 .orElseThrow(ExceptionWithMessageAndCode.NOT_FOUND_COMMENT::getException);
         matchUserWithComment(user, comment);
