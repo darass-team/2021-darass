@@ -14,7 +14,7 @@ public class UserResponse {
 
     private String nickName;
 
-    private String userType;
+    private String type;
 
     public static UserResponse of(User user, String userType) {
         return new UserResponse(user.getId(), user.getNickName(), userType);

@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
@@ -14,9 +16,11 @@ public class CommentResponse {
 
     private String content;
 
+    private LocalDateTime createdAt;
+
     private UserResponse user;
 
     public static CommentResponse of(Comment comment, UserResponse userResponse) {
-        return new CommentResponse(comment.getId(), comment.getContent(), userResponse);
+        return new CommentResponse(comment.getId(), comment.getContent(), comment.getCreatedDate(), userResponse);
     }
 }
