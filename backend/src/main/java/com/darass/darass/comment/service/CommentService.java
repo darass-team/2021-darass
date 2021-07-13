@@ -2,6 +2,7 @@ package com.darass.darass.comment.service;
 
 import com.darass.darass.comment.controller.dto.CommentCreateRequest;
 import com.darass.darass.comment.controller.dto.CommentResponse;
+import com.darass.darass.comment.controller.dto.CommentUpdateRequest;
 import com.darass.darass.comment.controller.dto.UserResponse;
 import com.darass.darass.comment.domain.Comment;
 import com.darass.darass.comment.repository.CommentRepository;
@@ -11,13 +12,12 @@ import com.darass.darass.project.repository.ProjectRepository;
 import com.darass.darass.user.domain.GuestUser;
 import com.darass.darass.user.domain.User;
 import com.darass.darass.user.repository.UserRepository;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -74,10 +74,28 @@ public class CommentService {
         comments.deleteById(id);
     }
 
-    public void updateContent(Long id, User user, String content) {
+    public void updateContent(Long id, User user, CommentUpdateRequest request) {
+        if (!user.isLoginUser()) {
+            user = users.findById(request.getGuestUserId())
+                    .orElseThrow(ExceptionWithMessageAndCode.NOT_FOUND_USER::getException);
+            validateGuestUser(user, request);
+        }
         Comment comment = comments.findById(id)
                 .orElseThrow(ExceptionWithMessageAndCode.NOT_FOUND_COMMENT::getException);
-        comment.changeContent(content);
+        matchUserWithComment(user, comment);
+        comment.changeContent(request.getContent());
         comments.save(comment);
+    }
+
+    private void matchUserWithComment(User user, Comment comment) {
+        if (!comment.isCommentWriter(user)) {
+            throw ExceptionWithMessageAndCode.UNAUTHORIZED_FOR_COMMENT.getException();
+        }
+    }
+
+    private void validateGuestUser(User user, CommentUpdateRequest request) {
+        if (!user.isValidGuestPassword(request.getGuestUserPassword())) {
+            throw ExceptionWithMessageAndCode.INVALID_GUEST_PASSWORD.getException();
+        }
     }
 }

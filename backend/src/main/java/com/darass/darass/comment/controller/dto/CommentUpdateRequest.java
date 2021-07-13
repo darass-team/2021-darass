@@ -9,6 +9,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CommentUpdateRequest {
 
+    private Long guestUserId;
+    private String guestUserPassword;
     private String content;
 
+    public CommentUpdateRequest(String content) {
+        this.content = content;
+    }
 }

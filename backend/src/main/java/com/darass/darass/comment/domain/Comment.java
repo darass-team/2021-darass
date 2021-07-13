@@ -46,4 +46,8 @@ public class Comment extends BaseTimeEntity {
     public void changeContent(String content) {
         this.content = content;
     }
+
+    public boolean isCommentWriter(User user) {
+        return this.user.isSameUser(user);
+    }
 }

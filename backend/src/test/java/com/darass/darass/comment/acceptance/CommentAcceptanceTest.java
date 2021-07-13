@@ -5,6 +5,7 @@ import com.darass.darass.auth.oauth.infrastructure.JwtTokenProvider;
 import com.darass.darass.comment.controller.dto.CommentCreateRequest;
 import com.darass.darass.comment.controller.dto.CommentResponse;
 import com.darass.darass.comment.controller.dto.CommentUpdateRequest;
+import com.darass.darass.comment.controller.dto.UserResponse;
 import com.darass.darass.project.domain.Project;
 import com.darass.darass.project.repository.ProjectRepository;
 import com.darass.darass.user.domain.OAuthPlatform;
@@ -107,6 +108,7 @@ public class CommentAcceptanceTest extends AcceptanceTest {
                 .content(asJsonString(new CommentCreateRequest("guest", "password", "invalidKey", "content", "url")))
         )
                 .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.code").value(700))
                 .andDo(
                         document("api/v1/comments/post/3",
                                 responseFields(
@@ -143,8 +145,8 @@ public class CommentAcceptanceTest extends AcceptanceTest {
     }
 
     @Test
-    @DisplayName("/api/v1/comments/{id} PATCH - 성공")
-    void update() throws Exception {
+    @DisplayName("/api/v1/comments/{id} PATCH - 성공 (소셜 로그인 유저)")
+    void updateByLoginUser() throws Exception {
         CommentResponse commentResponse = 소셜_로그인_댓글_등록됨_Response_반환("content1", "url");
         Long commentId = commentResponse.getId();
 
@@ -161,8 +163,75 @@ public class CommentAcceptanceTest extends AcceptanceTest {
                         pathParameters(
                                 parameterWithName("id").description("수정할 댓글 id")
                         ),
-                        requestFields(
+                        relaxedRequestFields(
                                 fieldWithPath("content").type(JsonFieldType.STRING).description("수정 내용")
+                        )
+                ));
+    }
+
+    @Test
+    @DisplayName("/api/v1/comments/{id} PATCH - 성공 (비로그인 유저)")
+    void updateByGuestUser() throws Exception {
+        CommentResponse commentResponse = 비로그인_댓글_등록됨_Response_반환("content1", "url");
+        UserResponse userResponse = commentResponse.getUser();
+        Long commentId = commentResponse.getId();
+
+        mockMvc.perform(patch("/api/v1/comments/{id}", commentId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJsonString(new CommentUpdateRequest(userResponse.getId(), "password", "updateContent")))
+        )
+                .andExpect(status().isNoContent())
+                .andDo(document("api/v1/comments/patch/2",
+                        pathParameters(
+                                parameterWithName("id").description("수정할 댓글 id")
+                        ),
+                        requestFields(
+                                fieldWithPath("guestUserId").type(JsonFieldType.NUMBER).description("비로그인 작성자 id"),
+                                fieldWithPath("guestUserPassword").type(JsonFieldType.STRING).description("비로그인 작성자 비밀번호"),
+                                fieldWithPath("content").type(JsonFieldType.STRING).description("수정 내용")
+                        )
+                ));
+    }
+
+    @Test
+    @DisplayName("/api/v1/comments/{id} PATCH - 남의 댓글을 수정하는 경우")
+    void updateUnauthorized() throws Exception {
+        CommentResponse commentResponse1 = 소셜_로그인_댓글_등록됨_Response_반환("content1", "url");
+        CommentResponse commentResponse2 = 비로그인_댓글_등록됨_Response_반환("content2", "url");
+        Long commentId2 = commentResponse2.getId();
+
+        mockMvc.perform(patch("/api/v1/comments/{id}", commentId2)
+                .contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization", "Bearer " + token)
+                .content(asJsonString(new CommentUpdateRequest("updateContent")))
+        )
+                .andExpect(status().isUnauthorized())
+                .andExpect(jsonPath("$.code").value(903))
+                .andDo(document("api/v1/comments/patch/3",
+                        responseFields(
+                                fieldWithPath("message").type(JsonFieldType.STRING).description("에러 메시지"),
+                                fieldWithPath("code").type(JsonFieldType.NUMBER).description("에러 코드")
+                        )
+                ));
+    }
+
+    @Test
+    @DisplayName("/api/v1/comments/{id} PATCH - 비로그인 유저의 비밀번호 틀린 경우")
+    void updateInvalidGuestPassword() throws Exception {
+        CommentResponse commentResponse = 비로그인_댓글_등록됨_Response_반환("content2", "url");
+        Long commentId = commentResponse.getId();
+        UserResponse user = commentResponse.getUser();
+
+        mockMvc.perform(patch("/api/v1/comments/{id}", commentId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJsonString(new CommentUpdateRequest(user.getId(), "invalid", "updateContent")))
+        )
+                .andExpect(status().isUnauthorized())
+                .andExpect(jsonPath("$.code").value(901))
+                .andDo(document("api/v1/comments/patch/4",
+                        responseFields(
+                                fieldWithPath("message").type(JsonFieldType.STRING).description("에러 메시지"),
+                                fieldWithPath("code").type(JsonFieldType.NUMBER).description("에러 코드")
                         )
                 ));
     }
@@ -189,6 +258,11 @@ public class CommentAcceptanceTest extends AcceptanceTest {
         )
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.user..userType").value("GuestUser"));
+    }
+
+    private CommentResponse 비로그인_댓글_등록됨_Response_반환(String content, String url) throws Exception {
+        String responseJson = 비로그인_댓글_등록됨(content, url).andReturn().getResponse().getContentAsString();
+        return new ObjectMapper().readValue(responseJson, CommentResponse.class);
     }
 
     private void setUpProject() {

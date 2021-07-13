@@ -34,4 +34,10 @@ public abstract class User extends BaseTimeEntity {
     }
 
     public abstract boolean isLoginUser();
+
+    public abstract boolean isValidGuestPassword(String guestUserPassword);
+
+    public boolean isSameUser(User user) {
+        return this.id.equals(user.id);
+    }
 }
