@@ -1,0 +1,15 @@
+name: delete branch on close pr
+on: 
+  pull_request:
+    types: [closed]
+  
+jobs:
+  delete-branch:
+  
+    runs-on: self-hosted
+    
+    steps:
+      - name: delete branch
+        uses: SvanBoxel/delete-merged-branch@main
+        env:
+          GITHUB_TOKEN: ${{ secrets.MY_REPO_PAT }}
