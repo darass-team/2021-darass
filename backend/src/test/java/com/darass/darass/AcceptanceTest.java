@@ -1,7 +1,5 @@
 package com.darass.darass;
 
-import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
-
 import com.darass.darass.comment.repository.CommentRepository;
 import com.darass.darass.project.repository.ProjectRepository;
 import com.darass.darass.user.repository.UserRepository;
@@ -21,6 +19,8 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
+
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 
 @ExtendWith({RestDocumentationExtension.class, SpringExtension.class})
 @SpringBootTest
@@ -46,12 +46,12 @@ public class AcceptanceTest {
 
     @BeforeEach
     public void setUp(WebApplicationContext webApplicationContext,
-        RestDocumentationContextProvider restDocumentation) {
+                      RestDocumentationContextProvider restDocumentation) {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext)
-            .addFilters(new CharacterEncodingFilter("UTF-8", true))
-            .apply(documentationConfiguration(restDocumentation))
-            .alwaysDo(MockMvcResultHandlers.print())
-            .build();
+                .addFilters(new CharacterEncodingFilter("UTF-8", true))
+                .apply(documentationConfiguration(restDocumentation))
+                .alwaysDo(MockMvcResultHandlers.print())
+                .build();
     }
 
     @AfterEach

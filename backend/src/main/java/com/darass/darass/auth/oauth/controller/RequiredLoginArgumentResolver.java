@@ -5,14 +5,15 @@ import com.darass.darass.auth.oauth.infrastructure.AuthorizationExtractor;
 import com.darass.darass.auth.oauth.service.OAuthService;
 import com.darass.darass.exception.ExceptionWithMessageAndCode;
 import com.darass.darass.user.domain.User;
-import java.util.Objects;
-import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.Objects;
 
 @RequiredArgsConstructor
 public class RequiredLoginArgumentResolver implements HandlerMethodArgumentResolver {
@@ -26,9 +27,9 @@ public class RequiredLoginArgumentResolver implements HandlerMethodArgumentResol
 
     @Override
     public User resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
-        NativeWebRequest webRequest, WebDataBinderFactory binderFactory) {
+                                NativeWebRequest webRequest, WebDataBinderFactory binderFactory) {
         String accessToken = AuthorizationExtractor.extract(Objects.requireNonNull(webRequest.getNativeRequest(
-            HttpServletRequest.class)));
+                HttpServletRequest.class)));
 
         if (Objects.isNull(accessToken)) {
             throw ExceptionWithMessageAndCode.SHOULD_LOGIN.getException();
