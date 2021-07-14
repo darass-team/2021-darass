@@ -66,10 +66,11 @@ public class CommentAcceptanceTest extends AcceptanceTest {
                         responseFields(
                                 fieldWithPath("id").type(JsonFieldType.NUMBER).description("댓글 id"),
                                 fieldWithPath("content").type(JsonFieldType.STRING).description("댓글 내용"),
+                                fieldWithPath("createdAt").type(JsonFieldType.STRING).description("댓글 생성 시점"),
                                 fieldWithPath("user").type(JsonFieldType.OBJECT).description("댓글 작성 유저 정보"),
                                 fieldWithPath("user.id").type(JsonFieldType.NUMBER).description("유저 id"),
                                 fieldWithPath("user.nickName").type(JsonFieldType.STRING).description("유저 닉네임"),
-                                fieldWithPath("user.userType").type(JsonFieldType.STRING).description("유저 유형")
+                                fieldWithPath("user.type").type(JsonFieldType.STRING).description("유저 유형")
                         ))
         );
     }
@@ -89,10 +90,11 @@ public class CommentAcceptanceTest extends AcceptanceTest {
                         responseFields(
                                 fieldWithPath("id").type(JsonFieldType.NUMBER).description("댓글 id"),
                                 fieldWithPath("content").type(JsonFieldType.STRING).description("댓글 내용"),
+                                fieldWithPath("createdAt").type(JsonFieldType.STRING).description("댓글 생성 시점"),
                                 fieldWithPath("user").type(JsonFieldType.OBJECT).description("댓글 작성 유저 정보"),
                                 fieldWithPath("user.id").type(JsonFieldType.NUMBER).description("유저 id"),
                                 fieldWithPath("user.nickName").type(JsonFieldType.STRING).description("유저 닉네임"),
-                                fieldWithPath("user.userType").type(JsonFieldType.STRING).description("유저 유형")
+                                fieldWithPath("user.type").type(JsonFieldType.STRING).description("유저 유형")
                         ))
         );
     }
@@ -133,10 +135,11 @@ public class CommentAcceptanceTest extends AcceptanceTest {
                         responseFields(
                                 fieldWithPath("[].id").type(JsonFieldType.NUMBER).description("댓글 id"),
                                 fieldWithPath("[].content").type(JsonFieldType.STRING).description("댓글 내용"),
+                                fieldWithPath("[].createdAt").type(JsonFieldType.STRING).description("댓글 생성 시점"),
                                 fieldWithPath("[].user").type(JsonFieldType.OBJECT).description("댓글 작성 유저 정보"),
                                 fieldWithPath("[].user.id").type(JsonFieldType.NUMBER).description("유저 id"),
                                 fieldWithPath("[].user.nickName").type(JsonFieldType.STRING).description("유저 닉네임"),
-                                fieldWithPath("[].user.userType").type(JsonFieldType.STRING).description("유저 유형")
+                                fieldWithPath("[].user.type").type(JsonFieldType.STRING).description("유저 유형")
                         )
                 ));
     }
@@ -303,7 +306,7 @@ public class CommentAcceptanceTest extends AcceptanceTest {
                 .content(asJsonString(new CommentCreateRequest(null, null, secretKey, content, url)))
         )
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.user..userType").value("SocialLoginUser"));
+                .andExpect(jsonPath("$.user..type").value("SocialLoginUser"));
     }
 
     private CommentResponse 소셜_로그인_댓글_등록됨_Response_반환(String content, String url) throws Exception {
@@ -317,7 +320,7 @@ public class CommentAcceptanceTest extends AcceptanceTest {
                 .content(asJsonString(new CommentCreateRequest("guest", "password", secretKey, content, url)))
         )
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.user..userType").value("GuestUser"));
+                .andExpect(jsonPath("$.user..type").value("GuestUser"));
     }
 
     private CommentResponse 비로그인_댓글_등록됨_Response_반환(String content, String url) throws Exception {

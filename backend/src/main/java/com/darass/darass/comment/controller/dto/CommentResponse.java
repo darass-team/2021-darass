@@ -16,11 +16,11 @@ public class CommentResponse {
 
     private String content;
 
-    private LocalDateTime createdAt;
+    private String createdAt;
 
     private UserResponse user;
 
     public static CommentResponse of(Comment comment, UserResponse userResponse) {
-        return new CommentResponse(comment.getId(), comment.getContent(), comment.getCreatedDate(), userResponse);
+        return new CommentResponse(comment.getId(), comment.getContent(), comment.getCreatedDate().toString(), userResponse);
     }
 }
