@@ -30,7 +30,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @DisplayName("Comment 인수 테스트")
-public class CommentAcceptanceTest extends AcceptanceTest {
+public class CommentAcceptanceTest extends AcceptanceTest{
 
     @Autowired
     JwtTokenProvider jwtTokenProvider;
@@ -54,7 +54,7 @@ public class CommentAcceptanceTest extends AcceptanceTest {
     @DisplayName("/api/v1/comments POST - 성공 (소셜 로그인 유저)")
     void saveLoginUser() throws Exception {
         소셜_로그인_댓글_등록됨("content", "url").andDo(
-                document("api/v1/comments/post/1",
+                document("api/v1/comments/post/success-login-user",
                         requestHeaders(
                                 headerWithName("Authorization").description("JWT - Bearer 토큰")
                         ),
@@ -79,7 +79,7 @@ public class CommentAcceptanceTest extends AcceptanceTest {
     @DisplayName("/api/v1/comments POST - 성공 (비로그인 유저)")
     void saveGuestUser() throws Exception {
         비로그인_댓글_등록됨("content", "url").andDo(
-                document("api/v1/comments/post/2",
+                document("api/v1/comments/post/success-guest-user",
                         requestFields(
                                 fieldWithPath("guestNickName").type(JsonFieldType.STRING).description("비로그인 유저 닉네입"),
                                 fieldWithPath("guestPassword").type(JsonFieldType.STRING).description("비로그인 유저 비밀번호"),
@@ -109,7 +109,7 @@ public class CommentAcceptanceTest extends AcceptanceTest {
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.code").value(700))
                 .andDo(
-                        document("api/v1/comments/post/3",
+                        document("api/v1/comments/post/fail-missing-project-key",
                                 responseFields(
                                         fieldWithPath("message").type(JsonFieldType.STRING).description("에러 메시지"),
                                         fieldWithPath("code").type(JsonFieldType.NUMBER).description("에러 코드")
@@ -128,7 +128,7 @@ public class CommentAcceptanceTest extends AcceptanceTest {
                 .param("url", "url")
         )
                 .andExpect(status().isOk())
-                .andDo(document("api/v1/comments/get/1",
+                .andDo(document("api/v1/comments/get/success",
                         requestParameters(
                                 parameterWithName("url").description("조회 url")
                         ),
@@ -156,7 +156,7 @@ public class CommentAcceptanceTest extends AcceptanceTest {
                 .content(asJsonString(new CommentUpdateRequest("updateContent")))
         )
                 .andExpect(status().isNoContent())
-                .andDo(document("api/v1/comments/patch/1",
+                .andDo(document("api/v1/comments/patch/success-login-user",
                         requestHeaders(
                                 headerWithName("Authorization").description("JWT - Bearer 토큰")
                         ),
@@ -181,7 +181,7 @@ public class CommentAcceptanceTest extends AcceptanceTest {
                 .content(asJsonString(new CommentUpdateRequest(userResponse.getId(), "password", "updateContent")))
         )
                 .andExpect(status().isNoContent())
-                .andDo(document("api/v1/comments/patch/2",
+                .andDo(document("api/v1/comments/patch/success-guest-user",
                         pathParameters(
                                 parameterWithName("id").description("수정할 댓글 id")
                         ),
@@ -207,7 +207,7 @@ public class CommentAcceptanceTest extends AcceptanceTest {
         )
                 .andExpect(status().isUnauthorized())
                 .andExpect(jsonPath("$.code").value(903))
-                .andDo(document("api/v1/comments/patch/3",
+                .andDo(document("api/v1/comments/patch/fail-not-mine",
                         responseFields(
                                 fieldWithPath("message").type(JsonFieldType.STRING).description("에러 메시지"),
                                 fieldWithPath("code").type(JsonFieldType.NUMBER).description("에러 코드")
@@ -228,7 +228,7 @@ public class CommentAcceptanceTest extends AcceptanceTest {
         )
                 .andExpect(status().isUnauthorized())
                 .andExpect(jsonPath("$.code").value(901))
-                .andDo(document("api/v1/comments/patch/4",
+                .andDo(document("api/v1/comments/patch/fail-guest-password-wrong",
                         responseFields(
                                 fieldWithPath("message").type(JsonFieldType.STRING).description("에러 메시지"),
                                 fieldWithPath("code").type(JsonFieldType.NUMBER).description("에러 코드")
@@ -247,7 +247,10 @@ public class CommentAcceptanceTest extends AcceptanceTest {
                 .contentType(MediaType.APPLICATION_JSON)
         )
                 .andExpect(status().isNoContent())
-                .andDo(document("api/v1/comments/delete/1",
+                .andDo(document("api/v1/comments/delete/success-login-user",
+                        requestHeaders(
+                                headerWithName("Authorization").description("JWT - Bearer 토큰")
+                        ),
                         pathParameters(
                                 parameterWithName("id").description("삭제할 댓글 id")
                         )
@@ -267,7 +270,7 @@ public class CommentAcceptanceTest extends AcceptanceTest {
                 .param("guestUserPassword", "password")
         )
                 .andExpect(status().isNoContent())
-                .andDo(document("api/v1/comments/delete/2",
+                .andDo(document("api/v1/comments/delete/success-guest-user",
                         pathParameters(
                                 parameterWithName("id").description("삭제할 댓글 id")
                         ),
@@ -291,7 +294,7 @@ public class CommentAcceptanceTest extends AcceptanceTest {
         )
                 .andExpect(status().isUnauthorized())
                 .andExpect(jsonPath("$.code").value(903))
-                .andDo(document("api/v1/comments/delete/3",
+                .andDo(document("api/v1/comments/delete/fail-not-mine",
                         responseFields(
                                 fieldWithPath("message").type(JsonFieldType.STRING).description("에러 메시지"),
                                 fieldWithPath("code").type(JsonFieldType.NUMBER).description("에러 코드")

@@ -1,0 +1,120 @@
+=== 댓글 생성 (/api/v1/comments POST)
+
+==== (성공) 소셜 로그인 유저 댓글 작성
+
+==== Request
+
+include::{snippets}/api/v1/comments/post/success-login-user/http-request.adoc[]
+include::{snippets}/api/v1/comments/post/success-login-user/request-headers.adoc[]
+include::{snippets}/api/v1/comments/post/success-login-user/request-fields.adoc[]
+
+==== Response
+
+include::{snippets}/api/v1/comments/post/success-login-user/http-response.adoc[]
+include::{snippets}/api/v1/comments/post/success-login-user/response-fields.adoc[]
+
+==== (성공) 비로그인 유저 댓글 작성
+
+==== Request
+
+include::{snippets}/api/v1/comments/post/success-guest-user/http-request.adoc[]
+include::{snippets}/api/v1/comments/post/success-guest-user/request-fields.adoc[]
+
+==== Response
+
+include::{snippets}/api/v1/comments/post/success-guest-user/http-response.adoc[]
+include::{snippets}/api/v1/comments/post/success-guest-user/response-fields.adoc[]
+
+==== (실패) 댓글 작성 시 프로젝트 시크릿 키 존재하지 않는 경우
+
+==== Response
+
+include::{snippets}/api/v1/comments/post/fail-missing-project-key/http-response.adoc[]
+include::{snippets}/api/v1/comments/post/fail-missing-project-key/response-fields.adoc[]
+
+=== 댓글 조회 (/api/v1/comments GET)
+
+==== URL에 해당하는 전체 댓글 조회
+
+==== Request
+
+include::{snippets}/api/v1/comments/get/success/http-request.adoc[]
+include::{snippets}/api/v1/comments/get/success/request-parameters.adoc[]
+
+==== Response
+
+include::{snippets}/api/v1/comments/get/success/http-response.adoc[]
+include::{snippets}/api/v1/comments/get/success/response-fields.adoc[]
+
+=== 댓글 수정 (/api/v1/comments PATCH)
+
+==== (성공) 소셜 로그인 유저 댓글 수정
+
+==== Request
+
+include::{snippets}/api/v1/comments/patch/success-login-user/http-request.adoc[]
+include::{snippets}/api/v1/comments/patch/success-login-user/request-headers.adoc[]
+include::{snippets}/api/v1/comments/patch/success-login-user/path-parameters.adoc[]
+include::{snippets}/api/v1/comments/patch/success-login-user/request-fields.adoc[]
+
+==== Response
+
+include::{snippets}/api/v1/comments/patch/success-login-user/http-response.adoc[]
+
+==== (성공) 비로그인 유저 댓글 수정
+
+==== Request
+
+include::{snippets}/api/v1/comments/patch/success-guest-user/http-request.adoc[]
+include::{snippets}/api/v1/comments/patch/success-guest-user/path-parameters.adoc[]
+include::{snippets}/api/v1/comments/patch/success-guest-user/request-fields.adoc[]
+
+==== Response
+
+include::{snippets}/api/v1/comments/patch/success-guest-user/http-response.adoc[]
+
+==== (실패) 남의 댓글을 수정하는 경우
+
+==== Response
+
+include::{snippets}/api/v1/comments/patch/fail-not-mine/http-response.adoc[]
+include::{snippets}/api/v1/comments/patch/fail-not-mine/response-fields.adoc[]
+
+==== (실패) 비로그인 유저 비밀번호 일치하지 않는 경우
+
+==== Response
+
+include::{snippets}/api/v1/comments/patch/fail-guest-password-wrong/http-response.adoc[]
+include::{snippets}/api/v1/comments/patch/fail-guest-password-wrong/response-fields.adoc[]
+
+=== 댓글 삭제 (/api/v1/comments DELETE)
+
+==== (성공) 소셜 로그인 유저 댓글 삭제
+
+==== Request
+
+include::{snippets}/api/v1/comments/delete/success-login-user/http-request.adoc[]
+include::{snippets}/api/v1/comments/delete/success-login-user/request-headers.adoc[]
+include::{snippets}/api/v1/comments/delete/success-login-user/path-parameters.adoc[]
+
+==== Response
+
+include::{snippets}/api/v1/comments/delete/success-login-user/http-response.adoc[]
+
+==== (성공) 비로그인 유저 댓글 삭제
+
+==== Request
+
+include::{snippets}/api/v1/comments/delete/success-guest-user/http-request.adoc[]
+include::{snippets}/api/v1/comments/delete/success-guest-user/path-parameters.adoc[]
+
+==== Response
+
+include::{snippets}/api/v1/comments/delete/success-guest-user/http-response.adoc[]
+
+==== (실패) 남의 댓글을 삭제하는 경우
+
+==== Response
+
+include::{snippets}/api/v1/comments/delete/fail-not-mine/http-response.adoc[]
+include::{snippets}/api/v1/comments/delete/fail-not-mine/response-fields.adoc[]
