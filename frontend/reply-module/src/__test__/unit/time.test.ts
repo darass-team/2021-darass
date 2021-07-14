@@ -1,6 +1,3 @@
-// import "@testing-library/jest-dom/extend-expect";
-// import { render } from "@testing-library/react";
-
 import { getTimeDifference } from "../../utils/time";
 
 describe("Time Util", () => {
