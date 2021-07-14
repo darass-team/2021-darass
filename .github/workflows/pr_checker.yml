@@ -5,7 +5,7 @@ name: Darass PR Checker
 
 on:
   pull_request:
-    branches: [ feature/be/cd/98 ]
+    branches: [ develop/be ]
 
 jobs:
   build:
