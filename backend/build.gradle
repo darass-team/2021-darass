@@ -67,19 +67,16 @@ asciidoctor {
     outputDir file('build/html5')
     attributes 'snippets': snippetsDir
     mustRunAfter test
-    dependsOn test
-}
-
-asciidoctor.doLast {
-    copy {
-        from file('build/html5')
-        into file('src/main/resources/static/docs')
-        include '*.html'
-    }
 }
 
 build {
     dependsOn asciidoctor
+}
+
+bootJar {
+    from ('build/html5') {
+        into 'BOOT-INF/classes/static/docs'
+    }
 }
 
 jacoco {
@@ -154,7 +151,6 @@ jacocoTestCoverageVerification {
     }
 }
 
-
 task testCoverage(type: Test) {
     group 'verification'
     description 'Runs the unit tests with coverage'
@@ -166,7 +162,6 @@ task testCoverage(type: Test) {
     tasks['jacocoTestReport'].mustRunAfter(tasks['test'])
     tasks['jacocoTestCoverageVerification'].mustRunAfter(tasks['jacocoTestReport'])
 }
-
 
 // 빌드 시 jar 파일이 2개 생성되는 것을 방지
 jar {
