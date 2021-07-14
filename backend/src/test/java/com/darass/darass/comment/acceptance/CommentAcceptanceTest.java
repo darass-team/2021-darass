@@ -194,8 +194,7 @@ public class CommentAcceptanceTest extends AcceptanceTest {
 
         mockMvc.perform(patch("/api/v1/comments/{id}", commentId)
             .contentType(MediaType.APPLICATION_JSON)
-            .content(asJsonString(new CommentUpdateRequest(userResponse.getId(), "password", "updateContent")))
-        )
+            .content(asJsonString(new CommentUpdateRequest(userResponse.getId(), "password", "updateContent"))))
             .andExpect(status().isNoContent())
             .andDo(document("api/v1/comments/patch/success-guest-user",
                 pathParameters(

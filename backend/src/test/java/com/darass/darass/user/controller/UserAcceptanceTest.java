@@ -8,6 +8,7 @@ import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuild
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.patch;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -201,6 +202,9 @@ public class UserAcceptanceTest extends AcceptanceTest {
             document("api/v1/users/patch/success",
                 requestHeaders(
                     headerWithName("Authorization").description("JWT - Bearer 토큰")
+                ),
+                requestFields(
+                    fieldWithPath("nickName").type(JsonFieldType.STRING).description("새로운 유저 닉네임")
                 ),
                 responseFields(
                     fieldWithPath("id").type(JsonFieldType.NUMBER).description("유저 아이디"),
