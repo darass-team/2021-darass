@@ -1,16 +1,15 @@
 package com.darass.darass.auth.oauth.infrastructure;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatCode;
-
 import com.darass.darass.exception.ExceptionWithMessageAndCode;
-import com.darass.darass.exception.httpbasicexception.auth.AuthenticationException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
 
 
 @DisplayName("JwtTokenProvider 클래스")
@@ -41,7 +40,7 @@ class JwtTokenProviderTest {
     @Test
     void validateAccessToken_exception() {
         Assertions.assertThrows(ExceptionWithMessageAndCode.INVALID_JWT_TOKEN.getException().getClass(),
-            () -> jwtTokenProvider.validateAccessToken("IncorrectToken"));
+                () -> jwtTokenProvider.validateAccessToken("IncorrectToken"));
     }
 
     @DisplayName("getPayload 메서드는 유효한 accessToken이 주어지면, payload를 리턴한다.")
@@ -59,7 +58,7 @@ class JwtTokenProviderTest {
     @Test
     void getPayload_exception() {
         Assertions.assertThrows(ExceptionWithMessageAndCode.INVALID_JWT_TOKEN.getException().getClass(),
-            () -> jwtTokenProvider.getPayload("IncorrectToken"));
+                () -> jwtTokenProvider.getPayload("IncorrectToken"));
     }
 
 }
