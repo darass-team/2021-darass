@@ -7,9 +7,15 @@ const customAxios = axios.create({
   baseURL: BASE_URL
 });
 
-// TODO: 쿠기가 바뀔 시, 업데이트 되는지 체크
-customAxios.defaults.headers.common["Authorization"] = `Bearer ${getCookie(COOKIE_KEY.ATK)}`;
-customAxios.defaults.headers.post["Content-Type"] = "application/json";
+customAxios.interceptors.request.use(config => {
+  const accessToken = getCookie(COOKIE_KEY.ATK);
+
+  if (accessToken) {
+    config.headers.Authorization = `Bearer ${accessToken}`;
+  }
+
+  return config;
+});
 
 const request = {
   get: async (query: string) => await customAxios.get(query),
