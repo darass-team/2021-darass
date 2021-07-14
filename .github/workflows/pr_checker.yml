@@ -4,8 +4,8 @@
 name: Darass PR Checker
 
 on:
-  push:
-    branches: [ feature/be/cd/98 ]
+  pull_request:
+    branches: [ develop/be ]
 
 jobs:
   build:
@@ -33,28 +33,11 @@ jobs:
       run: ./gradlew clean build
       working-directory: ./backend
 
-    - name: On Success
-      if: ${{ success() }}
-      uses: rtCamp/action-slack-notify@v2.1.0
+    - name: build result to slack
+      uses: 8398a7/action-slack@v3
+      with:
+        status: ${{ job.status }}
+        fields: repo, message, commit, author, action, eventName, ref, workflow, job, took
       env:
-        SLACK_CHANNEL: darass-be-알림
-        SLACK_COLOR: '#53A551'
-        SLACK_ICON: https://github.com/rtCamp.png?size=48
-        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
-        SLACK_TITLE: 'Darass PR Check S.U.C.C.E.S.S 🎉🎉🎉'
-        MSG_MINIMAL: true
-        SLACK_USERNAME: DARASSMEBOT
-        SLACK_MESSAGE: 'P R 성 공!!! 🎉🎉🎉'
-
-    - name: On Failed, Notify in Slack
-      if: ${{ failure() }}
-      uses: rtCamp/action-slack-notify@v2.1.0
-      env:
-        SLACK_CHANNEL: darass-be-알림
-        SLACK_COLOR: '#ff0000'
-        SLACK_ICON: https://github.com/rtCamp.png?size=48
-        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
-        SLACK_TITLE: 'Darass Debug build Fail❌'
-        MSG_MINIMAL: true
-        SLACK_USERNAME: DARASSBOT
-        SLACK_MESSAGE: '에러를 확인해주세요'
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
