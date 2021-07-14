@@ -6,8 +6,6 @@ import com.darass.darass.auth.oauth.api.domain.dto.SocialLoginResponse;
 import com.darass.darass.exception.ExceptionWithMessageAndCode;
 import com.darass.darass.user.domain.OAuthPlatform;
 import com.darass.darass.user.domain.SocialLoginUser;
-import java.nio.charset.StandardCharsets;
-import java.util.Collections;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -15,6 +13,9 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
+
+import java.nio.charset.StandardCharsets;
+import java.util.Collections;
 
 @Component
 public class UserInfoProvider {
@@ -31,7 +32,7 @@ public class UserInfoProvider {
         HttpEntity<HttpHeaders> apiRequest = prepareRequest(accessToken);
         try {
             SocialLoginResponse socialLoginResponse
-                = restTemplate.postForObject(KAKAO_API_SERVER_URI, apiRequest, SocialLoginResponse.class);
+                    = restTemplate.postForObject(KAKAO_API_SERVER_URI, apiRequest, SocialLoginResponse.class);
             return parseUser(socialLoginResponse);
 
         } catch (HttpClientErrorException e) {
@@ -54,12 +55,12 @@ public class UserInfoProvider {
         Profile profile = socialLoginResponse.getKaKaoAccount().getProfile();
         String nickname = profile.getNickname();
         return SocialLoginUser
-            .builder()
-            .nickName(nickname)
-            .oauthId(oauthId)
-            .oauthPlatform(OAuthPlatform.KAKAO)
-            .email(email)
-            .build();
+                .builder()
+                .nickName(nickname)
+                .oauthId(oauthId)
+                .oauthPlatform(OAuthPlatform.KAKAO)
+                .email(email)
+                .build();
 
     }
 }

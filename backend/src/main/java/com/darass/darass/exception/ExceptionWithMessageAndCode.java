@@ -20,11 +20,19 @@ public enum ExceptionWithMessageAndCode {
     // 로그인 관련 : 8xx
     SHOULD_LOGIN(new UnauthorizedException("로그인을 해야 합니다.", 800)),
     INVALID_JWT_TOKEN(new UnauthorizedException("유효하지 않은 토큰입니다.", 801)),
-    INVALID_JWT_NOT_FOUND_USER_TOKEN(new UnauthorizedException("존재하지 않는 사용자의 토큰입니다.", 802));
+    INVALID_JWT_NOT_FOUND_USER_TOKEN(new UnauthorizedException("존재하지 않는 사용자의 토큰입니다.", 802)),
+
+    // 댓글 관련 : 9xx
+    NOT_FOUND_COMMENT(new NotFoundException("해당하는 댓글이 없습니다.", 900)),
+    INVALID_GUEST_PASSWORD(new UnauthorizedException("Guest 사용자의 비밀번호가 일치하지 않습니다.", 901)),
+    NOT_GUEST_USER(new UnauthorizedException("Guest 사용자가 아닙니다.", 902)),
+    UNAUTHORIZED_FOR_COMMENT(new UnauthorizedException("해당 댓글을 관리할 권한이 없습니다.", 903));
+
 
     private CustomException exception;
 
     ExceptionWithMessageAndCode(CustomException e) {
         this.exception = e;
     }
+
 }

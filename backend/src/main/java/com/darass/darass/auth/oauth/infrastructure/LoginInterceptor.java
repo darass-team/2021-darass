@@ -1,9 +1,10 @@
 package com.darass.darass.auth.oauth.infrastructure;
 
-import java.util.Objects;
+import org.springframework.web.servlet.HandlerInterceptor;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.springframework.web.servlet.HandlerInterceptor;
+import java.util.Objects;
 
 public class LoginInterceptor implements HandlerInterceptor {
 
@@ -15,7 +16,7 @@ public class LoginInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response,
-        Object handler) {
+                             Object handler) {
         if ("OPTIONS".equals(request.getMethod())) {
             return true;
         }
