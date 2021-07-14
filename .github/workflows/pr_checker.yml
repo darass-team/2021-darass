@@ -4,8 +4,8 @@
 name: Darass PR Checker
 
 on:
-  pull_request:
-    branches: [ develop/be ]
+  push:
+    branches: [ feature/be/cd/98 ]
 
 jobs:
   build:
@@ -35,8 +35,9 @@ jobs:
 
     - name: On Success
       if: ${{ success() }}
-      uses: rtCamp/action-slack-notify@v2
+      uses: rtCamp/action-slack-notify@v2.1.0
       env:
+        SLACK_CHANNEL: darass-be-알림
         SLACK_COLOR: '#53A551'
         SLACK_ICON: https://github.com/rtCamp.png?size=48
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
@@ -47,8 +48,9 @@ jobs:
 
     - name: On Failed, Notify in Slack
       if: ${{ failure() }}
-      uses: rtCamp/action-slack-notify@v2
+      uses: rtCamp/action-slack-notify@v2.1.0
       env:
+        SLACK_CHANNEL: darass-be-알림
         SLACK_COLOR: '#ff0000'
         SLACK_ICON: https://github.com/rtCamp.png?size=48
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
