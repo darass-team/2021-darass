@@ -1,8 +1,7 @@
 import { Comment as CommentType } from "../../../types";
 import Avatar from "../../atoms/Avatar";
-import CommentOption from "../../atoms/CommentOption";
 import CommentTextBox from "../../atoms/CommentTextBox";
-import { Container, CommentTextBoxWrapper, Time, CommentOptionWrapper } from "./styles";
+import { Container, CommentTextBoxWrapper, Time, CommentOption } from "./styles";
 
 export interface Props {
   comment: CommentType;
@@ -20,11 +19,7 @@ const Comment = ({ comment, align = "left", shouldShowOption, onEdit, onDelete }
       <CommentTextBoxWrapper align={align}>
         <CommentTextBox name="Dobi">{comment.content}</CommentTextBox>
         <Time>{comment.createdAt}</Time>
-        {shouldShowOption && (
-          <CommentOptionWrapper>
-            <CommentOption onEdit={onEdit} onDelete={onDelete} />
-          </CommentOptionWrapper>
-        )}
+        {shouldShowOption && <CommentOption onEdit={onEdit} onDelete={onDelete} />}
       </CommentTextBoxWrapper>
     </Container>
   );

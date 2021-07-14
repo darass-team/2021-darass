@@ -2,8 +2,7 @@ import { Comment } from "../../../types";
 import { User } from "../../../types/user";
 import UserAvatarOption from "../../molecules/UserAvatarOption";
 import CommentInput from "../../organisms/CommentInput";
-import CommentList from "../../organisms/CommentList";
-import { Container, Header, CommentCount, CommentCountWrapper, CommentListWrapper } from "./styles";
+import { Container, Header, CommentCount, CommentCountWrapper, CommentList } from "./styles";
 
 export interface Props {
   user: User | null;
@@ -34,9 +33,7 @@ const CommentArea = ({ user, onLogin, onLogout }: Props) => {
         </UserAvatarOption>
       </Header>
       <CommentInput user={user} />
-      <CommentListWrapper>
-        <CommentList comments={comments} />
-      </CommentListWrapper>
+      <CommentList comments={comments} />
     </Container>
   );
 };

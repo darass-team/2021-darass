@@ -1,8 +1,7 @@
 import { ReactNode, useEffect, useState } from "react";
 import { User } from "../../../types/user";
 import Avatar from "../../atoms/Avatar";
-import UserOption from "../../atoms/UserOption";
-import { Container, UserOptionWrapper } from "./styles";
+import { Container, UserOption } from "./styles";
 
 export interface Props {
   user: User | null;
@@ -26,11 +25,7 @@ const UserAvatarOption = ({ user, children }: Props) => {
         imageURL={user?.imageURL || "https://upload.wikimedia.org/wikipedia/commons/7/70/User_icon_BLACK-01.png"}
         onClick={onShowOptionBox}
       />
-      {isShowOptionBox && (
-        <UserOptionWrapper>
-          <UserOption userName={user?.nickName || "Login With"}>{children}</UserOption>
-        </UserOptionWrapper>
-      )}
+      {isShowOptionBox && <UserOption userName={user?.nickName || "Login With"}>{children}</UserOption>}
     </Container>
   );
 };

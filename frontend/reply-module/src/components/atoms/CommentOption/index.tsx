@@ -3,18 +3,19 @@ import threeDots from "../../../assets/svg/three-dots.svg";
 import { Container, DeleteButton, EditButton, OptionContainer, OptionIcon } from "./styles";
 
 export interface Props {
+  className?: string;
   onEdit?: () => void;
   onDelete?: () => void;
 }
 
-const CommentOption = ({ onEdit, onDelete }: Props) => {
+const CommentOption = ({ className, onEdit, onDelete }: Props) => {
   const [isShowOptionBox, setShowOptionBox] = useState(false);
   const onShowOptionBox = () => {
     setShowOptionBox(state => !state);
   };
 
   return (
-    <Container>
+    <Container className={className}>
       <OptionIcon src={threeDots} alt="댓글 옵션" onClick={onShowOptionBox} />
       {isShowOptionBox && (
         <OptionContainer>

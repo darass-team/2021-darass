@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { PALETTE } from "../../../styles/palette";
+import CommentListComponent from "../../organisms/CommentList";
 
 const Container = styled.section`
   width: 100%;
@@ -24,8 +25,8 @@ const CommentCount = styled.span`
   margin-left: 0.5rem;
 `;
 
-const CommentListWrapper = styled.div`
+const CommentList = styled(CommentListComponent)`
   margin-top: 3rem;
 `;
 
-export { Container, Header, CommentCountWrapper, CommentCount, CommentListWrapper };
+export { Container, Header, CommentCountWrapper, CommentCount, CommentList };

@@ -9,8 +9,8 @@ export default {
 
 const Template: Story<Props> = args => (
   <UserOption {...args}>
-    <span>로그인</span>
-    <span>로그아웃</span>
+    <button>로그인</button>
+    <button>로그아웃</button>
   </UserOption>
 );
 

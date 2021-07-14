@@ -3,12 +3,13 @@ import Comment from "../../molecules/Comment";
 import { CommentContainer, Container, OrderButton, OrderButtonContainer, OrderButtonWrapper } from "./styles";
 
 export interface Props {
+  className?: string;
   comments: CommentType[];
 }
 
-const CommentList = ({ comments }: Props) => {
+const CommentList = ({ className, comments }: Props) => {
   return (
-    <Container>
+    <Container className={className}>
       <OrderButtonContainer>
         <OrderButtonWrapper>
           <OrderButton type="button">최신순</OrderButton>

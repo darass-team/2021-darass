@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import UserOptionComponent from "../../atoms/UserOption";
 
 const Container = styled.div`
   position: relative;
@@ -9,10 +10,10 @@ const Container = styled.div`
   }
 `;
 
-const UserOptionWrapper = styled.div`
+const UserOption = styled(UserOptionComponent)`
   position: absolute;
-  right: 166px;
+  right: 7px;
   top: 50px;
 `;
 
-export { Container, UserOptionWrapper };
+export { Container, UserOption };

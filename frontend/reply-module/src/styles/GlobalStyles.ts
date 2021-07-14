@@ -58,6 +58,7 @@ const GlobalStyles = createGlobalStyle`
         font-family: inherit;
         outline: none;
         border: none;
+        color: inherit;
         cursor: pointer;
       }
       input, textarea {

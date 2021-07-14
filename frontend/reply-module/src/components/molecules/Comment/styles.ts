@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import CommentOptionComponent from "../../atoms/CommentOption";
 
 const Container = styled.div<{ align: "left" | "right" }>`
   display: flex;
@@ -18,10 +19,10 @@ const Time = styled.span`
   margin-top: 0.3rem;
 `;
 
-const CommentOptionWrapper = styled.div`
+const CommentOption = styled(CommentOptionComponent)`
   position: absolute;
-  right: 30px;
-  top: 8px;
+  right: 16px;
+  top: 12px;
 `;
 
-export { Container, CommentTextBoxWrapper, Time, CommentOptionWrapper };
+export { Container, CommentTextBoxWrapper, Time, CommentOption };
