@@ -32,7 +32,7 @@ jobs:
       working-directory: ./backend
       
     - name: Build with Gradle
-      run: ./gradlew build
+      run: ./gradlew clean build
       working-directory: ./backend
       
     - name: Copy built project
