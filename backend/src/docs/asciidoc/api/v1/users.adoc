@@ -1,0 +1,12 @@
+=== 조회 (/api/v1/user GET)
+
+==== Request
+
+include::{snippets}/api-users/delete-success/http-request.adoc[]
+include::{snippets}/api-users/delete-success/http-headers.adoc[]
+include::{snippets}/api-users/delete-success/http-fields.adoc[]
+
+==== Response
+include::{snippets}/api-users/delete-success/http-response.adoc[]
+include::{snippets}/api-users/delete-success/response-fields.adoc[]
+
