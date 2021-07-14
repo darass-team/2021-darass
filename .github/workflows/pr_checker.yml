@@ -38,6 +38,7 @@ jobs:
       uses: rtCamp/action-slack-notify@v2
       env:
         SLACK_COLOR: '#53A551'
+        SLACK_ICON: https://github.com/rtCamp.png?size=48
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
         SLACK_TITLE: 'Darass PR Check S.U.C.C.E.S.S 🎉🎉🎉'
         MSG_MINIMAL: true
@@ -49,6 +50,7 @@ jobs:
       uses: rtCamp/action-slack-notify@v2
       env:
         SLACK_COLOR: '#ff0000'
+        SLACK_ICON: https://github.com/rtCamp.png?size=48
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
         SLACK_TITLE: 'Darass Debug build Fail❌'
         MSG_MINIMAL: true
