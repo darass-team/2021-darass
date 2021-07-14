@@ -120,7 +120,7 @@ public class UserAcceptanceTest extends AcceptanceTest {
     }
 
     @Test
-    @DisplayName("유저 삭제를 실패 한다.")
+    @DisplayName("유효하지 않은 토큰으로 인해 유저 삭제가 실패 한다.")
     public void deleteUser_fail() throws Exception {
         //given
         String incorrectAccessToken = "incorrectAccessToken";
