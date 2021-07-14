@@ -66,24 +66,11 @@ jobs:
           cd 2021-darass/backend
           docker-compose up --build -d
           
-    - name: On Success
-      if: ${{ success() }}
-      uses: rtCamp/action-slack-notify@v2
+    - name: build result to slack
+      uses: 8398a7/action-slack@v3
+      with:
+        status: ${{ job.status }}
+        fields: repo, message, commit, author, action, eventName, ref, workflow, job, took
       env:
-        SLACK_COLOR: '#53A551'
-        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
-        SLACK_TITLE: 'Darass Push Builder S.U.C.C.E.S.S 🎉🎉🎉'
-        MSG_MINIMAL: true
-        SLACK_USERNAME: DARASSMEBOT
-        SLACK_MESSAGE: '배 포 성 공!!! 🎉🎉🎉'
-
-    - name: On Failed, Notify in Slack
-      if: ${{ failure() }}
-      uses: rtCamp/action-slack-notify@v2
-      env:
-        SLACK_COLOR: '#ff0000'
-        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
-        SLACK_TITLE: 'Darass Debug build Fail❌'
-        MSG_MINIMAL: true
-        SLACK_USERNAME: DARASSBOT
-        SLACK_MESSAGE: '에러를 확인해주세요'
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
