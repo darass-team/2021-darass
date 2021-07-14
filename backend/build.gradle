@@ -67,6 +67,7 @@ asciidoctor {
     outputDir file('build/html5')
     attributes 'snippets': snippetsDir
     mustRunAfter test
+    dependsOn test
 }
 
 asciidoctor.doLast {
