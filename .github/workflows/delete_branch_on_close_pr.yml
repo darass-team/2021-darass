@@ -1,4 +1,4 @@
-name: delete branch on close pr
+name: Delete branch on close pr
 on: 
   pull_request:
     types: [closed]
