@@ -52,6 +52,28 @@ public class CommentAcceptanceTest extends AcceptanceTest {
     private String token;
     private String secretKey;
 
+    private void setUpProject() {
+        project = Project.builder()
+            .name("project")
+            .secretKeyFactory(new RandomSecretKeyFactory())
+            .user(socialLoginUser)
+            .build();
+        projects.save(project);
+        secretKey = project.getSecretKey();
+    }
+
+    private void setUpUser() {
+        socialLoginUser = SocialLoginUser
+            .builder()
+            .nickName("nickname")
+            .oauthId("abc13gag")
+            .oauthPlatform(OAuthPlatform.KAKAO)
+            .email("qkrwotjd1445@naver.com")
+            .build();
+        users.save(socialLoginUser);
+        token = jwtTokenProvider.createAccessToken(socialLoginUser.getId().toString());
+    }
+
     @BeforeEach
     void setUp() {
         setUpUser();
@@ -140,11 +162,13 @@ public class CommentAcceptanceTest extends AcceptanceTest {
 
         mockMvc.perform(get("/api/v1/comments")
             .contentType(MediaType.APPLICATION_JSON)
-            .param("url", "url"))
+            .param("url", "url")
+            .param("projectKey", secretKey))
             .andExpect(status().isOk())
             .andDo(document("api/v1/comments/get/success",
                 requestParameters(
-                    parameterWithName("url").description("조회 url")
+                    parameterWithName("url").description("조회 url"),
+                    parameterWithName("projectKey").description("프로젝트 시크릿 키")
                 ),
                 responseFields(
                     fieldWithPath("[].createdDate").type(JsonFieldType.STRING).description("댓글 생성 시점"),
@@ -319,8 +343,7 @@ public class CommentAcceptanceTest extends AcceptanceTest {
         return mockMvc.perform(post("/api/v1/comments")
             .contentType(MediaType.APPLICATION_JSON)
             .header("Authorization", "Bearer " + token)
-            .content(asJsonString(new CommentCreateRequest(null, null, secretKey, content, url)))
-        )
+            .content(asJsonString(new CommentCreateRequest(null, null, secretKey, content, url))))
             .andExpect(status().isCreated())
             .andExpect(jsonPath("$.user..type").value("SocialLoginUser"));
     }
@@ -344,25 +367,4 @@ public class CommentAcceptanceTest extends AcceptanceTest {
         return new ObjectMapper().readValue(responseJson, CommentResponse.class);
     }
 
-    private void setUpProject() {
-        project = Project.builder()
-            .name("project")
-            .secretKeyFactory(new RandomSecretKeyFactory())
-            .user(socialLoginUser)
-            .build();
-        projects.save(project);
-        secretKey = project.getSecretKey();
-    }
-
-    private void setUpUser() {
-        socialLoginUser = SocialLoginUser
-            .builder()
-            .nickName("nickname")
-            .oauthId("abc13gag")
-            .oauthPlatform(OAuthPlatform.KAKAO)
-            .email("qkrwotjd1445@naver.com")
-            .build();
-        users.save(socialLoginUser);
-        token = jwtTokenProvider.createAccessToken(socialLoginUser.getId().toString());
-    }
 }

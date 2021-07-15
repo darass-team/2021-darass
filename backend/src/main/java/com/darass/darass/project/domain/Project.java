@@ -20,13 +20,12 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @NoArgsConstructor
-@AllArgsConstructor
 @Getter
 @Table(uniqueConstraints = {
     @UniqueConstraint(
         name = "SECRET_KEY_UNIQUE",
         columnNames = {"secretKey"}
-    )})
+)})
 public class Project extends BaseTimeEntity {
 
     private static final int ASCII_CODE_OF_0 = 48;
@@ -57,5 +56,9 @@ public class Project extends BaseTimeEntity {
         this.name = name;
         this.secretKeyFactory = secretKeyFactory;
         this.secretKey = secretKeyFactory.createSecretKey();
+    }
+
+    public boolean isSame(String secretKey) {
+        return this.secretKey.equals(secretKey);
     }
 }
