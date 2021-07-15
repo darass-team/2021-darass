@@ -8,7 +8,7 @@ export interface Props {
 }
 
 const Avatar = ({ imageURL, size = "MD" }: Props) => {
-  return <Container src={imageURL} size={size} />;
+  return <Container src={imageURL} size={size} alt="프로필 사진" />;
 };
 
 export default Avatar;

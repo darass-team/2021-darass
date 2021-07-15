@@ -1,8 +1,8 @@
 import { Container, Section, Title, CodeBlockWrapper, P } from "./styles";
 
-const scriptCode = (projectKey: string) => `
+const scriptCode = (projectSecretKey: string) => `
 <!-- 다라쓰 설치 코드 -->
-<div id="darass" data-project-key="${projectKey}">
+<div id="darass" data-project-key="${projectSecretKey}">
     <script type="text/javascript">
         (function () {
         // DON'T EDIT BELOW THIS LINE
@@ -21,15 +21,15 @@ const scriptCode = (projectKey: string) => `
 `;
 
 export interface Props {
-  projectKey: string;
+  projectSecretKey: string;
 }
 
-const ScriptPublishing = ({ projectKey }: Props) => {
+const ScriptPublishing = ({ projectSecretKey }: Props) => {
   return (
     <Container>
       <Section>
         <Title>다라쓰 설치 코드</Title>
-        <CodeBlockWrapper>{scriptCode(projectKey)}</CodeBlockWrapper>
+        <CodeBlockWrapper>{scriptCode(projectSecretKey)}</CodeBlockWrapper>
       </Section>
 
       <Section>

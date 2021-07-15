@@ -1,7 +1,11 @@
 import Logo from "../../atoms/Logo";
 import { Container, Introduction, Button } from "./styles";
 
-const Home = () => {
+export interface Props {
+  moveLoginPage: () => void;
+}
+
+const Home = ({ moveLoginPage }: Props) => {
   return (
     <Container>
       <h1>
@@ -12,7 +16,9 @@ const Home = () => {
         <br />
         블로그에 다라쓰
       </Introduction>
-      <Button>Get Started</Button>
+      <Button type="button" onClick={moveLoginPage}>
+        Get Started
+      </Button>
     </Container>
   );
 };

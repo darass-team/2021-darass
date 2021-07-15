@@ -1,17 +1,20 @@
-import { Container, Title, Form, Label, Input, SubmitButton } from "./styles";
+import { ChangeEvent, FormEvent } from "react";
+import { Project } from "../../../types/project";
+import { Container, Form, Input, Label, SubmitButton, Title } from "./styles";
 
 export interface Props {
-  addProject: () => void;
-  moveProjectDetailPage: (id: number) => void;
+  projectName: string;
+  onChangeProjectName: (event: ChangeEvent<HTMLInputElement>) => void;
+  onSubmit: (event: FormEvent<HTMLFormElement>) => void;
 }
 
-const NewProject = ({ addProject }: Props) => {
+const NewProject = ({ onSubmit, projectName, onChangeProjectName }: Props) => {
   return (
     <Container>
       <Title>새 프로젝트 만들기</Title>
-      <Form onSubmit={addProject}>
+      <Form onSubmit={onSubmit}>
         <Label htmlFor="project-name">프로젝트 이름</Label>
-        <Input id="project-name" />
+        <Input id="project-name" value={projectName} onChange={onChangeProjectName} />
         <SubmitButton>등록</SubmitButton>
       </Form>
     </Container>

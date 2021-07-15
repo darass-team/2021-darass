@@ -1,7 +1,9 @@
+const ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const Dotenv = require("dotenv-webpack");
 const path = require("path");
+const webpack = require("webpack");
 
 module.exports = {
   entry: "./src/index.tsx",
@@ -27,7 +29,7 @@ module.exports = {
                 ],
                 "@babel/preset-typescript"
               ],
-              plugins: [["@babel/transform-runtime"]]
+              plugins: ["@babel/transform-runtime", require.resolve("react-refresh/babel")]
             }
           }
         ],
@@ -51,7 +53,9 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: "./public/index.html"
     }),
-    new CleanWebpackPlugin()
+    new CleanWebpackPlugin(),
+    new ReactRefreshWebpackPlugin(),
+    new webpack.HotModuleReplacementPlugin()
   ],
   resolve: {
     extensions: [".tsx", ".ts", ".jsx", ".js"]
@@ -62,6 +66,7 @@ module.exports = {
     host: "localhost",
     port: 3000,
     historyApiFallback: true,
-    open: true
+    open: true,
+    hot: true
   }
 };

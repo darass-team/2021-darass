@@ -1,6 +1,6 @@
 const setCookie = (key: string, value: string, keepAliveMinutes = 60) => {
   const expiryDate = new Date();
-  expiryDate.setDate(expiryDate.getDate() + keepAliveMinutes);
+  expiryDate.setMinutes(expiryDate.getMinutes() + keepAliveMinutes);
 
   const cookieValue = escape(value) + "; expires=" + expiryDate.toUTCString();
   document.cookie = key + "=" + cookieValue;
@@ -22,4 +22,8 @@ const getCookie = (key: string) => {
   return null;
 };
 
-export { setCookie, getCookie };
+const deleteCookie = (name: string) => {
+  document.cookie = name + "=; Max-Age=-99999999;";
+};
+
+export { setCookie, getCookie, deleteCookie };
