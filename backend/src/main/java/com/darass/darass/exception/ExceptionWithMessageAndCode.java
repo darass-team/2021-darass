@@ -1,5 +1,6 @@
 package com.darass.darass.exception;
 
+import com.darass.darass.exception.httpbasicexception.ConflictException;
 import com.darass.darass.exception.httpbasicexception.CustomException;
 import com.darass.darass.exception.httpbasicexception.InternalServerException;
 import com.darass.darass.exception.httpbasicexception.NotFoundException;
@@ -16,6 +17,7 @@ public enum ExceptionWithMessageAndCode {
 
     // 프로젝트 관련 : 7xx
     NOT_FOUND_PROJECT(new NotFoundException("해당하는 프로젝트가 없습니다.", 700)),
+    DUPLICATE_PROJECT_SECRET_KET(new ConflictException("프로젝트의 Secret Key의 중복이 발생했습니다. 다시 프로젝트 생성을 시도해주세요.", 701)),
 
     // 로그인 관련 : 8xx
     SHOULD_LOGIN(new UnauthorizedException("로그인을 해야 합니다.", 800)),

@@ -24,6 +24,7 @@ import com.darass.darass.comment.controller.dto.CommentResponse;
 import com.darass.darass.comment.controller.dto.CommentUpdateRequest;
 import com.darass.darass.comment.controller.dto.UserResponse;
 import com.darass.darass.project.domain.Project;
+import com.darass.darass.project.domain.RandomSecretKeyFactory;
 import com.darass.darass.project.repository.ProjectRepository;
 import com.darass.darass.user.domain.OAuthPlatform;
 import com.darass.darass.user.domain.SocialLoginUser;
@@ -346,7 +347,7 @@ public class CommentAcceptanceTest extends AcceptanceTest {
     private void setUpProject() {
         project = Project.builder()
             .name("project")
-            .secretKey("secretKey")
+            .secretKeyFactory(new RandomSecretKeyFactory())
             .user(socialLoginUser)
             .build();
         projects.save(project);
