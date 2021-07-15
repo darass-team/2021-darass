@@ -2,20 +2,40 @@ package com.darass.darass.project.domain;
 
 import com.darass.darass.common.domain.BaseTimeEntity;
 import com.darass.darass.user.domain.User;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+import javax.persistence.UniqueConstraint;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import javax.persistence.*;
 
 
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
+@Table(uniqueConstraints = {
+    @UniqueConstraint(
+        name = "SECRET_KEY_UNIQUE",
+        columnNames = {"secretKey"}
+    )})
 public class Project extends BaseTimeEntity {
 
+    private static final int ASCII_CODE_OF_0 = 48;
+    private static final int ASCII_CODE_OF_z = 122;
+    private static final int TARGET_STRING_LENGTH = 10;
+    private static final int ASCII_CODE_OF_9 = 57;
+    private static final int ASCII_CODE_OF_A = 65;
+    private static final int ASCII_CODE_OF_Z = 90;
+    private static final int ASCII_CODE_OF_a = 97;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -28,10 +48,14 @@ public class Project extends BaseTimeEntity {
 
     private String secretKey;
 
+    @Transient
+    private SecretKeyFactory secretKeyFactory;
+
     @Builder
-    public Project(User user, String name, String secretKey) {
+    public Project(User user, String name, SecretKeyFactory secretKeyFactory) {
         this.user = user;
         this.name = name;
-        this.secretKey = secretKey;
+        this.secretKeyFactory = secretKeyFactory;
+        this.secretKey = secretKeyFactory.createSecretKey();
     }
 }

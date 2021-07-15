@@ -12,8 +12,9 @@ public class ProjectResponse {
 
     private Long id;
     private String name;
+    private String secretKey;
 
     public static ProjectResponse of(Project project) {
-        return new ProjectResponse(project.getId(), project.getName());
+        return new ProjectResponse(project.getId(), project.getName(), project.getSecretKey());
     }
 }

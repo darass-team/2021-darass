@@ -4,9 +4,13 @@ import com.darass.darass.exception.ExceptionWithMessageAndCode;
 import com.darass.darass.project.controller.dto.ProjectCreateRequest;
 import com.darass.darass.project.controller.dto.ProjectResponse;
 import com.darass.darass.project.domain.Project;
+import com.darass.darass.project.domain.RandomSecretKeyFactory;
+import com.darass.darass.project.domain.SecretKeyFactory;
 import com.darass.darass.project.repository.ProjectRepository;
 import com.darass.darass.user.domain.User;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.exception.ConstraintViolationException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,13 +23,20 @@ public class ProjectService {
 
     private final ProjectRepository projects;
 
-    public ProjectResponse save(ProjectCreateRequest projectRequest, User user) {
+    public ProjectResponse save(ProjectCreateRequest projectRequest, User user, SecretKeyFactory secretKeyFactory) {
         Project project = Project.builder()
                 .name(projectRequest.getName())
-                .secretKey(projectRequest.getSecretKey())
+                .secretKeyFactory(secretKeyFactory)
                 .user(user)
                 .build();
-        projects.save(project);
+        try {
+            projects.save(project);
+        } catch (DataIntegrityViolationException e){
+            if (e.getLocalizedMessage().contains("SECRET_KEY_UNIQUE")) {
+                throw ExceptionWithMessageAndCode.DUPLICATE_PROJECT_SECRET_KET.getException();
+            }
+            throw ExceptionWithMessageAndCode.INTERNAL_SERVER.getException();
+        }
         return ProjectResponse.of(project);
     }
 

@@ -61,13 +61,12 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
                         headerWithName("Authorization").description("JWT - Bearer 토큰")
                     ),
                     requestFields(
-                        fieldWithPath("name").type(JsonFieldType.STRING).description("프로젝트 이름"),
-                        fieldWithPath("secretKey").type(JsonFieldType.STRING).description("프로젝트 시크릿 키"),
-                        fieldWithPath("userId").type(JsonFieldType.NUMBER).description("사용자 id")
+                        fieldWithPath("name").type(JsonFieldType.STRING).description("프로젝트 이름")
                     ),
                     responseFields(
                         fieldWithPath("id").type(JsonFieldType.NUMBER).description("프로젝트 id"),
-                        fieldWithPath("name").type(JsonFieldType.STRING).description("프로젝트 이름")
+                        fieldWithPath("name").type(JsonFieldType.STRING).description("프로젝트 이름"),
+                        fieldWithPath("secretKey").type(JsonFieldType.STRING).description("프로젝트 Secret Key")
                     ))
             );
     }
@@ -77,7 +76,7 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
     public void save_fail() throws Exception {
         this.mockMvc.perform(post("/api/v1/projects")
             .contentType(MediaType.APPLICATION_JSON)
-            .content(asJsonString(new ProjectCreateRequest("프로젝트이름", "a1nc3K", socialLoginUser.getId()))))
+            .content(asJsonString(new ProjectCreateRequest("프로젝트이름"))))
             .andExpect(status().isUnauthorized())
             .andDo(
                 document("api/v1/projects/post/2",
@@ -92,7 +91,7 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
         return this.mockMvc.perform(post("/api/v1/projects")
             .contentType(MediaType.APPLICATION_JSON)
             .header("Authorization", "Bearer " + token)
-            .content(asJsonString(new ProjectCreateRequest("프로젝트이름", "a1nc3K", socialLoginUser.getId())))
+            .content(asJsonString(new ProjectCreateRequest("프로젝트이름")))
         )
             .andExpect(status().isCreated());
     }
@@ -119,7 +118,8 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
                     ),
                     responseFields(
                         fieldWithPath("[].id").type(JsonFieldType.NUMBER).description("프로젝트 id"),
-                        fieldWithPath("[].name").type(JsonFieldType.STRING).description("프로젝트 이름")
+                        fieldWithPath("[].name").type(JsonFieldType.STRING).description("프로젝트 이름"),
+                        fieldWithPath("[].secretKey").type(JsonFieldType.STRING).description("프로젝트 Secret Key")
                     ))
             );
     }
@@ -164,7 +164,8 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
                     ),
                     responseFields(
                         fieldWithPath("id").type(JsonFieldType.NUMBER).description("프로젝트 id"),
-                        fieldWithPath("name").type(JsonFieldType.STRING).description("프로젝트 이름")
+                        fieldWithPath("name").type(JsonFieldType.STRING).description("프로젝트 이름"),
+                        fieldWithPath("secretKey").type(JsonFieldType.STRING).description("프로젝트 Secret Key")
                     ))
             );
     }
