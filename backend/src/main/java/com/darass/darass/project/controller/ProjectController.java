@@ -3,6 +3,7 @@ package com.darass.darass.project.controller;
 import com.darass.darass.auth.oauth.domain.RequiredLogin;
 import com.darass.darass.project.controller.dto.ProjectCreateRequest;
 import com.darass.darass.project.controller.dto.ProjectResponse;
+import com.darass.darass.project.domain.RandomSecretKeyFactory;
 import com.darass.darass.project.service.ProjectService;
 import com.darass.darass.user.domain.User;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +25,7 @@ public class ProjectController {
 
     @PostMapping
     public ResponseEntity<ProjectResponse> save(@Valid @RequestBody ProjectCreateRequest projectRequest, @RequiredLogin User user) {
-        ProjectResponse projectResponse = projectService.save(projectRequest, user);
+        ProjectResponse projectResponse = projectService.save(projectRequest, user, new RandomSecretKeyFactory());
         return ResponseEntity.status(HttpStatus.CREATED).body(projectResponse);
     }
 
