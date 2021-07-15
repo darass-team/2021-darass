@@ -1,7 +1,12 @@
 package com.darass.darass.comment.service;
 
-import com.darass.darass.comment.controller.dto.*;
+import com.darass.darass.comment.controller.dto.CommentCreateRequest;
+import com.darass.darass.comment.controller.dto.CommentDeleteRequest;
+import com.darass.darass.comment.controller.dto.CommentResponse;
+import com.darass.darass.comment.controller.dto.CommentUpdateRequest;
+import com.darass.darass.comment.controller.dto.UserResponse;
 import com.darass.darass.comment.domain.Comment;
+import com.darass.darass.comment.domain.Comments;
 import com.darass.darass.comment.repository.CommentRepository;
 import com.darass.darass.exception.ExceptionWithMessageAndCode;
 import com.darass.darass.project.domain.Project;
@@ -9,19 +14,18 @@ import com.darass.darass.project.repository.ProjectRepository;
 import com.darass.darass.user.domain.GuestUser;
 import com.darass.darass.user.domain.User;
 import com.darass.darass.user.repository.UserRepository;
+import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional
 @RequiredArgsConstructor
 public class CommentService {
 
-    private final CommentRepository comments;
+    private final CommentRepository commentRepository;
     private final ProjectRepository projects;
     private final UserRepository users;
 
@@ -47,7 +51,7 @@ public class CommentService {
             .project(project)
             .url(commentRequest.getUrl())
             .build();
-        return comments.save(comment);
+        return commentRepository.save(comment);
     }
 
     private User savedGuestUser(CommentCreateRequest commentRequest) {
@@ -58,12 +62,13 @@ public class CommentService {
         return users.save(user);
     }
 
-    public List<CommentResponse> findAllComments(String url) {
-        List<Comment> foundComments = comments.findByUrl(url);
-        return foundComments.stream()
-            .map(comment -> CommentResponse.of(
-                comment, UserResponse.of(
-                    comment.getUser(), users.findUserTypeById(comment.getUser().getId()))))
+
+    public List<CommentResponse> findAllCommentsByUrlAndProjectKey(String url, String projectKey) {
+        Comments comments = new Comments(commentRepository.findAll());
+        List<Comment> matchedComments = comments.match(url, projectKey);
+
+        return matchedComments.stream()
+            .map(comment -> CommentResponse.of(comment, UserResponse.of(comment.getUser(), users.findUserTypeById(comment.getUser().getId()))))
             .collect(Collectors.toList());
     }
 
@@ -71,17 +76,17 @@ public class CommentService {
         user = findRegisteredUser(user, request.getGuestUserId(), request.getGuestUserPassword());
         Comment comment = returnValidatedComment(id, user);
         comment.changeContent(request.getContent());
-        comments.save(comment);
+        commentRepository.save(comment);
     }
 
     public void delete(Long id, User user, CommentDeleteRequest request) {
         user = findRegisteredUser(user, request.getGuestUserId(), request.getGuestUserPassword());
         returnValidatedComment(id, user);
-        comments.deleteById(id);
+        commentRepository.deleteById(id);
     }
 
     private Comment returnValidatedComment(Long id, User user) {
-        Comment comment = comments.findById(id)
+        Comment comment = commentRepository.findById(id)
             .orElseThrow(ExceptionWithMessageAndCode.NOT_FOUND_COMMENT::getException);
         matchUserWithComment(user, comment);
         return comment;

@@ -50,4 +50,9 @@ public class Comment extends BaseTimeEntity {
     public boolean isCommentWriter(User user) {
         return this.user.isSameUser(user);
     }
+
+    public boolean match(String url, String projectKey) {
+        return this.url.equals(url) && project.isSame(projectKey);
+    }
+
 }
