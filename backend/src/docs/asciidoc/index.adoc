@@ -1,9 +1,11 @@
 = 다라쓰 API Docs
 :toc: left
 
-== 프로트 API
+== 유저 API
+include::{snippets}/../../src/docs/asciidoc/api/v1/users.adoc[]
+
+== 프로젝트 API
 include::{snippets}/../../src/docs/asciidoc/api/v1/projects.adoc[]
 
 == 댓글 API
 include::{snippets}/../../src/docs/asciidoc/api/v1/comments.adoc[]
-__

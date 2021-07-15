@@ -1,0 +1,50 @@
+=== 유저 조회 (GET /api/v1/users)
+
+==== Request
+
+include::{snippets}/api/v1/users/get/success/http-request.adoc[]
+include::{snippets}/api/v1/users/get/success/request-headers.adoc[]
+
+==== Response (성공 - 소셜 로그인 유저 조회)
+
+include::{snippets}/api/v1/users/get/success/http-response.adoc[]
+include::{snippets}/api/v1/users/get/success/response-fields.adoc[]
+
+==== Response (실패 - 토큰 인증이 실패하는 경우)
+
+include::{snippets}/api/v1/users/get/fail/http-response.adoc[]
+include::{snippets}/api/v1/users/get/fail/response-fields.adoc[]
+
+=== 유저 수정(PATCH /api/v1/users)
+
+==== Request
+
+include::{snippets}/api/v1/users/patch/success/http-request.adoc[]
+include::{snippets}/api/v1/users/patch/success/request-headers.adoc[]
+include::{snippets}/api/v1/users/patch/success/request-fields.adoc[]
+
+==== Response (성공 - 소셜 로그인 유저 닉네임 수정)
+
+include::{snippets}/api/v1/users/patch/success/http-response.adoc[]
+include::{snippets}/api/v1/users/patch/success/response-fields.adoc[]
+
+==== Response (실패 - 토큰 인증이 실패하는 경우)
+
+include::{snippets}/api/v1/users/patch/fail/http-response.adoc[]
+include::{snippets}/api/v1/users/patch/fail/response-fields.adoc[]
+
+=== 유저 삭제(DELETE /api/v1/users)
+
+==== Request
+
+include::{snippets}/api/v1/users/delete/success/http-request.adoc[]
+include::{snippets}/api/v1/users/delete/success/request-headers.adoc[]
+
+==== Response (성공 - 소셜 로그인 유저 삭제)
+
+include::{snippets}/api/v1/users/delete/success/http-response.adoc[]
+
+==== Response (실패 - 토큰 인증이 실패하는 경우)
+
+include::{snippets}/api/v1/users/delete/fail/http-response.adoc[]
+include::{snippets}/api/v1/users/delete/fail/response-fields.adoc[]

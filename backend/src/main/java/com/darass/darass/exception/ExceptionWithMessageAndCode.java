@@ -28,11 +28,18 @@ public enum ExceptionWithMessageAndCode {
     NOT_GUEST_USER(new UnauthorizedException("Guest 사용자가 아닙니다.", 902)),
     UNAUTHORIZED_FOR_COMMENT(new UnauthorizedException("해당 댓글을 관리할 권한이 없습니다.", 903));
 
-
     private CustomException exception;
 
     ExceptionWithMessageAndCode(CustomException e) {
         this.exception = e;
+    }
+
+    public String findMessage(){
+        return exception.getMessage();
+    }
+
+    public Integer findCode(){
+        return exception.getCode();
     }
 
 }

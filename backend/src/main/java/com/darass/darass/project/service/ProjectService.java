@@ -35,7 +35,7 @@ public class ProjectService {
 
     public ProjectResponse findByIdAndUserId(Long projectId, Long userId) {
         Project project = projects.findByIdAndUserId(projectId, userId)
-                .orElseThrow(() -> ExceptionWithMessageAndCode.NOT_FOUND_PROJECT.getException());
+            .orElseThrow(ExceptionWithMessageAndCode.NOT_FOUND_PROJECT::getException);
         return ProjectResponse.of(project);
     }
 

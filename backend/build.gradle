@@ -48,6 +48,9 @@ dependencies {
 
     // mockito
     testImplementation 'org.mockito:mockito-inline:2.13.0'
+
+    // jackson 관련
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.12.3'
 }
 
 test {

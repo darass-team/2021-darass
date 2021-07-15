@@ -14,12 +14,12 @@ import javax.persistence.Enumerated;
 @Getter
 public class SocialLoginUser extends User {
 
+    private String email;
+
     private String oauthId;
 
     @Enumerated(EnumType.STRING)
     private OAuthPlatform oauthPlatform;
-
-    private String email;
 
     @Builder
     public SocialLoginUser(String nickName, String oauthId,
