@@ -13,8 +13,4 @@ public class ProjectCreateRequest {
 
     @NotNull
     private String name;
-    @NotNull
-    private String secretKey;
-    @NotNull
-    private Long userId;
 }

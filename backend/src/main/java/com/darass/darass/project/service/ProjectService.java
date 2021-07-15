@@ -22,7 +22,6 @@ public class ProjectService {
     public ProjectResponse save(ProjectCreateRequest projectRequest, User user) {
         Project project = Project.builder()
                 .name(projectRequest.getName())
-                .secretKey(projectRequest.getSecretKey())
                 .user(user)
                 .build();
         projects.save(project);

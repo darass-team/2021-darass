@@ -346,7 +346,6 @@ public class CommentAcceptanceTest extends AcceptanceTest {
     private void setUpProject() {
         project = Project.builder()
             .name("project")
-            .secretKey("secretKey")
             .user(socialLoginUser)
             .build();
         projects.save(project);
