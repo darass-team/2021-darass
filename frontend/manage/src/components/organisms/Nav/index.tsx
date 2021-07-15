@@ -1,4 +1,5 @@
 import Avatar from "../../atoms/Avatar";
+import Hambuger from "../../../assets/svg/hambuger.svg";
 import { Container, Wrapper, NavLink } from "./styles";
 
 export interface Props {
@@ -11,6 +12,7 @@ export interface Props {
 const Nav = ({ user }: Props) => {
   return (
     <Container>
+      <img src={Hambuger} />
       <Wrapper>
         {user ? (
           <>
