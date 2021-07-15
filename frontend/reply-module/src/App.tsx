@@ -6,7 +6,7 @@ const App = () => {
   return (
     <>
       <h2>현재주소: {urlParams.get("url")}</h2>
-      <h2>액세스 토큰: {urlParams.get("accessToken")}</h2>
+      <h2>프로젝트 키: {urlParams.get("projectKey")}</h2>
       <CommentPage />
     </>
   );
