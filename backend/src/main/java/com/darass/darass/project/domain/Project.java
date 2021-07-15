@@ -14,6 +14,11 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
+@Table(uniqueConstraints = {
+    @UniqueConstraint(
+        name = "SECRET_KEY_UNIQUE",
+        columnNames={"secretKey"}
+    )})
 public class Project extends BaseTimeEntity {
 
     @Id
