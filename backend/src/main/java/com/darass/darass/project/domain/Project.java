@@ -22,6 +22,13 @@ import javax.persistence.*;
     )})
 public class Project extends BaseTimeEntity {
 
+    private static final int ASCII_CODE_OF_0 = 48;
+    private static final int ASCII_CODE_OF_z = 122;
+    private static final int TARGET_STRING_LENGTH = 10;
+    private static final int ASCII_CODE_OF_9 = 57;
+    private static final int ASCII_CODE_OF_A = 65;
+    private static final int ASCII_CIDE_OF_Z = 90;
+    private static final int ASCII_CODE_OF_a = 97;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -42,14 +49,14 @@ public class Project extends BaseTimeEntity {
     }
 
     private String createRandomSecretKey() {
-        int leftLimit = 48; // numeral '0'
-        int rightLimit = 122; // letter 'z'
-        int targetStringLength = 10;
+        int leftLimit = ASCII_CODE_OF_0;
+        int rightLimit = ASCII_CODE_OF_z;
         Random random = new Random();
 
         return random.ints(leftLimit, rightLimit + 1)
-            .filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97))
-            .limit(targetStringLength)
+            .filter(i -> (i <= ASCII_CODE_OF_9 || i >= ASCII_CODE_OF_A) && (i <= ASCII_CIDE_OF_Z
+                || i >= ASCII_CODE_OF_a))
+            .limit(TARGET_STRING_LENGTH)
             .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
             .toString();
     }
