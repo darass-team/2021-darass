@@ -14,6 +14,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@DisplayName("BaseTimeEntity 추상 클래스")
 @ActiveProfiles("test")
 @SpringBootTest
 class BaseTimeEntityTest {

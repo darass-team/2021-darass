@@ -7,8 +7,8 @@ import lombok.NoArgsConstructor;
 import javax.persistence.Entity;
 
 @NoArgsConstructor
-@Entity
 @Getter
+@Entity
 public class GuestUser extends User {
 
     private String password;
@@ -28,4 +28,5 @@ public class GuestUser extends User {
     public boolean isValidGuestPassword(String guestUserPassword) {
         return this.password.equals(guestUserPassword);
     }
+
 }
