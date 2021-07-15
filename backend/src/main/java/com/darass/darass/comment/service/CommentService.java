@@ -37,34 +37,34 @@ public class CommentService {
 
     private Project getBySecretKey(CommentCreateRequest commentRequest) {
         return projects.findBySecretKey(commentRequest.getProjectSecretKey())
-                .orElseThrow(ExceptionWithMessageAndCode.NOT_FOUND_PROJECT::getException);
+            .orElseThrow(ExceptionWithMessageAndCode.NOT_FOUND_PROJECT::getException);
     }
 
     private Comment savedComment(User user, CommentCreateRequest commentRequest, Project project) {
         Comment comment = Comment.builder()
-                .user(user)
-                .content(commentRequest.getContent())
-                .project(project)
-                .url(commentRequest.getUrl())
-                .build();
+            .user(user)
+            .content(commentRequest.getContent())
+            .project(project)
+            .url(commentRequest.getUrl())
+            .build();
         return comments.save(comment);
     }
 
     private User savedGuestUser(CommentCreateRequest commentRequest) {
         User user = GuestUser.builder()
-                .nickName(commentRequest.getGuestNickName())
-                .password(commentRequest.getGuestPassword())
-                .build();
+            .nickName(commentRequest.getGuestNickName())
+            .password(commentRequest.getGuestPassword())
+            .build();
         return users.save(user);
     }
 
     public List<CommentResponse> findAllComments(String url) {
         List<Comment> foundComments = comments.findByUrl(url);
         return foundComments.stream()
-                .map(comment -> CommentResponse.of(
-                        comment, UserResponse.of(
-                                comment.getUser(), users.findUserTypeById(comment.getUser().getId()))))
-                .collect(Collectors.toList());
+            .map(comment -> CommentResponse.of(
+                comment, UserResponse.of(
+                    comment.getUser(), users.findUserTypeById(comment.getUser().getId()))))
+            .collect(Collectors.toList());
     }
 
     public void updateContent(Long id, User user, CommentUpdateRequest request) {
@@ -82,7 +82,7 @@ public class CommentService {
 
     private Comment returnValidatedComment(Long id, User user) {
         Comment comment = comments.findById(id)
-                .orElseThrow(ExceptionWithMessageAndCode.NOT_FOUND_COMMENT::getException);
+            .orElseThrow(ExceptionWithMessageAndCode.NOT_FOUND_COMMENT::getException);
         matchUserWithComment(user, comment);
         return comment;
     }
@@ -90,7 +90,7 @@ public class CommentService {
     private User findRegisteredUser(User user, Long guestUserId, String guestUserPassword) {
         if (!user.isLoginUser()) {
             user = users.findById(guestUserId)
-                    .orElseThrow(ExceptionWithMessageAndCode.NOT_FOUND_USER::getException);
+                .orElseThrow(ExceptionWithMessageAndCode.NOT_FOUND_USER::getException);
             validateGuestUser(user, guestUserPassword);
         }
         return user;
