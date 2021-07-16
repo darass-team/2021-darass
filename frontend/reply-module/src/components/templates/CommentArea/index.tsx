@@ -1,9 +1,9 @@
 import { Comment } from "../../../types";
-import { CreateCommentRequestData } from "../../../types/comment";
 import { User } from "../../../types/user";
 import UserAvatarOption from "../../molecules/UserAvatarOption";
 import CommentInput from "../../organisms/CommentInput";
 import { Container, Header, CommentCount, CommentCountWrapper, CommentList } from "./styles";
+import { CreateCommentRequestData } from "../../../types/comment";
 
 export interface Props {
   user: User | undefined;
