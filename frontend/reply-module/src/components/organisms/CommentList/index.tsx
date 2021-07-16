@@ -21,9 +21,15 @@ const CommentList = ({ className, comments, user }: Props) => {
       </OrderButtonContainer>
       <CommentContainer>
         {comments.map(comment => {
-          // TODO: 위치 조정
+          const authorId = comment.user.id;
+          const thisCommentIsMine = authorId === user?.id;
+          const iAmGuestUser = !user;
+          const thisCommentIsWrittenByGuest = comment.user.type === "GuestUser";
 
-          return <Comment comment={comment} key={comment.id} shouldShowOption align="right" />;
+          const align = thisCommentIsMine ? "right" : "left";
+          const shouldShowOption = thisCommentIsMine || (iAmGuestUser && thisCommentIsWrittenByGuest);
+
+          return <Comment comment={comment} key={authorId} shouldShowOption={shouldShowOption} align={align} />;
         })}
       </CommentContainer>
     </Container>
