@@ -25,9 +25,9 @@ const useCreateComment = () => {
   const error = createMutation.error;
 
   const createComment = async (data: CreateCommentRequestData) => {
-    const project = await createMutation.mutateAsync(data);
+    const comment = await createMutation.mutateAsync(data);
 
-    return project;
+    return comment;
   };
 
   return { createComment, isLoading, error };

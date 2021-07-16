@@ -1,13 +1,15 @@
 import { Comment as CommentType } from "../../../types";
 import Comment from "../../molecules/Comment";
 import { CommentContainer, Container, OrderButton, OrderButtonContainer, OrderButtonWrapper } from "./styles";
+import { User } from "../../../types/user";
 
 export interface Props {
   className?: string;
   comments: CommentType[];
+  user?: User;
 }
 
-const CommentList = ({ className, comments }: Props) => {
+const CommentList = ({ className, comments, user }: Props) => {
   return (
     <Container className={className}>
       <OrderButtonContainer>
@@ -18,9 +20,11 @@ const CommentList = ({ className, comments }: Props) => {
         </OrderButtonWrapper>
       </OrderButtonContainer>
       <CommentContainer>
-        {comments.map(comment => (
-          <Comment comment={comment} key={comment.id} shouldShowOption align="right" />
-        ))}
+        {comments.map(comment => {
+          // TODO: 위치 조정
+
+          return <Comment comment={comment} key={comment.id} shouldShowOption align="right" />;
+        })}
       </CommentContainer>
     </Container>
   );

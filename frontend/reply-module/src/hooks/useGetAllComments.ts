@@ -12,7 +12,7 @@ interface GetRequestParams {
 const getAllComments = async ({ url, projectKey }: GetRequestParams) => {
   if (!url || !projectKey) return undefined;
 
-  const data = await request.get(QUERY.GET_COMMENT(url, projectKey));
+  const data = await request.get(QUERY.CREATE_COMMENT(url, projectKey));
 
   return data;
 };
