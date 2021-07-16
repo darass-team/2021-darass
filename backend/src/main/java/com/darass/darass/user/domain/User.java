@@ -33,6 +33,9 @@ public abstract class User extends BaseTimeEntity {
     @Column(nullable = false)
     private String nickName;
 
+    @Column
+    private String profileImageUrl;
+
     @Column(name = "user_type", insertable = false, updatable = false)
     private String userType;
 
@@ -41,6 +44,11 @@ public abstract class User extends BaseTimeEntity {
 
     public User(String nickName) {
         this.nickName = nickName;
+    }
+
+    public User(String nickName, String profileImageUrl) {
+        this(nickName);
+        this.profileImageUrl = profileImageUrl;
     }
 
     public abstract boolean isLoginUser();
