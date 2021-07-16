@@ -7,3 +7,9 @@ export interface Comment {
   createdDate: string;
   modifiedDate: string;
 }
+
+export interface CreateCommentRequestData {
+  url: string | null;
+  projectSecretKey: string | null;
+  content: string;
+}

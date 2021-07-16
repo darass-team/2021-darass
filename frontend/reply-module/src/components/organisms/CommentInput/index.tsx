@@ -1,15 +1,30 @@
 import { User } from "../../../types/user";
 import SubmitButton from "../../atoms/SubmitButton";
 import { Form, TextArea, Wrapper, GuestInfo } from "./styles";
+import { CreateCommentRequestData } from "../../../types/comment";
+import { useInput } from "../../../hooks";
+import { FormEvent } from "react";
 
 export interface Props {
   user: User | undefined;
+  createComment: (data: CreateCommentRequestData) => Promise<Comment>;
+  url: string | null;
+  projectSecretKey: string | null;
 }
 
-const CommentInput = ({ user }: Props) => {
+const CommentInput = ({ user, createComment, url, projectSecretKey }: Props) => {
+  const { value: content, onChange: onChangeContent, setValue: setContent } = useInput("");
+
+  const onSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    createComment({ content, url, projectSecretKey });
+    setContent("");
+  };
+
   return (
-    <Form>
-      <TextArea placeholder="댓글을 입력해주세요." />
+    <Form onSubmit={onSubmit}>
+      <TextArea value={content} onChange={onChangeContent} placeholder="댓글을 입력해주세요." />
 
       <Wrapper>
         {!user && (
