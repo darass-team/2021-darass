@@ -6,13 +6,12 @@ import { Container, Header, CommentCount, CommentCountWrapper, CommentList } fro
 
 export interface Props {
   user: User | undefined;
+  comments: Comment[] | undefined;
   onLogin: () => void;
   onLogout: () => void;
 }
 
-const CommentArea = ({ user, onLogin, onLogout }: Props) => {
-  const comments: Comment[] = [];
-
+const CommentArea = ({ user, comments = [], onLogin, onLogout }: Props) => {
   return (
     <Container>
       <Header>

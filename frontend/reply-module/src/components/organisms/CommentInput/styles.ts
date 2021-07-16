@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { InputCSS } from "../../../styles/css";
 
-const Container = styled.div`
+const Form = styled.form`
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -36,4 +36,4 @@ const GuestInfo = styled.input`
   }
 `;
 
-export { Container, TextArea, Wrapper, GuestInfo };
+export { Form, TextArea, Wrapper, GuestInfo };
