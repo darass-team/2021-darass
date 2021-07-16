@@ -55,4 +55,8 @@ public class Comment extends BaseTimeEntity {
         return this.url.equals(url) && project.isSame(projectKey);
     }
 
+    public Long getUserId(){
+        return user.getId();
+    }
+
 }

@@ -48,6 +48,7 @@ public class UserAcceptanceTest extends AcceptanceTest {
             .oauthId("2312312312")
             .oauthPlatform(OAuthPlatform.KAKAO)
             .email("bbwwpark@naver.com")
+            .profileImageUrl("https://imageUrl")
             .build();
         users.save(socialLoginUser);
     }
@@ -145,6 +146,7 @@ public class UserAcceptanceTest extends AcceptanceTest {
 
         assertThat(userResponse.getId()).isEqualTo(socialLoginUser.getId());
         assertThat(userResponse.getNickName()).isEqualTo(socialLoginUser.getNickName());
+        assertThat(userResponse.getProfileImageUrl()).isEqualTo(socialLoginUser.getProfileImageUrl());
 
         유저_조회_rest_doc_작성(resultActions);
     }
@@ -160,7 +162,8 @@ public class UserAcceptanceTest extends AcceptanceTest {
                     fieldWithPath("nickName").type(JsonFieldType.STRING).description("유저 닉네임"),
                     fieldWithPath("type").type(JsonFieldType.STRING).description("유저 타입"),
                     fieldWithPath("createdDate").type(JsonFieldType.STRING).description("유저 생성일"),
-                    fieldWithPath("modifiedDate").type(JsonFieldType.STRING).description("유저 수정일")
+                    fieldWithPath("modifiedDate").type(JsonFieldType.STRING).description("유저 수정일"),
+                    fieldWithPath("profileImageUrl").type(JsonFieldType.STRING).description("유저 프로필 이미지")
                 ))
         );
     }
@@ -211,7 +214,8 @@ public class UserAcceptanceTest extends AcceptanceTest {
                     fieldWithPath("nickName").type(JsonFieldType.STRING).description("유저 닉네임"),
                     fieldWithPath("type").type(JsonFieldType.STRING).description("유저 타입"),
                     fieldWithPath("createdDate").type(JsonFieldType.STRING).description("유저 생성일"),
-                    fieldWithPath("modifiedDate").type(JsonFieldType.STRING).description("유저 수정일")
+                    fieldWithPath("modifiedDate").type(JsonFieldType.STRING).description("유저 수정일"),
+                    fieldWithPath("profileImageUrl").type(JsonFieldType.STRING).description("유저 프로필 이미지")
                 ))
         );
     }

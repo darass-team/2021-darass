@@ -20,13 +20,15 @@ public class UserResponse {
 
     private String type;
 
+    private String profileImageUrl;
+
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime createdDate;
 
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime modifiedDate;
 
-    public static UserResponse of(User user, String type) {
-        return new UserResponse(user.getId(), user.getNickName(), type, user.getCreatedDate(), user.getModifiedDate());
+    public static UserResponse of(User user, String type, String profileImageUrl) {
+        return new UserResponse(user.getId(), user.getNickName(), type, profileImageUrl, user.getCreatedDate(), user.getModifiedDate());
     }
 }

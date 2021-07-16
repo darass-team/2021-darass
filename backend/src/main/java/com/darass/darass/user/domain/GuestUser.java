@@ -20,6 +20,11 @@ public class GuestUser extends User {
     }
 
     @Override
+    public String getProfileImageUrl(){
+        return "guestProfileImageUrl";
+    }
+
+    @Override
     public boolean isLoginUser() {
         return false;
     }

@@ -21,7 +21,7 @@ public class UserService {
         Optional<User> expectedUser = users.findById(id);
         User user = expectedUser.orElseThrow(ExceptionWithMessageAndCode.NOT_FOUND_USER::getException);
 
-        return UserResponse.of(user, user.getUserType());
+        return UserResponse.of(user, user.getUserType(), user.getProfileImageUrl());
     }
 
     public UserResponse updateNickName(Long id, UserUpdateRequest userUpdateRequest) {
@@ -29,7 +29,7 @@ public class UserService {
         User user = expectedUser.orElseThrow(ExceptionWithMessageAndCode.NOT_FOUND_USER::getException);
         user.changeNickName(userUpdateRequest.getNickName());
 
-        return UserResponse.of(user, user.getUserType());
+        return UserResponse.of(user, user.getUserType(), user.getProfileImageUrl());
     }
 
     public void deleteById(Long id) {

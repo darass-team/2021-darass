@@ -36,7 +36,8 @@ public class CommentService {
         Project project = getBySecretKey(commentRequest);
         Comment comment = savedComment(user, commentRequest, project);
         String userType = users.findUserTypeById(user.getId());
-        return CommentResponse.of(comment, UserResponse.of(comment.getUser(), userType));
+        String profileImageUrl = users.findProfileImageUrlById(user.getId());
+        return CommentResponse.of(comment, UserResponse.of(comment.getUser(), userType, profileImageUrl));
     }
 
     private Project getBySecretKey(CommentCreateRequest commentRequest) {
@@ -68,7 +69,14 @@ public class CommentService {
         List<Comment> matchedComments = comments.match(url, projectKey);
 
         return matchedComments.stream()
-            .map(comment -> CommentResponse.of(comment, UserResponse.of(comment.getUser(), users.findUserTypeById(comment.getUser().getId()))))
+            .map(comment ->
+                CommentResponse.of(
+                    comment, UserResponse.of(
+                        comment.getUser(),
+                        users.findUserTypeById(comment.getUserId()),
+                        users.findProfileImageUrlById(comment.getUserId())
+                    )
+                ))
             .collect(Collectors.toList());
     }
 

@@ -10,4 +10,6 @@ import lombok.NoArgsConstructor;
 public class Profile {
 
     private String nickname;
+
+    private String thumbnail_image_url;
 }
