@@ -6,10 +6,10 @@ import { REACT_QUERY_KEY } from "../constants/reactQueryKey";
 
 const _editComment = async (editedComment: EditCommentParameter) => {
   const data = await request.patch<EditCommentRequestData>(`${QUERY.COMMENT}/${editedComment.id}`, {
-    content: editedComment.content
+    content: editedComment.content,
+    guestUserId: editedComment.guestUserId,
+    guestUserPassword: editedComment.guestUserPassword
   });
-
-  console.log("edited");
 
   return data;
 };
@@ -34,8 +34,8 @@ const useEditComment = () => {
   const isLoading = editMutation.isLoading;
   const error = editMutation.error;
 
-  const editComment = (_comment: EditCommentParameter) => {
-    editMutation.mutateAsync(_comment);
+  const editComment = async (_comment: EditCommentParameter) => {
+    await editMutation.mutateAsync(_comment);
   };
 
   return { editComment, isLoading, error };

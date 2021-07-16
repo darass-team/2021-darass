@@ -21,8 +21,12 @@ export interface GetRequestParams {
   projectKey?: string | null;
 }
 
-export interface EditCommentRequestData {
-  content: string;
+export interface EditCommentRequestData extends Pick<Comment, "content"> {
+  guestUserId?: number;
+  guestUserPassword?: string;
 }
 
-export type EditCommentParameter = Pick<Comment, "id" | "content">;
+export interface EditCommentParameter extends Pick<Comment, "id" | "content"> {
+  guestUserId?: number;
+  guestUserPassword?: string;
+}
