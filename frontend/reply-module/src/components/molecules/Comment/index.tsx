@@ -1,5 +1,6 @@
+import { useState } from "react";
+import { useDeleteComment, useEditComment } from "../../../hooks";
 import { Comment as CommentType } from "../../../types";
-import { getTimeDifference } from "../../../utils/time";
 import Avatar from "../../atoms/Avatar";
 import CommentTextBox from "../../atoms/CommentTextBox";
 import { Container, CommentTextBoxWrapper, Time, CommentOption } from "./styles";
@@ -9,18 +10,24 @@ export interface Props {
   align?: "left" | "right";
 
   shouldShowOption?: boolean;
-  onEdit?: () => void;
-  onDelete?: () => void;
 }
 
-const Comment = ({ comment, align = "left", shouldShowOption, onEdit, onDelete }: Props) => {
+const Comment = ({ comment, align = "left", shouldShowOption }: Props) => {
+  const [isEditing, setEditing] = useState(false);
+  const { editComment } = useEditComment();
+  const { deleteComment } = useDeleteComment();
+
   return (
     <Container align={align}>
       <Avatar imageURL={comment.user.profileImageUrl} />
       <CommentTextBoxWrapper align={align}>
-        <CommentTextBox name={comment.user.nickName}>{comment.content}</CommentTextBox>
+        <CommentTextBox name={comment.user.nickName} contentEditable={isEditing}>
+          {comment.content}
+        </CommentTextBox>
         <Time>{comment.createdDate}</Time>
-        {shouldShowOption && <CommentOption onEdit={onEdit} onDelete={onDelete} />}
+        {shouldShowOption && (
+          <CommentOption startEditing={() => setEditing(true)} deleteComment={() => deleteComment(comment.id)} />
+        )}
       </CommentTextBoxWrapper>
     </Container>
   );

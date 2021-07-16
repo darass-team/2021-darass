@@ -3,19 +3,17 @@ import { User } from "../../../types/user";
 import UserAvatarOption from "../../molecules/UserAvatarOption";
 import CommentInput from "../../organisms/CommentInput";
 import { Container, Header, CommentCount, CommentCountWrapper, CommentList } from "./styles";
-import { CreateCommentRequestData } from "../../../types/comment";
 
 export interface Props {
   user: User | undefined;
   comments: Comment[] | undefined;
   onLogin: () => void;
   onLogout: () => void;
-  createComment: (data: CreateCommentRequestData) => Promise<Comment>;
   url: string | null;
   projectSecretKey: string | null;
 }
 
-const CommentArea = ({ user, comments = [], onLogin, onLogout, createComment, projectSecretKey, url }: Props) => {
+const CommentArea = ({ user, comments = [], onLogin, onLogout, projectSecretKey, url }: Props) => {
   return (
     <Container>
       <Header>
@@ -35,7 +33,7 @@ const CommentArea = ({ user, comments = [], onLogin, onLogout, createComment, pr
           )}
         </UserAvatarOption>
       </Header>
-      <CommentInput url={url} projectSecretKey={projectSecretKey} createComment={createComment} user={user} />
+      <CommentInput url={url} projectSecretKey={projectSecretKey} user={user} />
       <CommentList user={user} comments={comments} />
     </Container>
   );

@@ -6,6 +6,7 @@ import { User } from "../../../types/user";
 export interface Props {
   className?: string;
   comments: CommentType[];
+
   user?: User;
 }
 
@@ -29,7 +30,7 @@ const CommentList = ({ className, comments, user }: Props) => {
           const align = thisCommentIsMine ? "right" : "left";
           const shouldShowOption = thisCommentIsMine || (iAmGuestUser && thisCommentIsWrittenByGuest);
 
-          return <Comment comment={comment} key={authorId} shouldShowOption={shouldShowOption} align={align} />;
+          return <Comment comment={comment} key={comment.id} shouldShowOption={shouldShowOption} align={align} />;
         })}
       </CommentContainer>
     </Container>

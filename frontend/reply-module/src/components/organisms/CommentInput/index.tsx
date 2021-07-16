@@ -1,21 +1,21 @@
 import { User } from "../../../types/user";
 import SubmitButton from "../../atoms/SubmitButton";
 import { Form, TextArea, Wrapper, GuestInfo } from "./styles";
-import { useInput } from "../../../hooks";
+import { useCreateComment, useInput } from "../../../hooks";
 import { FormEvent } from "react";
-import { CreateCommentRequestData } from "../../../types/comment";
+import { Comment, CreateCommentRequestData } from "../../../types/comment";
 
 export interface Props {
   user: User | undefined;
-  createComment: (data: CreateCommentRequestData) => Promise<Comment>;
   url: string | null;
   projectSecretKey: string | null;
 }
 
-const CommentInput = ({ user, createComment, url, projectSecretKey }: Props) => {
+const CommentInput = ({ user, url, projectSecretKey }: Props) => {
   const { value: content, onChange: onChangeContent, setValue: setContent } = useInput("");
   const { value: guestNickName, onChange: onChangeGuestNickName, setValue: setGuestNickName } = useInput("");
   const { value: guestPassword, onChange: onChangeGuestPassword, setValue: setGuestPassword } = useInput("");
+  const { createComment } = useCreateComment();
 
   const isValidFormInput =
     content.length > 0 ? (!user ? guestNickName.length > 0 && guestPassword.length > 0 : true) : false;

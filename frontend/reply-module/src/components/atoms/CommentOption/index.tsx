@@ -4,14 +4,20 @@ import { Container, DeleteButton, EditButton, OptionContainer, OptionIcon } from
 
 export interface Props {
   className?: string;
-  onEdit?: () => void;
-  onDelete?: () => void;
+  startEditing: () => void;
+  deleteComment: () => void;
 }
 
-const CommentOption = ({ className, onEdit, onDelete }: Props) => {
+const CommentOption = ({ className, startEditing, deleteComment }: Props) => {
   const [isShowOptionBox, setShowOptionBox] = useState(false);
   const onShowOptionBox = () => {
     setShowOptionBox(state => !state);
+  };
+
+  const onDelete = () => {
+    if (confirm("정말 지우시겠습니까?")) {
+      deleteComment();
+    }
   };
 
   return (
@@ -19,8 +25,12 @@ const CommentOption = ({ className, onEdit, onDelete }: Props) => {
       <OptionIcon src={threeDots} alt="댓글 옵션" onClick={onShowOptionBox} />
       {isShowOptionBox && (
         <OptionContainer>
-          <EditButton type="button">수정</EditButton>
-          <DeleteButton type="button">삭제</DeleteButton>
+          <EditButton type="button" onClick={startEditing}>
+            수정
+          </EditButton>
+          <DeleteButton type="button" onClick={onDelete}>
+            삭제
+          </DeleteButton>
         </OptionContainer>
       )}
     </Container>

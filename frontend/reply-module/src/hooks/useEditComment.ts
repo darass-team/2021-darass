@@ -8,9 +8,9 @@ interface EditCommentRequestData {
   content: string;
 }
 
-const _editComment = async (comment: Comment) => {
-  const data = await request.patch<EditCommentRequestData>(`${QUERY.COMMENT}/${comment.id}`, {
-    content: comment.content
+const _editComment = async (editedComment: Comment) => {
+  const data = await request.patch<EditCommentRequestData>(`${QUERY.COMMENT}/${editedComment.id}`, {
+    content: editedComment.content
   });
 
   return data;
@@ -36,10 +36,8 @@ const useEditComment = () => {
   const isLoading = editMutation.isLoading;
   const error = editMutation.error;
 
-  const editComment = async (_comment: Comment) => {
-    const comment = await editMutation.mutateAsync(_comment);
-
-    return comment;
+  const editComment = (_comment: Comment) => {
+    editMutation.mutateAsync(_comment);
   };
 
   return { editComment, isLoading, error };

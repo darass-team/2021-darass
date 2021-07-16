@@ -1,4 +1,4 @@
-import { useCreateComment, useGetAllComments, useUser } from "../../../hooks";
+import { useCreateComment, useDeleteComment, useEditComment, useGetAllComments, useUser } from "../../../hooks";
 import CommentArea from "../../templates/CommentArea";
 
 const CommentPage = () => {
@@ -9,7 +9,6 @@ const CommentPage = () => {
 
   const { user, login, logout } = useUser();
   const { comments } = useGetAllComments({ url, projectKey });
-  const { createComment } = useCreateComment();
 
   return (
     <>
@@ -20,7 +19,6 @@ const CommentPage = () => {
         comments={comments}
         onLogin={login}
         onLogout={logout}
-        createComment={createComment}
         url={url}
         projectSecretKey={projectKey}
       />
