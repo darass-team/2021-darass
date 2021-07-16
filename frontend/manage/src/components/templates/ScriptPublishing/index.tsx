@@ -6,11 +6,10 @@ const scriptCode = (projectSecretKey: string) => `
 <div id="darass" data-project-key="${projectSecretKey}">
     <script type="text/javascript">
         (function () {
-        // DON'T EDIT BELOW THIS LINE
         var $document = document;
 
         var $script = $document.createElement("script");
-        $script.src = "./src/embed.js";
+        $script.src = "./dist/js/embed.js";
         $script.defer = true;
 
         $document.head.appendChild($script);
