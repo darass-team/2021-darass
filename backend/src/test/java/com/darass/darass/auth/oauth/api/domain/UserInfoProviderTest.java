@@ -4,6 +4,7 @@ import com.darass.darass.auth.oauth.api.domain.dto.KaKaoAccount;
 import com.darass.darass.auth.oauth.api.domain.dto.Profile;
 import com.darass.darass.auth.oauth.api.domain.dto.SocialLoginResponse;
 import com.darass.darass.exception.ExceptionWithMessageAndCode;
+import com.darass.darass.project.domain.Project;
 import com.darass.darass.user.domain.SocialLoginUser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -36,7 +37,7 @@ class UserInfoProviderTest {
     @Test
     @DisplayName("findSocialLoginUser 메서드는 카카오 api 서버에 액세스 토큰을 전송하면 SocialLoginUser 객체를 리턴한다.")
     void findSocialLoginUser() throws JsonProcessingException {
-        Profile profile = new Profile("우기");
+        Profile profile = new Profile("우기", "https://kakao.com/image");
         KaKaoAccount kaKaoAccount = new KaKaoAccount("jujubat@kakao.com", profile);
         SocialLoginResponse socialLoginResponse = new SocialLoginResponse("1", kaKaoAccount);
 
@@ -48,6 +49,7 @@ class UserInfoProviderTest {
 
         assertThat(socialLoginUser.getNickName()).isEqualTo(profile.getNickname());
         assertThat(socialLoginUser.getEmail()).isEqualTo(kaKaoAccount.getEmail());
+        assertThat(socialLoginUser.getProfileImageUrl()).isEqualTo(profile.getThumbnail_image_url());
     }
 
 

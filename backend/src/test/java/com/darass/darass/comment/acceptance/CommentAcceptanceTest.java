@@ -9,6 +9,7 @@ import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuild
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.relaxedRequestFields;
+import static org.springframework.restdocs.payload.PayloadDocumentation.relaxedResponseFields;
 import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
@@ -69,6 +70,7 @@ public class CommentAcceptanceTest extends AcceptanceTest {
             .oauthId("abc13gag")
             .oauthPlatform(OAuthPlatform.KAKAO)
             .email("qkrwotjd1445@naver.com")
+            .profileImageUrl("https://imageUrl")
             .build();
         users.save(socialLoginUser);
         token = jwtTokenProvider.createAccessToken(socialLoginUser.getId().toString());
@@ -105,8 +107,9 @@ public class CommentAcceptanceTest extends AcceptanceTest {
                     fieldWithPath("user.modifiedDate").type(JsonFieldType.STRING).description("유저 수정 시점"),
                     fieldWithPath("user.id").type(JsonFieldType.NUMBER).description("유저 id"),
                     fieldWithPath("user.nickName").type(JsonFieldType.STRING).description("유저 닉네임"),
-                    fieldWithPath("user.type").type(JsonFieldType.STRING).description("유저 유형")
-                ))
+                    fieldWithPath("user.type").type(JsonFieldType.STRING).description("유저 유형"),
+                    fieldWithPath("user.profileImageUrl").type(JsonFieldType.STRING).description("유저 프로필 이미지")
+                    ))
         );
     }
 
@@ -122,7 +125,7 @@ public class CommentAcceptanceTest extends AcceptanceTest {
                     fieldWithPath("content").type(JsonFieldType.STRING).description("댓글 내용"),
                     fieldWithPath("url").type(JsonFieldType.STRING).description("url")
                 ),
-                responseFields(
+                relaxedResponseFields(
                     fieldWithPath("id").type(JsonFieldType.NUMBER).description("댓글 id"),
                     fieldWithPath("content").type(JsonFieldType.STRING).description("댓글 내용"),
                     fieldWithPath("createdDate").type(JsonFieldType.STRING).description("댓글 생성 시점"),
@@ -180,7 +183,8 @@ public class CommentAcceptanceTest extends AcceptanceTest {
                     fieldWithPath("[].user.modifiedDate").type(JsonFieldType.STRING).description("유저 수정 시점"),
                     fieldWithPath("[].user.id").type(JsonFieldType.NUMBER).description("유저 id"),
                     fieldWithPath("[].user.nickName").type(JsonFieldType.STRING).description("유저 닉네임"),
-                    fieldWithPath("[].user.type").type(JsonFieldType.STRING).description("유저 타입")
+                    fieldWithPath("[].user.type").type(JsonFieldType.STRING).description("유저 타입"),
+                    fieldWithPath("[].user.profileImageUrl").type(JsonFieldType.STRING).description("유저 프로필 이미지")
                 )
             ));
     }
@@ -284,10 +288,12 @@ public class CommentAcceptanceTest extends AcceptanceTest {
 
         mockMvc.perform(delete("/api/v1/comments/{id}", commentId)
             .header("Authorization", "Bearer " + token)
-            .contentType(MediaType.APPLICATION_JSON)
-        )
+            .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isNoContent())
             .andDo(document("api/v1/comments/delete/success-login-user",
+                requestHeaders(
+                  headerWithName("Authorization").description("JWT - Bearer 토큰")
+                ),
                 pathParameters(
                     parameterWithName("id").description("삭제할 댓글 id")
                 )
@@ -321,11 +327,11 @@ public class CommentAcceptanceTest extends AcceptanceTest {
     @Test
     @DisplayName("/api/v1/comments/{id} DELETE - 남의 댓글을 삭제하는 경우")
     void deleteUnauthorized() throws Exception {
-        CommentResponse commentResponse1 = 소셜_로그인_댓글_등록됨_Response_반환("content1", "url");
-        CommentResponse commentResponse2 = 비로그인_댓글_등록됨_Response_반환("content2", "url");
-        Long commentId2 = commentResponse2.getId();
+        소셜_로그인_댓글_등록됨_Response_반환("content1", "url");
+        CommentResponse commentResponse = 비로그인_댓글_등록됨_Response_반환("content2", "url");
+        Long commentId = commentResponse.getId();
 
-        mockMvc.perform(delete("/api/v1/comments/{id}", commentId2)
+        mockMvc.perform(delete("/api/v1/comments/{id}", commentId)
             .contentType(MediaType.APPLICATION_JSON)
             .header("Authorization", "Bearer " + token)
         )
@@ -356,8 +362,7 @@ public class CommentAcceptanceTest extends AcceptanceTest {
     private ResultActions 비로그인_댓글_등록됨(String content, String url) throws Exception {
         return mockMvc.perform(post("/api/v1/comments")
             .contentType(MediaType.APPLICATION_JSON)
-            .content(asJsonString(new CommentCreateRequest("guest", "password", secretKey, content, url)))
-        )
+            .content(asJsonString(new CommentCreateRequest("guest", "password", secretKey, content, url))))
             .andExpect(status().isCreated())
             .andExpect(jsonPath("$.user..type").value("GuestUser"));
     }
