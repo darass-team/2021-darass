@@ -35,6 +35,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     implementation group: 'javax.xml.bind', name: 'jaxb-api', version: '2.2.4'
+    implementation 'net.rakugakibox.spring.boot:logback-access-spring-boot-starter:2.7.1'
 
     // jwt
     implementation 'io.jsonwebtoken:jjwt:0.9.1'

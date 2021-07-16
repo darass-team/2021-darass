@@ -1,0 +1,35 @@
+<configuration debug="true">
+    // 콘솔 로깅 설정
+    <property name="logHome" value="./data/logs/error" />
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>%green(%d{yyyy-MM-dd HH:mm:ss.SSS}) [%thread] %highlight([%-5level]) %logger{50} - %cyan(%msg%n)</pattern>
+        </encoder>
+    </appender>
+
+    // 파일 로깅 설정
+    <appender name="fileAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>DEBUG</level>
+        </filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${logHome}/%d{yyyyMMdd}/%d{yyyyMMdd}.%i.subway-error.log</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>15MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <Pattern>
+                %d{yyyy-MM-dd HH:mm:ss.SSS} %thread %-5level %logger - %m%n
+            </Pattern>
+        </encoder>
+    </appender>
+
+    <root level="info">
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="fileAppender" />
+    </root>
+
+</configuration>
