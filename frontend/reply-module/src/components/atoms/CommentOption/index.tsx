@@ -18,6 +18,12 @@ const CommentOption = ({ className, startEditing, deleteComment }: Props) => {
     if (confirm("정말 지우시겠습니까?")) {
       deleteComment();
     }
+    setShowOptionBox(false);
+  };
+
+  const onStartEditing = () => {
+    setShowOptionBox(false);
+    startEditing();
   };
 
   return (
@@ -25,7 +31,7 @@ const CommentOption = ({ className, startEditing, deleteComment }: Props) => {
       <OptionIcon src={threeDots} alt="댓글 옵션" onClick={onShowOptionBox} />
       {isShowOptionBox && (
         <OptionContainer>
-          <EditButton type="button" onClick={startEditing}>
+          <EditButton type="button" onClick={onStartEditing}>
             수정
           </EditButton>
           <DeleteButton type="button" onClick={onDelete}>

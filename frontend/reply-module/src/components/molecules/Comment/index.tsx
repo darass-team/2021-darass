@@ -17,11 +17,20 @@ const Comment = ({ comment, align = "left", shouldShowOption }: Props) => {
   const { editComment } = useEditComment();
   const { deleteComment } = useDeleteComment();
 
+  const submitEditedComment = (content: CommentType["content"]) => {
+    setEditing(false);
+    editComment({ id: comment.id, content });
+  };
+
   return (
     <Container align={align}>
       <Avatar imageURL={comment.user.profileImageUrl} />
       <CommentTextBoxWrapper align={align}>
-        <CommentTextBox name={comment.user.nickName} contentEditable={isEditing}>
+        <CommentTextBox
+          name={comment.user.nickName}
+          contentEditable={isEditing}
+          submitEditedComment={submitEditedComment}
+        >
           {comment.content}
         </CommentTextBox>
         <Time>{comment.createdDate}</Time>

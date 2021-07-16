@@ -1,17 +1,15 @@
 import { useMutation, useQueryClient } from "react-query";
 import { QUERY } from "../constants/api";
 import { request } from "../utils/request";
-import { Comment } from "../types/comment";
+import { Comment, EditCommentParameter, EditCommentRequestData } from "../types/comment";
 import { REACT_QUERY_KEY } from "../constants/reactQueryKey";
 
-interface EditCommentRequestData {
-  content: string;
-}
-
-const _editComment = async (editedComment: Comment) => {
+const _editComment = async (editedComment: EditCommentParameter) => {
   const data = await request.patch<EditCommentRequestData>(`${QUERY.COMMENT}/${editedComment.id}`, {
     content: editedComment.content
   });
+
+  console.log("edited");
 
   return data;
 };
@@ -19,7 +17,7 @@ const _editComment = async (editedComment: Comment) => {
 const useEditComment = () => {
   const queryClient = useQueryClient();
 
-  const editMutation = useMutation<void, Error, Comment>(comment => _editComment(comment), {
+  const editMutation = useMutation<void, Error, EditCommentParameter>(comment => _editComment(comment), {
     onSuccess: (_, editedComment) => {
       queryClient.setQueryData<Comment[] | undefined>(REACT_QUERY_KEY.COMMENT, comments => {
         return comments?.map(comment => {
@@ -36,7 +34,7 @@ const useEditComment = () => {
   const isLoading = editMutation.isLoading;
   const error = editMutation.error;
 
-  const editComment = (_comment: Comment) => {
+  const editComment = (_comment: EditCommentParameter) => {
     editMutation.mutateAsync(_comment);
   };
 

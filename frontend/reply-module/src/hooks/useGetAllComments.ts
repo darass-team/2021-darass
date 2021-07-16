@@ -2,17 +2,13 @@ import { useQuery } from "react-query";
 import { QUERY } from "../constants/api";
 import { REACT_QUERY_KEY } from "../constants/reactQueryKey";
 import { Comment } from "../types";
+import { GetRequestParams } from "../types/comment";
 import { request } from "../utils/request";
-
-interface GetRequestParams {
-  url: string | null;
-  projectKey?: string | null;
-}
 
 const getAllComments = async ({ url, projectKey }: GetRequestParams) => {
   if (!url || !projectKey) return undefined;
 
-  const data = await request.get(QUERY.CREATE_COMMENT(url, projectKey));
+  const data = await request.get(QUERY.GET_ALL_COMMENTS(url, projectKey));
 
   return data;
 };
