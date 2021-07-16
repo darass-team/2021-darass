@@ -1,11 +1,16 @@
 import { useMutation, useQueryClient } from "react-query";
 import { QUERY } from "../constants/api";
 import { request } from "../utils/request";
-import { Comment } from "../types/comment";
+import { Comment, DeleteCommentRequestParameter } from "../types/comment";
 import { REACT_QUERY_KEY } from "../constants/reactQueryKey";
 
-const _deleteComment = async (id: Comment["id"]) => {
-  const data = await request.delete(`${QUERY.COMMENT}/${id}`);
+const _deleteComment = async ({ id, guestUserId, guestUserPassword }: DeleteCommentRequestParameter) => {
+  const urlParams = new URLSearchParams(`${QUERY.COMMENT}/${id}/?`);
+
+  guestUserId && urlParams.set("guestUserId", `${guestUserId}`);
+  guestUserPassword && urlParams.set("guestUserPassword", `${guestUserPassword}`);
+
+  const data = await request.delete(decodeURIComponent(urlParams.toString()));
 
   return data;
 };
@@ -13,7 +18,7 @@ const _deleteComment = async (id: Comment["id"]) => {
 const useDeleteComment = () => {
   const queryClient = useQueryClient();
 
-  const deleteMutation = useMutation<void, Error, Comment["id"]>(id => _deleteComment(id), {
+  const deleteMutation = useMutation<void, Error, DeleteCommentRequestParameter>(data => _deleteComment(data), {
     onSuccess: (_, commentId) => {
       queryClient.setQueryData<Comment[] | undefined>(REACT_QUERY_KEY.COMMENT, comments => {
         return comments?.filter(comment => comment.id !== commentId);
@@ -24,8 +29,8 @@ const useDeleteComment = () => {
   const isLoading = deleteMutation.isLoading;
   const error = deleteMutation.error;
 
-  const deleteComment = (id: Comment["id"]) => {
-    deleteMutation.mutateAsync(id);
+  const deleteComment = async (data: DeleteCommentRequestParameter) => {
+    return deleteMutation.mutateAsync(data);
   };
 
   return { deleteComment, isLoading, error };

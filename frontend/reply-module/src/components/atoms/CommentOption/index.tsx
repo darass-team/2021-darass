@@ -5,25 +5,25 @@ import { Container, DeleteButton, EditButton, OptionContainer, OptionIcon } from
 export interface Props {
   className?: string;
   startEditing: () => void;
-  deleteComment: () => void;
+  startDeleting: () => void;
 }
 
-const CommentOption = ({ className, startEditing, deleteComment }: Props) => {
+const CommentOption = ({ className, startEditing, startDeleting }: Props) => {
   const [isShowOptionBox, setShowOptionBox] = useState(false);
   const onShowOptionBox = () => {
     setShowOptionBox(state => !state);
   };
 
   const onDelete = () => {
-    if (confirm("정말 지우시겠습니까?")) {
-      deleteComment();
-    }
+    startDeleting();
+
     setShowOptionBox(false);
   };
 
   const onStartEditing = () => {
-    setShowOptionBox(false);
     startEditing();
+
+    setShowOptionBox(false);
   };
 
   return (

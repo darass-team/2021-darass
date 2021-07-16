@@ -15,6 +15,7 @@ import {
   Button
 } from "./styles";
 import { User } from "../../../types/user";
+import { DeleteCommentRequestParameter } from "../../../types/comment";
 
 export interface Props {
   user: User | undefined;
@@ -23,20 +24,17 @@ export interface Props {
   shouldShowOption?: boolean;
 }
 
+type SubmitType = "Edit" | "Delete";
+
 const Comment = ({ user, comment, align = "left", shouldShowOption }: Props) => {
   const [isEditing, setEditing] = useState(false);
   const [shouldShowPasswordInput, shouldShowPasswordInputState] = useState(false);
+  const [submitType, setSubmitType] = useState<SubmitType>();
   const { value: password, onChange: onChangePassword } = useInput("");
   const { editComment } = useEditComment();
   const { deleteComment } = useDeleteComment();
 
-  const startEditing = () => {
-    user ? setEditing(true) : shouldShowPasswordInputState(true);
-  };
-
-  const submitPassword = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
+  const confirmGuestPassword = async () => {
     try {
       await editComment({
         id: comment.id,
@@ -45,21 +43,75 @@ const Comment = ({ user, comment, align = "left", shouldShowOption }: Props) => 
         guestUserPassword: password
       });
 
-      shouldShowPasswordInputState(false);
-      setEditing(true);
+      return true;
     } catch (error) {
-      console.error(error);
+      console.error(error.message);
+      return false;
     }
   };
 
-  const submitEditedComment = (content: CommentType["content"]) => {
-    setEditing(false);
-    editComment({
+  const startEditing = () => {
+    user ? setEditing(true) : shouldShowPasswordInputState(true);
+
+    setSubmitType("Edit");
+  };
+
+  const startDeleting = () => {
+    user ? deleteCallback() : shouldShowPasswordInputState(true);
+
+    setSubmitType("Delete");
+  };
+
+  const editCallback = () => {
+    setEditing(true);
+  };
+
+  const deleteCallback = async () => {
+    if (!confirm("정말 지우시겠습니까?")) return;
+
+    const deleteCommentRequestParameter: DeleteCommentRequestParameter = {
       id: comment.id,
-      content,
       guestUserId: comment.user.id,
       guestUserPassword: password
-    });
+    };
+
+    try {
+      await deleteComment(deleteCommentRequestParameter);
+    } catch (error) {
+      console.error(error.message);
+      alert("댓글 제거에 실패하셨습니다.");
+    }
+  };
+
+  const submitPassword = async (event: FormEvent<HTMLFormElement>, submitPasswordCallback: () => void) => {
+    event.preventDefault();
+
+    try {
+      const isValidPassword = await confirmGuestPassword();
+      if (!isValidPassword) throw new Error("비밀번호가 일치하지 않습니다.");
+
+      submitPasswordCallback();
+
+      shouldShowPasswordInputState(false);
+    } catch (error) {
+      console.error(error.message);
+      alert(error.message);
+    }
+  };
+
+  const submitEditedComment = async (content: CommentType["content"]) => {
+    try {
+      await editComment({
+        id: comment.id,
+        content,
+        guestUserId: comment.user.id,
+        guestUserPassword: password
+      });
+
+      setEditing(false);
+    } catch (error) {
+      console.error(error.message);
+    }
   };
 
   return (
@@ -67,6 +119,7 @@ const Comment = ({ user, comment, align = "left", shouldShowOption }: Props) => 
       <div>
         <CommentWrapper>
           <Avatar imageURL={comment.user.profileImageUrl} />
+
           <CommentTextBoxWrapper align={align}>
             <CommentTextBox
               name={comment.user.nickName}
@@ -75,15 +128,21 @@ const Comment = ({ user, comment, align = "left", shouldShowOption }: Props) => 
             >
               {comment.content}
             </CommentTextBox>
+
             <Time>{getTimeDifference(comment.createdDate)}</Time>
-            {shouldShowOption && (
-              <CommentOption startEditing={() => startEditing()} deleteComment={() => deleteComment(comment.id)} />
-            )}
+
+            {shouldShowOption && <CommentOption startEditing={startEditing} startDeleting={startDeleting} />}
           </CommentTextBoxWrapper>
         </CommentWrapper>
 
         {shouldShowPasswordInput && (
-          <PasswordForm onSubmit={submitPassword}>
+          <PasswordForm
+            onSubmit={event => {
+              const submitPasswordCallback = submitType === "Edit" ? editCallback : deleteCallback;
+
+              submitPassword(event, submitPasswordCallback);
+            }}
+          >
             <PasswordInput
               type="password"
               value={password}

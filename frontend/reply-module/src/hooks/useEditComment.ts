@@ -35,7 +35,7 @@ const useEditComment = () => {
   const error = editMutation.error;
 
   const editComment = async (_comment: EditCommentParameter) => {
-    await editMutation.mutateAsync(_comment);
+    return editMutation.mutateAsync(_comment);
   };
 
   return { editComment, isLoading, error };

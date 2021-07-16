@@ -8,12 +8,16 @@ export interface Comment {
   modifiedDate: string;
 }
 
-export interface CreateCommentRequestData {
+export interface GuestUserInfo {
+  guestUserId?: number;
+  guestNickName?: string;
+  guestUserPassword?: string;
+}
+
+export interface CreateCommentRequestData extends Omit<GuestUserInfo, "guestUserId"> {
   url: string | null;
   projectSecretKey: string | null;
   content: string;
-  guestNickName?: string;
-  guestPassword?: string;
 }
 
 export interface GetRequestParams {
@@ -21,12 +25,8 @@ export interface GetRequestParams {
   projectKey?: string | null;
 }
 
-export interface EditCommentRequestData extends Pick<Comment, "content"> {
-  guestUserId?: number;
-  guestUserPassword?: string;
-}
+export type EditCommentRequestData = Pick<Comment, "content"> & Omit<GuestUserInfo, "guestNickName">;
 
-export interface EditCommentParameter extends Pick<Comment, "id" | "content"> {
-  guestUserId?: number;
-  guestUserPassword?: string;
-}
+export type EditCommentParameter = Pick<Comment, "id" | "content"> & Omit<GuestUserInfo, "guestNickName">;
+
+export type DeleteCommentRequestParameter = Pick<Comment, "id"> & Omit<GuestUserInfo, "guestNickName">;
