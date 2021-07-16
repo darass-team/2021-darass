@@ -3,7 +3,7 @@ import SubmitButton from "../../atoms/SubmitButton";
 import { Container, TextArea, Wrapper, GuestInfo } from "./styles";
 
 export interface Props {
-  user: User | null;
+  user: User | undefined;
 }
 
 const CommentInput = ({ user }: Props) => {

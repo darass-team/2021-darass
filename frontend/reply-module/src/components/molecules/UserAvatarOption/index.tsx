@@ -4,7 +4,7 @@ import Avatar from "../../atoms/Avatar";
 import { Container, UserOption } from "./styles";
 
 export interface Props {
-  user: User | null;
+  user: User | undefined;
   children: ReactNode;
 }
 
@@ -22,7 +22,7 @@ const UserAvatarOption = ({ user, children }: Props) => {
   return (
     <Container>
       <Avatar
-        imageURL={user?.imageURL || "https://upload.wikimedia.org/wikipedia/commons/7/70/User_icon_BLACK-01.png"}
+        imageURL={"https://upload.wikimedia.org/wikipedia/commons/7/70/User_icon_BLACK-01.png"}
         onClick={onShowOptionBox}
       />
       {isShowOptionBox && <UserOption userName={user?.nickName || "Login With"}>{children}</UserOption>}

@@ -1,3 +1,1 @@
-import useLogin from "./useLogin";
-
-export { useLogin };
+export { useUser } from "./useUser";

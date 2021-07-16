@@ -5,7 +5,7 @@ import CommentInput from "../../organisms/CommentInput";
 import { Container, Header, CommentCount, CommentCountWrapper, CommentList } from "./styles";
 
 export interface Props {
-  user: User | null;
+  user: User | undefined;
   onLogin: () => void;
   onLogout: () => void;
 }

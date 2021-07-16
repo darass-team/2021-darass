@@ -1,8 +1,8 @@
-import { useLogin } from "../../../hooks";
+import { useUser } from "../../../hooks";
 import CommentArea from "../../templates/CommentArea";
 
 const CommentPage = () => {
-  const { user, login, logout } = useLogin();
+  const { user, login, logout } = useUser();
 
   return <CommentArea user={user} onLogin={login} onLogout={logout} />;
 };
