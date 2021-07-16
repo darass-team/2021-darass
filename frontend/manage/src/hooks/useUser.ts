@@ -48,4 +48,4 @@ const useUser = () => {
   return { user, login, logout, isLoading, error };
 };
 
-export default useUser;
+export { useUser };

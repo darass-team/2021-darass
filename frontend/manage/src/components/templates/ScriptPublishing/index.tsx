@@ -1,3 +1,4 @@
+import ScreenContainer from "../../../styles/ScreenContainer";
 import { Container, Section, Title, CodeBlockWrapper, P } from "./styles";
 
 const scriptCode = (projectSecretKey: string) => `
@@ -21,31 +22,33 @@ const scriptCode = (projectSecretKey: string) => `
 `;
 
 export interface Props {
-  projectSecretKey: string;
+  projectSecretKey?: string;
 }
 
 const ScriptPublishing = ({ projectSecretKey }: Props) => {
   return (
-    <Container>
-      <Section>
-        <Title>다라쓰 설치 코드</Title>
-        <CodeBlockWrapper>{scriptCode(projectSecretKey)}</CodeBlockWrapper>
-      </Section>
+    <ScreenContainer>
+      <Container>
+        <Section>
+          <Title>다라쓰 설치 코드</Title>
+          <CodeBlockWrapper>{scriptCode(projectSecretKey || "코드를 불러오는 중입니다...")}</CodeBlockWrapper>
+        </Section>
 
-      <Section>
-        <Title>코드 적용 방법</Title>
-        <P>
-          Condimentum venenatis blandit massa proin nunc, curabitur sit. Lacus dolor ut aliquet semper lorem eros.
-          Ultrices id scelerisque aliquam mattis egestas. Orci ornare varius amet ornare. Nulla nullam imperdiet
-          hendrerit cras enim quis nisi cursus. Elit massa adipiscing fermentum imperdiet vulputate iaculis malesuada.
-          Urna aliquet vitae enim, id in luctus. Risus aliquam amet eu, fames iaculis mauris, metus, sem nascetur.
-          Vulputate ac nibh proin nisi eu fermentum eget eu nulla. Cum id in convallis urna fringilla quam congue
-          turpis. Nibh volutpat a vestibulum tempor purus odio nunc est lacus. Eros libero sed tortor aliquam purus ut.
-          Faucibus at vulputate molestie congue convallis proin proin duis et. Velit tincidunt facilisis vel orci
-          adipiscing id et, vel.
-        </P>
-      </Section>
-    </Container>
+        <Section>
+          <Title>코드 적용 방법</Title>
+          <P>
+            Condimentum venenatis blandit massa proin nunc, curabitur sit. Lacus dolor ut aliquet semper lorem eros.
+            Ultrices id scelerisque aliquam mattis egestas. Orci ornare varius amet ornare. Nulla nullam imperdiet
+            hendrerit cras enim quis nisi cursus. Elit massa adipiscing fermentum imperdiet vulputate iaculis malesuada.
+            Urna aliquet vitae enim, id in luctus. Risus aliquam amet eu, fames iaculis mauris, metus, sem nascetur.
+            Vulputate ac nibh proin nisi eu fermentum eget eu nulla. Cum id in convallis urna fringilla quam congue
+            turpis. Nibh volutpat a vestibulum tempor purus odio nunc est lacus. Eros libero sed tortor aliquam purus
+            ut. Faucibus at vulputate molestie congue convallis proin proin duis et. Velit tincidunt facilisis vel orci
+            adipiscing id et, vel.
+          </P>
+        </Section>
+      </Container>
+    </ScreenContainer>
   );
 };
 

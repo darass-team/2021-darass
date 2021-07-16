@@ -1,7 +1,5 @@
 import { useHistory } from "react-router-dom";
 import { ROUTE } from "../../../constants";
-import { PALETTE } from "../../../styles/palette";
-import ScreenContainer from "../../../styles/ScreenContainer";
 import Home from "../../templates/Home";
 
 const HomePage = () => {
@@ -11,11 +9,7 @@ const HomePage = () => {
     history.push(ROUTE.LOGIN);
   };
 
-  return (
-    <ScreenContainer bgColor={PALETTE.PRIMARY}>
-      <Home moveLoginPage={moveLoginPage} />
-    </ScreenContainer>
-  );
+  return <Home moveLoginPage={moveLoginPage} />;
 };
 
 export default HomePage;

@@ -13,8 +13,8 @@ export const Default = Template.bind({});
 
 Default.args = {
   projects: [
-    { id: 1, name: "Github" },
-    { id: 2, name: "Tistory" }
+    { id: 1, name: "Github", secretKey: "123" },
+    { id: 2, name: "Tistory", secretKey: "456" }
   ],
   moveNewProjectPage: () => {},
   moveProjectDetailPage: id => {

@@ -1,12 +1,14 @@
 import styled from "styled-components";
-import { navigationHeight } from "./constants";
+import { navigationHeight, pageMaxWidth } from "./constants";
 import { PALETTE } from "./palette";
 
-const ScreenContainer = styled.div<{ bgColor: PALETTE }>`
+const ScreenContainer = styled.div<{ bgColor?: PALETTE }>`
   min-height: ${`calc(100vh - ${navigationHeight})`};
   width: 100%;
-  background-color: ${[props => props.bgColor]};
+  max-width: ${pageMaxWidth};
+  background-color: ${[props => (props.bgColor ? props.bgColor : PALETTE.WHITE)]};
   padding: 5rem 0;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
