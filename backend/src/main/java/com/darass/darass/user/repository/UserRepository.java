@@ -13,4 +13,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     Optional<User> findById(Long userId);
 
+    @Query("SELECT u.profileImageUrl FROM User u WHERE u.id = :id")
+    String findProfileImageUrlById(@Param("id") Long id);
 }

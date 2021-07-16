@@ -23,8 +23,8 @@ public class SocialLoginUser extends User {
 
     @Builder
     public SocialLoginUser(String nickName, String oauthId,
-                           OAuthPlatform oauthPlatform, String email) {
-        super(nickName);
+                           OAuthPlatform oauthPlatform, String email, String profileImageUrl) {
+        super(nickName, profileImageUrl);
         this.oauthId = oauthId;
         this.oauthPlatform = oauthPlatform;
         this.email = email;
