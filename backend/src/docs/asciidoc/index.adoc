@@ -1,11 +1,14 @@
-= 다라쓰 API Docs
+= *다라쓰 API Docs*
 :toc: left
 
-== 유저 API
+== *Auth API*
+include::{snippets}/../../src/docs/asciidoc/api/v1/auth-login.adoc[]
+
+== *유저 API*
 include::{snippets}/../../src/docs/asciidoc/api/v1/users.adoc[]
 
-== 프로젝트 API
+== *프로젝트 API*
 include::{snippets}/../../src/docs/asciidoc/api/v1/projects.adoc[]
 
-== 댓글 API
+== *댓글 API*
 include::{snippets}/../../src/docs/asciidoc/api/v1/comments.adoc[]

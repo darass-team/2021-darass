@@ -1,6 +1,7 @@
 package com.darass.darass.auth.oauth.service;
 
 import com.darass.darass.auth.oauth.api.domain.UserInfoProvider;
+import com.darass.darass.auth.oauth.controller.dto.TokenResponse;
 import com.darass.darass.auth.oauth.infrastructure.JwtTokenProvider;
 import com.darass.darass.user.domain.OAuthPlatform;
 import com.darass.darass.user.domain.SocialLoginUser;
@@ -63,11 +64,11 @@ class OAuthServiceTest {
     @Test
     void oauthLogin() {
         // then
-        String accessToken = oAuthService.oauthLogin(oauthAccessToken);
+        TokenResponse tokenResponse = oAuthService.oauthLogin(oauthAccessToken);
 
         // when
-        String payload = jwtTokenProvider.getPayload(accessToken);
-        assertThat(jwtTokenProvider.getPayload(accessToken)).isEqualTo("1");
+        String payload = jwtTokenProvider.getPayload(tokenResponse.getAccessToken());
+        assertThat(jwtTokenProvider.getPayload(tokenResponse.getAccessToken())).isEqualTo("1");
         assertThat(socialLoginUserRepository.findById(Long.parseLong(payload)).isPresent()).isTrue();
     }
 
@@ -75,10 +76,10 @@ class OAuthServiceTest {
     @Test
     void findSocialLoginUserByAccessToken() {
         // given
-        String accessToken = oAuthService.oauthLogin(oauthAccessToken);
+        TokenResponse tokenResponse = oAuthService.oauthLogin(oauthAccessToken);
 
         // then
-        SocialLoginUser socialLoginUser = oAuthService.findSocialLoginUserByAccessToken(accessToken);
+        SocialLoginUser socialLoginUser = oAuthService.findSocialLoginUserByAccessToken(tokenResponse.getAccessToken());
 
         // when
         assertThat(socialLoginUser.getId()).isEqualTo(1L);

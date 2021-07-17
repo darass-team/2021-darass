@@ -15,7 +15,7 @@ include::{snippets}/api/v1/users/get/success/response-fields.adoc[]
 include::{snippets}/api/v1/users/get/fail/http-response.adoc[]
 include::{snippets}/api/v1/users/get/fail/response-fields.adoc[]
 
-=== 유저 수정(PATCH /api/v1/users)
+=== 유저 수정 (PATCH /api/v1/users)
 
 ==== Request
 
@@ -33,7 +33,7 @@ include::{snippets}/api/v1/users/patch/success/response-fields.adoc[]
 include::{snippets}/api/v1/users/patch/fail/http-response.adoc[]
 include::{snippets}/api/v1/users/patch/fail/response-fields.adoc[]
 
-=== 유저 삭제(DELETE /api/v1/users)
+=== 유저 삭제 (DELETE /api/v1/users)
 
 ==== Request
 
