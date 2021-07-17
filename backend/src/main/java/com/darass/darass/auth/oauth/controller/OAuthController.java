@@ -1,7 +1,10 @@
 package com.darass.darass.auth.oauth.controller;
 
+import com.darass.darass.auth.oauth.controller.dto.TokenResponse;
 import com.darass.darass.auth.oauth.service.OAuthService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -15,8 +18,9 @@ public class OAuthController {
     private final OAuthService oAuthService;
 
     @GetMapping("/login/oauth")
-    public String oauthLogin(@RequestParam String oauthAccessToken) {
-        return oAuthService.oauthLogin(oauthAccessToken);
+    public ResponseEntity<TokenResponse> oauthLogin(@RequestParam String oauthAccessToken) {
+        TokenResponse tokenResponse = oAuthService.oauthLogin(oauthAccessToken);
+        return ResponseEntity.status(HttpStatus.OK).body(tokenResponse);
     }
 
 }

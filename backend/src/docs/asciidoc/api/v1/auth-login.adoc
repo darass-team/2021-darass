@@ -1,0 +1,15 @@
+=== JWT 토큰 발급 (GET /api/v1/login/oauth)
+
+==== Request
+
+include::{snippets}/api/v1/auth-login/get/success/http-request.adoc[]
+
+==== Response (성공 - 회원가입 또는 로그인 진행후 엑세스 토큰 리턴)
+
+include::{snippets}/api/v1/auth-login/get/success/http-response.adoc[]
+include::{snippets}/api/v1/auth-login/get/success/response-fields.adoc[]
+
+==== Response (실패 - 토큰 인증이 실패하는 경우)
+
+include::{snippets}/api/v1/auth-login/get/fail/http-response.adoc[]
+include::{snippets}/api/v1/auth-login/get/fail/response-fields.adoc[]
