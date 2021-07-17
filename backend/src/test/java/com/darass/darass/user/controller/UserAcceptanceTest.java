@@ -17,6 +17,7 @@ import com.darass.darass.auth.oauth.infrastructure.JwtTokenProvider;
 import com.darass.darass.comment.controller.dto.UserResponse;
 import com.darass.darass.exception.ExceptionWithMessageAndCode;
 import com.darass.darass.exception.dto.ExceptionResponse;
+import com.darass.darass.project.repository.ProjectRepository;
 import com.darass.darass.user.controller.dto.UserUpdateRequest;
 import com.darass.darass.user.domain.OAuthPlatform;
 import com.darass.darass.user.domain.SocialLoginUser;
@@ -34,7 +35,11 @@ import org.springframework.test.web.servlet.ResultActions;
 public class UserAcceptanceTest extends AcceptanceTest {
 
     @Autowired
-    private UserRepository users;
+    private UserRepository userRepository;
+
+    @Autowired
+    private ProjectRepository projectRepository;
+
     @Autowired
     private JwtTokenProvider tokenProvider;
     private SocialLoginUser socialLoginUser;
@@ -50,12 +55,12 @@ public class UserAcceptanceTest extends AcceptanceTest {
             .email("bbwwpark@naver.com")
             .profileImageUrl("https://imageUrl")
             .build();
-        users.save(socialLoginUser);
+        userRepository.save(socialLoginUser);
     }
 
     @Test
-    @DisplayName("유저를 조회한다.")
-    public void finUser() throws Exception {
+    @DisplayName("엑세스 토큰으로 유저를 조회한다.")
+    public void findUser_success() throws Exception {
         //given
         String accessToken = tokenProvider.createAccessToken(socialLoginUser.getId().toString());
 
@@ -67,8 +72,8 @@ public class UserAcceptanceTest extends AcceptanceTest {
     }
 
     @Test
-    @DisplayName("유저 조회를 실패한다.")
-    public void finUser_fail() throws Exception {
+    @DisplayName("유효하지 않은 엑세스 토큰으로 인해 유저 조회를 실패한다.")
+    public void findUser_fail() throws Exception {
         //given
         String incorrectAccessToken = "incorrectAccessToken";
 
@@ -80,8 +85,8 @@ public class UserAcceptanceTest extends AcceptanceTest {
     }
 
     @Test
-    @DisplayName("유저 닉네임을 수정한다.")
-    public void updateUserNickname() throws Exception {
+    @DisplayName("엑세스 토큰으로 유저 닉네임을 수정한다.")
+    public void updateUserNickname_success() throws Exception {
         //given
         String accessToken = tokenProvider.createAccessToken(socialLoginUser.getId().toString());
         UserUpdateRequest userUpdateRequest = new UserUpdateRequest("병욱");
@@ -94,7 +99,7 @@ public class UserAcceptanceTest extends AcceptanceTest {
     }
 
     @Test
-    @DisplayName("유저 닉네임을 수정을 실패한다.")
+    @DisplayName("유효하지 않은 엑세스 토큰으로 인해 유저 닉네임 수정을 실패한다.")
     public void updateUserNickname_fail() throws Exception {
         //given
         String incorrectAccessToken = "incorrectAccessToken";
@@ -108,8 +113,8 @@ public class UserAcceptanceTest extends AcceptanceTest {
     }
 
     @Test
-    @DisplayName("유저를 삭제한다.")
-    public void deleteUser() throws Exception {
+    @DisplayName("엑세스 토큰으로 유저를 삭제한다.")
+    public void deleteUser_success() throws Exception {
         //given
         String accessToken = tokenProvider.createAccessToken(socialLoginUser.getId().toString());
 
@@ -121,7 +126,7 @@ public class UserAcceptanceTest extends AcceptanceTest {
     }
 
     @Test
-    @DisplayName("유효하지 않은 토큰으로 인해 유저 삭제가 실패 한다.")
+    @DisplayName("유효하지 않은 엑세스 토큰으로 인해 유저 삭제를 실패 한다.")
     public void deleteUser_fail() throws Exception {
         //given
         String incorrectAccessToken = "incorrectAccessToken";
