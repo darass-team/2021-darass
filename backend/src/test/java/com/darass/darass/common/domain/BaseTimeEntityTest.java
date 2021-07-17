@@ -3,6 +3,9 @@ package com.darass.darass.common.domain;
 import com.darass.darass.user.domain.OAuthPlatform;
 import com.darass.darass.user.domain.SocialLoginUser;
 import com.darass.darass.user.repository.SocialLoginUserRepository;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,11 +31,11 @@ class BaseTimeEntityTest {
         //given
         LocalDateTime now = LocalDateTime.now();
         socialLoginUserRepository.save(SocialLoginUser.builder()
-                .nickName("병욱")
-                .email("jujubebat@kakao.com")
-                .oauthId("241323123")
-                .oauthPlatform(OAuthPlatform.KAKAO)
-                .build());
+            .nickName("병욱")
+            .email("jujubebat@kakao.com")
+            .oauthId("241323123")
+            .oauthPlatform(OAuthPlatform.KAKAO)
+            .build());
 
         //when
         List<SocialLoginUser> socialLoginUsers = socialLoginUserRepository.findAll();

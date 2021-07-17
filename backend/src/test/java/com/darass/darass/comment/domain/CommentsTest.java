@@ -3,14 +3,13 @@ package com.darass.darass.comment.domain;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.darass.darass.project.domain.Project;
-import com.darass.darass.project.domain.RandomSecretKeyFactory;
 import com.darass.darass.project.service.CustomSecretKeyFactory;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-@DisplayName("")
+@DisplayName("Comments 클래스")
 class CommentsTest {
 
     private final List<Comment> commentList = new ArrayList<>();
