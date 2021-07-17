@@ -17,7 +17,7 @@ const useUser = () => {
   const login = async () => {
     try {
       const kakaoAccessToken = await getKakaoAccessToken();
-      const serverAccessToken = await request.get(`${QUERY.LOGIN}${kakaoAccessToken}`);
+      const { accessToken: serverAccessToken } = await request.get(`${QUERY.LOGIN}${kakaoAccessToken}`);
 
       setCookie(COOKIE_KEY.ATK, serverAccessToken);
 
