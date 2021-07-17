@@ -1,7 +1,8 @@
 import SyntaxHighlighter from "react-syntax-highlighter";
 import { xcode } from "react-syntax-highlighter/dist/esm/styles/hljs";
+import { useCopyButton } from "../../../hooks";
 import ScreenContainer from "../../../styles/ScreenContainer";
-import { Container, Section, Title, CodeBlockWrapper, Content, B, P } from "./styles";
+import { B, CodeBlockWrapper, Container, Content, CopyButton, P, Section, Title } from "./styles";
 
 const scriptCode = (projectSecretKey: string) => `
 <!-- 다라쓰 설치 코드 -->
@@ -27,14 +28,20 @@ export interface Props {
 }
 
 const ScriptPublishing = ({ projectSecretKey }: Props) => {
+  const script = scriptCode(projectSecretKey || "코드를 불러오는 중입니다...");
+  const { isCopyButtonClicked, onCopy } = useCopyButton();
+
   return (
     <ScreenContainer>
       <Container>
         <Section>
           <Title>스크립트</Title>
           <CodeBlockWrapper>
+            <CopyButton type="button" onClick={() => onCopy(script)}>
+              {isCopyButtonClicked ? "Copied !" : "Copy"}
+            </CopyButton>
             <SyntaxHighlighter language="javascript" style={xcode}>
-              {scriptCode(projectSecretKey || "코드를 불러오는 중입니다...")}
+              {script}
             </SyntaxHighlighter>
           </CodeBlockWrapper>
         </Section>

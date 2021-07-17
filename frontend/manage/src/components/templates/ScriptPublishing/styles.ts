@@ -22,7 +22,25 @@ const Title = styled.h2`
 const CodeBlockWrapper = styled.div`
   border: 1px solid ${PALETTE.BLACK_700};
   border-radius: 10px;
-  padding: 3rem 2rem;
+  padding: 0 2rem;
+  position: relative;
+`;
+
+const CopyButton = styled.button`
+  position: absolute;
+  right: 1rem;
+  top: 2rem;
+
+  min-width: 10rem;
+  width: fit-content;
+  height: 3.6rem;
+  background-color: ${PALETTE.SECONDARY};
+  color: ${PALETTE.WHITE};
+  font-size: 1.6rem;
+  font-weight: 500;
+  border-radius: 10px;
+  padding: 0.7rem 1.6rem;
+  transform: scale(0.8);
 `;
 
 const Content = styled.div`
@@ -39,4 +57,4 @@ const P = styled.p`
   word-break: keep-all;
 `;
 
-export { Container, Section, Title, CodeBlockWrapper, Content, B, P };
+export { Container, Section, Title, CodeBlockWrapper, Content, B, P, CopyButton };
