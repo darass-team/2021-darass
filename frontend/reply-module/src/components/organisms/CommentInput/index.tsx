@@ -1,9 +1,8 @@
+import { FormEvent } from "react";
+import { useCreateComment, useInput } from "../../../hooks";
 import { User } from "../../../types/user";
 import SubmitButton from "../../atoms/SubmitButton";
-import { Form, TextArea, Wrapper, GuestInfo } from "./styles";
-import { useCreateComment, useInput } from "../../../hooks";
-import { FormEvent } from "react";
-import { Comment, CreateCommentRequestData } from "../../../types/comment";
+import { Form, GuestInfo, TextArea, Wrapper } from "./styles";
 
 export interface Props {
   user: User | undefined;

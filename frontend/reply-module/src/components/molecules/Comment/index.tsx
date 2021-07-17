@@ -57,16 +57,12 @@ const Comment = ({ user, comment, align = "left", shouldShowOption }: Props) => 
   };
 
   const startDeleting = () => {
-    user ? deleteCallback() : shouldShowPasswordInputState(true);
+    user ? confirmDelete() : shouldShowPasswordInputState(true);
 
     setSubmitType("Delete");
   };
 
-  const editCallback = () => {
-    setEditing(true);
-  };
-
-  const deleteCallback = async () => {
+  const confirmDelete = async () => {
     if (!confirm("정말 지우시겠습니까?")) return;
 
     const deleteCommentRequestParameter: DeleteCommentRequestParameter = {
@@ -138,7 +134,7 @@ const Comment = ({ user, comment, align = "left", shouldShowOption }: Props) => 
         {shouldShowPasswordInput && (
           <PasswordForm
             onSubmit={event => {
-              const submitPasswordCallback = submitType === "Edit" ? editCallback : deleteCallback;
+              const submitPasswordCallback = submitType === "Edit" ? () => setEditing(true) : confirmDelete;
 
               submitPassword(event, submitPasswordCallback);
             }}
