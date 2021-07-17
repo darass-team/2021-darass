@@ -44,3 +44,19 @@ include::{snippets}/api/v1/projects/{id}/get/1/response-fields.adoc[]
 
 ==== Header의 Authorization에 값을 안 넣은 경우
 include::{snippets}/api/v1/projects/{id}/get/2/http-response.adoc[]
+
+=== 프로젝트 키로 유저 아이디 조회 (GET /api/v1/projects/user-id)
+
+==== Request
+
+include::{snippets}/api/v1/projects/user-id/get/success/http-request.adoc[]
+
+==== Response (성공)
+
+include::{snippets}/api/v1/projects/user-id/get/success/http-response.adoc[]
+include::{snippets}/api/v1/projects/user-id/get/success/response-fields.adoc[]
+
+==== Response (실패)
+
+include::{snippets}/api/v1/projects/user-id/get/fail/http-response.adoc[]
+include::{snippets}/api/v1/projects/user-id/get/fail/response-fields.adoc[]
