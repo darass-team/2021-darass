@@ -1,6 +1,7 @@
 package com.darass.darass.auth.oauth.service;
 
 import com.darass.darass.auth.oauth.api.domain.UserInfoProvider;
+import com.darass.darass.auth.oauth.controller.dto.TokenResponse;
 import com.darass.darass.auth.oauth.infrastructure.JwtTokenProvider;
 import com.darass.darass.exception.ExceptionWithMessageAndCode;
 import com.darass.darass.user.domain.SocialLoginUser;
@@ -20,15 +21,15 @@ public class OAuthService {
     private JwtTokenProvider jwtTokenProvider;
     private UserInfoProvider userInfoProvider;
 
-    public String oauthLogin(String oauthAccessToken) {
+    public TokenResponse oauthLogin(String oauthAccessToken) {
         SocialLoginUser socialLoginUser = userInfoProvider.findSocialLoginUser(oauthAccessToken);
         Optional<SocialLoginUser> foundSocialLoginUser = socialLoginUserRepository.findByOauthId(socialLoginUser.getOauthId());
 
         if (foundSocialLoginUser.isEmpty()) {
             socialLoginUserRepository.save(socialLoginUser);
-            return jwtTokenProvider.createAccessToken(socialLoginUser.getId().toString());
+            return TokenResponse.of(jwtTokenProvider.createAccessToken(socialLoginUser.getId().toString()));
         }
-        return jwtTokenProvider.createAccessToken(foundSocialLoginUser.get().getId().toString());
+        return TokenResponse.of(jwtTokenProvider.createAccessToken(foundSocialLoginUser.get().getId().toString()));
     }
 
     public SocialLoginUser findSocialLoginUserByAccessToken(String accessToken) {

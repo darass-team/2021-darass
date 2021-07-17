@@ -292,7 +292,7 @@ public class CommentAcceptanceTest extends AcceptanceTest {
             .andExpect(status().isNoContent())
             .andDo(document("api/v1/comments/delete/success-login-user",
                 requestHeaders(
-                  headerWithName("Authorization").description("JWT - Bearer 토큰")
+                      headerWithName("Authorization").description("JWT - Bearer 토큰")
                 ),
                 pathParameters(
                     parameterWithName("id").description("삭제할 댓글 id")
