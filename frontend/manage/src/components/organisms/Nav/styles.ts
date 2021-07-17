@@ -26,7 +26,6 @@ const NavLink = styled(Link)`
   font-size: 2.4rem;
   font-weight: 800;
   color: ${PALETTE.WHITE};
-  line-height: 40px;
 `;
 
 export { Container, Wrapper, NavLink };

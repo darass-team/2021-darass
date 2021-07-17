@@ -15,11 +15,7 @@ const Nav = ({ user }: Props) => {
       <Wrapper>
         {user ? (
           <>
-            <Avatar
-              imageURL={
-                "https://static.independent.co.uk/s3fs-public/thumbnails/image/2015/06/06/15/Chris-Pratt.jpg?width=982&height=726&auto=webp&quality=75"
-              }
-            />
+            <Avatar imageURL={user.profileImageUrl} />
             <NavLink to="/">{user.nickName}</NavLink>
           </>
         ) : (
