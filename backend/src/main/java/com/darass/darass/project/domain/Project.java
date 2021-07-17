@@ -69,20 +69,4 @@ public class Project extends BaseTimeEntity {
         return this.secretKey.equals(secretKey);
     }
 
-//    public Long getUserId(){
-//        return user.getId();
-//    }
-
-//    public User getUser() {
-//        return user;
-//    }
-
-//    public Long getUser() {
-//        return user.getId();
-//    }
-
-//    public User getUserId() {
-//        return user;
-//    }
-
 }
