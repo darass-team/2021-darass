@@ -5,12 +5,9 @@ import { Comment, DeleteCommentRequestParameter } from "../types/comment";
 import { REACT_QUERY_KEY } from "../constants/reactQueryKey";
 
 const _deleteComment = async ({ id, guestUserId, guestUserPassword }: DeleteCommentRequestParameter) => {
-  const urlParams = new URLSearchParams(`${QUERY.COMMENT}/${id}/?`);
-
-  guestUserId && urlParams.set("guestUserId", `${guestUserId}`);
-  guestUserPassword && urlParams.set("guestUserPassword", `${guestUserPassword}`);
-
-  const data = await request.delete(decodeURIComponent(urlParams.toString()));
+  const data = await request.delete(
+    `${QUERY.COMMENT}/${id}/?guestUserId=${guestUserId}&guestUserPassword=${guestUserPassword}`
+  );
 
   return data;
 };
