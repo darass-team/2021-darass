@@ -65,8 +65,6 @@ public class AuthAcceptanceTest extends AcceptanceTest {
             .oauthPlatform(OAuthPlatform.KAKAO)
             .email("jujubebat@kakao.com")
             .build();
-
-        given(userInfoProvider.findSocialLoginUser(oauthAccessToken)).willReturn(socialLoginUser);
     }
 
     @Test
