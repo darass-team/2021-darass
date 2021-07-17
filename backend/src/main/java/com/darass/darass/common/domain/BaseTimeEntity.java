@@ -1,5 +1,6 @@
 package com.darass.darass.common.domain;
 
+import javax.persistence.Column;
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -15,9 +16,11 @@ import java.time.LocalDateTime;
 public abstract class BaseTimeEntity {
 
     @CreatedDate
+    @Column(columnDefinition = "TIMESTAMP")
     private LocalDateTime createdDate;
 
-    @LastModifiedDate
+    @LastModifiedDate()
+    @Column(columnDefinition = "TIMESTAMP")
     private LocalDateTime modifiedDate;
 
 }

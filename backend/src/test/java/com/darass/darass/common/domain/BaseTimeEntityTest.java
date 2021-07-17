@@ -25,9 +25,11 @@ class BaseTimeEntityTest {
     @Autowired
     SocialLoginUserRepository socialLoginUserRepository;
 
-    @DisplayName("BaseTimeEntity을 상속한 Entity는 save될 때 생성시간과, 수정시간이 자동으로 저장된다.(JST 시간으로 저장됨)")
+    @DisplayName("BaseTimeEntity을 상속한 Entity는 save될 때 생성시간과, 수정시간이 자동으로 저장된다.")
     @Test
-    void saveCreatedDateAndModifiedDate() {
+    public void saveCreatedDateAndModifiedDate() {
+        //given
+        LocalDateTime now = LocalDateTime.now();
         socialLoginUserRepository.save(SocialLoginUser.builder()
             .nickName("병욱")
             .email("jujubebat@kakao.com")
@@ -35,14 +37,13 @@ class BaseTimeEntityTest {
             .oauthPlatform(OAuthPlatform.KAKAO)
             .build());
 
+        //when
         List<SocialLoginUser> socialLoginUsers = socialLoginUserRepository.findAll();
+
+        //then
         SocialLoginUser socialLoginUser = socialLoginUsers.get(0);
-
-        LocalDateTime currentSavedLocalDateTime = socialLoginUser.getCreatedDate();
-        LocalDateTime currentJapanStandardTime = LocalDateTime.now(ZoneId.of("JST", ZoneId.SHORT_IDS));
-
-        assertThat(currentSavedLocalDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd-hh-mm-ss")))
-            .isEqualTo(currentJapanStandardTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd-hh-mm-ss")));
+        assertThat(socialLoginUser.getCreatedDate()).isAfter(now);
+        assertThat(socialLoginUser.getModifiedDate()).isAfter(now);
     }
 
 }
