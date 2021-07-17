@@ -6,7 +6,7 @@ on:
 jobs:
   delete-branch:
   
-    runs-on: self-hosted
+    runs-on: [self-hosted, docker]
     
     steps:
       - name: delete branch
