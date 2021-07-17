@@ -1,47 +1,45 @@
 package com.darass.darass.exception.controller;
 
 import com.darass.darass.exception.dto.ExceptionResponse;
-import com.darass.darass.exception.httpbasicexception.BadRequestException;
 import com.darass.darass.exception.httpbasicexception.ConflictException;
 import com.darass.darass.exception.httpbasicexception.NotFoundException;
 import com.darass.darass.exception.httpbasicexception.UnauthorizedException;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import javax.validation.ConstraintViolationException;
-
 @RestControllerAdvice
-public class AdviceController {
+public class ControllerAdvice {
 
-    @ExceptionHandler({ConstraintViolationException.class, BadRequestException.class})
+    @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ExceptionResponse handle(ConstraintViolationException e) {
+    public ExceptionResponse handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
         return new ExceptionResponse(e.getMessage(), HttpStatus.BAD_REQUEST.value());
     }
 
-    @ExceptionHandler(ConflictException.class)
-    @ResponseStatus(HttpStatus.CONFLICT)
-    public ExceptionResponse handle(ConflictException e) {
+    @ExceptionHandler(UnauthorizedException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public ExceptionResponse handleUnauthorizedException(UnauthorizedException e) {
         return new ExceptionResponse(e.getMessage(), e.getCode());
     }
 
     @ExceptionHandler(NotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ExceptionResponse handle(NotFoundException e) {
+    public ExceptionResponse handleNotFoundException(NotFoundException e) {
         return new ExceptionResponse(e.getMessage(), e.getCode());
     }
 
-    @ExceptionHandler(UnauthorizedException.class)
-    @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    public ExceptionResponse handle(UnauthorizedException e) {
+    @ExceptionHandler(ConflictException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ExceptionResponse handleConflictException(ConflictException e) {
         return new ExceptionResponse(e.getMessage(), e.getCode());
     }
 
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ExceptionResponse handle(Exception e) {
+    public ExceptionResponse handleException(Exception e) {
         e.printStackTrace();
         return new ExceptionResponse(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR.value());
     }

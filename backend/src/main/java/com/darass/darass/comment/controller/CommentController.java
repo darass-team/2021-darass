@@ -8,12 +8,12 @@ import com.darass.darass.comment.controller.dto.CommentUpdateRequest;
 import com.darass.darass.comment.service.CommentService;
 import com.darass.darass.user.domain.User;
 import java.util.List;
+import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -36,7 +36,7 @@ public class CommentController {
     }
 
     @PostMapping
-    public ResponseEntity<CommentResponse> save(@AuthenticationPrincipal User user, @RequestBody CommentCreateRequest commentRequest) {
+    public ResponseEntity<CommentResponse> save(@AuthenticationPrincipal User user, @Valid @RequestBody CommentCreateRequest commentRequest) {
         CommentResponse commentResponse = commentService.save(user, commentRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(commentResponse);
     }
@@ -50,7 +50,7 @@ public class CommentController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable("id") Long id, @AuthenticationPrincipal User user,
-        @ModelAttribute CommentDeleteRequest request) {
+        @RequestBody CommentDeleteRequest request) {
         commentService.delete(id, user, request);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
