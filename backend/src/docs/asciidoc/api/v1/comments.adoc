@@ -1,4 +1,4 @@
-=== 댓글 생성 (/api/v1/comments POST)
+=== 댓글 생성 (POST /api/v1/comments)
 
 ==== (성공) 소셜 로그인 유저 댓글 작성
 
@@ -32,7 +32,7 @@ include::{snippets}/api/v1/comments/post/success-guest-user/response-fields.adoc
 include::{snippets}/api/v1/comments/post/fail-missing-project-key/http-response.adoc[]
 include::{snippets}/api/v1/comments/post/fail-missing-project-key/response-fields.adoc[]
 
-=== 댓글 조회 (/api/v1/comments GET)
+=== 댓글 조회 (GET /api/v1/comments)
 
 ==== URL에 해당하는 전체 댓글 조회
 
@@ -46,7 +46,7 @@ include::{snippets}/api/v1/comments/get/success/request-parameters.adoc[]
 include::{snippets}/api/v1/comments/get/success/http-response.adoc[]
 include::{snippets}/api/v1/comments/get/success/response-fields.adoc[]
 
-=== 댓글 수정 (/api/v1/comments PATCH)
+=== 댓글 수정 (PATCH /api/v1/comments)
 
 ==== (성공) 소셜 로그인 유저 댓글 수정
 
@@ -87,7 +87,7 @@ include::{snippets}/api/v1/comments/patch/fail-not-mine/response-fields.adoc[]
 include::{snippets}/api/v1/comments/patch/fail-guest-password-wrong/http-response.adoc[]
 include::{snippets}/api/v1/comments/patch/fail-guest-password-wrong/response-fields.adoc[]
 
-=== 댓글 삭제 (/api/v1/comments DELETE)
+=== 댓글 삭제 (DELETE /api/v1/comments)
 
 ==== (성공) 소셜 로그인 유저 댓글 삭제
 
