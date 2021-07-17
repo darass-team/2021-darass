@@ -1,9 +1,9 @@
 (function () {
   const $darass = document.querySelector("#darass");
 
-  const replyModuleURL = "http://localhost:8080/dist/js/index.html" + "?";
+  const replyModuleURL = "http://localhost:5501/dist/js/index.html" + "?";
   const currURL = window.location.href;
-  const projectKey = $darass.dataset.uid;
+  const projectKey = $darass.dataset.projectKey;
 
   const urlParams = new URLSearchParams(replyModuleURL);
   urlParams.set("url", currURL);

@@ -58,6 +58,10 @@ const GlobalStyles = createGlobalStyle`
         border: none;
         color: inherit;
         cursor: pointer;
+
+        &:disabled {
+          cursor: not-allowed;
+        }
       }
       input, textarea {
         font-family: inherit;

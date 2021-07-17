@@ -7,7 +7,7 @@ import NewProject from "../../templates/NewProject";
 const NewProjectPage = () => {
   const history = useHistory();
   const { createProject } = useCreateProject();
-  const [projectName, onChangeProjectName] = useInput("");
+  const { value: projectName, onChange: onChangeProjectName } = useInput("");
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();

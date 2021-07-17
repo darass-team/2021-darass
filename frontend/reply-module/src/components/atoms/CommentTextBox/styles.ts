@@ -24,4 +24,20 @@ const Text = styled.div`
   max-width: 20rem;
 `;
 
-export { Container, Name, Text };
+const Button = styled.button`
+  width: 4rem;
+  height: 2.4rem;
+  background-color: ${PALETTE.PRIMARY};
+  color: ${PALETTE.WHITE};
+  font-size: 1.2rem;
+  font-weight: 500;
+  border-radius: 10px;
+  margin-top: 1rem;
+  margin-left: auto;
+
+  &:disabled {
+    background-color: ${PALETTE.SECONDARY};
+  }
+`;
+
+export { Container, Name, Text, Button };

@@ -9,22 +9,19 @@ export interface Props {
 }
 
 const UserAvatarOption = ({ user, children }: Props) => {
-  const [isShowOptionBox, setShowOptionBox] = useState(true);
+  const [isShowOptionBox, setShowOptionBox] = useState(false);
 
   const onShowOptionBox = () => {
     setShowOptionBox(state => !state);
   };
 
   useEffect(() => {
-    setShowOptionBox(state => !state);
+    setShowOptionBox(false);
   }, [user]);
 
   return (
     <Container>
-      <Avatar
-        imageURL={"https://upload.wikimedia.org/wikipedia/commons/7/70/User_icon_BLACK-01.png"}
-        onClick={onShowOptionBox}
-      />
+      <Avatar imageURL={user?.profileImageUrl} onClick={onShowOptionBox} />
       {isShowOptionBox && <UserOption userName={user?.nickName || "Login With"}>{children}</UserOption>}
     </Container>
   );

@@ -6,13 +6,14 @@ import { Container, Header, CommentCount, CommentCountWrapper, CommentList } fro
 
 export interface Props {
   user: User | undefined;
+  comments: Comment[] | undefined;
   onLogin: () => void;
   onLogout: () => void;
+  url: string | null;
+  projectSecretKey: string | null;
 }
 
-const CommentArea = ({ user, onLogin, onLogout }: Props) => {
-  const comments: Comment[] = [];
-
+const CommentArea = ({ user, comments = [], onLogin, onLogout, projectSecretKey, url }: Props) => {
   return (
     <Container>
       <Header>
@@ -32,8 +33,8 @@ const CommentArea = ({ user, onLogin, onLogout }: Props) => {
           )}
         </UserAvatarOption>
       </Header>
-      <CommentInput user={user} />
-      <CommentList comments={comments} />
+      <CommentInput url={url} projectSecretKey={projectSecretKey} user={user} />
+      <CommentList user={user} comments={comments} />
     </Container>
   );
 };

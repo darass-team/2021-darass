@@ -3,7 +3,7 @@ const setCookie = (key: string, value: string, keepAliveMinutes = 60) => {
   expiryDate.setMinutes(expiryDate.getMinutes() + keepAliveMinutes);
 
   const cookieValue = escape(value) + "; expires=" + expiryDate.toUTCString();
-  document.cookie = key + "=" + cookieValue;
+  document.cookie = key + "=" + cookieValue + "; Secure" + "; SameSite=None";
 };
 
 const getCookie = (key: string) => {
