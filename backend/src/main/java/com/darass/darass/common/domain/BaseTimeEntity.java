@@ -19,7 +19,7 @@ public abstract class BaseTimeEntity {
     @Column(columnDefinition = "TIMESTAMP")
     private LocalDateTime createdDate;
 
-    @LastModifiedDate()
+    @LastModifiedDate
     @Column(columnDefinition = "TIMESTAMP")
     private LocalDateTime modifiedDate;
 
