@@ -25,9 +25,18 @@ const CodeBlockWrapper = styled.div`
   padding: 3rem 2rem;
 `;
 
+const Content = styled.div`
+  margin-top: 5rem;
+`;
+
+const B = styled.b`
+  font-size: 2rem;
+  word-break: keep-all;
+`;
+
 const P = styled.p`
   font-size: 1.4rem;
   word-break: keep-all;
 `;
 
-export { Container, Section, Title, CodeBlockWrapper, P };
+export { Container, Section, Title, CodeBlockWrapper, Content, B, P };
