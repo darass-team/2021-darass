@@ -1,27 +1,29 @@
-<configuration debug="true">
-
-    <property name="accessLogHome" value="./data/logs/access"/>
-
-    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-        <encoder>
-            <pattern>%n###### HTTP Request ######%n%fullRequest%n###### HTTP Response ######%n%fullResponse%n%n</pattern>
-        </encoder>
+<configuration>
+  <springProfile name="!prod">
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+      <encoder>
+        <pattern>
+          %n###### HTTP Request ######%n%fullRequest%n###### HTTP Response ######%n%fullResponse%n%n
+        </pattern>
+      </encoder>
     </appender>
-    <appender-ref ref="STDOUT" />
+    <appender-ref ref="CONSOLE"/>
+  </springProfile>
 
+  <springProfile name="prod">
     <appender name="fileAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${accessLogHome}/%d{yyyyMMdd}/%d{yyyy-MM-dd}.%i.access.log.zip</fileNamePattern>
-            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
-                <maxFileSize>15MB</maxFileSize>
-            </timeBasedFileNamingAndTriggeringPolicy>
-            <maxHistory>30</maxHistory>
-        </rollingPolicy>
+      <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+        <fileNamePattern>/var/log/%d{yyyyMM}/%d{yyyy-MM-dd-HH}.access.log</fileNamePattern>
+        <maxHistory>6</maxHistory>
+        <totalSizeCap>5GB</totalSizeCap>
+      </rollingPolicy>
 
-        <encoder>
-            <pattern>%n###### HTTP Request ######%n%fullRequest%n###### HTTP Response ######%n%fullResponse%n%n</pattern>
-        </encoder>
+      <encoder>
+        <pattern>
+          %n###### HTTP Request ######%n%fullRequest%n###### HTTP Response ######%n%fullResponse%n%n
+        </pattern>
+      </encoder>
     </appender>
-
-    <appender-ref ref="fileAppender" />
+    <appender-ref ref="fileAppender"/>
+  </springProfile>
 </configuration>

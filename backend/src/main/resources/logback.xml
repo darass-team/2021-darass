@@ -1,32 +1,55 @@
-<configuration debug="true">
-    // 콘솔 로깅 설정
-    <property name="errorLogHome" value="./data/logs/error" />
-
+<configuration>
+  <springProfile name="!prod">
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-            <pattern>%green(%d{yyyy-MM-dd HH:mm:ss.SSS}) [%thread] %highlight([%-5level]) %logger{50} - %cyan(%msg%n)</pattern>
-        </encoder>
-    </appender>
-
-    // 파일 로깅 설정
-    <appender name="fileAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${errorLogHome}/%d{yyyyMMdd}/%d{yyyy-MM-dd}.%i.error.log</fileNamePattern>
-            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
-                <maxFileSize>15MB</maxFileSize>
-            </timeBasedFileNamingAndTriggeringPolicy>
-            <maxHistory>30</maxHistory>
-        </rollingPolicy>
-        <encoder>
-            <Pattern>
-                %d{yyyy-MM-dd HH:mm:ss.SSS} %thread %-5level %logger - %m%n
-            </Pattern>
-        </encoder>
+      <encoder>
+        <pattern>
+          %green(%d{yyyy-MM-dd HH:mm:ss.SSS}) [%thread] %highlight([%level]) %logger - %cyan(%msg%n)
+        </pattern>
+      </encoder>
     </appender>
 
     <root level="info">
-        <appender-ref ref="STDOUT" />
-        <appender-ref ref="fileAppender" />
+      <appender-ref ref="STDOUT" />
     </root>
+  </springProfile>
 
+  <springProfile name="prod">
+    <appender name="File" class="ch.qos.logback.core.rolling.RollingFileAppender">
+      <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+        <fileNamePattern>/var/log/%d{yyyyMM}/%d{yyyy-MM-dd}.log</fileNamePattern>
+        <maxHistory>6</maxHistory>
+        <totalSizeCap>5GB</totalSizeCap>
+      </rollingPolicy>
+      <encoder>
+        <pattern>
+          %d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] [%level] %logger - %msg%n
+        </pattern>
+        <charset>UTF-8</charset>
+      </encoder>
+    </appender>
+
+    <appender name="ErrorFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+      <filter class="ch.qos.logback.classic.filter.LevelFilter">
+        <level>ERROR</level>
+        <onMatch>ACCEPT</onMatch>
+        <onMismatch>DENY</onMismatch>
+      </filter>
+      <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+        <fileNamePattern>/var/log/%d{yyyyMM}/%d{yyyy-MM-dd}.error.log</fileNamePattern>
+        <maxHistory>6</maxHistory>
+        <totalSizeCap>5GB</totalSizeCap>
+      </rollingPolicy>
+      <encoder>
+        <pattern>
+          %d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] [%level] %logger - %msg%n
+        </pattern>
+        <charset>UTF-8</charset>
+      </encoder>
+    </appender>
+
+    <root level="info">
+      <appender-ref ref="File" />
+      <appender-ref ref="ErrorFile" />
+    </root>
+  </springProfile>
 </configuration>
