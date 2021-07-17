@@ -1,7 +1,13 @@
 package com.darass.darass.project.domain;
 
+import static javax.persistence.CascadeType.ALL;
+import static javax.persistence.FetchType.LAZY;
+
+import com.darass.darass.comment.domain.Comment;
 import com.darass.darass.common.domain.BaseTimeEntity;
 import com.darass.darass.user.domain.User;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -9,10 +15,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,7 +31,7 @@ import lombok.NoArgsConstructor;
     @UniqueConstraint(
         name = "SECRET_KEY_UNIQUE",
         columnNames = {"secretKey"}
-)})
+    )})
 public class Project extends BaseTimeEntity {
 
     private static final int ASCII_CODE_OF_0 = 48;
@@ -42,6 +48,7 @@ public class Project extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn
     private User user;
+
 
     private String name;
 
@@ -61,4 +68,5 @@ public class Project extends BaseTimeEntity {
     public boolean isSame(String secretKey) {
         return this.secretKey.equals(secretKey);
     }
+
 }

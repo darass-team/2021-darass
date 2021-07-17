@@ -1,5 +1,6 @@
 package com.darass.darass.project.acceptance;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -16,6 +17,9 @@ import com.darass.darass.AcceptanceTest;
 import com.darass.darass.auth.oauth.infrastructure.JwtTokenProvider;
 import com.darass.darass.project.controller.dto.ProjectCreateRequest;
 import com.darass.darass.project.controller.dto.ProjectResponse;
+import com.darass.darass.project.domain.Project;
+import com.darass.darass.project.repository.ProjectRepository;
+import com.darass.darass.project.service.CustomSecretKeyFactory;
 import com.darass.darass.user.domain.OAuthPlatform;
 import com.darass.darass.user.domain.SocialLoginUser;
 import com.darass.darass.user.repository.UserRepository;
@@ -32,11 +36,16 @@ import org.springframework.test.web.servlet.ResultActions;
 public class ProjectAcceptanceTest extends AcceptanceTest {
 
     @Autowired
-    private UserRepository users;
+    private UserRepository userRepository;
+
+    @Autowired
+    private ProjectRepository projectRepository;
+
     @Autowired
     private JwtTokenProvider tokenProvider;
     private SocialLoginUser socialLoginUser;
     private String token;
+    private Project project;
 
     @BeforeEach
     public void setUser() {
@@ -47,7 +56,7 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
             .oauthPlatform(OAuthPlatform.KAKAO)
             .email("qkrwotjd1445@naver.com")
             .build();
-        users.save(socialLoginUser);
+        userRepository.save(socialLoginUser);
         token = tokenProvider.createAccessToken(socialLoginUser.getId().toString());
     }
 
@@ -66,7 +75,8 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
                     responseFields(
                         fieldWithPath("id").type(JsonFieldType.NUMBER).description("프로젝트 id"),
                         fieldWithPath("name").type(JsonFieldType.STRING).description("프로젝트 이름"),
-                        fieldWithPath("secretKey").type(JsonFieldType.STRING).description("프로젝트 Secret Key")
+                        fieldWithPath("secretKey").type(JsonFieldType.STRING).description("프로젝트 Secret Key"),
+                        fieldWithPath("userId").type(JsonFieldType.NUMBER).optional().description("유저 아이디")
                     ))
             );
     }
@@ -119,7 +129,8 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
                     responseFields(
                         fieldWithPath("[].id").type(JsonFieldType.NUMBER).description("프로젝트 id"),
                         fieldWithPath("[].name").type(JsonFieldType.STRING).description("프로젝트 이름"),
-                        fieldWithPath("[].secretKey").type(JsonFieldType.STRING).description("프로젝트 Secret Key")
+                        fieldWithPath("[].secretKey").type(JsonFieldType.STRING).description("프로젝트 Secret Key"),
+                        fieldWithPath("[].userId").type(JsonFieldType.NUMBER).optional().description("유저 아이디")
                     ))
             );
     }
@@ -165,7 +176,8 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
                     responseFields(
                         fieldWithPath("id").type(JsonFieldType.NUMBER).description("프로젝트 id"),
                         fieldWithPath("name").type(JsonFieldType.STRING).description("프로젝트 이름"),
-                        fieldWithPath("secretKey").type(JsonFieldType.STRING).description("프로젝트 Secret Key")
+                        fieldWithPath("secretKey").type(JsonFieldType.STRING).description("프로젝트 Secret Key"),
+                        fieldWithPath("userId").type(JsonFieldType.NUMBER).optional().description("유저 아이디")
                     ))
             );
     }
@@ -189,4 +201,92 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
                     ))
             );
     }
+
+    @Test
+    @DisplayName("프로젝트 시크릿 키로 유저 id를 조회한다.(프로젝트 주인의 id를 조회한다.)")
+    public void findByProjectKey_success() throws Exception {
+        // given
+        String customProjectSecretKey = "vmnjbajhveraurepiw";
+        this.project = Project.builder()
+            .secretKeyFactory(new CustomSecretKeyFactory(customProjectSecretKey))
+            .user(socialLoginUser)
+            .name("깃헙 블로그 프로젝트")
+            .build();
+
+        projectRepository.save(project);
+
+        //when
+        ResultActions resultActions = 유저_아이디_조회_요청(customProjectSecretKey);
+
+        //then
+         유저_아이디_조회됨(resultActions);
+    }
+
+    @Test
+    @DisplayName("존재하지 않는 프로젝트 시크릿 키로 유저 id를 조회하면 실패한다.")
+    public void findByProjectKey_fail() throws Exception {
+        // given
+        String customProjectSecretKey = "vmnjbajhveraurepiw";
+        this.project = Project.builder()
+            .secretKeyFactory(new CustomSecretKeyFactory(customProjectSecretKey))
+            .user(socialLoginUser)
+            .name("깃헙 블로그 프로젝트")
+            .build();
+
+        projectRepository.save(project);
+
+        //when
+        ResultActions resultActions = 유저_아이디_조회_요청("invalidProjectSecretKey");
+
+        //then
+        유저_아이디_조회_실패됨(resultActions);
+    }
+
+    private ResultActions 유저_아이디_조회_요청(String projectSecretKey) throws Exception {
+        return this.mockMvc.perform(get("/api/v1/projects/user-id")
+            .contentType(MediaType.APPLICATION_JSON)
+            .param("secretKey", projectSecretKey));
+    }
+
+
+    private void 유저_아이디_조회_실패됨(ResultActions resultActions) throws Exception {
+        resultActions.andExpect(status().isNotFound());
+        유저_아이디_조회_실패됨_rest_doc_작성(resultActions);
+    }
+
+    private void 유저_아이디_조회_rest_doc_작성(ResultActions resultActions) throws Exception {
+        resultActions.andDo(
+            document("api/v1/projects/user-id/get/success",
+                responseFields(
+                    fieldWithPath("id").type(JsonFieldType.NUMBER).optional().description("프로젝트 아이디"),
+                    fieldWithPath("name").type(JsonFieldType.STRING).optional().description("프로젝트 이름"),
+                    fieldWithPath("secretKey").type(JsonFieldType.STRING).optional().description("프로젝트 시크릿 키"),
+                    fieldWithPath("userId").type(JsonFieldType.NUMBER).description("유저 아이디")
+                )
+            )
+        );
+    }
+
+    private void 유저_아이디_조회됨(ResultActions resultActions) throws Exception {
+        resultActions.andExpect(status().isOk());
+        String jsonResponse = resultActions.andReturn().getResponse().getContentAsString();
+        ProjectResponse projectResponse = new ObjectMapper().readValue(jsonResponse, ProjectResponse.class);
+
+        assertThat(projectResponse.getUserId()).isEqualTo(socialLoginUser.getId());
+
+       유저_아이디_조회_rest_doc_작성(resultActions);
+    }
+
+    private void 유저_아이디_조회_실패됨_rest_doc_작성(ResultActions resultActions) throws Exception {
+        resultActions.andDo(
+            document("api/v1/projects/user-id/get/fail",
+                responseFields(
+                    fieldWithPath("message").type(JsonFieldType.STRING).description("에러 메시지"),
+                    fieldWithPath("code").type(JsonFieldType.NUMBER).description("에러 코드")
+                )
+            )
+        );
+    }
+
 }
+

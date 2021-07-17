@@ -40,6 +40,11 @@ public class ProjectController {
         ProjectResponse projectResponse = projectService.findByIdAndUserId(projectId, user.getId());
         return ResponseEntity.ok(projectResponse);
     }
+    @GetMapping("/user-id")
+    public ResponseEntity<ProjectResponse> findUserIdBySecretKey(@RequestParam("secretKey") String secretKey) {
+       ProjectResponse projectResponse = projectService.findUserIdBySecretKey(secretKey);
+        return ResponseEntity.ok(projectResponse);
+    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteById(@PathVariable("id") Long projectId, @RequiredLogin User user) {
