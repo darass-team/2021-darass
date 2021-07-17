@@ -1,6 +1,6 @@
 <configuration debug="true">
     // 콘솔 로깅 설정
-    <property name="logHome" value="./data/logs/error" />
+    <property name="errorLogHome" value="./data/logs/error" />
 
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
@@ -10,11 +10,8 @@
 
     // 파일 로깅 설정
     <appender name="fileAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-            <level>DEBUG</level>
-        </filter>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${logHome}/%d{yyyyMMdd}/%d{yyyyMMdd}.%i.subway-error.log</fileNamePattern>
+            <fileNamePattern>${errorLogHome}/%d{yyyyMMdd}/%d{yyyy-MM-dd}.%i.error.log</fileNamePattern>
             <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
                 <maxFileSize>15MB</maxFileSize>
             </timeBasedFileNamingAndTriggeringPolicy>

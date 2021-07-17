@@ -1,6 +1,6 @@
 <configuration debug="true">
 
-    <property name="logPathName" value="./data/logs/access"/>
+    <property name="accessLogHome" value="./data/logs/access"/>
 
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
@@ -9,13 +9,13 @@
     </appender>
     <appender-ref ref="STDOUT" />
 
-    <statusListener class="ch.qos.logback.core.status.OnConsoleStatusListener" />
-
-    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${logPathName}/access.log</file>
+    <appender name="fileAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${logPathName}%d{yyyy-MM-dd}.access.log.zip</fileNamePattern>
-            <maxHistory>1</maxHistory>
+            <fileNamePattern>${accessLogHome}/%d{yyyyMMdd}/%d{yyyy-MM-dd}.%i.access.log.zip</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>15MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <maxHistory>30</maxHistory>
         </rollingPolicy>
 
         <encoder>
@@ -23,5 +23,5 @@
         </encoder>
     </appender>
 
-    <appender-ref ref="FILE" />
+    <appender-ref ref="fileAppender" />
 </configuration>
