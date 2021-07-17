@@ -16,7 +16,7 @@
   <springProfile name="prod">
     <appender name="File" class="ch.qos.logback.core.rolling.RollingFileAppender">
       <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-        <fileNamePattern>/var/log/%d{yyyyMM}/%d{yyyy-MM-dd}.log</fileNamePattern>
+        <fileNamePattern>/var/log/application-logs/%d{yyyyMM}/%d{yyyy-MM-dd}.log</fileNamePattern>
         <maxHistory>6</maxHistory>
         <totalSizeCap>5GB</totalSizeCap>
       </rollingPolicy>
@@ -35,7 +35,7 @@
         <onMismatch>DENY</onMismatch>
       </filter>
       <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-        <fileNamePattern>/var/log/%d{yyyyMM}/%d{yyyy-MM-dd}.error.log</fileNamePattern>
+        <fileNamePattern>/var/log/application-logs/%d{yyyyMM}/%d{yyyy-MM-dd}.error.log</fileNamePattern>
         <maxHistory>6</maxHistory>
         <totalSizeCap>5GB</totalSizeCap>
       </rollingPolicy>
