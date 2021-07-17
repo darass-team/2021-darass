@@ -5,6 +5,7 @@ import static javax.persistence.FetchType.LAZY;
 
 import com.darass.darass.comment.domain.Comment;
 import com.darass.darass.common.domain.BaseTimeEntity;
+import com.darass.darass.project.domain.Project;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
