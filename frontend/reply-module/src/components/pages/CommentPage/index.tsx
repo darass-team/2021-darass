@@ -1,4 +1,5 @@
-import { useCreateComment, useDeleteComment, useEditComment, useGetAllComments, useUser } from "../../../hooks";
+import { useEffect } from "react";
+import { useGetAllComments, useUser } from "../../../hooks";
 import CommentArea from "../../templates/CommentArea";
 
 const CommentPage = () => {
@@ -9,6 +10,10 @@ const CommentPage = () => {
 
   const { user, login, logout } = useUser();
   const { comments } = useGetAllComments({ url, projectKey });
+
+  useEffect(() => {
+    window.parent.postMessage(document.querySelector("#root")?.scrollHeight, "*");
+  }, [comments]);
 
   return (
     <>

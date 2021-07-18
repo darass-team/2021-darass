@@ -11,8 +11,12 @@
 
   const $iframe = document.createElement("iframe");
   $iframe.src = decodeURIComponent(urlParams.toString());
-  $iframe.style =
-    "width: 1px !important; min-width: 100% !important; border: none !important; overflow: hidden !important; height: 837px !important;";
-
+  $iframe.style = `width: 1px !important; min-width: 100% !important; border: none !important; overflow: hidden !important; height: 540px !important;`;
   $darass.appendChild($iframe);
+
+  window.addEventListener("message", event => {
+    if (typeof event.data === "number") {
+      $iframe.style = `width: 1px !important; min-width: 100% !important; border: none !important; overflow: hidden !important; height: ${event.data}px !important;`;
+    }
+  });
 })();
