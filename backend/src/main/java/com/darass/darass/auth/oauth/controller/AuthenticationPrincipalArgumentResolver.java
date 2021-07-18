@@ -29,7 +29,7 @@ public class AuthenticationPrincipalArgumentResolver implements HandlerMethodArg
         NativeWebRequest webRequest, WebDataBinderFactory binderFactory) {
         String accessToken = AuthorizationExtractor.extract(Objects.requireNonNull(webRequest.getNativeRequest(HttpServletRequest.class)));
 
-        if (Objects.isNull(accessToken) || accessToken.equals("")) {
+        if (Objects.isNull(accessToken) || accessToken.isEmpty()) {
             return new GuestUser();
         }
 
