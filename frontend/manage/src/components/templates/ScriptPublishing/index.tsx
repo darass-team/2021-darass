@@ -7,7 +7,7 @@ import { B, CodeBlockWrapper, Container, Content, CopyButton, P, Section, Title 
 const scriptCode = (projectSecretKey: string) => `
 <!-- 다라쓰 설치 코드 -->
 <div id="darass" data-project-key="${projectSecretKey}">
-    <script type="text/javascript">
+    <script type="text/javascript" defer>
         (function () {
         var $document = document;
 
