@@ -8,8 +8,9 @@ const Container = styled.div<{ align: "left" | "right" }>`
   flex-direction: ${props => (props.align === "left" ? "row" : "row-reverse")};
 `;
 
-const CommentWrapper = styled.div`
+const CommentWrapper = styled.div<{ align: "left" | "right" }>`
   display: flex;
+  flex-direction: ${props => (props.align === "left" ? "row" : "row-reverse")};
 `;
 
 const CommentTextBoxWrapper = styled.div<{ align: "left" | "right" }>`

@@ -113,9 +113,8 @@ const Comment = ({ user, comment, align = "left", shouldShowOption }: Props) => 
   return (
     <Container align={align}>
       <div>
-        <CommentWrapper>
+        <CommentWrapper align={align}>
           <Avatar imageURL={comment.user.profileImageUrl} />
-
           <CommentTextBoxWrapper align={align}>
             <CommentTextBox
               name={comment.user.nickName}
@@ -130,7 +129,6 @@ const Comment = ({ user, comment, align = "left", shouldShowOption }: Props) => 
             {shouldShowOption && <CommentOption startEditing={startEditing} startDeleting={startDeleting} />}
           </CommentTextBoxWrapper>
         </CommentWrapper>
-
         {shouldShowPasswordInput && (
           <PasswordForm
             onSubmit={event => {
