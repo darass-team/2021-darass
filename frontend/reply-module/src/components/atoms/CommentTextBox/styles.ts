@@ -22,6 +22,8 @@ const Text = styled.div`
   border-radius: 10px;
   min-width: 10rem;
   max-width: 20rem;
+  word-break: break-word;
+  white-space: break-spaces;
 `;
 
 const Button = styled.button`
