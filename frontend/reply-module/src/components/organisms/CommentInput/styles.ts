@@ -12,6 +12,7 @@ const TextArea = styled.textarea`
   padding: 1.6rem;
   height: 9rem;
   margin-bottom: 1.6rem;
+  resize: none;
 `;
 
 const Wrapper = styled.div`
