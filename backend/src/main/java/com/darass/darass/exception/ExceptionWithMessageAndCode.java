@@ -17,7 +17,7 @@ public enum ExceptionWithMessageAndCode {
 
     // 프로젝트 관련 : 7xx
     NOT_FOUND_PROJECT(new NotFoundException("해당하는 프로젝트가 없습니다.", 700)),
-    DUPLICATE_PROJECT_SECRET_KET(new ConflictException("프로젝트의 Secret Key의 중복이 발생했습니다. 다시 프로젝트 생성을 시도해주세요.", 701)),
+    DUPLICATE_PROJECT_SECRET_KEY(new ConflictException("프로젝트의 Secret Key의 중복이 발생했습니다. 다시 프로젝트 생성을 시도해주세요.", 701)),
 
     // 로그인 관련 : 8xx
     SHOULD_LOGIN(new UnauthorizedException("로그인을 해야 합니다.", 800)),
@@ -30,17 +30,17 @@ public enum ExceptionWithMessageAndCode {
     NOT_GUEST_USER(new UnauthorizedException("Guest 사용자가 아닙니다.", 902)),
     UNAUTHORIZED_FOR_COMMENT(new UnauthorizedException("해당 댓글을 관리할 권한이 없습니다.", 903));
 
-    private CustomException exception;
+    private final CustomException exception;
 
     ExceptionWithMessageAndCode(CustomException e) {
         this.exception = e;
     }
 
-    public String findMessage(){
+    public String findMessage() {
         return exception.getMessage();
     }
 
-    public Integer findCode(){
+    public Integer findCode() {
         return exception.getCode();
     }
 

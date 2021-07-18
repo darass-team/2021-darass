@@ -12,7 +12,6 @@ import com.darass.darass.user.domain.GuestUser;
 import com.darass.darass.user.domain.User;
 import com.darass.darass.user.repository.UserRepository;
 import java.util.Optional;
-import org.assertj.core.api.AssertionsForClassTypes;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -70,6 +69,6 @@ public class ProjectServiceTest {
 
         assertThatThrownBy(() -> {
             projectService.save(new ProjectCreateRequest("B 프로젝트"), user, new CustomSecretKeyFactory("abcd"));
-        }).isInstanceOf(ExceptionWithMessageAndCode.DUPLICATE_PROJECT_SECRET_KET.getException().getClass());
+        }).isInstanceOf(ExceptionWithMessageAndCode.DUPLICATE_PROJECT_SECRET_KEY.getException().getClass());
     }
 }
