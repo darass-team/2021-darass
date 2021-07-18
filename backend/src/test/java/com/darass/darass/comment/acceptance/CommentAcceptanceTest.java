@@ -21,6 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.darass.darass.AcceptanceTest;
 import com.darass.darass.auth.oauth.infrastructure.JwtTokenProvider;
 import com.darass.darass.comment.controller.dto.CommentCreateRequest;
+import com.darass.darass.comment.controller.dto.CommentDeleteRequest;
 import com.darass.darass.comment.controller.dto.CommentResponse;
 import com.darass.darass.comment.controller.dto.CommentUpdateRequest;
 import com.darass.darass.comment.controller.dto.UserResponse;
@@ -288,7 +289,8 @@ public class CommentAcceptanceTest extends AcceptanceTest {
 
         mockMvc.perform(delete("/api/v1/comments/{id}", commentId)
             .header("Authorization", "Bearer " + token)
-            .contentType(MediaType.APPLICATION_JSON))
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(asJsonString(new CommentDeleteRequest())))
             .andExpect(status().isNoContent())
             .andDo(document("api/v1/comments/delete/success-login-user",
                 requestHeaders(
@@ -309,17 +311,15 @@ public class CommentAcceptanceTest extends AcceptanceTest {
 
         mockMvc.perform(delete("/api/v1/comments/{id}", commentId)
             .contentType(MediaType.APPLICATION_JSON)
-            .param("guestUserId", user.getId().toString())
-            .param("guestUserPassword", "password")
-        )
+            .content(asJsonString(new CommentDeleteRequest(user.getId(), "password"))))
             .andExpect(status().isNoContent())
             .andDo(document("api/v1/comments/delete/success-guest-user",
                 pathParameters(
                     parameterWithName("id").description("삭제할 댓글 id")
                 ),
-                requestParameters(
-                    parameterWithName("guestUserId").description("비로그인 작성자 id"),
-                    parameterWithName("guestUserPassword").description("비로그인 작성자 비밀번호")
+                requestFields(
+                    fieldWithPath("guestUserId").description("비로그인 작성자 id"),
+                    fieldWithPath("guestUserPassword").description("비로그인 작성자 비밀번호")
                 )
             ));
     }
@@ -333,8 +333,8 @@ public class CommentAcceptanceTest extends AcceptanceTest {
 
         mockMvc.perform(delete("/api/v1/comments/{id}", commentId)
             .contentType(MediaType.APPLICATION_JSON)
-            .header("Authorization", "Bearer " + token)
-        )
+            .content(asJsonString(new CommentDeleteRequest()))
+            .header("Authorization", "Bearer " + token))
             .andExpect(status().isUnauthorized())
             .andExpect(jsonPath("$.code").value(903))
             .andDo(document("api/v1/comments/delete/fail-not-mine",
