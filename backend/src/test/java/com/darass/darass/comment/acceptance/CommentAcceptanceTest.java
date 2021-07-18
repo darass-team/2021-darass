@@ -248,8 +248,7 @@ public class CommentAcceptanceTest extends AcceptanceTest {
         mockMvc.perform(patch("/api/v1/comments/{id}", commentId2)
             .contentType(MediaType.APPLICATION_JSON)
             .header("Authorization", "Bearer " + token)
-            .content(asJsonString(new CommentUpdateRequest("updateContent")))
-        )
+            .content(asJsonString(new CommentUpdateRequest("updateContent"))))
             .andExpect(status().isUnauthorized())
             .andExpect(jsonPath("$.code").value(903))
             .andDo(document("api/v1/comments/patch/fail-not-mine",
@@ -269,8 +268,7 @@ public class CommentAcceptanceTest extends AcceptanceTest {
 
         mockMvc.perform(patch("/api/v1/comments/{id}", commentId)
             .contentType(MediaType.APPLICATION_JSON)
-            .content(asJsonString(new CommentUpdateRequest(user.getId(), "invalid", "updateContent")))
-        )
+            .content(asJsonString(new CommentUpdateRequest(user.getId(), "invalid", "updateContent"))))
             .andExpect(status().isUnauthorized())
             .andExpect(jsonPath("$.code").value(901))
             .andDo(document("api/v1/comments/patch/fail-guest-password-wrong",
@@ -289,12 +287,11 @@ public class CommentAcceptanceTest extends AcceptanceTest {
 
         mockMvc.perform(delete("/api/v1/comments/{id}", commentId)
             .header("Authorization", "Bearer " + token)
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(asJsonString(new CommentDeleteRequest())))
+            .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isNoContent())
             .andDo(document("api/v1/comments/delete/success-login-user",
                 requestHeaders(
-                      headerWithName("Authorization").description("JWT - Bearer 토큰")
+                    headerWithName("Authorization").description("JWT - Bearer 토큰")
                 ),
                 pathParameters(
                     parameterWithName("id").description("삭제할 댓글 id")
@@ -311,15 +308,16 @@ public class CommentAcceptanceTest extends AcceptanceTest {
 
         mockMvc.perform(delete("/api/v1/comments/{id}", commentId)
             .contentType(MediaType.APPLICATION_JSON)
-            .content(asJsonString(new CommentDeleteRequest(user.getId(), "password"))))
+            .param("guestUserId", user.getId().toString())
+            .param("guestUserPassword", "password"))
             .andExpect(status().isNoContent())
             .andDo(document("api/v1/comments/delete/success-guest-user",
                 pathParameters(
                     parameterWithName("id").description("삭제할 댓글 id")
                 ),
-                requestFields(
-                    fieldWithPath("guestUserId").description("비로그인 작성자 id"),
-                    fieldWithPath("guestUserPassword").description("비로그인 작성자 비밀번호")
+                requestParameters(
+                    parameterWithName("guestUserId").description("비로그인 작성자 id"),
+                    parameterWithName("guestUserPassword").description("비로그인 작성자 비밀번호")
                 )
             ));
     }
@@ -327,14 +325,14 @@ public class CommentAcceptanceTest extends AcceptanceTest {
     @Test
     @DisplayName("/api/v1/comments/{id} DELETE - 남의 댓글을 삭제하는 경우")
     void deleteUnauthorized() throws Exception {
-        소셜_로그인_댓글_등록됨_Response_반환("content1", "url");
-        CommentResponse commentResponse = 비로그인_댓글_등록됨_Response_반환("content2", "url");
-        Long commentId = commentResponse.getId();
+        CommentResponse commentResponse1 = 소셜_로그인_댓글_등록됨_Response_반환("content1", "url");
+        CommentResponse commentResponse2 = 비로그인_댓글_등록됨_Response_반환("content2", "url");
+        Long commentId2 = commentResponse2.getId();
 
-        mockMvc.perform(delete("/api/v1/comments/{id}", commentId)
+        mockMvc.perform(delete("/api/v1/comments/{id}", commentId2)
             .contentType(MediaType.APPLICATION_JSON)
-            .content(asJsonString(new CommentDeleteRequest()))
-            .header("Authorization", "Bearer " + token))
+            .header("Authorization", "Bearer " + token)
+        )
             .andExpect(status().isUnauthorized())
             .andExpect(jsonPath("$.code").value(903))
             .andDo(document("api/v1/comments/delete/fail-not-mine",
@@ -344,7 +342,6 @@ public class CommentAcceptanceTest extends AcceptanceTest {
                 )
             ));
     }
-
     private ResultActions 소셜_로그인_댓글_등록됨(String content, String url) throws Exception {
         return mockMvc.perform(post("/api/v1/comments")
             .contentType(MediaType.APPLICATION_JSON)
