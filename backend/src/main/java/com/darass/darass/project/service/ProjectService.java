@@ -31,7 +31,7 @@ public class ProjectService {
             projects.save(project);
         } catch (DataIntegrityViolationException e) {
             if (e.getLocalizedMessage().contains("SECRET_KEY_UNIQUE")) {
-                throw ExceptionWithMessageAndCode.DUPLICATE_PROJECT_SECRET_KET.getException();
+                throw ExceptionWithMessageAndCode.DUPLICATE_PROJECT_SECRET_KEY.getException();
             }
             throw ExceptionWithMessageAndCode.INTERNAL_SERVER.getException();
         }
@@ -57,7 +57,7 @@ public class ProjectService {
 
     public ProjectResponse findUserIdBySecretKey(String secretKey) {
         Optional<Project> expectedProject = projects.findBySecretKey(secretKey);
-        Project project = expectedProject .orElseThrow(ExceptionWithMessageAndCode.NOT_FOUND_PROJECT::getException);
+        Project project = expectedProject.orElseThrow(ExceptionWithMessageAndCode.NOT_FOUND_PROJECT::getException);
 
         return ProjectResponse.of(project.getUser().getId());
     }

@@ -1,5 +1,6 @@
 package com.darass.darass.comment.controller.dto;
 
+import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,6 +16,7 @@ public class CommentCreateRequest {
 
     private String projectSecretKey;
 
+    @NotNull
     private String content;
 
     private String url;
