@@ -17,7 +17,7 @@ const CommentTextBoxWrapper = styled.div<{ align: "left" | "right" }>`
   position: relative;
   display: flex;
   flex-direction: column;
-  align-items: ${props => (props.align === "left" ? "flex-start" : "flex-end")};
+  align-items: flex-end;
   margin: ${props => (props.align === "left" ? "0 0 0 0.6rem" : "0 0.6rem 0 0")};
 `;
 
