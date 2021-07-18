@@ -8,7 +8,7 @@ const webpack = require("webpack");
 module.exports = {
   entry: "./src/index.tsx",
   output: {
-    path: path.resolve(__dirname, "dist/js"),
+    path: path.resolve(__dirname, "dist"),
     filename: "bundle.js",
     publicPath: "/"
   },
