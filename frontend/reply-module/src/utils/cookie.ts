@@ -22,8 +22,9 @@ const getCookie = (key: string) => {
   return null;
 };
 
-const deleteCookie = (name: string) => {
-  document.cookie = name + "=; Max-Age=-99999999;";
+const deleteCookie = (key: string) => {
+  setCookie(key, "");
+  document.cookie = key + "=; Secure; SameSite=None; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;";
 };
 
 export { setCookie, getCookie, deleteCookie };

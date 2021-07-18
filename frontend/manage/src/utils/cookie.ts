@@ -3,7 +3,7 @@ const setCookie = (key: string, value: string, keepAliveMinutes = 60) => {
   expiryDate.setMinutes(expiryDate.getMinutes() + keepAliveMinutes);
 
   const cookieValue = escape(value) + "; expires=" + expiryDate.toUTCString();
-  document.cookie = key + "=" + cookieValue;
+  document.cookie = key + "=" + cookieValue + "; SameSite=Lax";
 };
 
 const getCookie = (key: string) => {
@@ -22,8 +22,9 @@ const getCookie = (key: string) => {
   return null;
 };
 
-const deleteCookie = (name: string) => {
-  document.cookie = name + "=; Max-Age=-99999999;";
+const deleteCookie = (key: string) => {
+  setCookie(key, "");
+  document.cookie = key + "=; SameSite=Lax; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;";
 };
 
 export { setCookie, getCookie, deleteCookie };
