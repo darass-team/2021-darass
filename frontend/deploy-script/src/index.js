@@ -1,7 +1,7 @@
 (function () {
   const $darass = document.querySelector("#darass");
 
-  const replyModuleURL = "http://localhost:5501/dist/js/index.html" + "?";
+  const replyModuleURL = "https://darass-reply-module.s3.ap-northeast-2.amazonaws.com/index.html" + "?";
   const currURL = window.location.href;
   const projectKey = $darass.dataset.projectKey;
 

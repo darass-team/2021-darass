@@ -12,7 +12,7 @@ const scriptCode = (projectSecretKey: string) => `
         var $document = document;
 
         var $script = $document.createElement("script");
-        $script.src = "./dist/js/embed.js";
+        $script.src = "https://darass-script-code.s3.ap-northeast-2.amazonaws.com/embed.js";
         $script.defer = true;
 
         $document.head.appendChild($script);
