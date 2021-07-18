@@ -4,6 +4,10 @@ import { ReactQueryDevtools } from "react-query/devtools";
 import App from "./App";
 import GlobalStyles from "./styles/GlobalStyles";
 
+document.addEventListener("keydown", event => {
+  event.stopPropagation();
+});
+
 const queryClient = new QueryClient();
 
 ReactDOM.render(
