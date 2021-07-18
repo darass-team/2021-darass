@@ -80,7 +80,8 @@ class ControllerAdviceTest {
         mockMvc.perform(delete("/api/v1/comments/1")
             .contentType(MediaType.APPLICATION_JSON)
             .header("Authorization", "")
-            .content(new ObjectMapper().writeValueAsString(new CommentDeleteRequest(100L, "password"))))
+            .param("guestUserId", "100")
+            .param("guestUserPassword", "password"))
             .andExpect(status().isNotFound());
     }
 
