@@ -4,10 +4,8 @@
 name: Darass PR Checker [FE]
 
 on:
-  push:
-    branches: [ feature/fe/ci/195]
   pull_request:
-    branches: [ feature/fe/ci/195 ]
+    branches: [ develop/fe ]
 
 jobs:
   build:
@@ -48,6 +46,6 @@ jobs:
       run: yarn install
       working-directory: ./frontend/deploy-script
     
-    - name: Build - deplot script
+    - name: Build - deploy script
       run: yarn build
       working-directory: ./frontend/deploy-script
