@@ -14,7 +14,10 @@ const useUser = () => {
     data: user,
     isLoading,
     error
-  } = useQuery<User, Error>(REACT_QUERY_KEY.USER, async () => await request.get(QUERY.USER));
+  } = useQuery<User, Error>(REACT_QUERY_KEY.USER, async () => await request.get(QUERY.USER), {
+    retry: false,
+    refetchOnWindowFocus: false
+  });
 
   const login = async () => {
     try {
