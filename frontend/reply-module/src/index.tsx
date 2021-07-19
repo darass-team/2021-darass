@@ -8,7 +8,13 @@ document.addEventListener("keydown", event => {
   event.stopPropagation();
 });
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false
+    }
+  }
+});
 
 ReactDOM.render(
   <QueryClientProvider client={queryClient}>
