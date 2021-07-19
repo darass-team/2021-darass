@@ -1,11 +1,11 @@
 # This workflow will do a clean install of node dependencies, cache/restore them, build the source code and run tests across different versions of node
 # For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
 
-name: Darass PR Checker [FE]
+name: Darass Push Builder [FE]
 
 on:
-  pull_request:
-    branches: [ main, develop/fe ]
+  push:
+    branches: [ develop/fe ]
 
 jobs:
   build:
@@ -48,4 +48,19 @@ jobs:
     
     - name: Build - deploy script
       run: yarn build
+      working-directory: ./frontend/deploy-script
+    
+    - name: Install Aws Cli
+      uses: unfor19/install-aws-cli-action@v1
+      
+    - name: S3 Deploy - comment
+      run: aws s3 sync ./dist s3://darass-reply-module
+      working-directory: ./frontend/reply-module
+      
+    - name: S3 Deploy - project
+      run: aws s3 sync ./dist s3://darass-manage-page
+      working-directory: ./frontend/manage
+    
+    - name: S3 Deploy - deploy script
+      run: aws s3 sync ./dist s3://darass-script-code
       working-directory: ./frontend/deploy-script
