@@ -4,6 +4,8 @@
 name: Darass PR Checker [FE]
 
 on:
+  push:
+    branches: [ feature/fe/ci/195]
   pull_request:
     branches: [ feature/fe/ci/195 ]
 
