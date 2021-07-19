@@ -24,8 +24,10 @@ const useCreateComment = () => {
   const isLoading = createMutation.isLoading;
   const error = createMutation.error;
 
-  const createComment = (data: CreateCommentRequestData) => {
-    createMutation.mutateAsync(data);
+  const createComment = async (data: CreateCommentRequestData) => {
+    const comment = await createMutation.mutateAsync(data);
+
+    return comment;
   };
 
   return { createComment, isLoading, error };

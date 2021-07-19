@@ -27,7 +27,7 @@ const useDeleteComment = () => {
   const error = deleteMutation.error;
 
   const deleteComment = async (data: DeleteCommentRequestParameter) => {
-    return deleteMutation.mutateAsync(data);
+    return await deleteMutation.mutateAsync(data);
   };
 
   return { deleteComment, isLoading, error };

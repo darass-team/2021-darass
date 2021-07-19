@@ -19,7 +19,7 @@ const CommentInput = ({ user, url, projectSecretKey }: Props) => {
   const isValidFormInput =
     content.length > 0 ? (!user ? guestNickName.length > 0 && guestPassword.length > 0 : true) : false;
 
-  const onSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const guestInfo = {
@@ -27,7 +27,7 @@ const CommentInput = ({ user, url, projectSecretKey }: Props) => {
       guestPassword: guestPassword || undefined
     };
 
-    createComment({ content, url, projectSecretKey, ...guestInfo });
+    await createComment({ content, url, projectSecretKey, ...guestInfo });
     setContent("");
     setGuestNickName("");
     setGuestPassword("");
