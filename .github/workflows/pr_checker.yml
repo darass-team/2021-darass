@@ -32,3 +32,6 @@ jobs:
         
     - run: yarn install
       working-directory: ./frontend/manage
+      
+    - run: yarn build
+      working-directory: ./frontend/manage
