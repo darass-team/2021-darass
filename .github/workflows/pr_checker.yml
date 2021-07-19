@@ -4,8 +4,6 @@
 name: Darass PR Checker [FE]
 
 on:
-  push:
-    branches: [ feature/fe/ci/195 ]
   pull_request:
     branches: [ feature/fe/ci/195 ]
 
@@ -24,14 +22,30 @@ jobs:
         node-version: '14'
         
     - run: npm install
-      working-directory: ./frontend/manage
     
     - name: Setup yarn
       run: npm install -g yarn
-      working-directory: ./frontend/manage
-        
-    - run: yarn install
-      working-directory: ./frontend/manage
       
-    - run: yarn build
+    - name: Install Dependencies - comment
+      run: yarn install
+      working-directory: ./frontend/reply-module
+    
+    - name: Build - comment
+      run: yarn build
+      working-directory: ./frontend/reply-module
+      
+    - name: Install Dependencies - project
+      run: yarn install
       working-directory: ./frontend/manage
+    
+    - name: Build - project
+      run: yarn build
+      working-directory: ./frontend/manage
+    
+    - name: Install Dependencies - deploy script
+      run: yarn install
+      working-directory: ./frontend/deploy-script
+    
+    - name: Build - deplot script
+      run: yarn build
+      working-directory: ./frontend/deploy-script
