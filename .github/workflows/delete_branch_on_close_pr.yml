@@ -2,6 +2,7 @@ name: Delete branch on close pr
 on: 
   pull_request:
     types: [closed]
+    branches-ignore: [develop/be, develop/fe]
   
 jobs:
   delete-branch:
