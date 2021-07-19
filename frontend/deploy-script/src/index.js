@@ -10,13 +10,14 @@
   urlParams.set("projectKey", projectKey);
 
   const $iframe = document.createElement("iframe");
+  const defaultStyle = `width: 1px !important; min-width: 100% !important; border: none !important; overflow: hidden !important; height: 540px !important;`;
   $iframe.src = decodeURIComponent(urlParams.toString());
-  $iframe.style = `width: 1px !important; min-width: 100% !important; border: none !important; overflow: hidden !important; height: 540px !important;`;
+  $iframe.style = defaultStyle;
   $darass.appendChild($iframe);
 
   window.addEventListener("message", event => {
     if (typeof event.data === "number") {
-      $iframe.style = `width: 1px !important; min-width: 100% !important; border: none !important; overflow: hidden !important; height: ${event.data}px !important;`;
+      $iframe.style.setProperty("height", `${event.data}px`, "important");
     }
   });
 })();

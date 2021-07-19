@@ -22,7 +22,7 @@ const useEditComment = () => {
       queryClient.setQueryData<Comment[] | undefined>(REACT_QUERY_KEY.COMMENT, comments => {
         return comments?.map(comment => {
           if (comment.id === editedComment.id) {
-            comment.content = editedComment.content;
+            return { ...comment, content: editedComment.content };
           }
 
           return comment;

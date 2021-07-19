@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useGetAllComments, useUser } from "../../../hooks";
+import { postScrollHeightToParentWindow } from "../../../utils/iframePostMessage";
 import CommentArea from "../../templates/CommentArea";
 
 const CommentPage = () => {
@@ -12,7 +13,7 @@ const CommentPage = () => {
   const { comments } = useGetAllComments({ url, projectKey });
 
   useEffect(() => {
-    window.parent.postMessage(document.querySelector("#root")?.scrollHeight, "*");
+    postScrollHeightToParentWindow();
   }, [comments]);
 
   return (

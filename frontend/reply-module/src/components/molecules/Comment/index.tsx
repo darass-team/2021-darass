@@ -1,4 +1,4 @@
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { useDeleteComment, useEditComment, useInput } from "../../../hooks";
 import { Comment as CommentType } from "../../../types";
 import { getTimeDifference } from "../../../utils/time";
@@ -16,6 +16,7 @@ import {
 } from "./styles";
 import { User } from "../../../types/user";
 import { DeleteCommentRequestParameter } from "../../../types/comment";
+import { postScrollHeightToParentWindow } from "../../../utils/iframePostMessage";
 
 export interface Props {
   user: User | undefined;
@@ -28,11 +29,15 @@ type SubmitType = "Edit" | "Delete";
 
 const Comment = ({ user, comment, align = "left", shouldShowOption }: Props) => {
   const [isEditing, setEditing] = useState(false);
-  const [shouldShowPasswordInput, shouldShowPasswordInputState] = useState(false);
+  const [shouldShowPasswordInput, setShouldShowPasswordInput] = useState(false);
   const [submitType, setSubmitType] = useState<SubmitType>();
   const { value: password, onChange: onChangePassword } = useInput("");
   const { editComment } = useEditComment();
   const { deleteComment } = useDeleteComment();
+
+  useEffect(() => {
+    postScrollHeightToParentWindow();
+  }, [shouldShowPasswordInput]);
 
   const confirmGuestPassword = async () => {
     try {
@@ -51,13 +56,13 @@ const Comment = ({ user, comment, align = "left", shouldShowOption }: Props) => 
   };
 
   const startEditing = () => {
-    user ? setEditing(true) : shouldShowPasswordInputState(true);
+    user ? setEditing(true) : setShouldShowPasswordInput(true);
 
     setSubmitType("Edit");
   };
 
   const startDeleting = () => {
-    user ? confirmDelete() : shouldShowPasswordInputState(true);
+    user ? confirmDelete() : setShouldShowPasswordInput(true);
 
     setSubmitType("Delete");
   };
@@ -88,7 +93,7 @@ const Comment = ({ user, comment, align = "left", shouldShowOption }: Props) => 
 
       submitPasswordCallback();
 
-      shouldShowPasswordInputState(false);
+      setShouldShowPasswordInput(false);
     } catch (error) {
       console.error(error.message);
       alert(error.message);

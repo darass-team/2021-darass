@@ -1,17 +1,18 @@
 import CommentPage from "./components/pages/CommentPage";
+import { postScrollHeightToParentWindow } from "./utils/iframePostMessage";
 
 const onResize = () => {
   let throttle: NodeJS.Timeout | null;
 
-  const postScrollHeightToParent = () => {
+  const runThrottle = () => {
     if (!throttle) {
       throttle = setTimeout(() => {
         throttle = null;
-        window.parent.postMessage(document.querySelector("#root")?.scrollHeight, "*");
+        postScrollHeightToParentWindow();
       }, 600);
     }
   };
-  return postScrollHeightToParent;
+  return runThrottle;
 };
 
 window.addEventListener("resize", onResize());
