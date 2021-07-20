@@ -42,7 +42,6 @@ public class AdviceController {
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ExceptionResponse handleException(Exception e) {
-        e.printStackTrace();
         log.error("Unexpected Error From Server \n message : {} \n stacktrace : ", e.getMessage(), e);
         return new ExceptionResponse(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR.value());
     }
