@@ -19,7 +19,9 @@ const useGetProject = (id: Project["id"]) => {
     data: project,
     isLoading,
     error
-  } = useQuery<Project, Error>([REACT_QUERY_KEY.PROJECT, id], () => getProject(id));
+  } = useQuery<Project, Error>([REACT_QUERY_KEY.PROJECT, id], () => getProject(id), {
+    retry: false
+  });
 
   return { project, isLoading, error };
 };
