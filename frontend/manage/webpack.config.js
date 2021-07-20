@@ -4,8 +4,9 @@ const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const path = require("path");
 const webpack = require("webpack");
 const { DefinePlugin } = require("webpack");
+const { DotEnv } = require("webpack-dotenv");
 
-module.exports = {
+const config = {
   entry: "./src/index.tsx",
   output: {
     path: path.resolve(__dirname, "dist"),
@@ -57,6 +58,7 @@ module.exports = {
       "process.env.KAKAO_REST_API_KEY": JSON.stringify(process.env.KAKAO_REST_API_KEY),
       "process.env.KAKAO_JAVASCRIPT_API_KEY": JSON.stringify(process.env.KAKAO_JAVASCRIPT_API_KEY)
     }),
+
     new CleanWebpackPlugin(),
     new ReactRefreshWebpackPlugin(),
     new webpack.HotModuleReplacementPlugin()
@@ -74,3 +76,9 @@ module.exports = {
     hot: true
   }
 };
+
+if (!process.env.KAKAO_JAVASCRIPT_API_KEY) {
+  config.plugins.push(new DotEnv());
+}
+
+module.exports = config;
