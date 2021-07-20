@@ -34,8 +34,9 @@ const CommentOption = styled(CommentOptionComponent)`
 
 const PasswordForm = styled.form``;
 
-const PasswordInput = styled.input`
+const PasswordInput = styled.input<{ isValidInput: Boolean }>`
   ${InputCSS};
+  border: ${props => !props.isValidInput && `3px solid ${PALETTE.RED_600}`};
   margin-right: 1.2rem;
   margin-left: calc(40px + 0.6rem);
   height: 2.4rem;

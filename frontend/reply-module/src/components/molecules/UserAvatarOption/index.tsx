@@ -1,7 +1,7 @@
 import { ReactNode, useEffect, useState } from "react";
 import { User } from "../../../types/user";
 import Avatar from "../../atoms/Avatar";
-import { Container, UserOption } from "./styles";
+import { Container, UserNickName, UserOption } from "./styles";
 
 export interface Props {
   user: User | undefined;
@@ -21,6 +21,7 @@ const UserAvatarOption = ({ user, children }: Props) => {
 
   return (
     <Container>
+      <UserNickName onClick={onShowOptionBox}>{user?.nickName ?? "로그인"}</UserNickName>
       <Avatar imageURL={user?.profileImageUrl} onClick={onShowOptionBox} />
       {isShowOptionBox && <UserOption userName={user?.nickName || "Login With"}>{children}</UserOption>}
     </Container>

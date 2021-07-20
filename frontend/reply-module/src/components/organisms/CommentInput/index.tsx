@@ -1,4 +1,4 @@
-import { FormEvent } from "react";
+import { FormEvent, useState } from "react";
 import { useCreateComment, useInput } from "../../../hooks";
 import { User } from "../../../types/user";
 import SubmitButton from "../../atoms/SubmitButton";
@@ -15,38 +15,68 @@ const CommentInput = ({ user, url, projectSecretKey }: Props) => {
   const { value: guestNickName, onChange: onChangeGuestNickName, setValue: setGuestNickName } = useInput("");
   const { value: guestPassword, onChange: onChangeGuestPassword, setValue: setGuestPassword } = useInput("");
   const { createComment } = useCreateComment();
+  const [isFormSubmitted, setFormSubmitted] = useState(false);
 
-  const isValidFormInput =
-    content.length > 0 ? (!user ? guestNickName.length > 0 && guestPassword.length > 0 : true) : false;
+  const isValidTextInput = content.length > 0;
+  const isValidGuestNickName = !user ? guestNickName.length > 0 : true;
+  const isValidGuestPassword = !user ? guestPassword.length > 0 : true;
+  const isValidFormInput = isValidTextInput && isValidGuestNickName && isValidGuestPassword;
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const guestInfo = {
-      guestNickName: guestNickName || undefined,
-      guestPassword: guestPassword || undefined
-    };
+    if (!isValidFormInput) {
+      setFormSubmitted(true);
 
-    await createComment({ content, url, projectSecretKey, ...guestInfo });
-    setContent("");
-    setGuestNickName("");
-    setGuestPassword("");
+      return;
+    }
+
+    try {
+      const guestInfo = {
+        guestNickName: guestNickName || undefined,
+        guestPassword: guestPassword || undefined
+      };
+
+      await createComment({ content, url, projectSecretKey, ...guestInfo });
+      setContent("");
+      setGuestNickName("");
+      setGuestPassword("");
+    } catch (error) {
+      alert("댓글 생성에 실패하였습니다.\n잠시 후 다시 시도해주세요.");
+    } finally {
+      setFormSubmitted(false);
+    }
   };
 
   return (
     <Form onSubmit={onSubmit}>
-      <TextArea value={content} onChange={onChangeContent} placeholder="댓글을 입력해주세요." />
+      <TextArea
+        value={content}
+        onChange={onChangeContent}
+        placeholder="댓글을 입력해주세요."
+        isValidInput={!isFormSubmitted || isValidTextInput}
+      />
 
       <Wrapper>
         {!user && (
           <div>
-            <GuestInfo type="text" placeholder="이름" value={guestNickName} onChange={onChangeGuestNickName} />
-            <GuestInfo type="password" placeholder="비밀번호" value={guestPassword} onChange={onChangeGuestPassword} />
+            <GuestInfo
+              type="text"
+              placeholder="이름"
+              value={guestNickName}
+              onChange={onChangeGuestNickName}
+              isValidInput={!isFormSubmitted || isValidGuestNickName}
+            />
+            <GuestInfo
+              type="password"
+              placeholder="비밀번호"
+              value={guestPassword}
+              onChange={onChangeGuestPassword}
+              isValidInput={!isFormSubmitted || isValidGuestPassword}
+            />
           </div>
         )}
-        <SubmitButton onClick={() => {}} disabled={!isValidFormInput}>
-          등록
-        </SubmitButton>
+        <SubmitButton>등록</SubmitButton>
       </Wrapper>
     </Form>
   );
