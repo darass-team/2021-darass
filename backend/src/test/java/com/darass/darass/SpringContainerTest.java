@@ -9,5 +9,4 @@ import org.springframework.test.context.ActiveProfiles;
 @SpringBootTest
 public class SpringContainerTest extends IsolationTest {
 
-
 }

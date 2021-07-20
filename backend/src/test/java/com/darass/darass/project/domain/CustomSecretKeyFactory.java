@@ -1,8 +1,6 @@
 package com.darass.darass.project.domain;
 
-import com.darass.darass.ParallelTest;
-
-public class CustomSecretKeyFactory extends ParallelTest implements SecretKeyFactory {
+public class CustomSecretKeyFactory implements SecretKeyFactory {
 
     private final String secretKey;
 

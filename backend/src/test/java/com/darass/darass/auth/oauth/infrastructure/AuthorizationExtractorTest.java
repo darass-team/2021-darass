@@ -1,11 +1,13 @@
 package com.darass.darass.auth.oauth.infrastructure;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.parallel.ExecutionMode.CONCURRENT;
 
 import com.darass.darass.SpringContainerTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.parallel.Execution;
 import org.springframework.mock.web.MockHttpServletRequest;
 
 @DisplayName("AuthorizationExtractor 클래스")
