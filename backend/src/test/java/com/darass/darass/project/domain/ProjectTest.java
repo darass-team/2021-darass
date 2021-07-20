@@ -2,13 +2,11 @@ package com.darass.darass.project.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.darass.darass.IsolationTest;
-import com.darass.darass.ParallelTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 @DisplayName("Project 클래스")
-class ProjectTest extends ParallelTest {
+class ProjectTest {
 
     @DisplayName("isSame 메서드는 같은 프로젝트 키가 주어지면, true를 반환한다.")
     @Test
