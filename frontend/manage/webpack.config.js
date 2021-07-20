@@ -4,6 +4,7 @@ const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const Dotenv = require("dotenv-webpack");
 const path = require("path");
 const webpack = require("webpack");
+const { DefinePlugin } = require("webpack");
 
 module.exports = {
   entry: "./src/index.tsx",
@@ -50,9 +51,12 @@ module.exports = {
     ]
   },
   plugins: [
-    new Dotenv(),
     new HtmlWebpackPlugin({
       template: "./public/index.html"
+    }),
+    new DefinePlugin({
+      "process.env.KAKAO_REST_API_KEY": JSON.stringify(process.env.KAKAO_REST_API_KEY),
+      "process.env.KAKAO_JAVASCRIPT_API_KEY": JSON.stringify(process.env.KAKAO_JAVASCRIPT_API_KEY)
     }),
     new CleanWebpackPlugin(),
     new ReactRefreshWebpackPlugin(),
