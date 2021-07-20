@@ -36,8 +36,8 @@ jobs:
       run: yarn build
       working-directory: ./frontend/reply-module
       env:
-        ${{ secrets.KAKAO_REST_API_KEY }},
-        ${{ secrets.KAKAO_JAVASCRIPT_API_KEY}}
+        KAKAO_REST_API_KEY: ${{ secrets.KAKAO_REST_API_KEY }}
+        KAKAO_JAVASCRIPT_API_KEY: ${{ secrets.KAKAO_JAVASCRIPT_API_KEY}}
       
     - name: Install Dependencies - project
       run: yarn install
