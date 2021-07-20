@@ -51,6 +51,9 @@ dependencies {
 
     // jackson 관련
     implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.12.3'
+
+    // 로깅
+    implementation 'net.rakugakibox.spring.boot:logback-access-spring-boot-starter:2.7.1'
 }
 
 test {
