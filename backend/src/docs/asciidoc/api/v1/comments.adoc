@@ -107,10 +107,22 @@ include::{snippets}/api/v1/comments/delete/success-login-user/http-response.adoc
 
 include::{snippets}/api/v1/comments/delete/success-guest-user/http-request.adoc[]
 include::{snippets}/api/v1/comments/delete/success-guest-user/path-parameters.adoc[]
+include::{snippets}/api/v1/comments/delete/success-guest-user/request-parameters.adoc[]
 
 ==== Response
 
 include::{snippets}/api/v1/comments/delete/success-guest-user/http-response.adoc[]
+
+==== (성공) 관리자가 남의 댓글 삭제
+
+==== Request
+
+include::{snippets}/api/v1/comments/delete/success-admin-user/http-request.adoc[]
+include::{snippets}/api/v1/comments/delete/success-admin-user/request-headers.adoc[]
+
+==== Response
+
+include::{snippets}/api/v1/comments/delete/success-admin-user/http-response.adoc[]
 
 ==== (실패) 남의 댓글을 삭제하는 경우
 
