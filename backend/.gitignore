@@ -42,3 +42,11 @@ out/
 
 ## RestDocs 파일
 /src/main/resources/static/docs/
+BOOT-INF/
+
+## 로그 파일
+data/
+
+## 기타
+/2021-darass/
+db/
