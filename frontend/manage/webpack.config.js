@@ -1,7 +1,6 @@
 const ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
-const Dotenv = require("dotenv-webpack");
 const path = require("path");
 const webpack = require("webpack");
 const { DefinePlugin } = require("webpack");
