@@ -8,9 +8,9 @@ on:
     branches: [ develop/fe ]
 
 jobs:
-  build:
+  deploy:
 
-    runs-on: [self-hosted, front]
+    runs-on: [ self-hosted, front ]
 
     steps:
     - name: Checkout source code
@@ -70,3 +70,13 @@ jobs:
     - name: S3 Deploy - deploy script
       run: aws s3 sync ./dist s3://darass-script-code
       working-directory: ./frontend/deploy-script
+      
+    - name: build result to slack
+      uses: 8398a7/action-slack@v3
+      with:
+        status: ${{ job.status }}
+        fields: repo, message, commit, author, action, eventName, ref, workflow, job, took
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL_FRONT }}
+      if: always()
