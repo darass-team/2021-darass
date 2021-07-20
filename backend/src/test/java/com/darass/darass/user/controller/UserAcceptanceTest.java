@@ -39,19 +39,23 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class UserAcceptanceTest extends AcceptanceTest {
 
     private final String apiUrl = "/api/v1/users";
+<<<<<<< HEAD
 
+=======
+>>>>>>> 0926d60 (refactor: 모든 테스트가 병렬적으로 수행되도록 리팩터링)
     @Autowired
     private UserRepository userRepository;
-
     @Autowired
     private ProjectRepository projectRepository;
-
     @Autowired
     private JwtTokenProvider tokenProvider;
 
     private SocialLoginUser socialLoginUser;
+<<<<<<< HEAD
 
     String secretKey = "secretKey";
+=======
+>>>>>>> 0926d60 (refactor: 모든 테스트가 병렬적으로 수행되도록 리팩터링)
 
     @BeforeEach
     public void setUser() { // TODO: 이 부분 로그인 인수테스트로 바꾸기

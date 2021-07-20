@@ -2,6 +2,7 @@ package com.darass.darass.comment.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.darass.darass.ParallelTest;
 import com.darass.darass.project.domain.CustomSecretKeyFactory;
 import com.darass.darass.project.domain.Project;
 import java.util.ArrayList;
@@ -10,7 +11,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 @DisplayName("Comments 클래스")
-class CommentsTest {
+class CommentsTest extends ParallelTest {
 
     private final List<Comment> commentList = new ArrayList<>();
 

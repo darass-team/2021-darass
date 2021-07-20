@@ -2,11 +2,13 @@ package com.darass.darass.user.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.darass.darass.IsolationTest;
+import com.darass.darass.ParallelTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 @DisplayName("SocialLoginUser 클래스")
-class SocialLoginUserTest {
+class SocialLoginUserTest extends ParallelTest {
 
     private final String nickName = "우기";
     private final String email = "bbwwpark@naver.com";
