@@ -30,6 +30,8 @@ import static org.springframework.restdocs.headers.HeaderDocumentation.requestHe
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -155,11 +157,46 @@ public class UserAcceptanceTest extends AcceptanceTest {
         비로그인_유저_비밀번호_일치함(resultActions);
     }
 
+    @Test
+    @DisplayName("비로그인 사용자의 비밀번호 일치여부 조회시 일치하지 않는다.")
+    void checkWrongGuestUserPassword() throws Exception {
+        //given
+        String expected = "password";
+        String actual = "wrongPassword";
+
+        //when
+        ResultActions resultActions = 비로그인_유저_비밀번호_일치여부_조회_요청(expected, actual);
+
+        //then
+        비로그인_유저_비밀번호_틀림(resultActions);
+    }
+
+    private void 비로그인_유저_비밀번호_틀림(ResultActions resultActions) throws Exception {
+        String responseJson = resultActions.andReturn().getResponse().getContentAsString();
+        PasswordCheckResponse passwordCheckResponse = new ObjectMapper().readValue(responseJson, PasswordCheckResponse.class);
+        assertThat(passwordCheckResponse.getIsCorrectPassword()).isFalse();
+        비밀번호_일치여부_조회_rest_doc_작성(resultActions, "api/v1/users/get/password-check-incorrect");
+    }
+
     private void 비로그인_유저_비밀번호_일치함(ResultActions resultActions) throws Exception {
         String responseJson = resultActions.andReturn().getResponse().getContentAsString();
         PasswordCheckResponse passwordCheckResponse = new ObjectMapper().readValue(responseJson, PasswordCheckResponse.class);
-        resultActions.andExpect(status().isOk());
         assertThat(passwordCheckResponse.getIsCorrectPassword()).isTrue();
+        비밀번호_일치여부_조회_rest_doc_작성(resultActions, "api/v1/users/get/password-check-correct");
+    }
+
+    private ResultActions 비밀번호_일치여부_조회_rest_doc_작성(ResultActions resultActions, String path) throws Exception {
+        return resultActions.andExpect(status().isOk())
+                .andDo(
+                        document(path,
+                                requestParameters(
+                                        parameterWithName("guestUserId").description("검증하려는 비로그인 유저 id"),
+                                        parameterWithName("guestUserPassword").description("검증하려는 비밀번호")
+                                ),
+                                responseFields(
+                                        fieldWithPath("isCorrectPassword").type(JsonFieldType.BOOLEAN).description("비밀번호 일치 여부")
+                                ))
+                );
     }
 
     private ResultActions 비로그인_유저_비밀번호_일치여부_조회_요청(String expected, String actual) throws Exception {
