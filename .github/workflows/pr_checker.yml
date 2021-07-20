@@ -4,6 +4,8 @@
 name: Darass PR Checker [FE]
 
 on:
+  push:
+    branches: [ feature/fe/slack/225 ]
   pull_request:
     branches: [ main, develop/fe ]
 
@@ -55,3 +57,13 @@ jobs:
     - name: Build - deploy script
       run: yarn build
       working-directory: ./frontend/deploy-script
+  
+    - name: build result to slack
+      uses: 8398a7/action-slack@v3
+      with:
+        status: ${{ job.status }}
+        fields: repo, message, commit, author, action, eventName, ref, workflow, job, took
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL_FRONT }}
+      if: always()
