@@ -4,12 +4,13 @@ const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const path = require("path");
 const webpack = require("webpack");
 const { DefinePlugin } = require("webpack");
+const Package = require("./package.json");
 
 module.exports = {
   entry: "./src/index.tsx",
   output: {
     path: path.resolve(__dirname, "dist"),
-    filename: "bundle.js",
+    filename: `manage-${Package.version.replace("^", "")}.js`,
     publicPath: "/"
   },
   module: {
