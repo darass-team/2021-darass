@@ -25,6 +25,11 @@ jobs:
         java-version: '11'
         distribution: 'adopt'
         
+    - name: Setup timezone
+      uses: zcong1993/setup-timezone@master
+      with:
+        timezone: Asia/Seoul
+        
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
       working-directory: ./backend
