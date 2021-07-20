@@ -30,8 +30,9 @@ type SubmitType = "Edit" | "Delete";
 const Comment = ({ user, comment, align = "left", shouldShowOption }: Props) => {
   const [isEditing, setEditing] = useState(false);
   const [shouldShowPasswordInput, setShouldShowPasswordInput] = useState(false);
-  const [submitType, setSubmitType] = useState<SubmitType>();
-  const { value: password, onChange: onChangePassword } = useInput("");
+  const [submitType, setSubmitType] = useState<SubmitType | null>();
+  const { value: password, setValue: setPassword, onChange: onChangePassword } = useInput("");
+  const [isPasswordSubmitted, setPasswordSubmitted] = useState(false);
   const { editComment } = useEditComment();
   const { deleteComment } = useDeleteComment();
 
@@ -48,9 +49,12 @@ const Comment = ({ user, comment, align = "left", shouldShowOption }: Props) => 
         guestUserPassword: password
       });
 
+      setPasswordSubmitted(false);
+
       return true;
     } catch (error) {
       console.error(error.message);
+      setPasswordSubmitted(true);
       return false;
     }
   };
@@ -81,6 +85,8 @@ const Comment = ({ user, comment, align = "left", shouldShowOption }: Props) => 
     } catch (error) {
       console.error(error.message);
       alert("댓글 제거에 실패하셨습니다.");
+    } finally {
+      setSubmitType(null);
     }
   };
 
@@ -110,6 +116,9 @@ const Comment = ({ user, comment, align = "left", shouldShowOption }: Props) => 
       setEditing(false);
     } catch (error) {
       console.error(error.message);
+    } finally {
+      setPassword("");
+      setSubmitType(null);
     }
   };
 
@@ -128,8 +137,10 @@ const Comment = ({ user, comment, align = "left", shouldShowOption }: Props) => 
             </CommentTextBox>
 
             <Time>{getTimeDifference(comment.createdDate)}</Time>
-
-            {shouldShowOption && <CommentOption startEditing={startEditing} startDeleting={startDeleting} />}
+            {console.log(submitType)}
+            {shouldShowOption && !submitType && (
+              <CommentOption startEditing={startEditing} startDeleting={startDeleting} />
+            )}
           </CommentTextBoxWrapper>
         </CommentWrapper>
         {shouldShowPasswordInput && (
@@ -145,6 +156,7 @@ const Comment = ({ user, comment, align = "left", shouldShowOption }: Props) => 
               value={password}
               onChange={onChangePassword}
               placeholder="댓글 작성 시 입력한 비밀번호 입력"
+              isValidInput={!isPasswordSubmitted}
             />
             <Button>입력</Button>
           </PasswordForm>
