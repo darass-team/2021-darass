@@ -7,6 +7,16 @@ import { deleteCookie, setCookie } from "../utils/cookie";
 import { getKakaoAccessToken } from "../utils/kakaoAPI";
 import { request } from "../utils/request";
 
+const getUser = async () => {
+  const response = await request.get(QUERY.USER);
+
+  if (response.status >= 400) {
+    throw new Error(response.data.message);
+  }
+
+  return response.data;
+};
+
 const useUser = () => {
   const queryClient = useQueryClient();
 
@@ -14,7 +24,7 @@ const useUser = () => {
     data: user,
     isLoading,
     error
-  } = useQuery<User, Error>(REACT_QUERY_KEY.USER, async () => await request.get(QUERY.USER), {
+  } = useQuery<User, Error>(REACT_QUERY_KEY.USER, () => getUser(), {
     retry: false,
     refetchOnWindowFocus: false
   });
@@ -22,8 +32,13 @@ const useUser = () => {
   const login = async () => {
     try {
       const kakaoAccessToken = await getKakaoAccessToken();
-      const { accessToken: serverAccessToken } = await request.get(`${QUERY.LOGIN}${kakaoAccessToken}`);
+      const response = await request.get(`${QUERY.LOGIN}${kakaoAccessToken}`);
 
+      if (response.status >= 400) {
+        throw new Error(response.data.message);
+      }
+
+      const { accessToken: serverAccessToken } = response.data;
       setCookie(COOKIE_KEY.ATK, serverAccessToken);
 
       queryClient.invalidateQueries(REACT_QUERY_KEY.USER);

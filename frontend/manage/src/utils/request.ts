@@ -17,10 +17,15 @@ customAxios.interceptors.request.use(config => {
   return config;
 });
 
+customAxios.interceptors.response.use(
+  response => response,
+  error => error.response
+);
+
 const request = {
-  get: async (query: string) => (await customAxios.get(query)).data,
-  post: async <T>(query: string, data: T) => (await customAxios.post(query, data)).data,
-  patch: async <T>(query: string, data: T) => (await customAxios.patch(query, data)).data,
+  get: async (query: string) => await customAxios.get(query),
+  post: async <T>(query: string, data: T) => await customAxios.post(query, data),
+  patch: async <T>(query: string, data: T) => await customAxios.patch(query, data),
   delete: async (query: string) => await customAxios.delete(query)
 };
 

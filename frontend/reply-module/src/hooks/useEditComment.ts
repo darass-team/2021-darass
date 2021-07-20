@@ -5,13 +5,17 @@ import { Comment, EditCommentParameter, EditCommentRequestData } from "../types/
 import { REACT_QUERY_KEY } from "../constants/reactQueryKey";
 
 const _editComment = async (editedComment: EditCommentParameter) => {
-  const data = await request.patch<EditCommentRequestData>(`${QUERY.COMMENT}/${editedComment.id}`, {
+  const response = await request.patch<EditCommentRequestData>(`${QUERY.COMMENT}/${editedComment.id}`, {
     content: editedComment.content,
     guestUserId: editedComment.guestUserId,
     guestUserPassword: editedComment.guestUserPassword
   });
 
-  return data;
+  if (response.status >= 400) {
+    throw new Error(response.data.message);
+  }
+
+  return response.data;
 };
 
 const useEditComment = () => {

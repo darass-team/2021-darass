@@ -5,9 +5,13 @@ import { Project } from "../types/project";
 import { request } from "../utils/request";
 
 const getProject = async (id: Project["id"]) => {
-  const data = await request.get(`${QUERY.PROJECT}/${id}`);
+  const response = await request.get(`${QUERY.PROJECT}/${id}`);
 
-  return data;
+  if (response.status >= 400) {
+    throw new Error(response.data.message);
+  }
+
+  return response.data;
 };
 
 const useGetProject = (id: Project["id"]) => {

@@ -87,17 +87,15 @@ const Comment = ({ user, comment, align = "left", shouldShowOption }: Props) => 
   const submitPassword = async (event: FormEvent<HTMLFormElement>, submitPasswordCallback: () => void) => {
     event.preventDefault();
 
-    try {
-      const isValidPassword = await confirmGuestPassword();
-      if (!isValidPassword) throw new Error("비밀번호가 일치하지 않습니다.");
-
-      submitPasswordCallback();
-
-      setShouldShowPasswordInput(false);
-    } catch (error) {
-      console.error(error.message);
-      alert(error.message);
+    const isValidPassword = await confirmGuestPassword();
+    if (!isValidPassword) {
+      alert("비밀번호가 일치하지 않습니다.");
+      return;
     }
+
+    submitPasswordCallback();
+
+    setShouldShowPasswordInput(false);
   };
 
   const submitEditedComment = async (content: CommentType["content"]) => {

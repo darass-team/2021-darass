@@ -5,9 +5,13 @@ import { Comment, CreateCommentRequestData } from "../types/comment";
 import { REACT_QUERY_KEY } from "../constants/reactQueryKey";
 
 const _createComment = async (_data: CreateCommentRequestData) => {
-  const data = await request.post(QUERY.COMMENT, _data);
+  const response = await request.post(QUERY.COMMENT, _data);
 
-  return data;
+  if (response.status >= 400) {
+    throw new Error(response.data.message);
+  }
+
+  return response.data;
 };
 
 const useCreateComment = () => {

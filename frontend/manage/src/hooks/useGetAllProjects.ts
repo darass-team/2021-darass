@@ -5,9 +5,13 @@ import { Project } from "../types/project";
 import { request } from "../utils/request";
 
 const getAllProjects = async () => {
-  const data = await request.get(QUERY.PROJECT);
+  const response = await request.get(QUERY.PROJECT);
 
-  return data;
+  if (response.status >= 400) {
+    throw new Error(response.data.message);
+  }
+
+  return response.data;
 };
 
 const useGetAllProjects = () => {

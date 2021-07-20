@@ -5,9 +5,13 @@ import { Project } from "../types/project";
 import { request } from "../utils/request";
 
 const _createProject = async (name: Project["name"]) => {
-  const data = await request.post(QUERY.PROJECT, { name });
+  const response = await request.post(QUERY.PROJECT, { name });
 
-  return data;
+  if (response.status >= 400) {
+    throw new Error(response.data.message);
+  }
+
+  return response.data;
 };
 
 const useCreateProject = () => {
