@@ -97,6 +97,25 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
             );
     }
 
+    @Test
+    @DisplayName("중복되는 프로젝트 이름으로 등록하려고 하면 실패한다.")
+    public void save_fail_duplicateProjectName() throws Exception {
+        프로젝트_생성됨();
+        this.mockMvc.perform(post("/api/v1/projects")
+            .contentType(MediaType.APPLICATION_JSON)
+            .header("Authorization", "Bearer " + token)
+            .content(asJsonString(new ProjectCreateRequest("프로젝트이름")))
+        )
+            .andExpect(status().isConflict())
+            .andDo(
+                document("api/v1/projects/post/3",
+                    responseFields(
+                        fieldWithPath("message").type(JsonFieldType.STRING).description("에러 메시지"),
+                        fieldWithPath("code").type(JsonFieldType.NUMBER).description("에러 코드")
+                    ))
+            );
+    }
+
     private ResultActions 프로젝트_생성됨() throws Exception {
         return this.mockMvc.perform(post("/api/v1/projects")
             .contentType(MediaType.APPLICATION_JSON)
@@ -287,6 +306,5 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
             )
         );
     }
-
 }
 
