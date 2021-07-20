@@ -1,6 +1,6 @@
 {
   "name": "manage",
-  "version": "0.0.1",
+  "version": "^0.1.0",
   "description": "관리자 페이지",
   "main": "index.js",
   "author": "도비, 곤이",

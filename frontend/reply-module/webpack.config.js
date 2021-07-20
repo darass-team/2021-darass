@@ -2,12 +2,13 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const path = require("path");
 const { DefinePlugin } = require("webpack");
+const Package = require("./package.json");
 
 module.exports = {
   entry: "./src/index.tsx",
   output: {
     path: path.resolve(__dirname, "dist"),
-    filename: "bundle.js"
+    filename: `reply-module-${Package.version.replace("^", "")}.js`
   },
   module: {
     rules: [

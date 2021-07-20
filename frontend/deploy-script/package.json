@@ -1,6 +1,6 @@
 {
   "name": "deploy-script",
-  "version": "0.0.1",
+  "version": "^0.1.0",
   "description": "script for deploy",
   "main": "index.js",
   "author": "곤이, 도비",
