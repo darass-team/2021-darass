@@ -3,9 +3,11 @@ package com.darass.darass.project.service;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
+import com.darass.darass.SpringContainerTest;
 import com.darass.darass.exception.ExceptionWithMessageAndCode;
 import com.darass.darass.project.controller.dto.ProjectCreateRequest;
 import com.darass.darass.project.controller.dto.ProjectResponse;
+import com.darass.darass.project.domain.CustomSecretKeyFactory;
 import com.darass.darass.project.domain.Project;
 import com.darass.darass.project.repository.ProjectRepository;
 import com.darass.darass.user.domain.GuestUser;
@@ -16,13 +18,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
 @ActiveProfiles("test")
-@SpringBootTest
-@DisplayName("ProjectService 클래스")
-public class ProjectServiceTest {
+public class ProjectServiceTest extends SpringContainerTest {
 
     @Autowired
     private ProjectService projectService;

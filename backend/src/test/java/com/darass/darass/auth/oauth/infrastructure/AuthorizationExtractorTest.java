@@ -17,7 +17,7 @@ class AuthorizationExtractorTest {
     private final String accessToken = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNjI2NTI2MzI3LCJleHAiOjE2MjY1MzE1MTF9.ByMJIr0G2gLcQs_7N6lLpEWAqWXq4CYdEe-QUfMjWI0";
 
     @BeforeEach
-    void setUp(){
+    void setUp() {
         mockHttpServletRequest.addHeader("authorization", mutualAuthType + accessToken);
         mockHttpServletRequest.addHeader("authorization", basicAuthType + accessToken);
     }

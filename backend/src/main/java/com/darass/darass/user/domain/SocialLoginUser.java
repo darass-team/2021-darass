@@ -1,13 +1,12 @@
 package com.darass.darass.user.domain;
 
 import com.darass.darass.exception.ExceptionWithMessageAndCode;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 @Entity
@@ -23,7 +22,7 @@ public class SocialLoginUser extends User {
 
     @Builder
     public SocialLoginUser(String nickName, String oauthId,
-                           OAuthPlatform oauthPlatform, String email, String profileImageUrl) {
+        OAuthPlatform oauthPlatform, String email, String profileImageUrl) {
         super(nickName, profileImageUrl);
         this.oauthId = oauthId;
         this.oauthPlatform = oauthPlatform;
@@ -40,4 +39,11 @@ public class SocialLoginUser extends User {
         throw ExceptionWithMessageAndCode.NOT_GUEST_USER.getException();
     }
 
+    public void update(SocialLoginUser socialLoginUser) {
+        this.changeNickName(socialLoginUser.getNickName());
+        this.changeProfileImageUrl(socialLoginUser.getProfileImageUrl());
+        this.email = socialLoginUser.getEmail();
+        this.oauthId = socialLoginUser.getOauthId();
+        this.oauthPlatform = socialLoginUser.getOauthPlatform();
+    }
 }
