@@ -2,7 +2,8 @@
   const $darass = document.querySelector("#darass");
 
   const replyModuleURL = "https://dorvcm7xtbd6v.cloudfront.net" + "?";
-  const currURL = window.location.origin + window.location.pathname;
+  const currURL = (window.location.origin + window.location.pathname).replace("index.html", "");
+
   const projectKey = $darass.dataset.projectKey;
 
   const urlParams = new URLSearchParams(replyModuleURL);
