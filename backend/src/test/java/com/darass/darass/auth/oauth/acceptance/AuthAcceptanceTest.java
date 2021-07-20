@@ -35,20 +35,15 @@ import org.springframework.test.web.servlet.ResultActions;
 @DisplayName("Auth 인수 테스트")
 public class AuthAcceptanceTest extends AcceptanceTest {
 
+    private final String apiUrl = "/api/v1/login/oauth";
     @InjectMocks
     private OAuthService oAuthService;
-
     @SpyBean(name = "socialLoginUserRepository")
     private SocialLoginUserRepository socialLoginUserRepository;
-
     @SpyBean(name = "jwtTokenProvider")
     private JwtTokenProvider jwtTokenProvider;
-
     @MockBean(name = "userInfoProvider")
     private UserInfoProvider userInfoProvider;
-
-    private final String apiUrl = "/api/v1/login/oauth";
-
     private String oauthAccessToken;
 
     private SocialLoginUser socialLoginUser;

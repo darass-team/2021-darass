@@ -2,6 +2,8 @@ package com.darass.darass.comment.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.darass.darass.ParallelTest;
+import com.darass.darass.SpringContainerTest;
 import com.darass.darass.project.domain.CustomSecretKeyFactory;
 import com.darass.darass.project.domain.Project;
 import com.darass.darass.user.domain.GuestUser;
@@ -14,7 +16,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 @DisplayName("Comment 클래스")
 @DataJpaTest
-class CommentTest {
+class CommentTest extends ParallelTest {
 
     private final String content = "댓글 내용";
     private final String url = "https://naver.blog/post/1";

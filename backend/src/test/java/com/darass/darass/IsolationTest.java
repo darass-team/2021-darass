@@ -1,12 +1,9 @@
 package com.darass.darass;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.parallel.Execution;
-import org.junit.jupiter.api.parallel.ExecutionMode;
 import org.springframework.beans.factory.annotation.Autowired;
 
-@Execution(ExecutionMode.CONCURRENT)
-public class IsolationTest {
+public class IsolationTest extends ParallelTest {
 
     @Autowired
     private DatabaseCleaner databaseCleaner;

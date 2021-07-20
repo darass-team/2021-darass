@@ -6,6 +6,8 @@ import static org.springframework.test.web.client.match.MockRestRequestMatchers.
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withUnauthorizedRequest;
 
+import com.darass.darass.ParallelTest;
+import com.darass.darass.SpringContainerTest;
 import com.darass.darass.auth.oauth.api.domain.dto.KaKaoAccount;
 import com.darass.darass.auth.oauth.api.domain.dto.Profile;
 import com.darass.darass.auth.oauth.api.domain.dto.SocialLoginResponse;
@@ -22,7 +24,7 @@ import org.springframework.test.web.client.MockRestServiceServer;
 
 @DisplayName("UserInfoProvider 클래스")
 @RestClientTest(UserInfoProvider.class)
-class UserInfoProviderTest {
+class UserInfoProviderTest extends ParallelTest {
 
     @Autowired
     private UserInfoProvider userInfoProvider;

@@ -21,7 +21,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.darass.darass.AcceptanceTest;
 import com.darass.darass.auth.oauth.infrastructure.JwtTokenProvider;
 import com.darass.darass.comment.controller.dto.CommentCreateRequest;
-import com.darass.darass.comment.controller.dto.CommentDeleteRequest;
 import com.darass.darass.comment.controller.dto.CommentResponse;
 import com.darass.darass.comment.controller.dto.CommentUpdateRequest;
 import com.darass.darass.comment.controller.dto.UserResponse;
@@ -110,7 +109,7 @@ public class CommentAcceptanceTest extends AcceptanceTest {
                     fieldWithPath("user.nickName").type(JsonFieldType.STRING).description("유저 닉네임"),
                     fieldWithPath("user.type").type(JsonFieldType.STRING).description("유저 유형"),
                     fieldWithPath("user.profileImageUrl").type(JsonFieldType.STRING).description("유저 프로필 이미지")
-                    ))
+                ))
         );
     }
 
@@ -342,6 +341,7 @@ public class CommentAcceptanceTest extends AcceptanceTest {
                 )
             ));
     }
+
     private ResultActions 소셜_로그인_댓글_등록됨(String content, String url) throws Exception {
         return mockMvc.perform(post("/api/v1/comments")
             .contentType(MediaType.APPLICATION_JSON)

@@ -2,11 +2,12 @@ package com.darass.darass.user.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.darass.darass.ParallelTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 @DisplayName("GuestUser 클래스")
-class GuestUserTest {
+class GuestUserTest extends ParallelTest {
 
     private final String nickName = "우기";
     private final String password = "123!";
