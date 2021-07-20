@@ -22,6 +22,12 @@ public class ProjectService {
     private final ProjectRepository projects;
 
     public ProjectResponse save(ProjectCreateRequest projectRequest, User user, SecretKeyFactory secretKeyFactory) {
+        projects
+            .findByNameAndUserId(projectRequest.getName(), user.getId())
+            .ifPresent(project -> {
+                throw ExceptionWithMessageAndCode.DUPLICATE_PROJECT_NAME.getException();
+            });
+
         Project project = Project.builder()
             .name(projectRequest.getName())
             .secretKeyFactory(secretKeyFactory)

@@ -49,7 +49,6 @@ public class Project extends BaseTimeEntity {
     @JoinColumn
     private User user;
 
-
     private String name;
 
     private String secretKey;
