@@ -39,13 +39,19 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class UserAcceptanceTest extends AcceptanceTest {
 
     private final String apiUrl = "/api/v1/users";
+
     @Autowired
     private UserRepository userRepository;
+
     @Autowired
     private ProjectRepository projectRepository;
+
     @Autowired
     private JwtTokenProvider tokenProvider;
+
     private SocialLoginUser socialLoginUser;
+
+    String secretKey = "secretKey";
 
     @BeforeEach
     public void setUser() { // TODO: 이 부분 로그인 인수테스트로 바꾸기

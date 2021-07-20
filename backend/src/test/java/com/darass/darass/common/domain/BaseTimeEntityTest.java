@@ -10,8 +10,10 @@ import java.time.LocalDateTime;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.parallel.Isolated;
 import org.springframework.beans.factory.annotation.Autowired;
 
+@Isolated
 @DisplayName("BaseTimeEntity 추상 클래스")
 class BaseTimeEntityTest extends SpringContainerTest {
 

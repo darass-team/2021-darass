@@ -1,11 +1,8 @@
 package com.darass.darass.auth.oauth.service;
 
-<<<<<<< HEAD
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 
-=======
->>>>>>> f87566f (refactor: 카카오에서 받아온 데이터기준으로 사용자 정보 업데이트 하도록 리팩터링)
 import com.darass.darass.SpringContainerTest;
 import com.darass.darass.auth.oauth.api.domain.UserInfoProvider;
 import com.darass.darass.auth.oauth.controller.dto.TokenResponse;
@@ -17,9 +14,6 @@ import javax.transaction.Transactional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.parallel.Execution;
-import org.junit.jupiter.api.parallel.ExecutionMode;
-import org.junit.jupiter.api.parallel.Isolated;
 import org.mockito.AdditionalAnswers;
 import org.mockito.InjectMocks;
 import org.mockito.Mockito;
