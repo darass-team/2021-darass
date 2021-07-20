@@ -4,6 +4,8 @@
 name: Darass PR Checker [FE]
 
 on:
+  push:
+    branches: [ feature/fe/env/219 ]
   pull_request:
     branches: [ main, develop/fe ]
 
@@ -33,6 +35,9 @@ jobs:
     - name: Build - comment
       run: yarn build
       working-directory: ./frontend/reply-module
+      env:
+        KAKAO_REST_API_KEY: ${{ secrets.KAKAO_REST_API_KEY }}
+        KAKAO_JAVASCRIPT_API_KEY: ${{ secrets.KAKAO_JAVASCRIPT_API_KEY}}
       
     - name: Install Dependencies - project
       run: yarn install
@@ -41,6 +46,9 @@ jobs:
     - name: Build - project
       run: yarn build
       working-directory: ./frontend/manage
+      env:
+        KAKAO_REST_API_KEY: ${{ secrets.KAKAO_REST_API_KEY }}
+        KAKAO_JAVASCRIPT_API_KEY: ${{ secrets.KAKAO_JAVASCRIPT_API_KEY}}
     
     - name: Install Dependencies - deploy script
       run: yarn install
