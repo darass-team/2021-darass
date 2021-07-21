@@ -2,7 +2,7 @@ import SyntaxHighlighter from "react-syntax-highlighter";
 import { xcode } from "react-syntax-highlighter/dist/esm/styles/hljs";
 import { useCopyButton } from "../../../hooks";
 import ScreenContainer from "../../../styles/ScreenContainer";
-import { B, CodeBlockWrapper, Container, Content, CopyButton, P, Section, Title } from "./styles";
+import { B, CodeBlockWrapper, Container, Content, CopyButton, P, Ol, Section, Title } from "./styles";
 
 const scriptCode = (projectSecretKey: string) => `
 <!-- 다라쓰 설치 코드 -->
@@ -65,13 +65,11 @@ const ScriptPublishing = ({ projectSecretKey }: Props) => {
               다라쓰는 아래의 최신 브라우저 사용을 권장합니다. 구형 브라우저에서는 일부 기능이 동작하지 않을 수
               있습니다.
             </P>
-            <P>
-              <ol>
-                <li>Chrome</li>
-                <li>Safari</li>
-                <li>Samsung browser</li>
-              </ol>
-            </P>
+            <Ol>
+              <li>Chrome</li>
+              <li>Safari</li>
+              <li>Samsung browser</li>
+            </Ol>
           </Content>
         </Section>
       </Container>

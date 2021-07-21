@@ -57,4 +57,8 @@ const P = styled.p`
   word-break: keep-all;
 `;
 
-export { Container, Section, Title, CodeBlockWrapper, Content, B, P, CopyButton };
+const Ol = styled.ol`
+  font-size: 1.4rem;
+`;
+
+export { Container, Section, Title, CodeBlockWrapper, Content, B, P, Ol, CopyButton };
