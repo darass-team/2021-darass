@@ -23,14 +23,14 @@ public class OAuthService {
 
     public TokenResponse oauthLogin(String oauthAccessToken) {
         SocialLoginUser socialLoginUser = userInfoProvider.findSocialLoginUser(oauthAccessToken);
-        Optional<SocialLoginUser> expectedSocialLoginUser = socialLoginUserRepository.findByOauthId(socialLoginUser.getOauthId());
+        Optional<SocialLoginUser> possibleSocialLoginUser = socialLoginUserRepository.findByOauthId(socialLoginUser.getOauthId());
 
-        if (expectedSocialLoginUser.isEmpty()) {
+        if (possibleSocialLoginUser.isEmpty()) {
             socialLoginUserRepository.save(socialLoginUser);
             return TokenResponse.of(jwtTokenProvider.createAccessToken(socialLoginUser.getId().toString()));
         }
 
-        SocialLoginUser foundSocialLoginUser = expectedSocialLoginUser.get();
+        SocialLoginUser foundSocialLoginUser = possibleSocialLoginUser.get();
         foundSocialLoginUser.update(socialLoginUser);
 
         return TokenResponse.of(jwtTokenProvider.createAccessToken(foundSocialLoginUser.getId().toString()));
