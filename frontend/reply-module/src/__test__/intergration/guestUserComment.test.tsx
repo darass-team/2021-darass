@@ -108,5 +108,43 @@ describe("비로그인 유저 댓글 생성", () => {
   });
 });
 
-describe("비로그인 유저 댓글 수정", () => {});
-describe("비로그인 유저 댓글 삭제", () => {});
+describe("비로그인 유저 댓글 수정", () => {
+  beforeEach(() => {
+    (useEditComment as jest.Mock).mockImplementation(() => {
+      return {
+        editComment: () => {},
+        isLoading: false,
+        error: false
+      };
+    });
+
+    (useDeleteComment as jest.Mock).mockImplementation(() => {
+      return {
+        deleteComment: () => {},
+        isLoading: false,
+        error: false
+      };
+    });
+  });
+  test("비로그인 유저는 댓글을 수정시, 비밀번호를 입력해야 수정내용 입력란이 활성화 된다.", async () => {
+    const _comments: Comment[] = JSON.parse(JSON.stringify(comments));
+    const guestUserComments = _comments.filter(comment => comment.user.type === "GuestUser");
+    const commentList = render(<CommentList comments={guestUserComments} />);
+
+    const firstThreeDotButton = commentList.getAllByAltText("댓글 옵션")[0];
+
+    fireEvent.click(firstThreeDotButton);
+
+    const firstEditButton = commentList.getByText("수정");
+    fireEvent.click(firstEditButton);
+
+    const firstPasswordSubmitButton = commentList.getByText("입력");
+    fireEvent.click(firstPasswordSubmitButton);
+
+    await waitFor(() => {
+      const editConfirmButtons = commentList.getByText("등록");
+      expect(editConfirmButtons).toBeVisible();
+    });
+  });
+});
+// describe("비로그인 유저 댓글 삭제", () => {})
