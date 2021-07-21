@@ -64,4 +64,8 @@ public abstract class User extends BaseTimeEntity {
         this.nickName = nickName;
     }
 
+    public void changeProfileImageUrl(String profileImageUrl) {
+        this.profileImageUrl = profileImageUrl;
+    }
+
 }

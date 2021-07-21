@@ -1,10 +1,8 @@
-package com.darass.darass.project.service;
-
-import com.darass.darass.project.domain.SecretKeyFactory;
+package com.darass.darass.project.domain;
 
 public class CustomSecretKeyFactory implements SecretKeyFactory {
 
-    private String secretKey;
+    private final String secretKey;
 
     public CustomSecretKeyFactory(String secretKey) {
         this.secretKey = secretKey;

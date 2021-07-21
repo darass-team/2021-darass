@@ -1,21 +1,17 @@
 package com.darass.darass.auth.oauth.infrastructure;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
+
+import com.darass.darass.SpringContainerTest;
 import com.darass.darass.exception.ExceptionWithMessageAndCode;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatCode;
-
 
 @DisplayName("JwtTokenProvider 클래스")
-@ActiveProfiles("test")
-@SpringBootTest
-class JwtTokenProviderTest {
+class JwtTokenProviderTest extends SpringContainerTest {
 
     @Autowired
     private JwtTokenProvider jwtTokenProvider;

@@ -1,26 +1,19 @@
 package com.darass.darass.common.domain;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
+import com.darass.darass.SpringContainerTest;
 import com.darass.darass.user.domain.OAuthPlatform;
 import com.darass.darass.user.domain.SocialLoginUser;
 import com.darass.darass.user.repository.SocialLoginUserRepository;
-import java.time.ZoneId;
-import java.time.ZoneOffset;
-import java.time.format.DateTimeFormatter;
+import java.time.LocalDateTime;
+import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
-
-import java.time.LocalDateTime;
-import java.util.List;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 @DisplayName("BaseTimeEntity 추상 클래스")
-@ActiveProfiles("test")
-@SpringBootTest
-class BaseTimeEntityTest {
+class BaseTimeEntityTest extends SpringContainerTest {
 
     @Autowired
     SocialLoginUserRepository socialLoginUserRepository;
@@ -42,8 +35,8 @@ class BaseTimeEntityTest {
 
         //then
         SocialLoginUser socialLoginUser = socialLoginUsers.get(0);
-        assertThat(socialLoginUser.getCreatedDate()).isAfter(now);
-        assertThat(socialLoginUser.getModifiedDate()).isAfter(now);
+        assertThat(socialLoginUser.getCreatedDate()).isEqualToIgnoringNanos(now);
+        assertThat(socialLoginUser.getModifiedDate()).isEqualToIgnoringNanos(now);
     }
 
 }
