@@ -3,7 +3,7 @@ import { render, waitFor } from "@testing-library/react";
 import UserAvatarOption from "../../components/molecules/UserAvatarOption";
 import { useUser } from "../../hooks";
 import { User } from "../../types/user";
-import { socialLoginUser } from "../fixture/User";
+import { socialLoginUser } from "../fixture/user";
 
 jest.mock("../../hooks");
 

@@ -137,7 +137,6 @@ const Comment = ({ user, comment, align = "left", shouldShowOption }: Props) => 
             </CommentTextBox>
 
             <Time>{getTimeDifference(comment.createdDate)}</Time>
-            {console.log(submitType)}
             {shouldShowOption && !submitType && (
               <CommentOption startEditing={startEditing} startDeleting={startDeleting} />
             )}
