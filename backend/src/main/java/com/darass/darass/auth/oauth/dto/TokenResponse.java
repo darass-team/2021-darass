@@ -1,4 +1,4 @@
-package com.darass.darass.auth.oauth.controller.dto;
+package com.darass.darass.auth.oauth.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

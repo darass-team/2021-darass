@@ -9,8 +9,7 @@ import com.darass.darass.auth.oauth.controller.AuthenticationPrincipalArgumentRe
 import com.darass.darass.auth.oauth.controller.OAuthController;
 import com.darass.darass.auth.oauth.service.OAuthService;
 import com.darass.darass.comment.controller.CommentController;
-import com.darass.darass.comment.controller.dto.CommentCreateRequest;
-import com.darass.darass.comment.controller.dto.CommentDeleteRequest;
+import com.darass.darass.comment.dto.CommentCreateRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

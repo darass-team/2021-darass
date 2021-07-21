@@ -14,11 +14,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.darass.darass.AcceptanceTest;
 import com.darass.darass.auth.oauth.infrastructure.JwtTokenProvider;
-import com.darass.darass.comment.controller.dto.UserResponse;
+import com.darass.darass.user.dto.UserResponse;
 import com.darass.darass.exception.ExceptionWithMessageAndCode;
 import com.darass.darass.exception.dto.ExceptionResponse;
-import com.darass.darass.project.repository.ProjectRepository;
-import com.darass.darass.user.controller.dto.UserUpdateRequest;
+import com.darass.darass.user.dto.UserUpdateRequest;
 import com.darass.darass.user.domain.OAuthPlatform;
 import com.darass.darass.user.domain.SocialLoginUser;
 import com.darass.darass.user.repository.UserRepository;
@@ -38,11 +37,10 @@ public class UserAcceptanceTest extends AcceptanceTest {
     private UserRepository userRepository;
 
     @Autowired
-    private ProjectRepository projectRepository;
-
-    @Autowired
     private JwtTokenProvider tokenProvider;
+
     private SocialLoginUser socialLoginUser;
+
     private final String apiUrl = "/api/v1/users";
 
     @BeforeEach

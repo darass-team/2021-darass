@@ -2,9 +2,9 @@ package com.darass.darass.user.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.darass.darass.comment.controller.dto.UserResponse;
+import com.darass.darass.user.dto.UserResponse;
 import com.darass.darass.exception.ExceptionWithMessageAndCode;
-import com.darass.darass.user.controller.dto.UserUpdateRequest;
+import com.darass.darass.user.dto.UserUpdateRequest;
 import com.darass.darass.user.domain.GuestUser;
 import com.darass.darass.user.domain.User;
 import com.darass.darass.user.repository.UserRepository;

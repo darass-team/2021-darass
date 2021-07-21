@@ -1,13 +1,12 @@
-package com.darass.darass.project.controller.dto;
+package com.darass.darass.project.dto;
 
+import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotNull;
-
-@NoArgsConstructor
 @Getter
+@NoArgsConstructor
 @AllArgsConstructor
 public class ProjectCreateRequest {
 

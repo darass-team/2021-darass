@@ -1,10 +1,9 @@
 package com.darass.darass.user.domain;
 
+import javax.persistence.Entity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import javax.persistence.Entity;
 
 @NoArgsConstructor
 @Getter
@@ -20,7 +19,7 @@ public class GuestUser extends User {
     }
 
     @Override
-    public String getProfileImageUrl(){
+    public String getProfileImageUrl() {
         return "guestProfileImageUrl";
     }
 

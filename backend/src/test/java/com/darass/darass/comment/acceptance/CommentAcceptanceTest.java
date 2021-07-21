@@ -20,11 +20,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.darass.darass.AcceptanceTest;
 import com.darass.darass.auth.oauth.infrastructure.JwtTokenProvider;
-import com.darass.darass.comment.controller.dto.CommentCreateRequest;
-import com.darass.darass.comment.controller.dto.CommentDeleteRequest;
-import com.darass.darass.comment.controller.dto.CommentResponse;
-import com.darass.darass.comment.controller.dto.CommentUpdateRequest;
-import com.darass.darass.comment.controller.dto.UserResponse;
+import com.darass.darass.comment.dto.CommentCreateRequest;
+import com.darass.darass.comment.dto.CommentResponse;
+import com.darass.darass.comment.dto.CommentUpdateRequest;
+import com.darass.darass.user.dto.UserResponse;
 import com.darass.darass.project.domain.Project;
 import com.darass.darass.project.domain.RandomSecretKeyFactory;
 import com.darass.darass.project.repository.ProjectRepository;

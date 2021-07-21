@@ -1,18 +1,18 @@
 package com.darass.darass.comment.service;
 
-import com.darass.darass.comment.controller.dto.CommentCreateRequest;
-import com.darass.darass.comment.controller.dto.CommentDeleteRequest;
-import com.darass.darass.comment.controller.dto.CommentResponse;
-import com.darass.darass.comment.controller.dto.CommentUpdateRequest;
-import com.darass.darass.comment.controller.dto.UserResponse;
 import com.darass.darass.comment.domain.Comment;
 import com.darass.darass.comment.domain.Comments;
+import com.darass.darass.comment.dto.CommentCreateRequest;
+import com.darass.darass.comment.dto.CommentDeleteRequest;
+import com.darass.darass.comment.dto.CommentResponse;
+import com.darass.darass.comment.dto.CommentUpdateRequest;
 import com.darass.darass.comment.repository.CommentRepository;
 import com.darass.darass.exception.ExceptionWithMessageAndCode;
 import com.darass.darass.project.domain.Project;
 import com.darass.darass.project.repository.ProjectRepository;
 import com.darass.darass.user.domain.GuestUser;
 import com.darass.darass.user.domain.User;
+import com.darass.darass.user.dto.UserResponse;
 import com.darass.darass.user.repository.UserRepository;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,14 +20,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-@Service
-@Transactional
 @RequiredArgsConstructor
+@Transactional
+@Service
 public class CommentService {
 
     private final CommentRepository commentRepository;
-    private final ProjectRepository projects;
-    private final UserRepository users;
+    private final ProjectRepository projectRepository;
+    private final UserRepository userRepository;
 
     public CommentResponse save(User user, CommentCreateRequest commentRequest) {
         if (!user.isLoginUser()) {
@@ -35,13 +35,13 @@ public class CommentService {
         }
         Project project = getBySecretKey(commentRequest);
         Comment comment = savedComment(user, commentRequest, project);
-        String userType = users.findUserTypeById(user.getId());
-        String profileImageUrl = users.findProfileImageUrlById(user.getId());
+        String userType = userRepository.findUserTypeById(user.getId());
+        String profileImageUrl = userRepository.findProfileImageUrlById(user.getId());
         return CommentResponse.of(comment, UserResponse.of(comment.getUser(), userType, profileImageUrl));
     }
 
     private Project getBySecretKey(CommentCreateRequest commentRequest) {
-        return projects.findBySecretKey(commentRequest.getProjectSecretKey())
+        return projectRepository.findBySecretKey(commentRequest.getProjectSecretKey())
             .orElseThrow(ExceptionWithMessageAndCode.NOT_FOUND_PROJECT::getException);
     }
 
@@ -60,9 +60,8 @@ public class CommentService {
             .nickName(commentRequest.getGuestNickName())
             .password(commentRequest.getGuestPassword())
             .build();
-        return users.save(user);
+        return userRepository.save(user);
     }
-
 
     public List<CommentResponse> findAllCommentsByUrlAndProjectKey(String url, String projectKey) {
         Comments comments = new Comments(commentRepository.findAll());
@@ -71,16 +70,16 @@ public class CommentService {
         return matchedComments.stream()
             .map(comment ->
                 CommentResponse.of(
-                    comment, UserResponse.of(
+                    comment, UserResponse.of( //TODO: UserResponse 정적 팩터리 메서드 생성자에 User만 넣어준다.
                         comment.getUser(),
-                        users.findUserTypeById(comment.getUserId()),
-                        users.findProfileImageUrlById(comment.getUserId())
+                        userRepository.findUserTypeById(comment.getUserId()),
+                        userRepository.findProfileImageUrlById(comment.getUserId())
                     )
                 ))
             .collect(Collectors.toList());
     }
 
-    public void updateContent(Long id, User user, CommentUpdateRequest request) {
+    public void updateContent(Long id, User user, CommentUpdateRequest request) { //TODO: 리팩터링 고민
         user = findRegisteredUser(user, request.getGuestUserId(), request.getGuestUserPassword());
         Comment comment = returnValidatedComment(id, user);
         comment.changeContent(request.getContent());
@@ -102,7 +101,7 @@ public class CommentService {
 
     private User findRegisteredUser(User user, Long guestUserId, String guestUserPassword) {
         if (!user.isLoginUser()) {
-            user = users.findById(guestUserId)
+            user = userRepository.findById(guestUserId)
                 .orElseThrow(ExceptionWithMessageAndCode.NOT_FOUND_USER::getException);
             validateGuestUser(user, guestUserPassword);
         }

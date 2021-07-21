@@ -12,7 +12,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.darass.darass.AcceptanceTest;
 import com.darass.darass.auth.oauth.api.domain.UserInfoProvider;
-import com.darass.darass.auth.oauth.controller.dto.TokenResponse;
+import com.darass.darass.auth.oauth.dto.TokenResponse;
 import com.darass.darass.auth.oauth.infrastructure.JwtTokenProvider;
 import com.darass.darass.auth.oauth.service.OAuthService;
 import com.darass.darass.exception.ExceptionWithMessageAndCode;

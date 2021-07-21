@@ -4,7 +4,6 @@ import com.darass.darass.auth.oauth.api.domain.dto.KaKaoAccount;
 import com.darass.darass.auth.oauth.api.domain.dto.Profile;
 import com.darass.darass.auth.oauth.api.domain.dto.SocialLoginResponse;
 import com.darass.darass.exception.ExceptionWithMessageAndCode;
-import com.darass.darass.project.domain.Project;
 import com.darass.darass.user.domain.SocialLoginUser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -49,7 +48,7 @@ class UserInfoProviderTest {
 
         assertThat(socialLoginUser.getNickName()).isEqualTo(profile.getNickname());
         assertThat(socialLoginUser.getEmail()).isEqualTo(kaKaoAccount.getEmail());
-        assertThat(socialLoginUser.getProfileImageUrl()).isEqualTo(profile.getThumbnail_image_url());
+        assertThat(socialLoginUser.getProfileImageUrl()).isEqualTo(profile.getThumbnailImageUrl());
     }
 
 

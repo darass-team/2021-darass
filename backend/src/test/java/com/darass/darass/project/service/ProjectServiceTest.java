@@ -4,8 +4,8 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
 import com.darass.darass.exception.ExceptionWithMessageAndCode;
-import com.darass.darass.project.controller.dto.ProjectCreateRequest;
-import com.darass.darass.project.controller.dto.ProjectResponse;
+import com.darass.darass.project.dto.ProjectCreateRequest;
+import com.darass.darass.project.dto.ProjectResponse;
 import com.darass.darass.project.domain.Project;
 import com.darass.darass.project.repository.ProjectRepository;
 import com.darass.darass.user.domain.GuestUser;
