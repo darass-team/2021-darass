@@ -7,6 +7,7 @@ import com.darass.darass.exception.ExceptionWithMessageAndCode;
 import com.darass.darass.project.controller.dto.ProjectCreateRequest;
 import com.darass.darass.project.controller.dto.ProjectResponse;
 import com.darass.darass.project.domain.Project;
+import com.darass.darass.project.domain.RandomSecretKeyFactory;
 import com.darass.darass.project.repository.ProjectRepository;
 import com.darass.darass.user.domain.GuestUser;
 import com.darass.darass.user.domain.User;
@@ -69,6 +70,16 @@ public class ProjectServiceTest {
 
         assertThatThrownBy(() -> {
             projectService.save(new ProjectCreateRequest("B 프로젝트"), user, new CustomSecretKeyFactory("abcd"));
-        }).isInstanceOf(ExceptionWithMessageAndCode.DUPLICATE_PROJECT_SECRET_KEY.getException().getClass());
+        }).isEqualTo(ExceptionWithMessageAndCode.DUPLICATE_PROJECT_SECRET_KEY.getException());
+    }
+
+    @Test
+    @DisplayName("중복된 프로젝트 이름으로 생성했을 때, 예외를 터뜨리는 지 체크")
+    public void save_validateDuplicateProjectName() {
+        projectService.save(new ProjectCreateRequest("A프로젝트"), user, new RandomSecretKeyFactory());
+
+        assertThatThrownBy(() -> {
+            projectService.save(new ProjectCreateRequest("A프로젝트"), user, new RandomSecretKeyFactory());
+        }).isEqualTo(ExceptionWithMessageAndCode.DUPLICATE_PROJECT_NAME.getException());
     }
 }
