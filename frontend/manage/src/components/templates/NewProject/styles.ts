@@ -4,9 +4,7 @@ import SubmitButtonComponent from "../../atoms/SubmitButton";
 
 const Container = styled.div`
   width: fit-content;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  margin: 0 auto;
 `;
 
 const Title = styled.h2`
