@@ -1,53 +1,47 @@
 import "@testing-library/jest-dom/extend-expect";
-import { fireEvent, render, RenderResult, waitFor } from "@testing-library/react";
-import { JSDOM } from "jsdom";
-import CommentPage from "../../components/pages/CommentPage";
-import { useLogin } from "../../hooks";
-import { deleteCookie, getCookie, setCookie } from "../../utils/cookie";
+import { render, waitFor } from "@testing-library/react";
+import UserAvatarOption from "../../components/molecules/UserAvatarOption";
+import { useUser } from "../../hooks";
+import { User } from "../../types/user";
+import { socialLoginUser } from "../fixture/User";
 
 jest.mock("../../hooks");
 
-global.document = new JSDOM().window.document;
-
-const login = async (page: RenderResult) => {
-  page.getByRole("img").click();
-  await waitFor(() => {
-    page
-      .getByRole("button", {
-        name: /카카오로 로그인/i
-      })
-      .click();
-  });
-};
-
-const logout = async (page: RenderResult) => {
-  page.getByRole("img").click();
-  await waitFor(() => {
-    page
-      .getByRole("button", {
-        name: /로그아웃/i
-      })
-      .click();
-  });
-};
-
 describe("댓글모듈 Login 기능", () => {
   test("로그인이 되어있지 않다면, UserAvatarOption에 로그인 Option이 노출된다.", async () => {
-    (useLogin as jest.Mock).mockImplementation(() => {
+    let user: User | undefined = undefined;
+
+    (useUser as jest.Mock).mockImplementation(() => {
       return {
-        user: null,
-        login: () => {},
-        logout: () => {}
+        user,
+        login: () => {
+          user = { ...socialLoginUser };
+        },
+        logout: () => {
+          user = undefined;
+        }
       };
     });
 
-    const commentPage = render(<CommentPage />);
+    const userAvatarOption = render(
+      <UserAvatarOption user={user}>
+        {user ? (
+          <button type="button" onClick={() => {}}>
+            로그아웃
+          </button>
+        ) : (
+          <button type="button" onClick={() => {}}>
+            카카오로 로그인
+          </button>
+        )}
+      </UserAvatarOption>
+    );
 
-    commentPage.getByRole("img").click();
+    userAvatarOption.getByRole("img").click();
 
     await waitFor(() => {
       expect(
-        commentPage.getByRole("button", {
+        userAvatarOption.getByRole("button", {
           name: /카카오로 로그인/i
         })
       ).toBeInTheDocument();
@@ -55,63 +49,46 @@ describe("댓글모듈 Login 기능", () => {
   });
 
   test("로그인 되어있다면, UserAvatarOption에 로그아웃 Option이 노출된다.", async () => {
-    (useLogin as jest.Mock).mockImplementation(() => {
+    let user: User | undefined = { ...socialLoginUser };
+
+    (useUser as jest.Mock).mockImplementation(() => {
       return {
-        user: { id: 1, imageURL: "", nickName: "", type: "" },
-        login: () => {},
-        logout: () => {}
+        user,
+        login: () => {
+          user = { ...socialLoginUser };
+        },
+        logout: () => {
+          user = undefined;
+        }
       };
     });
 
-    const commentPage = render(<CommentPage />);
+    const userAvatarOption = render(
+      <UserAvatarOption user={user}>
+        {user ? (
+          <button type="button" onClick={() => {}}>
+            로그아웃
+          </button>
+        ) : (
+          <button type="button" onClick={() => {}}>
+            카카오로 로그인
+          </button>
+        )}
+      </UserAvatarOption>
+    );
 
-    login(commentPage);
+    userAvatarOption.getByRole("img").click();
 
     await waitFor(async () => {
-      commentPage.getByRole("img").click();
+      userAvatarOption.getByRole("img").click();
 
       await waitFor(() => {
         expect(
-          commentPage.getByRole("button", {
+          userAvatarOption.getByRole("button", {
             name: /로그아웃/i
           })
         ).toBeInTheDocument();
       });
     });
-  });
-
-  test("로그인에 성공했다면 cookie에 accessToken이 저장된다.", async () => {
-    (useLogin as jest.Mock).mockImplementation(() => {
-      return {
-        user: null,
-        login: () => {
-          setCookie("accessToken", "test");
-        },
-        logout: () => {}
-      };
-    });
-    const commentPage = render(<CommentPage />);
-
-    login(commentPage);
-
-    expect(getCookie("accessToken")).toBe("test");
-  });
-
-  test("로그아웃에 성공했다면 cookie에 accessToken이 삭제된다. ", async () => {
-    (useLogin as jest.Mock).mockImplementation(() => {
-      return {
-        user: { id: 1, imageURL: "", nickName: "", type: "" },
-        login: () => {},
-        logout: () => {
-          deleteCookie("accessToken");
-        }
-      };
-    });
-
-    const commentPage = render(<CommentPage />);
-
-    logout(commentPage);
-
-    expect(getCookie("accessToken")).toBe(null);
   });
 });
