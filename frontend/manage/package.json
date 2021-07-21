@@ -18,7 +18,9 @@
     "@storybook/addon-links": "^6.3.2",
     "@storybook/react": "^6.3.2",
     "@testing-library/dom": "^8.1.0",
+    "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^12.0.0",
+    "@types/jest": "^26.0.24",
     "@types/react": "^17.0.13",
     "@types/react-dom": "^17.0.8",
     "@types/react-router-dom": "^5.1.7",
@@ -31,8 +33,11 @@
     "file-loader": "^6.2.0",
     "html-webpack-plugin": "^5.3.2",
     "jest": "^27.0.6",
+    "jest-transform-stub": "^2.0.0",
+    "jsdom": "^16.6.0",
     "prettier": "^2.3.2",
     "react-refresh": "^0.10.0",
+    "ts-jest": "^27.0.3",
     "type-fest": "^1.2.2",
     "typescript": "^4.3.5",
     "url-loader": "^4.1.1",
@@ -53,6 +58,7 @@
   "scripts": {
     "start": "webpack server",
     "build": "webpack",
+    "test": "jest",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
   }
