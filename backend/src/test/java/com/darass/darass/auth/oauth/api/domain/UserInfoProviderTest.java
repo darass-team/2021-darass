@@ -1,25 +1,25 @@
 package com.darass.darass.auth.oauth.api.domain;
 
-import com.darass.darass.auth.oauth.api.domain.dto.KaKaoAccount;
-import com.darass.darass.auth.oauth.api.domain.dto.Profile;
-import com.darass.darass.auth.oauth.api.domain.dto.SocialLoginResponse;
-import com.darass.darass.exception.ExceptionWithMessageAndCode;
-import com.darass.darass.project.domain.Project;
-import com.darass.darass.user.domain.SocialLoginUser;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.client.RestClientTest;
-import org.springframework.http.MediaType;
-import org.springframework.test.web.client.MockRestServiceServer;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withUnauthorizedRequest;
+
+import com.darass.darass.auth.oauth.api.domain.dto.KaKaoAccount;
+import com.darass.darass.auth.oauth.api.domain.dto.Profile;
+import com.darass.darass.auth.oauth.api.domain.dto.SocialLoginResponse;
+import com.darass.darass.exception.ExceptionWithMessageAndCode;
+import com.darass.darass.user.domain.SocialLoginUser;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.parallel.Isolated;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.client.RestClientTest;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.client.MockRestServiceServer;
 
 @DisplayName("UserInfoProvider 클래스")
 @RestClientTest(UserInfoProvider.class)
