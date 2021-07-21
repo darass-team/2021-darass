@@ -21,8 +21,10 @@ const NewProject = ({ projects }: Props) => {
     event.preventDefault();
 
     try {
-      const isValidProjectName = isEmptyString(projectName);
-      if (!isValidProjectName) throw new Error("프로젝트 이름을 입력해주세요.");
+      const isDuplicatedProjectName = projects?.some(project => project.name === projectName.trim());
+
+      if (isEmptyString(projectName)) throw new Error("프로젝트 이름을 입력해주세요.");
+      if (isDuplicatedProjectName) throw new Error("중복된 프로젝트 이름입니다. 다시 입력해주세요.");
 
       const project = await createProject(projectName.trim());
 
