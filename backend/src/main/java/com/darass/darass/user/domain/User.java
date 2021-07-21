@@ -5,7 +5,6 @@ import static javax.persistence.FetchType.LAZY;
 
 import com.darass.darass.comment.domain.Comment;
 import com.darass.darass.common.domain.BaseTimeEntity;
-import com.darass.darass.project.domain.Project;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
@@ -20,11 +19,11 @@ import javax.persistence.OneToMany;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Entity
-@Inheritance(strategy = InheritanceType.JOINED)
-@DiscriminatorColumn(name = "user_type")
 @Getter
 @NoArgsConstructor
+@Inheritance(strategy = InheritanceType.JOINED)
+@DiscriminatorColumn(name = "user_type")
+@Entity
 public abstract class User extends BaseTimeEntity {
 
     @Id
@@ -41,7 +40,7 @@ public abstract class User extends BaseTimeEntity {
     private String userType;
 
     @OneToMany(mappedBy = "user", fetch = LAZY, cascade = ALL, orphanRemoval = true)
-    private List<Comment> comments = new ArrayList<>();
+    private final List<Comment> comments = new ArrayList<>();
 
     public User(String nickName) {
         this.nickName = nickName;

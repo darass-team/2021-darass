@@ -3,13 +3,10 @@ package com.darass.darass.project.service;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
-import com.darass.darass.SpringContainerTest;
 import com.darass.darass.exception.ExceptionWithMessageAndCode;
-import com.darass.darass.project.controller.dto.ProjectCreateRequest;
-import com.darass.darass.project.controller.dto.ProjectResponse;
-import com.darass.darass.project.domain.CustomSecretKeyFactory;
+import com.darass.darass.project.dto.ProjectCreateRequest;
+import com.darass.darass.project.dto.ProjectResponse;
 import com.darass.darass.project.domain.Project;
-import com.darass.darass.project.domain.RandomSecretKeyFactory;
 import com.darass.darass.project.repository.ProjectRepository;
 import com.darass.darass.user.domain.GuestUser;
 import com.darass.darass.user.domain.User;
@@ -19,10 +16,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
 @ActiveProfiles("test")
-public class ProjectServiceTest extends SpringContainerTest {
+@SpringBootTest
+@DisplayName("ProjectService 클래스")
+public class ProjectServiceTest {
 
     @Autowired
     private ProjectService projectService;
@@ -69,16 +69,6 @@ public class ProjectServiceTest extends SpringContainerTest {
 
         assertThatThrownBy(() -> {
             projectService.save(new ProjectCreateRequest("B 프로젝트"), user, new CustomSecretKeyFactory("abcd"));
-        }).isEqualTo(ExceptionWithMessageAndCode.DUPLICATE_PROJECT_SECRET_KEY.getException());
-    }
-
-    @Test
-    @DisplayName("중복된 프로젝트 이름으로 생성했을 때, 예외를 터뜨리는 지 체크")
-    public void save_validateDuplicateProjectName() {
-        projectService.save(new ProjectCreateRequest("A프로젝트"), user, new RandomSecretKeyFactory());
-
-        assertThatThrownBy(() -> {
-            projectService.save(new ProjectCreateRequest("A프로젝트"), user, new RandomSecretKeyFactory());
-        }).isEqualTo(ExceptionWithMessageAndCode.DUPLICATE_PROJECT_NAME.getException());
+        }).isInstanceOf(ExceptionWithMessageAndCode.DUPLICATE_PROJECT_SECRET_KEY.getException().getClass());
     }
 }

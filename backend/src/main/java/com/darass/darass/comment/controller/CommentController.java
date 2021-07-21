@@ -1,10 +1,10 @@
 package com.darass.darass.comment.controller;
 
 import com.darass.darass.auth.oauth.domain.AuthenticationPrincipal;
-import com.darass.darass.comment.controller.dto.CommentCreateRequest;
-import com.darass.darass.comment.controller.dto.CommentDeleteRequest;
-import com.darass.darass.comment.controller.dto.CommentResponse;
-import com.darass.darass.comment.controller.dto.CommentUpdateRequest;
+import com.darass.darass.comment.dto.CommentCreateRequest;
+import com.darass.darass.comment.dto.CommentDeleteRequest;
+import com.darass.darass.comment.dto.CommentResponse;
+import com.darass.darass.comment.dto.CommentUpdateRequest;
 import com.darass.darass.comment.service.CommentService;
 import com.darass.darass.user.domain.User;
 import lombok.RequiredArgsConstructor;
@@ -15,21 +15,23 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
-@RestController
-@RequestMapping("/api/v1/comments")
 @RequiredArgsConstructor
+@RequestMapping("/api/v1/comments")
+@RestController
 public class CommentController {
 
     private final CommentService commentService;
 
     @GetMapping
-    public ResponseEntity<List<CommentResponse>> read(@RequestParam("url") String url, @RequestParam("projectKey") String projectKey) {
+    public ResponseEntity<List<CommentResponse>> read(@RequestParam("url") String url,
+        @RequestParam("projectKey") String projectKey) {
         List<CommentResponse> commentResponses = commentService.findAllCommentsByUrlAndProjectKey(url, projectKey);
         return ResponseEntity.status(HttpStatus.OK).body(commentResponses);
     }
 
     @PostMapping
-    public ResponseEntity<CommentResponse> save(@AuthenticationPrincipal User user, @Valid @RequestBody CommentCreateRequest commentRequest) {
+    public ResponseEntity<CommentResponse> save(@AuthenticationPrincipal User user,
+        @Valid @RequestBody CommentCreateRequest commentRequest) {
         CommentResponse commentResponse = commentService.save(user, commentRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(commentResponse);
     }

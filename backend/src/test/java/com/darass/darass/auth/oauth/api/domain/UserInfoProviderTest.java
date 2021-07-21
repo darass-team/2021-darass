@@ -49,7 +49,7 @@ class UserInfoProviderTest {
 
         assertThat(socialLoginUser.getNickName()).isEqualTo(profile.getNickname());
         assertThat(socialLoginUser.getEmail()).isEqualTo(kaKaoAccount.getEmail());
-        assertThat(socialLoginUser.getProfileImageUrl()).isEqualTo(profile.getThumbnail_image_url());
+        assertThat(socialLoginUser.getProfileImageUrl()).isEqualTo(profile.getThumbnailImageUrl());
     }
 
 

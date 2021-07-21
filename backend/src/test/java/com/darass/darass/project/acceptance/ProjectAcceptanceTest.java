@@ -15,11 +15,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.darass.darass.AcceptanceTest;
 import com.darass.darass.auth.oauth.infrastructure.JwtTokenProvider;
-import com.darass.darass.project.controller.dto.ProjectCreateRequest;
-import com.darass.darass.project.controller.dto.ProjectResponse;
-import com.darass.darass.project.domain.CustomSecretKeyFactory;
+import com.darass.darass.project.dto.ProjectCreateRequest;
+import com.darass.darass.project.dto.ProjectResponse;
 import com.darass.darass.project.domain.Project;
 import com.darass.darass.project.repository.ProjectRepository;
+import com.darass.darass.project.service.CustomSecretKeyFactory;
 import com.darass.darass.user.domain.OAuthPlatform;
 import com.darass.darass.user.domain.SocialLoginUser;
 import com.darass.darass.user.repository.UserRepository;
@@ -65,7 +65,7 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
     public void save() throws Exception {
         프로젝트_생성됨()
             .andDo(
-                document("api/v1/projects/post/success-save",
+                document("api/v1/projects/post/1",
                     requestHeaders(
                         headerWithName("Authorization").description("JWT - Bearer 토큰")
                     ),
@@ -89,26 +89,7 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
             .content(asJsonString(new ProjectCreateRequest("프로젝트이름"))))
             .andExpect(status().isUnauthorized())
             .andDo(
-                document("api/v1/projects/post/fail-jwt",
-                    responseFields(
-                        fieldWithPath("message").type(JsonFieldType.STRING).description("에러 메시지"),
-                        fieldWithPath("code").type(JsonFieldType.NUMBER).description("에러 코드")
-                    ))
-            );
-    }
-
-    @Test
-    @DisplayName("중복되는 프로젝트 이름으로 등록하려고 하면 실패한다.")
-    public void save_fail_duplicateProjectName() throws Exception {
-        프로젝트_생성됨();
-        this.mockMvc.perform(post("/api/v1/projects")
-            .contentType(MediaType.APPLICATION_JSON)
-            .header("Authorization", "Bearer " + token)
-            .content(asJsonString(new ProjectCreateRequest("프로젝트이름")))
-        )
-            .andExpect(status().isConflict())
-            .andDo(
-                document("api/v1/projects/post/fail-duplicate-name",
+                document("api/v1/projects/post/2",
                     responseFields(
                         fieldWithPath("message").type(JsonFieldType.STRING).description("에러 메시지"),
                         fieldWithPath("code").type(JsonFieldType.NUMBER).description("에러 코드")
@@ -141,7 +122,7 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
         )
             .andExpect(status().isOk())
             .andDo(
-                document("api/v1/projects/get/success-findall",
+                document("api/v1/projects/get/1",
                     requestHeaders(
                         headerWithName("Authorization").description("JWT - Bearer 토큰")
                     ),
@@ -164,7 +145,7 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
         )
             .andExpect(status().isUnauthorized())
             .andDo(
-                document("api/v1/projects/get/fail-jwt",
+                document("api/v1/projects/get/2",
                     responseFields(
                         fieldWithPath("message").type(JsonFieldType.STRING).description("에러 메시지"),
                         fieldWithPath("code").type(JsonFieldType.NUMBER).description("에러 코드")
@@ -185,7 +166,7 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
         )
             .andExpect(status().isOk())
             .andDo(
-                document("api/v1/projects/{id}/get/success-findone",
+                document("api/v1/projects/{id}/get/1",
                     requestHeaders(
                         headerWithName("Authorization").description("JWT - Bearer 토큰")
                     ),
@@ -213,7 +194,7 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
         )
             .andExpect(status().isUnauthorized())
             .andDo(
-                document("api/v1/projects/{id}/get/fail-jwt",
+                document("api/v1/projects/{id}/get/2",
                     responseFields(
                         fieldWithPath("message").type(JsonFieldType.STRING).description("에러 메시지"),
                         fieldWithPath("code").type(JsonFieldType.NUMBER).description("에러 코드")
@@ -238,7 +219,7 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
         ResultActions resultActions = 유저_아이디_조회_요청(customProjectSecretKey);
 
         //then
-        유저_아이디_조회됨(resultActions);
+         유저_아이디_조회됨(resultActions);
     }
 
     @Test
@@ -293,7 +274,7 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
 
         assertThat(projectResponse.getUserId()).isEqualTo(socialLoginUser.getId());
 
-        유저_아이디_조회_rest_doc_작성(resultActions);
+       유저_아이디_조회_rest_doc_작성(resultActions);
     }
 
     private void 유저_아이디_조회_실패됨_rest_doc_작성(ResultActions resultActions) throws Exception {
@@ -306,5 +287,6 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
             )
         );
     }
+
 }
 

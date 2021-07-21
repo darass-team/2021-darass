@@ -2,10 +2,9 @@ package com.darass.darass.user.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.darass.darass.SpringContainerTest;
-import com.darass.darass.comment.controller.dto.UserResponse;
+import com.darass.darass.user.dto.UserResponse;
 import com.darass.darass.exception.ExceptionWithMessageAndCode;
-import com.darass.darass.user.controller.dto.UserUpdateRequest;
+import com.darass.darass.user.dto.UserUpdateRequest;
 import com.darass.darass.user.domain.GuestUser;
 import com.darass.darass.user.domain.User;
 import com.darass.darass.user.repository.UserRepository;
@@ -14,9 +13,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
 @DisplayName("UserService 클래스")
-class UserServiceTest extends SpringContainerTest {
+@ActiveProfiles("test")
+@SpringBootTest
+class UserServiceTest {
 
     @Autowired
     private UserService userService;

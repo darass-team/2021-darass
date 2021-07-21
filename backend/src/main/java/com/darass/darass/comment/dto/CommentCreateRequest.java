@@ -1,5 +1,6 @@
-package com.darass.darass.comment.controller.dto;
+package com.darass.darass.comment.dto;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,10 +15,12 @@ public class CommentCreateRequest {
 
     private String guestPassword;
 
+    @NotBlank
     private String projectSecretKey;
 
     @NotNull
     private String content;
 
+    @NotBlank
     private String url;
 }
