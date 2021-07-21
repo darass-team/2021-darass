@@ -79,7 +79,8 @@ public class AuthAcceptanceTest extends AcceptanceTest {
     @DisplayName("올바르지 않은 oauth2 토큰을 보낼 경우 로그인을 실패하고 JWT 토큰을 발급 받지 못한다.")
     public void login_fail() throws Exception {
         // given
-        given(userInfoProvider.findSocialLoginUser(oauthAccessToken)).willThrow(ExceptionWithMessageAndCode.INVALID_JWT_TOKEN.getException());
+        given(userInfoProvider.findSocialLoginUser(oauthAccessToken))
+            .willThrow(ExceptionWithMessageAndCode.INVALID_JWT_TOKEN.getException());
 
         // when
         ResultActions resultActions = 토큰_발급_요청(oauthAccessToken);

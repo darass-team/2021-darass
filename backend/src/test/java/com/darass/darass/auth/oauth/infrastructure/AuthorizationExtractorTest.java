@@ -1,13 +1,11 @@
 package com.darass.darass.auth.oauth.infrastructure;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.parallel.ExecutionMode.CONCURRENT;
 
 import com.darass.darass.SpringContainerTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.parallel.Execution;
 import org.springframework.mock.web.MockHttpServletRequest;
 
 @DisplayName("AuthorizationExtractor 클래스")
@@ -37,7 +35,8 @@ class AuthorizationExtractorTest extends SpringContainerTest {
     @DisplayName("extract 메서드는 엑세스 토큰 뒤에 추가 정보가 콤마를 기준으로 붙어 있는 Authorization 헤더를 가지는 httpServletRequest가 주어진다면, 엑세스 토큰을 파싱헤서 반환한다.")
     @Test
     void extract_success2() {
-        mockHttpServletRequest.addHeader("authorization", bearerAuthType + accessToken + ", Basic YXNkZnNhZGZzYWRmOlZLdDVOMVhk");
+        mockHttpServletRequest
+            .addHeader("authorization", bearerAuthType + accessToken + ", Basic YXNkZnNhZGZzYWRmOlZLdDVOMVhk");
         AuthorizationExtractor authorizationExtractor = new AuthorizationExtractor();
 
         assertThat(AuthorizationExtractor.extract(mockHttpServletRequest)).isEqualTo(accessToken);

@@ -25,7 +25,7 @@ import com.darass.darass.exception.dto.ExceptionResponse;
 import com.darass.darass.project.domain.Project;
 import com.darass.darass.project.domain.RandomSecretKeyFactory;
 import com.darass.darass.project.repository.ProjectRepository;
-import com.darass.darass.user.controller.dto.PasswordCheckResponse;
+import com.darass.darass.user.dto.PasswordCheckResponse;
 import com.darass.darass.user.domain.OAuthPlatform;
 import com.darass.darass.user.domain.SocialLoginUser;
 import com.darass.darass.user.dto.UserResponse;
@@ -44,20 +44,19 @@ import org.springframework.test.web.servlet.ResultActions;
 public class UserAcceptanceTest extends AcceptanceTest {
 
     private final String apiUrl = "/api/v1/users";
+
     @Autowired
     private UserRepository userRepository;
+
     @Autowired
     private ProjectRepository projectRepository;
+
     @Autowired
     private JwtTokenProvider tokenProvider;
 
     private SocialLoginUser socialLoginUser;
-<<<<<<< HEAD
 
-    private final String apiUrl = "/api/v1/users";
-    private String secretKey;
-=======
->>>>>>> 48cf027 ([BE] 카카오 프사를 바꿨을 경우, 서버의 카카오 프로필 데이터가 업데이트 되지 않는 문제를 해결한다. (#202) (#231))
+    private String projectSecretKey;
 
     @BeforeEach
     public void setUser() { // TODO: 이 부분 로그인 인수테스트로 바꾸기
@@ -217,7 +216,7 @@ public class UserAcceptanceTest extends AcceptanceTest {
             .user(socialLoginUser)
             .build();
         projectRepository.save(project);
-        secretKey = project.getSecretKey();
+        projectSecretKey = project.getSecretKey();
         String responseJson = 비로그인_댓글_등록됨(expected).andReturn().getResponse().getContentAsString();
         UserResponse userResponse = new ObjectMapper().readValue(responseJson, CommentResponse.class).getUser();
 
@@ -231,7 +230,7 @@ public class UserAcceptanceTest extends AcceptanceTest {
     private ResultActions 비로그인_댓글_등록됨(String password) throws Exception {
         return this.mockMvc.perform(post("/api/v1/comments")
             .contentType(MediaType.APPLICATION_JSON)
-            .content(asJsonString(new CommentCreateRequest("guest", password, secretKey, "content", "url"))))
+            .content(asJsonString(new CommentCreateRequest("guest", password, projectSecretKey, "content", "url"))))
             .andExpect(status().isCreated())
             .andExpect(jsonPath("$.user..type").value("GuestUser"));
     }

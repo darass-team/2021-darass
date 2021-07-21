@@ -2,16 +2,12 @@ package com.darass.darass.user.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-<<<<<<< HEAD
-import com.darass.darass.user.dto.UserResponse;
-=======
 import com.darass.darass.SpringContainerTest;
-import com.darass.darass.comment.controller.dto.UserResponse;
->>>>>>> 48cf027 ([BE] 카카오 프사를 바꿨을 경우, 서버의 카카오 프로필 데이터가 업데이트 되지 않는 문제를 해결한다. (#202) (#231))
 import com.darass.darass.exception.ExceptionWithMessageAndCode;
-import com.darass.darass.user.dto.UserUpdateRequest;
 import com.darass.darass.user.domain.GuestUser;
 import com.darass.darass.user.domain.User;
+import com.darass.darass.user.dto.UserResponse;
+import com.darass.darass.user.dto.UserUpdateRequest;
 import com.darass.darass.user.repository.UserRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

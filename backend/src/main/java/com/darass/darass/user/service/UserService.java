@@ -1,8 +1,8 @@
 package com.darass.darass.user.service;
 
 import com.darass.darass.exception.ExceptionWithMessageAndCode;
-import com.darass.darass.user.controller.dto.PasswordCheckRequest;
-import com.darass.darass.user.controller.dto.PasswordCheckResponse;
+import com.darass.darass.user.dto.PasswordCheckRequest;
+import com.darass.darass.user.dto.PasswordCheckResponse;
 import com.darass.darass.user.domain.User;
 import com.darass.darass.user.dto.UserResponse;
 import com.darass.darass.user.dto.UserUpdateRequest;
@@ -22,7 +22,6 @@ public class UserService {
     public UserResponse findById(Long id) {
         Optional<User> possibleUser = userRepository.findById(id);
         User user = possibleUser.orElseThrow(ExceptionWithMessageAndCode.NOT_FOUND_USER::getException);
-
         return UserResponse.of(user, user.getUserType(), user.getProfileImageUrl());
     }
 

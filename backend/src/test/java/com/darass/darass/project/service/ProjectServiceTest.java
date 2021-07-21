@@ -5,16 +5,11 @@ import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
 import com.darass.darass.SpringContainerTest;
 import com.darass.darass.exception.ExceptionWithMessageAndCode;
-<<<<<<< HEAD
-import com.darass.darass.project.dto.ProjectCreateRequest;
-import com.darass.darass.project.dto.ProjectResponse;
-=======
-import com.darass.darass.project.controller.dto.ProjectCreateRequest;
-import com.darass.darass.project.controller.dto.ProjectResponse;
 import com.darass.darass.project.domain.CustomSecretKeyFactory;
->>>>>>> 48cf027 ([BE] 카카오 프사를 바꿨을 경우, 서버의 카카오 프로필 데이터가 업데이트 되지 않는 문제를 해결한다. (#202) (#231))
 import com.darass.darass.project.domain.Project;
 import com.darass.darass.project.domain.RandomSecretKeyFactory;
+import com.darass.darass.project.dto.ProjectCreateRequest;
+import com.darass.darass.project.dto.ProjectResponse;
 import com.darass.darass.project.repository.ProjectRepository;
 import com.darass.darass.user.domain.GuestUser;
 import com.darass.darass.user.domain.User;

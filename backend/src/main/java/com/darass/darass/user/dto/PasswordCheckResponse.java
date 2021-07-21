@@ -1,4 +1,4 @@
-package com.darass.darass.user.controller.dto;
+package com.darass.darass.user.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

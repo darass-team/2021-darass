@@ -1,8 +1,8 @@
 package com.darass.darass.user.controller;
 
 import com.darass.darass.auth.oauth.domain.RequiredLogin;
-import com.darass.darass.user.controller.dto.PasswordCheckRequest;
-import com.darass.darass.user.controller.dto.PasswordCheckResponse;
+import com.darass.darass.user.dto.PasswordCheckRequest;
+import com.darass.darass.user.dto.PasswordCheckResponse;
 import com.darass.darass.user.domain.User;
 import com.darass.darass.user.dto.UserResponse;
 import com.darass.darass.user.dto.UserUpdateRequest;
@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 
 @AllArgsConstructor
 @RequestMapping("/api/v1/users")
