@@ -41,7 +41,7 @@ public class ProjectService {
     }
 
     private void validateDuplicateProjectName(ProjectCreateRequest projectRequest, User user) {
-        Optional<Project> possibleProject = projects
+        Optional<Project> possibleProject = projectRepository
             .findByNameAndUserId(projectRequest.getName(), user.getId());
         possibleProject.ifPresent(project -> {
             throw ExceptionWithMessageAndCode.DUPLICATE_PROJECT_NAME.getException();

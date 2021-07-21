@@ -1,6 +1,8 @@
 package com.darass.darass.user.controller;
 
 import com.darass.darass.auth.oauth.domain.RequiredLogin;
+import com.darass.darass.user.controller.dto.PasswordCheckRequest;
+import com.darass.darass.user.controller.dto.PasswordCheckResponse;
 import com.darass.darass.user.domain.User;
 import com.darass.darass.user.dto.UserResponse;
 import com.darass.darass.user.dto.UserUpdateRequest;
@@ -10,10 +12,12 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 
 @AllArgsConstructor
 @RequestMapping("/api/v1/users")
@@ -41,4 +45,10 @@ public class UserController {
         return ResponseEntity.noContent().build();
     }
 
+    @GetMapping("/check-password")
+    public ResponseEntity<PasswordCheckResponse> checkGuestUserPassword(
+        @ModelAttribute PasswordCheckRequest passwordCheckRequest) {
+        PasswordCheckResponse passwordCheckResponse = userService.checkGuestUserPassword(passwordCheckRequest);
+        return ResponseEntity.ok(passwordCheckResponse);
+    }
 }

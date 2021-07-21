@@ -7,19 +7,29 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.docu
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.delete;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.patch;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.darass.darass.AcceptanceTest;
 import com.darass.darass.auth.oauth.infrastructure.JwtTokenProvider;
-import com.darass.darass.user.dto.UserResponse;
+import com.darass.darass.comment.dto.CommentCreateRequest;
+import com.darass.darass.comment.dto.CommentResponse;
 import com.darass.darass.exception.ExceptionWithMessageAndCode;
 import com.darass.darass.exception.dto.ExceptionResponse;
-import com.darass.darass.user.dto.UserUpdateRequest;
+import com.darass.darass.project.domain.Project;
+import com.darass.darass.project.domain.RandomSecretKeyFactory;
+import com.darass.darass.project.repository.ProjectRepository;
+import com.darass.darass.user.controller.dto.PasswordCheckResponse;
 import com.darass.darass.user.domain.OAuthPlatform;
 import com.darass.darass.user.domain.SocialLoginUser;
+import com.darass.darass.user.dto.UserResponse;
+import com.darass.darass.user.dto.UserUpdateRequest;
 import com.darass.darass.user.repository.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -37,11 +47,15 @@ public class UserAcceptanceTest extends AcceptanceTest {
     private UserRepository userRepository;
 
     @Autowired
+    private ProjectRepository projectRepository;
+
+    @Autowired
     private JwtTokenProvider tokenProvider;
 
     private SocialLoginUser socialLoginUser;
 
     private final String apiUrl = "/api/v1/users";
+    private String secretKey;
 
     @BeforeEach
     public void setUser() { // TODO: 이 부분 로그인 인수테스트로 바꾸기
@@ -134,6 +148,90 @@ public class UserAcceptanceTest extends AcceptanceTest {
 
         //then
         유저_삭제_실패됨(resultActions);
+    }
+
+    @Test
+    @DisplayName("비로그인 사용자의 비밀번호 일치여부를 조회한다.")
+    void checkGuestUserPassword() throws Exception {
+        //given
+        String expected = "password";
+        String actual = "password";
+
+        //when
+        ResultActions resultActions = 비로그인_유저_비밀번호_일치여부_조회_요청(expected, actual);
+
+        //then
+        비로그인_유저_비밀번호_일치함(resultActions);
+    }
+
+    @Test
+    @DisplayName("비로그인 사용자의 비밀번호 일치여부 조회시 일치하지 않는다.")
+    void checkWrongGuestUserPassword() throws Exception {
+        //given
+        String expected = "password";
+        String actual = "wrongPassword";
+
+        //when
+        ResultActions resultActions = 비로그인_유저_비밀번호_일치여부_조회_요청(expected, actual);
+
+        //then
+        비로그인_유저_비밀번호_틀림(resultActions);
+    }
+
+    private void 비로그인_유저_비밀번호_틀림(ResultActions resultActions) throws Exception {
+        String responseJson = resultActions.andReturn().getResponse().getContentAsString();
+        PasswordCheckResponse passwordCheckResponse = new ObjectMapper()
+            .readValue(responseJson, PasswordCheckResponse.class);
+        assertThat(passwordCheckResponse.getIsCorrectPassword()).isFalse();
+        비밀번호_일치여부_조회_rest_doc_작성(resultActions, "api/v1/users/get/password-check-incorrect");
+    }
+
+    private void 비로그인_유저_비밀번호_일치함(ResultActions resultActions) throws Exception {
+        String responseJson = resultActions.andReturn().getResponse().getContentAsString();
+        PasswordCheckResponse passwordCheckResponse = new ObjectMapper()
+            .readValue(responseJson, PasswordCheckResponse.class);
+        assertThat(passwordCheckResponse.getIsCorrectPassword()).isTrue();
+        비밀번호_일치여부_조회_rest_doc_작성(resultActions, "api/v1/users/get/password-check-correct");
+    }
+
+    private ResultActions 비밀번호_일치여부_조회_rest_doc_작성(ResultActions resultActions, String path) throws Exception {
+        return resultActions.andExpect(status().isOk())
+            .andDo(
+                document(path,
+                    requestParameters(
+                        parameterWithName("guestUserId").description("검증하려는 비로그인 유저 id"),
+                        parameterWithName("guestUserPassword").description("검증하려는 비밀번호")
+                    ),
+                    responseFields(
+                        fieldWithPath("isCorrectPassword").type(JsonFieldType.BOOLEAN).description("비밀번호 일치 여부")
+                    ))
+            );
+    }
+
+    private ResultActions 비로그인_유저_비밀번호_일치여부_조회_요청(String expected, String actual) throws Exception {
+        Project project = Project.builder()
+            .name("project")
+            .secretKeyFactory(new RandomSecretKeyFactory())
+            .user(socialLoginUser)
+            .build();
+        projectRepository.save(project);
+        secretKey = project.getSecretKey();
+        String responseJson = 비로그인_댓글_등록됨(expected).andReturn().getResponse().getContentAsString();
+        UserResponse userResponse = new ObjectMapper().readValue(responseJson, CommentResponse.class).getUser();
+
+        return this.mockMvc.perform(get(apiUrl + "/check-password")
+            .contentType(MediaType.APPLICATION_JSON)
+            .param("guestUserId", userResponse.getId().toString())
+            .param("guestUserPassword", actual)
+        );
+    }
+
+    private ResultActions 비로그인_댓글_등록됨(String password) throws Exception {
+        return this.mockMvc.perform(post("/api/v1/comments")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(asJsonString(new CommentCreateRequest("guest", password, secretKey, "content", "url"))))
+            .andExpect(status().isCreated())
+            .andExpect(jsonPath("$.user..type").value("GuestUser"));
     }
 
     private ResultActions 유저_조회_요청(String accessToken) throws Exception {

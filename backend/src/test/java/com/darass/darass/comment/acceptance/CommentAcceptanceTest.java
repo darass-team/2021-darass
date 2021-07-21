@@ -23,12 +23,12 @@ import com.darass.darass.auth.oauth.infrastructure.JwtTokenProvider;
 import com.darass.darass.comment.dto.CommentCreateRequest;
 import com.darass.darass.comment.dto.CommentResponse;
 import com.darass.darass.comment.dto.CommentUpdateRequest;
-import com.darass.darass.user.dto.UserResponse;
 import com.darass.darass.project.domain.Project;
 import com.darass.darass.project.domain.RandomSecretKeyFactory;
 import com.darass.darass.project.repository.ProjectRepository;
 import com.darass.darass.user.domain.OAuthPlatform;
 import com.darass.darass.user.domain.SocialLoginUser;
+import com.darass.darass.user.dto.UserResponse;
 import com.darass.darass.user.repository.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -109,7 +109,7 @@ public class CommentAcceptanceTest extends AcceptanceTest {
                     fieldWithPath("user.nickName").type(JsonFieldType.STRING).description("유저 닉네임"),
                     fieldWithPath("user.type").type(JsonFieldType.STRING).description("유저 유형"),
                     fieldWithPath("user.profileImageUrl").type(JsonFieldType.STRING).description("유저 프로필 이미지")
-                    ))
+                ))
         );
     }
 
@@ -322,15 +322,34 @@ public class CommentAcceptanceTest extends AcceptanceTest {
     }
 
     @Test
+    @DisplayName("/api/v1/comments/{id} DELETE - 성공 (관리자가 남의 댓글을 삭제하는 경우)")
+    void deleteAdminUser() throws Exception {
+        CommentResponse commentResponse = 비로그인_댓글_등록됨_Response_반환("content1", "url");
+        Long commentId = commentResponse.getId();
+
+        mockMvc.perform(delete("/api/v1/comments/{id}", commentId)
+            .contentType(MediaType.APPLICATION_JSON)
+            .header("Authorization", "Bearer " + token))
+            .andExpect(status().isNoContent())
+            .andDo(document("api/v1/comments/delete/success-admin-user",
+                requestHeaders(
+                    headerWithName("Authorization").description("관리자의 JWT - Bearer 토큰")
+                )
+            ));
+    }
+
+    @Test
     @DisplayName("/api/v1/comments/{id} DELETE - 남의 댓글을 삭제하는 경우")
     void deleteUnauthorized() throws Exception {
         CommentResponse commentResponse1 = 소셜_로그인_댓글_등록됨_Response_반환("content1", "url");
         CommentResponse commentResponse2 = 비로그인_댓글_등록됨_Response_반환("content2", "url");
-        Long commentId2 = commentResponse2.getId();
+        Long commentId1 = commentResponse1.getId();
+        UserResponse unauthorizedUser = commentResponse2.getUser();
 
-        mockMvc.perform(delete("/api/v1/comments/{id}", commentId2)
+        mockMvc.perform(delete("/api/v1/comments/{id}", commentId1)
             .contentType(MediaType.APPLICATION_JSON)
-            .header("Authorization", "Bearer " + token)
+            .param("guestUserId", unauthorizedUser.getId().toString())
+            .param("guestUserPassword", "password")
         )
             .andExpect(status().isUnauthorized())
             .andExpect(jsonPath("$.code").value(903))
@@ -341,6 +360,7 @@ public class CommentAcceptanceTest extends AcceptanceTest {
                 )
             ));
     }
+
     private ResultActions 소셜_로그인_댓글_등록됨(String content, String url) throws Exception {
         return mockMvc.perform(post("/api/v1/comments")
             .contentType(MediaType.APPLICATION_JSON)
