@@ -65,7 +65,7 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
     public void save() throws Exception {
         프로젝트_생성됨()
             .andDo(
-                document("api/v1/projects/post/1",
+                document("api/v1/projects/post/success-save",
                     requestHeaders(
                         headerWithName("Authorization").description("JWT - Bearer 토큰")
                     ),
@@ -89,7 +89,26 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
             .content(asJsonString(new ProjectCreateRequest("프로젝트이름"))))
             .andExpect(status().isUnauthorized())
             .andDo(
-                document("api/v1/projects/post/2",
+                document("api/v1/projects/post/fail-jwt",
+                    responseFields(
+                        fieldWithPath("message").type(JsonFieldType.STRING).description("에러 메시지"),
+                        fieldWithPath("code").type(JsonFieldType.NUMBER).description("에러 코드")
+                    ))
+            );
+    }
+
+    @Test
+    @DisplayName("중복되는 프로젝트 이름으로 등록하려고 하면 실패한다.")
+    public void save_fail_duplicateProjectName() throws Exception {
+        프로젝트_생성됨();
+        this.mockMvc.perform(post("/api/v1/projects")
+            .contentType(MediaType.APPLICATION_JSON)
+            .header("Authorization", "Bearer " + token)
+            .content(asJsonString(new ProjectCreateRequest("프로젝트이름")))
+        )
+            .andExpect(status().isConflict())
+            .andDo(
+                document("api/v1/projects/post/fail-duplicate-name",
                     responseFields(
                         fieldWithPath("message").type(JsonFieldType.STRING).description("에러 메시지"),
                         fieldWithPath("code").type(JsonFieldType.NUMBER).description("에러 코드")
@@ -122,7 +141,7 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
         )
             .andExpect(status().isOk())
             .andDo(
-                document("api/v1/projects/get/1",
+                document("api/v1/projects/get/success-findall",
                     requestHeaders(
                         headerWithName("Authorization").description("JWT - Bearer 토큰")
                     ),
@@ -145,7 +164,7 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
         )
             .andExpect(status().isUnauthorized())
             .andDo(
-                document("api/v1/projects/get/2",
+                document("api/v1/projects/get/fail-jwt",
                     responseFields(
                         fieldWithPath("message").type(JsonFieldType.STRING).description("에러 메시지"),
                         fieldWithPath("code").type(JsonFieldType.NUMBER).description("에러 코드")
@@ -166,7 +185,7 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
         )
             .andExpect(status().isOk())
             .andDo(
-                document("api/v1/projects/{id}/get/1",
+                document("api/v1/projects/{id}/get/success-findone",
                     requestHeaders(
                         headerWithName("Authorization").description("JWT - Bearer 토큰")
                     ),
@@ -194,7 +213,7 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
         )
             .andExpect(status().isUnauthorized())
             .andDo(
-                document("api/v1/projects/{id}/get/2",
+                document("api/v1/projects/{id}/get/fail-jwt",
                     responseFields(
                         fieldWithPath("message").type(JsonFieldType.STRING).description("에러 메시지"),
                         fieldWithPath("code").type(JsonFieldType.NUMBER).description("에러 코드")
@@ -287,6 +306,5 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
             )
         );
     }
-
 }
 
