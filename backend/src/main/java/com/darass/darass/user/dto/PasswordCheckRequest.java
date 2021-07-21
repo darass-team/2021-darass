@@ -1,11 +1,8 @@
-package com.darass.darass.user.controller.dto;
-
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+package com.darass.darass.user.dto;
 
 import javax.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 @Getter
 @AllArgsConstructor

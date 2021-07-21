@@ -14,9 +14,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Entity
-@NoArgsConstructor
 @Getter
+@NoArgsConstructor
+@Entity
 public class Comment extends BaseTimeEntity {
 
     @Id
@@ -32,6 +32,7 @@ public class Comment extends BaseTimeEntity {
     private Project project;
 
     private String url;
+
     private String content;
 
     @Builder
@@ -55,7 +56,7 @@ public class Comment extends BaseTimeEntity {
         return this.url.equals(url) && project.isSame(projectKey);
     }
 
-    public Long getUserId(){
+    public Long getUserId() {
         return user.getId();
     }
 

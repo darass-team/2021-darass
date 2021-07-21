@@ -1,6 +1,6 @@
 package com.darass.darass.auth.oauth.controller;
 
-import com.darass.darass.auth.oauth.controller.dto.TokenResponse;
+import com.darass.darass.auth.oauth.dto.TokenResponse;
 import com.darass.darass.auth.oauth.service.OAuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

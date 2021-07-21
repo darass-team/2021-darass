@@ -1,6 +1,6 @@
 <configuration>
   <springProfile name="!prod">
-    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+    <appender class="ch.qos.logback.core.ConsoleAppender" name="STDOUT">
       <encoder>
         <pattern>
           %green(%d{yyyy-MM-dd HH:mm:ss.SSS}) [%thread] %highlight([%level]) %logger - %cyan(%msg%n)
@@ -9,26 +9,32 @@
     </appender>
 
     <root level="info">
-      <appender-ref ref="STDOUT" />
+      <appender-ref ref="STDOUT"/>
     </root>
   </springProfile>
 
   <springProfile name="prod">
-    <appender name="File" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <appender class="ch.qos.logback.core.rolling.RollingFileAppender" name="File">
+      <encoder>
+        <charset>UTF-8</charset>
+        <pattern>
+          %d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] [%level] %logger - %msg%n
+        </pattern>
+      </encoder>
       <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
         <fileNamePattern>/var/log/application-logs/%d{yyyyMM}/%d{yyyy-MM-dd}.log</fileNamePattern>
         <maxHistory>6</maxHistory>
         <totalSizeCap>5GB</totalSizeCap>
       </rollingPolicy>
+    </appender>
+
+    <appender class="ch.qos.logback.core.rolling.RollingFileAppender" name="ErrorFile">
       <encoder>
+        <charset>UTF-8</charset>
         <pattern>
           %d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] [%level] %logger - %msg%n
         </pattern>
-        <charset>UTF-8</charset>
       </encoder>
-    </appender>
-
-    <appender name="ErrorFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
       <filter class="ch.qos.logback.classic.filter.LevelFilter">
         <level>ERROR</level>
         <onMatch>ACCEPT</onMatch>
@@ -39,17 +45,11 @@
         <maxHistory>6</maxHistory>
         <totalSizeCap>5GB</totalSizeCap>
       </rollingPolicy>
-      <encoder>
-        <pattern>
-          %d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] [%level] %logger - %msg%n
-        </pattern>
-        <charset>UTF-8</charset>
-      </encoder>
     </appender>
 
     <root level="info">
-      <appender-ref ref="File" />
-      <appender-ref ref="ErrorFile" />
+      <appender-ref ref="File"/>
+      <appender-ref ref="ErrorFile"/>
     </root>
   </springProfile>
 </configuration>

@@ -8,9 +8,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+@Getter
 @NoArgsConstructor
 @Entity
-@Getter
 public class SocialLoginUser extends User {
 
     private String email;

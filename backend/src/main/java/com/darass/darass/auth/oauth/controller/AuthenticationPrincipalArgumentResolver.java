@@ -27,7 +27,8 @@ public class AuthenticationPrincipalArgumentResolver implements HandlerMethodArg
     @Override
     public User resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
         NativeWebRequest webRequest, WebDataBinderFactory binderFactory) {
-        String accessToken = AuthorizationExtractor.extract(Objects.requireNonNull(webRequest.getNativeRequest(HttpServletRequest.class)));
+        String accessToken = AuthorizationExtractor
+            .extract(Objects.requireNonNull(webRequest.getNativeRequest(HttpServletRequest.class)));
 
         if (Objects.isNull(accessToken) || accessToken.isEmpty()) {
             return new GuestUser();
