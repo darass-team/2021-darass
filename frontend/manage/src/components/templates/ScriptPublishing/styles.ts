@@ -1,5 +1,5 @@
+import { PALETTE } from "./../../../styles/palette";
 import styled from "styled-components";
-import { PALETTE } from "../../../styles/palette";
 
 const Container = styled.div`
   width: fit-content;
@@ -47,6 +47,22 @@ const Content = styled.div`
   margin-top: 5rem;
 `;
 
+const BlogLogoWrapper = styled.div`
+  display: flex;
+  & > * {
+    margin: 0 1rem;
+  }
+`;
+
+const BlogLogo = styled.img`
+  width: 10rem;
+  height: 10rem;
+  border-radius: 50%;
+  object-fit: contain;
+  cursor: pointer;
+  border: 1px solid ${PALETTE.BLACK_700};
+`;
+
 const B = styled.b`
   font-size: 2rem;
   word-break: keep-all;
@@ -61,4 +77,4 @@ const Ol = styled.ol`
   font-size: 1.4rem;
 `;
 
-export { Container, Section, Title, CodeBlockWrapper, Content, B, P, Ol, CopyButton };
+export { Container, Section, Title, CodeBlockWrapper, Content, BlogLogoWrapper, BlogLogo, B, P, Ol, CopyButton };
