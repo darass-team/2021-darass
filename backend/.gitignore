@@ -42,6 +42,9 @@ out/
 
 ## RestDocs 파일
 /src/main/resources/static/docs/
+
+## BOOT-INF
+/BOOT-INF
 BOOT-INF/
 
 ## 로그 파일
