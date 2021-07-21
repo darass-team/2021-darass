@@ -2,7 +2,6 @@ package com.darass.darass.project.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.darass.darass.project.service.CustomSecretKeyFactory;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

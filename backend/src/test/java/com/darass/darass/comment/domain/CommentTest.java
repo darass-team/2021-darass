@@ -2,9 +2,8 @@ package com.darass.darass.comment.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.darass.darass.project.domain.CustomSecretKeyFactory;
 import com.darass.darass.project.domain.Project;
-import com.darass.darass.project.domain.RandomSecretKeyFactory;
-import com.darass.darass.project.service.CustomSecretKeyFactory;
 import com.darass.darass.user.domain.GuestUser;
 import com.darass.darass.user.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;

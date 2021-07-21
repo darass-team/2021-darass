@@ -17,9 +17,9 @@ import com.darass.darass.AcceptanceTest;
 import com.darass.darass.auth.oauth.infrastructure.JwtTokenProvider;
 import com.darass.darass.project.controller.dto.ProjectCreateRequest;
 import com.darass.darass.project.controller.dto.ProjectResponse;
+import com.darass.darass.project.domain.CustomSecretKeyFactory;
 import com.darass.darass.project.domain.Project;
 import com.darass.darass.project.repository.ProjectRepository;
-import com.darass.darass.project.service.CustomSecretKeyFactory;
 import com.darass.darass.user.domain.OAuthPlatform;
 import com.darass.darass.user.domain.SocialLoginUser;
 import com.darass.darass.user.repository.UserRepository;
@@ -238,7 +238,7 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
         ResultActions resultActions = 유저_아이디_조회_요청(customProjectSecretKey);
 
         //then
-         유저_아이디_조회됨(resultActions);
+        유저_아이디_조회됨(resultActions);
     }
 
     @Test
@@ -293,7 +293,7 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
 
         assertThat(projectResponse.getUserId()).isEqualTo(socialLoginUser.getId());
 
-       유저_아이디_조회_rest_doc_작성(resultActions);
+        유저_아이디_조회_rest_doc_작성(resultActions);
     }
 
     private void 유저_아이디_조회_실패됨_rest_doc_작성(ResultActions resultActions) throws Exception {

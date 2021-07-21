@@ -1,16 +1,12 @@
 package com.darass.darass;
 
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.parallel.Isolated;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
-@SpringBootTest
+@Isolated
 @ActiveProfiles("test")
-class DarassApplicationTests {
-
-    @Test
-    void contextLoads() {
-    }
+@SpringBootTest
+public class SpringContainerTest extends IsolationTest {
 
 }

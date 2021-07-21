@@ -23,13 +23,17 @@ public class OAuthService {
 
     public TokenResponse oauthLogin(String oauthAccessToken) {
         SocialLoginUser socialLoginUser = userInfoProvider.findSocialLoginUser(oauthAccessToken);
-        Optional<SocialLoginUser> foundSocialLoginUser = socialLoginUserRepository.findByOauthId(socialLoginUser.getOauthId());
+        Optional<SocialLoginUser> possibleSocialLoginUser = socialLoginUserRepository.findByOauthId(socialLoginUser.getOauthId());
 
-        if (foundSocialLoginUser.isEmpty()) {
+        if (possibleSocialLoginUser.isEmpty()) {
             socialLoginUserRepository.save(socialLoginUser);
             return TokenResponse.of(jwtTokenProvider.createAccessToken(socialLoginUser.getId().toString()));
         }
-        return TokenResponse.of(jwtTokenProvider.createAccessToken(foundSocialLoginUser.get().getId().toString()));
+
+        SocialLoginUser foundSocialLoginUser = possibleSocialLoginUser.get();
+        foundSocialLoginUser.update(socialLoginUser);
+
+        return TokenResponse.of(jwtTokenProvider.createAccessToken(foundSocialLoginUser.getId().toString()));
     }
 
     public SocialLoginUser findSocialLoginUserByAccessToken(String accessToken) {
@@ -37,7 +41,7 @@ public class OAuthService {
         String userId = jwtTokenProvider.getPayload(accessToken);
 
         return socialLoginUserRepository.findById(Long.parseLong(userId))
-                .orElseThrow(ExceptionWithMessageAndCode.INVALID_JWT_NOT_FOUND_USER_TOKEN::getException);
+            .orElseThrow(ExceptionWithMessageAndCode.INVALID_JWT_NOT_FOUND_USER_TOKEN::getException);
     }
 
 }
