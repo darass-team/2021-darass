@@ -15,7 +15,6 @@ import com.darass.darass.user.domain.GuestUser;
 import com.darass.darass.user.domain.User;
 import com.darass.darass.user.repository.UserRepository;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -85,7 +84,7 @@ public class CommentService {
         user = findRegisteredUser(user, request.getGuestUserId(), request.getGuestUserPassword());
         Comment comment = findCommentById(id);
 
-        validateIfCommentIsUpdatableByUser(user, comment);
+        validateCommentUpdatableByUser(user, comment);
 
         comment.changeContent(request.getContent());
         commentRepository.save(comment);
@@ -96,19 +95,19 @@ public class CommentService {
         Comment comment = findCommentById(id);
         User adminUser = comment.getProject().getUser();
 
-        validateIfCommentIsDeletableByUser(user, adminUser, comment);
+        validateCommentDeletableByUser(user, adminUser, comment);
 
         commentRepository.deleteById(id);
     }
 
-    private void validateIfCommentIsUpdatableByUser(User user, Comment comment) {
+    private void validateCommentUpdatableByUser(User user, Comment comment) {
         if (comment.isCommentWriter(user)) {
             return;
         }
         throw ExceptionWithMessageAndCode.UNAUTHORIZED_FOR_COMMENT.getException();
     }
 
-    private void validateIfCommentIsDeletableByUser(User user, User adminUser, Comment comment) {
+    private void validateCommentDeletableByUser(User user, User adminUser, Comment comment) {
         if (user.isSameUser(adminUser) || comment.isCommentWriter(user)) {
             return;
         }

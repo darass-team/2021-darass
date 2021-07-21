@@ -20,8 +20,8 @@ public class UserService {
     private final UserRepository users;
 
     public UserResponse findById(Long id) {
-        Optional<User> expectedUser = users.findById(id);
-        User user = expectedUser.orElseThrow(ExceptionWithMessageAndCode.NOT_FOUND_USER::getException);
+        Optional<User> possibleUser = users.findById(id);
+        User user = possibleUser.orElseThrow(ExceptionWithMessageAndCode.NOT_FOUND_USER::getException);
 
         return UserResponse.of(user, user.getUserType(), user.getProfileImageUrl());
     }
