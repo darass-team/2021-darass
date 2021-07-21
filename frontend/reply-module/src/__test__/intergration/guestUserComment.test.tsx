@@ -10,6 +10,15 @@ jest.mock("../../hooks/useEditComment");
 jest.mock("../../hooks/useDeleteComment");
 jest.mock("../../hooks/useCreateComment");
 
+window.alert = function (str) {
+  console.log(str);
+  return true;
+};
+
+window.confirm = function (str) {
+  console.log(str);
+  return true;
+};
 describe("비로그인 유저 댓글 조회", () => {
   beforeEach(() => {
     (useEditComment as jest.Mock).mockImplementation(() => {
@@ -135,8 +144,8 @@ describe("비로그인 유저 댓글 수정", () => {
 
     fireEvent.click(firstThreeDotButton);
 
-    const firstEditButton = commentList.getByText("수정");
-    fireEvent.click(firstEditButton);
+    const firstDeleteButton = commentList.getByText("수정");
+    fireEvent.click(firstDeleteButton);
 
     const firstPasswordSubmitButton = commentList.getByText("입력");
     fireEvent.click(firstPasswordSubmitButton);
@@ -147,4 +156,43 @@ describe("비로그인 유저 댓글 수정", () => {
     });
   });
 });
-// describe("비로그인 유저 댓글 삭제", () => {})
+
+describe("비로그인 유저 댓글 삭제", () => {
+  beforeEach(() => {
+    (useEditComment as jest.Mock).mockImplementation(() => {
+      return {
+        editComment: () => {},
+        isLoading: false,
+        error: false
+      };
+    });
+
+    (useDeleteComment as jest.Mock).mockImplementation(() => {
+      return {
+        deleteComment: () => {},
+        isLoading: false,
+        error: false
+      };
+    });
+  });
+  test("비로그인 유저는 댓글을 수정시, 비밀번호를 입력해야 삭제를 할 수 있다.", async () => {
+    const _comments: Comment[] = JSON.parse(JSON.stringify(comments));
+    const guestUserComments = _comments.filter(comment => comment.user.type === "GuestUser");
+    const commentList = render(<CommentList comments={guestUserComments} />);
+
+    const firstThreeDotButton = commentList.getAllByAltText("댓글 옵션")[0];
+
+    fireEvent.click(firstThreeDotButton);
+
+    const firstEditButton = commentList.getByText("삭제");
+    fireEvent.click(firstEditButton);
+
+    const firstPasswordSubmitButton = commentList.getByText("입력");
+    fireEvent.click(firstPasswordSubmitButton);
+
+    await waitFor(() => {
+      const allThreeDots = commentList.getAllByAltText("댓글 옵션");
+      expect(allThreeDots.length).toEqual(guestUserComments.length - 1);
+    });
+  });
+});
