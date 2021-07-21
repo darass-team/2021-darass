@@ -1,12 +1,18 @@
-import { PALETTE } from "./../../../styles/palette";
 import styled from "styled-components";
-import { pageMaxWidth } from "../../../styles/constants";
+import BackIconComponent from "../../atoms/Buttons/BackIcon";
+import { PALETTE } from "./../../../styles/palette";
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  position: relative;
+`;
+
+const BackIcon = styled(BackIconComponent)`
+  top: -4rem;
+  left: 0;
 `;
 
 const Section = styled.section`
@@ -80,4 +86,17 @@ const Ol = styled.ol`
   font-size: 1.4rem;
 `;
 
-export { Container, Section, Title, CodeBlockWrapper, Content, BlogLogoWrapper, BlogLogo, B, P, Ol, CopyButton };
+export {
+  Container,
+  Section,
+  Title,
+  CodeBlockWrapper,
+  Content,
+  BlogLogoWrapper,
+  BlogLogo,
+  B,
+  P,
+  Ol,
+  CopyButton,
+  BackIcon
+};

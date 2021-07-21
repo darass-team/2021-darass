@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { pageMaxWidth } from "../../../styles/constants";
 import { PALETTE } from "../../../styles/palette";
+import BackIconComponent from "../../atoms/Buttons/BackIcon";
 
 const Container = styled.div`
   display: flex;
@@ -9,6 +10,12 @@ const Container = styled.div`
   align-items: center;
   max-width: ${pageMaxWidth};
   margin: 0 auto;
+  position: relative;
+`;
+
+const BackIcon = styled(BackIconComponent)`
+  top: -4rem;
+  left: 13rem;
 `;
 
 const Introduction = styled.h2`
@@ -42,4 +49,4 @@ const Button = styled.button`
   }
 `;
 
-export { Container, Introduction, Button };
+export { Container, Introduction, Button, BackIcon };

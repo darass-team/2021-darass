@@ -1,12 +1,11 @@
-import { ChangeEvent, FormEvent } from "react";
-import { useCreateProject, useInput } from "../../../hooks";
-import { PALETTE } from "../../../styles/palette";
-import ScreenContainer from "../../../styles/ScreenContainer";
-import { Container, Form, Input, Label, SubmitButton, Title } from "./styles";
+import { FormEvent } from "react";
 import { useHistory } from "react-router-dom";
-import { isEmptyString } from "../../../utils/validation";
 import { ROUTE } from "../../../constants";
+import { useCreateProject, useInput } from "../../../hooks";
+import ScreenContainer from "../../../styles/ScreenContainer";
 import { Project } from "../../../types/project";
+import { isEmptyString } from "../../../utils/validation";
+import { Container, Form, Input, Label, SubmitButton, Title, BackIcon } from "./styles";
 
 export interface Props {
   projects: Project[] | undefined;
@@ -38,6 +37,13 @@ const NewProject = ({ projects }: Props) => {
   return (
     <ScreenContainer>
       <Container>
+        <BackIcon
+          onClick={() => {
+            if (!confirm("정말로 이 페이지를 벗어나시겠습니까?\n작성중이던 내용은 유지되지 않습니다.")) return;
+
+            history.replace(ROUTE.MY_PROJECT);
+          }}
+        />
         <Title>새 프로젝트 만들기</Title>
         <Form onSubmit={onSubmit}>
           <Label htmlFor="project-name">프로젝트 이름</Label>

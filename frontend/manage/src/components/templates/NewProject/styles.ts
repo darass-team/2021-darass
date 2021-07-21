@@ -1,10 +1,17 @@
 import styled from "styled-components";
 import { PALETTE } from "../../../styles/palette";
+import BackIconComponent from "../../atoms/Buttons/BackIcon";
+
 import SubmitButtonComponent from "../../atoms/SubmitButton";
 
 const Container = styled.div`
   width: fit-content;
   margin: 0 auto;
+  position: relative;
+`;
+
+const BackIcon = styled(BackIconComponent)`
+  top: -4rem;
 `;
 
 const Title = styled.h2`
@@ -48,4 +55,4 @@ const SubmitButton = styled(SubmitButtonComponent)`
   align-self: flex-end;
 `;
 
-export { Container, Title, Form, Label, Input, SubmitButton };
+export { Container, Title, Form, Label, Input, SubmitButton, BackIcon };
