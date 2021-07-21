@@ -5,7 +5,7 @@ import static org.mockito.BDDMockito.given;
 
 import com.darass.darass.SpringContainerTest;
 import com.darass.darass.auth.oauth.api.domain.UserInfoProvider;
-import com.darass.darass.auth.oauth.controller.dto.TokenResponse;
+import com.darass.darass.auth.oauth.dto.TokenResponse;
 import com.darass.darass.auth.oauth.infrastructure.JwtTokenProvider;
 import com.darass.darass.user.domain.OAuthPlatform;
 import com.darass.darass.user.domain.SocialLoginUser;

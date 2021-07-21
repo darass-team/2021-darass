@@ -8,6 +8,7 @@ import com.darass.darass.user.domain.OAuthPlatform;
 import com.darass.darass.user.domain.SocialLoginUser;
 import java.nio.charset.StandardCharsets;
 import java.util.Collections;
+import java.util.Objects;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -32,11 +33,11 @@ public class UserInfoProvider {
         try {
             SocialLoginResponse socialLoginResponse
                 = restTemplate.postForObject(KAKAO_API_SERVER_URI, apiRequest, SocialLoginResponse.class);
-            return parseUser(socialLoginResponse);
+            return parseUser(Objects.requireNonNull(socialLoginResponse));
 
         } catch (HttpClientErrorException e) {
             throw ExceptionWithMessageAndCode.INVALID_JWT_TOKEN.getException();
-        }
+        } // TODO: null 포인터 예외 잡아야한다.
     }
 
     private HttpEntity<HttpHeaders> prepareRequest(String accessToken) {
@@ -53,7 +54,7 @@ public class UserInfoProvider {
         String email = kaKaoAccount.getEmail();
         Profile profile = socialLoginResponse.getKaKaoAccount().getProfile();
         String nickname = profile.getNickname();
-        String profileImageUrl = profile.getThumbnail_image_url();
+        String profileImageUrl = profile.getThumbnailImageUrl();
 
         return SocialLoginUser
             .builder()
@@ -63,6 +64,5 @@ public class UserInfoProvider {
             .email(email)
             .profileImageUrl(profileImageUrl)
             .build();
-
     }
 }

@@ -1,19 +1,22 @@
-package com.darass.darass.comment.controller.dto;
+package com.darass.darass.comment.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
 @Getter
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
+@RequiredArgsConstructor
 public class CommentUpdateRequest {
 
     private Long guestUserId;
+
     private String guestUserPassword;
+
+    @NonNull
     private String content;
 
-    public CommentUpdateRequest(String content) {
-        this.content = content;
-    }
 }

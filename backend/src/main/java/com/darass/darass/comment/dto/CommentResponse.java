@@ -1,26 +1,22 @@
-package com.darass.darass.comment.controller.dto;
+package com.darass.darass.comment.dto;
 
-import com.darass.darass.user.domain.User;
+import com.darass.darass.comment.domain.Comment;
+import com.darass.darass.user.dto.UserResponse;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@AllArgsConstructor
 @Getter
+@AllArgsConstructor
 @NoArgsConstructor
-public class UserResponse {
+public class CommentResponse {
 
     private Long id;
 
-    private String nickName;
-
-    private String type;
-
-    private String profileImageUrl;
+    private String content;
 
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime createdDate;
@@ -28,7 +24,10 @@ public class UserResponse {
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime modifiedDate;
 
-    public static UserResponse of(User user, String type, String profileImageUrl) {
-        return new UserResponse(user.getId(), user.getNickName(), type, profileImageUrl, user.getCreatedDate(), user.getModifiedDate());
+    private UserResponse user;
+
+    public static CommentResponse of(Comment comment, UserResponse userResponse) {
+        return new CommentResponse(comment.getId(), comment.getContent(), comment.getCreatedDate(),
+            comment.getModifiedDate(), userResponse);
     }
 }
