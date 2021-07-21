@@ -21,10 +21,10 @@ const NewProject = ({ projects }: Props) => {
     event.preventDefault();
 
     try {
-      const isValidProjectName = isEmptyString(projectName).length > 0;
+      const isValidProjectName = isEmptyString(projectName);
       if (!isValidProjectName) throw new Error("프로젝트 이름을 입력해주세요.");
 
-      const project = await createProject(projectName);
+      const project = await createProject(projectName.trim());
 
       history.push(ROUTE.GET_SCRIPT_PUBLISHING(project.id));
     } catch (error) {

@@ -1,27 +1,27 @@
 import { isEmptyString } from "../../utils/validation";
 
 describe("isEmptyString", () => {
-  test("문자열을 인자로 넣을 시, 반환값으로 공백과 개행 문자가 모두 제거된 문자열이 반환된다.", () => {
+  test("문자열을 인자로 넣을 시, 해당 문자열이 공백 또는 개행으로만 이루어져 있는지 여부를 반환한다.", () => {
     const fixture = [
       {
         input: "           ",
-        expectedOutput: ""
+        expectedOutput: true
       },
       {
         input: "   \n  \n   \n   ",
-        expectedOutput: ""
+        expectedOutput: true
       },
       {
         input: "a",
-        expectedOutput: "a"
+        expectedOutput: false
       },
       {
         input: " a  a  a  \na  a \nna\n ",
-        expectedOutput: "aaaaana"
+        expectedOutput: false
       },
       {
         input: "\n\n\n\n\n\n ",
-        expectedOutput: ""
+        expectedOutput: true
       }
     ];
 
