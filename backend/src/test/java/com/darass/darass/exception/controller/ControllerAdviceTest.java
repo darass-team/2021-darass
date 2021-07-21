@@ -5,27 +5,28 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.darass.darass.SpringContainerTest;
 import com.darass.darass.auth.oauth.controller.AuthenticationPrincipalArgumentResolver;
 import com.darass.darass.auth.oauth.controller.OAuthController;
 import com.darass.darass.auth.oauth.service.OAuthService;
 import com.darass.darass.comment.controller.CommentController;
+<<<<<<< HEAD
 import com.darass.darass.comment.dto.CommentCreateRequest;
+=======
+import com.darass.darass.comment.controller.dto.CommentCreateRequest;
+>>>>>>> 48cf027 ([BE] 카카오 프사를 바꿨을 경우, 서버의 카카오 프로필 데이터가 업데이트 되지 않는 문제를 해결한다. (#202) (#231))
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 @DisplayName("ControllerAdvice 클래스")
-@SpringBootTest
-@ActiveProfiles("test")
 @AutoConfigureMockMvc
-class ControllerAdviceTest {
+class ControllerAdviceTest extends SpringContainerTest {
 
     @Autowired
     private MockMvc mockMvc;

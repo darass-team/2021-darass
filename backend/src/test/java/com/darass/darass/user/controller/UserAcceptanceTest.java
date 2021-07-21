@@ -43,19 +43,21 @@ import org.springframework.test.web.servlet.ResultActions;
 @DisplayName("User 인수테스트")
 public class UserAcceptanceTest extends AcceptanceTest {
 
+    private final String apiUrl = "/api/v1/users";
     @Autowired
     private UserRepository userRepository;
-
     @Autowired
     private ProjectRepository projectRepository;
-
     @Autowired
     private JwtTokenProvider tokenProvider;
 
     private SocialLoginUser socialLoginUser;
+<<<<<<< HEAD
 
     private final String apiUrl = "/api/v1/users";
     private String secretKey;
+=======
+>>>>>>> 48cf027 ([BE] 카카오 프사를 바꿨을 경우, 서버의 카카오 프로필 데이터가 업데이트 되지 않는 문제를 해결한다. (#202) (#231))
 
     @BeforeEach
     public void setUser() { // TODO: 이 부분 로그인 인수테스트로 바꾸기

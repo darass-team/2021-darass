@@ -3,9 +3,16 @@ package com.darass.darass.project.service;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
+import com.darass.darass.SpringContainerTest;
 import com.darass.darass.exception.ExceptionWithMessageAndCode;
+<<<<<<< HEAD
 import com.darass.darass.project.dto.ProjectCreateRequest;
 import com.darass.darass.project.dto.ProjectResponse;
+=======
+import com.darass.darass.project.controller.dto.ProjectCreateRequest;
+import com.darass.darass.project.controller.dto.ProjectResponse;
+import com.darass.darass.project.domain.CustomSecretKeyFactory;
+>>>>>>> 48cf027 ([BE] 카카오 프사를 바꿨을 경우, 서버의 카카오 프로필 데이터가 업데이트 되지 않는 문제를 해결한다. (#202) (#231))
 import com.darass.darass.project.domain.Project;
 import com.darass.darass.project.domain.RandomSecretKeyFactory;
 import com.darass.darass.project.repository.ProjectRepository;
@@ -17,13 +24,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
 @ActiveProfiles("test")
-@SpringBootTest
-@DisplayName("ProjectService 클래스")
-public class ProjectServiceTest {
+public class ProjectServiceTest extends SpringContainerTest {
 
     @Autowired
     private ProjectService projectService;
