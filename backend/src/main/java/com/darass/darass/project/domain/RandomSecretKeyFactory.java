@@ -2,7 +2,8 @@ package com.darass.darass.project.domain;
 
 import java.util.Random;
 
-public class RandomSecretKeyFactory implements SecretKeyFactory{
+public class RandomSecretKeyFactory implements SecretKeyFactory {
+
     private static final int ASCII_CODE_OF_0 = 48;
     private static final int ASCII_CODE_OF_z = 122;
     private static final int TARGET_STRING_LENGTH = 15;

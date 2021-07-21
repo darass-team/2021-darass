@@ -15,10 +15,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.darass.darass.AcceptanceTest;
 import com.darass.darass.auth.oauth.infrastructure.JwtTokenProvider;
-import com.darass.darass.project.controller.dto.ProjectCreateRequest;
-import com.darass.darass.project.controller.dto.ProjectResponse;
 import com.darass.darass.project.domain.CustomSecretKeyFactory;
 import com.darass.darass.project.domain.Project;
+import com.darass.darass.project.dto.ProjectCreateRequest;
+import com.darass.darass.project.dto.ProjectResponse;
 import com.darass.darass.project.repository.ProjectRepository;
 import com.darass.darass.user.domain.OAuthPlatform;
 import com.darass.darass.user.domain.SocialLoginUser;

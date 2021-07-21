@@ -1,4 +1,4 @@
-package com.darass.darass.user.controller.dto;
+package com.darass.darass.user.dto;
 
 import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
