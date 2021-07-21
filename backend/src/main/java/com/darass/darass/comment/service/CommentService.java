@@ -82,22 +82,41 @@ public class CommentService {
 
     public void updateContent(Long id, User user, CommentUpdateRequest request) {
         user = findRegisteredUser(user, request.getGuestUserId(), request.getGuestUserPassword());
-        Comment comment = returnValidatedComment(id, user);
+        Comment comment = findCommentById(id);
+
+        validateCommentUpdatableByUser(user, comment);
+
         comment.changeContent(request.getContent());
         commentRepository.save(comment);
     }
 
     public void delete(Long id, User user, CommentDeleteRequest request) {
         user = findRegisteredUser(user, request.getGuestUserId(), request.getGuestUserPassword());
-        returnValidatedComment(id, user);
+        Comment comment = findCommentById(id);
+        User adminUser = comment.getProject().getUser();
+
+        validateCommentDeletableByUser(user, adminUser, comment);
+
         commentRepository.deleteById(id);
     }
 
-    private Comment returnValidatedComment(Long id, User user) {
-        Comment comment = commentRepository.findById(id)
+    private void validateCommentUpdatableByUser(User user, Comment comment) {
+        if (comment.isCommentWriter(user)) {
+            return;
+        }
+        throw ExceptionWithMessageAndCode.UNAUTHORIZED_FOR_COMMENT.getException();
+    }
+
+    private void validateCommentDeletableByUser(User user, User adminUser, Comment comment) {
+        if (user.isSameUser(adminUser) || comment.isCommentWriter(user)) {
+            return;
+        }
+        throw ExceptionWithMessageAndCode.UNAUTHORIZED_FOR_COMMENT.getException();
+    }
+
+    private Comment findCommentById(Long id) {
+        return commentRepository.findById(id)
             .orElseThrow(ExceptionWithMessageAndCode.NOT_FOUND_COMMENT::getException);
-        matchUserWithComment(user, comment);
-        return comment;
     }
 
     private User findRegisteredUser(User user, Long guestUserId, String guestUserPassword) {
@@ -107,12 +126,6 @@ public class CommentService {
             validateGuestUser(user, guestUserPassword);
         }
         return user;
-    }
-
-    private void matchUserWithComment(User user, Comment comment) {
-        if (!comment.isCommentWriter(user)) {
-            throw ExceptionWithMessageAndCode.UNAUTHORIZED_FOR_COMMENT.getException();
-        }
     }
 
     private void validateGuestUser(User user, String password) {

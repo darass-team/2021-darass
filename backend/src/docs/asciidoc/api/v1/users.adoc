@@ -48,3 +48,21 @@ include::{snippets}/api/v1/users/delete/success/http-response.adoc[]
 
 include::{snippets}/api/v1/users/delete/fail/http-response.adoc[]
 include::{snippets}/api/v1/users/delete/fail/response-fields.adoc[]
+
+=== 비로그인 유저 비밀번호 일치여부 조회 (GET /api/v1/users/check-password)
+
+==== Request
+
+include::{snippets}/api/v1/users/get/password-check-correct/http-request.adoc[]
+include::{snippets}/api/v1/users/get/password-check-correct/request-parameters.adoc[]
+
+==== Response (성공 - 비밀번호 일치하는 경우)
+
+include::{snippets}/api/v1/users/get/password-check-correct/http-response.adoc[]
+include::{snippets}/api/v1/users/get/password-check-correct/response-fields.adoc[]
+
+
+==== Response (성공 - 비밀번호 일치하지 않는 경우)
+
+include::{snippets}/api/v1/users/get/password-check-incorrect/http-response.adoc[]
+include::{snippets}/api/v1/users/get/password-check-incorrect/response-fields.adoc[]
