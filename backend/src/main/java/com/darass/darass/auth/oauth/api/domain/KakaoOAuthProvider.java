@@ -17,38 +17,23 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
-@Component
-public class UserInfoProvider {
+//@Component
+public class KakaoOAuthProvider extends OAuthProvider{
 
     public static final String KAKAO_API_SERVER_URI = "https://kapi.kakao.com/v2/user/me";
 
-    private final RestTemplate restTemplate;
-
-    public UserInfoProvider(RestTemplateBuilder restTemplateBuilder) {
-        this.restTemplate = restTemplateBuilder.build();
-    }
-
-    public SocialLoginUser findSocialLoginUser(String accessToken) {
-        HttpEntity<HttpHeaders> apiRequest = prepareRequest(accessToken);
-        try {
-            SocialLoginResponse socialLoginResponse
-                = restTemplate.postForObject(KAKAO_API_SERVER_URI, apiRequest, SocialLoginResponse.class);
-            return parseUser(Objects.requireNonNull(socialLoginResponse));
-
-        } catch (HttpClientErrorException e) {
-            throw ExceptionWithMessageAndCode.INVALID_JWT_TOKEN.getException();
-        } // TODO: null 포인터 예외 잡아야한다.
-    }
-
-    private HttpEntity<HttpHeaders> prepareRequest(String accessToken) {
+    @Override
+    protected SocialLoginResponse requestSocialLoginUser(String accessToken) {
         HttpHeaders apiRequestHeader = new HttpHeaders();
         apiRequestHeader.setBearerAuth(accessToken);
         apiRequestHeader.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
         apiRequestHeader.setAcceptCharset(Collections.singletonList(StandardCharsets.UTF_8));
-        return new HttpEntity<>(apiRequestHeader);
+
+        return REST_TEMPLATE.postForObject(KAKAO_API_SERVER_URI, new HttpEntity<>(apiRequestHeader), SocialLoginResponse.class);
     }
 
-    private SocialLoginUser parseUser(SocialLoginResponse socialLoginResponse) {
+    @Override
+    protected SocialLoginUser parseSocialLoginUserResponse(SocialLoginResponse socialLoginResponse) {
         String oauthId = socialLoginResponse.getId();
         KaKaoAccount kaKaoAccount = socialLoginResponse.getKaKaoAccount();
         String email = kaKaoAccount.getEmail();

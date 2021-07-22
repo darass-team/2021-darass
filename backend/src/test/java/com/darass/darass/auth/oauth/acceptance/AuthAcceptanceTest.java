@@ -11,10 +11,10 @@ import static org.springframework.restdocs.request.RequestDocumentation.requestP
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.darass.darass.AcceptanceTest;
-import com.darass.darass.auth.oauth.api.domain.UserInfoProvider;
+import com.darass.darass.auth.oauth.api.domain.KakaoOAuthProvider;
 import com.darass.darass.auth.oauth.dto.TokenResponse;
 import com.darass.darass.auth.oauth.infrastructure.JwtTokenProvider;
-import com.darass.darass.auth.oauth.service.OAuthService;
+import com.darass.darass.auth.oauth.service.MockOAuthService;
 import com.darass.darass.exception.ExceptionWithMessageAndCode;
 import com.darass.darass.exception.dto.ExceptionResponse;
 import com.darass.darass.user.domain.OAuthPlatform;
@@ -37,13 +37,13 @@ public class AuthAcceptanceTest extends AcceptanceTest {
 
     private final String apiUrl = "/api/v1/login/oauth";
     @InjectMocks
-    private OAuthService oAuthService;
+    private MockOAuthService oAuthService;
     @SpyBean(name = "socialLoginUserRepository")
     private SocialLoginUserRepository socialLoginUserRepository;
     @SpyBean(name = "jwtTokenProvider")
     private JwtTokenProvider jwtTokenProvider;
     @MockBean(name = "userInfoProvider")
-    private UserInfoProvider userInfoProvider;
+    private KakaoOAuthProvider kakaoOauthProvider;
     private String oauthAccessToken;
 
     private SocialLoginUser socialLoginUser;
@@ -66,7 +66,7 @@ public class AuthAcceptanceTest extends AcceptanceTest {
     @DisplayName("oauth2 토큰을 통해 회원가입 또는 로그인을 진행하고 JWT 토큰을 발급 받는다.")
     public void login_success() throws Exception {
         // given
-        given(userInfoProvider.findSocialLoginUser(oauthAccessToken)).willReturn(socialLoginUser);
+        given(kakaoOauthProvider.findSocialLoginUser(oauthAccessToken)).willReturn(socialLoginUser);
 
         //when
         ResultActions resultActions = 토큰_발급_요청(oauthAccessToken);
@@ -79,7 +79,7 @@ public class AuthAcceptanceTest extends AcceptanceTest {
     @DisplayName("올바르지 않은 oauth2 토큰을 보낼 경우 로그인을 실패하고 JWT 토큰을 발급 받지 못한다.")
     public void login_fail() throws Exception {
         // given
-        given(userInfoProvider.findSocialLoginUser(oauthAccessToken))
+        given(kakaoOauthProvider.findSocialLoginUser(oauthAccessToken))
             .willThrow(ExceptionWithMessageAndCode.INVALID_JWT_TOKEN.getException());
 
         // when

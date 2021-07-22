@@ -8,7 +8,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.darass.darass.SpringContainerTest;
 import com.darass.darass.auth.oauth.controller.AuthenticationPrincipalArgumentResolver;
 import com.darass.darass.auth.oauth.controller.OAuthController;
-import com.darass.darass.auth.oauth.service.OAuthService;
+import com.darass.darass.auth.oauth.service.MockOAuthService;
 import com.darass.darass.comment.controller.CommentController;
 import com.darass.darass.comment.dto.CommentCreateRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -34,7 +34,7 @@ class ControllerAdviceTest extends SpringContainerTest {
     private CommentController commentController;
 
     @Autowired
-    private OAuthService oAuthService;
+    private MockOAuthService oAuthService;
 
     @DisplayName("handleMethodArgumentNotValidException 메서드는 MethodArgumentNotValidException 예외가 발생하면 http 응답코드 400을 반환한다.")
     @Test

@@ -1,6 +1,7 @@
 package com.darass.darass.auth.oauth.service;
 
-import com.darass.darass.auth.oauth.api.domain.UserInfoProvider;
+import com.darass.darass.auth.oauth.api.domain.OAuthProvider;
+import com.darass.darass.auth.oauth.api.domain.OAuthProviderType;
 import com.darass.darass.auth.oauth.dto.TokenResponse;
 import com.darass.darass.auth.oauth.infrastructure.JwtTokenProvider;
 import com.darass.darass.exception.ExceptionWithMessageAndCode;
@@ -20,10 +21,10 @@ public class OAuthService {
 
     private JwtTokenProvider jwtTokenProvider;
 
-    private UserInfoProvider userInfoProvider; //TODO: Mocking시 final 못붙이는 문제가 있다.
+//    private OAuthProvider oAuthProvider; //TODO: Mocking시 final 못붙이는 문제가 있다.
 
-    public TokenResponse oauthLogin(String oauthAccessToken) {
-        SocialLoginUser socialLoginUser = userInfoProvider.findSocialLoginUser(oauthAccessToken);
+    public TokenResponse oauthLogin(String oauthProviderName, String oauthAccessToken) {
+        SocialLoginUser socialLoginUser = findSocialLoginUser(oauthProviderName, oauthAccessToken);
 
         Optional<SocialLoginUser> possibleSocialLoginUser = socialLoginUserRepository
             .findByOauthId(socialLoginUser.getOauthId());
@@ -38,6 +39,11 @@ public class OAuthService {
         foundSocialLoginUser.update(socialLoginUser);
 
         return TokenResponse.of(jwtTokenProvider.createAccessToken(foundSocialLoginUser.getId().toString()));
+    }
+
+    public SocialLoginUser findSocialLoginUser(String oauthProviderName, String oauthAccessToken) {
+        OAuthProvider oAuthProvider = OAuthProviderType.of(oauthProviderName);
+        return oAuthProvider.findSocialLoginUser(oauthAccessToken);
     }
 
     public SocialLoginUser findSocialLoginUserByAccessToken(String accessToken) {

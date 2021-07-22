@@ -21,11 +21,11 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.client.MockRestServiceServer;
 
 @DisplayName("UserInfoProvider 클래스")
-@RestClientTest(UserInfoProvider.class)
+@RestClientTest(KakaoOAuthProvider.class)
 class UserInfoProviderTest {
 
     @Autowired
-    private UserInfoProvider userInfoProvider;
+    private KakaoOAuthProvider kakaoOauthProvider;
 
     @Autowired
     private MockRestServiceServer mockServer;
@@ -41,10 +41,10 @@ class UserInfoProviderTest {
         SocialLoginResponse socialLoginResponse = new SocialLoginResponse("1", kaKaoAccount);
 
         String expectedResult = objectMapper.writeValueAsString(socialLoginResponse);
-        mockServer.expect(requestTo(UserInfoProvider.KAKAO_API_SERVER_URI))
+        mockServer.expect(requestTo(KakaoOAuthProvider.KAKAO_API_SERVER_URI))
             .andRespond(withSuccess(expectedResult, MediaType.APPLICATION_JSON));
 
-        SocialLoginUser socialLoginUser = userInfoProvider.findSocialLoginUser("test");
+        SocialLoginUser socialLoginUser = kakaoOauthProvider.findSocialLoginUser("test");
 
         assertThat(socialLoginUser.getNickName()).isEqualTo(profile.getNickname());
         assertThat(socialLoginUser.getEmail()).isEqualTo(kaKaoAccount.getEmail());
@@ -55,10 +55,10 @@ class UserInfoProviderTest {
     @Test
     @DisplayName("findSocialLoginUser 메서드는 카카오 api 서버에 잘못된 액세스 토큰을 전송하면 예외를 던진다.")
     void findSocialLoginResponse_fail() {
-        mockServer.expect(requestTo(UserInfoProvider.KAKAO_API_SERVER_URI))
+        mockServer.expect(requestTo(KakaoOAuthProvider.KAKAO_API_SERVER_URI))
             .andRespond(withUnauthorizedRequest());
 
-        assertThatThrownBy(() -> userInfoProvider.findSocialLoginUser("test"))
+        assertThatThrownBy(() -> kakaoOauthProvider.findSocialLoginUser("test"))
             .isInstanceOf(ExceptionWithMessageAndCode.INVALID_JWT_TOKEN.getException().getClass())
             .hasMessage("유효하지 않은 토큰입니다.");
     }
