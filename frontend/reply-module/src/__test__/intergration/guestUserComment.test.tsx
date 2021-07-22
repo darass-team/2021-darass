@@ -39,7 +39,7 @@ describe("비로그인 유저 댓글 조회", () => {
   });
   test("비로그인 유저인 경우, 비로그인 유저가 작성한 모든 댓글들에 수정/삭제 옵션이 노출된다.", () => {
     const _comments: Comment[] = JSON.parse(JSON.stringify(comments));
-    const commentList = render(<CommentList comments={_comments} />);
+    const commentList = render(<CommentList comments={_comments} project={undefined} />);
     const $$comments = commentList.container.querySelectorAll("section > div:nth-child(2) > div");
 
     $$comments.forEach(($comment, index) => {
@@ -53,7 +53,7 @@ describe("비로그인 유저 댓글 조회", () => {
 
   test("비로그인 유저인 경우, 모든 댓글들이 왼쪽에 정렬된다", async () => {
     const _comments: Comment[] = JSON.parse(JSON.stringify(comments));
-    const commentList = render(<CommentList comments={_comments} />);
+    const commentList = render(<CommentList comments={_comments} project={undefined} />);
 
     await waitFor(() => {
       const $$comments = commentList.container.querySelectorAll("section > div:nth-child(2) > div");
@@ -138,7 +138,7 @@ describe("비로그인 유저 댓글 수정", () => {
   test("비로그인 유저는 댓글을 수정시, 비밀번호를 입력해야 수정내용 입력란이 활성화 된다.", async () => {
     const _comments: Comment[] = JSON.parse(JSON.stringify(comments));
     const guestUserComments = _comments.filter(comment => comment.user.type === "GuestUser");
-    const commentList = render(<CommentList comments={guestUserComments} />);
+    const commentList = render(<CommentList comments={guestUserComments} project={undefined} />);
 
     const firstThreeDotButton = commentList.getAllByAltText("댓글 옵션")[0];
 
@@ -178,7 +178,7 @@ describe("비로그인 유저 댓글 삭제", () => {
   test("비로그인 유저는 댓글을 수정시, 비밀번호를 입력해야 삭제를 할 수 있다.", async () => {
     const _comments: Comment[] = JSON.parse(JSON.stringify(comments));
     const guestUserComments = _comments.filter(comment => comment.user.type === "GuestUser");
-    const commentList = render(<CommentList comments={guestUserComments} />);
+    const commentList = render(<CommentList comments={guestUserComments} project={undefined} />);
 
     const firstThreeDotButton = commentList.getAllByAltText("댓글 옵션")[0];
 

@@ -38,9 +38,13 @@ const Comment = ({ user, comment, align = "left", shouldShowOption, iAmAdmin, th
   const { editComment } = useEditComment();
   const { deleteComment } = useDeleteComment();
 
-  useEffect(() => {
-    postScrollHeightToParentWindow();
-  }, [shouldShowPasswordInput]);
+  const clear = () => {
+    setEditing(false);
+    setPasswordSubmitted(false);
+    setShouldShowPasswordInput(false);
+    setSubmitType(null);
+    setPassword("");
+  };
 
   const isEditable = (iAmAdmin && thisCommentIsMine) || !iAmAdmin;
 
@@ -53,7 +57,7 @@ const Comment = ({ user, comment, align = "left", shouldShowOption, iAmAdmin, th
         guestUserPassword: password
       });
 
-      setPasswordSubmitted(false);
+      clear();
 
       return true;
     } catch (error) {
@@ -90,7 +94,7 @@ const Comment = ({ user, comment, align = "left", shouldShowOption, iAmAdmin, th
       console.error(error.message);
       alert("댓글 제거에 실패하셨습니다.");
     } finally {
-      setSubmitType(null);
+      clear();
     }
   };
 
@@ -104,8 +108,7 @@ const Comment = ({ user, comment, align = "left", shouldShowOption, iAmAdmin, th
     }
 
     submitPasswordCallback();
-
-    setShouldShowPasswordInput(false);
+    clear();
   };
 
   const submitEditedComment = async (content: CommentType["content"]) => {
@@ -117,7 +120,7 @@ const Comment = ({ user, comment, align = "left", shouldShowOption, iAmAdmin, th
         guestUserPassword: password
       });
 
-      setEditing(false);
+      clear();
     } catch (error) {
       console.error(error.message);
     } finally {
@@ -125,6 +128,14 @@ const Comment = ({ user, comment, align = "left", shouldShowOption, iAmAdmin, th
       setSubmitType(null);
     }
   };
+
+  useEffect(() => {
+    postScrollHeightToParentWindow();
+  }, [shouldShowPasswordInput]);
+
+  useEffect(() => {
+    clear();
+  }, [user]);
 
   return (
     <Container align={align}>
