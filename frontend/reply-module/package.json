@@ -1,6 +1,6 @@
 {
   "name": "reply-module",
-  "version": "^0.1.1",
+  "version": "^0.1.2",
   "description": "댓글 모듈",
   "main": "index.js",
   "author": "도비, 곤이",

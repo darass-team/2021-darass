@@ -61,4 +61,19 @@ const Button = styled.button`
   }
 `;
 
-export { Container, CommentWrapper, CommentTextBoxWrapper, Time, CommentOption, PasswordForm, PasswordInput, Button };
+const CancelButton = styled(Button)`
+  background-color: ${PALETTE.RED_600};
+  margin-right: 0.5rem;
+`;
+
+export {
+  Container,
+  CommentWrapper,
+  CommentTextBoxWrapper,
+  Time,
+  CommentOption,
+  PasswordForm,
+  PasswordInput,
+  Button,
+  CancelButton
+};

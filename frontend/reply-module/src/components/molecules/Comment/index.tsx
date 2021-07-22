@@ -11,6 +11,7 @@ import Avatar from "../../atoms/Avatar";
 import CommentTextBox from "../../atoms/CommentTextBox";
 import {
   Button,
+  CancelButton,
   CommentOption,
   CommentTextBoxWrapper,
   CommentWrapper,
@@ -49,8 +50,6 @@ const Comment = ({ user, comment, align = "left", shouldShowOption, iAmAdmin, th
   };
 
   const canIControl = (iAmAdmin && thisCommentIsMine) || !iAmAdmin;
-
-  const isEditable = (iAmAdmin && thisCommentIsMine) || !iAmAdmin;
 
   const confirmGuestPassword = async () => {
     try {
@@ -180,6 +179,9 @@ const Comment = ({ user, comment, align = "left", shouldShowOption, iAmAdmin, th
               placeholder="댓글 작성 시 입력한 비밀번호 입력"
               isValidInput={!isPasswordSubmitted}
             />
+            <CancelButton type="button" onClick={() => clear()}>
+              취소
+            </CancelButton>
             <Button>입력</Button>
           </PasswordForm>
         )}
