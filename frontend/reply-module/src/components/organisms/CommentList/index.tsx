@@ -1,6 +1,6 @@
 import { Comment as CommentType } from "../../../types";
 import Comment from "../../molecules/Comment";
-import { CommentContainer, Container, OrderButton, OrderButtonContainer, OrderButtonWrapper } from "./styles";
+import { CommentContainer, Container, OrderButton, OrderButtonContainer, OrderButtonWrapper, Notice } from "./styles";
 import { User } from "../../../types/user";
 
 export interface Props {
@@ -20,19 +20,29 @@ const CommentList = ({ className, comments, user }: Props) => {
         </OrderButtonWrapper>
       </OrderButtonContainer>
       <CommentContainer>
-        {comments.map(comment => {
-          const authorId = comment.user.id;
-          const thisCommentIsMine = authorId === user?.id;
-          const iAmGuestUser = !user;
-          const thisCommentIsWrittenByGuest = comment.user.type === "GuestUser";
+        {comments.length === 0 ? (
+          <Notice>아직 작성된 댓글이 없습니다.</Notice>
+        ) : (
+          comments.map(comment => {
+            const authorId = comment.user.id;
+            const thisCommentIsMine = authorId === user?.id;
+            const iAmGuestUser = !user;
+            const thisCommentIsWrittenByGuest = comment.user.type === "GuestUser";
 
-          const align = thisCommentIsMine ? "right" : "left";
-          const shouldShowOption = thisCommentIsMine || (iAmGuestUser && thisCommentIsWrittenByGuest);
+            const align = thisCommentIsMine ? "right" : "left";
+            const shouldShowOption = thisCommentIsMine || (iAmGuestUser && thisCommentIsWrittenByGuest);
 
-          return (
-            <Comment user={user} comment={comment} key={comment.id} shouldShowOption={shouldShowOption} align={align} />
-          );
-        })}
+            return (
+              <Comment
+                user={user}
+                comment={comment}
+                key={comment.id}
+                shouldShowOption={shouldShowOption}
+                align={align}
+              />
+            );
+          })
+        )}
       </CommentContainer>
     </Container>
   );

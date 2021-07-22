@@ -41,4 +41,10 @@ const CommentContainer = styled.div`
   }
 `;
 
-export { Container, OrderButtonContainer, OrderButtonWrapper, OrderButton, CommentContainer };
+const Notice = styled.span`
+  margin: 1.5rem auto;
+  font-size: 1.6rem;
+  text-align: center;
+`;
+
+export { Container, OrderButtonContainer, OrderButtonWrapper, OrderButton, CommentContainer, Notice };
