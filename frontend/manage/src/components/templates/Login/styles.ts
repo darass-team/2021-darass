@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { pageMaxWidth } from "../../../styles/constants";
 import { PALETTE } from "../../../styles/palette";
 import BackIconComponent from "../../atoms/Buttons/BackIcon";
 
@@ -8,8 +7,6 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  max-width: ${pageMaxWidth};
-  margin: 0 auto;
   position: relative;
 `;
 

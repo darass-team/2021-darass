@@ -7,7 +7,10 @@ const ScreenContainer = styled.div<{ bgColor?: PALETTE }>`
   width: 100%;
   background-color: ${[props => (props.bgColor ? props.bgColor : PALETTE.WHITE)]};
   padding: 7rem 2.5rem;
-  overflow: scroll;
+  & > * {
+    max-width: ${pageMaxWidth};
+    margin: 0 auto;
+  }
 `;
 
 export default ScreenContainer;

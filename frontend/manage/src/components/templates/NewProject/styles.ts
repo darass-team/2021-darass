@@ -6,7 +6,6 @@ import SubmitButtonComponent from "../../atoms/SubmitButton";
 
 const Container = styled.div`
   width: fit-content;
-  margin: 0 auto;
   position: relative;
 `;
 
