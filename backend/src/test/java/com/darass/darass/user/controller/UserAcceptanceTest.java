@@ -24,7 +24,7 @@ import com.darass.darass.comment.dto.CommentResponse;
 import com.darass.darass.exception.ExceptionWithMessageAndCode;
 import com.darass.darass.exception.dto.ExceptionResponse;
 import com.darass.darass.project.domain.Project;
-import com.darass.darass.project.domain.RandomSecretKeyFactory;
+import com.darass.darass.project.domain.SecretKeyFactory;
 import com.darass.darass.project.repository.ProjectRepository;
 import com.darass.darass.user.dto.PasswordCheckResponse;
 import com.darass.darass.user.domain.SocialLoginUser;
@@ -212,7 +212,6 @@ public class UserAcceptanceTest extends AcceptanceTest {
     private ResultActions 비로그인_유저_비밀번호_일치여부_조회_요청(String expected, String actual) throws Exception {
         Project project = Project.builder()
             .name("project")
-            .secretKeyFactory(new RandomSecretKeyFactory())
             .user(socialLoginUser)
             .build();
         projectRepository.save(project);

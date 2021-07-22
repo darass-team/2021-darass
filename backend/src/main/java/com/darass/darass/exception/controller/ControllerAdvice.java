@@ -33,12 +33,6 @@ public class ControllerAdvice {
         return new ExceptionResponse(e.getMessage(), e.getCode());
     }
 
-    @ExceptionHandler(ConflictException.class)
-    @ResponseStatus(HttpStatus.CONFLICT)
-    public ExceptionResponse handleConflictException(ConflictException e) {
-        return new ExceptionResponse(e.getMessage(), e.getCode());
-    }
-
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ExceptionResponse handleException(Exception e) {

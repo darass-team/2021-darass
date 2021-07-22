@@ -4,81 +4,178 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
 import com.darass.darass.SpringContainerTest;
+import com.darass.darass.auth.oauth.api.domain.OAuthProviderType;
 import com.darass.darass.exception.ExceptionWithMessageAndCode;
-import com.darass.darass.project.domain.CustomSecretKeyFactory;
 import com.darass.darass.project.domain.Project;
-import com.darass.darass.project.domain.RandomSecretKeyFactory;
 import com.darass.darass.project.dto.ProjectCreateRequest;
 import com.darass.darass.project.dto.ProjectResponse;
 import com.darass.darass.project.repository.ProjectRepository;
-import com.darass.darass.user.domain.GuestUser;
-import com.darass.darass.user.domain.User;
+import com.darass.darass.user.domain.SocialLoginUser;
 import com.darass.darass.user.repository.UserRepository;
-import java.util.Optional;
+import java.util.List;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ActiveProfiles;
 
-@ActiveProfiles("test")
 public class ProjectServiceTest extends SpringContainerTest {
 
     @Autowired
     private ProjectService projectService;
 
     @Autowired
-    private UserRepository users;
+    private UserRepository userRepository;
 
     @Autowired
-    private ProjectRepository projects;
+    private ProjectRepository projectRepository;
 
-    private User user;
+    private SocialLoginUser socialLoginUser;
+
+    private Project project;
 
     @BeforeEach
-    @DisplayName("User 생성")
     public void setUp() {
-        user = GuestUser.builder()
-            .nickName("abc")
-            .password("abc")
+        socialLoginUser = SocialLoginUser.builder()
+            .nickName("우기")
+            .profileImageUrl("http://프로필이미지-url")
+            .userType("socialLoginUser")
+            .email("bbwwpark@naver.com")
+            .oauthProviderType(OAuthProviderType.KAKAO)
+            .oauthId("1234")
             .build();
-        users.save(user);
+        userRepository.save(socialLoginUser);
     }
 
     @Test
-    @DisplayName("Project를 정상적으로 저장하는 지 체크")
+    @DisplayName("유저 id로 유저가 만든 프로젝트 목록을 조회한다. ")
+    public void findByUserId() {
+        //given
+        String jekyllProjectName = "지킬 블로그 프로젝트";
+        String tstoryProjectName = "티스토리 블로그 프로젝트";
+
+        projectService.save(new ProjectCreateRequest(jekyllProjectName), socialLoginUser);
+        projectService.save(new ProjectCreateRequest(tstoryProjectName), socialLoginUser);
+
+        //when
+        List<ProjectResponse> projectResponses = projectService.findByUserId(socialLoginUser.getId());
+
+        //then
+        assertThat(projectResponses.size()).isEqualTo(2);
+        assertThat(projectResponses.get(0).getName()).isEqualTo(jekyllProjectName);
+        assertThat(projectResponses.get(1).getName()).isEqualTo(tstoryProjectName);
+    }
+
+    @Test
+    @DisplayName("프로젝트 id와 유저 id로 유저가 만든 프로젝트 목록을 조회한다.")
+    public void findByIdAndUserId() {
+        //given
+        String jekyllProjectName = "지킬 블로그 프로젝트";
+        String tstoryProjectName = "티스토리 블로그 프로젝트";
+
+        projectService.save(new ProjectCreateRequest(jekyllProjectName), socialLoginUser);
+        projectService.save(new ProjectCreateRequest(tstoryProjectName), socialLoginUser);
+        Project jekyllProject = findFirstSavedProject();
+
+        //when
+        ProjectResponse projectResponse = projectService.findByIdAndUserId(jekyllProject.getId(), socialLoginUser.getId());
+
+        //then
+        assertThat(projectResponse.getName()).isEqualTo(jekyllProjectName);
+    }
+
+    @Test
+    @DisplayName("프로젝트가 존재하지 않는 경우 예외를 던진다.(findByIdAndUserId)")
+    public void findByIdAndUserId_exception() {
+        assertThatThrownBy(() -> {
+            projectService.findByIdAndUserId(100L, socialLoginUser.getId());
+        }).isEqualTo(ExceptionWithMessageAndCode.NOT_FOUND_PROJECT.getException());
+    }
+
+    @Test
+    @DisplayName("프로젝트 시크릿키로 프로젝트를 생성한 유저 id를 조회한다.")
+    public void findUserIdBySecretKey() {
+        //given
+        String jekyllProjectName = "지킬 블로그 프로젝트";
+        String tstoryProjectName = "티스토리 블로그 프로젝트";
+
+        projectService.save(new ProjectCreateRequest(jekyllProjectName), socialLoginUser);
+        projectService.save(new ProjectCreateRequest(tstoryProjectName), socialLoginUser);
+        Project jekyllProject = findFirstSavedProject();
+        String secretKey = jekyllProject.getSecretKey();
+
+        //when
+        ProjectResponse projectResponse = projectService.findUserIdBySecretKey(secretKey);
+
+        //then
+        assertThat(projectResponse.getUserId()).isEqualTo(socialLoginUser.getId());
+    }
+
+    @Test
+    @DisplayName("프로젝트가 존재하지 않는 경우 예외를 던진다.(findUserIdBySecretKey)")
+    public void findUserIdBySecretKey_exception() {
+        assertThatThrownBy(() -> {
+            projectService.findUserIdBySecretKey("invalidSecretKey");
+        }).isEqualTo(ExceptionWithMessageAndCode.NOT_FOUND_PROJECT.getException());
+    }
+
+    @Test
+    @DisplayName("프로젝트 이름과 유저 id로 프로젝트를 생성한다.")
     public void save_success() {
+        //given
+        String projectName = "지킬 블로그 프로젝트";
 
-        String projectName = "AAA";
-        String secretKey = "aaaa";
-        ProjectResponse savedProject = projectService
-            .save(new ProjectCreateRequest(projectName), user, new CustomSecretKeyFactory(secretKey));
-        Optional<Project> foundProject = projects
-            .findByIdAndUserId(savedProject.getId(), user.getId());
+        //when
+        projectService.save(new ProjectCreateRequest(projectName), socialLoginUser);
 
-        assertThat(foundProject.isPresent()).isTrue();
-        Project project = foundProject.get();
+        //then
+        Project project = findFirstSavedProject();
         assertThat(project.getName()).isEqualTo(projectName);
-        assertThat(project.getSecretKey()).isEqualTo(secretKey);
+        assertThat(project.getUser().getId()).isEqualTo(socialLoginUser.getId());
     }
 
     @Test
-    @DisplayName("중복된 Secret Key를 발급했을 때, 예외를 터뜨리는 지 체크")
-    public void save_validateDuplicateSecretKey() {
-        projectService.save(new ProjectCreateRequest("A 프로젝트"), user, new CustomSecretKeyFactory("abcd"));
-
-        assertThatThrownBy(() -> {
-            projectService.save(new ProjectCreateRequest("B 프로젝트"), user, new CustomSecretKeyFactory("abcd"));
-        }).isEqualTo(ExceptionWithMessageAndCode.DUPLICATE_PROJECT_SECRET_KEY.getException());
-    }
-
-    @Test
-    @DisplayName("중복된 프로젝트 이름으로 생성했을 때, 예외를 터뜨리는 지 체크")
+    @DisplayName("프로젝트 이름이 중복될 경우 예외를 던진다.")
     public void save_validateDuplicateProjectName() {
-        projectService.save(new ProjectCreateRequest("A프로젝트"), user, new RandomSecretKeyFactory());
+        String projectName = "지킬 블로그 프로젝트";
+        projectService.save(new ProjectCreateRequest(projectName), socialLoginUser);
 
         assertThatThrownBy(() -> {
-            projectService.save(new ProjectCreateRequest("A프로젝트"), user, new RandomSecretKeyFactory());
+            projectService.save(new ProjectCreateRequest(projectName), socialLoginUser);
         }).isEqualTo(ExceptionWithMessageAndCode.DUPLICATE_PROJECT_NAME.getException());
+    }
+
+    @Test
+    @DisplayName("프로젝트 id와 유저 id로 프로젝트를 삭제한다.")
+    public void deleteByIdAndUserId_success() {
+        project = Project.builder()
+            .user(socialLoginUser)
+            .name("깃헙 지킬 블로그")
+            .build();
+
+        projectRepository.save(project);
+        projectService.deleteByIdAndUserId(project.getId(), socialLoginUser.getId());
+
+        assertThat(projectRepository.findAll()).isEmpty();
+    }
+
+    @Test
+    @DisplayName("존재하지 않는 프로젝트 id 또는 존재하지 않는 유저 id로 프로젝트를 삭제하면, 예외를 던진다.")
+    public void deleteByIdAndUserId_fail() {
+        project = Project.builder()
+            .id(1L)
+            .user(socialLoginUser)
+            .name("깃헙 지킬 블로그")
+            .build();
+
+        projectRepository.save(project);
+
+        Assertions.assertThrows(ExceptionWithMessageAndCode.NOT_FOUND_PROJECT.getException().getClass(),
+            () -> projectService.deleteByIdAndUserId(100L, 100L));
+    }
+
+    private Project findFirstSavedProject() {
+        List<Project> projects = projectRepository.findByUserId(socialLoginUser.getId());
+        return projects.get(0);
     }
 }

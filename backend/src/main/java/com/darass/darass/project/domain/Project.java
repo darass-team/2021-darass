@@ -2,6 +2,7 @@ package com.darass.darass.project.domain;
 
 import com.darass.darass.common.domain.BaseTimeEntity;
 import com.darass.darass.user.domain.User;
+import java.util.AbstractCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -12,10 +13,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
+import lombok.ToString;
 
 @NoArgsConstructor
 @Getter
@@ -39,15 +41,17 @@ public class Project extends BaseTimeEntity {
 
     private String secretKey;
 
-    @Transient
-    private SecretKeyFactory secretKeyFactory;
-
     @Builder
-    public Project(User user, String name, SecretKeyFactory secretKeyFactory) {
+    public Project(Long id, User user, String name) {
+        this.id = id;
         this.user = user;
         this.name = name;
-        this.secretKeyFactory = secretKeyFactory;
-        this.secretKey = secretKeyFactory.createSecretKey();
+        this.secretKey = generateSecretKey();
+    }
+
+    private String generateSecretKey(){
+        SecretKeyFactory secretKeyFactory = new SecretKeyFactory();
+        return secretKeyFactory.createSecretKey(String.valueOf(user.getId()));
     }
 
     public boolean isSame(String secretKey) {
