@@ -34,7 +34,7 @@ const CommentArea = ({ user, comments = [], onLogin, onLogout, projectSecretKey,
         </UserAvatarOption>
       </Header>
       <CommentInput url={url} projectSecretKey={projectSecretKey} user={user} />
-      <CommentList user={user} comments={comments} />
+      {comments.length > 0 && <CommentList user={user} comments={comments} />}
     </Container>
   );
 };
