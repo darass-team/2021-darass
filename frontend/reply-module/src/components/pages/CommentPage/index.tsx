@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useGetAllComments, useUser } from "../../../hooks";
+import { useGetAllComments, useProject, useUser } from "../../../hooks";
 import { postScrollHeightToParentWindow } from "../../../utils/iframePostMessage";
 import CommentArea from "../../templates/CommentArea";
 
@@ -7,10 +7,12 @@ const CommentPage = () => {
   const urlParams = new URLSearchParams(window.location.search);
 
   const url = urlParams.get("url");
-  const projectKey = urlParams.get("projectKey");
+  const projectSecretKey = urlParams.get("projectKey");
 
   const { user, login, logout } = useUser();
-  const { comments } = useGetAllComments({ url, projectKey });
+  const { comments } = useGetAllComments({ url, projectSecretKey });
+
+  const { project } = useProject({ projectSecretKey });
 
   useEffect(() => {
     postScrollHeightToParentWindow();
@@ -23,7 +25,8 @@ const CommentPage = () => {
       onLogin={login}
       onLogout={logout}
       url={url}
-      projectSecretKey={projectKey}
+      projectSecretKey={projectSecretKey}
+      project={project}
     />
   );
 };

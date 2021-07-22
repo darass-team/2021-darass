@@ -23,22 +23,26 @@ export interface Props {
   comment: CommentType;
   align?: "left" | "right";
   shouldShowOption?: boolean;
+  iAmAdmin: boolean;
+  thisCommentIsMine: boolean;
 }
 
 type SubmitType = "Edit" | "Delete";
 
-const Comment = ({ user, comment, align = "left", shouldShowOption }: Props) => {
+const Comment = ({ user, comment, align = "left", shouldShowOption, iAmAdmin, thisCommentIsMine }: Props) => {
   const [isEditing, setEditing] = useState(false);
+  const [isPasswordSubmitted, setPasswordSubmitted] = useState(false);
   const [shouldShowPasswordInput, setShouldShowPasswordInput] = useState(false);
   const [submitType, setSubmitType] = useState<SubmitType | null>();
   const { value: password, setValue: setPassword, onChange: onChangePassword } = useInput("");
-  const [isPasswordSubmitted, setPasswordSubmitted] = useState(false);
   const { editComment } = useEditComment();
   const { deleteComment } = useDeleteComment();
 
   useEffect(() => {
     postScrollHeightToParentWindow();
   }, [shouldShowPasswordInput]);
+
+  const isEditable = (iAmAdmin && thisCommentIsMine) || !iAmAdmin;
 
   const confirmGuestPassword = async () => {
     try {
@@ -138,7 +142,7 @@ const Comment = ({ user, comment, align = "left", shouldShowOption }: Props) => 
 
             <Time>{getTimeDifference(comment.createdDate)}</Time>
             {shouldShowOption && !submitType && (
-              <CommentOption startEditing={startEditing} startDeleting={startDeleting} />
+              <CommentOption startEditing={isEditable ? startEditing : undefined} startDeleting={startDeleting} />
             )}
           </CommentTextBoxWrapper>
         </CommentWrapper>

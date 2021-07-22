@@ -5,6 +5,7 @@ import CommentInput from "../../organisms/CommentInput";
 import { Container, Header, CommentCount, CommentCountWrapper, CommentList } from "./styles";
 import kakaoTalkIcon from "../../../assets/png/kakaotalk.png";
 import Avatar from "../../atoms/Avatar";
+import { Project } from "../../../types/project";
 
 export interface Props {
   user: User | undefined;
@@ -13,9 +14,10 @@ export interface Props {
   onLogout: () => void;
   url: string | null;
   projectSecretKey: string | null;
+  project: Project | undefined;
 }
 
-const CommentArea = ({ user, comments = [], onLogin, onLogout, projectSecretKey, url }: Props) => {
+const CommentArea = ({ user, comments = [], onLogin, onLogout, projectSecretKey, url, project }: Props) => {
   return (
     <Container>
       <Header>
@@ -34,7 +36,7 @@ const CommentArea = ({ user, comments = [], onLogin, onLogout, projectSecretKey,
         </UserAvatarOption>
       </Header>
       <CommentInput url={url} projectSecretKey={projectSecretKey} user={user} />
-      <CommentList user={user} comments={comments} />
+      <CommentList user={user} comments={comments} project={project} />
     </Container>
   );
 };

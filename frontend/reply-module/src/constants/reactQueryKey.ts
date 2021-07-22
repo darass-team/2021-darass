@@ -1,6 +1,7 @@
 const REACT_QUERY_KEY = {
   USER: "user",
-  COMMENT: "comment"
+  COMMENT: "comment",
+  PROJECT: "project"
 };
 
 export { REACT_QUERY_KEY };

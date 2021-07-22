@@ -17,9 +17,11 @@ const OptionContainer = styled.div`
 
 const EditButton = styled.button`
   color: ${PALETTE.BLACK_700};
+  background: transparent;
 `;
 const DeleteButton = styled.button`
   color: ${PALETTE.RED_600};
+  background: transparent;
 `;
 
 export { Container, OptionIcon, OptionContainer, EditButton, DeleteButton };
