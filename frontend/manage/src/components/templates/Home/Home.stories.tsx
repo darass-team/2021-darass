@@ -1,5 +1,5 @@
 import { Story } from "@storybook/react";
-import Home from ".";
+import Home, { Props } from ".";
 
 export default {
   title: "templates/Home",
@@ -7,7 +7,7 @@ export default {
   argTypes: {}
 };
 
-const Template: Story = args => <Home {...args} />;
+const Template: Story<Props> = args => <Home {...args} />;
 
 export const Default = Template.bind({});
 

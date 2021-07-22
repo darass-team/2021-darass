@@ -1,20 +1,25 @@
 import { DOMAIN } from "./domain";
 
+interface BlogGuideInfo {
+  name: string;
+  logoURL: string;
+  iframeSrc: string;
+}
+
 interface GuideFile {
-  [blogName: string]: {
-    logoURL: string;
-    iframeSrc: string;
-  };
+  [blogName: string]: BlogGuideInfo;
 }
 
 const GUIDE_FILE: GuideFile = {
-  UNIVERSAL: {
-    logoURL: `${DOMAIN}/png/universal.png`,
-    iframeSrc: `${DOMAIN}/script-guide/universal.pdf`
-  },
   TISTORY: {
+    name: "티스토리",
     logoURL: `${DOMAIN}/png/tistory.png`,
     iframeSrc: `${DOMAIN}/script-guide/tistory.pdf`
+  },
+  UNIVERSAL: {
+    name: "기타",
+    logoURL: `${DOMAIN}/png/universal.png`,
+    iframeSrc: `${DOMAIN}/script-guide/universal.pdf`
   }
 };
 
