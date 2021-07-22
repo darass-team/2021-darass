@@ -1,7 +1,8 @@
 import { useState } from "react";
+import { useHistory } from "react-router-dom";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import { xcode } from "react-syntax-highlighter/dist/esm/styles/hljs";
-import { GUIDE_FILE } from "../../../constants";
+import { GUIDE_FILE, ROUTE } from "../../../constants";
 import { useCopyButton } from "../../../hooks";
 import ScreenContainer from "../../../styles/ScreenContainer";
 import {
@@ -15,7 +16,8 @@ import {
   Section,
   Title,
   BlogLogoWrapper,
-  BlogLogo
+  BlogLogo,
+  BackIcon
 } from "./styles";
 
 const scriptCode = (projectSecretKey: string) => `
@@ -45,10 +47,16 @@ const ScriptPublishing = ({ projectSecretKey }: Props) => {
   const [selectedBlogInfo, setSelectedBlogInfo] = useState(GUIDE_FILE.UNIVERSAL);
   const { isCopyButtonClicked, onCopy } = useCopyButton();
   const script = scriptCode(projectSecretKey || "코드를 불러오는 중입니다...");
+  const history = useHistory();
 
   return (
     <ScreenContainer>
       <Container>
+        <BackIcon
+          onClick={() => {
+            history.replace(ROUTE.MY_PROJECT);
+          }}
+        />
         <Section>
           <Title>스크립트</Title>
           <CodeBlockWrapper>
