@@ -91,7 +91,7 @@ bootJar {
 
 jacoco {
 // jaCoCo 버전
-    toolVersion = '0.8.5'
+    toolVersion = '0.8.7'
 
     // 테스트 결과 리포트 파일 저장 경로
     reportsDir = file("$buildDir/customJacocoReportDir")
