@@ -1,36 +1,27 @@
-import styled from "styled-components";
-import BackIconComponent from "../../atoms/Buttons/BackIcon";
+import styled, { css } from "styled-components";
 import { PALETTE } from "./../../../styles/palette";
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
   position: relative;
 `;
 
-const BackIcon = styled(BackIconComponent)`
-  top: -4rem;
-  left: 0;
-`;
-
 const Section = styled.section`
   margin-bottom: 6rem;
-  width: 100%;
 `;
 
 const Title = styled.h2`
   font-size: 2.4rem;
   font-weight: 800;
-  margin-bottom: 2rem;
+  margin-bottom: 4rem;
   align-self: flex-start;
 `;
 
 const CodeBlockWrapper = styled.div`
-  border: 1px solid ${PALETTE.BLACK_700};
   border-radius: 10px;
-  padding: 0 2rem;
+  padding: 0;
   position: relative;
   box-sizing: border-box;
 `;
@@ -52,51 +43,28 @@ const CopyButton = styled.button`
   transform: scale(0.8);
 `;
 
-const Content = styled.div`
-  margin-top: 5rem;
-`;
-
 const BlogLogoWrapper = styled.div`
+  margin-top: 3em;
   display: flex;
   & > * {
-    margin: 0 1rem;
+    margin: 0 2rem;
   }
 `;
 
-const BlogLogo = styled.img`
-  width: 10rem;
-  height: 10rem;
-  border-radius: 50%;
-  object-fit: contain;
-  cursor: pointer;
-  border: 1px solid ${PALETTE.BLACK_700};
-`;
-
-const B = styled.b`
+const SubTitle = styled.h3`
   font-size: 2rem;
   word-break: keep-all;
+  margin-bottom: 1rem;
 `;
 
 const P = styled.p`
   font-size: 1.4rem;
   word-break: keep-all;
+  margin-bottom: 1rem;
 `;
 
 const Ol = styled.ol`
   font-size: 1.4rem;
 `;
 
-export {
-  Container,
-  Section,
-  Title,
-  CodeBlockWrapper,
-  Content,
-  BlogLogoWrapper,
-  BlogLogo,
-  B,
-  P,
-  Ol,
-  CopyButton,
-  BackIcon
-};
+export { Container, Section, Title, CodeBlockWrapper, BlogLogoWrapper, SubTitle, P, Ol, CopyButton };

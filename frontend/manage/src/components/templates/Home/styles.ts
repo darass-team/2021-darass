@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { pageMaxWidth } from "../../../styles/constants";
 import { PALETTE } from "../../../styles/palette";
 
 const Container = styled.div`
@@ -7,8 +6,6 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  max-width: ${pageMaxWidth};
-  margin: 0 auto;
 `;
 
 const Introduction = styled.h2`
@@ -19,11 +16,11 @@ const Introduction = styled.h2`
 `;
 
 const Button = styled.button`
-  width: 225px;
-  height: 75px;
+  width: 18rem;
+  height: 6rem;
   background: ${PALETTE.TERTIARY};
   border: none;
-  border-radius: 40px;
+  border-radius: 4rem;
   font-weight: 800;
   font-size: 2.5rem;
   color: ${PALETTE.BLACK_700};

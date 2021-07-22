@@ -1,9 +1,7 @@
 import ScreenContainer from "../../../styles/ScreenContainer";
 import { Project } from "../../../types/project";
 import ProjectButton from "../../atoms/Buttons/ProjectButton";
-import { AddProjectButton, ButtonWrapper, Container, Title, BackIcon } from "./styles";
-import { useHistory } from "react-router-dom";
-import { ROUTE } from "../../../constants";
+import { AddProjectButton, ButtonWrapper, Container, Title } from "./styles";
 
 export interface Props {
   projects: Project[] | undefined;
@@ -12,12 +10,9 @@ export interface Props {
 }
 
 const MyProject = ({ projects, moveNewProjectPage, moveProjectDetailPage }: Props) => {
-  const history = useHistory();
-
   return (
     <ScreenContainer>
       <Container>
-        <BackIcon onClick={() => history.replace(ROUTE.HOME)} />
         <Title>내 프로젝트</Title>
         <ButtonWrapper>
           <AddProjectButton onClick={moveNewProjectPage}>새로운 프로젝트 만들기</AddProjectButton>
