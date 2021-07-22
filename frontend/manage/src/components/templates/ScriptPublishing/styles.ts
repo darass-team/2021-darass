@@ -51,9 +51,10 @@ const Content = styled.div`
 `;
 
 const BlogLogoWrapper = styled.div`
+  margin-top: 1em;
   display: flex;
   & > * {
-    margin: 0 1rem;
+    margin: 0 2rem;
   }
 `;
 
@@ -66,18 +67,20 @@ const BlogLogo = styled.img`
   border: 1px solid ${PALETTE.BLACK_700};
 `;
 
-const B = styled.b`
+const SubTitle = styled.h3`
   font-size: 2rem;
   word-break: keep-all;
+  margin-bottom: 1rem;
 `;
 
 const P = styled.p`
   font-size: 1.4rem;
   word-break: keep-all;
+  margin-bottom: 1rem;
 `;
 
 const Ol = styled.ol`
   font-size: 1.4rem;
 `;
 
-export { Container, Section, Title, CodeBlockWrapper, Content, BlogLogoWrapper, BlogLogo, B, P, Ol, CopyButton };
+export { Container, Section, Title, CodeBlockWrapper, Content, BlogLogoWrapper, BlogLogo, SubTitle, P, Ol, CopyButton };

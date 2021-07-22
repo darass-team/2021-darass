@@ -8,3 +8,5 @@ declare module "*.pdf";
 declare interface Window {
   Kakao: any;
 }
+
+declare type ObjectValueType<T> = T[keyof T];

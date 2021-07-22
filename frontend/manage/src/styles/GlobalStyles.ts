@@ -24,6 +24,9 @@ const GlobalStyles = createGlobalStyle`
           overflow: scroll;
         }
       }
+      p {
+        margin: 0;
+      }
       ul {
         list-style: none;
         margin: 0;
