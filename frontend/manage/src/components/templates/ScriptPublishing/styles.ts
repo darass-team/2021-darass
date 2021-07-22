@@ -20,9 +20,8 @@ const Title = styled.h2`
 `;
 
 const CodeBlockWrapper = styled.div`
-  border: 1px solid ${PALETTE.BLACK_700};
   border-radius: 10px;
-  padding: 0 2rem;
+  padding: 0;
   position: relative;
   box-sizing: border-box;
 `;

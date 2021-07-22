@@ -1,6 +1,6 @@
 import { useState } from "react";
 import SyntaxHighlighter from "react-syntax-highlighter";
-import { xcode } from "react-syntax-highlighter/dist/esm/styles/hljs";
+import { atomOneDark } from "react-syntax-highlighter/dist/esm/styles/hljs";
 import { GUIDE_FILE } from "../../../constants";
 import { useCopyButton } from "../../../hooks";
 import ScreenContainer from "../../../styles/ScreenContainer";
@@ -85,7 +85,20 @@ const ScriptPublishing = ({ projectSecretKey }: Props) => {
                 <CopyButton type="button" onClick={() => onCopy(script)}>
                   {isCopyButtonClicked ? "Copied !" : "Copy"}
                 </CopyButton>
-                <SyntaxHighlighter language="javascript" style={xcode}>
+                <SyntaxHighlighter
+                  customStyle={{
+                    margin: "0",
+                    borderRadius: "10px",
+                    padding: "1rem 2rem"
+                  }}
+                  codeTagProps={{
+                    style: {
+                      fontFamily: "Hack, monospace"
+                    }
+                  }}
+                  language="javascript"
+                  style={atomOneDark}
+                >
                   {script}
                 </SyntaxHighlighter>
               </CodeBlockWrapper>
