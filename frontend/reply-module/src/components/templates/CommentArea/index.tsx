@@ -3,6 +3,8 @@ import { User } from "../../../types/user";
 import UserAvatarOption from "../../molecules/UserAvatarOption";
 import CommentInput from "../../organisms/CommentInput";
 import { Container, Header, CommentCount, CommentCountWrapper, CommentList } from "./styles";
+import kakaoTalkIcon from "../../../assets/png/kakaotalk.png";
+import Avatar from "../../atoms/Avatar";
 
 export interface Props {
   user: User | undefined;
@@ -27,9 +29,7 @@ const CommentArea = ({ user, comments = [], onLogin, onLogout, projectSecretKey,
               로그아웃
             </button>
           ) : (
-            <button type="button" onClick={onLogin}>
-              카카오로 로그인
-            </button>
+            <Avatar onClick={onLogin} size="SM" imageURL={kakaoTalkIcon} alt="카카오톡 로그인 이미지" />
           )}
         </UserAvatarOption>
       </Header>
