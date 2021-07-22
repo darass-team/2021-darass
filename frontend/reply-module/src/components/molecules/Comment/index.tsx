@@ -1,22 +1,24 @@
 import { FormEvent, useEffect, useState } from "react";
+import { QUERY } from "../../../constants/api";
 import { useDeleteComment, useEditComment, useInput } from "../../../hooks";
 import { Comment as CommentType } from "../../../types";
+import { DeleteCommentRequestParameter } from "../../../types/comment";
+import { User } from "../../../types/user";
+import { postScrollHeightToParentWindow } from "../../../utils/iframePostMessage";
+import { request } from "../../../utils/request";
 import { getTimeDifference } from "../../../utils/time";
 import Avatar from "../../atoms/Avatar";
 import CommentTextBox from "../../atoms/CommentTextBox";
 import {
-  Container,
-  CommentWrapper,
-  CommentTextBoxWrapper,
-  Time,
+  Button,
   CommentOption,
+  CommentTextBoxWrapper,
+  CommentWrapper,
+  Container,
   PasswordForm,
   PasswordInput,
-  Button
+  Time
 } from "./styles";
-import { User } from "../../../types/user";
-import { DeleteCommentRequestParameter } from "../../../types/comment";
-import { postScrollHeightToParentWindow } from "../../../utils/iframePostMessage";
 
 export interface Props {
   user: User | undefined;
@@ -46,22 +48,26 @@ const Comment = ({ user, comment, align = "left", shouldShowOption, iAmAdmin, th
     setPassword("");
   };
 
-  const isEditable = (iAmAdmin && thisCommentIsMine) || !iAmAdmin;
+  const canIControl = (iAmAdmin && thisCommentIsMine) || !iAmAdmin;
 
   const isEditable = (iAmAdmin && thisCommentIsMine) || !iAmAdmin;
 
   const confirmGuestPassword = async () => {
     try {
-      await editComment({
-        id: comment.id,
-        content: comment.content,
-        guestUserId: comment.user.id,
-        guestUserPassword: password
-      });
+      const response = await request.get(
+        QUERY.CHECK_GUEST_PASSWORD({
+          guestUserId: comment.user.id,
+          guestUserPassword: password
+        })
+      );
 
-      clear();
+      if (response.status >= 400) {
+        throw new Error(response.data.message);
+      }
 
-      return true;
+      const { isCorrectPassword } = response.data;
+
+      return isCorrectPassword;
     } catch (error) {
       console.error(error.message);
       setPasswordSubmitted(true);
@@ -110,7 +116,7 @@ const Comment = ({ user, comment, align = "left", shouldShowOption, iAmAdmin, th
     }
 
     submitPasswordCallback();
-    clear();
+    setShouldShowPasswordInput(false);
   };
 
   const submitEditedComment = async (content: CommentType["content"]) => {
@@ -155,7 +161,7 @@ const Comment = ({ user, comment, align = "left", shouldShowOption, iAmAdmin, th
 
             <Time>{getTimeDifference(comment.createdDate)}</Time>
             {shouldShowOption && !submitType && (
-              <CommentOption startEditing={isEditable ? startEditing : undefined} startDeleting={startDeleting} />
+              <CommentOption startEditing={canIControl ? startEditing : undefined} startDeleting={startDeleting} />
             )}
           </CommentTextBoxWrapper>
         </CommentWrapper>
