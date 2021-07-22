@@ -16,10 +16,13 @@ const Introduction = styled.h2`
   color: ${PALETTE.WHITE};
   font-weight: 800;
   text-align: center;
+  margin-top: 2rem;
+  z-index: 1;
 `;
 
 const Button = styled.button`
-  width: 225px;
+  width: fit-content;
+  padding: 1rem 2rem;
   height: 75px;
   background: ${PALETTE.TERTIARY};
   border: none;

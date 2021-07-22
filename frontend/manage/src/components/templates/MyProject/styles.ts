@@ -6,7 +6,6 @@ import BackIconComponent from "../../atoms/Buttons/BackIcon";
 const Container = styled.div`
   width: fit-content;
   margin: 0 auto;
-  position: relative;
 `;
 
 const BackIcon = styled(BackIconComponent)`

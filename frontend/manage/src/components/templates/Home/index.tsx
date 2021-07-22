@@ -12,7 +12,7 @@ const Home = ({ moveLoginPage }: Props) => {
     <ScreenContainer bgColor={PALETTE.PRIMARY}>
       <Container>
         <h1>
-          <Logo size="LG" />
+          <Logo size="XL" />
         </h1>
         <Introduction>
           댓글 다라쓰,
