@@ -142,7 +142,7 @@ const Comment = ({ user, comment, align = "left", shouldShowOption }: Props) => 
             )}
           </CommentTextBoxWrapper>
         </CommentWrapper>
-        {shouldShowPasswordInput && (
+        {shouldShowPasswordInput && shouldShowOption && (
           <PasswordForm
             onSubmit={event => {
               const submitPasswordCallback = submitType === "Edit" ? () => setEditing(true) : confirmDelete;
