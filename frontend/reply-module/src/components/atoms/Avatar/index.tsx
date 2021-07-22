@@ -7,10 +7,11 @@ export interface Props {
   imageURL?: string;
   onClick?: () => void;
   size?: Size;
+  alt?: string;
 }
 
-const Avatar = ({ imageURL, size = "MD", onClick }: Props) => {
-  return <Container src={imageURL || defaultUserImage} size={size} onClick={onClick} />;
+const Avatar = ({ imageURL, size = "MD", onClick, alt }: Props) => {
+  return <Container src={imageURL || defaultUserImage} size={size} onClick={onClick} alt={alt} />;
 };
 
 export default Avatar;

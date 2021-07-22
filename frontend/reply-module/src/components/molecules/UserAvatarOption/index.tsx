@@ -22,7 +22,7 @@ const UserAvatarOption = ({ user, children }: Props) => {
   return (
     <Container>
       <UserNickName onClick={onShowOptionBox}>{user?.nickName ?? "로그인"}</UserNickName>
-      <Avatar imageURL={user?.profileImageUrl} onClick={onShowOptionBox} />
+      <Avatar imageURL={user?.profileImageUrl} onClick={onShowOptionBox} alt="유저 프로필 이미지" />
       {isShowOptionBox && <UserOption userName={user?.nickName || "Login With"}>{children}</UserOption>}
     </Container>
   );
