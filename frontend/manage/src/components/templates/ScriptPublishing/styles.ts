@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import BackIconComponent from "../../atoms/Buttons/BackIcon";
 import { PALETTE } from "./../../../styles/palette";
 
 const Container = styled.div`
@@ -8,11 +7,6 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
   position: relative;
-`;
-
-const BackIcon = styled(BackIconComponent)`
-  top: -4rem;
-  left: 0;
 `;
 
 const Section = styled.section`
@@ -86,17 +80,4 @@ const Ol = styled.ol`
   font-size: 1.4rem;
 `;
 
-export {
-  Container,
-  Section,
-  Title,
-  CodeBlockWrapper,
-  Content,
-  BlogLogoWrapper,
-  BlogLogo,
-  B,
-  P,
-  Ol,
-  CopyButton,
-  BackIcon
-};
+export { Container, Section, Title, CodeBlockWrapper, Content, BlogLogoWrapper, BlogLogo, B, P, Ol, CopyButton };

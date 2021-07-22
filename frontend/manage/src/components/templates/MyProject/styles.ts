@@ -1,16 +1,10 @@
 import { PALETTE } from "./../../../styles/palette";
 import styled from "styled-components";
 import ProjectButton from "../../atoms/Buttons/ProjectButton";
-import BackIconComponent from "../../atoms/Buttons/BackIcon";
 
 const Container = styled.div`
   width: fit-content;
   position: relative;
-`;
-
-const BackIcon = styled(BackIconComponent)`
-  top: -4rem;
-  left: 0;
 `;
 
 const Title = styled.h2`
@@ -35,4 +29,4 @@ const AddProjectButton = styled(ProjectButton)`
   border: none;
 `;
 
-export { Container, ButtonWrapper, AddProjectButton, Title, BackIcon };
+export { Container, ButtonWrapper, AddProjectButton, Title };

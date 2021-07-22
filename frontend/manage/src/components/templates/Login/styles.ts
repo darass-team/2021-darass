@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import { PALETTE } from "../../../styles/palette";
-import BackIconComponent from "../../atoms/Buttons/BackIcon";
 
 const Container = styled.div`
   display: flex;
@@ -8,11 +7,6 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   position: relative;
-`;
-
-const BackIcon = styled(BackIconComponent)`
-  top: -4rem;
-  left: 0;
 `;
 
 const Introduction = styled.h2`
@@ -46,4 +40,4 @@ const Button = styled.button`
   }
 `;
 
-export { Container, Introduction, Button, BackIcon };
+export { Container, Introduction, Button };
