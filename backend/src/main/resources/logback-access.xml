@@ -2,9 +2,7 @@
   <springProfile name="prod">
     <appender class="ch.qos.logback.core.rolling.RollingFileAppender" name="fileAppender">
       <encoder>
-        <pattern>
-          %n###### HTTP Request ######%n%fullRequest%n###### HTTP Response ######%n%fullResponse%n%n
-        </pattern>
+        <pattern>[%date{yyyy-MM-dd HH:mm:ss}] %requestURL - %statusCode - %remoteIP - %header{Referer} - %header{User-Agent}</pattern>
       </encoder>
 
       <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
