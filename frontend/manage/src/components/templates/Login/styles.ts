@@ -8,6 +8,7 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   max-width: ${pageMaxWidth};
+  margin: 0 auto;
 `;
 
 const Introduction = styled.h2`
@@ -28,7 +29,7 @@ const Button = styled.button`
   border: none;
   border-radius: 10px;
   font-weight: 700;
-  font-size: 1.8rem;
+  font-size: 20px;
   color: ${PALETTE.BLACK_700};
   margin-top: 8.8rem;
 

@@ -8,6 +8,7 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   max-width: ${pageMaxWidth};
+  margin: 0 auto;
 `;
 
 const Introduction = styled.h2`

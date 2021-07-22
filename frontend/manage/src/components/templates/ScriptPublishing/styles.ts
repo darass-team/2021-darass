@@ -1,15 +1,17 @@
 import { PALETTE } from "./../../../styles/palette";
 import styled from "styled-components";
+import { pageMaxWidth } from "../../../styles/constants";
 
 const Container = styled.div`
-  width: fit-content;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
 `;
 
 const Section = styled.section`
   margin-bottom: 6rem;
+  width: 100%;
 `;
 
 const Title = styled.h2`
@@ -24,14 +26,15 @@ const CodeBlockWrapper = styled.div`
   border-radius: 10px;
   padding: 0 2rem;
   position: relative;
+  box-sizing: border-box;
 `;
 
 const CopyButton = styled.button`
   position: absolute;
-  right: 1rem;
-  top: 2rem;
+  right: 0.5rem;
+  top: 1rem;
 
-  min-width: 10rem;
+  min-width: fit-content;
   width: fit-content;
   height: 3.6rem;
   background-color: ${PALETTE.SECONDARY};
