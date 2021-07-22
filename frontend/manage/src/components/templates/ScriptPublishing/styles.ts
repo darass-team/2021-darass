@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import BackIconComponent from "../../atoms/Buttons/BackIcon";
 import { PALETTE } from "./../../../styles/palette";
+import { pageMaxWidth } from "../../../styles/constants";
 
 const Container = styled.div`
   display: flex;
