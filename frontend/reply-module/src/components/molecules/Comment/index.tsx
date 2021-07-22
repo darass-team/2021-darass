@@ -48,6 +48,8 @@ const Comment = ({ user, comment, align = "left", shouldShowOption, iAmAdmin, th
 
   const isEditable = (iAmAdmin && thisCommentIsMine) || !iAmAdmin;
 
+  const isEditable = (iAmAdmin && thisCommentIsMine) || !iAmAdmin;
+
   const confirmGuestPassword = async () => {
     try {
       await editComment({
