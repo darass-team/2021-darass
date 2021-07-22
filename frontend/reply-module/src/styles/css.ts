@@ -39,16 +39,15 @@ const SpeechBubbleCSS = css`
     background-color: ${PALETTE.WHITE};
     font-weight: 600;
     margin-bottom: 0.3rem;
+    border-radius: 10px;
 
     :first-child {
       padding-top: 0.5rem;
-      border-radius: 10px 10px 0 0;
     }
 
     :last-child {
       margin-bottom: 0;
       padding-bottom: 0.5rem;
-      border-radius: 0 0 10px 10px;
     }
   }
 `;

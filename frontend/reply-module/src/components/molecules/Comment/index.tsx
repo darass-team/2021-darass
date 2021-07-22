@@ -23,22 +23,30 @@ export interface Props {
   comment: CommentType;
   align?: "left" | "right";
   shouldShowOption?: boolean;
+  iAmAdmin: boolean;
+  thisCommentIsMine: boolean;
 }
 
 type SubmitType = "Edit" | "Delete";
 
-const Comment = ({ user, comment, align = "left", shouldShowOption }: Props) => {
+const Comment = ({ user, comment, align = "left", shouldShowOption, iAmAdmin, thisCommentIsMine }: Props) => {
   const [isEditing, setEditing] = useState(false);
+  const [isPasswordSubmitted, setPasswordSubmitted] = useState(false);
   const [shouldShowPasswordInput, setShouldShowPasswordInput] = useState(false);
   const [submitType, setSubmitType] = useState<SubmitType | null>();
   const { value: password, setValue: setPassword, onChange: onChangePassword } = useInput("");
-  const [isPasswordSubmitted, setPasswordSubmitted] = useState(false);
   const { editComment } = useEditComment();
   const { deleteComment } = useDeleteComment();
 
-  useEffect(() => {
-    postScrollHeightToParentWindow();
-  }, [shouldShowPasswordInput]);
+  const clear = () => {
+    setEditing(false);
+    setPasswordSubmitted(false);
+    setShouldShowPasswordInput(false);
+    setSubmitType(null);
+    setPassword("");
+  };
+
+  const isEditable = (iAmAdmin && thisCommentIsMine) || !iAmAdmin;
 
   const confirmGuestPassword = async () => {
     try {
@@ -49,7 +57,7 @@ const Comment = ({ user, comment, align = "left", shouldShowOption }: Props) => 
         guestUserPassword: password
       });
 
-      setPasswordSubmitted(false);
+      clear();
 
       return true;
     } catch (error) {
@@ -86,7 +94,7 @@ const Comment = ({ user, comment, align = "left", shouldShowOption }: Props) => 
       console.error(error.message);
       alert("댓글 제거에 실패하셨습니다.");
     } finally {
-      setSubmitType(null);
+      clear();
     }
   };
 
@@ -100,8 +108,7 @@ const Comment = ({ user, comment, align = "left", shouldShowOption }: Props) => 
     }
 
     submitPasswordCallback();
-
-    setShouldShowPasswordInput(false);
+    clear();
   };
 
   const submitEditedComment = async (content: CommentType["content"]) => {
@@ -113,7 +120,7 @@ const Comment = ({ user, comment, align = "left", shouldShowOption }: Props) => 
         guestUserPassword: password
       });
 
-      setEditing(false);
+      clear();
     } catch (error) {
       console.error(error.message);
     } finally {
@@ -121,6 +128,14 @@ const Comment = ({ user, comment, align = "left", shouldShowOption }: Props) => 
       setSubmitType(null);
     }
   };
+
+  useEffect(() => {
+    postScrollHeightToParentWindow();
+  }, [shouldShowPasswordInput]);
+
+  useEffect(() => {
+    clear();
+  }, [user]);
 
   return (
     <Container align={align}>
@@ -138,7 +153,7 @@ const Comment = ({ user, comment, align = "left", shouldShowOption }: Props) => 
 
             <Time>{getTimeDifference(comment.createdDate)}</Time>
             {shouldShowOption && !submitType && (
-              <CommentOption startEditing={startEditing} startDeleting={startDeleting} />
+              <CommentOption startEditing={isEditable ? startEditing : undefined} startDeleting={startDeleting} />
             )}
           </CommentTextBoxWrapper>
         </CommentWrapper>

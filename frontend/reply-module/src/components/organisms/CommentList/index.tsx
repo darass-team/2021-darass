@@ -2,14 +2,16 @@ import { Comment as CommentType } from "../../../types";
 import Comment from "../../molecules/Comment";
 import { CommentContainer, Container, OrderButton, OrderButtonContainer, OrderButtonWrapper, Notice } from "./styles";
 import { User } from "../../../types/user";
+import { Project } from "../../../types/project";
 
 export interface Props {
   className?: string;
   comments: CommentType[];
   user?: User;
+  project: Project | undefined;
 }
 
-const CommentList = ({ className, comments, user }: Props) => {
+const CommentList = ({ className, comments, user, project }: Props) => {
   return (
     <Container className={className}>
       <OrderButtonContainer>
@@ -25,12 +27,15 @@ const CommentList = ({ className, comments, user }: Props) => {
         ) : (
           comments.map(comment => {
             const authorId = comment.user.id;
-            const thisCommentIsMine = authorId === user?.id;
+
             const iAmGuestUser = !user;
+            const iAmAdmin = project?.userId === user?.id;
+
+            const thisCommentIsMine = authorId === user?.id;
             const thisCommentIsWrittenByGuest = comment.user.type === "GuestUser";
 
             const align = thisCommentIsMine ? "right" : "left";
-            const shouldShowOption = thisCommentIsMine || (iAmGuestUser && thisCommentIsWrittenByGuest);
+            const shouldShowOption = iAmAdmin || thisCommentIsMine || (iAmGuestUser && thisCommentIsWrittenByGuest);
 
             return (
               <Comment
@@ -38,6 +43,8 @@ const CommentList = ({ className, comments, user }: Props) => {
                 comment={comment}
                 key={comment.id}
                 shouldShowOption={shouldShowOption}
+                iAmAdmin={iAmAdmin}
+                thisCommentIsMine={thisCommentIsMine}
                 align={align}
               />
             );

@@ -14,16 +14,18 @@ export interface GuestUserInfo {
   guestUserPassword?: string;
 }
 
-export interface CreateCommentRequestData extends Omit<GuestUserInfo, "guestUserId"> {
+export interface ScriptInfo {
   url: string | null;
   projectSecretKey: string | null;
+}
+
+export interface CreateCommentRequestData extends Omit<GuestUserInfo, "guestUserId">, ScriptInfo {
   content: string;
 }
 
-export interface GetRequestParams {
-  url: string | null;
-  projectKey?: string | null;
-}
+export type GetCommentsRequestParams = ScriptInfo;
+
+export type GetProjectRequestParams = Pick<ScriptInfo, "projectSecretKey">;
 
 export type EditCommentRequestData = Pick<Comment, "content"> & Omit<GuestUserInfo, "guestNickName">;
 

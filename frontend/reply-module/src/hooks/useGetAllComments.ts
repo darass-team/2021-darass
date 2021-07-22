@@ -2,13 +2,13 @@ import { useQuery } from "react-query";
 import { QUERY } from "../constants/api";
 import { REACT_QUERY_KEY } from "../constants/reactQueryKey";
 import { Comment } from "../types";
-import { GetRequestParams } from "../types/comment";
+import { GetCommentsRequestParams } from "../types/comment";
 import { request } from "../utils/request";
 
-const getAllComments = async ({ url, projectKey }: GetRequestParams) => {
-  if (!url || !projectKey) return undefined;
+const getAllComments = async ({ url, projectSecretKey }: GetCommentsRequestParams) => {
+  if (!url || !projectSecretKey) return undefined;
 
-  const response = await request.get(QUERY.GET_ALL_COMMENTS(url, projectKey));
+  const response = await request.get(QUERY.GET_ALL_COMMENTS(url, projectSecretKey));
 
   if (response.status >= 400) {
     throw new Error(response.data.message);
@@ -17,12 +17,12 @@ const getAllComments = async ({ url, projectKey }: GetRequestParams) => {
   return response.data;
 };
 
-const useGetAllComments = ({ url, projectKey }: GetRequestParams) => {
+const useGetAllComments = ({ url, projectSecretKey }: GetCommentsRequestParams) => {
   const {
     data: comments,
     isLoading,
     error
-  } = useQuery<Comment[], Error>(REACT_QUERY_KEY.COMMENT, () => getAllComments({ url, projectKey }));
+  } = useQuery<Comment[], Error>(REACT_QUERY_KEY.COMMENT, () => getAllComments({ url, projectSecretKey }));
 
   return { comments, isLoading, error };
 };
