@@ -8,7 +8,7 @@
       </encoder>
 
       <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-        <fileNamePattern>/var/log/application-logs/%d{yyyyMM}/%d{yyyy-MM-dd-HH}.access.log</fileNamePattern>
+        <fileNamePattern>/var/log/application-logs/%d{yyyyMM, aux}/%d{yyyy-MM-dd_HH, Asia/Seoul}.access.log</fileNamePattern>
         <maxHistory>6</maxHistory>
         <totalSizeCap>5GB</totalSizeCap>
       </rollingPolicy>
