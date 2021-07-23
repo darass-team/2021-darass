@@ -48,7 +48,7 @@ const PasswordInput = styled.input<{ isValidInput: Boolean }>`
 const Button = styled.button`
   width: 4rem;
   height: 2.4rem;
-  background-color: ${PALETTE.PRIMARY};
+  background-color: ${PALETTE.SECONDARY};
   color: ${PALETTE.WHITE};
   font-size: 1.2rem;
   font-weight: 500;
