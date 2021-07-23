@@ -19,6 +19,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+@DisplayName("ProjectService 클래스")
 public class ProjectServiceTest extends SpringContainerTest {
 
     @Autowired
@@ -126,12 +127,10 @@ public class ProjectServiceTest extends SpringContainerTest {
         String projectName = "지킬 블로그 프로젝트";
 
         //when
-        projectService.save(new ProjectCreateRequest(projectName), socialLoginUser);
+        ProjectResponse projectResponse = projectService.save(new ProjectCreateRequest(projectName), socialLoginUser);
 
         //then
-        Project project = findFirstSavedProject();
-        assertThat(project.getName()).isEqualTo(projectName);
-        assertThat(project.getUser().getId()).isEqualTo(socialLoginUser.getId());
+        assertThat(projectResponse.getName()).isEqualTo(projectName);
     }
 
     @Test
