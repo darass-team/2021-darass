@@ -16,7 +16,7 @@ import org.springframework.web.client.RestTemplate;
 @Component
 public class OAuthProvider {
 
-    private RestTemplate restTemplate;
+    private final RestTemplate restTemplate;
 
     public OAuthProvider(RestTemplateBuilder restTemplateBuilder) {
         this.restTemplate = restTemplateBuilder.build();
@@ -30,7 +30,7 @@ public class OAuthProvider {
         }
     }
 
-    protected SocialLoginResponse requestSocialLoginUser(String providerName, String accessToken) {
+    private SocialLoginResponse requestSocialLoginUser(String providerName, String accessToken) {
         String apiUrl = OAuthProviderType.urlOf(providerName);
         HttpHeaders apiRequestHeader = new HttpHeaders();
         apiRequestHeader.setBearerAuth(accessToken);

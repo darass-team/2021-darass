@@ -1,5 +1,6 @@
 package com.darass.darass.auth.oauth.api.domain;
 
+import com.darass.darass.auth.oauth.api.domain.dto.GithubLoginResponse;
 import com.darass.darass.auth.oauth.api.domain.dto.KakaoLoginResponse;
 import com.darass.darass.auth.oauth.api.domain.dto.SocialLoginResponse;
 import java.util.Arrays;
@@ -8,7 +9,8 @@ import lombok.Getter;
 @Getter
 public enum OAuthProviderType {
 
-    KAKAO("kakao", "https://kapi.kakao.com/v2/user/me", new KakaoLoginResponse());
+    KAKAO("kakao", "https://kapi.kakao.com/v2/user/me", new KakaoLoginResponse()),
+    GITHUB("github", "https://api.github.com/user", new GithubLoginResponse());
 
     private final String name;
     private final String url;
