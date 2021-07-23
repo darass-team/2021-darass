@@ -1,6 +1,6 @@
 package com.darass.darass.auth.oauth.api.domain.dto;
 
-import com.darass.darass.user.domain.OAuthPlatform;
+import com.darass.darass.auth.oauth.api.domain.OAuthProviderType;
 import com.darass.darass.user.domain.SocialLoginUser;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
@@ -27,7 +27,7 @@ public class GithubLoginResponse implements SocialLoginResponse {
             .builder()
             .nickName(name)
             .oauthId(id)
-            .oauthPlatform(OAuthPlatform.GITHUB)
+            .oauthProviderType(OAuthProviderType.GITHUB)
             .email(email)
             .profileImageUrl(profileImageUrl)
             .build();

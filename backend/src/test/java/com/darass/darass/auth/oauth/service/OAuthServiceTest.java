@@ -9,14 +9,12 @@ import com.darass.darass.auth.oauth.api.domain.OAuthProvider;
 import com.darass.darass.auth.oauth.api.domain.OAuthProviderType;
 import com.darass.darass.auth.oauth.dto.TokenResponse;
 import com.darass.darass.auth.oauth.infrastructure.JwtTokenProvider;
-import com.darass.darass.user.domain.OAuthPlatform;
 import com.darass.darass.user.domain.SocialLoginUser;
 import com.darass.darass.user.repository.SocialLoginUserRepository;
 import javax.transaction.Transactional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.parallel.Isolated;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.SpyBean;
@@ -47,7 +45,7 @@ class OAuthServiceTest extends SpringContainerTest {
             .builder()
             .nickName("우기")
             .oauthId("6752453")
-            .oauthPlatform(OAuthPlatform.KAKAO)
+            .oauthProviderType(OAuthProviderType.KAKAO)
             .email("jujubebat@kakao.com")
             .profileImageUrl("http://kakao/profile_image.png")
             .build();
@@ -79,7 +77,7 @@ class OAuthServiceTest extends SpringContainerTest {
             .builder()
             .nickName("병욱")
             .oauthId(socialLoginUser.getOauthId())
-            .oauthPlatform(OAuthPlatform.KAKAO)
+            .oauthProviderType(OAuthProviderType.KAKAO)
             .email("bbwwpark@naver.com")
             .profileImageUrl("http://kakao/updated_profile_image.png")
             .build();
@@ -96,7 +94,7 @@ class OAuthServiceTest extends SpringContainerTest {
         assertThat(result.getNickName()).isEqualTo(updatedSocialLoginUser.getNickName());
         assertThat(result.getProfileImageUrl()).isEqualTo(updatedSocialLoginUser.getProfileImageUrl());
         assertThat(result.getOauthId()).isEqualTo(updatedSocialLoginUser.getOauthId());
-        assertThat(result.getOauthPlatform()).isEqualTo(updatedSocialLoginUser.getOauthPlatform());
+        assertThat(result.getOauthProviderType()).isEqualTo(updatedSocialLoginUser.getOauthProviderType());
         assertThat(result.getEmail()).isEqualTo(updatedSocialLoginUser.getEmail());
     }
 
@@ -115,7 +113,7 @@ class OAuthServiceTest extends SpringContainerTest {
         assertThat(socialLoginUser.getId()).isEqualTo(this.socialLoginUser.getId());
         assertThat(socialLoginUser.getNickName()).isEqualTo(this.socialLoginUser.getNickName());
         assertThat(socialLoginUser.getProfileImageUrl()).isEqualTo(this.socialLoginUser.getProfileImageUrl());
-        assertThat(socialLoginUser.getOauthPlatform()).isEqualTo(this.socialLoginUser.getOauthPlatform());
+        assertThat(socialLoginUser.getOauthProviderType()).isEqualTo(this.socialLoginUser.getOauthProviderType());
         assertThat(socialLoginUser.getEmail()).isEqualTo(this.socialLoginUser.getEmail());
     }
 

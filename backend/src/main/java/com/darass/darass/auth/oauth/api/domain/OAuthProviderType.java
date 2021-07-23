@@ -40,12 +40,4 @@ public enum OAuthProviderType {
             .findAny()
             .orElseThrow(IllegalArgumentException::new);
     }
-
-//    public static OAuthProvider of(String name) {
-//        OAuthProviderType oAuthProviderType = Arrays.stream(OAuthProviderType.values())
-//            .filter(it -> it.name.equals(name))
-//            .findAny()
-//            .orElseThrow(IllegalArgumentException::new);
-//        return new KakaoOAuthProvider();
-//    }
 }
