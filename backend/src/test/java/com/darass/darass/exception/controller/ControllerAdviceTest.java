@@ -60,7 +60,7 @@ class ControllerAdviceTest extends SpringContainerTest {
             .setControllerAdvice(new ControllerAdvice())
             .build();
 
-        mockMvc.perform(get("/api/v1/login/oauth?oauthAccessToken=invalidOauthAccessToken"))
+        mockMvc.perform(get("/api/v1/login/oauth?oauthAccessToken=invalid&oauthProviderName=kakao"))
             .andExpect(status().isUnauthorized());
     }
 

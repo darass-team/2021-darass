@@ -17,6 +17,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.darass.darass.AcceptanceTest;
+import com.darass.darass.auth.oauth.api.domain.OAuthProviderType;
 import com.darass.darass.auth.oauth.infrastructure.JwtTokenProvider;
 import com.darass.darass.comment.dto.CommentCreateRequest;
 import com.darass.darass.comment.dto.CommentResponse;
@@ -26,7 +27,6 @@ import com.darass.darass.project.domain.Project;
 import com.darass.darass.project.domain.RandomSecretKeyFactory;
 import com.darass.darass.project.repository.ProjectRepository;
 import com.darass.darass.user.dto.PasswordCheckResponse;
-import com.darass.darass.user.domain.OAuthPlatform;
 import com.darass.darass.user.domain.SocialLoginUser;
 import com.darass.darass.user.dto.UserResponse;
 import com.darass.darass.user.dto.UserUpdateRequest;
@@ -64,7 +64,7 @@ public class UserAcceptanceTest extends AcceptanceTest {
             .builder()
             .nickName("우기")
             .oauthId("2312312312")
-            .oauthPlatform(OAuthPlatform.KAKAO)
+            .oauthProviderType(OAuthProviderType.KAKAO)
             .email("bbwwpark@naver.com")
             .profileImageUrl("https://imageUrl")
             .build();

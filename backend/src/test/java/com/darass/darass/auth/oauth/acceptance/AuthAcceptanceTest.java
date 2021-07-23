@@ -11,20 +11,17 @@ import static org.springframework.restdocs.request.RequestDocumentation.requestP
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.darass.darass.AcceptanceTest;
-import com.darass.darass.auth.oauth.api.domain.UserInfoProvider;
+import com.darass.darass.auth.oauth.api.domain.OAuthProvider;
+import com.darass.darass.auth.oauth.api.domain.OAuthProviderType;
 import com.darass.darass.auth.oauth.dto.TokenResponse;
 import com.darass.darass.auth.oauth.infrastructure.JwtTokenProvider;
-import com.darass.darass.auth.oauth.service.OAuthService;
 import com.darass.darass.exception.ExceptionWithMessageAndCode;
 import com.darass.darass.exception.dto.ExceptionResponse;
-import com.darass.darass.user.domain.OAuthPlatform;
 import com.darass.darass.user.domain.SocialLoginUser;
-import com.darass.darass.user.repository.SocialLoginUserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.SpyBean;
@@ -36,17 +33,18 @@ import org.springframework.test.web.servlet.ResultActions;
 public class AuthAcceptanceTest extends AcceptanceTest {
 
     private final String apiUrl = "/api/v1/login/oauth";
-    @InjectMocks
-    private OAuthService oAuthService;
-    @SpyBean(name = "socialLoginUserRepository")
-    private SocialLoginUserRepository socialLoginUserRepository;
+
     @SpyBean(name = "jwtTokenProvider")
     private JwtTokenProvider jwtTokenProvider;
-    @MockBean(name = "userInfoProvider")
-    private UserInfoProvider userInfoProvider;
+
+    @MockBean
+    private OAuthProvider oauthProvider;
+
     private String oauthAccessToken;
 
     private SocialLoginUser socialLoginUser;
+
+    private String oauthProviderName = OAuthProviderType.KAKAO.getName();
 
     @BeforeEach
     public void setup() {
@@ -57,7 +55,7 @@ public class AuthAcceptanceTest extends AcceptanceTest {
             .builder()
             .nickName("우기")
             .oauthId("6752453")
-            .oauthPlatform(OAuthPlatform.KAKAO)
+            .oauthProviderType(OAuthProviderType.KAKAO)
             .email("jujubebat@kakao.com")
             .build();
     }
@@ -66,7 +64,7 @@ public class AuthAcceptanceTest extends AcceptanceTest {
     @DisplayName("oauth2 토큰을 통해 회원가입 또는 로그인을 진행하고 JWT 토큰을 발급 받는다.")
     public void login_success() throws Exception {
         // given
-        given(userInfoProvider.findSocialLoginUser(oauthAccessToken)).willReturn(socialLoginUser);
+        given(oauthProvider.findSocialLoginUser(OAuthProviderType.KAKAO.getName(), oauthAccessToken)).willReturn(socialLoginUser);
 
         //when
         ResultActions resultActions = 토큰_발급_요청(oauthAccessToken);
@@ -79,7 +77,7 @@ public class AuthAcceptanceTest extends AcceptanceTest {
     @DisplayName("올바르지 않은 oauth2 토큰을 보낼 경우 로그인을 실패하고 JWT 토큰을 발급 받지 못한다.")
     public void login_fail() throws Exception {
         // given
-        given(userInfoProvider.findSocialLoginUser(oauthAccessToken))
+        given(oauthProvider.findSocialLoginUser(OAuthProviderType.KAKAO.getName(), oauthAccessToken))
             .willThrow(ExceptionWithMessageAndCode.INVALID_JWT_TOKEN.getException());
 
         // when
@@ -92,6 +90,7 @@ public class AuthAcceptanceTest extends AcceptanceTest {
     private ResultActions 토큰_발급_요청(String oauthAccessToken) throws Exception {
         return this.mockMvc.perform(get(apiUrl)
             .contentType(MediaType.APPLICATION_JSON)
+            .param("oauthProviderName", oauthProviderName)
             .param("oauthAccessToken", oauthAccessToken));
     }
 
@@ -110,6 +109,7 @@ public class AuthAcceptanceTest extends AcceptanceTest {
         resultActions.andDo(
             document("api/v1/auth-login/get/success",
                 requestParameters(
+                    parameterWithName("oauthProviderName").description("소셜 로그인을 플랫폼 이름"),
                     parameterWithName("oauthAccessToken").description("소셜 로그인을 통한 발급받은 엑세스 토큰")
                 ),
                 responseFields(

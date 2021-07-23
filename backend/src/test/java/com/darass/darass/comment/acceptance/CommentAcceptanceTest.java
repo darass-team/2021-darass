@@ -19,6 +19,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.darass.darass.AcceptanceTest;
+import com.darass.darass.auth.oauth.api.domain.OAuthProviderType;
 import com.darass.darass.auth.oauth.infrastructure.JwtTokenProvider;
 import com.darass.darass.comment.dto.CommentCreateRequest;
 import com.darass.darass.comment.dto.CommentResponse;
@@ -26,7 +27,6 @@ import com.darass.darass.comment.dto.CommentUpdateRequest;
 import com.darass.darass.project.domain.Project;
 import com.darass.darass.project.domain.RandomSecretKeyFactory;
 import com.darass.darass.project.repository.ProjectRepository;
-import com.darass.darass.user.domain.OAuthPlatform;
 import com.darass.darass.user.domain.SocialLoginUser;
 import com.darass.darass.user.dto.UserResponse;
 import com.darass.darass.user.repository.UserRepository;
@@ -44,10 +44,13 @@ public class CommentAcceptanceTest extends AcceptanceTest {
 
     @Autowired
     JwtTokenProvider jwtTokenProvider;
+
     @Autowired
     private UserRepository users;
+
     @Autowired
     private ProjectRepository projects;
+
     private SocialLoginUser socialLoginUser;
     private Project project;
     private String token;
@@ -68,7 +71,7 @@ public class CommentAcceptanceTest extends AcceptanceTest {
             .builder()
             .nickName("nickname")
             .oauthId("abc13gag")
-            .oauthPlatform(OAuthPlatform.KAKAO)
+            .oauthProviderType(OAuthProviderType.KAKAO)
             .email("qkrwotjd1445@naver.com")
             .profileImageUrl("https://imageUrl")
             .build();
@@ -79,7 +82,6 @@ public class CommentAcceptanceTest extends AcceptanceTest {
     @BeforeEach
     void setUp() {
         setUpUser();
-
         setUpProject();
     }
 
