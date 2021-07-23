@@ -1,9 +1,11 @@
 package com.darass.darass.auth.oauth.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
 import com.darass.darass.SpringContainerTest;
+import com.darass.darass.auth.oauth.api.domain.OAuthProvider;
 import com.darass.darass.auth.oauth.api.domain.OAuthProviderType;
 import com.darass.darass.auth.oauth.dto.TokenResponse;
 import com.darass.darass.auth.oauth.infrastructure.JwtTokenProvider;
@@ -14,22 +16,25 @@ import javax.transaction.Transactional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.AdditionalAnswers;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
+import org.junit.jupiter.api.parallel.Isolated;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.SpyBean;
-import org.springframework.test.util.ReflectionTestUtils;
 
 @DisplayName("OAuthService 클래스")
 class OAuthServiceTest extends SpringContainerTest {
 
     @Autowired
+    private JwtTokenProvider jwtTokenProvider;
+
+    @SpyBean
     private SocialLoginUserRepository socialLoginUserRepository;
 
+    @MockBean
+    private OAuthProvider oAuthProvider;
+
     @Autowired
-    private JwtTokenProvider jwtTokenProvider;
+    private OAuthService oAuthService;
 
     private String oauthAccessToken;
 
@@ -52,11 +57,10 @@ class OAuthServiceTest extends SpringContainerTest {
     @Test
     void oauthLogin_register() {
         //given
-//        given(oAuthService.findSocialLoginUser(OAuthProviderType.KAKAO.getName(), oauthAccessToken)).willReturn(socialLoginUser);
-        MockOAuthService oAuthService2 = new MockOAuthService(socialLoginUserRepository, jwtTokenProvider);
+        given(oAuthProvider.findSocialLoginUser(any(), any())).willReturn(socialLoginUser);
 
         //then
-        TokenResponse tokenResponse = oAuthService2.oauthLogin(OAuthProviderType.KAKAO.getName(), oauthAccessToken);
+        TokenResponse tokenResponse = oAuthService.oauthLogin(OAuthProviderType.KAKAO.getName(), oauthAccessToken);
 
         //when
         String payload = jwtTokenProvider.getPayload(tokenResponse.getAccessToken());
@@ -70,7 +74,6 @@ class OAuthServiceTest extends SpringContainerTest {
     void oauthLogin_login() {
         //given
         socialLoginUserRepository.save(socialLoginUser);
-        MockUpdateOAuthService mockUpdateOAuthService = new MockUpdateOAuthService(socialLoginUserRepository, jwtTokenProvider);
 
         SocialLoginUser updatedSocialLoginUser = SocialLoginUser
             .builder()
@@ -81,8 +84,10 @@ class OAuthServiceTest extends SpringContainerTest {
             .profileImageUrl("http://kakao/updated_profile_image.png")
             .build();
 
+        given(oAuthProvider.findSocialLoginUser(any(), any())).willReturn(updatedSocialLoginUser);
+
         //then
-        TokenResponse tokenResponse = mockUpdateOAuthService.oauthLogin(OAuthProviderType.KAKAO.getName(), oauthAccessToken);
+        TokenResponse tokenResponse = oAuthService.oauthLogin(OAuthProviderType.KAKAO.getName(), oauthAccessToken);
 
         //when
         String payload = jwtTokenProvider.getPayload(tokenResponse.getAccessToken());
@@ -99,12 +104,12 @@ class OAuthServiceTest extends SpringContainerTest {
     @Test
     void findSocialLoginUserByAccessToken() {
         //given
-        MockOAuthService oAuthService2 = new MockOAuthService(socialLoginUserRepository, jwtTokenProvider);
+        given(oAuthProvider.findSocialLoginUser(any(), any())).willReturn(socialLoginUser);
 
-        TokenResponse tokenResponse = oAuthService2.oauthLogin(OAuthProviderType.KAKAO.getName(), oauthAccessToken);
+        TokenResponse tokenResponse = oAuthService.oauthLogin(OAuthProviderType.KAKAO.getName(), oauthAccessToken);
 
         //then
-        SocialLoginUser socialLoginUser = oAuthService2.findSocialLoginUserByAccessToken(tokenResponse.getAccessToken());
+        SocialLoginUser socialLoginUser = oAuthService.findSocialLoginUserByAccessToken(tokenResponse.getAccessToken());
 
         //when
         assertThat(socialLoginUser.getId()).isEqualTo(this.socialLoginUser.getId());

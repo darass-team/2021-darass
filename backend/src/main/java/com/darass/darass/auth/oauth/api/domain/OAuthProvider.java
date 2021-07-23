@@ -3,24 +3,43 @@ package com.darass.darass.auth.oauth.api.domain;
 import com.darass.darass.auth.oauth.api.domain.dto.SocialLoginResponse;
 import com.darass.darass.exception.ExceptionWithMessageAndCode;
 import com.darass.darass.user.domain.SocialLoginUser;
+import java.nio.charset.StandardCharsets;
+import java.util.Collections;
+import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
-//@Component
-public abstract class OAuthProvider {
+@Component
+public class OAuthProvider {
 
-    protected static final RestTemplate REST_TEMPLATE = new RestTemplate();
+    private RestTemplate restTemplate;
 
-    public SocialLoginUser findSocialLoginUser(String accessToken) {
+    public OAuthProvider(RestTemplateBuilder restTemplateBuilder) {
+        this.restTemplate = restTemplateBuilder.build();
+    }
+
+    public SocialLoginUser findSocialLoginUser(String providerName, String accessToken) {
         try {
-            return parseSocialLoginUserResponse(requestSocialLoginUser(accessToken));
+            return requestSocialLoginUser(providerName, accessToken).toEntity();
         } catch (Exception e) {
             throw ExceptionWithMessageAndCode.INVALID_JWT_TOKEN.getException();
         }
     }
 
-    protected abstract SocialLoginUser parseSocialLoginUserResponse(SocialLoginResponse requestSocialLoginUser);
+    protected SocialLoginResponse requestSocialLoginUser(String providerName, String accessToken) {
+        String apiUrl = OAuthProviderType.urlOf(providerName);
+        HttpHeaders apiRequestHeader = new HttpHeaders();
+        apiRequestHeader.setBearerAuth(accessToken);
+        apiRequestHeader.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        apiRequestHeader.setAcceptCharset(Collections.singletonList(StandardCharsets.UTF_8));
 
-    abstract protected SocialLoginResponse requestSocialLoginUser(String accessToken);
+        return restTemplate.exchange(apiUrl, HttpMethod.GET, new HttpEntity<>(apiRequestHeader),
+            OAuthProviderType.responseTypeOf(providerName).getClass())
+            .getBody();
+    }
 
 }

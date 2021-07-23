@@ -44,10 +44,13 @@ public class CommentAcceptanceTest extends AcceptanceTest {
 
     @Autowired
     JwtTokenProvider jwtTokenProvider;
+
     @Autowired
     private UserRepository users;
+
     @Autowired
     private ProjectRepository projects;
+
     private SocialLoginUser socialLoginUser;
     private Project project;
     private String token;
@@ -79,7 +82,6 @@ public class CommentAcceptanceTest extends AcceptanceTest {
     @BeforeEach
     void setUp() {
         setUpUser();
-
         setUpProject();
     }
 

@@ -5,11 +5,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 public class IsolationTest {
 
-    @Autowired
-    private DatabaseCleaner databaseCleaner;
-
-    @BeforeEach
-    void setUp() {
-        databaseCleaner.tableClear();
-    }
+//    @Autowired
+//    private DatabaseCleaner databaseCleaner;
+//
+//    @BeforeEach
+//    void setUp() {
+//        databaseCleaner.tableClear();
+//    }
 }
