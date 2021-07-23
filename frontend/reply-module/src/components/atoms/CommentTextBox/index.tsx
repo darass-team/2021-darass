@@ -23,11 +23,17 @@ const CommentTextBox = ({ name, children, contentEditable = false, submitEditedC
         onInput={(event: ChangeEvent<HTMLDivElement>) => {
           setEditedContent(event.target.innerText);
         }}
+        data-testid="comment-text-box-contenteditable-input"
       >
         {children}
       </Text>
       {contentEditable && (
-        <Button type="button" onClick={() => submitEditedComment(editedContent)} disabled={!isValidEditedContent}>
+        <Button
+          type="button"
+          onClick={() => submitEditedComment(editedContent)}
+          disabled={!isValidEditedContent}
+          data-testid="comment-text-box-submit-button"
+        >
           등록
         </Button>
       )}

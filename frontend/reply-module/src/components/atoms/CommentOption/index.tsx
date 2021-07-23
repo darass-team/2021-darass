@@ -30,8 +30,8 @@ const CommentOption = ({ className, startEditing, startDeleting }: Props) => {
   };
 
   return (
-    <Container className={className} data-testid="comment-option">
-      <OptionIcon src={threeDots} alt="댓글 옵션" onClick={onShowOptionBox} />
+    <Container className={className}>
+      <OptionIcon src={threeDots} alt="댓글 옵션" onClick={onShowOptionBox} data-testid="comment-option" />
       {isShowOptionBox && (
         <OptionContainer>
           {startEditing && (
