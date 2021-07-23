@@ -2,13 +2,15 @@ import "@testing-library/jest-dom/extend-expect";
 import { fireEvent, render, waitFor } from "@testing-library/react";
 import CommentInput from "../../components/organisms/CommentInput/index";
 import CommentList from "../../components/organisms/CommentList";
-import { useCreateComment, useDeleteComment, useEditComment } from "../../hooks";
+import { useCreateComment, useDeleteComment, useEditComment, useConfirmGuestPassword } from "../../hooks";
 import { Comment } from "../../types";
 import { comments } from "../fixture/comments";
 
 jest.mock("../../hooks/useEditComment");
 jest.mock("../../hooks/useDeleteComment");
 jest.mock("../../hooks/useCreateComment");
+jest.mock("../../hooks/useConfirmGuestPassword");
+jest.mock("../../utils/request");
 
 window.alert = function (str) {
   console.log(str);
@@ -36,6 +38,12 @@ describe("비로그인 유저 댓글 조회", () => {
         error: false
       };
     });
+    (useConfirmGuestPassword as jest.Mock).mockImplementation(() => {
+      return {
+        isValid: true,
+        getPasswordConfirmResult: () => true
+      };
+    });
   });
   test("비로그인 유저인 경우, 비로그인 유저가 작성한 모든 댓글들에 수정/삭제 옵션이 노출된다.", () => {
     const _comments: Comment[] = JSON.parse(JSON.stringify(comments));
@@ -45,8 +53,6 @@ describe("비로그인 유저 댓글 조회", () => {
     $$comments.forEach(($comment, index) => {
       if (_comments[index].user.type === "GuestUser") {
         expect($comment.querySelectorAll("img")[1]).toBeVisible();
-      } else {
-        expect($comment.querySelectorAll("img")[1]).toBe(undefined);
       }
     });
   });
@@ -119,6 +125,8 @@ describe("비로그인 유저 댓글 생성", () => {
 
 describe("비로그인 유저 댓글 수정", () => {
   beforeEach(() => {
+    // (request as jest.Mock).mockImplementation(() => {});
+
     (useEditComment as jest.Mock).mockImplementation(() => {
       return {
         editComment: () => {},
@@ -134,18 +142,23 @@ describe("비로그인 유저 댓글 수정", () => {
         error: false
       };
     });
+    (useConfirmGuestPassword as jest.Mock).mockImplementation(() => {
+      return {
+        isValid: true,
+        getPasswordConfirmResult: () => true
+      };
+    });
   });
   test("비로그인 유저는 댓글을 수정시, 비밀번호를 입력해야 수정내용 입력란이 활성화 된다.", async () => {
     const _comments: Comment[] = JSON.parse(JSON.stringify(comments));
     const guestUserComments = _comments.filter(comment => comment.user.type === "GuestUser");
-    const commentList = render(<CommentList comments={guestUserComments} project={undefined} />);
+    const commentList = render(<CommentList user={undefined} comments={guestUserComments} project={undefined} />);
 
     const firstThreeDotButton = commentList.getAllByAltText("댓글 옵션")[0];
-
     fireEvent.click(firstThreeDotButton);
 
-    const firstDeleteButton = commentList.getByText("수정");
-    fireEvent.click(firstDeleteButton);
+    const firstEditButton = commentList.getAllByTestId("comment-option-edit-button")[0];
+    fireEvent.click(firstEditButton);
 
     const firstPasswordSubmitButton = commentList.getByText("입력");
     fireEvent.click(firstPasswordSubmitButton);
@@ -174,6 +187,12 @@ describe("비로그인 유저 댓글 삭제", () => {
         error: false
       };
     });
+    (useConfirmGuestPassword as jest.Mock).mockImplementation(() => {
+      return {
+        isValid: true,
+        getPasswordConfirmResult: () => true
+      };
+    });
   });
   test("비로그인 유저는 댓글을 수정시, 비밀번호를 입력해야 삭제를 할 수 있다.", async () => {
     const _comments: Comment[] = JSON.parse(JSON.stringify(comments));
@@ -181,7 +200,6 @@ describe("비로그인 유저 댓글 삭제", () => {
     const commentList = render(<CommentList comments={guestUserComments} project={undefined} />);
 
     const firstThreeDotButton = commentList.getAllByAltText("댓글 옵션")[0];
-
     fireEvent.click(firstThreeDotButton);
 
     const firstEditButton = commentList.getByText("삭제");
