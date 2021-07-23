@@ -86,7 +86,7 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
         ProjectCreateRequest projectCreateRequest = new ProjectCreateRequest(PROJECT_NAME);
 
         //when
-        ResultActions resultActions = 프로젝트_생성_요청("", projectCreateRequest);
+        ResultActions resultActions = 프로젝트_생성_요청("invalidAccessToken", projectCreateRequest);
 
         //then
         유효하지_않은_토큰으로_인해_프로젝트_생성_실패됨(resultActions);
@@ -105,6 +105,160 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
 
         //then
         중복되는_프로젝트_이름으로_인해_프로젝트_생성_실패됨(resultActions);
+    }
+
+    @DisplayName("엑세스 토큰으로 프로젝트 다건 조회")
+    @Test
+    public void findByUser() throws Exception {
+        // given
+        String accessToken = tokenProvider.createAccessToken(socialLoginUser.getId().toString());
+        ProjectCreateRequest projectCreateRequest = new ProjectCreateRequest(PROJECT_NAME);
+
+        ResultActions projectCreateResultActions = 프로젝트_생성_요청(accessToken, projectCreateRequest);
+        프로젝트_생성됨(projectCreateResultActions, PROJECT_NAME);
+
+        projectCreateRequest = new ProjectCreateRequest("second " + PROJECT_NAME);
+        projectCreateResultActions = 프로젝트_생성_요청(accessToken, projectCreateRequest);
+        프로젝트_생성됨(projectCreateResultActions, "second " + PROJECT_NAME);
+
+        //when
+        ResultActions resultActions = 엑세스_토큰으로_프로젝트_다건_조회_요청(accessToken);
+
+        //then
+        엑세스_토큰으로_프로젝트_다건_조회됨(resultActions);
+    }
+
+    @Test
+    @DisplayName("유효하지 않은 엑세스 토큰으로 프로젝트 다건 조회를 실패한다.")
+    public void findAll_fail() throws Exception {
+        // given
+        String accessToken = tokenProvider.createAccessToken(socialLoginUser.getId().toString());
+        ProjectCreateRequest projectCreateRequest = new ProjectCreateRequest(PROJECT_NAME);
+
+        ResultActions projectCreateResultActions = 프로젝트_생성_요청(accessToken, projectCreateRequest);
+        프로젝트_생성됨(projectCreateResultActions, PROJECT_NAME);
+
+        projectCreateRequest = new ProjectCreateRequest("second " + PROJECT_NAME);
+        projectCreateResultActions = 프로젝트_생성_요청(accessToken, projectCreateRequest);
+        프로젝트_생성됨(projectCreateResultActions, "second " + PROJECT_NAME);
+
+        //when
+        ResultActions resultActions = 엑세스_토큰_미포함_프로젝트_다건_조회_요청();
+
+        //then
+        엑세스_토큰으로_프로젝트_다건_조회_실패됨(resultActions);
+    }
+
+    private ResultActions 엑세스_토큰_미포함_프로젝트_다건_조회_요청() throws Exception {
+        return this.mockMvc.perform(get("/api/v1/projects")
+            .contentType(MediaType.APPLICATION_JSON));
+    }
+
+    @Test
+    @DisplayName("엑세스 토큰과 프로젝트 id로 프로젝트 단건 조회한다.")
+    public void findOne() throws Exception {
+        //given
+        String accessToken = tokenProvider.createAccessToken(socialLoginUser.getId().toString());
+        ProjectCreateRequest projectCreateRequest = new ProjectCreateRequest(PROJECT_NAME);
+        ResultActions projectCreateResultActions = 프로젝트_생성_요청(accessToken, projectCreateRequest);
+        String jsonResponse = projectCreateResultActions.andReturn().getResponse().getContentAsString();
+        ProjectResponse projectResponse = new ObjectMapper().readValue(jsonResponse, ProjectResponse.class);
+        Long projectId = projectResponse.getId();
+
+        //when
+        ResultActions resultActions = 엑세스_토큰과_프로젝트_id로_프로젝트_단건_조회_요청(accessToken, projectId);
+
+        //then
+        엑세스_토큰과_프로젝트_id로_프로젝트_단건_조회됨(resultActions, projectId);
+    }
+
+    @Test
+    @DisplayName("유효하지 않은 엑세스 토큰으로 인해 프로젝트 id로 프로젝트 단건 조회를 실패한다.")
+    public void findOne_invalid_accessToken_fail() throws Exception {
+        //given
+        String accessToken = tokenProvider.createAccessToken(socialLoginUser.getId().toString());
+        ProjectCreateRequest projectCreateRequest = new ProjectCreateRequest(PROJECT_NAME);
+        ResultActions projectCreateResultActions = 프로젝트_생성_요청(accessToken, projectCreateRequest);
+        String jsonResponse = projectCreateResultActions.andReturn().getResponse().getContentAsString();
+        ProjectResponse projectResponse = new ObjectMapper().readValue(jsonResponse, ProjectResponse.class);
+        Long projectId = projectResponse.getId();
+
+        //when
+        ResultActions resultActions = 엑세스_토큰과_프로젝트_id로_프로젝트_단건_조회_요청("Invalid " + accessToken, projectId);
+
+        //then
+        유효하지_않은_엑세스_토큰으로_인해_프로젝트_id로_프로젝트_단건_조회_실패됨(resultActions);
+    }
+
+    @Test
+    @DisplayName("유효하지 않은 프로젝트 id로 인해 프로젝트 단건 조회를 실패한다.")
+    public void findOne_invalid_projectId_fail() throws Exception {
+        //given
+        String accessToken = tokenProvider.createAccessToken(socialLoginUser.getId().toString());
+        ProjectCreateRequest projectCreateRequest = new ProjectCreateRequest(PROJECT_NAME);
+        ResultActions projectCreateResultActions = 프로젝트_생성_요청(accessToken, projectCreateRequest);
+
+        //when
+        ResultActions resultActions = 엑세스_토큰과_프로젝트_id로_프로젝트_단건_조회_요청(accessToken, 100L);
+
+        //then
+        유효하지_않은_프로젝트_id로_인해_프로젝트_단건_조회_실패됨(resultActions);
+    }
+
+    @Test
+    @DisplayName("프로젝트 시크릿 키로 유저 id를 조회한다.(프로젝트 주인의 id를 조회한다.)")
+    public void findByProjectKey_success() throws Exception {
+        // given
+        this.project = Project.builder()
+            .user(socialLoginUser)
+            .name("깃헙 블로그 프로젝트")
+            .build();
+
+        Project savedProject = projectRepository.save(project);
+
+        //when
+        ResultActions resultActions = 유저_아이디_조회_요청(savedProject.getSecretKey());
+
+        //then
+        유저_아이디_조회됨(resultActions);
+    }
+
+    @Test
+    @DisplayName("존재하지 않는 프로젝트 시크릿 키로 유저 id를 조회하면 실패한다.")
+    public void findByProjectKey_fail() throws Exception {
+        // given
+        this.project = Project.builder()
+            .user(socialLoginUser)
+            .name("깃헙 블로그 프로젝트")
+            .build();
+
+        projectRepository.save(project);
+
+        //when
+        ResultActions resultActions = 유저_아이디_조회_요청("invalidProjectSecretKey");
+
+        //then
+        유저_아이디_조회_실패됨(resultActions);
+    }
+
+    @Test
+    @DisplayName("존재하지 않는 프로젝트 id와 엑세스 토큰으로 프로젝트 단건 삭제를 실패한다.")
+    public void deleteById_fail() throws Exception {
+        // given
+        String accessToken = tokenProvider.createAccessToken(socialLoginUser.getId().toString());
+
+        this.project = Project.builder()
+            .user(socialLoginUser)
+            .name("깃헙 블로그 프로젝트")
+            .build();
+
+        Project savedProject = projectRepository.save(project);
+
+        //when
+        ResultActions resultActions = 프로젝트_단건_삭제_요청(100L, accessToken);
+
+        //then
+        프로젝트_단건_삭제_실패됨(resultActions);
     }
 
     private ResultActions 프로젝트_생성_요청(String accessToken, ProjectCreateRequest projectCreateRequest) throws Exception {
@@ -173,27 +327,6 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
         );
     }
 
-    @DisplayName("엑세스 토큰으로 프로젝트 다건 조회")
-    @Test
-    public void findByUser() throws Exception {
-        // given
-        String accessToken = tokenProvider.createAccessToken(socialLoginUser.getId().toString());
-        ProjectCreateRequest projectCreateRequest = new ProjectCreateRequest(PROJECT_NAME);
-
-        ResultActions projectCreateResultActions = 프로젝트_생성_요청(accessToken, projectCreateRequest);
-        프로젝트_생성됨(projectCreateResultActions, PROJECT_NAME);
-
-        projectCreateRequest = new ProjectCreateRequest("second " + PROJECT_NAME);
-        projectCreateResultActions = 프로젝트_생성_요청(accessToken, projectCreateRequest);
-        프로젝트_생성됨(projectCreateResultActions, "second " + PROJECT_NAME);
-
-        //when
-        ResultActions resultActions = 엑세스_토큰으로_프로젝트_다건_조회_요청(accessToken);
-
-        //then
-        엑세스_토큰으로_프로젝트_다건_조회됨(resultActions);
-    }
-
     private ResultActions 엑세스_토큰으로_프로젝트_다건_조회_요청(String accessToken) throws Exception {
         return this.mockMvc.perform(get("/api/v1/projects")
             .contentType(MediaType.APPLICATION_JSON)
@@ -227,27 +360,6 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
         );
     }
 
-    @Test
-    @DisplayName("유효하지 않은 엑세스 토큰으로 프로젝트 다건 조회를 실패한다.")
-    public void findAll_fail() throws Exception {
-        // given
-        String accessToken = tokenProvider.createAccessToken(socialLoginUser.getId().toString());
-        ProjectCreateRequest projectCreateRequest = new ProjectCreateRequest(PROJECT_NAME);
-
-        ResultActions projectCreateResultActions = 프로젝트_생성_요청(accessToken, projectCreateRequest);
-        프로젝트_생성됨(projectCreateResultActions, PROJECT_NAME);
-
-        projectCreateRequest = new ProjectCreateRequest("second " + PROJECT_NAME);
-        projectCreateResultActions = 프로젝트_생성_요청(accessToken, projectCreateRequest);
-        프로젝트_생성됨(projectCreateResultActions, "second " + PROJECT_NAME);
-
-        //when
-        ResultActions resultActions = 엑세스_토큰으로_프로젝트_다건_조회_요청("invalidAccessToken");
-
-        //then
-        엑세스_토큰으로_프로젝트_다건_조회_실패됨(resultActions);
-    }
-
     private void 엑세스_토큰으로_프로젝트_다건_조회_실패됨(ResultActions resultActions) throws Exception {
         resultActions.andExpect(status().isUnauthorized());
         엑세스_토큰으로_프로젝트_다건_조회_실패됨_rest_doc_작성(resultActions);
@@ -261,24 +373,6 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
                     fieldWithPath("code").type(JsonFieldType.NUMBER).description("에러 코드")
                 ))
         );
-    }
-
-    @Test
-    @DisplayName("엑세스 토큰과 프로젝트 id로 프로젝트 단건 조회한다.")
-    public void findOne() throws Exception {
-        //given
-        String accessToken = tokenProvider.createAccessToken(socialLoginUser.getId().toString());
-        ProjectCreateRequest projectCreateRequest = new ProjectCreateRequest(PROJECT_NAME);
-        ResultActions projectCreateResultActions = 프로젝트_생성_요청(accessToken, projectCreateRequest);
-        String jsonResponse = projectCreateResultActions.andReturn().getResponse().getContentAsString();
-        ProjectResponse projectResponse = new ObjectMapper().readValue(jsonResponse, ProjectResponse.class);
-        Long projectId = projectResponse.getId();
-
-        //when
-        ResultActions resultActions = 엑세스_토큰과_프로젝트_id로_프로젝트_단건_조회_요청(accessToken, projectId);
-
-        //then
-        엑세스_토큰과_프로젝트_id로_프로젝트_단건_조회됨(resultActions, projectId);
     }
 
     private ResultActions 엑세스_토큰과_프로젝트_id로_프로젝트_단건_조회_요청(String accessToken, Long projectId) throws Exception {
@@ -316,25 +410,6 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
         );
     }
 
-    @Test
-    @DisplayName("유효하지 않은 엑세스 토큰으로 인해 프로젝트 id로 프로젝트 단건 조회를 실패한다.")
-    public void findOne_invalid_accessToken_fail() throws Exception {
-        //given
-        String accessToken = tokenProvider.createAccessToken(socialLoginUser.getId().toString());
-        ProjectCreateRequest projectCreateRequest = new ProjectCreateRequest(PROJECT_NAME);
-        ResultActions projectCreateResultActions = 프로젝트_생성_요청(accessToken, projectCreateRequest);
-        String jsonResponse = projectCreateResultActions.andReturn().getResponse().getContentAsString();
-        ProjectResponse projectResponse = new ObjectMapper().readValue(jsonResponse, ProjectResponse.class);
-        Long projectId = projectResponse.getId();
-
-        //when
-        ResultActions resultActions = 엑세스_토큰과_프로젝트_id로_프로젝트_단건_조회_요청("Invalid " + accessToken, projectId);
-
-        //then
-        유효하지_않은_엑세스_토큰으로_인해_프로젝트_id로_프로젝트_단건_조회_실패됨(resultActions);
-    }
-
-
     private void 유효하지_않은_엑세스_토큰으로_인해_프로젝트_id로_프로젝트_단건_조회_실패됨(ResultActions resultActions) throws Exception {
         resultActions.andExpect(status().isUnauthorized());
         유효하지_않은_엑세스_토큰으로_인해_프로젝트_id로_프로젝트_단건_조회_실패됨_rest_docs_작성(resultActions);
@@ -348,24 +423,6 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
                     fieldWithPath("code").type(JsonFieldType.NUMBER).description("에러 코드")
                 ))
         );
-    }
-
-    @Test
-    @DisplayName("유효하지 않은 프로젝트 id로 인해 프로젝트 단건 조회를 실패한다.")
-    public void findOne_invalid_projectId_fail() throws Exception {
-        //given
-        String accessToken = tokenProvider.createAccessToken(socialLoginUser.getId().toString());
-        ProjectCreateRequest projectCreateRequest = new ProjectCreateRequest(PROJECT_NAME);
-        ResultActions projectCreateResultActions = 프로젝트_생성_요청(accessToken, projectCreateRequest);
-        String jsonResponse = projectCreateResultActions.andReturn().getResponse().getContentAsString();
-        ProjectResponse projectResponse = new ObjectMapper().readValue(jsonResponse, ProjectResponse.class);
-        Long projectId = projectResponse.getId();
-
-        //when
-        ResultActions resultActions = 엑세스_토큰과_프로젝트_id로_프로젝트_단건_조회_요청(accessToken, 100L);
-
-        //then
-        유효하지_않은_프로젝트_id로_인해_프로젝트_단건_조회_실패됨(resultActions);
     }
 
     private void 유효하지_않은_프로젝트_id로_인해_프로젝트_단건_조회_실패됨(ResultActions resultActions) throws Exception {
@@ -383,48 +440,11 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
         );
     }
 
-    @Test
-    @DisplayName("프로젝트 시크릿 키로 유저 id를 조회한다.(프로젝트 주인의 id를 조회한다.)")
-    public void findByProjectKey_success() throws Exception {
-        // given
-        this.project = Project.builder()
-            .user(socialLoginUser)
-            .name("깃헙 블로그 프로젝트")
-            .build();
-
-        Project savedProject = projectRepository.save(project);
-
-        //when
-        ResultActions resultActions = 유저_아이디_조회_요청(savedProject.getSecretKey());
-
-        //then
-        유저_아이디_조회됨(resultActions);
-    }
-
-    @Test
-    @DisplayName("존재하지 않는 프로젝트 시크릿 키로 유저 id를 조회하면 실패한다.")
-    public void findByProjectKey_fail() throws Exception {
-        // given
-        this.project = Project.builder()
-            .user(socialLoginUser)
-            .name("깃헙 블로그 프로젝트")
-            .build();
-
-        projectRepository.save(project);
-
-        //when
-        ResultActions resultActions = 유저_아이디_조회_요청("invalidProjectSecretKey");
-
-        //then
-        유저_아이디_조회_실패됨(resultActions);
-    }
-
     private ResultActions 유저_아이디_조회_요청(String projectSecretKey) throws Exception {
         return this.mockMvc.perform(get("/api/v1/projects/user-id")
             .contentType(MediaType.APPLICATION_JSON)
             .param("secretKey", projectSecretKey));
     }
-
 
     private void 유저_아이디_조회_실패됨(ResultActions resultActions) throws Exception {
         resultActions.andExpect(status().isNotFound());
@@ -501,27 +521,6 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
         resultActions.andDo(
             document("api/v1/projects/{projectId}/delete-success")
         );
-    }
-
-    @Test
-    @DisplayName("존재하지 않는 프로젝트 id와 엑세스 토큰으로 프로젝트 단건 삭제를 실패한다.")
-    public void deleteById_fail() throws Exception {
-        // given
-        String accessToken = tokenProvider.createAccessToken(socialLoginUser.getId().toString());
-
-        this.project = Project.builder()
-            .user(socialLoginUser)
-            .name("깃헙 블로그 프로젝트")
-            .build();
-
-        Project savedProject = projectRepository.save(project);
-        Long projectId = savedProject.getId();
-
-        //when
-        ResultActions resultActions = 프로젝트_단건_삭제_요청(100L, accessToken);
-
-        //then
-        프로젝트_단건_삭제_실패됨(resultActions);
     }
 
     private void 프로젝트_단건_삭제_실패됨(ResultActions resultActions) throws Exception {
