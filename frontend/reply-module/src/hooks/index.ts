@@ -5,3 +5,4 @@ export { useEditComment } from "./useEditComment";
 export { useDeleteComment } from "./useDeleteComment";
 export { useInput } from "./useInput";
 export { useProject } from "./useProject";
+export { useConfirmGuestPassword } from "./useConfirmGuestPassword";

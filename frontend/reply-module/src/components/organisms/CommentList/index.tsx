@@ -29,7 +29,7 @@ const CommentList = ({ className, comments, user, project }: Props) => {
             const authorId = comment.user.id;
 
             const iAmGuestUser = !user;
-            const iAmAdmin = project?.userId === user?.id;
+            const iAmAdmin = user !== undefined && project?.userId === user.id;
 
             const thisCommentIsMine = authorId === user?.id;
             const thisCommentIsWrittenByGuest = comment.user.type === "GuestUser";

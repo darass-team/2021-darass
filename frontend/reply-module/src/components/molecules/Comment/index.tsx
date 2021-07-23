@@ -1,6 +1,6 @@
 import { FormEvent, useEffect, useState } from "react";
 import { QUERY } from "../../../constants/api";
-import { useDeleteComment, useEditComment, useInput } from "../../../hooks";
+import { useConfirmGuestPassword, useDeleteComment, useEditComment, useInput } from "../../../hooks";
 import { Comment as CommentType } from "../../../types";
 import { DeleteCommentRequestParameter } from "../../../types/comment";
 import { User } from "../../../types/user";
@@ -40,6 +40,10 @@ const Comment = ({ user, comment, align = "left", shouldShowOption, iAmAdmin, th
   const { value: password, setValue: setPassword, onChange: onChangePassword } = useInput("");
   const { editComment } = useEditComment();
   const { deleteComment } = useDeleteComment();
+  const { isValid, getPasswordConfirmResult } = useConfirmGuestPassword({
+    guestUserId: comment.user.id,
+    guestUserPassword: password
+  });
 
   const clear = () => {
     setEditing(false);
@@ -53,20 +57,9 @@ const Comment = ({ user, comment, align = "left", shouldShowOption, iAmAdmin, th
 
   const confirmGuestPassword = async () => {
     try {
-      const response = await request.get(
-        QUERY.CHECK_GUEST_PASSWORD({
-          guestUserId: comment.user.id,
-          guestUserPassword: password
-        })
-      );
+      await getPasswordConfirmResult();
 
-      if (response.status >= 400) {
-        throw new Error(response.data.message);
-      }
-
-      const { isCorrectPassword } = response.data;
-
-      return isCorrectPassword;
+      return isValid;
     } catch (error) {
       console.error(error.message);
       setPasswordSubmitted(true);
@@ -109,6 +102,7 @@ const Comment = ({ user, comment, align = "left", shouldShowOption, iAmAdmin, th
     event.preventDefault();
 
     const isValidPassword = await confirmGuestPassword();
+
     if (!isValidPassword) {
       alert("비밀번호가 일치하지 않습니다.");
       return;
