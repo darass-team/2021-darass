@@ -1,5 +1,5 @@
 import { Comment } from "../../types";
-import { guestUser, socialLoginUser } from "./user";
+import { guestUser, socialLoginUser, socialLoginUser2 } from "./user";
 
 export const comments: Comment[] = [
   {
@@ -69,6 +69,13 @@ export const comments: Comment[] = [
     id: 10,
     content: "열번째댓글",
     user: guestUser,
+    createdDate: new Date().toDateString(),
+    modifiedDate: new Date().toDateString()
+  },
+  {
+    id: 11,
+    content: "열한번째댓글",
+    user: socialLoginUser2,
     createdDate: new Date().toDateString(),
     modifiedDate: new Date().toDateString()
   }
