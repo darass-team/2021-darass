@@ -14,13 +14,13 @@ import static org.springframework.restdocs.request.RequestDocumentation.pathPara
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.darass.darass.AcceptanceTest;
+import com.darass.darass.auth.oauth.api.domain.OAuthProviderType;
 import com.darass.darass.auth.oauth.infrastructure.JwtTokenProvider;
 import com.darass.darass.project.domain.CustomSecretKeyFactory;
 import com.darass.darass.project.domain.Project;
 import com.darass.darass.project.dto.ProjectCreateRequest;
 import com.darass.darass.project.dto.ProjectResponse;
 import com.darass.darass.project.repository.ProjectRepository;
-import com.darass.darass.user.domain.OAuthPlatform;
 import com.darass.darass.user.domain.SocialLoginUser;
 import com.darass.darass.user.repository.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -53,7 +53,7 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
             .builder()
             .nickName("nickname")
             .oauthId("abc13gag")
-            .oauthPlatform(OAuthPlatform.KAKAO)
+            .oauthProviderType(OAuthProviderType.KAKAO)
             .email("qkrwotjd1445@naver.com")
             .build();
         userRepository.save(socialLoginUser);

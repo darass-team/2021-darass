@@ -1,5 +1,6 @@
 package com.darass.darass.user.domain;
 
+import com.darass.darass.auth.oauth.api.domain.OAuthProviderType;
 import com.darass.darass.exception.ExceptionWithMessageAndCode;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -18,14 +19,14 @@ public class SocialLoginUser extends User {
     private String oauthId;
 
     @Enumerated(EnumType.STRING)
-    private OAuthPlatform oauthPlatform;
+    private OAuthProviderType oauthProviderType;
 
     @Builder
     public SocialLoginUser(String nickName, String oauthId,
-        OAuthPlatform oauthPlatform, String email, String profileImageUrl) {
+        OAuthProviderType oauthProviderType, String email, String profileImageUrl) {
         super(nickName, profileImageUrl);
         this.oauthId = oauthId;
-        this.oauthPlatform = oauthPlatform;
+        this.oauthProviderType = oauthProviderType;
         this.email = email;
     }
 
@@ -44,6 +45,6 @@ public class SocialLoginUser extends User {
         this.changeProfileImageUrl(socialLoginUser.getProfileImageUrl());
         this.email = socialLoginUser.getEmail();
         this.oauthId = socialLoginUser.getOauthId();
-        this.oauthPlatform = socialLoginUser.getOauthPlatform();
+        this.oauthProviderType = socialLoginUser.getOauthProviderType();
     }
 }
