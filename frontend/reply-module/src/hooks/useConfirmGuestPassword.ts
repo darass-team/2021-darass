@@ -15,12 +15,7 @@ const _getPasswordConfirmResult = async ({ guestUserId, guestUserPassword }: Gue
 };
 
 const useConfirmGuestPassword = ({ guestUserId, guestUserPassword }: GuestUserInfo) => {
-  const {
-    data,
-    isLoading,
-    error,
-    refetch: getPasswordConfirmResult
-  } = useQuery<
+  const { refetch: getPasswordConfirmResult } = useQuery<
     {
       isCorrectPassword: false;
     },
@@ -33,9 +28,7 @@ const useConfirmGuestPassword = ({ guestUserId, guestUserPassword }: GuestUserIn
     refetchOnWindowFocus: false
   });
 
-  const isValid = data?.isCorrectPassword;
-
-  return { isValid, isLoading, error, getPasswordConfirmResult };
+  return { getPasswordConfirmResult };
 };
 
 export { useConfirmGuestPassword };

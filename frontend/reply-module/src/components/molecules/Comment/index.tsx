@@ -40,7 +40,7 @@ const Comment = ({ user, comment, align = "left", shouldShowOption, iAmAdmin, th
   const { value: password, setValue: setPassword, onChange: onChangePassword } = useInput("");
   const { editComment } = useEditComment();
   const { deleteComment } = useDeleteComment();
-  const { isValid, getPasswordConfirmResult } = useConfirmGuestPassword({
+  const { getPasswordConfirmResult } = useConfirmGuestPassword({
     guestUserId: comment.user.id,
     guestUserPassword: password
   });
@@ -57,9 +57,9 @@ const Comment = ({ user, comment, align = "left", shouldShowOption, iAmAdmin, th
 
   const confirmGuestPassword = async () => {
     try {
-      await getPasswordConfirmResult();
+      const { data } = await getPasswordConfirmResult();
 
-      return isValid;
+      return !!data?.isCorrectPassword;
     } catch (error) {
       console.error(error.message);
       setPasswordSubmitted(true);
@@ -102,6 +102,8 @@ const Comment = ({ user, comment, align = "left", shouldShowOption, iAmAdmin, th
     event.preventDefault();
 
     const isValidPassword = await confirmGuestPassword();
+
+    console.log(isValidPassword);
 
     if (!isValidPassword) {
       alert("비밀번호가 일치하지 않습니다.");

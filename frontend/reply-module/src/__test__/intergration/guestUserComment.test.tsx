@@ -41,7 +41,13 @@ describe("비로그인 유저 댓글 조회", () => {
     (useConfirmGuestPassword as jest.Mock).mockImplementation(() => {
       return {
         isValid: true,
-        getPasswordConfirmResult: () => true
+        getPasswordConfirmResult: () => {
+          return {
+            data: {
+              isCorrectPassword: true
+            }
+          };
+        }
       };
     });
   });
@@ -145,7 +151,13 @@ describe("비로그인 유저 댓글 수정", () => {
     (useConfirmGuestPassword as jest.Mock).mockImplementation(() => {
       return {
         isValid: true,
-        getPasswordConfirmResult: () => true
+        getPasswordConfirmResult: () => {
+          return {
+            data: {
+              isCorrectPassword: true
+            }
+          };
+        }
       };
     });
   });
@@ -190,7 +202,13 @@ describe("비로그인 유저 댓글 삭제", () => {
     (useConfirmGuestPassword as jest.Mock).mockImplementation(() => {
       return {
         isValid: true,
-        getPasswordConfirmResult: () => true
+        getPasswordConfirmResult: () => {
+          return {
+            data: {
+              isCorrectPassword: true
+            }
+          };
+        }
       };
     });
   });
