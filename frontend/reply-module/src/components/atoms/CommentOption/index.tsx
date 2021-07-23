@@ -35,12 +35,12 @@ const CommentOption = ({ className, startEditing, startDeleting }: Props) => {
       {isShowOptionBox && (
         <OptionContainer>
           {startEditing && (
-            <EditButton type="button" onClick={onEdit}>
+            <EditButton type="button" onClick={onEdit} data-testid="comment-option-edit-button">
               수정
             </EditButton>
           )}
           {startDeleting && (
-            <DeleteButton type="button" onClick={onDelete}>
+            <DeleteButton type="button" onClick={onDelete} data-testid="comment-option-delete-button">
               삭제
             </DeleteButton>
           )}

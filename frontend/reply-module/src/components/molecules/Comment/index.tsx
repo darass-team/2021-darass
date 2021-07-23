@@ -1,6 +1,6 @@
 import { FormEvent, useEffect, useState } from "react";
 import { QUERY } from "../../../constants/api";
-import { useDeleteComment, useEditComment, useInput } from "../../../hooks";
+import { useConfirmGuestPassword, useDeleteComment, useEditComment, useInput } from "../../../hooks";
 import { Comment as CommentType } from "../../../types";
 import { DeleteCommentRequestParameter } from "../../../types/comment";
 import { User } from "../../../types/user";
@@ -11,6 +11,7 @@ import Avatar from "../../atoms/Avatar";
 import CommentTextBox from "../../atoms/CommentTextBox";
 import {
   Button,
+  CancelButton,
   CommentOption,
   CommentTextBoxWrapper,
   CommentWrapper,
@@ -39,6 +40,10 @@ const Comment = ({ user, comment, align = "left", shouldShowOption, iAmAdmin, th
   const { value: password, setValue: setPassword, onChange: onChangePassword } = useInput("");
   const { editComment } = useEditComment();
   const { deleteComment } = useDeleteComment();
+  const { getPasswordConfirmResult } = useConfirmGuestPassword({
+    guestUserId: comment.user.id,
+    guestUserPassword: password
+  });
 
   const clear = () => {
     setEditing(false);
@@ -50,24 +55,11 @@ const Comment = ({ user, comment, align = "left", shouldShowOption, iAmAdmin, th
 
   const canIControl = (iAmAdmin && thisCommentIsMine) || !iAmAdmin;
 
-  const isEditable = (iAmAdmin && thisCommentIsMine) || !iAmAdmin;
-
   const confirmGuestPassword = async () => {
     try {
-      const response = await request.get(
-        QUERY.CHECK_GUEST_PASSWORD({
-          guestUserId: comment.user.id,
-          guestUserPassword: password
-        })
-      );
+      const { data } = await getPasswordConfirmResult();
 
-      if (response.status >= 400) {
-        throw new Error(response.data.message);
-      }
-
-      const { isCorrectPassword } = response.data;
-
-      return isCorrectPassword;
+      return !!data?.isCorrectPassword;
     } catch (error) {
       console.error(error.message);
       setPasswordSubmitted(true);
@@ -110,6 +102,9 @@ const Comment = ({ user, comment, align = "left", shouldShowOption, iAmAdmin, th
     event.preventDefault();
 
     const isValidPassword = await confirmGuestPassword();
+
+    console.log(isValidPassword);
+
     if (!isValidPassword) {
       alert("비밀번호가 일치하지 않습니다.");
       return;
@@ -180,6 +175,9 @@ const Comment = ({ user, comment, align = "left", shouldShowOption, iAmAdmin, th
               placeholder="댓글 작성 시 입력한 비밀번호 입력"
               isValidInput={!isPasswordSubmitted}
             />
+            <CancelButton type="button" onClick={() => clear()}>
+              취소
+            </CancelButton>
             <Button>입력</Button>
           </PasswordForm>
         )}
