@@ -32,7 +32,11 @@ const config = {
                 ],
                 "@babel/preset-typescript"
               ],
-              plugins: ["@babel/transform-runtime", require.resolve("react-refresh/babel")]
+              plugins: [
+                "@babel/transform-runtime",
+                require.resolve("react-refresh/babel"),
+                ["babel-plugin-remove-react-jsx-attribute", { attributes: ["data-testid"] }]
+              ]
             }
           }
         ],
