@@ -42,6 +42,7 @@ const GlobalStyles = createGlobalStyle`
         padding: 0;
       }
       a {
+        color: ${PALETTE.BLACK_700};
         text-decoration: none;
         outline: none;
         &:link,
@@ -57,10 +58,11 @@ const GlobalStyles = createGlobalStyle`
       }
       button {
         font-family: inherit;
-        outline: none;
+        outline: none;  
         border: none;
         color: inherit;
         cursor: pointer;
+        background-color: transparent;
       }
       input, textarea {
         font-family: inherit;
