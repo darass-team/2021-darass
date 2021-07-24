@@ -31,7 +31,7 @@ const CommentList = ({ className, comments, user, project }: Props) => {
             const iAmGuestUser = !user;
             const iAmAdmin = user !== undefined && project?.userId === user.id;
 
-            const thisCommentIsMine = authorId === user?.id;
+            const thisCommentIsMine = authorId !== undefined && authorId === user?.id;
             const thisCommentIsWrittenByGuest = comment.user.type === "GuestUser";
 
             const align = thisCommentIsMine ? "right" : "left";

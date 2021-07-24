@@ -55,6 +55,7 @@ const CommentInput = ({ user, url, projectSecretKey }: Props) => {
         onChange={onChangeContent}
         placeholder="댓글을 입력해주세요."
         isValidInput={!isFormSubmitted || isValidTextInput}
+        data-testid="comment-input-textarea"
       />
 
       <Wrapper>
@@ -66,6 +67,7 @@ const CommentInput = ({ user, url, projectSecretKey }: Props) => {
               value={guestNickName}
               onChange={onChangeGuestNickName}
               isValidInput={!isFormSubmitted || isValidGuestNickName}
+              data-testid="comment-input-guest-name"
             />
             <GuestInfo
               type="password"
@@ -73,10 +75,11 @@ const CommentInput = ({ user, url, projectSecretKey }: Props) => {
               value={guestPassword}
               onChange={onChangeGuestPassword}
               isValidInput={!isFormSubmitted || isValidGuestPassword}
+              data-testid="comment-input-guest-password"
             />
           </div>
         )}
-        <SubmitButton>등록</SubmitButton>
+        <SubmitButton data-testid="comment-input-submit-button">등록</SubmitButton>
       </Wrapper>
     </Form>
   );

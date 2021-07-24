@@ -103,8 +103,6 @@ const Comment = ({ user, comment, align = "left", shouldShowOption, iAmAdmin, th
 
     const isValidPassword = await confirmGuestPassword();
 
-    console.log(isValidPassword);
-
     if (!isValidPassword) {
       alert("비밀번호가 일치하지 않습니다.");
       return;
@@ -141,7 +139,7 @@ const Comment = ({ user, comment, align = "left", shouldShowOption, iAmAdmin, th
   }, [user]);
 
   return (
-    <Container align={align}>
+    <Container align={align} data-testid="comment">
       <div>
         <CommentWrapper align={align}>
           <Avatar imageURL={comment.user.profileImageUrl} />
@@ -174,11 +172,12 @@ const Comment = ({ user, comment, align = "left", shouldShowOption, iAmAdmin, th
               onChange={onChangePassword}
               placeholder="댓글 작성 시 입력한 비밀번호 입력"
               isValidInput={!isPasswordSubmitted}
+              data-testid="comment-guest-password-input"
             />
-            <CancelButton type="button" onClick={() => clear()}>
+            <CancelButton type="button" onClick={() => clear()} data-testid="comment-guest-password-cancel-button">
               취소
             </CancelButton>
-            <Button>입력</Button>
+            <Button data-testid="comment-guest-password-submit-button">입력</Button>
           </PasswordForm>
         )}
       </div>
