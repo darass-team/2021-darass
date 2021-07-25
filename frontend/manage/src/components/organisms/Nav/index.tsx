@@ -5,10 +5,10 @@ import Logo from "../../atoms/Logo";
 import UserAvatarOption from "../../molecules/UserAvatarOption";
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import { useUser } from "../../../hooks";
 
 export interface Props {
   user: User | undefined;
+  logout: () => void;
 }
 
 interface MenuType {
@@ -22,9 +22,8 @@ const menuList: MenuType[] = [
   { route: ROUTE.HOME, name: "ABOUT" }
 ];
 
-const Nav = ({ user }: Props) => {
+const Nav = ({ user, logout }: Props) => {
   const [selectedMenu, setSelectedMenu] = useState("");
-  const { logout } = useUser();
 
   return (
     <Container>
@@ -49,7 +48,7 @@ const Nav = ({ user }: Props) => {
           {user ? (
             <UserAvatarOption user={user}>
               <Link to="/">내 정보</Link>
-              <Link to={ROUTE.HOME} onClick={() => logout()}>
+              <Link to={ROUTE.HOME} onClick={logout}>
                 로그아웃
               </Link>
             </UserAvatarOption>
