@@ -35,7 +35,7 @@ const Menu = styled.div`
   margin-left: 4rem;
 `;
 
-const MenuLink = styled(Link)`
+const MenuLink = styled(Link)<{ isSelected: boolean }>`
   height: 100%;
   position: relative;
   display: flex;
@@ -44,6 +44,7 @@ const MenuLink = styled(Link)`
   font-size: 1.25rem;
   font-weight: 800;
   transition: border 0.1s;
+  ${props => props.isSelected && `border-bottom: 5px solid ${PALETTE.PRIMARY};`};
 
   &:hover {
     border-bottom: 5px solid ${PALETTE.PRIMARY};
