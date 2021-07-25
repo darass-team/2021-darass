@@ -34,4 +34,11 @@ const ButtonWrapper = styled.div`
   }
 `;
 
-export { Container, ButtonWrapper, AddProjectButton };
+const Message = styled.span`
+  margin-top: 2rem;
+  font-size: 1.4rem;
+  font-weight: 700;
+  text-align: center;
+`;
+
+export { Container, ButtonWrapper, AddProjectButton, Message };
