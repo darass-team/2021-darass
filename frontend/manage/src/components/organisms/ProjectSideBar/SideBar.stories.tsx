@@ -1,5 +1,5 @@
 import { Story } from "@storybook/react";
-import SideBar from ".";
+import SideBar, { Props } from ".";
 
 export default {
   title: "organisms/SideBar",
@@ -7,7 +7,7 @@ export default {
   argTypes: { children: { control: "text" } }
 };
 
-const Template: Story = args => <SideBar {...args} />;
+const Template: Story<Props> = args => <SideBar {...args} />;
 
 export const Default = Template.bind({});
 

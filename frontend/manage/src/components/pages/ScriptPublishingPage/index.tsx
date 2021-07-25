@@ -14,7 +14,7 @@ const ScriptPublishingPage = () => {
     return <Redirect to={ROUTE.MY_PROJECT} />;
   }
 
-  return <ScriptPublishing projectSecretKey={projectSecretKey} />;
+  return <ScriptPublishing projectId={projectId} projectSecretKey={projectSecretKey} />;
 };
 
 export default ScriptPublishingPage;

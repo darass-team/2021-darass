@@ -9,18 +9,25 @@ interface SubMenuType {
 
 export interface Props {
   title: string;
+  onClick?: () => void;
   menu?: SubMenuType[];
 }
 
-const MenuDropDown = ({ title, menu }: Props) => {
+const MenuDropDown = ({ title, onClick, menu }: Props) => {
   const [isDropDown, setDropDown] = useState(false);
 
   return (
     <Container>
-      <MainTitle isDropDown={isDropDown} onClick={() => setDropDown(state => !state)}>
-        {title}
-        {menu?.length && <img src={arrowDown} alt={`${title} 메뉴 열기 버튼`} />}
-      </MainTitle>
+      {menu?.length ? (
+        <MainTitle isDropDown={isDropDown} onClick={() => setDropDown(state => !state)}>
+          {title}
+          {menu?.length && <img src={arrowDown} alt={`${title} 메뉴 열기 버튼`} />}
+        </MainTitle>
+      ) : (
+        <MainTitle isDropDown={isDropDown} onClick={onClick}>
+          {title}
+        </MainTitle>
+      )}
 
       {isDropDown &&
         menu?.map(menu => (

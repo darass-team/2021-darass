@@ -1,7 +1,16 @@
+import { useHistory } from "react-router-dom";
+import { ROUTE } from "../../../constants";
+import { Project } from "../../../types/project";
 import MenuDropDown from "../../atoms/MenuDropDown";
 import { Container } from "./styles";
 
-const SideBar = () => {
+export interface Props {
+  projectId: Project["id"];
+}
+
+const ProjectSideBar = ({ projectId }: Props) => {
+  const history = useHistory();
+
   return (
     <Container>
       <MenuDropDown title="프로젝트 정보" />
@@ -13,9 +22,9 @@ const SideBar = () => {
         ]}
       />
       <MenuDropDown title="관리" menu={[{ title: "전체", onClick: () => {} }]} />
-      <MenuDropDown title="프로젝트 정보" />
+      <MenuDropDown title="설치 가이드" onClick={() => history.push(ROUTE.GET_SCRIPT_PUBLISHING(projectId))} />
     </Container>
   );
 };
 
-export default SideBar;
+export default ProjectSideBar;
