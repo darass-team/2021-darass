@@ -1,15 +1,16 @@
-import { Button } from "./styles";
+import { Button, Description, Title } from "./styles";
 
 export interface Props {
-  className?: string;
-  children?: string;
+  title: string;
+  description?: string;
   onClick: () => void;
 }
 
-const ProjectButton = ({ className, children, onClick }: Props) => {
+const ProjectButton = ({ title, description, onClick }: Props) => {
   return (
-    <Button className={className} type="button" onClick={onClick}>
-      {children}
+    <Button type="button" onClick={onClick}>
+      <Title>{title}</Title>
+      <Description>{description}</Description>
     </Button>
   );
 };

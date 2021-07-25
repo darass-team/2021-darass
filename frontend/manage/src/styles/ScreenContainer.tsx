@@ -5,7 +5,7 @@ import { PALETTE } from "./palette";
 const ScreenContainer = styled.div<{ bgColor?: PALETTE }>`
   min-height: ${`calc(100vh - ${NAVIGATION_HEIGHT})`};
   width: 100%;
-  background-color: ${[props => (props.bgColor ? props.bgColor : PALETTE.WHITE)]};
+  background-color: ${[props => (props.bgColor ? props.bgColor : PALETTE.DEFAULT_BG)]};
   padding: 7rem 2.5rem;
   & > * {
     max-width: ${PAGE_MAX_WIDTH};

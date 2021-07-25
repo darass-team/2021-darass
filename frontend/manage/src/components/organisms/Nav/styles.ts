@@ -43,6 +43,7 @@ const MenuLink = styled(Link)`
   margin-left: 1.5rem;
   font-size: 1.25rem;
   font-weight: 800;
+  transition: border 0.1s;
 
   &:hover {
     border-bottom: 5px solid ${PALETTE.PRIMARY};
