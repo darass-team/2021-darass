@@ -10,11 +10,11 @@ import { ROUTE } from "./constants";
 import { useUser } from "./hooks";
 
 const App = () => {
-  const { user, isLoading } = useUser();
+  const { user, isLoading, logout } = useUser();
 
   return (
     <Router>
-      <Nav user={user} />
+      <Nav user={user} logout={logout} />
       <Switch>
         <Route exact path={ROUTE.HOME} component={Home} />
         <ConditionalRoute path={ROUTE.LOGIN} component={Login} condition={!user} redirectPath={ROUTE.MY_PROJECT} />

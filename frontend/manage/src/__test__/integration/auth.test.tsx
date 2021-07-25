@@ -44,23 +44,28 @@ describe("login/logout test", () => {
   test("로그아웃버튼을 누르면 로그아웃이 된다.", () => {
     let user: User | undefined = socialLoginUser2;
 
-    (useUser as jest.Mock).mockImplementation(() => {
-      return {
-        user,
-        login: () => {
-          user = { ...socialLoginUser2 };
-        },
-        logout: () => {
-          user = undefined;
-        }
-      };
-    });
+    // (useUser as jest.Mock).mockImplementation(() => {
+    //   return {
+    //     user,
+    //     login: () => {
+    //       user = { ...socialLoginUser2 };
+    //     },
+    //     logout: () => {
+    //       user = undefined;
+    //     }
+    //   };
+    // });
 
     const history = createMemoryHistory();
 
     const nav = render(
       <Router history={history}>
-        <Nav user={user} />
+        <Nav
+          user={user}
+          logout={() => {
+            user = undefined;
+          }}
+        />
       </Router>
     );
     const avatarImg = nav.getByAltText("프로필 사진");
