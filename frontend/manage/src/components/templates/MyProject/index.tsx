@@ -1,26 +1,40 @@
+import { useHistory } from "react-router-dom";
+import { ROUTE } from "../../../constants";
 import ScreenContainer from "../../../styles/ScreenContainer";
 import { Project } from "../../../types/project";
 import ProjectButton from "../../atoms/Buttons/ProjectButton";
-import { AddProjectButton, ButtonWrapper, Container, Title } from "./styles";
+import { AddProjectButton, ButtonWrapper, Container, Message } from "./styles";
 
 export interface Props {
   projects: Project[] | undefined;
-  moveNewProjectPage: () => void;
-  moveProjectDetailPage: (id: number) => void;
 }
 
-const MyProject = ({ projects, moveNewProjectPage, moveProjectDetailPage }: Props) => {
+const MyProject = ({ projects }: Props) => {
+  const history = useHistory();
+
+  const moveProjectDetailPage = (id: number) => {
+    history.push(ROUTE.GET_SCRIPT_PUBLISHING(id));
+  };
+
+  const moveNewProjectPage = () => {
+    history.push(ROUTE.NEW_PROJECT);
+  };
+
   return (
     <ScreenContainer>
       <Container>
-        <Title>내 프로젝트</Title>
+        <AddProjectButton onClick={moveNewProjectPage}>Add new</AddProjectButton>
         <ButtonWrapper>
-          <AddProjectButton onClick={moveNewProjectPage}>새로운 프로젝트 만들기</AddProjectButton>
           {projects?.map(({ id, name }) => (
-            <ProjectButton key={id} onClick={() => moveProjectDetailPage(id)}>
-              {name}
-            </ProjectButton>
+            <ProjectButton key={id} title={name} onClick={() => moveProjectDetailPage(id)} />
           ))}
+          {projects?.length === 0 && (
+            <Message>
+              “Add new” 버튼을 눌러 프로젝트를 추가해주세요.
+              <br />
+              다라쓰 댓글 모듈을 설치 또는 관리할 수 있습니다.
+            </Message>
+          )}
         </ButtonWrapper>
       </Container>
     </ScreenContainer>

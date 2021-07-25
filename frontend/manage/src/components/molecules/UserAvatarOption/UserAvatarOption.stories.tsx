@@ -1,13 +1,13 @@
 import { Story } from "@storybook/react";
-import Nav, { Props } from ".";
+import UserAvatarOption, { Props } from ".";
 
 export default {
-  title: "organisms/Nav",
-  component: Nav,
+  title: "molecules/UserAvatarOption",
+  component: UserAvatarOption,
   argTypes: { children: { control: "text" } }
 };
 
-const Template: Story<Props> = args => <Nav {...args} />;
+const Template: Story<Props> = args => <UserAvatarOption {...args} />;
 
 export const Default = Template.bind({});
 
@@ -19,5 +19,6 @@ Default.args = {
     modifiedDate: String(Date.now()),
     type: "SocialLoginUser",
     profileImageUrl: "https://i1.sndcdn.com/artworks-dcFJFoFWVmO0zQ63-tDaHvg-t500x500.jpg"
-  }
+  },
+  children: <button>로그아웃</button>
 };

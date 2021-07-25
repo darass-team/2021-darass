@@ -1,31 +1,71 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { navigationHeight, pageMaxWidth } from "../../../styles/constants";
+import { NAVIGATION_HEIGHT, PAGE_MAX_WIDTH } from "../../../styles/constants";
 import { PALETTE } from "../../../styles/palette";
 
 const Container = styled.nav`
+  position: relative;
   width: 100%;
-  height: ${navigationHeight};
+  height: ${NAVIGATION_HEIGHT};
   display: flex;
   justify-content: center;
-  background-color: ${PALETTE.PRIMARY};
-  padding: 1rem 2.5rem;
+  align-items: center;
+  background-color: ${PALETTE.WHITE};
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+  z-index: 99;
 `;
 
 const Wrapper = styled.div`
   width: 100%;
   height: 100%;
-  max-width: ${pageMaxWidth};
+  max-width: ${PAGE_MAX_WIDTH};
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  padding: 0 0.95rem;
 `;
 
-const NavLink = styled(Link)`
-  margin-left: 0.8rem;
-  font-size: 2.4rem;
+const LogoLink = styled(Link)`
+  display: flex;
+  align-items: center;
+`;
+
+const Menu = styled.div`
+  height: 100%;
+  display: flex;
+  margin-left: 4rem;
+`;
+
+const MenuLink = styled(Link)<{ isSelected: boolean }>`
+  height: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-left: 1.5rem;
+  font-size: 1.25rem;
   font-weight: 800;
-  color: ${PALETTE.WHITE};
+  transition: border 0.1s;
+  ${props => props.isSelected && `border-bottom: 5px solid ${PALETTE.PRIMARY};`};
+
+  &:hover {
+    border-bottom: 5px solid ${PALETTE.PRIMARY};
+  }
 `;
 
-export { Container, Wrapper, NavLink };
+const Title = styled.span`
+  margin-left: 10px;
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: ${PALETTE.BLACK_700};
+`;
+
+const UserAvatarOptionWrapper = styled.div`
+  margin-left: auto;
+`;
+
+const LoginLink = styled(Link)`
+  margin-left: 1.5rem;
+  font-size: 1.25rem;
+  font-weight: 800;
+`;
+
+export { Container, Wrapper, LogoLink, Menu, MenuLink, Title, UserAvatarOptionWrapper, LoginLink };

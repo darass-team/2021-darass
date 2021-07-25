@@ -3689,6 +3689,11 @@ babel-plugin-react-docgen@^4.2.1:
     lodash "^4.17.15"
     react-docgen "^5.0.0"
 
+babel-plugin-remove-react-jsx-attribute@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/babel-plugin-remove-react-jsx-attribute/-/babel-plugin-remove-react-jsx-attribute-1.0.1.tgz#89e807ecb871d5dd2cd760879a1a661235d56eb6"
+  integrity sha512-I5YPG1jcm9it9rd6bA5Wrl88y4myav09sNUch/XcwAeV2Rgp3n2WybhBZLT3+d5Pja4toou6aTt/cGX+la5LCA==
+
 "babel-plugin-styled-components@>= 1.12.0":
   version "1.13.1"
   resolved "https://registry.yarnpkg.com/babel-plugin-styled-components/-/babel-plugin-styled-components-1.13.1.tgz#5ecd28b207627c2a26ef8d5da401e9644065095a"

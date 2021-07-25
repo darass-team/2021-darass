@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { Size } from ".";
 
 const logoSizeBySize = {
-  SM: 60,
+  SM: 40,
   MD: 90,
   LG: 150
 };

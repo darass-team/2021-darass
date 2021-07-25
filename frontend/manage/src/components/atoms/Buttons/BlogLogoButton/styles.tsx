@@ -16,6 +16,8 @@ const Logo = styled.img<{ isSelected: boolean }>`
   object-fit: contain;
   border: 1px solid ${PALETTE.BLACK_700};
   opacity: ${props => props.isSelected && "0.6"};
+  transition: opacity 0.3s;
+
   &:hover {
     opacity: 0.6;
   }

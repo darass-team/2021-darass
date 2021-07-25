@@ -1,11 +1,9 @@
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import { PALETTE } from "./../../../styles/palette";
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  position: relative;
 `;
 
 const Section = styled.section`
@@ -13,9 +11,9 @@ const Section = styled.section`
 `;
 
 const Title = styled.h2`
-  font-size: 2.4rem;
+  font-size: 2rem;
   font-weight: 800;
-  margin-bottom: 4rem;
+  margin-bottom: 2rem;
   align-self: flex-start;
 `;
 
@@ -52,7 +50,7 @@ const BlogLogoWrapper = styled.div`
 `;
 
 const SubTitle = styled.h3`
-  font-size: 2rem;
+  font-size: 1.6rem;
   word-break: keep-all;
   margin-bottom: 1rem;
 `;
