@@ -21,7 +21,7 @@ const MenuDropDown = ({ title, onClick, menu }: Props) => {
       {menu?.length ? (
         <MainTitle isDropDown={isDropDown} onClick={() => setDropDown(state => !state)}>
           {title}
-          {menu?.length && <img src={arrowDown} alt={`${title} 메뉴 열기 버튼`} />}
+          <img src={arrowDown} alt={`${title} 메뉴 열기 버튼`} />
         </MainTitle>
       ) : (
         <MainTitle isDropDown={isDropDown} onClick={onClick}>
