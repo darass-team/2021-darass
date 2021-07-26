@@ -29,6 +29,8 @@ public class DatabaseCleaner implements InitializingBean {
     @Transactional
     public void tableClear() {
         entityManager.flush();
+        entityManager.clear();
+
         entityManager.createNativeQuery("SET REFERENTIAL_INTEGRITY FALSE").executeUpdate();
 
         for (String tableName : tableNames) {

@@ -91,7 +91,7 @@ bootJar {
 
 jacoco {
 // jaCoCo 버전
-    toolVersion = '0.8.5'
+    toolVersion = '0.8.7'
 
     // 테스트 결과 리포트 파일 저장 경로
     reportsDir = file("$buildDir/customJacocoReportDir")
@@ -131,21 +131,21 @@ jacocoTestCoverageVerification {
             // 룰을 체크할 단위는 클래스 단위
             element = 'CLASS'
 
-            // 브랜치 커버리지를 최소한 90% 만족시켜야 한다.
+            // 브랜치 커버리지를 최소한 70% 만족시켜야 한다.
             limit {
                 counter = 'BRANCH'
                 value = 'COVEREDRATIO'
-                minimum = 0.00
+                minimum = 0.70
             }
 
             // 라인 커버리지를 최소한 80% 만족시켜야 한다.
             limit {
                 counter = 'LINE'
                 value = 'COVEREDRATIO'
-                minimum = 0.00
+                minimum = 0.90
             }
 
-            // 빈 줄을 제외한 코드의 라인수를 최대 200라인으로 제한한다.
+            // 빈 줄을 제외한 코드의 라인수를 최대 500라인으로 제한한다.
             limit {
                 counter = 'LINE'
                 value = 'TOTALCOUNT'
