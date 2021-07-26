@@ -3,7 +3,7 @@ import { fireEvent, render } from "@testing-library/react";
 import { createMemoryHistory } from "history";
 import { Router } from "react-router-dom";
 import Nav from "../../components/organisms/Nav";
-import LoginPage from "../../components/pages/LoginPage";
+import Login from "../../components/pages/Login";
 import { useUser } from "../../hooks";
 import { User } from "../../types/user";
 import { socialLoginUser2 } from "../fixture/user";
@@ -26,7 +26,7 @@ describe("login/logout test", () => {
       };
     });
 
-    const loginPage = render(<LoginPage />);
+    const loginPage = render(<Login />);
 
     const kakaoLoginButton = loginPage.getByAltText("kakao");
     fireEvent.click(kakaoLoginButton);
