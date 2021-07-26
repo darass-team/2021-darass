@@ -1,4 +1,4 @@
-const setCookie = (key: string, value: string, keepAliveMinutes = 60) => {
+export const setCookie = (key: string, value: string, keepAliveMinutes = 60) => {
   const expiryDate = new Date();
   expiryDate.setMinutes(expiryDate.getMinutes() + keepAliveMinutes);
 
@@ -6,7 +6,7 @@ const setCookie = (key: string, value: string, keepAliveMinutes = 60) => {
   document.cookie = key + "=" + cookieValue + "; SameSite=Lax";
 };
 
-const getCookie = (key: string) => {
+export const getCookie = (key: string) => {
   let x, y;
   let val = document.cookie.split(";");
 
@@ -22,9 +22,7 @@ const getCookie = (key: string) => {
   return null;
 };
 
-const deleteCookie = (key: string) => {
+export const deleteCookie = (key: string) => {
   setCookie(key, "");
   document.cookie = key + "=; SameSite=Lax; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;";
 };
-
-export { setCookie, getCookie, deleteCookie };

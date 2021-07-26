@@ -17,11 +17,6 @@ customAxios.interceptors.request.use(config => {
   return config;
 });
 
-customAxios.interceptors.response.use(
-  response => response,
-  error => error.response
-);
-
 const request = {
   get: async (query: string) => await customAxios.get(query),
   post: async <T>(query: string, data: T) => await customAxios.post(query, data),

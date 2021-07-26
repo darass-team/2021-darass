@@ -1,4 +1,4 @@
-const getKakaoAccessToken = async () => {
+export const getKakaoAccessToken = async () => {
   const { Kakao } = window;
 
   if (!Kakao.isInitialized()) {
@@ -19,5 +19,3 @@ const getKakaoAccessToken = async () => {
     })
   );
 };
-
-export { getKakaoAccessToken };
