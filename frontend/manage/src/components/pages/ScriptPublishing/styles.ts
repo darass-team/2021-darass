@@ -1,30 +1,30 @@
 import styled from "styled-components";
-import { PALETTE } from "./../../../styles/palette";
+import { PALETTE } from "../../../styles/palette";
 
-const Container = styled.div`
+export const Container = styled.div`
   display: flex;
   flex-direction: column;
 `;
 
-const Section = styled.section`
+export const Section = styled.section`
   margin-bottom: 6rem;
 `;
 
-const Title = styled.h2`
+export const Title = styled.h2`
   font-size: 2rem;
   font-weight: 800;
   margin-bottom: 2rem;
   align-self: flex-start;
 `;
 
-const CodeBlockWrapper = styled.div`
+export const CodeBlockWrapper = styled.div`
   border-radius: 10px;
   padding: 0;
   position: relative;
   box-sizing: border-box;
 `;
 
-const CopyButton = styled.button`
+export const CopyButton = styled.button`
   position: absolute;
   right: 0.5rem;
   top: 1rem;
@@ -41,7 +41,7 @@ const CopyButton = styled.button`
   transform: scale(0.8);
 `;
 
-const BlogLogoWrapper = styled.div`
+export const BlogLogoWrapper = styled.div`
   margin-top: 3em;
   display: flex;
   & > * {
@@ -49,20 +49,18 @@ const BlogLogoWrapper = styled.div`
   }
 `;
 
-const SubTitle = styled.h3`
+export const SubTitle = styled.h3`
   font-size: 1.6rem;
   word-break: keep-all;
   margin-bottom: 1rem;
 `;
 
-const P = styled.p`
+export const P = styled.p`
   font-size: 1.4rem;
   word-break: keep-all;
   margin-bottom: 1rem;
 `;
 
-const Ol = styled.ol`
+export const Ol = styled.ol`
   font-size: 1.4rem;
 `;
-
-export { Container, Section, Title, CodeBlockWrapper, BlogLogoWrapper, SubTitle, P, Ol, CopyButton };

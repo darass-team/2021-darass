@@ -9,5 +9,5 @@ export const Button = styled.button`
   border-radius: 40px;
   font-weight: 800;
   font-size: 1.5rem;
-  color: ${PALETTE.BLACK_700}
+  color: ${PALETTE.BLACK_700};
 `;

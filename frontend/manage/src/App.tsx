@@ -1,11 +1,11 @@
 import { BrowserRouter as Router, Redirect, Route, Switch } from "react-router-dom";
 import { ConditionalRoute } from "./components/HOC/ConditionalRoute";
 import Nav from "./components/organisms/Nav";
-import Home from "./components/pages/HomePage";
-import Login from "./components/pages/LoginPage";
-import MyProjectPage from "./components/pages/MyProjectPage";
-import NewProjectPage from "./components/pages/NewProjectPage";
-import ScriptPublishingPage from "./components/pages/ScriptPublishingPage";
+import Home from "./components/pages/Home";
+import Login from "./components/pages/Login";
+import MyProjectPage from "./components/pages/MyProject";
+import NewProjectPage from "./components/pages/NewProject";
+import ScriptPublishingPage from "./components/pages/ScriptPublishing";
 import { ROUTE } from "./constants";
 import { useUser } from "./hooks";
 

@@ -1,13 +1,17 @@
+import { useHistory } from "react-router-dom";
+import { ROUTE } from "../../../constants";
 import { PALETTE } from "../../../styles/palette";
 import ScreenContainer from "../../../styles/ScreenContainer";
 import Logo from "../../atoms/Logo";
 import { Container, Introduction, Button } from "./styles";
 
-export interface Props {
-  moveLoginPage: () => void;
-}
+const Home = () => {
+  const history = useHistory();
 
-const Home = ({ moveLoginPage }: Props) => {
+  const moveLoginPage = () => {
+    history.push(ROUTE.LOGIN);
+  };
+
   return (
     <ScreenContainer bgColor={PALETTE.PRIMARY}>
       <Container>

@@ -1,7 +1,7 @@
-import { PALETTE } from "./../../../styles/palette";
+import { PALETTE } from "../../../styles/palette";
 import styled from "styled-components";
 
-const Container = styled.div`
+export const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -9,7 +9,7 @@ const Container = styled.div`
   position: relative;
 `;
 
-const AddProjectButton = styled.button`
+export const AddProjectButton = styled.button`
   background-color: ${PALETTE.SECONDARY};
   color: ${PALETTE.WHITE};
   border-radius: 10px;
@@ -25,7 +25,7 @@ const AddProjectButton = styled.button`
   }
 `;
 
-const ButtonWrapper = styled.div`
+export const ButtonWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -34,11 +34,9 @@ const ButtonWrapper = styled.div`
   }
 `;
 
-const Message = styled.span`
+export const Message = styled.span`
   margin-top: 2rem;
   font-size: 1.4rem;
   font-weight: 700;
   text-align: center;
 `;
-
-export { Container, ButtonWrapper, AddProjectButton, Message };

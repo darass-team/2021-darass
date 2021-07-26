@@ -24,7 +24,7 @@ export const useUser = () => {
     data: user,
     isLoading,
     error
-  } = useQuery<User, Error>(REACT_QUERY_KEY.USER, () => getUser(), {
+  } = useQuery<User, Error>(REACT_QUERY_KEY.USER, getUser, {
     retry: false,
     refetchOnWindowFocus: false
   });
@@ -47,19 +47,11 @@ export const useUser = () => {
     }
   };
 
-  const deleteMutation = useMutation<void, Error, void>(async () => {}, {
-    onSuccess: () => {
-      queryClient.setQueryData<User | undefined>(REACT_QUERY_KEY.USER, () => {
-        return undefined;
-      });
-    }
-  });
-
   const logout = async () => {
     try {
       deleteCookie(COOKIE_KEY.ATK);
 
-      deleteMutation.mutate();
+      queryClient.setQueryData<User | undefined>(REACT_QUERY_KEY.USER, () => undefined);
     } catch (error) {
       console.error(error.message);
     }

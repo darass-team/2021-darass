@@ -1,11 +1,11 @@
 import "@testing-library/jest-dom/extend-expect";
 import { fireEvent, render, waitFor } from "@testing-library/react";
-import MyProjectPage from "../../components/pages/MyProjectPage";
 import { createMemoryHistory } from "history";
 import { useGetAllProjects } from "../../hooks";
 import { myProject, myProject2, myProject3 } from "../fixture/project";
 import { ROUTE } from "../../constants";
 import { Router } from "react-router-dom";
+import MyProject from "../../components/pages/MyProject";
 
 jest.mock("../../hooks");
 
@@ -19,7 +19,7 @@ describe("myProject 페이지 테스트", () => {
       };
     });
 
-    const myProjectPage = render(<MyProjectPage />);
+    const myProjectPage = render(<MyProject />);
     const message = myProjectPage.getByTestId("myproject-no-project-message");
 
     expect(message).toHaveTextContent("“Add new” 버튼을 눌러 프로젝트를 추가해주세요.");
@@ -36,7 +36,7 @@ describe("myProject 페이지 테스트", () => {
       };
     });
 
-    const myProjectPage = render(<MyProjectPage />);
+    const myProjectPage = render(<MyProject />);
     const projectButtons = myProjectPage.getAllByTestId("project-button");
 
     projectButtons.forEach((projectButton, index) => {
@@ -56,7 +56,7 @@ describe("myProject 페이지 테스트", () => {
     const history = createMemoryHistory();
     const myProjectPage = render(
       <Router history={history}>
-        <MyProjectPage />
+        <MyProject />
       </Router>
     );
 
@@ -85,7 +85,7 @@ describe("myProject 페이지 테스트", () => {
     const history = createMemoryHistory();
     const myProjectPage = render(
       <Router history={history}>
-        <MyProjectPage />
+        <MyProject />
       </Router>
     );
 

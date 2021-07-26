@@ -1,19 +1,15 @@
 import { FormEvent } from "react";
 import { useHistory } from "react-router-dom";
 import { ROUTE } from "../../../constants";
-import { useCreateProject, useInput } from "../../../hooks";
+import { useCreateProject, useGetAllProjects, useInput } from "../../../hooks";
 import ScreenContainer from "../../../styles/ScreenContainer";
-import { Project } from "../../../types/project";
 import { isEmptyString } from "../../../utils/validation";
 import { Container, Form, Input, Label, SubmitButton, Title } from "./styles";
 
-export interface Props {
-  projects: Project[] | undefined;
-}
-
-const NewProject = ({ projects }: Props) => {
+const NewProject = () => {
   const history = useHistory();
   const { createProject } = useCreateProject();
+  const { projects } = useGetAllProjects();
   const { value: projectName, onChange: onChangeProjectName } = useInput("");
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {

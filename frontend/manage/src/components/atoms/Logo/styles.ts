@@ -7,9 +7,7 @@ const logoSizeBySize = {
   LG: 150
 };
 
-const Container = styled.img<{ size: Size }>`
+export const Container = styled.img<{ size: Size }>`
   width: ${props => `${logoSizeBySize[props.size]}px`};
   height: ${props => `${logoSizeBySize[props.size]}px`};
 `;
-
-export { Container };

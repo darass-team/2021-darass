@@ -1,7 +1,7 @@
 import { PALETTE } from "./../../../../styles/palette";
 import styled from "styled-components";
 
-const Button = styled.button`
+export const Button = styled.button`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -17,14 +17,12 @@ const Button = styled.button`
   }
 `;
 
-const Title = styled.span`
+export const Title = styled.span`
   font-size: 1.6rem;
   font-weight: 800;
   margin-bottom: 8px;
 `;
 
-const Description = styled.span`
+export const Description = styled.span`
   font-size: 1.2rem;
 `;
-
-export { Button, Title, Description };

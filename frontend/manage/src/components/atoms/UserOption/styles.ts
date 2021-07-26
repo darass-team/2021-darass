@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { SpeechBubbleCSS } from "../../../styles/css";
 import { PALETTE } from "../../../styles/palette";
 
-const Container = styled.div`
+export const Container = styled.div`
   ${SpeechBubbleCSS};
   background-color: ${PALETTE.GRAY_200};
   width: 10rem;
@@ -12,13 +12,13 @@ const Container = styled.div`
   padding: 0.6rem 0.6rem;
 `;
 
-const Label = styled.span`
+export const Label = styled.span`
   align-self: flex-start;
   font-size: 0.8rem;
   margin-bottom: 0.5rem;
 `;
 
-const OptionContainer = styled.div`
+export const OptionContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -34,5 +34,3 @@ const OptionContainer = styled.div`
     color: ${PALETTE.BLACK_900};
   }
 `;
-
-export { Container, Label, OptionContainer };

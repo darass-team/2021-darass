@@ -3,7 +3,7 @@ import { PALETTE } from "../../../styles/palette";
 
 import SubmitButtonComponent from "../../atoms/SubmitButton";
 
-const Container = styled.div`
+export const Container = styled.div`
   width: 45rem;
   padding: 6rem 5.5rem;
   background-color: ${PALETTE.WHITE};
@@ -11,27 +11,27 @@ const Container = styled.div`
   box-shadow: rgba(0, 0, 0, 0.24) 0 3px 8px;
 `;
 
-const Title = styled.h2`
+export const Title = styled.h2`
   font-size: 1.6rem;
   font-weight: 800;
   margin-bottom: 3rem;
   align-self: flex-start;
 `;
 
-const Form = styled.form`
+export const Form = styled.form`
   display: flex;
   flex-direction: column;
   align-items: center;
 `;
 
-const Label = styled.label`
+export const Label = styled.label`
   font-size: 1.4rem;
   font-weight: 600;
   align-self: flex-start;
   margin-bottom: 0.8rem;
 `;
 
-const Input = styled.input`
+export const Input = styled.input`
   width: 100%;
   height: 3rem;
   border: 1px solid ${PALETTE.BLACK_700};
@@ -45,7 +45,7 @@ const Input = styled.input`
   }
 `;
 
-const SubmitButton = styled(SubmitButtonComponent)`
+export const SubmitButton = styled(SubmitButtonComponent)`
   margin-top: 4.8rem;
   align-self: flex-end;
   transition: background-color 0.3s;
@@ -54,5 +54,3 @@ const SubmitButton = styled(SubmitButtonComponent)`
     background-color: ${PALETTE.SECONDARY_HOVER};
   }
 `;
-
-export { Container, Title, Form, Label, Input, SubmitButton };
