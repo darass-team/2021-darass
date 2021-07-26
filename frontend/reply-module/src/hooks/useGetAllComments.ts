@@ -8,13 +8,13 @@ import { request } from "../utils/request";
 const getAllComments = async ({ url, projectSecretKey }: GetCommentsRequestParams) => {
   if (!url || !projectSecretKey) return undefined;
 
-  const response = await request.get(QUERY.GET_ALL_COMMENTS(url, projectSecretKey));
+  try {
+    const response = await request.get(QUERY.GET_ALL_COMMENTS(url, projectSecretKey));
 
-  if (response.status >= 400) {
-    throw new Error(response.data.message);
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response.data.message);
   }
-
-  return response.data;
 };
 
 export const useGetAllComments = ({ url, projectSecretKey }: GetCommentsRequestParams) => {

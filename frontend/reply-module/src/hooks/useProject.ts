@@ -8,13 +8,13 @@ import { QUERY } from "../constants/api";
 const getProject = async (projectSecretKey: GetProjectRequestParams["projectSecretKey"]) => {
   if (!projectSecretKey) return undefined;
 
-  const response = await request.get(QUERY.GET_PROJECT(projectSecretKey));
+  try {
+    const response = await request.get(QUERY.GET_PROJECT(projectSecretKey));
 
-  if (response.status >= 400) {
-    throw new Error(response.data.message);
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response.data.message);
   }
-
-  return response.data;
 };
 
 export const useProject = ({ projectSecretKey }: GetProjectRequestParams) => {

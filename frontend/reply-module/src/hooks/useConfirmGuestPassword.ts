@@ -5,13 +5,13 @@ import { GuestUserInfo } from "../types/comment";
 import { request } from "../utils/request";
 
 const _getPasswordConfirmResult = async ({ guestUserId, guestUserPassword }: GuestUserInfo) => {
-  const response = await request.get(QUERY.CHECK_GUEST_PASSWORD({ guestUserId, guestUserPassword }));
+  try {
+    const response = await request.get(QUERY.CHECK_GUEST_PASSWORD({ guestUserId, guestUserPassword }));
 
-  if (response.status >= 400) {
-    throw new Error(response.data.message);
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response.data.message);
   }
-
-  return response.data;
 };
 
 export const useConfirmGuestPassword = ({ guestUserId, guestUserPassword }: GuestUserInfo) => {
