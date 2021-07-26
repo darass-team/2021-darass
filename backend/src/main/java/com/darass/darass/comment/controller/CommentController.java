@@ -1,6 +1,7 @@
 package com.darass.darass.comment.controller;
 
 import com.darass.darass.auth.oauth.domain.AuthenticationPrincipal;
+import com.darass.darass.auth.oauth.domain.RequiredLogin;
 import com.darass.darass.comment.dto.CommentCreateRequest;
 import com.darass.darass.comment.dto.CommentDeleteRequest;
 import com.darass.darass.comment.dto.CommentResponse;
@@ -55,6 +56,12 @@ public class CommentController {
     public ResponseEntity<Void> delete(@PathVariable("id") Long id, @AuthenticationPrincipal User user,
         @ModelAttribute CommentDeleteRequest request) {
         commentService.delete(id, user, request);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+    @PostMapping("/{id}/like")
+    public ResponseEntity<Void> clickLikeButton(@PathVariable("id") Long id, @RequiredLogin User user) {
+        commentService.switchLikeStatus(id, user);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }
