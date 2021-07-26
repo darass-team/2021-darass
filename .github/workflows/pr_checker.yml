@@ -47,7 +47,7 @@ jobs:
       
     - name: Test - project
       run: yarn test
-      working-directory: ./frontend/reply-module
+      working-directory: ./frontend/manage
     
     - name: Build - project
       run: yarn build
