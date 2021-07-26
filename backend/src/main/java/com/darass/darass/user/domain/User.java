@@ -28,13 +28,17 @@ public abstract class User extends BaseTimeEntity {
 
     @OneToMany(mappedBy = "user", fetch = LAZY, cascade = ALL, orphanRemoval = true)
     private final List<Comment> comments = new ArrayList<>();
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column(nullable = false)
     private String nickName;
+
     @Column
     private String profileImageUrl;
+
     @Column(name = "user_type", insertable = false, updatable = false)
     private String userType;
 
@@ -45,6 +49,12 @@ public abstract class User extends BaseTimeEntity {
     public User(String nickName, String profileImageUrl) {
         this(nickName);
         this.profileImageUrl = profileImageUrl;
+    }
+
+    public User(Long id, String nickName, String profileImageUrl, String userType) {
+        this(nickName, profileImageUrl);
+        this.id = id;
+        this.userType = userType;
     }
 
     public abstract boolean isLoginUser();
