@@ -2,11 +2,13 @@ package com.darass.darass.comment.service;
 
 import com.darass.darass.comment.domain.Comment;
 import com.darass.darass.comment.domain.Comments;
+import com.darass.darass.comment.domain.CommentLike;
 import com.darass.darass.comment.dto.CommentCreateRequest;
 import com.darass.darass.comment.dto.CommentDeleteRequest;
 import com.darass.darass.comment.dto.CommentResponse;
 import com.darass.darass.comment.dto.CommentUpdateRequest;
 import com.darass.darass.comment.repository.CommentRepository;
+import com.darass.darass.comment.repository.LikeRepository;
 import com.darass.darass.exception.ExceptionWithMessageAndCode;
 import com.darass.darass.project.domain.Project;
 import com.darass.darass.project.repository.ProjectRepository;
@@ -28,6 +30,7 @@ public class CommentService {
     private final CommentRepository commentRepository;
     private final ProjectRepository projectRepository;
     private final UserRepository userRepository;
+    private final LikeRepository likeRepository;
 
     public CommentResponse save(User user, CommentCreateRequest commentRequest) {
         if (!user.isLoginUser()) {
@@ -131,5 +134,19 @@ public class CommentService {
         if (!user.isValidGuestPassword(password)) {
             throw ExceptionWithMessageAndCode.INVALID_GUEST_PASSWORD.getException();
         }
+    }
+
+    public void switchLikeStatus(Long id, User user) {
+        Comment comment = commentRepository.findById(id)
+            .orElseThrow(ExceptionWithMessageAndCode.NOT_FOUND_USER::getException);
+
+        if (comment.isLikedByUser(user)) {
+            likeRepository.deleteByCommentIdAndUserId(comment.getId(), user.getId());
+            return;
+        }
+        likeRepository.save(CommentLike.builder()
+            .comment(comment)
+            .user(user)
+            .build());
     }
 }

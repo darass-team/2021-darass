@@ -2,6 +2,7 @@ package com.darass.darass.project.service;
 
 import com.darass.darass.exception.ExceptionWithMessageAndCode;
 import com.darass.darass.project.domain.Project;
+import com.darass.darass.project.domain.SecretKeyFactory;
 import com.darass.darass.project.dto.ProjectCreateRequest;
 import com.darass.darass.project.dto.ProjectResponse;
 import com.darass.darass.project.repository.ProjectRepository;
@@ -10,6 +11,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -66,5 +68,4 @@ public class ProjectService {
         }
         projectRepository.deleteByIdAndUserId(id, userId);
     }
-
 }

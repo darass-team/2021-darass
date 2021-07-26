@@ -3,6 +3,7 @@ package com.darass.darass.comment.domain;
 import com.darass.darass.common.domain.BaseTimeEntity;
 import com.darass.darass.project.domain.Project;
 import com.darass.darass.user.domain.User;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -10,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,6 +32,9 @@ public class Comment extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn
     private Project project;
+
+    @OneToMany(mappedBy = "comment")
+    private List<CommentLike> commentLikes;
 
     private String url;
 
@@ -60,4 +65,9 @@ public class Comment extends BaseTimeEntity {
         return user.getId();
     }
 
+    public boolean isLikedByUser(User user) {
+        return commentLikes.stream()
+            .map(CommentLike::getUser)
+            .anyMatch(it -> it.isSameUser(user));
+    }
 }
