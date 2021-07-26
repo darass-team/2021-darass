@@ -1,16 +1,13 @@
 import { useHistory } from "react-router-dom";
 import { ROUTE } from "../../../constants";
+import { useGetAllProjects } from "../../../hooks";
 import ScreenContainer from "../../../styles/ScreenContainer";
-import { Project } from "../../../types/project";
 import ProjectButton from "../../atoms/Buttons/ProjectButton";
 import { AddProjectButton, ButtonWrapper, Container, Message } from "./styles";
 
-export interface Props {
-  projects: Project[] | undefined;
-}
-
-const MyProject = ({ projects }: Props) => {
+const MyProject = () => {
   const history = useHistory();
+  const { projects } = useGetAllProjects();
 
   const moveProjectDetailPage = (id: number) => {
     history.push(ROUTE.GET_SCRIPT_PUBLISHING(id));

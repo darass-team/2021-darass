@@ -1,8 +1,9 @@
 import { useState } from "react";
+import { useRouteMatch } from "react-router-dom";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import { atomOneDark } from "react-syntax-highlighter/dist/esm/styles/hljs";
 import { GUIDE_FILE } from "../../../constants";
-import { useCopyButton } from "../../../hooks";
+import { useCopyButton, useGetProject } from "../../../hooks";
 import ScreenContainer from "../../../styles/ScreenContainer";
 import BlogLogoButton from "../../atoms/Buttons/BlogLogoButton";
 import ProjectSideBar from "../../organisms/ProjectSideBar";
@@ -28,13 +29,12 @@ const scriptCode = (projectSecretKey: string) => `
 <!-- 다라쓰 설치 코드 끝 -->
 `;
 
-export interface Props {
-  projectId: number;
-  projectSecretKey?: string;
-}
-
-const ScriptPublishing = ({ projectId, projectSecretKey }: Props) => {
+const ScriptPublishing = () => {
   const [selectedBlogInfo, setSelectedBlogInfo] = useState<ObjectValueType<typeof GUIDE_FILE>>();
+  const match = useRouteMatch<{ id: string }>();
+  const projectId = Number(match.params.id);
+  const { project } = useGetProject(projectId);
+  const projectSecretKey = project?.secretKey;
   const { isCopyButtonClicked, onCopy } = useCopyButton();
   const script = scriptCode(projectSecretKey || "코드를 불러오는 중입니다...");
 

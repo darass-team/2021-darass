@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { PALETTE } from "../../../styles/palette";
 
-const Container = styled.div`
+export const Container = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -9,7 +9,7 @@ const Container = styled.div`
   position: relative;
 `;
 
-const Introduction = styled.h2`
+export const Introduction = styled.h2`
   font-size: 3rem;
   color: ${PALETTE.WHITE};
   font-weight: 800;
@@ -17,7 +17,7 @@ const Introduction = styled.h2`
   margin-bottom: 20px;
 `;
 
-const Button = styled.button`
+export const Button = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -39,5 +39,3 @@ const Button = styled.button`
     line-height: 50px;
   }
 `;
-
-export { Container, Introduction, Button };
