@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import styled from "styled-components";
 import { NAVIGATION_HEIGHT, PAGE_MAX_WIDTH } from "../../../styles/constants";
 import { PALETTE } from "../../../styles/palette";
@@ -35,7 +35,7 @@ export const Menu = styled.div`
   margin-left: 4rem;
 `;
 
-export const MenuLink = styled(Link)<{ isSelected: boolean }>`
+export const MenuLink = styled(NavLink)`
   height: 100%;
   position: relative;
   display: flex;
@@ -44,7 +44,6 @@ export const MenuLink = styled(Link)<{ isSelected: boolean }>`
   font-size: 1.25rem;
   font-weight: 800;
   transition: border 0.1s;
-  ${props => props.isSelected && `border-bottom: 5px solid ${PALETTE.PRIMARY};`};
 
   &:hover {
     border-bottom: 5px solid ${PALETTE.PRIMARY};
