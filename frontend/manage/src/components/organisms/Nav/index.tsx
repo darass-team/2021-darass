@@ -8,6 +8,7 @@ import { useState } from "react";
 
 export interface Props {
   user: User | undefined;
+  logout: () => void;
 }
 
 interface MenuType {
@@ -21,7 +22,7 @@ const menuList: MenuType[] = [
   { route: ROUTE.HOME, name: "ABOUT" }
 ];
 
-const Nav = ({ user }: Props) => {
+const Nav = ({ user, logout }: Props) => {
   const [selectedMenu, setSelectedMenu] = useState("");
 
   return (
@@ -47,7 +48,9 @@ const Nav = ({ user }: Props) => {
           {user ? (
             <UserAvatarOption user={user}>
               <Link to="/">내 정보</Link>
-              <Link to="/">로그아웃</Link>
+              <Link to={ROUTE.HOME} onClick={logout}>
+                로그아웃
+              </Link>
             </UserAvatarOption>
           ) : (
             <LoginLink to={ROUTE.LOGIN}>로그인</LoginLink>
