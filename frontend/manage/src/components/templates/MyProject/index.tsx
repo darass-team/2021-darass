@@ -29,10 +29,10 @@ const MyProject = ({ projects }: Props) => {
             <ProjectButton key={id} title={name} onClick={() => moveProjectDetailPage(id)} />
           ))}
           {projects?.length === 0 && (
-            <Message>
+            <Message data-testid="myproject-no-project-message">
               “Add new” 버튼을 눌러 프로젝트를 추가해주세요.
               <br />
-              다라쓰 댓글 모듈을 설치 또는 관리할 수 있습니다.
+              다라쓰 댓글 모듈을 설치 또는 관리할 수 있습니다.\
             </Message>
           )}
         </ButtonWrapper>
