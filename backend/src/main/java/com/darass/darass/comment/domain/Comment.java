@@ -1,8 +1,12 @@
 package com.darass.darass.comment.domain;
 
+import static javax.persistence.CascadeType.ALL;
+import static javax.persistence.FetchType.LAZY;
+
 import com.darass.darass.common.domain.BaseTimeEntity;
 import com.darass.darass.project.domain.Project;
 import com.darass.darass.user.domain.User;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -33,8 +37,8 @@ public class Comment extends BaseTimeEntity {
     @JoinColumn
     private Project project;
 
-    @OneToMany(mappedBy = "comment")
-    private List<CommentLike> commentLikes;
+    @OneToMany(mappedBy = "comment", fetch = LAZY, cascade = ALL, orphanRemoval = true)
+    private List<CommentLike> commentLikes = new ArrayList<>();
 
     private String url;
 
@@ -66,8 +70,17 @@ public class Comment extends BaseTimeEntity {
     }
 
     public boolean isLikedByUser(User user) {
-        return commentLikes.stream()
+        return this.commentLikes.stream()
             .map(CommentLike::getUser)
             .anyMatch(it -> it.isSameUser(user));
+    }
+
+    public void deleteCommentLikeByUser(User user) {
+        CommentLike commentLike = this.commentLikes.stream()
+            .filter(it -> it.getUser().isSameUser(user))
+            .findAny()
+            .orElseGet(CommentLike::new);
+
+        this.commentLikes.remove(commentLike);
     }
 }

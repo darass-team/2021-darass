@@ -141,9 +141,10 @@ public class CommentService {
             .orElseThrow(ExceptionWithMessageAndCode.NOT_FOUND_USER::getException);
 
         if (comment.isLikedByUser(user)) {
-            likeRepository.deleteByCommentIdAndUserId(comment.getId(), user.getId());
+            comment.deleteCommentLikeByUser(user);
             return;
         }
+
         likeRepository.save(CommentLike.builder()
             .comment(comment)
             .user(user)
