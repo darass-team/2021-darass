@@ -10,7 +10,7 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
 
     Optional<Project> findBySecretKey(String projectSecretKey);
 
-    List<ProjectResponse> findByUserId(Long userId); //TODO: List<Project> 반환하도록 수정
+    List<Project> findByUserId(Long userId);
 
     Optional<Project> findByIdAndUserId(Long projectId, Long userId);
 

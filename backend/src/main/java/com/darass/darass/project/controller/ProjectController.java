@@ -1,7 +1,7 @@
 package com.darass.darass.project.controller;
 
 import com.darass.darass.auth.oauth.domain.RequiredLogin;
-import com.darass.darass.project.domain.RandomSecretKeyFactory;
+import com.darass.darass.project.domain.SecretKeyFactory;
 import com.darass.darass.project.dto.ProjectCreateRequest;
 import com.darass.darass.project.dto.ProjectResponse;
 import com.darass.darass.project.service.ProjectService;
@@ -30,7 +30,7 @@ public class ProjectController {
     @PostMapping
     public ResponseEntity<ProjectResponse> save(@Valid @RequestBody ProjectCreateRequest projectRequest,
         @RequiredLogin User user) {
-        ProjectResponse projectResponse = projectService.save(projectRequest, user, new RandomSecretKeyFactory());
+        ProjectResponse projectResponse = projectService.save(projectRequest, user);
         return ResponseEntity.status(HttpStatus.CREATED).body(projectResponse);
     }
 
@@ -53,8 +53,8 @@ public class ProjectController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteById(@PathVariable("id") Long projectId, @RequiredLogin User user) {
-        projectService.deleteByIdAndUserId(projectId, user.getId());
+    public ResponseEntity<Void> deleteById(@PathVariable("id") Long id, @RequiredLogin User user) {
+        projectService.deleteByIdAndUserId(id, user.getId());
         return ResponseEntity.noContent().build();
     }
 }
