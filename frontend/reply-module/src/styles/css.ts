@@ -1,7 +1,7 @@
 import { css } from "styled-components";
 import { PALETTE } from "./palette";
 
-const InputCSS = css`
+export const InputCSS = css`
   border: 1px solid ${PALETTE.BLACK_700};
   border-radius: 10px;
   color: ${PALETTE.BLACK_700};
@@ -13,7 +13,7 @@ const InputCSS = css`
   }
 `;
 
-const SpeechBubbleCSS = css`
+export const SpeechBubbleCSS = css`
   position: absolute;
   width: 6rem;
   box-shadow: 1.04082px 1.04082px 6.24491px rgba(0, 0, 0, 0.25);
@@ -51,5 +51,3 @@ const SpeechBubbleCSS = css`
     }
   }
 `;
-
-export { InputCSS, SpeechBubbleCSS };

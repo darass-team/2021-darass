@@ -17,7 +17,7 @@ const getAllComments = async ({ url, projectSecretKey }: GetCommentsRequestParam
   return response.data;
 };
 
-const useGetAllComments = ({ url, projectSecretKey }: GetCommentsRequestParams) => {
+export const useGetAllComments = ({ url, projectSecretKey }: GetCommentsRequestParams) => {
   const {
     data: comments,
     isLoading,
@@ -26,5 +26,3 @@ const useGetAllComments = ({ url, projectSecretKey }: GetCommentsRequestParams) 
 
   return { comments, isLoading, error };
 };
-
-export { useGetAllComments };

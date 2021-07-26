@@ -18,7 +18,7 @@ const _editComment = async (editedComment: EditCommentParameter) => {
   return response.data;
 };
 
-const useEditComment = () => {
+export const useEditComment = () => {
   const queryClient = useQueryClient();
 
   const editMutation = useMutation<void, Error, EditCommentParameter>(comment => _editComment(comment), {
@@ -44,5 +44,3 @@ const useEditComment = () => {
 
   return { editComment, isLoading, error };
 };
-
-export { useEditComment };

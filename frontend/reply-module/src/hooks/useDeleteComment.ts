@@ -16,7 +16,7 @@ const _deleteComment = async ({ id, guestUserId, guestUserPassword }: DeleteComm
   return response.data;
 };
 
-const useDeleteComment = () => {
+export const useDeleteComment = () => {
   const queryClient = useQueryClient();
 
   const deleteMutation = useMutation<void, Error, DeleteCommentRequestParameter>(data => _deleteComment(data), {
@@ -36,5 +36,3 @@ const useDeleteComment = () => {
 
   return { deleteComment, isLoading, error };
 };
-
-export { useDeleteComment };

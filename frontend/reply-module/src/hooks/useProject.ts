@@ -17,7 +17,7 @@ const getProject = async (projectSecretKey: GetProjectRequestParams["projectSecr
   return response.data;
 };
 
-const useProject = ({ projectSecretKey }: GetProjectRequestParams) => {
+export const useProject = ({ projectSecretKey }: GetProjectRequestParams) => {
   const {
     data: project,
     isLoading,
@@ -26,5 +26,3 @@ const useProject = ({ projectSecretKey }: GetProjectRequestParams) => {
 
   return { project, isLoading, error };
 };
-
-export { useProject };

@@ -17,7 +17,7 @@ const getUser = async () => {
   return response.data;
 };
 
-const useUser = () => {
+export const useUser = () => {
   const queryClient = useQueryClient();
 
   const {
@@ -67,5 +67,3 @@ const useUser = () => {
 
   return { user, login, logout, isLoading, error };
 };
-
-export { useUser };

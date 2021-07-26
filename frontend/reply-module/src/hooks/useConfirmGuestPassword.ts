@@ -14,7 +14,7 @@ const _getPasswordConfirmResult = async ({ guestUserId, guestUserPassword }: Gue
   return response.data;
 };
 
-const useConfirmGuestPassword = ({ guestUserId, guestUserPassword }: GuestUserInfo) => {
+export const useConfirmGuestPassword = ({ guestUserId, guestUserPassword }: GuestUserInfo) => {
   const { refetch: getPasswordConfirmResult } = useQuery<
     {
       isCorrectPassword: false;
@@ -30,5 +30,3 @@ const useConfirmGuestPassword = ({ guestUserId, guestUserPassword }: GuestUserIn
 
   return { getPasswordConfirmResult };
 };
-
-export { useConfirmGuestPassword };

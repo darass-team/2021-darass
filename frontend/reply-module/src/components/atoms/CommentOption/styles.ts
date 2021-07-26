@@ -2,26 +2,24 @@ import styled from "styled-components";
 import { SpeechBubbleCSS } from "../../../styles/css";
 import { PALETTE } from "../../../styles/palette";
 
-const Container = styled.div`
+export const Container = styled.div`
   position: absolute;
 `;
 
-const OptionIcon = styled.img`
+export const OptionIcon = styled.img`
   cursor: pointer;
 `;
 
-const OptionContainer = styled.div`
+export const OptionContainer = styled.div`
   ${SpeechBubbleCSS};
   right: -5px;
 `;
 
-const EditButton = styled.button`
+export const EditButton = styled.button`
   color: ${PALETTE.BLACK_700};
   background: transparent;
 `;
-const DeleteButton = styled.button`
+export const DeleteButton = styled.button`
   color: ${PALETTE.RED_600};
   background: transparent;
 `;
-
-export { Container, OptionIcon, OptionContainer, EditButton, DeleteButton };

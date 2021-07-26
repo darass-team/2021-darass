@@ -14,7 +14,7 @@ const _createComment = async (_data: CreateCommentRequestData) => {
   return response.data;
 };
 
-const useCreateComment = () => {
+export const useCreateComment = () => {
   const queryClient = useQueryClient();
 
   const createMutation = useMutation<Comment, Error, CreateCommentRequestData>(_data => _createComment(_data), {
@@ -36,5 +36,3 @@ const useCreateComment = () => {
 
   return { createComment, isLoading, error };
 };
-
-export { useCreateComment };

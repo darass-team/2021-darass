@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { PALETTE } from "../../../styles/palette";
 
-const Container = styled.div`
+export const Container = styled.div`
   width: 100%;
   background-color: ${PALETTE.GRAY_200};
   border-radius: 10px;
@@ -10,13 +10,13 @@ const Container = styled.div`
   flex-direction: column;
 `;
 
-const Name = styled.span`
+export const Name = styled.span`
   font-weight: 700;
   font-size: 1.4rem;
   margin-bottom: 0.7rem;
 `;
 
-const Text = styled.div`
+export const Text = styled.div`
   outline-color: ${PALETTE.BLACK_700};
   background-color: ${props => (props.contentEditable ? PALETTE.WHITE : PALETTE.GRAY_200)};
   border-radius: 10px;
@@ -26,7 +26,7 @@ const Text = styled.div`
   white-space: break-spaces;
 `;
 
-const Button = styled.button`
+export const Button = styled.button`
   width: 4rem;
   height: 2.4rem;
   background-color: ${PALETTE.SECONDARY};
@@ -41,5 +41,3 @@ const Button = styled.button`
     background-color: ${PALETTE.SECONDARY};
   }
 `;
-
-export { Container, Name, Text, Button };

@@ -1,7 +1,7 @@
 import { PALETTE } from "./../../../styles/palette";
 import styled from "styled-components";
 
-const Button = styled.button`
+export const Button = styled.button`
   width: 6rem;
   height: 3.6rem;
   background-color: ${PALETTE.SECONDARY};
@@ -14,5 +14,3 @@ const Button = styled.button`
     background-color: ${PALETTE.PRIMARY};
   }
 `;
-
-export { Button };
