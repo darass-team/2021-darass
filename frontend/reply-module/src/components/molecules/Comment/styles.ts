@@ -3,17 +3,17 @@ import { InputCSS } from "../../../styles/css";
 import { PALETTE } from "../../../styles/palette";
 import CommentOptionComponent from "../../atoms/CommentOption";
 
-const Container = styled.div<{ align: "left" | "right" }>`
+export const Container = styled.div<{ align: "left" | "right" }>`
   display: flex;
   flex-direction: ${props => (props.align === "left" ? "row" : "row-reverse")};
 `;
 
-const CommentWrapper = styled.div<{ align: "left" | "right" }>`
+export const CommentWrapper = styled.div<{ align: "left" | "right" }>`
   display: flex;
   flex-direction: ${props => (props.align === "left" ? "row" : "row-reverse")};
 `;
 
-const CommentTextBoxWrapper = styled.div<{ align: "left" | "right" }>`
+export const CommentTextBoxWrapper = styled.div<{ align: "left" | "right" }>`
   position: relative;
   display: flex;
   flex-direction: column;
@@ -21,20 +21,20 @@ const CommentTextBoxWrapper = styled.div<{ align: "left" | "right" }>`
   margin: ${props => (props.align === "left" ? "0 0 0 0.6rem" : "0 0.6rem 0 0")};
 `;
 
-const Time = styled.span`
+export const Time = styled.span`
   margin: 0 1rem;
   margin-top: 0.3rem;
 `;
 
-const CommentOption = styled(CommentOptionComponent)`
+export const CommentOption = styled(CommentOptionComponent)`
   position: absolute;
   right: 16px;
   top: 12px;
 `;
 
-const PasswordForm = styled.form``;
+export const PasswordForm = styled.form``;
 
-const PasswordInput = styled.input<{ isValidInput: Boolean }>`
+export const PasswordInput = styled.input<{ isValidInput: Boolean }>`
   ${InputCSS};
   border: ${props => !props.isValidInput && `3px solid ${PALETTE.RED_600}`};
   margin-right: 1.2rem;
@@ -45,7 +45,7 @@ const PasswordInput = styled.input<{ isValidInput: Boolean }>`
   font-size: 0.8rem;
 `;
 
-const Button = styled.button`
+export const Button = styled.button`
   width: 4rem;
   height: 2.4rem;
   background-color: ${PALETTE.SECONDARY};
@@ -61,19 +61,7 @@ const Button = styled.button`
   }
 `;
 
-const CancelButton = styled(Button)`
+export const CancelButton = styled(Button)`
   background-color: ${PALETTE.RED_600};
   margin-right: 0.5rem;
 `;
-
-export {
-  Container,
-  CommentWrapper,
-  CommentTextBoxWrapper,
-  Time,
-  CommentOption,
-  PasswordForm,
-  PasswordInput,
-  Button,
-  CancelButton
-};

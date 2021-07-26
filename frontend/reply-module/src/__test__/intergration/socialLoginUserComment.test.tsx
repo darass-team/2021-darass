@@ -4,7 +4,6 @@ import { comments as _comments } from "../fixture/comments";
 import { socialLoginUser } from "../fixture/user";
 import CommentList from "../../components/organisms/CommentList";
 import { useCreateComment, useConfirmGuestPassword, useDeleteComment, useEditComment } from "../../hooks";
-import CommentArea from "../../components/templates/CommentArea";
 import CommentInput from "../../components/organisms/CommentInput";
 
 jest.mock("../../hooks/useCreateComment");

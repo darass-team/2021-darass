@@ -1,13 +1,13 @@
 import { PALETTE } from "./../../../styles/palette";
 import styled from "styled-components";
 
-const Container = styled.section`
+export const Container = styled.section`
   width: 100%;
   display: flex;
   flex-direction: column;
 `;
 
-const OrderButtonContainer = styled.div`
+export const OrderButtonContainer = styled.div`
   width: 100%;
   display: flex;
   justify-content: flex-end;
@@ -16,18 +16,18 @@ const OrderButtonContainer = styled.div`
   padding-bottom: 1.6rem;
 `;
 
-const OrderButtonWrapper = styled.div`
+export const OrderButtonWrapper = styled.div`
   display: flex;
 `;
 
-const OrderButton = styled.button`
+export const OrderButton = styled.button`
   color: ${PALETTE.BLACK_700};
   font-size: 1.6rem;
   font-weight: 700;
   background-color: transparent;
 `;
 
-const CommentContainer = styled.div`
+export const CommentContainer = styled.div`
   display: flex;
   flex-direction: column;
   margin: 3rem 0;
@@ -41,10 +41,8 @@ const CommentContainer = styled.div`
   }
 `;
 
-const Notice = styled.span`
+export const Notice = styled.span`
   margin: 1.5rem auto;
   font-size: 1.6rem;
   text-align: center;
 `;
-
-export { Container, OrderButtonContainer, OrderButtonWrapper, OrderButton, CommentContainer, Notice };

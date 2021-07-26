@@ -8,16 +8,16 @@ import { getKakaoAccessToken } from "../utils/kakaoAPI";
 import { request } from "../utils/request";
 
 const getUser = async () => {
-  const response = await request.get(QUERY.USER);
+  try {
+    const response = await request.get(QUERY.USER);
 
-  if (response.status >= 400) {
-    throw new Error(response.data.message);
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response.data.message);
   }
-
-  return response.data;
 };
 
-const useUser = () => {
+export const useUser = () => {
   const queryClient = useQueryClient();
 
   const {
@@ -67,5 +67,3 @@ const useUser = () => {
 
   return { user, login, logout, isLoading, error };
 };
-
-export { useUser };

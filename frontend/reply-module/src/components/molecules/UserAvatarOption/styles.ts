@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import UserOptionComponent from "../../atoms/UserOption";
 
-const Container = styled.div`
+export const Container = styled.div`
   position: relative;
   display: flex;
   align-items: center;
@@ -12,7 +12,7 @@ const Container = styled.div`
   }
 `;
 
-const UserNickName = styled.button`
+export const UserNickName = styled.button`
   font-size: 1.6rem;
   font-weight: 700;
   margin-right: 10px;
@@ -20,10 +20,8 @@ const UserNickName = styled.button`
   background-color: transparent;
 `;
 
-const UserOption = styled(UserOptionComponent)`
+export const UserOption = styled(UserOptionComponent)`
   position: absolute;
   right: 7px;
   top: 50px;
 `;
-
-export { Container, UserNickName, UserOption };

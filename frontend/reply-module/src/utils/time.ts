@@ -8,7 +8,7 @@ const TIME_TABLE_BY_MILLISECOND = {
   YEAR: 12 * 30 * 24 * 60 * 60 * 1000
 };
 
-const getTimeDifference = (targetTime: string) => {
+export const getTimeDifference = (targetTime: string) => {
   const formattedTargetTime = new Date(targetTime);
   const currTime = new Date();
 
@@ -22,5 +22,3 @@ const getTimeDifference = (targetTime: string) => {
   else if (diff < TIME_TABLE_BY_MILLISECOND.YEAR) return `${Math.floor(diff / TIME_TABLE_BY_MILLISECOND.MONTH)}개월 전`;
   else return `${Math.floor(Math.floor(diff / TIME_TABLE_BY_MILLISECOND.YEAR))}년 전`;
 };
-
-export { getTimeDifference };
