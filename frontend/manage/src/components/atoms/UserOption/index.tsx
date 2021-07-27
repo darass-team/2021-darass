@@ -1,6 +1,5 @@
 import { ReactNode } from "react";
 import { Container, OptionContainer } from "./styles";
-
 export interface Props {
   className?: string;
   children: ReactNode;

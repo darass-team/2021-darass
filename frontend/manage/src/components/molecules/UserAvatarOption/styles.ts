@@ -23,3 +23,7 @@ export const UserOption = styled(UserOptionComponent)`
   right: 7px;
   top: 50px;
 `;
+
+export const DownArrow = styled.img<{ isShowOptionBox: boolean }>`
+  transform: ${props => props.isShowOptionBox && "rotate(180deg);"};
+`;
