@@ -138,14 +138,14 @@ public class CommentService {
 
     public void switchLikeStatus(Long id, User user) {
         Comment comment = commentRepository.findById(id)
-            .orElseThrow(ExceptionWithMessageAndCode.NOT_FOUND_USER::getException);
+            .orElseThrow(ExceptionWithMessageAndCode.NOT_FOUND_COMMENT::getException);
 
         if (comment.isLikedByUser(user)) {
             comment.deleteCommentLikeByUser(user);
             return;
         }
 
-        likeRepository.save(CommentLike.builder()
+        comment.addCommentLike(CommentLike.builder()
             .comment(comment)
             .user(user)
             .build());
