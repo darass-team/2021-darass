@@ -22,15 +22,20 @@ export const OptionContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
   cursor: pointer;
 
   & > * {
+    text-align: center;
+    width: 100%;
     font-size: 1.2rem;
     font-weight: bold;
-    margin-bottom: 3px;
+    padding: 0.1rem 0;
+    transition: background-color 0.1s;
   }
 
   & > *:hover {
-    color: ${PALETTE.BLACK_900};
+    border-radius: 10px;
+    background-color: ${PALETTE.GRAY_400};
   }
 `;
