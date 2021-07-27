@@ -40,7 +40,7 @@ const Nav = ({ user, logout }: Props) => {
         <UserAvatarOptionWrapper>
           {user ? (
             <UserAvatarOption user={user}>
-              <Link to="#">내 정보</Link>
+              <Link to={ROUTE.USER_PROFILE}>내 정보</Link>
               <Link to={ROUTE.HOME} onClick={logout}>
                 로그아웃
               </Link>

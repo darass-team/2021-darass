@@ -7,6 +7,7 @@ import MyProject from "./components/pages/MyProject";
 import NewProject from "./components/pages/NewProject";
 import ProjectDetail from "./components/pages/ProjectDetail";
 import ScriptPublishingPage from "./components/pages/ScriptPublishing";
+import UserProfile from "./components/pages/UserProfile";
 import { ROUTE } from "./constants";
 import { useUser } from "./hooks";
 
@@ -16,9 +17,11 @@ const App = () => {
   return (
     <Router>
       <Nav user={user} logout={logout} />
+
       <Switch>
         <Route exact path={ROUTE.HOME} component={Home} />
         <ConditionalRoute path={ROUTE.LOGIN} component={Login} condition={!user} redirectPath={ROUTE.MY_PROJECT} />
+        <ConditionalRoute path={ROUTE.USER_PROFILE} component={UserProfile} condition={!!user || isLoading} />
         <ConditionalRoute
           path={ROUTE.SCRIPT_PUBLISHING}
           component={ScriptPublishingPage}

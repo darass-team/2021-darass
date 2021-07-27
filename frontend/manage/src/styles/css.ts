@@ -80,3 +80,12 @@ export const inputCSS = css`
     box-shadow: 0 0 0 2px ${PALETTE.BLACK_700};
   }
 `;
+
+export const contentBoxCSS = css`
+  display: flex;
+  flex-direction: column;
+  padding: 2rem 2rem;
+  background-color: ${PALETTE.WHITE};
+  border-radius: 20px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0 3px 8px;
+`;
