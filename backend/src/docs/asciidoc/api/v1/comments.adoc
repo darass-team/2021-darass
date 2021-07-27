@@ -46,9 +46,9 @@ include::{snippets}/api/v1/comments/get/success/request-parameters.adoc[]
 include::{snippets}/api/v1/comments/get/success/http-response.adoc[]
 include::{snippets}/api/v1/comments/get/success/response-fields.adoc[]
 
-=== 특정 개수의 댓글 조회 (GET /api/v1/comments/paging)
+=== 특정 페이지의 댓글 조회 (GET /api/v1/comments/paging)
 
-==== URL에 해당하는 특정 개수의 댓글 조회
+==== URL에 해당하는 특정 페이지의 댓글 조회
 
 ==== Request
 
