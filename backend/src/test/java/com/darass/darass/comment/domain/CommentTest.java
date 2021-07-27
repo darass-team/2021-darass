@@ -16,7 +16,6 @@ class CommentTest {
 
     private final String content = "댓글 내용";
     private final String url = "https://naver.blog/post/1";
-    private final String projectKey = "projectKey";
     private GuestUser guestUser;
     private SocialLoginUser socialLoginUser;
     private Project project;
@@ -35,7 +34,7 @@ class CommentTest {
             .nickName("login")
             .build();
 
-        project = project = Project.builder()
+        project = Project.builder()
             .id(1L)
             .user(socialLoginUser)
             .name("깃헙 지킬 블로그")
@@ -73,13 +72,13 @@ class CommentTest {
     @DisplayName("match 메서드는 댓글에 해당하는 url과 projectKey가 주어지면, true를 반환한다.")
     @Test
     void match_true() {
-        assertThat(comment.match(url, projectKey)).isTrue();
+        assertThat(comment.match(url, project.getSecretKey())).isTrue();
     }
 
     @DisplayName("match 메서드는 댓글에 해당하지 않는 url이 주어지면, false를 반환한다.")
     @Test
     void match_url_false() {
-        assertThat(comment.match("invalid url", projectKey)).isFalse();
+        assertThat(comment.match("invalid url", project.getSecretKey())).isFalse();
     }
 
     @DisplayName("match 메서드는 댓글에 해당하지 않는 projectKey가 주어지면, false를 반환한다.")
