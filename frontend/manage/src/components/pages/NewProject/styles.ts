@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { titleCSS } from "../../../styles/css";
 import { PALETTE } from "../../../styles/palette";
 
-import SubmitButtonComponent from "../../atoms/SubmitButton";
+import SubmitButtonComponent from "../../atoms/Buttons/SubmitButton";
 
 export const Container = styled.div`
   width: 45rem;

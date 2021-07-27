@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { inputCSS, labelCSS, titleCSS } from "../../../styles/css";
-import SubmitButtonComponent from "../../atoms/SubmitButton";
+import SubmitButtonComponent from "../../atoms/Buttons/SubmitButton";
 
 export const Container = styled.div`
   display: flex;
@@ -37,4 +37,5 @@ export const Input = styled.input`
 
 export const SubmitButton = styled(SubmitButtonComponent)`
   align-items: flex-end;
+  margin-top: 4rem;
 `;
