@@ -5,3 +5,4 @@ export { useGetProject } from "./useGetProject";
 export { useCreateProject } from "./useCreateProject";
 export { useCopyButton } from "./useCopyButton";
 export { useEditUser } from "./useEditUser";
+export { useDeleteUser } from "./useDeleteUser";
