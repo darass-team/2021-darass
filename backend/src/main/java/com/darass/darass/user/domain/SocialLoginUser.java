@@ -16,18 +16,18 @@ public class SocialLoginUser extends User {
 
     private String email;
 
+    private String oauthId;
+
     @Enumerated(EnumType.STRING)
     private OAuthProviderType oauthProviderType;
 
-    private String oauthId;
-
     @Builder
-    public SocialLoginUser(Long id, String nickName, String profileImageUrl, String userType, String oauthId,
-        OAuthProviderType oauthProviderType, String email) {
-        super(id, nickName, profileImageUrl, userType);
-        this.email = email;
-        this.oauthProviderType = oauthProviderType;
+    public SocialLoginUser(Long id, String nickName, String oauthId,
+        OAuthProviderType oauthProviderType, String email, String profileImageUrl) {
+        super(id, nickName, profileImageUrl);
         this.oauthId = oauthId;
+        this.oauthProviderType = oauthProviderType;
+        this.email = email;
     }
 
     @Override
