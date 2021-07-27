@@ -3,6 +3,7 @@ package com.darass.darass.project.controller;
 import com.darass.darass.auth.oauth.domain.RequiredLogin;
 import com.darass.darass.project.dto.ProjectCreateRequest;
 import com.darass.darass.project.dto.ProjectResponse;
+import com.darass.darass.project.dto.ProjectUpdateRequest;
 import com.darass.darass.project.service.ProjectService;
 import com.darass.darass.user.domain.User;
 import java.util.List;
@@ -49,6 +50,13 @@ public class ProjectController {
     @GetMapping("/user-id")
     public ResponseEntity<ProjectResponse> findUserIdBySecretKey(@RequestParam("secretKey") String secretKey) {
         ProjectResponse projectResponse = projectService.findUserIdBySecretKey(secretKey);
+        return ResponseEntity.ok(projectResponse);
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<ProjectResponse> updateById(@PathVariable("id") Long projectId,
+        @Valid @RequestBody ProjectUpdateRequest projectUpdateRequest, @RequiredLogin User user) {
+        ProjectResponse projectResponse = projectService.updateById(projectId, projectUpdateRequest);
         return ResponseEntity.ok(projectResponse);
     }
 

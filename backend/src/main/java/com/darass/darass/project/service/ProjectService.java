@@ -4,6 +4,7 @@ import com.darass.darass.exception.ExceptionWithMessageAndCode;
 import com.darass.darass.project.domain.Project;
 import com.darass.darass.project.dto.ProjectCreateRequest;
 import com.darass.darass.project.dto.ProjectResponse;
+import com.darass.darass.project.dto.ProjectUpdateRequest;
 import com.darass.darass.project.repository.ProjectRepository;
 import com.darass.darass.user.domain.User;
 import java.util.List;
@@ -66,5 +67,14 @@ public class ProjectService {
             throw ExceptionWithMessageAndCode.NOT_FOUND_PROJECT.getException();
         }
         projectRepository.deleteByIdAndUserId(id, userId);
+    }
+
+    public ProjectResponse updateById(Long projectId, ProjectUpdateRequest projectUpdateRequest) {
+        Project project = projectRepository.findById(projectId)
+            .orElseThrow(ExceptionWithMessageAndCode.NOT_FOUND_PROJECT::getException);
+
+        project.update(projectUpdateRequest.getName(), projectUpdateRequest.getContent());
+
+        return ProjectResponse.from(project);
     }
 }

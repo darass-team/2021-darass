@@ -57,7 +57,15 @@ public class Project extends BaseTimeEntity {
         return this.secretKey.equals(secretKey);
     }
 
+<<<<<<< HEAD
     public Long getAdminUserId() {
         return this.user.getId();
     }
+=======
+    public void update(String name, String content){
+        this.name = name;
+        this.content = content;
+    }
+
+>>>>>>> 9c0d599 (feat: 프로젝트 이름, 설명(content) 수정 api 구현)
 }

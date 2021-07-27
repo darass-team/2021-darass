@@ -66,6 +66,19 @@ include::{snippets}/api/v1/projects/user-id/get/success/response-fields.adoc[]
 include::{snippets}/api/v1/projects/user-id/get/fail/http-response.adoc[]
 include::{snippets}/api/v1/projects/user-id/get/fail/response-fields.adoc[]
 
+=== 프로젝트 아이디와 토큰으로 프로젝트 단건 수정 (PATCH /api/v1/projects/{projectId})
+
+==== Request
+include::{snippets}/api/v1/projects/patch/success/http-request.adoc[]
+
+==== Response (성공)
+
+include::{snippets}/api/v1/projects/patch/success/http-response.adoc[]
+
+==== Response (실패 - 존재하지 않는 프로젝트 id인 경우)
+
+include::{snippets}/api/v1/projects/patch/fail/http-response.adoc[]
+
 === 프로젝트 아이디와 토큰으로 프로젝트 단건 삭제 (DELETE /api/v1/projects/{projectId})
 
 ==== Request

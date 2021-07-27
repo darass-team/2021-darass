@@ -9,6 +9,7 @@ import com.darass.darass.exception.ExceptionWithMessageAndCode;
 import com.darass.darass.project.domain.Project;
 import com.darass.darass.project.dto.ProjectCreateRequest;
 import com.darass.darass.project.dto.ProjectResponse;
+import com.darass.darass.project.dto.ProjectUpdateRequest;
 import com.darass.darass.project.repository.ProjectRepository;
 import com.darass.darass.user.domain.SocialLoginUser;
 import com.darass.darass.user.repository.UserRepository;
@@ -54,8 +55,8 @@ public class ProjectServiceTest extends SpringContainerTest {
         userRepository.save(socialLoginUser);
     }
 
-    @Test
     @DisplayName("유저 id로 유저가 만든 프로젝트 목록을 조회한다.")
+    @Test
     public void findByUserId() {
         projectService.save(new ProjectCreateRequest(JEKYLL_PROJECT_NAME, JEKYLL_PROJECT_CONTENT), socialLoginUser);
         projectService.save(new ProjectCreateRequest(TSTORY_PROJECT_NAME, TSTORY_PROJECT_CONTENT), socialLoginUser);
@@ -69,8 +70,8 @@ public class ProjectServiceTest extends SpringContainerTest {
         assertThat(projectResponses.get(1).getName()).isEqualTo(TSTORY_PROJECT_NAME);
     }
 
-    @Test
     @DisplayName("프로젝트 id와 유저 id로 유저가 만든 프로젝트 목록을 조회한다.")
+    @Test
     public void findByIdAndUserId() {
         //given
         projectService.save(new ProjectCreateRequest(JEKYLL_PROJECT_NAME, JEKYLL_PROJECT_CONTENT), socialLoginUser);
@@ -84,16 +85,16 @@ public class ProjectServiceTest extends SpringContainerTest {
         assertThat(projectResponse.getName()).isEqualTo(JEKYLL_PROJECT_NAME);
     }
 
-    @Test
     @DisplayName("프로젝트가 존재하지 않는 경우 예외를 던진다.(findByIdAndUserId)")
+    @Test
     public void findByIdAndUserId_exception() {
         assertThatThrownBy(() -> {
             projectService.findByIdAndUserId(100L, socialLoginUser.getId());
         }).isEqualTo(ExceptionWithMessageAndCode.NOT_FOUND_PROJECT.getException());
     }
 
-    @Test
     @DisplayName("프로젝트 시크릿키로 프로젝트를 생성한 유저 id를 조회한다.")
+    @Test
     public void findUserIdBySecretKey() {
         //given
         projectService.save(new ProjectCreateRequest(JEKYLL_PROJECT_NAME, JEKYLL_PROJECT_CONTENT), socialLoginUser);
@@ -109,8 +110,8 @@ public class ProjectServiceTest extends SpringContainerTest {
         assertThat(projectResponse.getUserId()).isEqualTo(socialLoginUser.getId());
     }
 
-    @Test
     @DisplayName("프로젝트가 존재하지 않는 경우 예외를 던진다.(findUserIdBySecretKey)")
+    @Test
     public void findUserIdBySecretKey_exception() {
         assertThatThrownBy(() -> {
             projectService.findUserIdBySecretKey("invalidSecretKey");
@@ -120,14 +121,14 @@ public class ProjectServiceTest extends SpringContainerTest {
     @Test
     @DisplayName("프로젝트 이름과 유저 id로 프로젝트를 생성한다.")
     public void save_success() {
-        ProjectResponse projectResponse = projectService
-            .save(new ProjectCreateRequest(JEKYLL_PROJECT_NAME, JEKYLL_PROJECT_CONTENT), socialLoginUser);
+        ProjectResponse projectResponse =
+            projectService.save(new ProjectCreateRequest(JEKYLL_PROJECT_NAME, JEKYLL_PROJECT_CONTENT), socialLoginUser);
 
         assertThat(projectResponse.getName()).isEqualTo(JEKYLL_PROJECT_NAME);
     }
 
-    @Test
     @DisplayName("프로젝트 이름이 중복될 경우 예외를 던진다.")
+    @Test
     public void save_validateDuplicateProjectName() {
         projectService.save(new ProjectCreateRequest(JEKYLL_PROJECT_NAME, JEKYLL_PROJECT_CONTENT), socialLoginUser);
 
@@ -136,8 +137,8 @@ public class ProjectServiceTest extends SpringContainerTest {
         }).isEqualTo(ExceptionWithMessageAndCode.DUPLICATE_PROJECT_NAME.getException());
     }
 
-    @Test
     @DisplayName("프로젝트 id와 유저 id로 프로젝트를 삭제한다.")
+    @Test
     public void deleteByIdAndUserId_success() {
         ProjectResponse projectResponse = projectService
             .save(new ProjectCreateRequest(JEKYLL_PROJECT_NAME, JEKYLL_PROJECT_CONTENT), socialLoginUser);
@@ -147,8 +148,8 @@ public class ProjectServiceTest extends SpringContainerTest {
         assertThat(projectRepository.findAll()).isEmpty();
     }
 
-    @Test
     @DisplayName("존재하지 않는 프로젝트 id 또는 존재하지 않는 유저 id로 프로젝트를 삭제하면, 예외를 던진다.")
+    @Test
     public void deleteByIdAndUserId_fail() {
         projectService.save(new ProjectCreateRequest(JEKYLL_PROJECT_NAME, JEKYLL_PROJECT_CONTENT), socialLoginUser);
 
@@ -156,8 +157,35 @@ public class ProjectServiceTest extends SpringContainerTest {
             () -> projectService.deleteByIdAndUserId(100L, 100L));
     }
 
+    @DisplayName("프로젝트 id로 프로젝트 이름과 설명을 수정한다.")
+    @Test
+    public void updateById_success() {
+        //given
+        ProjectResponse projectResponse = projectService
+            .save(new ProjectCreateRequest(JEKYLL_PROJECT_NAME, JEKYLL_PROJECT_CONTENT), socialLoginUser);
+        ProjectUpdateRequest projectUpdateRequest = new ProjectUpdateRequest(TSTORY_PROJECT_NAME, TSTORY_PROJECT_CONTENT);
+
+        //when
+        ProjectResponse result = projectService.updateById(projectResponse.getId(), projectUpdateRequest);
+
+        //then
+        assertThat(result.getName()).isEqualTo(projectUpdateRequest.getName());
+        assertThat(result.getContent()).isEqualTo(projectUpdateRequest.getContent());
+    }
+
+    @DisplayName("존재하지 않는 프로젝트 id로 프로젝트를 수정하면, 예외를 던진다.")
+    @Test
+    public void updateById_fail() {
+        projectService.save(new ProjectCreateRequest(JEKYLL_PROJECT_NAME, JEKYLL_PROJECT_CONTENT), socialLoginUser);
+        ProjectUpdateRequest projectUpdateRequest = new ProjectUpdateRequest(TSTORY_PROJECT_NAME, TSTORY_PROJECT_CONTENT);
+
+        Assertions.assertThrows(ExceptionWithMessageAndCode.NOT_FOUND_PROJECT.getException().getClass(),
+            () ->   projectService.updateById(100L, projectUpdateRequest));
+    }
+
     private Project findFirstSavedProject() {
         List<Project> projects = projectRepository.findByUserId(socialLoginUser.getId());
         return projects.get(0);
     }
+
 }
