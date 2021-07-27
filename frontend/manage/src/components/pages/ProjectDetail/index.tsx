@@ -1,4 +1,4 @@
-import { FormEvent, useState } from "react";
+import { FormEvent } from "react";
 import { Redirect, useRouteMatch } from "react-router-dom";
 import { ROUTE } from "../../../constants";
 import { useEditProject, useGetProject, useInput } from "../../../hooks";
@@ -7,21 +7,7 @@ import { isEmptyString } from "../../../utils/validation";
 import SubmitButton from "../../atoms/SubmitButton";
 import ProjectSideBar from "../../organisms/ProjectSideBar";
 import SideBarTemplate from "../SideBarTemplate";
-import {
-  Container,
-  Section,
-  InfoWrapper,
-  Form,
-  Title,
-  Label,
-  Input,
-  TextArea,
-  Name,
-  Description,
-  ButtonsWrapper,
-  CancelButton,
-  EditModeButton
-} from "./styles";
+import { Container, Section, InfoWrapper, Form, Title, Label, Input, TextArea, ButtonsWrapper } from "./styles";
 
 const ProjectDetail = () => {
   const match = useRouteMatch<{ id?: string }>();
@@ -29,8 +15,7 @@ const ProjectDetail = () => {
 
   const { project, error } = useGetProject(projectId);
   const { editProject } = useEditProject();
-  const [isEditing, setIsEditing] = useState(false);
-  const { value: projectName, setValue: setProjectName, onChange: onChangeProjectName } = useInput("");
+  const { value: projectName, setValue: setProjectName, onChange: onChangeProjectName } = useInput(project?.name ?? "");
   const { value: projectDesc, setValue: setProjectDesc, onChange: onChangeProjectDesc } = useInput("");
 
   if (!projectId || error) {
@@ -58,47 +43,32 @@ const ProjectDetail = () => {
             <Form onSubmit={onEditProject}>
               <InfoWrapper>
                 <Label htmlFor="project-name">이름</Label>
-                {isEditing ? (
-                  <Input
-                    id="project-name"
-                    placeholder="프로젝트 이름"
-                    value={projectName}
-                    onChange={onChangeProjectName}
-                  />
-                ) : (
-                  <Name>{project?.name}</Name>
-                )}
+
+                <Input
+                  id="project-name"
+                  placeholder="프로젝트 이름"
+                  value={projectName}
+                  onChange={onChangeProjectName}
+                />
               </InfoWrapper>
               <InfoWrapper>
                 <Label htmlFor="project-description">설명</Label>
-                {isEditing ? (
-                  <TextArea
-                    id="project-description"
-                    placeholder="프로젝트 설명"
-                    value={projectDesc}
-                    onChange={onChangeProjectDesc}
-                  />
-                ) : (
-                  <Description>project.description</Description>
-                )}
+                <TextArea
+                  id="project-description"
+                  placeholder="프로젝트 설명"
+                  value={projectDesc}
+                  onChange={onChangeProjectDesc}
+                />
               </InfoWrapper>
               <ButtonsWrapper>
-                {!isEditing ? (
-                  <EditModeButton
-                    onClick={() => {
-                      setIsEditing(true);
-                      setProjectName(project?.name || "");
-                      setProjectDesc("project.description");
-                    }}
-                  >
-                    수정
-                  </EditModeButton>
-                ) : (
-                  <>
-                    <CancelButton onClick={() => setIsEditing(false)}>취소</CancelButton>
-                    <SubmitButton>확인</SubmitButton>
-                  </>
-                )}
+                <SubmitButton
+                  onClick={() => {
+                    setProjectName(project?.name || "");
+                    setProjectDesc("project.description");
+                  }}
+                >
+                  수정
+                </SubmitButton>
               </ButtonsWrapper>
             </Form>
           </Section>

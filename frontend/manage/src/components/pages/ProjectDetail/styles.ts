@@ -59,16 +59,6 @@ export const TextArea = styled(Input.withComponent("textarea"))`
   resize: none;
 `;
 
-export const Name = styled(Input.withComponent("p"))`
-  font-size: 1.2rem;
-`;
-
-export const Description = styled(TextArea.withComponent("p"))`
-  font-size: 1.2rem;
-  border: 1px solid ${PALETTE.BLACK_700};
-  border-radius: 10px;
-`;
-
 export const ButtonsWrapper = styled.div`
   display: flex;
   align-items: center;
@@ -80,14 +70,4 @@ export const ButtonsWrapper = styled.div`
       margin-left: 2rem;
     }
   }
-`;
-
-export const CancelButton = styled(SubmitButton).attrs({ type: "button" })`
-  background-color: ${PALETTE.GRAY_300};
-  color: ${PALETTE.BLACK_700};
-`;
-
-export const EditModeButton = styled(SubmitButton).attrs({ type: "button" })`
-  background-color: ${PALETTE.GRAY_300};
-  color: ${PALETTE.BLACK_700};
 `;
