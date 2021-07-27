@@ -7,7 +7,7 @@ import { AddProjectButton, ButtonWrapper, Container, Message } from "./styles";
 
 const MyProject = () => {
   const history = useHistory();
-  const { projects } = useGetAllProjects();
+  const { projects, error } = useGetAllProjects();
 
   const moveProjectDetailPage = (id: number) => {
     history.push(ROUTE.GET_SCRIPT_PUBLISHING(id));
@@ -16,6 +16,10 @@ const MyProject = () => {
   const moveNewProjectPage = () => {
     history.push(ROUTE.NEW_PROJECT);
   };
+
+  if (error) {
+    return <>응 에러야.</>;
+  }
 
   return (
     <ScreenContainer>
