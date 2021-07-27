@@ -25,7 +25,6 @@ import com.darass.darass.comment.dto.CommentCreateRequest;
 import com.darass.darass.comment.dto.CommentResponse;
 import com.darass.darass.comment.dto.CommentUpdateRequest;
 import com.darass.darass.project.domain.Project;
-import com.darass.darass.project.domain.SecretKeyFactory;
 import com.darass.darass.project.repository.ProjectRepository;
 import com.darass.darass.user.domain.SocialLoginUser;
 import com.darass.darass.user.dto.UserResponse;

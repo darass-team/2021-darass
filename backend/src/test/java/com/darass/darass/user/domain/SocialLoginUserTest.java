@@ -19,7 +19,7 @@ class SocialLoginUserTest {
     private SocialLoginUser socialLoginUser;
 
     @BeforeEach
-    void setUp(){
+    void setUp() {
         socialLoginUser = SocialLoginUser.builder()
             .nickName(nickName)
             .email(email)

@@ -61,7 +61,6 @@ include::{snippets}/api/v1/users/get/password-check-correct/request-parameters.a
 include::{snippets}/api/v1/users/get/password-check-correct/http-response.adoc[]
 include::{snippets}/api/v1/users/get/password-check-correct/response-fields.adoc[]
 
-
 ==== Response (성공 - 비밀번호 일치하지 않는 경우)
 
 include::{snippets}/api/v1/users/get/password-check-incorrect/http-response.adoc[]
