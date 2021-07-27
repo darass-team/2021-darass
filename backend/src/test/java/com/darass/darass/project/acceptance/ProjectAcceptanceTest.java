@@ -39,6 +39,7 @@ import org.springframework.test.web.servlet.ResultActions;
 public class ProjectAcceptanceTest extends AcceptanceTest {
 
     private final static String JEKYLL_PROJECT_NAME = "지킬 블로그 프로젝트";
+<<<<<<< HEAD
 
     private final static String JEKYLL_PROJECT_CONTENT = "지킬 블로그 프로젝트 설명";
 
@@ -46,17 +47,20 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
 
     private final static String TSTORY_PROJECT_CONTENT = "티스토리 블로그 프로젝트 설명";
 
+=======
+    private final static String JEKYLL_PROJECT_DESCRIPTION = "지킬 블로그 프로젝트 설명";
+    private final static String TSTORY_PROJECT_NAME = "티스토리 블로그 프로젝트";
+    private final static String TSTORY_PROJECT_DESCRIPTION = "티스토리 블로그 프로젝트 설명";
+>>>>>>> 098b264 (feat: 프로젝트 설명 필드 변수명 수정)
     @Autowired
     private UserRepository userRepository;
-
     @Autowired
     private ProjectRepository projectRepository;
-
     @Autowired
     private JwtTokenProvider tokenProvider;
-
     private SocialLoginUser socialLoginUser;
 
+<<<<<<< HEAD
 <<<<<<< HEAD
     private Project project;
 =======
@@ -69,6 +73,8 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
     private final static String TSTORY_PROJECT_CONTENT = "티스토리 블로그 프로젝트 설명";
 >>>>>>> 9c0d599 (feat: 프로젝트 이름, 설명(content) 수정 api 구현)
 
+=======
+>>>>>>> 098b264 (feat: 프로젝트 설명 필드 변수명 수정)
     @BeforeEach
     public void setUser() {
         socialLoginUser = SocialLoginUser.builder()
@@ -88,7 +94,8 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
     public void save_success() throws Exception {
         //given
         String accessToken = tokenProvider.createAccessToken(socialLoginUser.getId().toString());
-        ProjectCreateRequest projectCreateRequest = new ProjectCreateRequest(JEKYLL_PROJECT_NAME, JEKYLL_PROJECT_CONTENT);
+        ProjectCreateRequest projectCreateRequest = new ProjectCreateRequest(JEKYLL_PROJECT_NAME,
+            JEKYLL_PROJECT_DESCRIPTION);
 
         //when
         ResultActions resultActions = 프로젝트_생성_요청(accessToken, projectCreateRequest);
@@ -101,7 +108,8 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
     @DisplayName("유효하지 않은 토큰을 보낸다면, 프로젝트를 생성을 실패한다.")
     public void save_fail() throws Exception {
         //given
-        ProjectCreateRequest projectCreateRequest = new ProjectCreateRequest(JEKYLL_PROJECT_NAME, JEKYLL_PROJECT_CONTENT);
+        ProjectCreateRequest projectCreateRequest = new ProjectCreateRequest(JEKYLL_PROJECT_NAME,
+            JEKYLL_PROJECT_DESCRIPTION);
 
         //when
         ResultActions resultActions = 프로젝트_생성_요청("invalidAccessToken", projectCreateRequest);
@@ -115,7 +123,8 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
     public void save_duplicated_project_name_fail() throws Exception {
         //given
         String accessToken = tokenProvider.createAccessToken(socialLoginUser.getId().toString());
-        ProjectCreateRequest projectCreateRequest = new ProjectCreateRequest(JEKYLL_PROJECT_NAME, JEKYLL_PROJECT_CONTENT);
+        ProjectCreateRequest projectCreateRequest = new ProjectCreateRequest(JEKYLL_PROJECT_NAME,
+            JEKYLL_PROJECT_DESCRIPTION);
 
         //when
         프로젝트_생성_요청(accessToken, projectCreateRequest);
@@ -130,12 +139,13 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
     public void findByUser() throws Exception {
         // given
         String accessToken = tokenProvider.createAccessToken(socialLoginUser.getId().toString());
-        ProjectCreateRequest projectCreateRequest = new ProjectCreateRequest(JEKYLL_PROJECT_NAME, JEKYLL_PROJECT_CONTENT);
+        ProjectCreateRequest projectCreateRequest = new ProjectCreateRequest(JEKYLL_PROJECT_NAME,
+            JEKYLL_PROJECT_DESCRIPTION);
 
         ResultActions projectCreateResultActions = 프로젝트_생성_요청(accessToken, projectCreateRequest);
         프로젝트_생성됨(projectCreateResultActions, projectCreateRequest);
 
-        projectCreateRequest = new ProjectCreateRequest(TSTORY_PROJECT_NAME, TSTORY_PROJECT_CONTENT);
+        projectCreateRequest = new ProjectCreateRequest(TSTORY_PROJECT_NAME, TSTORY_PROJECT_DESCRIPTION);
         projectCreateResultActions = 프로젝트_생성_요청(accessToken, projectCreateRequest);
         프로젝트_생성됨(projectCreateResultActions, projectCreateRequest);
 
@@ -151,12 +161,13 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
     public void findAll_fail() throws Exception {
         // given
         String accessToken = tokenProvider.createAccessToken(socialLoginUser.getId().toString());
-        ProjectCreateRequest projectCreateRequest = new ProjectCreateRequest(JEKYLL_PROJECT_NAME, JEKYLL_PROJECT_CONTENT);
+        ProjectCreateRequest projectCreateRequest = new ProjectCreateRequest(JEKYLL_PROJECT_NAME,
+            JEKYLL_PROJECT_DESCRIPTION);
 
         ResultActions projectCreateResultActions = 프로젝트_생성_요청(accessToken, projectCreateRequest);
         프로젝트_생성됨(projectCreateResultActions, projectCreateRequest);
 
-        projectCreateRequest = new ProjectCreateRequest(TSTORY_PROJECT_NAME, TSTORY_PROJECT_CONTENT);
+        projectCreateRequest = new ProjectCreateRequest(TSTORY_PROJECT_NAME, TSTORY_PROJECT_DESCRIPTION);
         projectCreateResultActions = 프로젝트_생성_요청(accessToken, projectCreateRequest);
         프로젝트_생성됨(projectCreateResultActions, projectCreateRequest);
 
@@ -177,7 +188,8 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
     public void findOne() throws Exception {
         //given
         String accessToken = tokenProvider.createAccessToken(socialLoginUser.getId().toString());
-        ProjectCreateRequest projectCreateRequest = new ProjectCreateRequest(JEKYLL_PROJECT_NAME, JEKYLL_PROJECT_CONTENT);
+        ProjectCreateRequest projectCreateRequest = new ProjectCreateRequest(JEKYLL_PROJECT_NAME,
+            JEKYLL_PROJECT_DESCRIPTION);
         ResultActions projectCreateResultActions = 프로젝트_생성_요청(accessToken, projectCreateRequest);
         String jsonResponse = projectCreateResultActions.andReturn().getResponse().getContentAsString();
         ProjectResponse projectResponse = new ObjectMapper().readValue(jsonResponse, ProjectResponse.class);
@@ -195,7 +207,8 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
     public void findOne_invalid_accessToken_fail() throws Exception {
         //given
         String accessToken = tokenProvider.createAccessToken(socialLoginUser.getId().toString());
-        ProjectCreateRequest projectCreateRequest = new ProjectCreateRequest(JEKYLL_PROJECT_NAME, JEKYLL_PROJECT_CONTENT);
+        ProjectCreateRequest projectCreateRequest = new ProjectCreateRequest(JEKYLL_PROJECT_NAME,
+            JEKYLL_PROJECT_DESCRIPTION);
         ResultActions projectCreateResultActions = 프로젝트_생성_요청(accessToken, projectCreateRequest);
         String jsonResponse = projectCreateResultActions.andReturn().getResponse().getContentAsString();
         ProjectResponse projectResponse = new ObjectMapper().readValue(jsonResponse, ProjectResponse.class);
@@ -213,7 +226,8 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
     public void findOne_invalid_projectId_fail() throws Exception {
         //given
         String accessToken = tokenProvider.createAccessToken(socialLoginUser.getId().toString());
-        ProjectCreateRequest projectCreateRequest = new ProjectCreateRequest(JEKYLL_PROJECT_NAME, JEKYLL_PROJECT_CONTENT);
+        ProjectCreateRequest projectCreateRequest = new ProjectCreateRequest(JEKYLL_PROJECT_NAME,
+            JEKYLL_PROJECT_DESCRIPTION);
         프로젝트_생성_요청(accessToken, projectCreateRequest);
 
         //when
@@ -227,7 +241,7 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
     @DisplayName("프로젝트 시크릿 키로 유저 id를 조회한다.(프로젝트 주인의 id를 조회한다.)")
     public void findByProjectKey_success() throws Exception {
         // given
-        Project project = makeProject(JEKYLL_PROJECT_NAME, JEKYLL_PROJECT_CONTENT);
+        Project project = makeProject(JEKYLL_PROJECT_NAME, JEKYLL_PROJECT_DESCRIPTION);
         Project savedProject = projectRepository.save(project);
 
         //when
@@ -241,7 +255,7 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
     @DisplayName("존재하지 않는 프로젝트 시크릿 키로 유저 id를 조회하면 실패한다.")
     public void findByProjectKey_fail() throws Exception {
         // given
-        Project project = makeProject(JEKYLL_PROJECT_NAME, JEKYLL_PROJECT_CONTENT);
+        Project project = makeProject(JEKYLL_PROJECT_NAME, JEKYLL_PROJECT_DESCRIPTION);
         projectRepository.save(project);
 
         //when
@@ -256,10 +270,10 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
     public void deleteById_success() throws Exception {
         // given
         String accessToken = tokenProvider.createAccessToken(socialLoginUser.getId().toString());
-        Project project =  projectRepository.save(makeProject(JEKYLL_PROJECT_NAME, JEKYLL_PROJECT_CONTENT));
+        Project project = projectRepository.save(makeProject(JEKYLL_PROJECT_NAME, JEKYLL_PROJECT_DESCRIPTION));
 
         //when
-        ResultActions resultActions = 프로젝트_단건_삭제_요청(project.getId() , accessToken);
+        ResultActions resultActions = 프로젝트_단건_삭제_요청(project.getId(), accessToken);
 
         //then
         프로젝트_단건_삭제됨(resultActions);
@@ -270,7 +284,7 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
     public void deleteById_fail() throws Exception {
         // given
         String accessToken = tokenProvider.createAccessToken(socialLoginUser.getId().toString());
-        Project project = makeProject(JEKYLL_PROJECT_NAME, JEKYLL_PROJECT_CONTENT);
+        Project project = makeProject(JEKYLL_PROJECT_NAME, JEKYLL_PROJECT_DESCRIPTION);
         projectRepository.save(project);
 
         //when
@@ -285,9 +299,10 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
     public void updateById_success() throws Exception {
         // given
         String accessToken = tokenProvider.createAccessToken(socialLoginUser.getId().toString());
-        Project project = makeProject(JEKYLL_PROJECT_NAME, JEKYLL_PROJECT_CONTENT);
+        Project project = makeProject(JEKYLL_PROJECT_NAME, JEKYLL_PROJECT_DESCRIPTION);
         project = projectRepository.save(project);
-        ProjectUpdateRequest projectUpdateRequest = new ProjectUpdateRequest(TSTORY_PROJECT_NAME, TSTORY_PROJECT_CONTENT);
+        ProjectUpdateRequest projectUpdateRequest = new ProjectUpdateRequest(TSTORY_PROJECT_NAME,
+            TSTORY_PROJECT_DESCRIPTION);
 
         //when
         ResultActions resultActions = 프로젝트_단건_수정_요청(project.getId(), accessToken, projectUpdateRequest);
@@ -301,9 +316,10 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
     public void updateById_fail() throws Exception {
         // given
         String accessToken = tokenProvider.createAccessToken(socialLoginUser.getId().toString());
-        Project project = makeProject(JEKYLL_PROJECT_NAME, JEKYLL_PROJECT_CONTENT);
+        Project project = makeProject(JEKYLL_PROJECT_NAME, JEKYLL_PROJECT_DESCRIPTION);
         projectRepository.save(project);
-        ProjectUpdateRequest projectUpdateRequest = new ProjectUpdateRequest(TSTORY_PROJECT_NAME, TSTORY_PROJECT_CONTENT);
+        ProjectUpdateRequest projectUpdateRequest = new ProjectUpdateRequest(TSTORY_PROJECT_NAME,
+            TSTORY_PROJECT_DESCRIPTION);
 
         //when
         ResultActions resultActions = 프로젝트_단건_수정_요청(100L, accessToken, projectUpdateRequest);
@@ -312,7 +328,8 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
         프로젝트_단건_수정_실패됨(resultActions);
     }
 
-    private ResultActions 프로젝트_단건_수정_요청(Long projectId, String accessToken, ProjectUpdateRequest projectUpdateRequest) throws Exception {
+    private ResultActions 프로젝트_단건_수정_요청(Long projectId, String accessToken, ProjectUpdateRequest projectUpdateRequest)
+        throws Exception {
         return this.mockMvc.perform(patch("/api/v1/projects/{projectId}", projectId)
             .contentType(MediaType.APPLICATION_JSON)
             .header("Authorization", "Bearer " + accessToken)
@@ -330,7 +347,7 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
         ProjectResponse projectResponse = new ObjectMapper().readValue(jsonResponse, ProjectResponse.class);
 
         assertThat(projectResponse.getName()).isEqualTo(projectUpdateRequest.getName());
-        assertThat(projectResponse.getContent()).isEqualTo(projectUpdateRequest.getContent());
+        assertThat(projectResponse.getDescription()).isEqualTo(projectUpdateRequest.getDescription());
 
         프로젝트_단건_수정됨_rest_doc_작성(resultActions);
     }
@@ -343,13 +360,13 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
                 ),
                 requestFields(
                     fieldWithPath("name").type(JsonFieldType.STRING).description("프로젝트 이름"),
-                    fieldWithPath("content").type(JsonFieldType.STRING).description("프로젝트 설명")
+                    fieldWithPath("description").type(JsonFieldType.STRING).description("프로젝트 설명")
                 ),
                 responseFields(
                     fieldWithPath("id").type(JsonFieldType.NUMBER).description("프로젝트 id"),
                     fieldWithPath("name").type(JsonFieldType.STRING).description("프로젝트 이름"),
                     fieldWithPath("secretKey").type(JsonFieldType.STRING).description("프로젝트 Secret Key"),
-                    fieldWithPath("content").type(JsonFieldType.STRING).description("프로젝트 설명"),
+                    fieldWithPath("description").type(JsonFieldType.STRING).description("프로젝트 설명"),
                     fieldWithPath("userId").type(JsonFieldType.NUMBER).optional().description("유저 아이디")
                 ))
         );
@@ -365,11 +382,11 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
         );
     }
 
-    private Project makeProject(String name, String content){
+    private Project makeProject(String name, String description) {
         return Project.builder()
             .user(socialLoginUser)
             .name(name)
-            .content(content)
+            .description(description)
             .build();
     }
 
@@ -386,7 +403,7 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
         ProjectResponse projectResponse = new ObjectMapper().readValue(jsonResponse, ProjectResponse.class);
 
         assertThat(projectResponse.getName()).isEqualTo(projectCreateRequest.getName());
-        assertThat(projectResponse.getContent()).isEqualTo(projectCreateRequest.getContent());
+        assertThat(projectResponse.getDescription()).isEqualTo(projectCreateRequest.getDescription());
 
         프로젝트_생성_rest_doc_작성(resultActions);
     }
@@ -399,13 +416,13 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
                 ),
                 requestFields(
                     fieldWithPath("name").type(JsonFieldType.STRING).description("프로젝트 이름"),
-                    fieldWithPath("content").type(JsonFieldType.STRING).description("프로젝트 설명")
+                    fieldWithPath("description").type(JsonFieldType.STRING).description("프로젝트 설명")
                 ),
                 responseFields(
                     fieldWithPath("id").type(JsonFieldType.NUMBER).description("프로젝트 id"),
                     fieldWithPath("name").type(JsonFieldType.STRING).description("프로젝트 이름"),
                     fieldWithPath("secretKey").type(JsonFieldType.STRING).description("프로젝트 Secret Key"),
-                    fieldWithPath("content").type(JsonFieldType.STRING).description("프로젝트 설명"),
+                    fieldWithPath("description").type(JsonFieldType.STRING).description("프로젝트 설명"),
                     fieldWithPath("userId").type(JsonFieldType.NUMBER).optional().description("유저 아이디")
                 ))
         );
@@ -469,7 +486,7 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
                     fieldWithPath("[].id").type(JsonFieldType.NUMBER).description("프로젝트 id"),
                     fieldWithPath("[].name").type(JsonFieldType.STRING).description("프로젝트 이름"),
                     fieldWithPath("[].secretKey").type(JsonFieldType.STRING).description("프로젝트 Secret Key"),
-                    fieldWithPath("[].content").type(JsonFieldType.STRING).description("프로젝트 설명"),
+                    fieldWithPath("[].description").type(JsonFieldType.STRING).description("프로젝트 설명"),
                     fieldWithPath("[].userId").type(JsonFieldType.NUMBER).optional().description("유저 아이디")
                 ))
         );
@@ -520,7 +537,7 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
                     fieldWithPath("id").type(JsonFieldType.NUMBER).description("프로젝트 id"),
                     fieldWithPath("name").type(JsonFieldType.STRING).description("프로젝트 이름"),
                     fieldWithPath("secretKey").type(JsonFieldType.STRING).description("프로젝트 Secret Key"),
-                    fieldWithPath("content").type(JsonFieldType.STRING).description("프로젝트 내용"),
+                    fieldWithPath("description").type(JsonFieldType.STRING).description("프로젝트 내용"),
                     fieldWithPath("userId").type(JsonFieldType.NUMBER).optional().description("유저 아이디")
                 ))
         );
@@ -574,7 +591,7 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
                     fieldWithPath("id").type(JsonFieldType.NUMBER).optional().description("프로젝트 아이디"),
                     fieldWithPath("name").type(JsonFieldType.STRING).optional().description("프로젝트 이름"),
                     fieldWithPath("secretKey").type(JsonFieldType.STRING).optional().description("프로젝트 시크릿 키"),
-                    fieldWithPath("content").type(JsonFieldType.STRING).optional().description("프로젝트 내용"),
+                    fieldWithPath("description").type(JsonFieldType.STRING).optional().description("프로젝트 내용"),
                     fieldWithPath("userId").type(JsonFieldType.NUMBER).description("유저 아이디")
                 )
             )

@@ -13,5 +13,5 @@ public class ProjectCreateRequest {
     @NotNull
     private String name;
 
-    private String content;
+    private String description;
 }

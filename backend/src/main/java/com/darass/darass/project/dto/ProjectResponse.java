@@ -16,7 +16,7 @@ public class ProjectResponse {
 
     private String secretKey;
 
-    private String content;
+    private String description;
 
     private Long userId;
 
@@ -25,7 +25,12 @@ public class ProjectResponse {
     }
 
     public static ProjectResponse from(Project project) {
+<<<<<<< HEAD
         return new ProjectResponse(project.getId(), project.getName(), project.getSecretKey(), project.getAdminUserId());
+=======
+        return new ProjectResponse(project.getId(), project.getName(), project.getSecretKey(), project.getDescription(),
+            null);
+>>>>>>> 098b264 (feat: 프로젝트 설명 필드 변수명 수정)
     }
 
     public static ProjectResponse from(Long userId) {

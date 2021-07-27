@@ -47,7 +47,7 @@ public class ProjectService {
         Project project = Project.builder()
             .name(projectCreateRequest.getName())
             .user(user)
-            .content(projectCreateRequest.getContent())
+            .description(projectCreateRequest.getDescription())
             .build();
 
         projectRepository.save(project);
@@ -73,7 +73,7 @@ public class ProjectService {
         Project project = projectRepository.findById(projectId)
             .orElseThrow(ExceptionWithMessageAndCode.NOT_FOUND_PROJECT::getException);
 
-        project.update(projectUpdateRequest.getName(), projectUpdateRequest.getContent());
+        project.update(projectUpdateRequest.getName(), projectUpdateRequest.getDescription());
 
         return ProjectResponse.from(project);
     }
