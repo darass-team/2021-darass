@@ -191,6 +191,50 @@ public class CommentAcceptanceTest extends AcceptanceTest {
     }
 
     @Test
+    @DisplayName("/api/v1/comments/paging GET - 성공")
+    void readByPageRequest() throws Exception {
+        소셜_로그인_댓글_등록됨("content1", "url");
+        소셜_로그인_댓글_등록됨("content2", "url");
+        소셜_로그인_댓글_등록됨("content3", "url");
+        소셜_로그인_댓글_등록됨("content4", "url");
+        소셜_로그인_댓글_등록됨("content5", "url");
+        소셜_로그인_댓글_등록됨("content6", "url");
+        소셜_로그인_댓글_등록됨("content7", "url");
+        소셜_로그인_댓글_등록됨("content8", "url");
+        소셜_로그인_댓글_등록됨("content9", "url");
+        소셜_로그인_댓글_등록됨("content10", "url");
+
+        mockMvc.perform(get("/api/v1/comments/paging")
+            .contentType(MediaType.APPLICATION_JSON)
+            .param("url", "url")
+            .param("projectKey", secretKey)
+            .param("page", "2")
+            .param("size", "5"))
+            .andExpect(status().isOk())
+            .andDo(document("api/v1/comments/paging/get/success",
+                requestParameters(
+                    parameterWithName("url").description("조회 url"),
+                    parameterWithName("projectKey").description("프로젝트 시크릿 키"),
+                    parameterWithName("page").description("페이지"),
+                    parameterWithName("size").description("페이지당 댓글의 개수")
+                ),
+                responseFields(
+                    fieldWithPath("[].createdDate").type(JsonFieldType.STRING).description("댓글 생성 시점"),
+                    fieldWithPath("[].modifiedDate").type(JsonFieldType.STRING).description("댓글 수정 시점"),
+                    fieldWithPath("[].id").type(JsonFieldType.NUMBER).description("댓글 id"),
+                    fieldWithPath("[].content").type(JsonFieldType.STRING).description("댓글 내용"),
+                    fieldWithPath("[].user").type(JsonFieldType.OBJECT).description("댓글 작성 유저 정보"),
+                    fieldWithPath("[].user.createdDate").type(JsonFieldType.STRING).description("유저 생성 시점"),
+                    fieldWithPath("[].user.modifiedDate").type(JsonFieldType.STRING).description("유저 수정 시점"),
+                    fieldWithPath("[].user.id").type(JsonFieldType.NUMBER).description("유저 id"),
+                    fieldWithPath("[].user.nickName").type(JsonFieldType.STRING).description("유저 닉네임"),
+                    fieldWithPath("[].user.type").type(JsonFieldType.STRING).description("유저 타입"),
+                    fieldWithPath("[].user.profileImageUrl").type(JsonFieldType.STRING).description("유저 프로필 이미지")
+                )
+            ));
+    }
+
+    @Test
     @DisplayName("/api/v1/comments/{id} PATCH - 성공 (소셜 로그인 유저)")
     void updateByLoginUser() throws Exception {
         CommentResponse commentResponse = 소셜_로그인_댓글_등록됨_Response_반환("content1", "url");

@@ -46,6 +46,20 @@ include::{snippets}/api/v1/comments/get/success/request-parameters.adoc[]
 include::{snippets}/api/v1/comments/get/success/http-response.adoc[]
 include::{snippets}/api/v1/comments/get/success/response-fields.adoc[]
 
+=== 특정 개수의 댓글 조회 (GET /api/v1/comments/paging)
+
+==== URL에 해당하는 특정 개수의 댓글 조회
+
+==== Request
+
+include::{snippets}/api/v1/comments/paging/get/success/http-request.adoc[]
+include::{snippets}/api/v1/comments/paging/get/success/request-parameters.adoc[]
+
+==== Response
+
+include::{snippets}/api/v1/comments/paging/get/success/http-response.adoc[]
+include::{snippets}/api/v1/comments/paging/get/success/response-fields.adoc[]
+
 === 댓글 수정 (PATCH /api/v1/comments)
 
 ==== (성공) 소셜 로그인 유저 댓글 수정

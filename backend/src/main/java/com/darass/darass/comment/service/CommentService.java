@@ -1,7 +1,6 @@
 package com.darass.darass.comment.service;
 
 import com.darass.darass.comment.domain.Comment;
-import com.darass.darass.comment.domain.Comments;
 import com.darass.darass.comment.dto.CommentCreateRequest;
 import com.darass.darass.comment.dto.CommentDeleteRequest;
 import com.darass.darass.comment.dto.CommentResponse;
@@ -17,6 +16,8 @@ import com.darass.darass.user.repository.UserRepository;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -64,10 +65,26 @@ public class CommentService {
     }
 
     public List<CommentResponse> findAllCommentsByUrlAndProjectKey(String url, String projectKey) {
-        Comments comments = new Comments(commentRepository.findAll());
-        List<Comment> matchedComments = comments.match(url, projectKey);
+        List<Comment> comments = commentRepository.findAllByUrlAndProject_SecretKey(url, projectKey);
 
-        return matchedComments.stream()
+        return comments.stream()
+            .map(comment ->
+                CommentResponse.of(
+                    comment, UserResponse.of( //TODO: UserResponse 정적 팩터리 메서드 생성자에 User만 넣어준다.
+                        comment.getUser(),
+                        userRepository.findUserTypeById(comment.getUserId()),
+                        userRepository.findProfileImageUrlById(comment.getUserId())
+                    )
+                ))
+            .collect(Collectors.toList());
+    }
+
+    public List<CommentResponse> findAllCommentsByUrlAndProjectKeyUsingPagination(String url, String projectKey,
+        Integer page, Integer size) {
+        Page<Comment> comments = commentRepository
+            .findAllByUrlAndProject_SecretKey(url, projectKey, PageRequest.of(page - 1, size));
+
+        return comments.stream()
             .map(comment ->
                 CommentResponse.of(
                     comment, UserResponse.of( //TODO: UserResponse 정적 팩터리 메서드 생성자에 User만 넣어준다.
