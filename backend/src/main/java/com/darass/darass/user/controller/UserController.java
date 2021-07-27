@@ -7,6 +7,10 @@ import com.darass.darass.user.dto.PasswordCheckResponse;
 import com.darass.darass.user.dto.UserResponse;
 import com.darass.darass.user.dto.UserUpdateRequest;
 import com.darass.darass.user.service.UserService;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Optional;
 import javax.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +20,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+import software.amazon.awssdk.regions.Region;
+import software.amazon.awssdk.services.s3.S3Client;
+import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 
 @AllArgsConstructor
 @RequestMapping("/api/v1/users")
@@ -49,5 +58,28 @@ public class UserController {
         @ModelAttribute PasswordCheckRequest passwordCheckRequest) {
         PasswordCheckResponse passwordCheckResponse = userService.checkGuestUserPassword(passwordCheckRequest);
         return ResponseEntity.ok(passwordCheckResponse);
+    }
+
+    @PatchMapping("/test")
+    public ResponseEntity<Void> test(@RequestParam("data") MultipartFile multipartFile) throws IOException {
+        System.out.println(multipartFile);
+        File file = new File(multipartFile.getOriginalFilename());
+        if (file.createNewFile()) {
+            try (FileOutputStream fos = new FileOutputStream(file)) {
+                fos.write(multipartFile.getBytes());
+            }
+        }
+
+        Region region = Region.AP_NORTHEAST_2;
+        S3Client s3 = S3Client.builder()
+            .region(region)
+            .build();
+        PutObjectRequest objectRequest = PutObjectRequest.builder()
+            .bucket("darass-user-profile-image")
+            .key(file.getName())
+            .build();
+        s3.putObject(objectRequest, software.amazon.awssdk.core.sync.RequestBody.fromFile(file));
+        file.delete();
+        return ResponseEntity.noContent().build();
     }
 }

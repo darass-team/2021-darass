@@ -57,6 +57,10 @@ dependencies {
 
     // 로깅
     implementation 'net.rakugakibox.spring.boot:logback-access-spring-boot-starter:2.7.1'
+
+    // aws s3 sdk
+    implementation platform('software.amazon.awssdk:bom:2.15.0')
+    implementation 'software.amazon.awssdk:s3:2.17.5'
 }
 
 test {
