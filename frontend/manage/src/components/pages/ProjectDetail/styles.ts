@@ -7,9 +7,7 @@ export const Container = styled.div`
   flex-direction: column;
 `;
 
-export const Section = styled.section`
-  margin-bottom: 6rem;
-`;
+export const Section = styled.section``;
 
 export const Title = styled.h2`
   font-size: 2rem;
@@ -21,8 +19,7 @@ export const Title = styled.h2`
 export const Form = styled.form`
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  position: relative;
+  align-items: flex-end;
 `;
 
 export const InfoWrapper = styled.div`
@@ -30,6 +27,7 @@ export const InfoWrapper = styled.div`
   flex-direction: column;
   align-items: flex-start;
   margin-bottom: 2rem;
+  width: 100%;
 `;
 
 export const Label = styled.label`
@@ -37,10 +35,6 @@ export const Label = styled.label`
   font-weight: 600;
   align-self: flex-start;
   margin-bottom: 0.8rem;
-`;
-
-export const Text = styled.p`
-  font-size: 1.2rem;
 `;
 
 export const Input = styled.input`
@@ -65,22 +59,32 @@ export const TextArea = styled(Input.withComponent("textarea"))`
   resize: none;
 `;
 
+export const Name = styled(Input.withComponent("p"))`
+  font-size: 1.2rem;
+`;
+
+export const Description = styled(TextArea.withComponent("p"))`
+  font-size: 1.2rem;
+  border: 1px solid ${PALETTE.BLACK_700};
+  border-radius: 10px;
+`;
+
 export const ButtonsWrapper = styled.div`
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  position: absolute;
-  right: 0;
+  justify-content: flex-end;
+
   min-width: max-content;
   & > button {
-    :nth-child(2n + 1) {
-      margin-right: 2rem;
+    :nth-child(2n) {
+      margin-left: 2rem;
     }
   }
 `;
 
 export const CancelButton = styled(SubmitButton).attrs({ type: "button" })`
-  background-color: ${PALETTE.RED_600};
+  background-color: ${PALETTE.GRAY_300};
+  color: ${PALETTE.BLACK_700};
 `;
 
 export const EditModeButton = styled(SubmitButton).attrs({ type: "button" })`

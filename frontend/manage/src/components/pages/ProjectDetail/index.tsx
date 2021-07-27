@@ -16,7 +16,8 @@ import {
   Label,
   Input,
   TextArea,
-  Text,
+  Name,
+  Description,
   ButtonsWrapper,
   CancelButton,
   EditModeButton
@@ -65,7 +66,7 @@ const ProjectDetail = () => {
                     onChange={onChangeProjectName}
                   />
                 ) : (
-                  <Text>{project?.name}</Text>
+                  <Name>{project?.name}</Name>
                 )}
               </InfoWrapper>
               <InfoWrapper>
@@ -78,7 +79,7 @@ const ProjectDetail = () => {
                     onChange={onChangeProjectDesc}
                   />
                 ) : (
-                  <Text>project.description</Text>
+                  <Description>project.description</Description>
                 )}
               </InfoWrapper>
               <ButtonsWrapper>
