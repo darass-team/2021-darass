@@ -4,3 +4,5 @@ export interface Project {
   secretKey: string;
   userId: number;
 }
+
+export type EditProjectRequest = Pick<Project, "id" | "name">;

@@ -1,7 +1,7 @@
 import { css } from "styled-components";
 import { PALETTE } from "./palette";
 
-const SpeechBubbleCSS = css`
+export const speechBubbleCSS = css`
   position: absolute;
   width: 6rem;
   box-shadow: 1.04082px 1.04082px 6.24491px rgba(0, 0, 0, 0.25);
@@ -40,4 +40,43 @@ const SpeechBubbleCSS = css`
   }
 `;
 
-export { SpeechBubbleCSS };
+export const titleCSS = css`
+  font-size: 2rem;
+  font-weight: 800;
+  margin-bottom: 2rem;
+`;
+
+export const subTitleCSS = css`
+  font-size: 1.6rem;
+  word-break: keep-all;
+  margin-bottom: 1rem;
+`;
+
+export const paragraphCSS = css`
+  font-size: 1.4rem;
+  word-break: keep-all;
+  margin-bottom: 1rem;
+`;
+
+export const orderedListCSS = css`
+  font-size: 1.4rem;
+`;
+
+export const labelCSS = css`
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin-bottom: 0.8rem;
+`;
+
+export const inputCSS = css`
+  width: 100%;
+  border: 1px solid ${PALETTE.BLACK_700};
+  border-radius: 10px;
+  font-size: 1.2rem;
+  padding: 0.7rem 1rem;
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px ${PALETTE.BLACK_700};
+  }
+`;

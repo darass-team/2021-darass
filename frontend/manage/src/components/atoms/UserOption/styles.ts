@@ -1,9 +1,9 @@
 import styled from "styled-components";
-import { SpeechBubbleCSS } from "../../../styles/css";
+import { speechBubbleCSS } from "../../../styles/css";
 import { PALETTE } from "../../../styles/palette";
 
 export const Container = styled.div`
-  ${SpeechBubbleCSS};
+  ${speechBubbleCSS};
   background-color: ${PALETTE.GRAY_200};
   width: 10rem;
   ::before {

@@ -1,3 +1,4 @@
+import { orderedListCSS, paragraphCSS, subTitleCSS, titleCSS } from "./../../../styles/css";
 import styled from "styled-components";
 import { PALETTE } from "../../../styles/palette";
 
@@ -11,10 +12,7 @@ export const Section = styled.section`
 `;
 
 export const Title = styled.h2`
-  font-size: 2rem;
-  font-weight: 800;
-  margin-bottom: 2rem;
-  align-self: flex-start;
+  ${titleCSS};
 `;
 
 export const CodeBlockWrapper = styled.div`
@@ -50,17 +48,13 @@ export const BlogLogoWrapper = styled.div`
 `;
 
 export const SubTitle = styled.h3`
-  font-size: 1.6rem;
-  word-break: keep-all;
-  margin-bottom: 1rem;
+  ${subTitleCSS};
 `;
 
 export const P = styled.p`
-  font-size: 1.4rem;
-  word-break: keep-all;
-  margin-bottom: 1rem;
+  ${paragraphCSS};
 `;
 
 export const Ol = styled.ol`
-  font-size: 1.4rem;
+  ${orderedListCSS};
 `;

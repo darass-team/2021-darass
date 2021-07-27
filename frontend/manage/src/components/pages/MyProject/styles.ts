@@ -16,7 +16,7 @@ export const AddProjectButton = styled.button`
   font-weight: 700;
   font-size: 1.4rem;
   margin-bottom: 2rem;
-  padding: 0.3rem 0.8rem;
+  padding: 0.5rem 0.8rem;
   align-self: flex-end;
   transition: background-color 0.3s;
 

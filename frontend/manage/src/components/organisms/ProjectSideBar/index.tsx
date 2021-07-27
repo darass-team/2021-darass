@@ -13,7 +13,7 @@ const ProjectSideBar = ({ projectId }: Props) => {
 
   return (
     <Container>
-      <MenuDropDown title="프로젝트 정보" />
+      <MenuDropDown title="프로젝트 정보" onClick={() => history.push(ROUTE.GET_PROJECT_DETAIL(projectId))} />
       <MenuDropDown
         title="통계"
         menu={[
