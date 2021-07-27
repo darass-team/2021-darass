@@ -81,8 +81,9 @@ public class CommentService {
 
     public List<CommentResponse> findAllCommentsByUrlAndProjectKeyUsingPagination(String url, String projectKey,
         Integer page, Integer size) {
+        int pageBasedIndex = page - 1;
         Page<Comment> comments = commentRepository
-            .findAllByUrlAndProject_SecretKey(url, projectKey, PageRequest.of(page - 1, size));
+            .findAllByUrlAndProject_SecretKey(url, projectKey, PageRequest.of(pageBasedIndex, size));
 
         return comments.stream()
             .map(comment ->
