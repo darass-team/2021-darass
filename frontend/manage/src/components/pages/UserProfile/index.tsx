@@ -1,6 +1,6 @@
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, FormEventHandler, useEffect, useState } from "react";
 import cameraIcon from "../../../assets/svg/camera.svg";
-import { useInput, useUser } from "../../../hooks";
+import { useEditUser, useInput, useUser } from "../../../hooks";
 import ScreenContainer from "../../../styles/ScreenContainer";
 import {
   CameraIcon,
@@ -17,6 +17,7 @@ import {
 
 const UserProfile = () => {
   const { user } = useUser();
+  const { editUser } = useEditUser();
   const { value: userName, setValue: setUserName, onChange: onChangeUserName } = useInput("");
 
   const [profileImage, setProfileImage] = useState<string>();
@@ -26,6 +27,17 @@ const UserProfile = () => {
     const files = target?.files || [];
 
     setProfileImage(URL.createObjectURL(files[0]));
+  };
+
+  const onSubmit: FormEventHandler<HTMLFormElement> = async event => {
+    event.preventDefault();
+
+    try {
+      await editUser({ nickName: userName });
+    } catch (error) {
+      alert(error.response.data.message);
+      console.error(error.response.data.message);
+    }
   };
 
   useEffect(() => {
@@ -38,7 +50,7 @@ const UserProfile = () => {
   return (
     <ScreenContainer>
       <Container>
-        <Form>
+        <Form onSubmit={onSubmit}>
           <Title>프로필</Title>
 
           <InfoWrapper>

@@ -4,3 +4,4 @@ export { useGetAllProjects } from "./useGetAllProjects";
 export { useGetProject } from "./useGetProject";
 export { useCreateProject } from "./useCreateProject";
 export { useCopyButton } from "./useCopyButton";
+export { useEditUser } from "./useEditUser";
