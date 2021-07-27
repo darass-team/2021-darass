@@ -68,14 +68,7 @@ public class CommentService {
         List<Comment> comments = commentRepository.findAllByUrlAndProject_SecretKey(url, projectKey);
 
         return comments.stream()
-            .map(comment ->
-                CommentResponse.of(
-                    comment, UserResponse.of( //TODO: UserResponse 정적 팩터리 메서드 생성자에 User만 넣어준다.
-                        comment.getUser(),
-                        userRepository.findUserTypeById(comment.getUserId()),
-                        userRepository.findProfileImageUrlById(comment.getUserId())
-                    )
-                ))
+            .map(comment -> CommentResponse.of(comment, UserResponse.of(comment.getUser())))
             .collect(Collectors.toList());
     }
 
@@ -86,14 +79,7 @@ public class CommentService {
             .findAllByUrlAndProject_SecretKey(url, projectKey, PageRequest.of(pageBasedIndex, size));
 
         return comments.stream()
-            .map(comment ->
-                CommentResponse.of(
-                    comment, UserResponse.of( //TODO: UserResponse 정적 팩터리 메서드 생성자에 User만 넣어준다.
-                        comment.getUser(),
-                        userRepository.findUserTypeById(comment.getUserId()),
-                        userRepository.findProfileImageUrlById(comment.getUserId())
-                    )
-                ))
+            .map(comment -> CommentResponse.of(comment, UserResponse.of(comment.getUser())))
             .collect(Collectors.toList());
     }
 

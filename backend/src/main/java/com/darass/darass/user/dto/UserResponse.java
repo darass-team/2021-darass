@@ -31,4 +31,9 @@ public class UserResponse {
         return new UserResponse(user.getId(), user.getNickName(), type, profileImageUrl, user.getCreatedDate(),
             user.getModifiedDate());
     }
+
+    public static UserResponse of(User user) {
+        return new UserResponse(user.getId(), user.getNickName(), user.getUserType(), user.getProfileImageUrl(),
+            user.getCreatedDate(), user.getModifiedDate());
+    }
 }
