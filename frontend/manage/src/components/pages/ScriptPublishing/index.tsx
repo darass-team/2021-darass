@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Redirect, useRouteMatch } from "react-router-dom";
 import SyntaxHighlighter from "react-syntax-highlighter";
-import { atomOneDark } from "react-syntax-highlighter/dist/esm/styles/hljs";
 import { GUIDE_FILE, ROUTE } from "../../../constants";
 import { useCopyButton, useGetProject } from "../../../hooks";
 import ScreenContainer from "../../../styles/ScreenContainer";
@@ -9,6 +8,7 @@ import BlogLogoButton from "../../atoms/Buttons/BlogLogoButton";
 import ProjectSideBar from "../../organisms/ProjectSideBar";
 import SideBarTemplate from "../SideBarTemplate";
 import { SubTitle, CodeBlockWrapper, Container, CopyButton, P, Ol, Section, Title, BlogLogoWrapper } from "./styles";
+import { atomOneDark } from "react-syntax-highlighter/dist/esm/styles/hljs";
 
 const scriptCode = (projectSecretKey: string) => `
 <!-- 다라쓰 설치 코드 -->
@@ -32,6 +32,7 @@ const scriptCode = (projectSecretKey: string) => `
 const ScriptPublishing = () => {
   const [selectedBlogInfo, setSelectedBlogInfo] = useState<ObjectValueType<typeof GUIDE_FILE>>();
   const match = useRouteMatch<{ id: string }>();
+
   const projectId = Number(match.params.id);
   const { project, error } = useGetProject(projectId);
   const projectSecretKey = project?.secretKey;

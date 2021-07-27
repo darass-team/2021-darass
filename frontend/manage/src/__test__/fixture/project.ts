@@ -1,5 +1,5 @@
 import { Project } from "../../types/project";
-import { socialLoginUser } from "./user";
+import { socialLoginUser, socialLoginUser2 } from "./user";
 
 export const myProject: Project = {
   id: 1,
@@ -18,7 +18,7 @@ export const myProject2: Project = {
 export const myProject3: Project = {
   id: 3,
   name: "내 프로젝트",
-  userId: socialLoginUser.id,
+  userId: socialLoginUser2.id,
   secretKey: "1312312"
 };
 
