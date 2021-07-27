@@ -1,8 +1,8 @@
 package com.darass.darass.comment.service;
 
 import com.darass.darass.comment.domain.Comment;
-import com.darass.darass.comment.domain.Comments;
 import com.darass.darass.comment.domain.CommentLike;
+import com.darass.darass.comment.domain.Comments;
 import com.darass.darass.comment.dto.CommentCreateRequest;
 import com.darass.darass.comment.dto.CommentDeleteRequest;
 import com.darass.darass.comment.dto.CommentResponse;
@@ -30,7 +30,6 @@ public class CommentService {
     private final CommentRepository commentRepository;
     private final ProjectRepository projectRepository;
     private final UserRepository userRepository;
-    private final LikeRepository likeRepository;
 
     public CommentResponse save(User user, CommentCreateRequest commentRequest) {
         if (!user.isLoginUser()) {
@@ -40,7 +39,8 @@ public class CommentService {
         Comment comment = savedComment(user, commentRequest, project);
         String userType = userRepository.findUserTypeById(user.getId());
         String profileImageUrl = userRepository.findProfileImageUrlById(user.getId());
-        return CommentResponse.of(comment, UserResponse.of(comment.getUser(), userType, profileImageUrl));
+        return CommentResponse
+            .of(comment, UserResponse.of(comment.getUser(), userType, profileImageUrl));
     }
 
     private Project getBySecretKey(CommentCreateRequest commentRequest) {
@@ -136,7 +136,7 @@ public class CommentService {
         }
     }
 
-    public void switchLikeStatus(Long id, User user) {
+    public void toggleLikeStatus(Long id, User user) {
         Comment comment = commentRepository.findById(id)
             .orElseThrow(ExceptionWithMessageAndCode.NOT_FOUND_COMMENT::getException);
 

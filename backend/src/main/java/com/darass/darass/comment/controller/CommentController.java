@@ -61,7 +61,7 @@ public class CommentController {
 
     @PostMapping("/{id}/like")
     public ResponseEntity<Void> clickLikeButton(@PathVariable("id") Long id, @RequiredLogin User user) {
-        commentService.switchLikeStatus(id, user);
+        commentService.toggleLikeStatus(id, user);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }

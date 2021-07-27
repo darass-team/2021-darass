@@ -23,7 +23,7 @@ public class ProjectResponse {
     }
 
     public static ProjectResponse from(Project project) {
-        return new ProjectResponse(project.getId(), project.getName(), project.getSecretKey(), project.getUser().getId());
+        return new ProjectResponse(project.getId(), project.getName(), project.getSecretKey(), project.getAdminUserId());
     }
 
     public static ProjectResponse from(Long userId) {

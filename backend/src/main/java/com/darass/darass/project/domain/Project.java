@@ -58,4 +58,7 @@ public class Project extends BaseTimeEntity {
         return this.secretKey.equals(secretKey);
     }
 
+    public Long getAdminUserId() {
+        return this.user.getId();
+    }
 }
