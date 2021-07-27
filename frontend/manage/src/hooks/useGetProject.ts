@@ -1,5 +1,4 @@
 import { useQuery } from "react-query";
-import { NoEmitOnErrorsPlugin } from "webpack";
 import { REACT_QUERY_KEY } from "../constants";
 import { QUERY } from "../constants/api";
 import { Project } from "../types/project";

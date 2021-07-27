@@ -3,8 +3,8 @@ import { ConditionalRoute } from "./components/HOC/ConditionalRoute";
 import Nav from "./components/organisms/Nav";
 import Home from "./components/pages/Home";
 import Login from "./components/pages/Login";
-import MyProjectPage from "./components/pages/MyProject";
-import NewProjectPage from "./components/pages/NewProject";
+import MyProject from "./components/pages/MyProject";
+import NewProject from "./components/pages/NewProject";
 import ProjectDetail from "./components/pages/ProjectDetail";
 import ScriptPublishingPage from "./components/pages/ScriptPublishing";
 import { ROUTE } from "./constants";
@@ -24,9 +24,9 @@ const App = () => {
           component={ScriptPublishingPage}
           condition={!!user || isLoading}
         />
+        <ConditionalRoute path={ROUTE.NEW_PROJECT} component={NewProject} condition={!!user || isLoading} />
         <ConditionalRoute path={ROUTE.PROJECT_DETAIL} component={ProjectDetail} condition={!!user || isLoading} />
-        <ConditionalRoute path={ROUTE.NEW_PROJECT} component={NewProjectPage} condition={!!user || isLoading} />
-        <ConditionalRoute path={ROUTE.MY_PROJECT} component={MyProjectPage} condition={!!user || isLoading} />
+        <ConditionalRoute path={ROUTE.MY_PROJECT} component={MyProject} condition={!!user || isLoading} />
         <Redirect to={ROUTE.HOME} />
       </Switch>
     </Router>

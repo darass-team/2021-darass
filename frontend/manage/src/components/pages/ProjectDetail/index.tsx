@@ -4,10 +4,9 @@ import { ROUTE } from "../../../constants";
 import { useEditProject, useGetProject, useInput } from "../../../hooks";
 import ScreenContainer from "../../../styles/ScreenContainer";
 import { isEmptyString } from "../../../utils/validation";
-import SubmitButton from "../../atoms/SubmitButton";
 import ProjectSideBar from "../../organisms/ProjectSideBar";
 import SideBarTemplate from "../SideBarTemplate";
-import { Container, Section, InfoWrapper, Form, Title, Label, Input, TextArea, ButtonsWrapper } from "./styles";
+import { Container, InfoWrapper, Form, Title, Label, Input, SubmitButton } from "./styles";
 
 const ProjectDetail = () => {
   const match = useRouteMatch<{ id?: string }>();
@@ -39,39 +38,30 @@ const ProjectDetail = () => {
       <SideBarTemplate SideBar={() => <ProjectSideBar projectId={projectId} />}>
         <Container>
           <Title>프로젝트 정보</Title>
-          <Section>
-            <Form onSubmit={onEditProject}>
-              <InfoWrapper>
-                <Label htmlFor="project-name">이름</Label>
+          <Form onSubmit={onEditProject}>
+            <InfoWrapper>
+              <Label htmlFor="project-name">이름</Label>
 
-                <Input
-                  id="project-name"
-                  placeholder="프로젝트 이름"
-                  value={projectName}
-                  onChange={onChangeProjectName}
-                />
-              </InfoWrapper>
-              <InfoWrapper>
-                <Label htmlFor="project-description">설명</Label>
-                <TextArea
-                  id="project-description"
-                  placeholder="프로젝트 설명"
-                  value={projectDesc}
-                  onChange={onChangeProjectDesc}
-                />
-              </InfoWrapper>
-              <ButtonsWrapper>
-                <SubmitButton
-                  onClick={() => {
-                    setProjectName(project?.name || "");
-                    setProjectDesc("project.description");
-                  }}
-                >
-                  수정
-                </SubmitButton>
-              </ButtonsWrapper>
-            </Form>
-          </Section>
+              <Input id="project-name" placeholder="프로젝트 이름" value={projectName} onChange={onChangeProjectName} />
+            </InfoWrapper>
+            <InfoWrapper>
+              <Label htmlFor="project-description">설명</Label>
+              <Input
+                id="project-description"
+                placeholder="프로젝트 설명"
+                value={projectDesc}
+                onChange={onChangeProjectDesc}
+              />
+            </InfoWrapper>
+            <SubmitButton
+              onClick={() => {
+                setProjectName(project?.name || "");
+                setProjectDesc("project.description");
+              }}
+            >
+              수정
+            </SubmitButton>
+          </Form>
         </Container>
       </SideBarTemplate>
     </ScreenContainer>
