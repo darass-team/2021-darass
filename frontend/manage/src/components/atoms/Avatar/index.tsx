@@ -1,3 +1,4 @@
+import { MouseEvent } from "react";
 import { Container } from "./styles";
 
 export type Size = "SM" | "MD" | "LG";
@@ -5,7 +6,7 @@ export type Size = "SM" | "MD" | "LG";
 export interface Props {
   imageURL?: string;
   size?: Size;
-  onClick?: () => void;
+  onClick?: (event: MouseEvent) => void;
 }
 
 const Avatar = ({ imageURL, size = "MD", onClick }: Props) => {

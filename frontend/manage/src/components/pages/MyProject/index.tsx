@@ -1,4 +1,4 @@
-import { useHistory } from "react-router-dom";
+import { Redirect, useHistory } from "react-router-dom";
 import { ROUTE } from "../../../constants";
 import { useGetAllProjects } from "../../../hooks";
 import ScreenContainer from "../../../styles/ScreenContainer";

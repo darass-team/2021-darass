@@ -6,6 +6,7 @@ export const Container = styled.div`
   display: flex;
   align-items: center;
   width: fit-content;
+  cursor: pointer;
 
   & > img {
     cursor: pointer;
@@ -22,4 +23,8 @@ export const UserOption = styled(UserOptionComponent)`
   position: absolute;
   right: 7px;
   top: 50px;
+`;
+
+export const DownArrow = styled.img<{ isShowOptionBox: boolean }>`
+  transform: ${props => props.isShowOptionBox && "rotate(180deg);"};
 `;
