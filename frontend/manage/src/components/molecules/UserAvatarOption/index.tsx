@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useState } from "react";
+import { MouseEvent, ReactNode, useEffect, useRef, useState } from "react";
 import { User } from "../../../types/user";
 import Avatar from "../../atoms/Avatar";
 import arrowDown from "../../../assets/svg/arrow-down.svg";
@@ -11,14 +11,28 @@ export interface Props {
 
 const UserAvatarOption = ({ user, children }: Props) => {
   const [isShowOptionBox, setShowOptionBox] = useState(false);
+  const ref = useRef(false);
+  ref.current = isShowOptionBox;
 
-  const onShowOptionBox = () => {
+  const onShowOptionBox = (event: MouseEvent) => {
+    event.stopPropagation();
     setShowOptionBox(state => !state);
+  };
+
+  const onHideOptionBox = () => {
+    if (ref.current) setShowOptionBox(false);
   };
 
   useEffect(() => {
     setShowOptionBox(false);
   }, [user]);
+
+  useEffect(() => {
+    window.addEventListener("click", onHideOptionBox);
+    return () => {
+      window.removeEventListener("click", onHideOptionBox);
+    };
+  }, []);
 
   return (
     <Container>

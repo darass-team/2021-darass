@@ -30,12 +30,12 @@ export const OptionContainer = styled.div`
     width: 100%;
     font-size: 1.2rem;
     font-weight: bold;
+    border-radius: 10px;
     padding: 0.1rem 0;
     transition: background-color 0.1s;
   }
 
   & > *:hover {
-    border-radius: 10px;
     background-color: ${PALETTE.GRAY_400};
   }
 `;
