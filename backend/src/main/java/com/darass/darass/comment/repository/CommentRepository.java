@@ -9,7 +9,8 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 
 public interface CommentRepository extends JpaRepository<Comment, Long>, PagingAndSortingRepository<Comment, Long> {
 
-    List<Comment> findAllByUrlAndProject_SecretKey(String url, String projectSecretKey);
+    List<Comment> findAllByUrlAndProjectSecretKey(String url, String projectSecretKey);
 
-    Page<Comment> findAllByUrlAndProject_SecretKey(String url, String projectSecretKey, Pageable pageable);
+    Page<Comment> findAllByUrlAndProjectSecretKey(String url, String projectSecretKey, Pageable pageable);
+
 }

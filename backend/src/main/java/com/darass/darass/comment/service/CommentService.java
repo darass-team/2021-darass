@@ -65,7 +65,7 @@ public class CommentService {
     }
 
     public List<CommentResponse> findAllCommentsByUrlAndProjectKey(String url, String projectKey) {
-        List<Comment> comments = commentRepository.findAllByUrlAndProject_SecretKey(url, projectKey);
+        List<Comment> comments = commentRepository.findAllByUrlAndProjectSecretKey(url, projectKey);
 
         return comments.stream()
             .map(comment -> CommentResponse.of(comment, UserResponse.of(comment.getUser())))
@@ -76,7 +76,7 @@ public class CommentService {
         Integer page, Integer size) {
         int pageBasedIndex = page - 1;
         Page<Comment> comments = commentRepository
-            .findAllByUrlAndProject_SecretKey(url, projectKey, PageRequest.of(pageBasedIndex, size));
+            .findAllByUrlAndProjectSecretKey(url, projectKey, PageRequest.of(pageBasedIndex, size));
 
         return comments.stream()
             .map(comment -> CommentResponse.of(comment, UserResponse.of(comment.getUser())))
