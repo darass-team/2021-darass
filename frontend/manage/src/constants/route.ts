@@ -1,6 +1,7 @@
 const ROUTE = {
   HOME: "/",
   LOGIN: "/login",
+  USER_PROFILE: "/user",
   MY_PROJECT: "/projects",
   PROJECT_DETAIL: "/projects/:id",
   SCRIPT_PUBLISHING: "/projects/:id/guide",
