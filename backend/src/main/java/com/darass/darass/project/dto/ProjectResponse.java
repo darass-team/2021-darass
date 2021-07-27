@@ -16,6 +16,8 @@ public class ProjectResponse {
 
     private String secretKey;
 
+    private String content;
+
     private Long userId;
 
     public ProjectResponse(Long userId) {

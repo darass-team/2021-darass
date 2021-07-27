@@ -35,13 +35,16 @@ public class Project extends BaseTimeEntity {
 
     private String name;
 
+    private String content;
+
     private String secretKey;
 
     @Builder
-    public Project(Long id, User user, String name) {
+    public Project(Long id, User user, String name, String content) {
         this.id = id;
         this.user = user;
         this.name = name;
+        this.content = content;
         this.secretKey = generateSecretKey();
     }
 

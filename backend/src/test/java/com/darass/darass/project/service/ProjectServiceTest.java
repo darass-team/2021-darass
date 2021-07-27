@@ -33,7 +33,13 @@ public class ProjectServiceTest extends SpringContainerTest {
 
     private SocialLoginUser socialLoginUser;
 
-    private Project project;
+    private final static String JEKYLL_PROJECT_NAME = "지킬 블로그 프로젝트";
+
+    private final static String JEKYLL_PROJECT_CONTENT = "지킬 블로그 프로젝트 설명";
+
+    private final static String TSTORY_PROJECT_NAME = "티스토리 블로그 프로젝트";
+
+    private final static String TSTORY_PROJECT_CONTENT = "티스토리 블로그 프로젝트 설명";
 
     @BeforeEach
     public void setUp() {
@@ -49,40 +55,33 @@ public class ProjectServiceTest extends SpringContainerTest {
     }
 
     @Test
-    @DisplayName("유저 id로 유저가 만든 프로젝트 목록을 조회한다. ")
+    @DisplayName("유저 id로 유저가 만든 프로젝트 목록을 조회한다.")
     public void findByUserId() {
-        //given
-        String jekyllProjectName = "지킬 블로그 프로젝트";
-        String tstoryProjectName = "티스토리 블로그 프로젝트";
-
-        projectService.save(new ProjectCreateRequest(jekyllProjectName), socialLoginUser);
-        projectService.save(new ProjectCreateRequest(tstoryProjectName), socialLoginUser);
+        projectService.save(new ProjectCreateRequest(JEKYLL_PROJECT_NAME, JEKYLL_PROJECT_CONTENT), socialLoginUser);
+        projectService.save(new ProjectCreateRequest(TSTORY_PROJECT_NAME, TSTORY_PROJECT_CONTENT), socialLoginUser);
 
         //when
         List<ProjectResponse> projectResponses = projectService.findByUserId(socialLoginUser.getId());
 
         //then
         assertThat(projectResponses.size()).isEqualTo(2);
-        assertThat(projectResponses.get(0).getName()).isEqualTo(jekyllProjectName);
-        assertThat(projectResponses.get(1).getName()).isEqualTo(tstoryProjectName);
+        assertThat(projectResponses.get(0).getName()).isEqualTo(JEKYLL_PROJECT_NAME);
+        assertThat(projectResponses.get(1).getName()).isEqualTo(TSTORY_PROJECT_NAME);
     }
 
     @Test
     @DisplayName("프로젝트 id와 유저 id로 유저가 만든 프로젝트 목록을 조회한다.")
     public void findByIdAndUserId() {
         //given
-        String jekyllProjectName = "지킬 블로그 프로젝트";
-        String tstoryProjectName = "티스토리 블로그 프로젝트";
-
-        projectService.save(new ProjectCreateRequest(jekyllProjectName), socialLoginUser);
-        projectService.save(new ProjectCreateRequest(tstoryProjectName), socialLoginUser);
+        projectService.save(new ProjectCreateRequest(JEKYLL_PROJECT_NAME, JEKYLL_PROJECT_CONTENT), socialLoginUser);
+        projectService.save(new ProjectCreateRequest(TSTORY_PROJECT_NAME, TSTORY_PROJECT_CONTENT), socialLoginUser);
         Project jekyllProject = findFirstSavedProject();
 
         //when
         ProjectResponse projectResponse = projectService.findByIdAndUserId(jekyllProject.getId(), socialLoginUser.getId());
 
         //then
-        assertThat(projectResponse.getName()).isEqualTo(jekyllProjectName);
+        assertThat(projectResponse.getName()).isEqualTo(JEKYLL_PROJECT_NAME);
     }
 
     @Test
@@ -97,11 +96,9 @@ public class ProjectServiceTest extends SpringContainerTest {
     @DisplayName("프로젝트 시크릿키로 프로젝트를 생성한 유저 id를 조회한다.")
     public void findUserIdBySecretKey() {
         //given
-        String jekyllProjectName = "지킬 블로그 프로젝트";
-        String tstoryProjectName = "티스토리 블로그 프로젝트";
+        projectService.save(new ProjectCreateRequest(JEKYLL_PROJECT_NAME, JEKYLL_PROJECT_CONTENT), socialLoginUser);
+        projectService.save(new ProjectCreateRequest(TSTORY_PROJECT_NAME, TSTORY_PROJECT_CONTENT), socialLoginUser);
 
-        projectService.save(new ProjectCreateRequest(jekyllProjectName), socialLoginUser);
-        projectService.save(new ProjectCreateRequest(tstoryProjectName), socialLoginUser);
         Project jekyllProject = findFirstSavedProject();
         String secretKey = jekyllProject.getSecretKey();
 
@@ -123,37 +120,29 @@ public class ProjectServiceTest extends SpringContainerTest {
     @Test
     @DisplayName("프로젝트 이름과 유저 id로 프로젝트를 생성한다.")
     public void save_success() {
-        //given
-        String projectName = "지킬 블로그 프로젝트";
+        ProjectResponse projectResponse = projectService
+            .save(new ProjectCreateRequest(JEKYLL_PROJECT_NAME, JEKYLL_PROJECT_CONTENT), socialLoginUser);
 
-        //when
-        ProjectResponse projectResponse = projectService.save(new ProjectCreateRequest(projectName), socialLoginUser);
-
-        //then
-        assertThat(projectResponse.getName()).isEqualTo(projectName);
+        assertThat(projectResponse.getName()).isEqualTo(JEKYLL_PROJECT_NAME);
     }
 
     @Test
     @DisplayName("프로젝트 이름이 중복될 경우 예외를 던진다.")
     public void save_validateDuplicateProjectName() {
-        String projectName = "지킬 블로그 프로젝트";
-        projectService.save(new ProjectCreateRequest(projectName), socialLoginUser);
+        projectService.save(new ProjectCreateRequest(JEKYLL_PROJECT_NAME, JEKYLL_PROJECT_CONTENT), socialLoginUser);
 
         assertThatThrownBy(() -> {
-            projectService.save(new ProjectCreateRequest(projectName), socialLoginUser);
+            projectService.save(new ProjectCreateRequest(JEKYLL_PROJECT_NAME, JEKYLL_PROJECT_CONTENT), socialLoginUser);
         }).isEqualTo(ExceptionWithMessageAndCode.DUPLICATE_PROJECT_NAME.getException());
     }
 
     @Test
     @DisplayName("프로젝트 id와 유저 id로 프로젝트를 삭제한다.")
     public void deleteByIdAndUserId_success() {
-        project = Project.builder()
-            .user(socialLoginUser)
-            .name("깃헙 지킬 블로그")
-            .build();
+        ProjectResponse projectResponse = projectService
+            .save(new ProjectCreateRequest(JEKYLL_PROJECT_NAME, JEKYLL_PROJECT_CONTENT), socialLoginUser);
 
-        projectRepository.save(project);
-        projectService.deleteByIdAndUserId(project.getId(), socialLoginUser.getId());
+        projectService.deleteByIdAndUserId(projectResponse.getId(), socialLoginUser.getId());
 
         assertThat(projectRepository.findAll()).isEmpty();
     }
@@ -161,13 +150,7 @@ public class ProjectServiceTest extends SpringContainerTest {
     @Test
     @DisplayName("존재하지 않는 프로젝트 id 또는 존재하지 않는 유저 id로 프로젝트를 삭제하면, 예외를 던진다.")
     public void deleteByIdAndUserId_fail() {
-        project = Project.builder()
-            .id(1L)
-            .user(socialLoginUser)
-            .name("깃헙 지킬 블로그")
-            .build();
-
-        projectRepository.save(project);
+        projectService.save(new ProjectCreateRequest(JEKYLL_PROJECT_NAME, JEKYLL_PROJECT_CONTENT), socialLoginUser);
 
         Assertions.assertThrows(ExceptionWithMessageAndCode.NOT_FOUND_PROJECT.getException().getClass(),
             () -> projectService.deleteByIdAndUserId(100L, 100L));
