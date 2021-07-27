@@ -22,9 +22,9 @@ public class SocialLoginUser extends User {
     private OAuthProviderType oauthProviderType;
 
     @Builder
-    public SocialLoginUser(Long id, String nickName, String oauthId,
-        OAuthProviderType oauthProviderType, String email, String profileImageUrl) {
-        super(id, nickName, profileImageUrl);
+    public SocialLoginUser(Long id, String nickName, String profileImageUrl, String userType, String oauthId,
+        OAuthProviderType oauthProviderType, String email) {
+        super(id, nickName, profileImageUrl, userType);
         this.oauthId = oauthId;
         this.oauthProviderType = oauthProviderType;
         this.email = email;
