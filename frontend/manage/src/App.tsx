@@ -18,9 +18,9 @@ const App = () => {
       <Nav user={user} logout={logout} />
 
       <Switch>
-        <Route exact path={ROUTE.USER_PROFILE} component={UserProfile} />
         <Route exact path={ROUTE.HOME} component={Home} />
         <ConditionalRoute path={ROUTE.LOGIN} component={Login} condition={!user} redirectPath={ROUTE.MY_PROJECT} />
+        <ConditionalRoute path={ROUTE.USER_PROFILE} component={UserProfile} condition={!!user || isLoading} />
         <ConditionalRoute
           path={ROUTE.SCRIPT_PUBLISHING}
           component={ScriptPublishingPage}
