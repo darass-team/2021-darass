@@ -1,5 +1,5 @@
 import { FormEvent } from "react";
-import { useHistory } from "react-router-dom";
+import { Redirect, useHistory } from "react-router-dom";
 import { ROUTE } from "../../../constants";
 import { useCreateProject, useGetAllProjects, useInput } from "../../../hooks";
 import ScreenContainer from "../../../styles/ScreenContainer";
@@ -9,7 +9,7 @@ import { Container, Form, Input, Label, SubmitButton, Title } from "./styles";
 const NewProject = () => {
   const history = useHistory();
   const { createProject } = useCreateProject();
-  const { projects } = useGetAllProjects();
+  const { projects, error } = useGetAllProjects();
   const { value: projectName, onChange: onChangeProjectName } = useInput("");
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -31,6 +31,10 @@ const NewProject = () => {
       }
     }
   };
+
+  if (error) {
+    return <Redirect to={ROUTE.MY_PROJECT} />;
+  }
 
   return (
     <ScreenContainer>

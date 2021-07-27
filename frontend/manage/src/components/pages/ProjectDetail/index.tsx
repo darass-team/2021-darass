@@ -32,10 +32,6 @@ const ProjectDetail = () => {
   const { value: projectName, setValue: setProjectName, onChange: onChangeProjectName } = useInput("");
   const { value: projectDesc, setValue: setProjectDesc, onChange: onChangeProjectDesc } = useInput("");
 
-  if (!projectId || error) {
-    return <Redirect to={ROUTE.MY_PROJECT} />;
-  }
-
   const onEditProject = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -66,6 +62,10 @@ const ProjectDetail = () => {
       setProjectName(project.name);
     }
   }, [project]);
+
+  if (error) {
+    return <Redirect to={ROUTE.MY_PROJECT} />;
+  }
 
   return (
     <ScreenContainer>
