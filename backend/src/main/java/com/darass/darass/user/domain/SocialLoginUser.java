@@ -45,14 +45,6 @@ public class SocialLoginUser extends User {
         throw ExceptionWithMessageAndCode.NOT_GUEST_USER.getException();
     }
 
-    public void update(SocialLoginUser socialLoginUser) {
-        this.changeNickName(socialLoginUser.getNickName());
-        this.changeProfileImageUrl(socialLoginUser.getProfileImageUrl());
-        this.email = socialLoginUser.getEmail();
-        this.oauthId = socialLoginUser.getOauthId();
-        this.oauthProviderType = socialLoginUser.getOauthProviderType();
-    }
-
     public void changeNickNameOrProfileImageIfExists(S3Uploader s3Uploader, String nickName,
         MultipartFile profileImageFile) {
         if (!Objects.isNull(nickName)) {
