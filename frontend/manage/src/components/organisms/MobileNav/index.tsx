@@ -5,7 +5,7 @@ import { PALETTE } from "../../../styles/palette";
 import { User } from "../../../types/user";
 import HamburgerButton from "../../atoms/Buttons/HamburgerButton";
 import { MenuType } from "../Nav";
-import { Container, Menu, MenuAvatar, MenuWrapper, Name, AuthLink } from "./styles";
+import { Container, Menu, MenuAvatar, MenuWrapper, Name, AuthLink, Dimmed } from "./styles";
 
 export interface Props {
   user?: User;
@@ -22,6 +22,7 @@ const MobileNav = ({ user, logout, menuList }: Props) => {
 
   return (
     <Container>
+      <Dimmed isOpen={isOpen} onClick={onToggleNav} />
       <HamburgerButton isOpen={isOpen} onClick={onToggleNav} />
       <MenuWrapper isOpen={isOpen}>
         <Link to={ROUTE.USER_PROFILE}>

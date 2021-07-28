@@ -9,6 +9,19 @@ export const Container = styled.nav`
   }
 `;
 
+export const Dimmed = styled.div<{ isOpen: boolean }>`
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 100%;
+  background-color: ${PALETTE.BLACK_900};
+  transition: opacity 0.3s, z-index 0.3s ease-in;
+  opacity: ${({ isOpen }) => (isOpen ? 0.5 : 0)};
+  z-index: ${({ isOpen }) => (isOpen ? 1 : -1)};
+`;
+
 export const MenuWrapper = styled.nav<{ isOpen: boolean }>`
   width: 70%;
 
