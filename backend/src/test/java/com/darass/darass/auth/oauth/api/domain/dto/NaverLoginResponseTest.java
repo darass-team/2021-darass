@@ -11,7 +11,7 @@ class NaverLoginResponseTest {
 
     @DisplayName("toEntity 메서드는 socialLoginUser을 리턴한다.")
     @Test
-    void toEntity(){
+    void toEntity() {
         String oauthId = "1234";
         String nickName = "박병욱";
         String email = "bbwwpark@naver.com";

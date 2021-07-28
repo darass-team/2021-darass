@@ -14,7 +14,7 @@ class GuestUserTest {
     private GuestUser guestUser;
 
     @BeforeEach
-    void setUp(){
+    void setUp() {
         guestUser = GuestUser.builder()
             .nickName(nickName)
             .password(password)
