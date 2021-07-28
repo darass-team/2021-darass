@@ -7,10 +7,10 @@ export interface Props {
   name: User["nickName"];
   children: Comment["content"];
   contentEditable?: boolean;
-  submitEditedComment: (content: Comment["content"]) => void;
+  onSubmitEditedComment: (content: Comment["content"]) => void;
 }
 
-const CommentTextBox = ({ name, children, contentEditable = false, submitEditedComment }: Props) => {
+const CommentTextBox = ({ name, children, contentEditable = false, onSubmitEditedComment }: Props) => {
   const [editedContent, setEditedContent] = useState(children);
   const isValidEditedContent = editedContent.length > 0;
 
@@ -30,7 +30,7 @@ const CommentTextBox = ({ name, children, contentEditable = false, submitEditedC
       {contentEditable && (
         <Button
           type="button"
-          onClick={() => submitEditedComment(editedContent)}
+          onClick={() => onSubmitEditedComment(editedContent)}
           disabled={!isValidEditedContent}
           data-testid="comment-text-box-submit-button"
         >

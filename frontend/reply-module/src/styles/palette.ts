@@ -6,6 +6,16 @@ export enum PALETTE {
   "BLACK_700" = "#303030",
   "BLACK_900" = "#000000",
   "GRAY_200" = "#F0F2F5",
+  "GRAY_300" = "#F5F5F5",
+  "GRAY_400" = "#ced4da",
+  "GRAY_500" = "#B5B5B5",
+  "RED_500" = "#EC2626",
   "RED_600" = "#E41E1E",
-  "RED_500" = "#EC2626"
+  "RED_800" = "#CB2431",
+  "BLUE_700" = "#065FD4",
+  "TEAL_700" = "#0ca678",
+  "BAR" = GRAY_500,
+  "SECONDARY_HOVER" = TEAL_700,
+  "WHITE_HOVER" = GRAY_200,
+  "DEFAULT_BG" = GRAY_300
 }

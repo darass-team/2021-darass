@@ -5,12 +5,14 @@ import { socialLoginUser } from "../fixture/user";
 import CommentList from "../../components/organisms/CommentList";
 import { useCreateComment, useConfirmGuestPassword, useDeleteComment, useEditComment } from "../../hooks";
 import CommentInput from "../../components/organisms/CommentInput";
+import { useLikeComment } from "../../hooks/useLikeComment";
 
 jest.mock("../../hooks/useCreateComment");
 jest.mock("../../hooks/useEditComment");
 jest.mock("../../hooks/useDeleteComment");
 jest.mock("../../hooks/useCreateComment");
 jest.mock("../../hooks/useConfirmGuestPassword");
+jest.mock("../../hooks/useLikeComment");
 
 window.alert = function (str) {
   console.log(str);
@@ -51,6 +53,13 @@ describe("로그인 유저의 댓글 CRUD 테스트 코드를 작성한다.", ()
         }
       };
     });
+    (useLikeComment as jest.Mock).mockImplementation(() => {
+      return {
+        likeComment: () => {},
+        isLoading: false,
+        error: false
+      };
+    });
   });
 
   describe("로그인 유저 댓글 조회", () => {
@@ -82,7 +91,9 @@ describe("로그인 유저의 댓글 CRUD 테스트 코드를 작성한다.", ()
 
       fireEvent.change(commentInputTextArea, { target: { value: "곤이" } });
 
-      const submitButton = commentInput.getByTestId("comment-input-submit-button");
+      const submitButton = commentInput.getAllByRole("button", {
+        name: /등록/i
+      })[0];
       fireEvent.click(submitButton);
 
       await waitFor(() => {
