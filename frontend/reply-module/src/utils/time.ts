@@ -9,9 +9,7 @@ const TIME_TABLE_BY_MILLISECOND = {
 };
 
 export const getTimeDifference = (targetTime: string) => {
-  console.log(targetTime);
   const formattedTargetTime = new Date(targetTime);
-  console.log(formattedTargetTime);
   const currTime = new Date();
 
   const diff = currTime.getTime() - formattedTargetTime.getTime();

@@ -79,7 +79,7 @@ const CommentInput = ({ user, url, projectSecretKey }: Props) => {
             />
           </div>
         )}
-        <SubmitButton data-testid="comment-input-submit-button">등록</SubmitButton>
+        <SubmitButton>등록</SubmitButton>
       </Wrapper>
     </Form>
   );

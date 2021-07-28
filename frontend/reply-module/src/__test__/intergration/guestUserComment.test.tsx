@@ -3,6 +3,7 @@ import { fireEvent, render, waitFor } from "@testing-library/react";
 import CommentInput from "../../components/organisms/CommentInput/index";
 import CommentList from "../../components/organisms/CommentList";
 import { useCreateComment, useDeleteComment, useEditComment, useConfirmGuestPassword } from "../../hooks";
+import { useLikeComment } from "../../hooks/useLikeComment";
 import { Comment } from "../../types";
 import { comments } from "../fixture/comments";
 
@@ -10,6 +11,7 @@ jest.mock("../../hooks/useEditComment");
 jest.mock("../../hooks/useDeleteComment");
 jest.mock("../../hooks/useCreateComment");
 jest.mock("../../hooks/useConfirmGuestPassword");
+jest.mock("../../hooks/useLikeComment");
 jest.mock("../../utils/request");
 
 window.alert = function (str) {
@@ -48,6 +50,13 @@ describe("비로그인 유저 댓글 조회", () => {
             }
           };
         }
+      };
+    });
+    (useLikeComment as jest.Mock).mockImplementation(() => {
+      return {
+        likeComment: () => {},
+        isLoading: false,
+        error: false
       };
     });
   });

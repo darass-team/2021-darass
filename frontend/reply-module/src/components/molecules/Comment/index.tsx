@@ -41,7 +41,7 @@ const Comment = ({ user, comment, align = "left", shouldShowOption, iAmAdmin, th
   const { value: password, setValue: setPassword, onChange: onChangePassword } = useInput("");
   const { editComment } = useEditComment();
   const { deleteComment } = useDeleteComment();
-  const { likeComment } = useLikeComment();
+  const { likeComment, error } = useLikeComment();
   const { getPasswordConfirmResult } = useConfirmGuestPassword({
     guestUserId: comment.user.id,
     guestUserPassword: password
@@ -101,7 +101,7 @@ const Comment = ({ user, comment, align = "left", shouldShowOption, iAmAdmin, th
     }
   };
 
-  const submitPassword = async (event: FormEvent<HTMLFormElement>, submitPasswordCallback: () => void) => {
+  const onSubmitPassword = async (event: FormEvent<HTMLFormElement>, submitPasswordCallback: () => void) => {
     event.preventDefault();
 
     const isValidPassword = await confirmGuestPassword();
@@ -115,7 +115,7 @@ const Comment = ({ user, comment, align = "left", shouldShowOption, iAmAdmin, th
     setShouldShowPasswordInput(false);
   };
 
-  const submitEditedComment = async (content: CommentType["content"]) => {
+  const onSubmitEditedComment = async (content: CommentType["content"]) => {
     try {
       await editComment({
         id: comment.id,
@@ -130,6 +130,15 @@ const Comment = ({ user, comment, align = "left", shouldShowOption, iAmAdmin, th
     } finally {
       setPassword("");
       setSubmitType(null);
+    }
+  };
+
+  const onClickLikeButton = async () => {
+    try {
+      await likeComment({ user, commentId: comment.id });
+    } catch (error) {
+      console.error(error.message);
+      alert(error.message);
     }
   };
 
@@ -149,15 +158,11 @@ const Comment = ({ user, comment, align = "left", shouldShowOption, iAmAdmin, th
           <CommentTextBox
             name={comment.user.nickName}
             contentEditable={isEditing}
-            submitEditedComment={submitEditedComment}
+            onSubmitEditedComment={onSubmitEditedComment}
           >
             {comment.content}
           </CommentTextBox>
-          <LikeButton
-            numOfLikes={comment.likingUsers.length}
-            isLiked={isLiked}
-            onClick={() => likeComment({ user, commentId: comment.id })}
-          />
+          <LikeButton numOfLikes={comment.likingUsers.length} isLiked={isLiked} onClick={onClickLikeButton} />
           <CommentBottomWrapper>
             <Time>{getTimeDifference(comment.createdDate)}</Time>
             {shouldShowOption && !submitType && (
@@ -171,7 +176,7 @@ const Comment = ({ user, comment, align = "left", shouldShowOption, iAmAdmin, th
           onSubmit={event => {
             const submitPasswordCallback = submitType === "Edit" ? () => setEditing(true) : confirmDelete;
 
-            submitPassword(event, submitPasswordCallback);
+            onSubmitPassword(event, submitPasswordCallback);
           }}
         >
           <PasswordInput
