@@ -3,10 +3,16 @@ import { Button } from "./styles";
 
 export interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: string;
+  className?: string;
+  onClick?: () => void;
 }
 
-const SubmitButton = ({ children, ...props }: Props) => {
-  return <Button {...props}>{children}</Button>;
+const SubmitButton = ({ children, className, onClick }: Props) => {
+  return (
+    <Button className={className} onClick={onClick}>
+      {children}
+    </Button>
+  );
 };
 
 export default SubmitButton;
