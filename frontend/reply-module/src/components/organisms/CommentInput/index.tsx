@@ -1,7 +1,7 @@
 import { FormEvent, useState } from "react";
 import { useCreateComment, useInput } from "../../../hooks";
 import { User } from "../../../types/user";
-import SubmitButton from "../../atoms/SubmitButton";
+import SubmitButton from "../../atoms/Buttons/SubmitButton";
 import { Form, GuestInfo, TextArea, Wrapper } from "./styles";
 
 export interface Props {
