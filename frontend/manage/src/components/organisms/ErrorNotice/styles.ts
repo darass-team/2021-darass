@@ -2,7 +2,7 @@ import styled from "styled-components";
 import Avatar from "../../atoms/Avatar";
 
 export const Container = styled.div`
-  margin: 0;
+  margin: 4rem 0;
   padding: 0;
   width: 100%;
   height: 100%;
@@ -13,12 +13,21 @@ export const Container = styled.div`
 `;
 
 export const TextArea = styled.div`
-  padding: 80px;
+  margin-top: 2rem;
   width: 100%;
   height: 100%;
   display: table;
   text-align: center;
-  z-index: 999;
+  font-size: 1.2rem;
+
+  > h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+  > p {
+    white-space: pre-wrap;
+  }
 `;
 
 export const Img = styled.img`
@@ -52,10 +61,11 @@ export const Img = styled.img`
     }
   }
 
-  width: 10rem;
-  height: 10rem;
+  z-index: 999;
+  width: 6rem;
+  height: 6rem;
 
-  transform-origin: 50% 170%;
+  transform-origin: 50% 200%;
 
   animation: fall 1s 2s ease-in-out, swing 1s 3s ease-in-out, sway 3s 4s infinite alternate ease-in-out;
 `;

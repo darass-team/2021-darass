@@ -3,6 +3,7 @@ import { ROUTE } from "../../../constants";
 import { useGetAllProjects } from "../../../hooks";
 import ScreenContainer from "../../../styles/ScreenContainer";
 import ProjectButton from "../../atoms/Buttons/ProjectButton";
+import ErrorNotice from "../../organisms/ErrorNotice";
 import { AddProjectButton, ButtonWrapper, Container, Message } from "./styles";
 
 const MyProject = () => {
@@ -18,7 +19,7 @@ const MyProject = () => {
   };
 
   if (error) {
-    return <>응 에러야.</>;
+    return <ErrorNotice>{"프로젝트를 불러오는데 실패하였습니다.\n잠시 후 다시 시도해주세요"}</ErrorNotice>;
   }
 
   return (

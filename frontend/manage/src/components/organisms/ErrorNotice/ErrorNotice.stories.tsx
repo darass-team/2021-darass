@@ -1,13 +1,13 @@
 import { Story } from "@storybook/react";
-import OopsNotice, { Props } from ".";
+import ErrorNotice, { Props } from ".";
 
 export default {
-  title: "organisms/OopsNotice",
-  component: OopsNotice,
+  title: "organisms/ErrorNotice",
+  component: ErrorNotice,
   argTypes: { children: { control: "text" } }
 };
 
-const Template: Story<Props> = args => <OopsNotice {...args} />;
+const Template: Story<Props> = args => <ErrorNotice {...args} />;
 
 export const Default = Template.bind({});
 
