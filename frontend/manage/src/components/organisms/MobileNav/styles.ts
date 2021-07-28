@@ -48,7 +48,7 @@ export const AuthLink = styled(Link)`
 
 export const MenuAvatar = styled(Avatar)`
   margin: 0 auto;
-  transform: scale(1.5);
+  transform: scale(1rem);
   margin-bottom: 2rem;
 `;
 

@@ -49,7 +49,7 @@ describe("login/logout test", () => {
         />
       </Router>
     );
-    const avatarImg = nav.getByAltText("프로필 사진");
+    const avatarImg = nav.getAllByAltText("프로필 사진")[0];
     fireEvent.click(avatarImg);
 
     const logoutButton = nav.getByRole("link", {
