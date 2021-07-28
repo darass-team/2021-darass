@@ -12,7 +12,9 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWit
 import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.partWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
+import static org.springframework.restdocs.request.RequestDocumentation.requestParts;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -101,7 +103,7 @@ public class UserAcceptanceTest extends AcceptanceTest {
     public void updateUserNickname_success() throws Exception {
         //given
         String accessToken = tokenProvider.createAccessToken(socialLoginUser.getId().toString());
-        UserUpdateRequest userUpdateRequest = new UserUpdateRequest("병욱");
+        UserUpdateRequest userUpdateRequest = new UserUpdateRequest("병욱", null);
 
         //when
         ResultActions resultActions = 유저_닉네임_수정_요청(userUpdateRequest, accessToken);
@@ -115,7 +117,7 @@ public class UserAcceptanceTest extends AcceptanceTest {
     public void updateUserNickname_fail() throws Exception {
         //given
         String incorrectAccessToken = "incorrectAccessToken";
-        UserUpdateRequest userUpdateRequest = new UserUpdateRequest("병욱");
+        UserUpdateRequest userUpdateRequest = new UserUpdateRequest("병욱", null);
 
         //when
         ResultActions resultActions = 유저_닉네임_수정_요청(userUpdateRequest, incorrectAccessToken);
@@ -285,8 +287,9 @@ public class UserAcceptanceTest extends AcceptanceTest {
 
     private ResultActions 유저_닉네임_수정_요청(UserUpdateRequest userUpdateRequest, String accessToken) throws Exception {
         return this.mockMvc.perform(patch(apiUrl)
-            .contentType(MediaType.APPLICATION_JSON)
+            .contentType(MediaType.MULTIPART_FORM_DATA)
             .header("Authorization", "Bearer " + accessToken)
+            .param("nickName", userUpdateRequest.getNickName())
             .content(asJsonString(userUpdateRequest)));
     }
 
@@ -306,8 +309,9 @@ public class UserAcceptanceTest extends AcceptanceTest {
                 requestHeaders(
                     headerWithName("Authorization").description("JWT - Bearer 토큰")
                 ),
-                requestFields(
-                    fieldWithPath("nickName").type(JsonFieldType.STRING).description("새로운 유저 닉네임")
+                requestParts(
+                    partWithName("profileImageFile").description("프로필 이미지 파일").optional(),
+                    partWithName("nickName").description("새로운 유저 닉네임").optional()
                 ),
                 responseFields(
                     fieldWithPath("id").type(JsonFieldType.NUMBER).description("유저 아이디"),
