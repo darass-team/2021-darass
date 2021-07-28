@@ -16,6 +16,8 @@ public class ProjectResponse {
 
     private String secretKey;
 
+    private String description;
+
     private Long userId;
 
     public ProjectResponse(Long userId) {
@@ -23,7 +25,8 @@ public class ProjectResponse {
     }
 
     public static ProjectResponse from(Project project) {
-        return new ProjectResponse(project.getId(), project.getName(), project.getSecretKey(), project.getAdminUserId());
+        return new ProjectResponse(project.getId(), project.getName(), project.getSecretKey(),
+            project.getDescription(), project.getAdminUserId());
     }
 
     public static ProjectResponse from(Long userId) {

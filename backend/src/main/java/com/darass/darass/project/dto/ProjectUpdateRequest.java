@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProjectCreateRequest {
+public class ProjectUpdateRequest {
 
     @NotNull
     private String name;
