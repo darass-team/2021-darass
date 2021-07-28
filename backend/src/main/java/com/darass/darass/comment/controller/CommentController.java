@@ -38,6 +38,15 @@ public class CommentController {
         return ResponseEntity.status(HttpStatus.OK).body(commentResponses);
     }
 
+    @GetMapping("/paging")
+    public ResponseEntity<List<CommentResponse>> readByPageRequest(@RequestParam("url") String url,
+        @RequestParam("projectKey") String projectKey, @RequestParam("page") Integer page,
+        @RequestParam("size") Integer size) {
+        List<CommentResponse> commentResponses = commentService
+            .findAllCommentsByUrlAndProjectKeyUsingPagination(url, projectKey, page, size);
+        return ResponseEntity.status(HttpStatus.OK).body(commentResponses);
+    }
+
     @PostMapping
     public ResponseEntity<CommentResponse> save(@AuthenticationPrincipal User user,
         @Valid @RequestBody CommentCreateRequest commentRequest) {

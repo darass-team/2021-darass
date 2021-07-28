@@ -84,7 +84,7 @@ public class CommentAcceptanceTest extends AcceptanceTest {
     }
 
     @Test
-    @DisplayName("/api/v1/comments POST - 성공 (소셜 로그인 유저)")
+    @DisplayName("소셜 로그인 유저가 댓글을 등록한다.")
     void saveLoginUser() throws Exception {
         소셜_로그인_댓글_등록됨("content", "url").andDo(
 
@@ -120,7 +120,7 @@ public class CommentAcceptanceTest extends AcceptanceTest {
     }
 
     @Test
-    @DisplayName("/api/v1/comments POST - 성공 (비로그인 유저)")
+    @DisplayName("비로그인 유저가 댓글을 등록한다.")
     void saveGuestUser() throws Exception {
         비로그인_댓글_등록됨("content", "url").andDo(
             document("api/v1/comments/post/success-guest-user",
@@ -154,7 +154,7 @@ public class CommentAcceptanceTest extends AcceptanceTest {
     }
 
     @Test
-    @DisplayName("/api/v1/comments POST - 프로젝트 시크릿 키 존재하지 않는 경우")
+    @DisplayName("프로젝트 시크릿 키 존재하지 않다면 댓글을 등록할 수 없다.")
     void saveWithInvalidSecretKey() throws Exception {
         mockMvc.perform(post("/api/v1/comments")
             .contentType(MediaType.APPLICATION_JSON)
@@ -172,7 +172,7 @@ public class CommentAcceptanceTest extends AcceptanceTest {
     }
 
     @Test
-    @DisplayName("/api/v1/comments GET - 성공")
+    @DisplayName("전체 댓글을 조회한다.")
     void read() throws Exception {
         소셜_로그인_댓글_등록됨("content1", "url");
         소셜_로그인_댓글_등록됨("content2", "url");
@@ -211,7 +211,52 @@ public class CommentAcceptanceTest extends AcceptanceTest {
     }
 
     @Test
-    @DisplayName("/api/v1/comments/{id} PATCH - 성공 (소셜 로그인 유저)")
+    @DisplayName("특정 페이지의 댓글을 조회한다.")
+    void readByPageRequest() throws Exception {
+        소셜_로그인_댓글_등록됨("content1", "url");
+        소셜_로그인_댓글_등록됨("content2", "url");
+        소셜_로그인_댓글_등록됨("content3", "url");
+        소셜_로그인_댓글_등록됨("content4", "url");
+        소셜_로그인_댓글_등록됨("content5", "url");
+        소셜_로그인_댓글_등록됨("content6", "url");
+        소셜_로그인_댓글_등록됨("content7", "url");
+        소셜_로그인_댓글_등록됨("content8", "url");
+        소셜_로그인_댓글_등록됨("content9", "url");
+        소셜_로그인_댓글_등록됨("content10", "url");
+
+        mockMvc.perform(get("/api/v1/comments/paging")
+            .contentType(MediaType.APPLICATION_JSON)
+            .param("url", "url")
+            .param("projectKey", secretKey)
+            .param("page", "2")
+            .param("size", "5"))
+            .andExpect(status().isOk())
+            .andDo(document("api/v1/comments/paging/get/success",
+                requestParameters(
+                    parameterWithName("url").description("조회 url"),
+                    parameterWithName("projectKey").description("프로젝트 시크릿 키"),
+                    parameterWithName("page").description("페이지"),
+                    parameterWithName("size").description("페이지당 댓글의 개수")
+                ),
+                responseFields(
+                    fieldWithPath("[].createdDate").type(JsonFieldType.STRING).description("댓글 생성 시점"),
+                    fieldWithPath("[].modifiedDate").type(JsonFieldType.STRING).description("댓글 수정 시점"),
+                    fieldWithPath("[].id").type(JsonFieldType.NUMBER).description("댓글 id"),
+                    fieldWithPath("[].content").type(JsonFieldType.STRING).description("댓글 내용"),
+                    fieldWithPath("[].likingUsers[*]").type(JsonFieldType.ARRAY).description("좋아요 누른 유저 정보"),
+                    fieldWithPath("[].user").type(JsonFieldType.OBJECT).description("댓글 작성 유저 정보"),
+                    fieldWithPath("[].user.createdDate").type(JsonFieldType.STRING).description("유저 생성 시점"),
+                    fieldWithPath("[].user.modifiedDate").type(JsonFieldType.STRING).description("유저 수정 시점"),
+                    fieldWithPath("[].user.id").type(JsonFieldType.NUMBER).description("유저 id"),
+                    fieldWithPath("[].user.nickName").type(JsonFieldType.STRING).description("유저 닉네임"),
+                    fieldWithPath("[].user.type").type(JsonFieldType.STRING).description("유저 타입"),
+                    fieldWithPath("[].user.profileImageUrl").type(JsonFieldType.STRING).description("유저 프로필 이미지")
+                )
+            ));
+    }
+
+    @Test
+    @DisplayName("소셜 로그인 유저가 댓글을 수정한다.")
     void updateByLoginUser() throws Exception {
         CommentResponse commentResponse = 소셜_로그인_댓글_등록됨_Response_반환("content1", "url");
         Long commentId = commentResponse.getId();
@@ -236,7 +281,7 @@ public class CommentAcceptanceTest extends AcceptanceTest {
     }
 
     @Test
-    @DisplayName("/api/v1/comments/{id} PATCH - 성공 (비로그인 유저)")
+    @DisplayName("비로그인 유저가 댓글을 수정한다.")
     void updateByGuestUser() throws Exception {
         CommentResponse commentResponse = 비로그인_댓글_등록됨_Response_반환("content1", "url");
         UserResponse userResponse = commentResponse.getUser();
@@ -262,7 +307,7 @@ public class CommentAcceptanceTest extends AcceptanceTest {
     }
 
     @Test
-    @DisplayName("/api/v1/comments/{id} PATCH - 남의 댓글을 수정하는 경우")
+    @DisplayName("소셜 로그인 유저는 남의 댓글을 수정할 수 없다.")
     void updateUnauthorized() throws Exception {
         CommentResponse commentResponse1 = 소셜_로그인_댓글_등록됨_Response_반환("content1", "url");
         CommentResponse commentResponse2 = 비로그인_댓글_등록됨_Response_반환("content2", "url");
@@ -283,7 +328,7 @@ public class CommentAcceptanceTest extends AcceptanceTest {
     }
 
     @Test
-    @DisplayName("/api/v1/comments/{id} PATCH - 비로그인 유저의 비밀번호 틀린 경우")
+    @DisplayName("비로그인 유저가 비밀번호를 틀리면 댓글을 수정할 수 없다.")
     void updateInvalidGuestPassword() throws Exception {
         CommentResponse commentResponse = 비로그인_댓글_등록됨_Response_반환("content2", "url");
         Long commentId = commentResponse.getId();
@@ -304,7 +349,7 @@ public class CommentAcceptanceTest extends AcceptanceTest {
     }
 
     @Test
-    @DisplayName("/api/v1/comments/{id} DELETE - 성공 (소셜 로그인 유저)")
+    @DisplayName("소셜 로그인 유저가 댓글을 삭제한다.")
     void deleteLoginUser() throws Exception {
         CommentResponse commentResponse = 소셜_로그인_댓글_등록됨_Response_반환("content1", "url");
         Long commentId = commentResponse.getId();
@@ -324,7 +369,7 @@ public class CommentAcceptanceTest extends AcceptanceTest {
     }
 
     @Test
-    @DisplayName("/api/v1/comments/{id} DELETE - 성공 (비로그인 유저)")
+    @DisplayName("비로그인 유저가 댓글을 삭제한다.")
     void deleteGuestUser() throws Exception {
         CommentResponse commentResponse = 비로그인_댓글_등록됨_Response_반환("content1", "url");
         Long commentId = commentResponse.getId();
@@ -347,7 +392,7 @@ public class CommentAcceptanceTest extends AcceptanceTest {
     }
 
     @Test
-    @DisplayName("/api/v1/comments/{id} DELETE - 성공 (관리자가 남의 댓글을 삭제하는 경우)")
+    @DisplayName("관리자가 다른 유저의 댓글을 삭제한다.")
     void deleteAdminUser() throws Exception {
         CommentResponse commentResponse = 비로그인_댓글_등록됨_Response_반환("content1", "url");
         Long commentId = commentResponse.getId();
@@ -364,7 +409,7 @@ public class CommentAcceptanceTest extends AcceptanceTest {
     }
 
     @Test
-    @DisplayName("/api/v1/comments/{id} DELETE - 남의 댓글을 삭제하는 경우")
+    @DisplayName("비로그인 유저는 남의 댓글을 삭제할 수 없다.")
     void deleteUnauthorized() throws Exception {
         CommentResponse commentResponse1 = 소셜_로그인_댓글_등록됨_Response_반환("content1", "url");
         CommentResponse commentResponse2 = 비로그인_댓글_등록됨_Response_반환("content2", "url");
