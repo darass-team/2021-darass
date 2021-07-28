@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { PALETTE } from "../../../../styles/palette";
 
-const Container = styled.button<{ open: boolean }>`
+const Container = styled.button<{ isOpen: boolean }>`
   position: absolute;
   top: 5%;
   left: 2rem;
@@ -14,11 +14,7 @@ const Container = styled.button<{ open: boolean }>`
   border: none;
   cursor: pointer;
   padding: 0;
-  z-index: 10;
-
-  &:focus {
-    outline: none;
-  }
+  z-index: 999;
 
   div {
     width: 30px;
@@ -27,19 +23,19 @@ const Container = styled.button<{ open: boolean }>`
     border-radius: 10px;
     transition: all 0.3s linear;
     position: relative;
-    transform-origin: 0px;
+    transform-origin: 18% 50%;
 
     :first-child {
-      transform: ${({ open }) => (open ? "rotate(45deg)" : "rotate(0)")};
+      transform: ${({ isOpen }) => (isOpen ? "rotate(45deg)" : "rotate(0)")};
     }
 
     :nth-child(2) {
-      opacity: ${({ open }) => (open ? 0 : 1)};
-      transform: ${({ open }) => (open ? "translateX(20px)" : "translateX(0)")};
+      opacity: ${({ isOpen }) => (isOpen ? 0 : 1)};
+      transform: ${({ isOpen }) => (isOpen ? "translateX(20px)" : "translateX(0)")};
     }
 
     :nth-child(3) {
-      transform: ${({ open }) => (open ? "rotate(-45deg)" : "rotate(0)")};
+      transform: ${({ isOpen }) => (isOpen ? "rotate(-45deg)" : "rotate(0)")};
     }
   }
 `;

@@ -1,20 +1,13 @@
-import { useState } from "react";
 import { Container } from "./styles";
 
 export interface Props {
+  isOpen: boolean;
   onClick: () => void;
 }
 
-const HamburgerButton = ({ onClick }: Props) => {
-  const [open, setOpen] = useState(false);
-
-  const onClickHamburger = () => {
-    onClick();
-    setOpen(state => !state);
-  };
-
+const HamburgerButton = ({ onClick, isOpen }: Props) => {
   return (
-    <Container type="button" open={open} onClick={onClickHamburger}>
+    <Container type="button" isOpen={isOpen} onClick={onClick}>
       <div />
       <div />
       <div />

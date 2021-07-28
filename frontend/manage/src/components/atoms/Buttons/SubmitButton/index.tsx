@@ -7,9 +7,9 @@ export interface Props extends HTMLAttributes<HTMLButtonElement> {
   onClick?: () => void;
 }
 
-const SubmitButton = ({ children, className, onClick, ...props }: Props) => {
+const SubmitButton = ({ children, className, onClick }: Props) => {
   return (
-    <Button className={className} onClick={onClick} {...props}>
+    <Button className={className} onClick={onClick}>
       {children}
     </Button>
   );
