@@ -7,8 +7,10 @@ import com.darass.darass.comment.domain.Comment;
 import com.darass.darass.comment.domain.CommentLike;
 import com.darass.darass.common.domain.BaseTimeEntity;
 import com.darass.darass.project.domain.Project;
+import com.darass.darass.user.infrastructure.S3Uploader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
@@ -20,6 +22,7 @@ import javax.persistence.InheritanceType;
 import javax.persistence.OneToMany;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 @Getter
 @NoArgsConstructor
@@ -86,4 +89,14 @@ public abstract class User extends BaseTimeEntity {
         this.profileImageUrl = profileImageUrl;
     }
 
+    public void changeNickNameOrProfileImageIfExists(S3Uploader s3Uploader, String nickName,
+        MultipartFile profileImageFile) {
+        if (!Objects.isNull(nickName)) {
+            changeNickName(nickName);
+        }
+        if (!Objects.isNull(profileImageFile)) {
+            String imageUrl = s3Uploader.upload(profileImageFile);
+            changeProfileImageUrl(imageUrl);
+        }
+    }
 }

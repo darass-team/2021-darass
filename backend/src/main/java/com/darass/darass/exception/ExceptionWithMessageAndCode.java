@@ -29,7 +29,10 @@ public enum ExceptionWithMessageAndCode {
     NOT_FOUND_COMMENT(new NotFoundException("해당하는 댓글이 없습니다.", 900)),
     INVALID_GUEST_PASSWORD(new UnauthorizedException("Guest 사용자의 비밀번호가 일치하지 않습니다.", 901)),
     NOT_GUEST_USER(new UnauthorizedException("Guest 사용자가 아닙니다.", 902)),
-    UNAUTHORIZED_FOR_COMMENT(new UnauthorizedException("해당 댓글을 관리할 권한이 없습니다.", 903));
+    UNAUTHORIZED_FOR_COMMENT(new UnauthorizedException("해당 댓글을 관리할 권한이 없습니다.", 903)),
+
+    // AWS 관련 : 10xx
+    AWS_SDK_CLIENT_EXCEPTION(new UnauthorizedException("S3에 업로드할 권한이 없습니다.", 1000));
 
     private final CustomException exception;
 

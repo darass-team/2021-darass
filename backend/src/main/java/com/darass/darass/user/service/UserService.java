@@ -6,11 +6,14 @@ import com.darass.darass.user.dto.PasswordCheckRequest;
 import com.darass.darass.user.dto.PasswordCheckResponse;
 import com.darass.darass.user.dto.UserResponse;
 import com.darass.darass.user.dto.UserUpdateRequest;
+import com.darass.darass.user.infrastructure.S3Uploader;
 import com.darass.darass.user.repository.UserRepository;
+import java.util.Objects;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 @RequiredArgsConstructor
 @Transactional
@@ -18,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final S3Uploader s3Uploader;
 
     public UserResponse findById(Long id) {
         Optional<User> possibleUser = userRepository.findById(id);
@@ -25,11 +29,12 @@ public class UserService {
         return UserResponse.of(user, user.getUserType(), user.getProfileImageUrl());
     }
 
-    public UserResponse updateNickName(Long id, UserUpdateRequest userUpdateRequest) {
+    public UserResponse update(Long id, UserUpdateRequest userUpdateRequest) {
         Optional<User> expectedUser = userRepository.findById(id);
         User user = expectedUser.orElseThrow(ExceptionWithMessageAndCode.NOT_FOUND_USER::getException);
-        user.changeNickName(userUpdateRequest.getNickName());
-
+        String nickName = userUpdateRequest.getNickName();
+        MultipartFile profileImageFile = userUpdateRequest.getProfileImageFile();
+        user.changeNickNameOrProfileImageIfExists(s3Uploader, nickName, profileImageFile);
         return UserResponse.of(user, user.getUserType(), user.getProfileImageUrl());
     }
 
