@@ -5,24 +5,15 @@ import Logo from "../../atoms/Logo";
 import UserAvatarOption from "../../molecules/UserAvatarOption";
 import { Link } from "react-router-dom";
 import { PALETTE } from "../../../styles/palette";
+import { MenuType } from "../Nav";
 
 export interface Props {
   user: User | undefined;
   logout: () => void;
+  menuList: MenuType[];
 }
 
-interface MenuType {
-  route: string;
-  name: string;
-}
-
-const menuList: MenuType[] = [
-  { route: ROUTE.MY_PROJECT, name: "내 프로젝트" },
-  { route: "/공지사항", name: "공지사항" },
-  { route: "/About", name: "ABOUT" }
-];
-
-const DesktopNav = ({ user, logout }: Props) => {
+const DesktopNav = ({ user, logout, menuList }: Props) => {
   return (
     <Container>
       <Wrapper>

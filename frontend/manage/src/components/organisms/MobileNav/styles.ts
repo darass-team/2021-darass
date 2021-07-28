@@ -10,7 +10,7 @@ export const Container = styled.nav`
 `;
 
 export const MenuWrapper = styled.nav<{ isOpen: boolean }>`
-  width: 50%;
+  width: 70%;
 
   display: flex;
   flex-direction: column;
@@ -43,7 +43,7 @@ export const AuthLink = styled(Link)`
   right: 2rem;
   font-size: 1.5rem;
   text-align: center;
-  font-weight: 500;
+  font-weight: 700;
 `;
 
 export const MenuAvatar = styled(Avatar)`

@@ -4,23 +4,25 @@ import { ROUTE } from "../../../constants";
 import { PALETTE } from "../../../styles/palette";
 import { User } from "../../../types/user";
 import HamburgerButton from "../../atoms/Buttons/HamburgerButton";
+import { MenuType } from "../Nav";
 import { Container, Menu, MenuAvatar, MenuWrapper, Name, AuthLink } from "./styles";
 
 export interface Props {
   user?: User;
   logout: () => void;
+  menuList: MenuType[];
 }
 
-const MobileNav = ({ user, logout }: Props) => {
+const MobileNav = ({ user, logout, menuList }: Props) => {
   const [isOpen, setOpen] = useState(false);
 
-  const onClickHamburgerButton = () => {
+  const onToggleNav = () => {
     setOpen(state => !state);
   };
 
   return (
     <Container>
-      <HamburgerButton isOpen={isOpen} onClick={onClickHamburgerButton} />
+      <HamburgerButton isOpen={isOpen} onClick={onToggleNav} />
       <MenuWrapper isOpen={isOpen}>
         <Link to={ROUTE.USER_PROFILE}>
           <MenuAvatar imageURL={user?.profileImageUrl} size="LG" />
@@ -34,22 +36,15 @@ const MobileNav = ({ user, logout }: Props) => {
           </>
         ) : (
           <>
+            <Name>{"로그인이 필요합니다."}</Name>
             <AuthLink to={ROUTE.LOGIN}>로그인</AuthLink>
           </>
         )}
-
-        <Menu to={ROUTE.HOME} activeStyle={{ backgroundColor: `${PALETTE.SECONDARY}` }}>
-          내 정보
-        </Menu>
-        <Menu to={ROUTE.MY_PROJECT} activeStyle={{ backgroundColor: `${PALETTE.SECONDARY}` }}>
-          내 프로젝트
-        </Menu>
-        <Menu to="/notice" activeStyle={{ backgroundColor: `${PALETTE.SECONDARY}` }}>
-          공지사항
-        </Menu>
-        <Menu to="/about" activeStyle={{ backgroundColor: `${PALETTE.SECONDARY}` }}>
-          About
-        </Menu>
+        {menuList.map(({ name, route }) => (
+          <Menu key={name} to={route} activeStyle={{ backgroundColor: `${PALETTE.SECONDARY}` }}>
+            {name}
+          </Menu>
+        ))}
       </MenuWrapper>
     </Container>
   );
