@@ -38,6 +38,8 @@ import org.springframework.test.web.servlet.ResultActions;
 @DisplayName("Project 인수 테스트")
 public class ProjectAcceptanceTest extends AcceptanceTest {
 
+    private static final String PROJECT_NAME = "지킬 블로그 프로젝트";
+  
     private final static String JEKYLL_PROJECT_NAME = "지킬 블로그 프로젝트";
 
     private final static String JEKYLL_PROJECT_DESCRIPTION = "지킬 블로그 프로젝트 설명";
@@ -48,14 +50,12 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
 
     @Autowired
     private UserRepository userRepository;
-
     @Autowired
     private ProjectRepository projectRepository;
-
     @Autowired
     private JwtTokenProvider tokenProvider;
-
     private SocialLoginUser socialLoginUser;
+    private Project project;
 
     @BeforeEach
     public void setUser() {
