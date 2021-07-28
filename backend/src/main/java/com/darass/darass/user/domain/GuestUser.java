@@ -13,8 +13,8 @@ public class GuestUser extends User {
     private String password;
 
     @Builder
-    private GuestUser(String nickName, String password) {
-        super(nickName);
+    private GuestUser(Long id, String nickName, String password) {
+        super(id, nickName, null);
         this.password = password;
     }
 

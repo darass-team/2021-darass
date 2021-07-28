@@ -64,7 +64,8 @@ public class AuthAcceptanceTest extends AcceptanceTest {
     @DisplayName("oauth2 토큰을 통해 회원가입 또는 로그인을 진행하고 JWT 토큰을 발급 받는다.")
     public void login_success() throws Exception {
         // given
-        given(oauthProvider.findSocialLoginUser(OAuthProviderType.KAKAO.getName(), oauthAccessToken)).willReturn(socialLoginUser);
+        given(oauthProvider.findSocialLoginUser(OAuthProviderType.KAKAO.getName(), oauthAccessToken))
+            .willReturn(socialLoginUser);
 
         //when
         ResultActions resultActions = 토큰_발급_요청(oauthAccessToken);

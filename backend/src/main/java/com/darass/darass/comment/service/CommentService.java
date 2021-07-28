@@ -1,6 +1,7 @@
 package com.darass.darass.comment.service;
 
 import com.darass.darass.comment.domain.Comment;
+import com.darass.darass.comment.domain.CommentLike;
 import com.darass.darass.comment.domain.Comments;
 import com.darass.darass.comment.dto.CommentCreateRequest;
 import com.darass.darass.comment.dto.CommentDeleteRequest;
@@ -17,6 +18,8 @@ import com.darass.darass.user.repository.UserRepository;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,7 +40,8 @@ public class CommentService {
         Comment comment = savedComment(user, commentRequest, project);
         String userType = userRepository.findUserTypeById(user.getId());
         String profileImageUrl = userRepository.findProfileImageUrlById(user.getId());
-        return CommentResponse.of(comment, UserResponse.of(comment.getUser(), userType, profileImageUrl));
+        return CommentResponse
+            .of(comment, UserResponse.of(comment.getUser(), userType, profileImageUrl));
     }
 
     private Project getBySecretKey(CommentCreateRequest commentRequest) {
@@ -64,18 +68,21 @@ public class CommentService {
     }
 
     public List<CommentResponse> findAllCommentsByUrlAndProjectKey(String url, String projectKey) {
-        Comments comments = new Comments(commentRepository.findAll());
-        List<Comment> matchedComments = comments.match(url, projectKey);
+        List<Comment> comments = commentRepository.findAllByUrlAndProjectSecretKey(url, projectKey);
 
-        return matchedComments.stream()
-            .map(comment ->
-                CommentResponse.of(
-                    comment, UserResponse.of( //TODO: UserResponse 정적 팩터리 메서드 생성자에 User만 넣어준다.
-                        comment.getUser(),
-                        userRepository.findUserTypeById(comment.getUserId()),
-                        userRepository.findProfileImageUrlById(comment.getUserId())
-                    )
-                ))
+        return comments.stream()
+            .map(comment -> CommentResponse.of(comment, UserResponse.of(comment.getUser())))
+            .collect(Collectors.toList());
+    }
+
+    public List<CommentResponse> findAllCommentsByUrlAndProjectKeyUsingPagination(String url, String projectKey,
+        Integer page, Integer size) {
+        int pageBasedIndex = page - 1;
+        Page<Comment> comments = commentRepository
+            .findAllByUrlAndProjectSecretKey(url, projectKey, PageRequest.of(pageBasedIndex, size));
+
+        return comments.stream()
+            .map(comment -> CommentResponse.of(comment, UserResponse.of(comment.getUser())))
             .collect(Collectors.toList());
     }
 
@@ -131,5 +138,20 @@ public class CommentService {
         if (!user.isValidGuestPassword(password)) {
             throw ExceptionWithMessageAndCode.INVALID_GUEST_PASSWORD.getException();
         }
+    }
+
+    public void toggleLikeStatus(Long id, User user) {
+        Comment comment = commentRepository.findById(id)
+            .orElseThrow(ExceptionWithMessageAndCode.NOT_FOUND_COMMENT::getException);
+
+        if (comment.isLikedByUser(user)) {
+            comment.deleteCommentLikeByUser(user);
+            return;
+        }
+
+        comment.addCommentLike(CommentLike.builder()
+            .comment(comment)
+            .user(user)
+            .build());
     }
 }

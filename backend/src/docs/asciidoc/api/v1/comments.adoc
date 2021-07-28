@@ -46,6 +46,20 @@ include::{snippets}/api/v1/comments/get/success/request-parameters.adoc[]
 include::{snippets}/api/v1/comments/get/success/http-response.adoc[]
 include::{snippets}/api/v1/comments/get/success/response-fields.adoc[]
 
+=== 특정 페이지의 댓글 조회 (GET /api/v1/comments/paging)
+
+==== URL에 해당하는 특정 페이지의 댓글 조회
+
+==== Request
+
+include::{snippets}/api/v1/comments/paging/get/success/http-request.adoc[]
+include::{snippets}/api/v1/comments/paging/get/success/request-parameters.adoc[]
+
+==== Response
+
+include::{snippets}/api/v1/comments/paging/get/success/http-response.adoc[]
+include::{snippets}/api/v1/comments/paging/get/success/response-fields.adoc[]
+
 === 댓글 수정 (PATCH /api/v1/comments)
 
 ==== (성공) 소셜 로그인 유저 댓글 수정
@@ -130,3 +144,23 @@ include::{snippets}/api/v1/comments/delete/success-admin-user/http-response.adoc
 
 include::{snippets}/api/v1/comments/delete/fail-not-mine/http-response.adoc[]
 include::{snippets}/api/v1/comments/delete/fail-not-mine/response-fields.adoc[]
+
+=== 댓글 좋아요 (POST /api/v1/comments/{id}/like)
+
+
+==== (성공) 댓글 좋아요 누름
+
+==== Request
+include::{snippets}/api/v1/comments/post/like-success/http-request.adoc[]
+include::{snippets}/api/v1/comments/post/like-success/request-headers.adoc[]
+include::{snippets}/api/v1/comments/post/like-success/path-parameters.adoc[]
+
+==== Response
+include::{snippets}/api/v1/comments/post/like-success/http-response.adoc[]
+
+==== (실패) 비로그인 사용자가 댓글 좋아요 누름
+
+==== Response
+include::{snippets}/api/v1/comments/post/like-fail/http-response.adoc[]
+include::{snippets}/api/v1/comments/post/like-fail/response-fields.adoc[]
+

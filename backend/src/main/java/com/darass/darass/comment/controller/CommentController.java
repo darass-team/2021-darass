@@ -1,6 +1,7 @@
 package com.darass.darass.comment.controller;
 
 import com.darass.darass.auth.oauth.domain.AuthenticationPrincipal;
+import com.darass.darass.auth.oauth.domain.RequiredLogin;
 import com.darass.darass.comment.dto.CommentCreateRequest;
 import com.darass.darass.comment.dto.CommentDeleteRequest;
 import com.darass.darass.comment.dto.CommentResponse;
@@ -37,6 +38,15 @@ public class CommentController {
         return ResponseEntity.status(HttpStatus.OK).body(commentResponses);
     }
 
+    @GetMapping("/paging")
+    public ResponseEntity<List<CommentResponse>> readByPageRequest(@RequestParam("url") String url,
+        @RequestParam("projectKey") String projectKey, @RequestParam("page") Integer page,
+        @RequestParam("size") Integer size) {
+        List<CommentResponse> commentResponses = commentService
+            .findAllCommentsByUrlAndProjectKeyUsingPagination(url, projectKey, page, size);
+        return ResponseEntity.status(HttpStatus.OK).body(commentResponses);
+    }
+
     @PostMapping
     public ResponseEntity<CommentResponse> save(@AuthenticationPrincipal User user,
         @Valid @RequestBody CommentCreateRequest commentRequest) {
@@ -55,6 +65,12 @@ public class CommentController {
     public ResponseEntity<Void> delete(@PathVariable("id") Long id, @AuthenticationPrincipal User user,
         @ModelAttribute CommentDeleteRequest request) {
         commentService.delete(id, user, request);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+    @PostMapping("/{id}/like")
+    public ResponseEntity<Void> clickLikeButton(@PathVariable("id") Long id, @RequiredLogin User user) {
+        commentService.toggleLikeStatus(id, user);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }
