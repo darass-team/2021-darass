@@ -8,5 +8,6 @@ export const QUERY = {
   GET_PROJECT: (projectKey: string) => `/api/v1/projects/user-id?secretKey=${projectKey}`,
   CHECK_GUEST_PASSWORD: ({ guestUserId, guestUserPassword }: GuestUserInfo) =>
     `/api/v1/users/check-password?guestUserId=${guestUserId}&guestUserPassword=${guestUserPassword}`,
+  LIKE_COMMENT: (commentId: number) => `/api/v1/comments/${commentId}/like`,
   USER: "/api/v1/users"
 };

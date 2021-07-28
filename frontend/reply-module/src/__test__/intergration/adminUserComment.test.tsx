@@ -2,6 +2,7 @@ import "@testing-library/jest-dom/extend-expect";
 import { fireEvent, render, waitFor } from "@testing-library/react";
 import CommentList from "../../components/organisms/CommentList";
 import { useConfirmGuestPassword, useDeleteComment, useEditComment } from "../../hooks";
+import { useLikeComment } from "../../hooks/useLikeComment";
 import { comments } from "../fixture/comments";
 import { myProject } from "../fixture/project";
 import { socialLoginUser } from "../fixture/user";
@@ -10,6 +11,7 @@ jest.mock("../../hooks/useEditComment");
 jest.mock("../../hooks/useDeleteComment");
 jest.mock("../../hooks/useCreateComment");
 jest.mock("../../hooks/useConfirmGuestPassword");
+jest.mock("../../hooks/useLikeComment");
 
 window.alert = function (str) {
   console.log(str);
@@ -48,6 +50,13 @@ describe("관리자 유저일 때의 동작 테스트", () => {
             }
           };
         }
+      };
+    });
+    (useLikeComment as jest.Mock).mockImplementation(() => {
+      return {
+        likeComment: () => {},
+        isLoading: false,
+        error: false
       };
     });
   });

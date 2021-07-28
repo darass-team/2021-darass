@@ -1,11 +1,12 @@
 import { Container } from "./styles";
 import defaultUserImage from "../../../assets/svg/default-user-image.svg";
+import { MouseEvent } from "react";
 
 export type Size = "SM" | "MD" | "LG";
 
 export interface Props {
   imageURL?: string;
-  onClick?: () => void;
+  onClick?: (event: MouseEvent) => void;
   size?: Size;
   alt?: string;
 }

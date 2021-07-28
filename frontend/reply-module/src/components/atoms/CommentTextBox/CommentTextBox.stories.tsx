@@ -13,5 +13,7 @@ export const Default = Template.bind({});
 
 Default.args = {
   name: "곤이",
-  contentEditable: true
+  contentEditable: true,
+  children:
+    "Donec accumsan neque enim sodales. Neque eget vulputate viverra convallis pharetra.1234142151251235123513412412"
 };

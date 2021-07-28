@@ -5,7 +5,7 @@ export const Container = styled.div`
   width: 100%;
   background-color: ${PALETTE.GRAY_200};
   border-radius: 10px;
-  padding: 0.8rem 1rem;
+  padding: 0.8rem 1rem 1.2rem 1rem;
   display: flex;
   flex-direction: column;
 `;

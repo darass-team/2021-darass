@@ -1,7 +1,7 @@
 import { FormEvent, useState } from "react";
 import { useCreateComment, useInput } from "../../../hooks";
 import { User } from "../../../types/user";
-import SubmitButton from "../../atoms/SubmitButton";
+import SubmitButton from "../../atoms/Buttons/SubmitButton";
 import { Form, GuestInfo, TextArea, Wrapper } from "./styles";
 
 export interface Props {
@@ -79,7 +79,7 @@ const CommentInput = ({ user, url, projectSecretKey }: Props) => {
             />
           </div>
         )}
-        <SubmitButton data-testid="comment-input-submit-button">등록</SubmitButton>
+        <SubmitButton>등록</SubmitButton>
       </Wrapper>
     </Form>
   );
