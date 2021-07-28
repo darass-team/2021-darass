@@ -39,42 +39,24 @@ import org.springframework.test.web.servlet.ResultActions;
 public class ProjectAcceptanceTest extends AcceptanceTest {
 
     private final static String JEKYLL_PROJECT_NAME = "지킬 블로그 프로젝트";
-<<<<<<< HEAD
 
-    private final static String JEKYLL_PROJECT_CONTENT = "지킬 블로그 프로젝트 설명";
-
-    private final static String TSTORY_PROJECT_NAME = "티스토리 블로그 프로젝트";
-
-    private final static String TSTORY_PROJECT_CONTENT = "티스토리 블로그 프로젝트 설명";
-
-=======
     private final static String JEKYLL_PROJECT_DESCRIPTION = "지킬 블로그 프로젝트 설명";
+
     private final static String TSTORY_PROJECT_NAME = "티스토리 블로그 프로젝트";
+
     private final static String TSTORY_PROJECT_DESCRIPTION = "티스토리 블로그 프로젝트 설명";
->>>>>>> 098b264 (feat: 프로젝트 설명 필드 변수명 수정)
+
     @Autowired
     private UserRepository userRepository;
+
     @Autowired
     private ProjectRepository projectRepository;
+
     @Autowired
     private JwtTokenProvider tokenProvider;
+
     private SocialLoginUser socialLoginUser;
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-    private Project project;
-=======
-    private final static String JEKYLL_PROJECT_NAME = "지킬 블로그 프로젝트";
-
-    private final static String JEKYLL_PROJECT_CONTENT = "지킬 블로그 프로젝트 설명";
-
-    private final static String TSTORY_PROJECT_NAME = "티스토리 블로그 프로젝트";
-
-    private final static String TSTORY_PROJECT_CONTENT = "티스토리 블로그 프로젝트 설명";
->>>>>>> 9c0d599 (feat: 프로젝트 이름, 설명(content) 수정 api 구현)
-
-=======
->>>>>>> 098b264 (feat: 프로젝트 설명 필드 변수명 수정)
     @BeforeEach
     public void setUser() {
         socialLoginUser = SocialLoginUser.builder()
