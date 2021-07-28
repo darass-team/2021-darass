@@ -18,7 +18,7 @@ export const Dimmed = styled.div<{ isOpen: boolean }>`
   width: 100%;
   height: 100%;
   background-color: ${PALETTE.BLACK_900};
-  transition: opacity 0.3s, z-index 0.3s ease-in;
+  transition: all 0.3s ease-in;
   opacity: ${({ isOpen }) => (isOpen ? 0.5 : 0)};
   z-index: ${({ isOpen }) => (isOpen ? Z_INDEX.MOBILE_NAV.DIMMED.OPEN : Z_INDEX.MOBILE_NAV.DIMMED.CLOSE)};
 `;
