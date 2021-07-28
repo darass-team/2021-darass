@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import Avatar from "../../atoms/Avatar";
+import { Z_INDEX } from "../../../styles/constants";
 
 export const Container = styled.div`
   margin: 4rem 0;
@@ -61,7 +61,7 @@ export const Img = styled.img`
     }
   }
 
-  z-index: 1;
+  z-index: ${Z_INDEX.ERROR_NOTICE};
   width: 6rem;
   height: 6rem;
 

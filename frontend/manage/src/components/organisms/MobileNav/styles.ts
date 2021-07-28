@@ -2,6 +2,7 @@ import { Link, NavLink } from "react-router-dom";
 import styled from "styled-components";
 import { PALETTE } from "../../../styles/palette";
 import Avatar from "../../atoms/Avatar";
+import { Z_INDEX } from "../../../styles/constants";
 
 export const Container = styled.nav`
   @media (min-width: 780px) {
@@ -19,7 +20,7 @@ export const Dimmed = styled.div<{ isOpen: boolean }>`
   background-color: ${PALETTE.BLACK_900};
   transition: opacity 0.3s, z-index 0.3s ease-in;
   opacity: ${({ isOpen }) => (isOpen ? 0.5 : 0)};
-  z-index: ${({ isOpen }) => (isOpen ? 1 : -1)};
+  z-index: ${({ isOpen }) => (isOpen ? Z_INDEX.MOBILE_NAV.DIMMED.OPEN : Z_INDEX.MOBILE_NAV.DIMMED.CLOSE)};
 `;
 
 export const MenuWrapper = styled.nav<{ isOpen: boolean }>`
@@ -29,7 +30,7 @@ export const MenuWrapper = styled.nav<{ isOpen: boolean }>`
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  z-index: 2;
+  z-index: ${Z_INDEX.MOBILE_NAV.MENU_WRAPPER};
 
   background: ${PALETTE.PRIMARY};
   height: 100vh;

@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { Z_INDEX } from "../../../../styles/constants";
 import { PALETTE } from "../../../../styles/palette";
 
 const Container = styled.button<{ isOpen: boolean }>`
@@ -14,7 +15,7 @@ const Container = styled.button<{ isOpen: boolean }>`
   border: none;
   cursor: pointer;
   padding: 0;
-  z-index: 3;
+  z-index: ${Z_INDEX.MOBILE_NAV.HAMBUGER_BUTTON};
 
   div {
     width: 30px;
