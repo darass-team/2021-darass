@@ -29,6 +29,7 @@ class ProjectTest {
             .id(1L)
             .user(socialLoginUser)
             .name("깃헙 지킬 블로그")
+            .description("개발 공부 기록용")
             .build();
     }
 

@@ -28,7 +28,6 @@ public abstract class User extends BaseTimeEntity {
 
     @OneToMany(mappedBy = "user", fetch = LAZY, cascade = ALL, orphanRemoval = true)
     private final List<Comment> comments = new ArrayList<>();
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -49,6 +48,11 @@ public abstract class User extends BaseTimeEntity {
     public User(String nickName, String profileImageUrl) {
         this(nickName);
         this.profileImageUrl = profileImageUrl;
+    }
+
+    public User(Long id, String nickName, String profileImageUrl) {
+        this(nickName, profileImageUrl);
+        this.id = id;
     }
 
     public User(Long id, String nickName, String profileImageUrl, String userType) {

@@ -1,6 +1,8 @@
 package com.darass.darass.comment.service;
 
 import com.darass.darass.comment.domain.Comment;
+import com.darass.darass.comment.domain.CommentLike;
+import com.darass.darass.comment.domain.Comments;
 import com.darass.darass.comment.dto.CommentCreateRequest;
 import com.darass.darass.comment.dto.CommentDeleteRequest;
 import com.darass.darass.comment.dto.CommentResponse;
@@ -38,7 +40,8 @@ public class CommentService {
         Comment comment = savedComment(user, commentRequest, project);
         String userType = userRepository.findUserTypeById(user.getId());
         String profileImageUrl = userRepository.findProfileImageUrlById(user.getId());
-        return CommentResponse.of(comment, UserResponse.of(comment.getUser(), userType, profileImageUrl));
+        return CommentResponse
+            .of(comment, UserResponse.of(comment.getUser(), userType, profileImageUrl));
     }
 
     private Project getBySecretKey(CommentCreateRequest commentRequest) {
@@ -135,5 +138,20 @@ public class CommentService {
         if (!user.isValidGuestPassword(password)) {
             throw ExceptionWithMessageAndCode.INVALID_GUEST_PASSWORD.getException();
         }
+    }
+
+    public void toggleLikeStatus(Long id, User user) {
+        Comment comment = commentRepository.findById(id)
+            .orElseThrow(ExceptionWithMessageAndCode.NOT_FOUND_COMMENT::getException);
+
+        if (comment.isLikedByUser(user)) {
+            comment.deleteCommentLikeByUser(user);
+            return;
+        }
+
+        comment.addCommentLike(CommentLike.builder()
+            .comment(comment)
+            .user(user)
+            .build());
     }
 }

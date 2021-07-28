@@ -144,3 +144,23 @@ include::{snippets}/api/v1/comments/delete/success-admin-user/http-response.adoc
 
 include::{snippets}/api/v1/comments/delete/fail-not-mine/http-response.adoc[]
 include::{snippets}/api/v1/comments/delete/fail-not-mine/response-fields.adoc[]
+
+=== 댓글 좋아요 (POST /api/v1/comments/{id}/like)
+
+
+==== (성공) 댓글 좋아요 누름
+
+==== Request
+include::{snippets}/api/v1/comments/post/like-success/http-request.adoc[]
+include::{snippets}/api/v1/comments/post/like-success/request-headers.adoc[]
+include::{snippets}/api/v1/comments/post/like-success/path-parameters.adoc[]
+
+==== Response
+include::{snippets}/api/v1/comments/post/like-success/http-response.adoc[]
+
+==== (실패) 비로그인 사용자가 댓글 좋아요 누름
+
+==== Response
+include::{snippets}/api/v1/comments/post/like-fail/http-response.adoc[]
+include::{snippets}/api/v1/comments/post/like-fail/response-fields.adoc[]
+

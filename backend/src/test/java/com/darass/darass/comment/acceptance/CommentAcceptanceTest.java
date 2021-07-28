@@ -93,7 +93,8 @@ public class CommentAcceptanceTest extends AcceptanceTest {
                     headerWithName("Authorization").description("JWT - Bearer 토큰")
                 ),
                 relaxedRequestFields(
-                    fieldWithPath("projectSecretKey").type(JsonFieldType.STRING).description("프로젝트 시크릿 키"),
+                    fieldWithPath("projectSecretKey").type(JsonFieldType.STRING)
+                        .description("프로젝트 시크릿 키"),
                     fieldWithPath("content").type(JsonFieldType.STRING).description("댓글 내용"),
                     fieldWithPath("url").type(JsonFieldType.STRING).description("url")
                 ),
@@ -101,14 +102,19 @@ public class CommentAcceptanceTest extends AcceptanceTest {
                     fieldWithPath("id").type(JsonFieldType.NUMBER).description("댓글 id"),
                     fieldWithPath("content").type(JsonFieldType.STRING).description("댓글 내용"),
                     fieldWithPath("createdDate").type(JsonFieldType.STRING).description("댓글 생성 시점"),
-                    fieldWithPath("modifiedDate").type(JsonFieldType.STRING).description("댓글 수정 시점"),
+                    fieldWithPath("modifiedDate").type(JsonFieldType.STRING)
+                        .description("댓글 수정 시점"),
+                    fieldWithPath("likingUsers[*]").type(JsonFieldType.ARRAY).description("좋아요 누른 유저 정보"),
                     fieldWithPath("user").type(JsonFieldType.OBJECT).description("댓글 작성 유저 정보"),
-                    fieldWithPath("user.createdDate").type(JsonFieldType.STRING).description("유저 생성 시점"),
-                    fieldWithPath("user.modifiedDate").type(JsonFieldType.STRING).description("유저 수정 시점"),
+                    fieldWithPath("user.createdDate").type(JsonFieldType.STRING)
+                        .description("유저 생성 시점"),
+                    fieldWithPath("user.modifiedDate").type(JsonFieldType.STRING)
+                        .description("유저 수정 시점"),
                     fieldWithPath("user.id").type(JsonFieldType.NUMBER).description("유저 id"),
                     fieldWithPath("user.nickName").type(JsonFieldType.STRING).description("유저 닉네임"),
                     fieldWithPath("user.type").type(JsonFieldType.STRING).description("유저 유형"),
-                    fieldWithPath("user.profileImageUrl").type(JsonFieldType.STRING).description("유저 프로필 이미지")
+                    fieldWithPath("user.profileImageUrl").type(JsonFieldType.STRING)
+                        .description("유저 프로필 이미지")
                 ))
         );
     }
@@ -119,9 +125,12 @@ public class CommentAcceptanceTest extends AcceptanceTest {
         비로그인_댓글_등록됨("content", "url").andDo(
             document("api/v1/comments/post/success-guest-user",
                 requestFields(
-                    fieldWithPath("guestNickName").type(JsonFieldType.STRING).description("비로그인 유저 닉네입"),
-                    fieldWithPath("guestPassword").type(JsonFieldType.STRING).description("비로그인 유저 비밀번호"),
-                    fieldWithPath("projectSecretKey").type(JsonFieldType.STRING).description("프로젝트 시크릿 키"),
+                    fieldWithPath("guestNickName").type(JsonFieldType.STRING)
+                        .description("비로그인 유저 닉네입"),
+                    fieldWithPath("guestPassword").type(JsonFieldType.STRING)
+                        .description("비로그인 유저 비밀번호"),
+                    fieldWithPath("projectSecretKey").type(JsonFieldType.STRING)
+                        .description("프로젝트 시크릿 키"),
                     fieldWithPath("content").type(JsonFieldType.STRING).description("댓글 내용"),
                     fieldWithPath("url").type(JsonFieldType.STRING).description("url")
                 ),
@@ -129,11 +138,15 @@ public class CommentAcceptanceTest extends AcceptanceTest {
                     fieldWithPath("id").type(JsonFieldType.NUMBER).description("댓글 id"),
                     fieldWithPath("content").type(JsonFieldType.STRING).description("댓글 내용"),
                     fieldWithPath("createdDate").type(JsonFieldType.STRING).description("댓글 생성 시점"),
-                    fieldWithPath("modifiedDate").type(JsonFieldType.STRING).description("댓글 수정 시점"),
+                    fieldWithPath("modifiedDate").type(JsonFieldType.STRING)
+                        .description("댓글 수정 시점"),
+                    fieldWithPath("likingUsers[*]").type(JsonFieldType.ARRAY).description("좋아요 누른 유저 정보"),
                     fieldWithPath("user").type(JsonFieldType.OBJECT).description("댓글 작성 유저 정보"),
                     fieldWithPath("user.id").type(JsonFieldType.NUMBER).description("유저 id"),
-                    fieldWithPath("user.createdDate").type(JsonFieldType.STRING).description("유저 생성 시점"),
-                    fieldWithPath("user.modifiedDate").type(JsonFieldType.STRING).description("유저 수정 시점"),
+                    fieldWithPath("user.createdDate").type(JsonFieldType.STRING)
+                        .description("유저 생성 시점"),
+                    fieldWithPath("user.modifiedDate").type(JsonFieldType.STRING)
+                        .description("유저 수정 시점"),
                     fieldWithPath("user.nickName").type(JsonFieldType.STRING).description("유저 닉네임"),
                     fieldWithPath("user.type").type(JsonFieldType.STRING).description("유저 유형")
                 ))
@@ -145,7 +158,8 @@ public class CommentAcceptanceTest extends AcceptanceTest {
     void saveWithInvalidSecretKey() throws Exception {
         mockMvc.perform(post("/api/v1/comments")
             .contentType(MediaType.APPLICATION_JSON)
-            .content(asJsonString(new CommentCreateRequest("guest", "password", "invalidKey", "content", "url"))))
+            .content(asJsonString(
+                new CommentCreateRequest("guest", "password", "invalidKey", "content", "url"))))
             .andExpect(status().isNotFound())
             .andExpect(jsonPath("$.code").value(700))
             .andDo(
@@ -174,17 +188,24 @@ public class CommentAcceptanceTest extends AcceptanceTest {
                     parameterWithName("projectKey").description("프로젝트 시크릿 키")
                 ),
                 responseFields(
-                    fieldWithPath("[].createdDate").type(JsonFieldType.STRING).description("댓글 생성 시점"),
-                    fieldWithPath("[].modifiedDate").type(JsonFieldType.STRING).description("댓글 수정 시점"),
+                    fieldWithPath("[].createdDate").type(JsonFieldType.STRING)
+                        .description("댓글 생성 시점"),
+                    fieldWithPath("[].modifiedDate").type(JsonFieldType.STRING)
+                        .description("댓글 수정 시점"),
                     fieldWithPath("[].id").type(JsonFieldType.NUMBER).description("댓글 id"),
                     fieldWithPath("[].content").type(JsonFieldType.STRING).description("댓글 내용"),
+                    fieldWithPath("[].likingUsers[*]").type(JsonFieldType.ARRAY).description("좋아요 누른 유저 정보"),
                     fieldWithPath("[].user").type(JsonFieldType.OBJECT).description("댓글 작성 유저 정보"),
-                    fieldWithPath("[].user.createdDate").type(JsonFieldType.STRING).description("유저 생성 시점"),
-                    fieldWithPath("[].user.modifiedDate").type(JsonFieldType.STRING).description("유저 수정 시점"),
+                    fieldWithPath("[].user.createdDate").type(JsonFieldType.STRING)
+                        .description("유저 생성 시점"),
+                    fieldWithPath("[].user.modifiedDate").type(JsonFieldType.STRING)
+                        .description("유저 수정 시점"),
                     fieldWithPath("[].user.id").type(JsonFieldType.NUMBER).description("유저 id"),
-                    fieldWithPath("[].user.nickName").type(JsonFieldType.STRING).description("유저 닉네임"),
+                    fieldWithPath("[].user.nickName").type(JsonFieldType.STRING)
+                        .description("유저 닉네임"),
                     fieldWithPath("[].user.type").type(JsonFieldType.STRING).description("유저 타입"),
-                    fieldWithPath("[].user.profileImageUrl").type(JsonFieldType.STRING).description("유저 프로필 이미지")
+                    fieldWithPath("[].user.profileImageUrl").type(JsonFieldType.STRING)
+                        .description("유저 프로필 이미지")
                 )
             ));
     }
@@ -267,15 +288,18 @@ public class CommentAcceptanceTest extends AcceptanceTest {
 
         mockMvc.perform(patch("/api/v1/comments/{id}", commentId)
             .contentType(MediaType.APPLICATION_JSON)
-            .content(asJsonString(new CommentUpdateRequest(userResponse.getId(), "password", "updateContent"))))
+            .content(asJsonString(
+                new CommentUpdateRequest(userResponse.getId(), "password", "updateContent"))))
             .andExpect(status().isNoContent())
             .andDo(document("api/v1/comments/patch/success-guest-user",
                 pathParameters(
                     parameterWithName("id").description("수정할 댓글 id")
                 ),
                 requestFields(
-                    fieldWithPath("guestUserId").type(JsonFieldType.NUMBER).description("비로그인 작성자 id"),
-                    fieldWithPath("guestUserPassword").type(JsonFieldType.STRING).description("비로그인 작성자 비밀번호"),
+                    fieldWithPath("guestUserId").type(JsonFieldType.NUMBER)
+                        .description("비로그인 작성자 id"),
+                    fieldWithPath("guestUserPassword").type(JsonFieldType.STRING)
+                        .description("비로그인 작성자 비밀번호"),
                     fieldWithPath("content").type(JsonFieldType.STRING).description("수정 내용")
                 )
             ));
@@ -311,7 +335,8 @@ public class CommentAcceptanceTest extends AcceptanceTest {
 
         mockMvc.perform(patch("/api/v1/comments/{id}", commentId)
             .contentType(MediaType.APPLICATION_JSON)
-            .content(asJsonString(new CommentUpdateRequest(user.getId(), "invalid", "updateContent"))))
+            .content(
+                asJsonString(new CommentUpdateRequest(user.getId(), "invalid", "updateContent"))))
             .andExpect(status().isUnauthorized())
             .andExpect(jsonPath("$.code").value(901))
             .andDo(document("api/v1/comments/patch/fail-guest-password-wrong",
@@ -405,6 +430,41 @@ public class CommentAcceptanceTest extends AcceptanceTest {
             ));
     }
 
+    @Test
+    @DisplayName("댓글 좋아요를 누른다.")
+    void likeComment() throws Exception {
+        CommentResponse commentResponse = 소셜_로그인_댓글_등록됨_Response_반환("content", "url");
+
+        mockMvc.perform(post("/api/v1/comments/{id}/like", commentResponse.getId())
+            .header("Authorization", "Bearer " + token)
+        )
+            .andExpect(status().isNoContent())
+            .andDo(document("api/v1/comments/post/like-success",
+                requestHeaders(
+                    headerWithName("Authorization").description("JWT - Bearer 토큰")
+                ),
+                pathParameters(
+                    parameterWithName("id").description("좋아요를 누를 댓글 id")
+                )
+            ));
+    }
+
+    @Test
+    @DisplayName("비로그인 사용자가 댓글 좋아요를 누르면 예외가 발생한다.")
+    void invalidCommentLikeByGuestUser() throws Exception {
+        CommentResponse commentResponse = 소셜_로그인_댓글_등록됨_Response_반환("content", "url");
+
+        mockMvc.perform(post("/api/v1/comments/{id}/like", commentResponse.getId())
+        )
+            .andExpect(status().isUnauthorized())
+            .andDo(document("api/v1/comments/post/like-fail",
+                responseFields(
+                    fieldWithPath("message").type(JsonFieldType.STRING).description("에러 메시지"),
+                    fieldWithPath("code").type(JsonFieldType.NUMBER).description("에러 코드")
+                )
+            ));
+    }
+
     private ResultActions 소셜_로그인_댓글_등록됨(String content, String url) throws Exception {
         return mockMvc.perform(post("/api/v1/comments")
             .contentType(MediaType.APPLICATION_JSON)
@@ -415,20 +475,23 @@ public class CommentAcceptanceTest extends AcceptanceTest {
     }
 
     private CommentResponse 소셜_로그인_댓글_등록됨_Response_반환(String content, String url) throws Exception {
-        String responseJson = 소셜_로그인_댓글_등록됨(content, url).andReturn().getResponse().getContentAsString();
+        String responseJson = 소셜_로그인_댓글_등록됨(content, url).andReturn().getResponse()
+            .getContentAsString();
         return new ObjectMapper().readValue(responseJson, CommentResponse.class);
     }
 
     private ResultActions 비로그인_댓글_등록됨(String content, String url) throws Exception {
         return mockMvc.perform(post("/api/v1/comments")
             .contentType(MediaType.APPLICATION_JSON)
-            .content(asJsonString(new CommentCreateRequest("guest", "password", secretKey, content, url))))
+            .content(asJsonString(
+                new CommentCreateRequest("guest", "password", secretKey, content, url))))
             .andExpect(status().isCreated())
             .andExpect(jsonPath("$.user..type").value("GuestUser"));
     }
 
     private CommentResponse 비로그인_댓글_등록됨_Response_반환(String content, String url) throws Exception {
-        String responseJson = 비로그인_댓글_등록됨(content, url).andReturn().getResponse().getContentAsString();
+        String responseJson = 비로그인_댓글_등록됨(content, url).andReturn().getResponse()
+            .getContentAsString();
         return new ObjectMapper().readValue(responseJson, CommentResponse.class);
     }
 
