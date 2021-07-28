@@ -4,7 +4,7 @@ import { ROUTE } from "../../../constants";
 import { PALETTE } from "../../../styles/palette";
 import { User } from "../../../types/user";
 import HamburgerButton from "../../atoms/Buttons/HamburgerButton";
-import { Menu, MenuAvatar, MenuWrapper, Name, AuthLink } from "./styles";
+import { Container, Menu, MenuAvatar, MenuWrapper, Name, AuthLink } from "./styles";
 
 export interface Props {
   user?: User;
@@ -19,7 +19,7 @@ const MobileNav = ({ user, logout }: Props) => {
   };
 
   return (
-    <div>
+    <Container>
       <HamburgerButton isOpen={isOpen} onClick={onClickHamburgerButton} />
       <MenuWrapper isOpen={isOpen}>
         <Link to={ROUTE.USER_PROFILE}>
@@ -51,7 +51,7 @@ const MobileNav = ({ user, logout }: Props) => {
           About
         </Menu>
       </MenuWrapper>
-    </div>
+    </Container>
   );
 };
 

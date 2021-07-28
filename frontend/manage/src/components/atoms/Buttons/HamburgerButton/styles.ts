@@ -14,7 +14,7 @@ const Container = styled.button<{ isOpen: boolean }>`
   border: none;
   cursor: pointer;
   padding: 0;
-  z-index: 999;
+  z-index: 3;
 
   div {
     width: 30px;

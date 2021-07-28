@@ -3,6 +3,12 @@ import styled from "styled-components";
 import { PALETTE } from "../../../styles/palette";
 import Avatar from "../../atoms/Avatar";
 
+export const Container = styled.nav`
+  @media (min-width: 780px) {
+    display: none;
+  }
+`;
+
 export const MenuWrapper = styled.nav<{ isOpen: boolean }>`
   width: 50%;
 
@@ -10,6 +16,7 @@ export const MenuWrapper = styled.nav<{ isOpen: boolean }>`
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
+  z-index: 2;
 
   background: ${PALETTE.PRIMARY};
   height: 100vh;
