@@ -1,9 +1,9 @@
 package com.darass.darass.user.controller;
 
 import com.darass.darass.auth.oauth.domain.RequiredLogin;
+import com.darass.darass.user.domain.User;
 import com.darass.darass.user.dto.PasswordCheckRequest;
 import com.darass.darass.user.dto.PasswordCheckResponse;
-import com.darass.darass.user.domain.User;
 import com.darass.darass.user.dto.UserResponse;
 import com.darass.darass.user.dto.UserUpdateRequest;
 import com.darass.darass.user.service.UserService;

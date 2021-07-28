@@ -14,7 +14,7 @@ class ProjectTest {
     private Project project;
 
     @BeforeEach
-    void setUp(){
+    void setUp() {
         SocialLoginUser socialLoginUser = SocialLoginUser.builder()
             .id(1L)
             .nickName("우기")

@@ -39,7 +39,7 @@ public class OAuthService {
 
         return TokenResponse.of(jwtTokenProvider.createAccessToken(foundSocialLoginUser.getId().toString()));
     }
-    
+
     public SocialLoginUser findSocialLoginUserByAccessToken(String accessToken) {
         jwtTokenProvider.validateAccessToken(accessToken);
         String userId = jwtTokenProvider.getPayload(accessToken);

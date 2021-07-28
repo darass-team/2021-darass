@@ -20,7 +20,7 @@ class CommentsTest {
     private Project tstoryProject;
 
     @BeforeEach
-    void setUp(){
+    void setUp() {
         socialLoginUser = SocialLoginUser.builder()
             .id(1L)
             .nickName("우기")
@@ -47,15 +47,15 @@ class CommentsTest {
     @DisplayName("match 메서드는 url과 프로젝트 시크릿 키가 주어지면, 해당하는 댓글 리스트를 반환한다.")
     @Test
     void commentMatch() {
-        Comment jekyllProjectComment1 = makeComment(jekyllProject,"https://jekyll.blog/post/1", "댓글1");
-        Comment tstoryProjectComment1 = makeComment(tstoryProject,"https://tstory.blog/post/2", "댓글2");
-        Comment jekyllProjectComment2 = makeComment(jekyllProject,"https://jekyll.blog/post/1", "댓글3");
-        Comment tstoryProjectComment2 = makeComment(tstoryProject,"https://tstory.blog/post/2", "댓글4");
-        Comment jekyllProjectComment3 = makeComment(jekyllProject,"https://jekyll.blog/post/1", "댓글5");
-        Comment tstoryProjectComment3 = makeComment(tstoryProject,"https://tstory.blog/post/2", "댓글6");
-        Comment jekyllProjectComment4 = makeComment(jekyllProject,"https://jekyll.blog/post/1", "댓글7");
-        Comment tstoryProjectComment4 = makeComment(tstoryProject,"https://tstory.blog/post/2", "댓글8");
-        Comment jekyllProjectComment5 = makeComment(jekyllProject,"https://jekyll.blog/post/1", "댓글9");
+        Comment jekyllProjectComment1 = makeComment(jekyllProject, "https://jekyll.blog/post/1", "댓글1");
+        Comment tstoryProjectComment1 = makeComment(tstoryProject, "https://tstory.blog/post/2", "댓글2");
+        Comment jekyllProjectComment2 = makeComment(jekyllProject, "https://jekyll.blog/post/1", "댓글3");
+        Comment tstoryProjectComment2 = makeComment(tstoryProject, "https://tstory.blog/post/2", "댓글4");
+        Comment jekyllProjectComment3 = makeComment(jekyllProject, "https://jekyll.blog/post/1", "댓글5");
+        Comment tstoryProjectComment3 = makeComment(tstoryProject, "https://tstory.blog/post/2", "댓글6");
+        Comment jekyllProjectComment4 = makeComment(jekyllProject, "https://jekyll.blog/post/1", "댓글7");
+        Comment tstoryProjectComment4 = makeComment(tstoryProject, "https://tstory.blog/post/2", "댓글8");
+        Comment jekyllProjectComment5 = makeComment(jekyllProject, "https://jekyll.blog/post/1", "댓글9");
 
         commentList.add(jekyllProjectComment1);
         commentList.add(tstoryProjectComment1);
