@@ -31,7 +31,7 @@ export const OptionContainer = styled.div`
     font-size: 1.2rem;
     font-weight: bold;
     border-radius: 10px;
-    padding: 0.1rem 0;
+    padding: 0.3rem 0;
     transition: background-color 0.1s;
   }
 

@@ -17,7 +17,6 @@ const App = () => {
   return (
     <Router>
       <Nav user={user} logout={logout} />
-
       <Switch>
         <Route exact path={ROUTE.HOME} component={Home} />
         <ConditionalRoute path={ROUTE.LOGIN} component={Login} condition={!user} redirectPath={ROUTE.MY_PROJECT} />

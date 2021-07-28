@@ -28,8 +28,8 @@ export const InfoWrapper = styled.div`
 `;
 
 export const UserProfileImage = styled(Avatar)`
-  width: 100%;
-  height: 100%;
+  width: 7rem;
+  height: 7rem;
 `;
 
 export const Label = styled.label`

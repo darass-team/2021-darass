@@ -61,7 +61,7 @@ export const Img = styled.img`
     }
   }
 
-  z-index: 999;
+  z-index: 1;
   width: 6rem;
   height: 6rem;
 

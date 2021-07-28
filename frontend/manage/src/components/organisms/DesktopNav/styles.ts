@@ -13,6 +13,10 @@ export const Container = styled.nav`
   background-color: ${PALETTE.WHITE};
   box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
   z-index: 99;
+
+  @media (max-width: 780px) {
+    display: none;
+  }
 `;
 
 export const Wrapper = styled.div`
