@@ -1,12 +1,12 @@
 import { useMutation, useQueryClient } from "react-query";
 import { REACT_QUERY_KEY } from "../constants";
 import { QUERY } from "../constants/api";
-import { Project } from "../types/project";
+import { CreateProjectRequest, Project } from "../types/project";
 import { request } from "../utils/request";
 
-const _createProject = async (name: Project["name"]) => {
+const _createProject = async ({ name, description }: CreateProjectRequest) => {
   try {
-    const response = await request.post(QUERY.PROJECT, { name });
+    const response = await request.post(QUERY.PROJECT, { name, description });
 
     return response.data;
   } catch (error) {
@@ -17,7 +17,7 @@ const _createProject = async (name: Project["name"]) => {
 export const useCreateProject = () => {
   const queryClient = useQueryClient();
 
-  const createMutation = useMutation<Project, Error, Project["name"]>(name => _createProject(name), {
+  const createMutation = useMutation<Project, Error, CreateProjectRequest>(data => _createProject(data), {
     onSuccess: data => {
       queryClient.setQueryData<Project[] | undefined>(REACT_QUERY_KEY.PROJECT, projects => {
         return projects?.concat(data);
@@ -28,8 +28,8 @@ export const useCreateProject = () => {
   const isLoading = createMutation.isLoading;
   const error = createMutation.error;
 
-  const createProject = async (name1: Project["name"]) => {
-    const project = await createMutation.mutateAsync(name1);
+  const createProject = async (data: CreateProjectRequest) => {
+    const project = await createMutation.mutateAsync(data);
 
     return project;
   };

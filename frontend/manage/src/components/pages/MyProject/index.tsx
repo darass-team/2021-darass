@@ -1,4 +1,4 @@
-import { Redirect, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { ROUTE } from "../../../constants";
 import { useGetAllProjects } from "../../../hooks";
 import ScreenContainer from "../../../styles/ScreenContainer";
@@ -27,8 +27,8 @@ const MyProject = () => {
       <Container>
         <AddProjectButton onClick={moveNewProjectPage}>Add new</AddProjectButton>
         <ButtonWrapper>
-          {projects?.map(({ id, name }) => (
-            <ProjectButton key={id} title={name} onClick={() => moveProjectDetailPage(id)} />
+          {projects?.map(({ id, name, description }) => (
+            <ProjectButton key={id} title={name} description={description} onClick={() => moveProjectDetailPage(id)} />
           ))}
           {projects?.length === 0 && (
             <Message data-testid="myproject-no-project-message">

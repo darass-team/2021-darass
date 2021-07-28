@@ -24,11 +24,17 @@ export const Form = styled.form`
   align-items: flex-start;
 `;
 
+export const InputWrapper = styled.div`
+  margin-bottom: 2rem;
+  width: 100%;
+`;
+
 export const Label = styled.label`
   ${labelCSS};
 `;
 
 export const Input = styled.input`
+  margin-top: 1rem;
   ${inputCSS};
 `;
 

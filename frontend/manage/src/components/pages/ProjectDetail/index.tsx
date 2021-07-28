@@ -32,8 +32,10 @@ const ProjectDetail = () => {
   const { value: projectName, setValue: setProjectName, onChange: onChangeProjectName } = useInput("");
   const { value: projectDesc, setValue: setProjectDesc, onChange: onChangeProjectDesc } = useInput("");
 
-  const onEditProject = (event: FormEvent<HTMLFormElement>) => {
+  const onEditProject = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    if (!project) return;
 
     if (isEmptyString(projectName)) {
       alert("프로젝트 이름을 입력해주세요.");
@@ -41,7 +43,18 @@ const ProjectDetail = () => {
       return;
     }
 
-    // editProject;
+    try {
+      await editProject({
+        id: project.id,
+        name: projectName,
+        description: projectDesc
+      });
+
+      history.push(ROUTE.MY_PROJECT);
+    } catch (error) {
+      alert(error.message);
+      console.error(error.message);
+    }
   };
 
   const confirmDeleteProject = async () => {
@@ -53,6 +66,7 @@ const ProjectDetail = () => {
 
       history.replace(ROUTE.MY_PROJECT);
     } catch (error) {
+      alert(error.message);
       console.error(error.message);
     }
   };
@@ -60,6 +74,7 @@ const ProjectDetail = () => {
   useEffect(() => {
     if (project) {
       setProjectName(project.name);
+      setProjectDesc(project.description);
     }
   }, [project]);
 
@@ -87,14 +102,7 @@ const ProjectDetail = () => {
                 onChange={onChangeProjectDesc}
               />
             </InfoWrapper>
-            <SubmitButton
-              onClick={() => {
-                setProjectName(project?.name || "");
-                setProjectDesc("project.description");
-              }}
-            >
-              수정
-            </SubmitButton>
+            <SubmitButton>수정</SubmitButton>
           </Form>
           <DeleteSection>
             <h3>프로젝트 삭제</h3>
