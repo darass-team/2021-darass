@@ -15,7 +15,6 @@ const CommentArea = () => {
 
   const { user, login, logout } = useUser();
   const { comments } = useGetAllComments({ url, projectSecretKey });
-
   const { project } = useProject({ projectSecretKey });
 
   useEffect(() => {

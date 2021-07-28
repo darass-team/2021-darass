@@ -1,23 +1,24 @@
 import { FormEvent, useEffect, useState } from "react";
-import { QUERY } from "../../../constants/api";
 import { useConfirmGuestPassword, useDeleteComment, useEditComment, useInput } from "../../../hooks";
+import { useLikeComment } from "../../../hooks/useLikeComment";
 import { Comment as CommentType } from "../../../types";
 import { DeleteCommentRequestParameter } from "../../../types/comment";
 import { User } from "../../../types/user";
 import { postScrollHeightToParentWindow } from "../../../utils/iframePostMessage";
-import { request } from "../../../utils/request";
 import { getTimeDifference } from "../../../utils/time";
 import Avatar from "../../atoms/Avatar";
 import CommentTextBox from "../../atoms/CommentTextBox";
 import {
   Button,
   CancelButton,
+  CommentBottomWrapper,
   CommentOption,
   CommentTextBoxWrapper,
   CommentWrapper,
   Container,
   PasswordForm,
   PasswordInput,
+  LikeButton,
   Time
 } from "./styles";
 
@@ -40,10 +41,12 @@ const Comment = ({ user, comment, align = "left", shouldShowOption, iAmAdmin, th
   const { value: password, setValue: setPassword, onChange: onChangePassword } = useInput("");
   const { editComment } = useEditComment();
   const { deleteComment } = useDeleteComment();
+  const { likeComment } = useLikeComment();
   const { getPasswordConfirmResult } = useConfirmGuestPassword({
     guestUserId: comment.user.id,
     guestUserPassword: password
   });
+  const isLiked = comment.likingUsers.some(likingUser => likingUser.id === user?.id);
 
   const clear = () => {
     setEditing(false);
@@ -140,47 +143,51 @@ const Comment = ({ user, comment, align = "left", shouldShowOption, iAmAdmin, th
 
   return (
     <Container align={align} data-testid="comment">
-      <div>
-        <CommentWrapper align={align}>
-          <Avatar imageURL={comment.user.profileImageUrl} />
-          <CommentTextBoxWrapper align={align}>
-            <CommentTextBox
-              name={comment.user.nickName}
-              contentEditable={isEditing}
-              submitEditedComment={submitEditedComment}
-            >
-              {comment.content}
-            </CommentTextBox>
-
+      <CommentWrapper align={align}>
+        <Avatar imageURL={comment.user.profileImageUrl} />
+        <CommentTextBoxWrapper align={align}>
+          <CommentTextBox
+            name={comment.user.nickName}
+            contentEditable={isEditing}
+            submitEditedComment={submitEditedComment}
+          >
+            {comment.content}
+          </CommentTextBox>
+          <LikeButton
+            numOfLikes={comment.likingUsers.length}
+            isLiked={isLiked}
+            onClick={() => likeComment({ user, commentId: comment.id })}
+          />
+          <CommentBottomWrapper>
             <Time>{getTimeDifference(comment.createdDate)}</Time>
             {shouldShowOption && !submitType && (
               <CommentOption startEditing={canIControl ? startEditing : undefined} startDeleting={startDeleting} />
             )}
-          </CommentTextBoxWrapper>
-        </CommentWrapper>
-        {shouldShowPasswordInput && shouldShowOption && (
-          <PasswordForm
-            onSubmit={event => {
-              const submitPasswordCallback = submitType === "Edit" ? () => setEditing(true) : confirmDelete;
+          </CommentBottomWrapper>
+        </CommentTextBoxWrapper>
+      </CommentWrapper>
+      {shouldShowPasswordInput && shouldShowOption && (
+        <PasswordForm
+          onSubmit={event => {
+            const submitPasswordCallback = submitType === "Edit" ? () => setEditing(true) : confirmDelete;
 
-              submitPassword(event, submitPasswordCallback);
-            }}
-          >
-            <PasswordInput
-              type="password"
-              value={password}
-              onChange={onChangePassword}
-              placeholder="댓글 작성 시 입력한 비밀번호 입력"
-              isValidInput={!isPasswordSubmitted}
-              data-testid="comment-guest-password-input"
-            />
-            <CancelButton type="button" onClick={() => clear()} data-testid="comment-guest-password-cancel-button">
-              취소
-            </CancelButton>
-            <Button data-testid="comment-guest-password-submit-button">입력</Button>
-          </PasswordForm>
-        )}
-      </div>
+            submitPassword(event, submitPasswordCallback);
+          }}
+        >
+          <PasswordInput
+            type="password"
+            value={password}
+            onChange={onChangePassword}
+            placeholder="댓글 작성 시 입력한 비밀번호 입력"
+            isValidInput={!isPasswordSubmitted}
+            data-testid="comment-guest-password-input"
+          />
+          <CancelButton type="button" onClick={() => clear()} data-testid="comment-guest-password-cancel-button">
+            취소
+          </CancelButton>
+          <Button data-testid="comment-guest-password-submit-button">입력</Button>
+        </PasswordForm>
+      )}
     </Container>
   );
 };

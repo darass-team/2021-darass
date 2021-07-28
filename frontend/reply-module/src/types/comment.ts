@@ -4,6 +4,7 @@ export interface Comment {
   id: number;
   content: string;
   user: User;
+  likingUsers: User[];
   createdDate: string;
   modifiedDate: string;
 }
@@ -32,3 +33,5 @@ export type EditCommentRequestData = Pick<Comment, "content"> & Omit<GuestUserIn
 export type EditCommentParameter = Pick<Comment, "id" | "content"> & Omit<GuestUserInfo, "guestNickName">;
 
 export type DeleteCommentRequestParameter = Pick<Comment, "id"> & Omit<GuestUserInfo, "guestNickName">;
+
+export type LikeCommentParameter = { user: User | undefined; commentId: Comment["id"] };

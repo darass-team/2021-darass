@@ -19,7 +19,7 @@ customAxios.interceptors.request.use(config => {
 
 export const request = {
   get: async (query: string) => await customAxios.get(query),
-  post: async <T>(query: string, data: T) => await customAxios.post(query, data),
+  post: async <T>(query: string, data?: T) => await customAxios.post(query, data),
   patch: async <T>(query: string, data: T) => await customAxios.patch(query, data),
   delete: async (query: string) => await customAxios.delete(query)
 };

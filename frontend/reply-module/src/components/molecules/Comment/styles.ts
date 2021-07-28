@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { InputCSS } from "../../../styles/css";
 import { PALETTE } from "../../../styles/palette";
+import LikeButtonComponent from "../../atoms/Buttons/LikeButton";
 import CommentOptionComponent from "../../atoms/CommentOption";
 
 export const Container = styled.div<{ align: "left" | "right" }>`
@@ -17,19 +18,32 @@ export const CommentTextBoxWrapper = styled.div<{ align: "left" | "right" }>`
   position: relative;
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
   margin: ${props => (props.align === "left" ? "0 0 0 0.6rem" : "0 0.6rem 0 0")};
+`;
+
+export const LikeButton = styled(LikeButtonComponent)`
+  position: absolute;
+  bottom: 0.5rem;
+  right: -1.5rem;
+
+  @media screen and (max-width: 768px) {
+    bottom: 0.5rem;
+  }
+`;
+
+export const CommentBottomWrapper = styled.div`
+  display: flex;
+  margin-top: 0.3rem;
 `;
 
 export const Time = styled.span`
   margin: 0 1rem;
-  margin-top: 0.3rem;
 `;
 
 export const CommentOption = styled(CommentOptionComponent)`
   position: absolute;
-  right: 16px;
-  top: 12px;
+  right: 1rem;
+  top: 0.75rem;
 `;
 
 export const PasswordForm = styled.form``;
