@@ -88,15 +88,4 @@ public abstract class User extends BaseTimeEntity {
     public void changeProfileImageUrl(String profileImageUrl) {
         this.profileImageUrl = profileImageUrl;
     }
-
-    public void changeNickNameOrProfileImageIfExists(S3Uploader s3Uploader, String nickName,
-        MultipartFile profileImageFile) {
-        if (!Objects.isNull(nickName)) {
-            changeNickName(nickName);
-        }
-        if (!Objects.isNull(profileImageFile)) {
-            String imageUrl = s3Uploader.upload(profileImageFile);
-            changeProfileImageUrl(imageUrl);
-        }
-    }
 }

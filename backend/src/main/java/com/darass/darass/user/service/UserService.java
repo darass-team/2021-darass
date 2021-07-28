@@ -1,6 +1,7 @@
 package com.darass.darass.user.service;
 
 import com.darass.darass.exception.ExceptionWithMessageAndCode;
+import com.darass.darass.user.domain.SocialLoginUser;
 import com.darass.darass.user.domain.User;
 import com.darass.darass.user.dto.PasswordCheckRequest;
 import com.darass.darass.user.dto.PasswordCheckResponse;
@@ -8,7 +9,6 @@ import com.darass.darass.user.dto.UserResponse;
 import com.darass.darass.user.dto.UserUpdateRequest;
 import com.darass.darass.user.infrastructure.S3Uploader;
 import com.darass.darass.user.repository.UserRepository;
-import java.util.Objects;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -31,7 +31,8 @@ public class UserService {
 
     public UserResponse update(Long id, UserUpdateRequest userUpdateRequest) {
         Optional<User> expectedUser = userRepository.findById(id);
-        User user = expectedUser.orElseThrow(ExceptionWithMessageAndCode.NOT_FOUND_USER::getException);
+        SocialLoginUser user = (SocialLoginUser) expectedUser
+            .orElseThrow(ExceptionWithMessageAndCode.NOT_FOUND_USER::getException);
         String nickName = userUpdateRequest.getNickName();
         MultipartFile profileImageFile = userUpdateRequest.getProfileImageFile();
         user.changeNickNameOrProfileImageIfExists(s3Uploader, nickName, profileImageFile);

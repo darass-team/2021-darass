@@ -13,6 +13,7 @@ import com.darass.darass.exception.ExceptionWithMessageAndCode;
 import com.darass.darass.project.domain.Project;
 import com.darass.darass.project.repository.ProjectRepository;
 import com.darass.darass.user.domain.GuestUser;
+import com.darass.darass.user.domain.SocialLoginUser;
 import com.darass.darass.user.domain.User;
 import com.darass.darass.user.dto.UserResponse;
 import com.darass.darass.user.dto.UserUpdateRequest;
@@ -44,6 +45,8 @@ class UserServiceTest extends SpringContainerTest {
 
     private User user;
 
+    private SocialLoginUser socialUser;
+
     @BeforeEach
     @Transactional
     void setUp() {
@@ -72,6 +75,13 @@ class UserServiceTest extends SpringContainerTest {
             .comment(comment)
             .build();
         commentLikeRepository.save(commentLike);
+
+        socialUser = SocialLoginUser.builder()
+            .nickName("재성")
+            .build();
+
+        userRepository.save(user);
+        userRepository.save(socialUser);
     }
 
     @Test
@@ -98,10 +108,10 @@ class UserServiceTest extends SpringContainerTest {
     @DisplayName("updateNickName 메서드는 유저 id와 UserUpdateRequest가 주어지면, 유저 닉네임을 수정한다.")
     void updateNickName() {
         // when
-        userService.update(user.getId(), new UserUpdateRequest("병욱", null));
+        userService.update(socialUser.getId(), new UserUpdateRequest("병욱", null));
 
         // then
-        UserResponse userResponse = userService.findById(user.getId());
+        UserResponse userResponse = userService.findById(socialUser.getId());
         assertThat(userResponse.getNickName()).isEqualTo("병욱");
     }
 
