@@ -1,7 +1,6 @@
 package com.darass.darass.project.controller;
 
 import com.darass.darass.auth.oauth.domain.RequiredLogin;
-import com.darass.darass.project.domain.SecretKeyFactory;
 import com.darass.darass.project.dto.ProjectCreateRequest;
 import com.darass.darass.project.dto.ProjectResponse;
 import com.darass.darass.project.service.ProjectService;

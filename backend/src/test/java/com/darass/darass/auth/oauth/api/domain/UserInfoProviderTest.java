@@ -7,8 +7,8 @@ import static org.springframework.test.web.client.response.MockRestResponseCreat
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withUnauthorizedRequest;
 
 import com.darass.darass.auth.oauth.api.domain.dto.KaKaoAccount;
-import com.darass.darass.auth.oauth.api.domain.dto.Profile;
 import com.darass.darass.auth.oauth.api.domain.dto.KakaoLoginResponse;
+import com.darass.darass.auth.oauth.api.domain.dto.Profile;
 import com.darass.darass.exception.ExceptionWithMessageAndCode;
 import com.darass.darass.user.domain.SocialLoginUser;
 import com.fasterxml.jackson.core.JsonProcessingException;

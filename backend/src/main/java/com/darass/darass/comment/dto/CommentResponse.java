@@ -2,7 +2,6 @@ package com.darass.darass.comment.dto;
 
 import com.darass.darass.comment.domain.Comment;
 import com.darass.darass.comment.domain.CommentLike;
-import com.darass.darass.user.domain.User;
 import com.darass.darass.user.dto.UserResponse;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;

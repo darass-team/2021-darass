@@ -15,7 +15,7 @@ class SecretKeyFactoryTest {
         SecretKeyFactory secretKeyFactory = new SecretKeyFactory();
         String randomSecretKey = secretKeyFactory.createSecretKey(payload);
 
-        assertThat(randomSecretKey.substring(15,16)).isEqualTo(payload);
+        assertThat(randomSecretKey.substring(15, 16)).isEqualTo(payload);
     }
 
 }
