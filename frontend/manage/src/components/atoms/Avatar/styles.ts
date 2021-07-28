@@ -8,10 +8,8 @@ const avatarSizeBySize = {
   LG: 90
 };
 
-const Container = styled.img<{ size: Size }>`
+export const Container = styled.img<{ size: Size }>`
   border-radius: 50%;
   width: ${props => `${avatarSizeBySize[props.size]}px`};
   height: ${props => `${avatarSizeBySize[props.size]}px`};
 `;
-
-export { Container };

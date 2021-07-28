@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const useCopyButton = () => {
+export const useCopyButton = () => {
   const [isCopyButtonClicked, setCopyButtonState] = useState(false);
 
   const onCopy = (script: string) => {
@@ -10,5 +10,3 @@ const useCopyButton = () => {
 
   return { isCopyButtonClicked, setCopyButtonState, onCopy };
 };
-
-export { useCopyButton };

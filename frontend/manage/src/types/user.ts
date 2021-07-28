@@ -6,3 +6,5 @@ export interface User {
   createdDate: string;
   modifiedDate: string;
 }
+
+export type EditUserRequest = Pick<User, "nickName">;

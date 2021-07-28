@@ -5,20 +5,20 @@ import { Comment, EditCommentParameter, EditCommentRequestData } from "../types/
 import { REACT_QUERY_KEY } from "../constants/reactQueryKey";
 
 const _editComment = async (editedComment: EditCommentParameter) => {
-  const response = await request.patch<EditCommentRequestData>(`${QUERY.COMMENT}/${editedComment.id}`, {
-    content: editedComment.content,
-    guestUserId: editedComment.guestUserId,
-    guestUserPassword: editedComment.guestUserPassword
-  });
+  try {
+    const response = await request.patch<EditCommentRequestData>(`${QUERY.COMMENT}/${editedComment.id}`, {
+      content: editedComment.content,
+      guestUserId: editedComment.guestUserId,
+      guestUserPassword: editedComment.guestUserPassword
+    });
 
-  if (response.status >= 400) {
-    throw new Error(response.data.message);
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response.data.message);
   }
-
-  return response.data;
 };
 
-const useEditComment = () => {
+export const useEditComment = () => {
   const queryClient = useQueryClient();
 
   const editMutation = useMutation<void, Error, EditCommentParameter>(comment => _editComment(comment), {
@@ -44,5 +44,3 @@ const useEditComment = () => {
 
   return { editComment, isLoading, error };
 };
-
-export { useEditComment };

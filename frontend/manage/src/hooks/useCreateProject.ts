@@ -5,16 +5,16 @@ import { Project } from "../types/project";
 import { request } from "../utils/request";
 
 const _createProject = async (name: Project["name"]) => {
-  const response = await request.post(QUERY.PROJECT, { name });
+  try {
+    const response = await request.post(QUERY.PROJECT, { name });
 
-  if (response.status >= 400) {
-    throw new Error(response.data.message);
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response.data.message);
   }
-
-  return response.data;
 };
 
-const useCreateProject = () => {
+export const useCreateProject = () => {
   const queryClient = useQueryClient();
 
   const createMutation = useMutation<Project, Error, Project["name"]>(name => _createProject(name), {
@@ -36,5 +36,3 @@ const useCreateProject = () => {
 
   return { createProject, isLoading, error };
 };
-
-export { useCreateProject };

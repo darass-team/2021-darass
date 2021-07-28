@@ -6,8 +6,6 @@ interface ConditionalRouteProp extends RouteProps {
   redirectPath?: string;
 }
 
-const ConditionalRoute = ({ component, path, condition, redirectPath = ROUTE.HOME }: ConditionalRouteProp) => {
+export const ConditionalRoute = ({ component, path, condition, redirectPath = ROUTE.HOME }: ConditionalRouteProp) => {
   return condition ? <Route exact path={path} component={component} /> : <Redirect to={redirectPath} />;
 };
-
-export { ConditionalRoute };

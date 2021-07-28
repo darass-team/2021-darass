@@ -30,6 +30,10 @@ jobs:
       run: yarn install
       working-directory: ./frontend/reply-module
     
+    - name: Test - comment
+      run: yarn test
+      working-directory: ./frontend/reply-module
+    
     - name: Build - comment
       run: yarn build
       working-directory: ./frontend/reply-module
@@ -39,6 +43,10 @@ jobs:
       
     - name: Install Dependencies - project
       run: yarn install
+      working-directory: ./frontend/manage
+    
+    - name: Test - project
+      run: yarn test
       working-directory: ./frontend/manage
     
     - name: Build - project

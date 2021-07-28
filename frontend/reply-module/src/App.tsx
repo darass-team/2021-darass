@@ -1,4 +1,4 @@
-import CommentPage from "./components/pages/CommentPage";
+import CommentArea from "./components/pages/CommentArea";
 import { postScrollHeightToParentWindow } from "./utils/iframePostMessage";
 
 const onResize = () => {
@@ -18,7 +18,7 @@ const onResize = () => {
 window.addEventListener("resize", onResize());
 
 const App = () => {
-  return <CommentPage />;
+  return <CommentArea />;
 };
 
 export default App;

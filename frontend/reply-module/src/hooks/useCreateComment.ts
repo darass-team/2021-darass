@@ -5,16 +5,16 @@ import { Comment, CreateCommentRequestData } from "../types/comment";
 import { REACT_QUERY_KEY } from "../constants/reactQueryKey";
 
 const _createComment = async (_data: CreateCommentRequestData) => {
-  const response = await request.post(QUERY.COMMENT, _data);
+  try {
+    const response = await request.post(QUERY.COMMENT, _data);
 
-  if (response.status >= 400) {
-    throw new Error(response.data.message);
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response.data.message);
   }
-
-  return response.data;
 };
 
-const useCreateComment = () => {
+export const useCreateComment = () => {
   const queryClient = useQueryClient();
 
   const createMutation = useMutation<Comment, Error, CreateCommentRequestData>(_data => _createComment(_data), {
@@ -36,5 +36,3 @@ const useCreateComment = () => {
 
   return { createComment, isLoading, error };
 };
-
-export { useCreateComment };

@@ -1,8 +1,11 @@
 import { createGlobalStyle } from "styled-components";
+import { normalize } from "styled-normalize";
 import { PALETTE } from "./palette";
 
 const GlobalStyles = createGlobalStyle`
       @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;800&display=swap');
+
+      ${normalize}
       
       * {
         box-sizing: border-box;

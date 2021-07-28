@@ -2,13 +2,13 @@ import { PALETTE } from "./../../../styles/palette";
 import styled from "styled-components";
 import { InputCSS } from "../../../styles/css";
 
-const Form = styled.form`
+export const Form = styled.form`
   width: 100%;
   display: flex;
   flex-direction: column;
 `;
 
-const TextArea = styled.textarea<{ isValidInput: Boolean }>`
+export const TextArea = styled.textarea<{ isValidInput: Boolean }>`
   ${InputCSS};
   border: ${props => !props.isValidInput && `3px solid ${PALETTE.RED_600}`};
   padding: 1.6rem;
@@ -17,7 +17,7 @@ const TextArea = styled.textarea<{ isValidInput: Boolean }>`
   resize: none;
 `;
 
-const Wrapper = styled.div`
+export const Wrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -27,7 +27,7 @@ const Wrapper = styled.div`
   }
 `;
 
-const GuestInfo = styled.input<{ isValidInput: Boolean }>`
+export const GuestInfo = styled.input<{ isValidInput: Boolean }>`
   ${InputCSS};
   border: ${props => !props.isValidInput && `3px solid ${PALETTE.RED_600}`};
   padding: 1.1rem 1.6rem;
@@ -39,5 +39,3 @@ const GuestInfo = styled.input<{ isValidInput: Boolean }>`
     margin-right: 1.6rem;
   }
 `;
-
-export { Form, TextArea, Wrapper, GuestInfo };

@@ -1,9 +1,9 @@
 import styled from "styled-components";
-import { SpeechBubbleCSS } from "../../../styles/css";
+import { speechBubbleCSS } from "../../../styles/css";
 import { PALETTE } from "../../../styles/palette";
 
-const Container = styled.div`
-  ${SpeechBubbleCSS};
+export const Container = styled.div`
+  ${speechBubbleCSS};
   background-color: ${PALETTE.GRAY_200};
   width: 10rem;
   ::before {
@@ -12,27 +12,30 @@ const Container = styled.div`
   padding: 0.6rem 0.6rem;
 `;
 
-const Label = styled.span`
+export const Label = styled.span`
   align-self: flex-start;
   font-size: 0.8rem;
   margin-bottom: 0.5rem;
 `;
 
-const OptionContainer = styled.div`
+export const OptionContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
   cursor: pointer;
 
   & > * {
+    text-align: center;
+    width: 100%;
     font-size: 1.2rem;
     font-weight: bold;
-    margin-bottom: 3px;
+    border-radius: 10px;
+    padding: 0.1rem 0;
+    transition: background-color 0.1s;
   }
 
   & > *:hover {
-    color: ${PALETTE.BLACK_900};
+    background-color: ${PALETTE.GRAY_400};
   }
 `;
-
-export { Container, Label, OptionContainer };

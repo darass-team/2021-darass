@@ -5,16 +5,16 @@ import { Project } from "../types/project";
 import { request } from "../utils/request";
 
 const getProject = async (id: Project["id"]) => {
-  const response = await request.get(`${QUERY.PROJECT}/${id}`);
+  try {
+    const response = await request.get(`${QUERY.PROJECT}/${id}`);
 
-  if (response.status >= 400) {
-    throw new Error(response.data.message);
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response.data.message);
   }
-
-  return response.data;
 };
 
-const useGetProject = (id: Project["id"]) => {
+export const useGetProject = (id: Project["id"]) => {
   const {
     data: project,
     isLoading,
@@ -25,5 +25,3 @@ const useGetProject = (id: Project["id"]) => {
 
   return { project, isLoading, error };
 };
-
-export { useGetProject };

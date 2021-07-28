@@ -4,7 +4,7 @@ import { ROUTE } from "../../../constants";
 import Logo from "../../atoms/Logo";
 import UserAvatarOption from "../../molecules/UserAvatarOption";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { PALETTE } from "../../../styles/palette";
 
 export interface Props {
   user: User | undefined;
@@ -18,28 +18,21 @@ interface MenuType {
 
 const menuList: MenuType[] = [
   { route: ROUTE.MY_PROJECT, name: "내 프로젝트" },
-  { route: ROUTE.HOME, name: "공지사항" },
-  { route: ROUTE.HOME, name: "ABOUT" }
+  { route: "/공지사항", name: "공지사항" },
+  { route: "/About", name: "ABOUT" }
 ];
 
 const Nav = ({ user, logout }: Props) => {
-  const [selectedMenu, setSelectedMenu] = useState("");
-
   return (
     <Container>
       <Wrapper>
-        <LogoLink to="/">
+        <LogoLink to={ROUTE.HOME}>
           <Logo size="SM" />
           <Title>Darass</Title>
         </LogoLink>
         <Menu>
           {menuList.map(menu => (
-            <MenuLink
-              key={menu.name}
-              to={menu.route}
-              onClick={() => setSelectedMenu(menu.name)}
-              isSelected={selectedMenu === menu.name}
-            >
+            <MenuLink key={menu.name} to={menu.route} activeStyle={{ borderBottom: `5px solid ${PALETTE.PRIMARY}` }}>
               {menu.name}
             </MenuLink>
           ))}
@@ -47,7 +40,7 @@ const Nav = ({ user, logout }: Props) => {
         <UserAvatarOptionWrapper>
           {user ? (
             <UserAvatarOption user={user}>
-              <Link to="/">내 정보</Link>
+              <Link to={ROUTE.USER_PROFILE}>내 정보</Link>
               <Link to={ROUTE.HOME} onClick={logout}>
                 로그아웃
               </Link>
