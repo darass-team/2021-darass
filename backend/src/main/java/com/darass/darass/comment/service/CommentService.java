@@ -8,7 +8,6 @@ import com.darass.darass.comment.dto.CommentDeleteRequest;
 import com.darass.darass.comment.dto.CommentResponse;
 import com.darass.darass.comment.dto.CommentUpdateRequest;
 import com.darass.darass.comment.repository.CommentRepository;
-import com.darass.darass.comment.repository.LikeRepository;
 import com.darass.darass.exception.ExceptionWithMessageAndCode;
 import com.darass.darass.project.domain.Project;
 import com.darass.darass.project.repository.ProjectRepository;

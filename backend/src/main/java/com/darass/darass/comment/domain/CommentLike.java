@@ -35,4 +35,8 @@ public class CommentLike extends BaseTimeEntity {
         this.user = user;
         this.comment = comment;
     }
+
+    public String getUserName() {
+        return this.user.getNickName();
+    }
 }

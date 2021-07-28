@@ -105,6 +105,7 @@ public class CommentAcceptanceTest extends AcceptanceTest {
                     fieldWithPath("createdDate").type(JsonFieldType.STRING).description("댓글 생성 시점"),
                     fieldWithPath("modifiedDate").type(JsonFieldType.STRING)
                         .description("댓글 수정 시점"),
+                    fieldWithPath("likingUsers[*]").type(JsonFieldType.ARRAY).description("좋아요 누른 유저 정보"),
                     fieldWithPath("user").type(JsonFieldType.OBJECT).description("댓글 작성 유저 정보"),
                     fieldWithPath("user.createdDate").type(JsonFieldType.STRING)
                         .description("유저 생성 시점"),
@@ -140,6 +141,7 @@ public class CommentAcceptanceTest extends AcceptanceTest {
                     fieldWithPath("createdDate").type(JsonFieldType.STRING).description("댓글 생성 시점"),
                     fieldWithPath("modifiedDate").type(JsonFieldType.STRING)
                         .description("댓글 수정 시점"),
+                    fieldWithPath("likingUsers[*]").type(JsonFieldType.ARRAY).description("좋아요 누른 유저 정보"),
                     fieldWithPath("user").type(JsonFieldType.OBJECT).description("댓글 작성 유저 정보"),
                     fieldWithPath("user.id").type(JsonFieldType.NUMBER).description("유저 id"),
                     fieldWithPath("user.createdDate").type(JsonFieldType.STRING)
@@ -193,6 +195,7 @@ public class CommentAcceptanceTest extends AcceptanceTest {
                         .description("댓글 수정 시점"),
                     fieldWithPath("[].id").type(JsonFieldType.NUMBER).description("댓글 id"),
                     fieldWithPath("[].content").type(JsonFieldType.STRING).description("댓글 내용"),
+                    fieldWithPath("[].likingUsers[*]").type(JsonFieldType.ARRAY).description("좋아요 누른 유저 정보"),
                     fieldWithPath("[].user").type(JsonFieldType.OBJECT).description("댓글 작성 유저 정보"),
                     fieldWithPath("[].user.createdDate").type(JsonFieldType.STRING)
                         .description("유저 생성 시점"),
