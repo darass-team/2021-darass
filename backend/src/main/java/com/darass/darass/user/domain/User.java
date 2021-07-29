@@ -4,7 +4,9 @@ import static javax.persistence.CascadeType.ALL;
 import static javax.persistence.FetchType.LAZY;
 
 import com.darass.darass.comment.domain.Comment;
+import com.darass.darass.comment.domain.CommentLike;
 import com.darass.darass.common.domain.BaseTimeEntity;
+import com.darass.darass.project.domain.Project;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
@@ -28,6 +30,13 @@ public abstract class User extends BaseTimeEntity {
 
     @OneToMany(mappedBy = "user", fetch = LAZY, cascade = ALL, orphanRemoval = true)
     private final List<Comment> comments = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", fetch = LAZY, cascade = ALL, orphanRemoval = true)
+    private final List<CommentLike> commentLikes = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", fetch = LAZY, cascade = ALL, orphanRemoval = true)
+    private final List<Project> projects = new ArrayList<>();
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

@@ -3,12 +3,21 @@ package com.darass.darass.user.service;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.darass.darass.SpringContainerTest;
+import com.darass.darass.comment.domain.Comment;
+import com.darass.darass.comment.domain.CommentLike;
+import com.darass.darass.comment.dto.CommentCreateRequest;
+import com.darass.darass.comment.repository.CommentLikeRepository;
+import com.darass.darass.comment.repository.CommentRepository;
+import com.darass.darass.comment.service.CommentService;
 import com.darass.darass.exception.ExceptionWithMessageAndCode;
+import com.darass.darass.project.domain.Project;
+import com.darass.darass.project.repository.ProjectRepository;
 import com.darass.darass.user.domain.GuestUser;
 import com.darass.darass.user.domain.User;
 import com.darass.darass.user.dto.UserResponse;
 import com.darass.darass.user.dto.UserUpdateRequest;
 import com.darass.darass.user.repository.UserRepository;
+import javax.transaction.Transactional;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -24,16 +33,45 @@ class UserServiceTest extends SpringContainerTest {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    ProjectRepository projectRepository;
+
+    @Autowired
+    CommentRepository commentRepository;
+
+    @Autowired
+    private CommentLikeRepository commentLikeRepository;
+
     private User user;
 
     @BeforeEach
+    @Transactional
     void setUp() {
         user = GuestUser.builder()
             .nickName("우기")
             .password("123!")
             .build();
-
         userRepository.save(user);
+
+        Project project = Project.builder()
+            .user(user)
+            .name("깃헙 블로그 프로젝트")
+            .description("프로젝트 설명")
+            .build();
+        projectRepository.save(project);
+
+        Comment comment = Comment.builder()
+            .user(user)
+            .url("url")
+            .content("댓글 내용")
+            .build();
+        commentRepository.save(comment);
+
+        CommentLike commentLike = CommentLike.builder()
+            .user(user)
+            .comment(comment)
+            .build();
+        commentLikeRepository.save(commentLike);
     }
 
     @Test
