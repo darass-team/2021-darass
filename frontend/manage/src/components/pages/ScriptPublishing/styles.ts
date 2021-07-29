@@ -1,14 +1,10 @@
-import { orderedListCSS, paragraphCSS, subTitleCSS, titleCSS } from "./../../../styles/css";
 import styled from "styled-components";
 import { PALETTE } from "../../../styles/palette";
+import { orderedListCSS, titleCSS } from "./../../../styles/css";
 
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
-`;
-
-export const Section = styled.section`
-  margin-bottom: 6rem;
 `;
 
 export const Title = styled.h2`
@@ -45,14 +41,6 @@ export const BlogLogoWrapper = styled.div`
   & > * {
     margin: 0 2rem;
   }
-`;
-
-export const SubTitle = styled.h3`
-  ${subTitleCSS};
-`;
-
-export const P = styled.p`
-  ${paragraphCSS};
 `;
 
 export const Ol = styled.ol`
