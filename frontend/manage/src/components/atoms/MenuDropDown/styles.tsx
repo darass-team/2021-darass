@@ -11,6 +11,7 @@ export const MainTitle = styled.button<{ isDropDown: Boolean }>`
   text-align: left;
   display: flex;
   justify-content: space-between;
+  align-items: center;
   font-size: 1.2rem;
   font-weight: 700;
   padding: 0.3rem 0 0.3rem 1rem;
