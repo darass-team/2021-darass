@@ -1,10 +1,17 @@
 import { useMutation, useQueryClient } from "react-query";
+import { QUERY } from "../constants";
 import { REACT_QUERY_KEY } from "../constants/reactQueryKey";
 import { EditProjectRequest, Project } from "../types/project";
+import { request } from "../utils/request";
 
-const _editProject = async (editedProject: Project) => {
+const _editProject = async ({ id, name, description }: EditProjectRequest) => {
   try {
-    // TODO: 프로젝트 수정 API 나오면 반영
+    const response = await request.patch(`${QUERY.PROJECT}/${id}`, {
+      name,
+      description
+    });
+
+    return response.data;
   } catch (error) {
     throw new Error(error.response.data.message);
   }
@@ -13,12 +20,12 @@ const _editProject = async (editedProject: Project) => {
 export const useEditProject = () => {
   const queryClient = useQueryClient();
 
-  const editMutation = useMutation<void, Error, Project>(project => _editProject(project), {
+  const editMutation = useMutation<void, Error, EditProjectRequest>(data => _editProject(data), {
     onSuccess: (_, editedProject) => {
       queryClient.setQueryData<Project[] | undefined>(REACT_QUERY_KEY.PROJECTS, projects => {
         return projects?.map(project => {
           if (project.id === editedProject.id) {
-            return { ...project, name: editedProject.name };
+            return { ...project, name: editedProject.name, description: editedProject.description };
           }
 
           return project;
@@ -30,8 +37,8 @@ export const useEditProject = () => {
   const isLoading = editMutation.isLoading;
   const error = editMutation.error;
 
-  const editProject = async (_project: Project) => {
-    return await editMutation.mutateAsync(_project);
+  const editProject = async (data: EditProjectRequest) => {
+    return await editMutation.mutateAsync(data);
   };
 
   return { editProject, isLoading, error };
