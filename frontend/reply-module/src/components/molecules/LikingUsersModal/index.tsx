@@ -5,11 +5,12 @@ import { Container, Title, UserNickName, UserGrid, UserWrapper } from "./styles"
 
 export interface Props {
   users: User[];
+  onCloseModal: () => void;
 }
 
-const LikingUsersModal = ({ users }: Props) => {
+const LikingUsersModal = ({ users, onCloseModal }: Props) => {
   return (
-    <Modal>
+    <Modal onCloseModal={onCloseModal}>
       <Container>
         <Title>👍 좋아요 누른 사람들</Title>
         <UserGrid>

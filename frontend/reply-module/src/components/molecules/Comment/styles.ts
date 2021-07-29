@@ -39,6 +39,7 @@ export const CommentBottomWrapper = styled.div`
   & > *:not(:first-child):before {
     content: "·";
     color: ${PALETTE.BLACK_700};
+    margin: 0 0.3rem;
   }
 `;
 

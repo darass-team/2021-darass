@@ -4,9 +4,9 @@ import { PALETTE } from "../../../styles/palette";
 export const Dimmed = styled.div`
   position: fixed;
   top: 0;
+  bottom: 0;
   left: 0;
-  width: 100%;
-  height: 100vh;
+  right: 0;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -14,6 +14,10 @@ export const Dimmed = styled.div`
 `;
 
 export const Container = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   padding: 3rem 2rem;
   background-color: ${PALETTE.WHITE};
   border-radius: 10px;

@@ -4,18 +4,19 @@ import { Container, Dimmed } from "./styles";
 
 export interface Props {
   children: ReactNode;
+  onCloseModal: () => void;
 }
 
 const $modalRoot = document.getElementById("modal-root");
 
-const Modal = ({ children }: Props) => {
-  console.log($modalRoot);
+const Modal = ({ children, onCloseModal }: Props) => {
   if (!$modalRoot) return null;
 
   return ReactDOM.createPortal(
-    <Dimmed>
+    <>
+      <Dimmed onClick={onCloseModal}></Dimmed>
       <Container>{children}</Container>
-    </Dimmed>,
+    </>,
     $modalRoot
   );
 };

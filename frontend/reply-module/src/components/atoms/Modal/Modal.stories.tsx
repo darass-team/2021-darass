@@ -11,4 +11,8 @@ const Template: Story<Props> = args => <Modal {...args}>모달입니다.</Modal>
 
 export const Default = Template.bind({});
 
-Default.args = {};
+Default.args = {
+  onCloseModal: () => {
+    console.log("Dimmed click");
+  }
+};
