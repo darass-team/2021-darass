@@ -7,14 +7,14 @@ export const Container = styled.div`
   flex-direction: column;
 `;
 
-export const MainTitle = styled.button<{ isDropDown: Boolean }>`
+export const MainTitle = styled.button<{ isDropDown: Boolean; depth: number }>`
   text-align: left;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 1.2rem;
+  font-size: ${props => 1.2 - 1.2 * 0.1 * props.depth}rem;
   font-weight: 700;
-  padding: 0.3rem 0 0.3rem 1rem;
+  padding: 0.3rem 0 0.3rem ${props => 1 + 1 * 0.5 * props.depth}rem;
 
   transition: background-color 0.1s;
 
@@ -24,17 +24,5 @@ export const MainTitle = styled.button<{ isDropDown: Boolean }>`
 
   & > img {
     transform: ${props => props.isDropDown && "rotate(180deg);"};
-  }
-`;
-
-export const SubTitle = styled.button`
-  text-align: left;
-  padding: 0.3rem 0 0.3rem 2rem;
-  font-size: 1rem;
-  font-weight: 700;
-  transition: background-color 0.1s;
-
-  &:hover {
-    background-color: ${PALETTE.WHITE_HOVER};
   }
 `;

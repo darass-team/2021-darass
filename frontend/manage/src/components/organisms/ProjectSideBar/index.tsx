@@ -14,16 +14,10 @@ const ProjectSideBar = ({ projectId, className }: Props) => {
 
   return (
     <Container className={className}>
-      <MenuDropDown title="프로젝트 정보" onClick={() => history.push(ROUTE.GET_PROJECT_DETAIL(projectId))} />
-      <MenuDropDown
-        title="통계"
-        menu={[
-          { title: "전체", onClick: () => {} },
-          { title: "페이지 별", onClick: () => {} }
-        ]}
-      />
-      <MenuDropDown title="관리" menu={[{ title: "전체", onClick: () => {} }]} />
-      <MenuDropDown title="설치 가이드" onClick={() => history.push(ROUTE.GET_SCRIPT_PUBLISHING(projectId))} />
+      <MenuDropDown name="프로젝트 정보" route={ROUTE.GET_PROJECT_DETAIL(projectId)} />
+      <MenuDropDown name="통계" subMenus={[{ name: "전체" }, { name: "페이지 별" }]} />
+      <MenuDropDown name="관리" subMenus={[{ name: "전체", route: ROUTE.HOME }]} />
+      <MenuDropDown name="설치 가이드" route={ROUTE.GET_SCRIPT_PUBLISHING(projectId)} />
     </Container>
   );
 };

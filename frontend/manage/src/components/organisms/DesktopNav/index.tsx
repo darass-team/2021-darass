@@ -5,7 +5,7 @@ import Logo from "../../atoms/Logo";
 import UserAvatarOption from "../../molecules/UserAvatarOption";
 import { Link } from "react-router-dom";
 import { PALETTE } from "../../../styles/palette";
-import { MenuType } from "../Nav";
+import { MenuType } from "../../../types/menu";
 
 export interface Props {
   user: User | undefined;
@@ -23,7 +23,11 @@ const DesktopNav = ({ user, logout, menuList }: Props) => {
         </LogoLink>
         <Menu>
           {menuList.map(menu => (
-            <MenuLink key={menu.name} to={menu.route} activeStyle={{ borderBottom: `5px solid ${PALETTE.PRIMARY}` }}>
+            <MenuLink
+              key={menu.name}
+              to={menu.route || ROUTE.HOME}
+              activeStyle={{ borderBottom: `5px solid ${PALETTE.PRIMARY}` }}
+            >
               {menu.name}
             </MenuLink>
           ))}

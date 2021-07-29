@@ -2,9 +2,9 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { ROUTE } from "../../../constants";
 import { PALETTE } from "../../../styles/palette";
+import { MenuType } from "../../../types/menu";
 import { User } from "../../../types/user";
 import HamburgerButton from "../../atoms/Buttons/HamburgerButton";
-import { MenuType } from "../Nav";
 import { Container, Menu, MenuAvatar, MenuWrapper, Name, AuthLink, Dimmed } from "./styles";
 
 export interface Props {
@@ -42,7 +42,7 @@ const MobileNav = ({ user, logout, menuList }: Props) => {
           </>
         )}
         {menuList.map(({ name, route }) => (
-          <Menu key={name} to={route} activeStyle={{ backgroundColor: `${PALETTE.SECONDARY}` }}>
+          <Menu key={name} to={route || ROUTE.HOME} activeStyle={{ backgroundColor: `${PALETTE.SECONDARY}` }}>
             {name}
           </Menu>
         ))}

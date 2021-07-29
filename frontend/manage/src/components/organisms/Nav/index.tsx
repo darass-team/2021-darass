@@ -1,4 +1,5 @@
 import { ROUTE } from "../../../constants";
+import { MenuType } from "../../../types/menu";
 import { User } from "../../../types/user";
 import DesktopNav from "../DesktopNav";
 import MobileNav from "../MobileNav";
@@ -6,11 +7,6 @@ import MobileNav from "../MobileNav";
 export interface Props {
   user?: User;
   logout: () => void;
-}
-
-export interface MenuType {
-  route: string;
-  name: string;
 }
 
 const menuList: MenuType[] = [
