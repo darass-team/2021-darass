@@ -1,17 +1,19 @@
 import { Container, DeleteWrapper, DeleteAlertMessage, DeleteButton } from "./styles";
 
 export interface Props {
-  name: string;
+  title: string;
+  message: string;
+  buttonText: string;
   onDelete: () => void;
 }
 
-const DeleteSection = ({ name, onDelete }: Props) => {
+const DeleteSection = ({ onDelete, title, message, buttonText }: Props) => {
   return (
     <Container>
-      <h3>{`${name} 삭제`}</h3>
+      <h3>{title}</h3>
       <DeleteWrapper>
-        <DeleteAlertMessage>{`${name}을(를) 삭제하면 복구할 수 없습니다.`}</DeleteAlertMessage>
-        <DeleteButton onClick={onDelete}>{`${name} 삭제하기`}</DeleteButton>
+        <DeleteAlertMessage>{message}</DeleteAlertMessage>
+        <DeleteButton onClick={onDelete}>{buttonText}</DeleteButton>
       </DeleteWrapper>
     </Container>
   );

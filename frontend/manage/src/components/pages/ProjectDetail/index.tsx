@@ -94,7 +94,12 @@ const ProjectDetail = () => {
             <SubmitButton>수정</SubmitButton>
           </Form>
 
-          <DeleteSection name={"프로젝트"} onDelete={confirmDeleteProject} />
+          <DeleteSection
+            onDelete={confirmDeleteProject}
+            title="프로젝트 제거"
+            message="프로젝트를 삭제하게 되면 이전 정보를 복구할 수 없습니다."
+            buttonText="프로젝트 삭제"
+          />
         </Container>
       </SideBarTemplate>
     </ScreenContainer>
