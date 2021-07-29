@@ -7,7 +7,7 @@ interface Props {
   children: ReactNode;
 }
 
-const SideBarTemplate = ({ menus, children }: Props) => {
+const ContainerWithSideBar = ({ menus, children }: Props) => {
   return (
     <Container>
       <SideBar menus={menus} />
@@ -16,4 +16,4 @@ const SideBarTemplate = ({ menus, children }: Props) => {
   );
 };
 
-export default SideBarTemplate;
+export default ContainerWithSideBar;

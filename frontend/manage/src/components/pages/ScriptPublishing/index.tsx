@@ -5,10 +5,9 @@ import { atomOneDark } from "react-syntax-highlighter/dist/esm/styles/hljs";
 import { GUIDE_FILE, PROJECT_MENU, ROUTE } from "../../../constants";
 import { useCopyButton, useGetProject } from "../../../hooks";
 import ScreenContainer from "../../../styles/ScreenContainer";
-import { MenuType } from "../../../types/menu";
 import BlogLogoButton from "../../atoms/Buttons/BlogLogoButton";
-import ProjectSideBar from "../../organisms/SideBar";
-import SideBarTemplate from "../../organisms/SideBarTemplate";
+import ContainerWithSideBar from "../../organisms/ContainerWithSideBar";
+
 import { BlogLogoWrapper, CodeBlockWrapper, Container, CopyButton, Ol, P, Section, SubTitle, Title } from "./styles";
 
 const scriptCode = (projectSecretKey: string) => `
@@ -46,7 +45,7 @@ const ScriptPublishing = () => {
 
   return (
     <ScreenContainer>
-      <SideBarTemplate menus={PROJECT_MENU.get(projectId)}>
+      <ContainerWithSideBar menus={PROJECT_MENU.get(projectId)}>
         <Container>
           <Title>스크립트 적용 가이드</Title>
           <Section>
@@ -116,7 +115,7 @@ const ScriptPublishing = () => {
             </>
           )}
         </Container>
-      </SideBarTemplate>
+      </ContainerWithSideBar>
     </ScreenContainer>
   );
 };

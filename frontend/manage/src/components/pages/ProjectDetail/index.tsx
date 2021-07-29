@@ -4,9 +4,8 @@ import { PROJECT_MENU, ROUTE } from "../../../constants";
 import { useEditProject, useGetProject, useInput } from "../../../hooks";
 import { useDeleteProject } from "../../../hooks/useDeleteProject";
 import ScreenContainer from "../../../styles/ScreenContainer";
-import { MenuType } from "../../../types/menu";
 import { isEmptyString } from "../../../utils/validation";
-import SideBarTemplate from "../../organisms/SideBarTemplate";
+import ContainerWithSideBar from "../../organisms/ContainerWithSideBar";
 import {
   Container,
   DeleteAlertMessage,
@@ -84,7 +83,7 @@ const ProjectDetail = () => {
 
   return (
     <ScreenContainer>
-      <SideBarTemplate menus={PROJECT_MENU.get(projectId)}>
+      <ContainerWithSideBar menus={PROJECT_MENU.get(projectId)}>
         <Container>
           <Title>프로젝트 정보</Title>
           <Form onSubmit={onEditProject}>
@@ -112,7 +111,7 @@ const ProjectDetail = () => {
             </DeleteWrapper>
           </DeleteSection>
         </Container>
-      </SideBarTemplate>
+      </ContainerWithSideBar>
     </ScreenContainer>
   );
 };
