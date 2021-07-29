@@ -2,6 +2,7 @@ package com.darass.darass.comment.dto;
 
 import com.darass.darass.comment.domain.Comment;
 import com.darass.darass.comment.domain.CommentLike;
+import com.darass.darass.user.domain.User;
 import com.darass.darass.user.dto.UserResponse;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
@@ -27,7 +28,7 @@ public class CommentResponse {
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime modifiedDate;
 
-    private List<String> likingUsers;
+    private List<UserResponse> likingUsers;
 
     private UserResponse user;
 
@@ -36,9 +37,9 @@ public class CommentResponse {
             comment.getModifiedDate(), parseLikingUser(comment.getCommentLikes()), userResponse);
     }
 
-    private static List<String> parseLikingUser(List<CommentLike> users) {
+    private static List<UserResponse> parseLikingUser(List<CommentLike> users) {
         return users.stream()
-            .map(CommentLike::getUserName)
+            .map(it -> UserResponse.of(it.getUser()))
             .collect(Collectors.toList());
     }
 }
