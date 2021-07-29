@@ -73,19 +73,21 @@ const Comment = ({ user, comment, align = "left", shouldShowOption, iAmAdmin, th
   };
 
   const startEditing = () => {
-    user ? setEditing(true) : setShouldShowPasswordInput(true);
-
     setSubmitType("Edit");
+    user ? setEditing(true) : setShouldShowPasswordInput(true);
   };
 
   const startDeleting = () => {
-    user ? confirmDelete() : setShouldShowPasswordInput(true);
-
     setSubmitType("Delete");
+    user ? confirmDelete() : setShouldShowPasswordInput(true);
   };
 
   const confirmDelete = async () => {
-    if (!confirm("정말 지우시겠습니까?")) return;
+    if (!confirm("정말 지우시겠습니까?")) {
+      setSubmitType(null);
+
+      return;
+    }
 
     const deleteCommentRequestParameter: DeleteCommentRequestParameter = {
       id: comment.id,
@@ -100,6 +102,7 @@ const Comment = ({ user, comment, align = "left", shouldShowOption, iAmAdmin, th
       alert("댓글 제거에 실패하셨습니다.");
     } finally {
       clear();
+      setSubmitType(null);
     }
   };
 
@@ -178,6 +181,7 @@ const Comment = ({ user, comment, align = "left", shouldShowOption, iAmAdmin, th
             </LikeButton>
             <Time>{getTimeDifference(comment.createdDate)}</Time>
           </CommentBottomWrapper>
+          {console.log(shouldShowOption, submitType)}
           {shouldShowOption && !submitType && (
             <CommentOption startEditing={canIEdit ? startEditing : undefined} startDeleting={startDeleting} />
           )}
