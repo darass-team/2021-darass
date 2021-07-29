@@ -21,21 +21,18 @@ public class S3Uploader {
     private static final String CLOUDFRONT_URL = "https://d3qmnph7nb4773.cloudfront.net/";
     private final S3Client s3;
 
-    public String upload(MultipartFile multipartFile) throws IOException {
-        File uploadFile;
-        uploadFile = convert(multipartFile);
-        try {
-            String uploadImageUrl = uploadToS3(uploadFile);
-            return uploadImageUrl;
-        } finally {
-            removeNewFile(uploadFile);
-        }
+    public String upload(MultipartFile multipartFile) {
+        File uploadFile = convert(multipartFile);
+        String uploadFileUrl = uploadToS3(uploadFile);
+        return uploadFileUrl;
     }
 
-    private File convert(MultipartFile multipartFile) throws IOException{
+    private File convert(MultipartFile multipartFile) {
         File file = new File(multipartFile.getOriginalFilename());
         try (FileOutputStream fos = new FileOutputStream(file)) {
             fos.write(multipartFile.getBytes());
+        } catch (IOException e) {
+            throw ExceptionWithMessageAndCode.IO_EXCEPTION.getException();
         }
         return file;
     }
@@ -46,7 +43,13 @@ public class S3Uploader {
             .bucket(S3_BUCKET_NAME)
             .key(fileName)
             .build();
-        s3.putObject(objectRequest, RequestBody.fromFile(uploadFile));
+        try {
+            s3.putObject(objectRequest, RequestBody.fromFile(uploadFile));
+        } catch (SdkClientException e) {
+            throw ExceptionWithMessageAndCode.INTERNAL_SERVER.getException();
+        } finally {
+            removeNewFile(uploadFile);
+        }
         String uploadFileUrl = CLOUDFRONT_URL + fileName;
         return uploadFileUrl;
     }

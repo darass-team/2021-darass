@@ -100,21 +100,4 @@ class SocialLoginUserTest {
         // then
         assertThat(user.getProfileImageUrl()).isEqualTo(changedProfileImageUrl);
     }
-
-    @DisplayName("changeNickNameOrProfileImageIfExists 메서드는 IOException 예외가 발생할 경우 Internal Server Exception을 발생시킨다.")
-    @Test
-    void changeNickNameOrProfileImageIfExists_throwIOException() throws IOException {
-        // given
-        S3Uploader s3Uploader = mock(S3Uploader.class);
-        when(s3Uploader.upload(any())).thenThrow(new IOException());
-        SocialLoginUser user = SocialLoginUser.builder()
-            .nickName("이름")
-            .profileImageUrl("프로필 이미지")
-            .build();
-        MultipartFile multipartFile = mock(MultipartFile.class);
-
-        // then
-        assertThatThrownBy(() -> user.changeNickNameOrProfileImageIfExists(s3Uploader, null, multipartFile))
-            .isEqualTo(ExceptionWithMessageAndCode.IO_EXCEPTION.getException());
-    }
 }

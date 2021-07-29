@@ -51,12 +51,8 @@ public class SocialLoginUser extends User {
             changeNickName(nickName);
         }
         if (!Objects.isNull(profileImageFile)) {
-            try {
-                String imageUrl = s3Uploader.upload(profileImageFile);
-                changeProfileImageUrl(imageUrl);
-            } catch (IOException e) {
-                throw ExceptionWithMessageAndCode.IO_EXCEPTION.getException();
-            }
+            String imageUrl = s3Uploader.upload(profileImageFile);
+            changeProfileImageUrl(imageUrl);
         }
     }
 }

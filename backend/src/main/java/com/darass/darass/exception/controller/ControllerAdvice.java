@@ -24,7 +24,7 @@ public class ControllerAdvice {
 
     @ExceptionHandler(BadRequestException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ExceptionResponse handleBadRequestException(UnauthorizedException e) {
+    public ExceptionResponse handleBadRequestException(BadRequestException e) {
         return new ExceptionResponse(e.getMessage(), e.getCode());
     }
 
