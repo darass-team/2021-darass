@@ -14,8 +14,8 @@ export const Container = styled.div`
 export const SideBar = styled(SiderComponent)`
   position: fixed;
   top: 8.4rem;
-
   width: 15rem;
+
   @media (max-width: 1080px) {
     width: 100%;
     position: static;

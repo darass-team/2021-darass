@@ -2,9 +2,10 @@ import { useState } from "react";
 import { Redirect, useRouteMatch } from "react-router-dom";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import { atomOneDark } from "react-syntax-highlighter/dist/esm/styles/hljs";
-import { GUIDE_FILE, ROUTE } from "../../../constants";
+import { GUIDE_FILE, PROJECT_MENU, ROUTE } from "../../../constants";
 import { useCopyButton, useGetProject } from "../../../hooks";
 import ScreenContainer from "../../../styles/ScreenContainer";
+import { MenuType } from "../../../types/menu";
 import BlogLogoButton from "../../atoms/Buttons/BlogLogoButton";
 import ProjectSideBar from "../../organisms/SideBar";
 import SideBarTemplate from "../../organisms/SideBarTemplate";
@@ -45,7 +46,7 @@ const ScriptPublishing = () => {
 
   return (
     <ScreenContainer>
-      <SideBarTemplate projectId={projectId}>
+      <SideBarTemplate menus={PROJECT_MENU.get(projectId)}>
         <Container>
           <Title>스크립트 적용 가이드</Title>
           <Section>
