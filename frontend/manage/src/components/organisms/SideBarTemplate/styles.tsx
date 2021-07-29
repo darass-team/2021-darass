@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { contentBoxCSS } from "../../../styles/css";
-import ProjectSideBar from "../ProjectSideBar";
+import SiderComponent from "../SideBar";
 
 export const Container = styled.div`
   position: relative;
@@ -11,7 +11,7 @@ export const Container = styled.div`
   }
 `;
 
-export const SideBar = styled(ProjectSideBar)`
+export const SideBar = styled(SiderComponent)`
   position: fixed;
   top: 8.4rem;
 

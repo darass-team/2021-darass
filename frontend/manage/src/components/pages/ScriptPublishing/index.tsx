@@ -6,7 +6,7 @@ import { GUIDE_FILE, ROUTE } from "../../../constants";
 import { useCopyButton, useGetProject } from "../../../hooks";
 import ScreenContainer from "../../../styles/ScreenContainer";
 import BlogLogoButton from "../../atoms/Buttons/BlogLogoButton";
-import ProjectSideBar from "../../organisms/ProjectSideBar";
+import ProjectSideBar from "../../organisms/SideBar";
 import SideBarTemplate from "../../organisms/SideBarTemplate";
 import { BlogLogoWrapper, CodeBlockWrapper, Container, CopyButton, Ol, P, Section, SubTitle, Title } from "./styles";
 
