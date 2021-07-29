@@ -30,8 +30,8 @@ public class UserService {
     }
 
     public UserResponse update(Long id, UserUpdateRequest userUpdateRequest) {
-        Optional<User> expectedUser = userRepository.findById(id);
-        SocialLoginUser user = (SocialLoginUser) expectedUser
+        Optional<User> possibleUser = userRepository.findById(id);
+        SocialLoginUser user = (SocialLoginUser) possibleUser
             .orElseThrow(ExceptionWithMessageAndCode.NOT_FOUND_USER::getException);
         String nickName = userUpdateRequest.getNickName();
         MultipartFile profileImageFile = userUpdateRequest.getProfileImageFile();
@@ -44,8 +44,8 @@ public class UserService {
     }
 
     public PasswordCheckResponse checkGuestUserPassword(PasswordCheckRequest passwordCheckRequest) {
-        Optional<User> expectedUser = userRepository.findById(passwordCheckRequest.getGuestUserId());
-        User user = expectedUser.orElseThrow(ExceptionWithMessageAndCode.NOT_FOUND_USER::getException);
+        Optional<User> possibleUser = userRepository.findById(passwordCheckRequest.getGuestUserId());
+        User user = possibleUser.orElseThrow(ExceptionWithMessageAndCode.NOT_FOUND_USER::getException);
 
         if (user.isValidGuestPassword(passwordCheckRequest.getGuestUserPassword())) {
             return new PasswordCheckResponse(true);

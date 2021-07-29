@@ -29,7 +29,7 @@ public class S3UploaderTest extends SpringContainerTest {
     @MockBean(name = "s3Client")
     private S3Client s3Client;
 
-    @DisplayName("S3에 이미지를 업로드 했을 때, 정상적으로 이미지 URL을 Return하는 지 테스트")
+    @DisplayName("upload() 메서드는 S3에 이미지를 업로드 했을 때, 정상적으로 이미지 URL을 Return한다.")
     @Test
     public void upload() throws IOException {
         given(s3Client.putObject(any(PutObjectRequest.class), any(RequestBody.class)))

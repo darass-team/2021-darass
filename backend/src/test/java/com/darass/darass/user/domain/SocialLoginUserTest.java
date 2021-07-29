@@ -115,6 +115,6 @@ class SocialLoginUserTest {
 
         // then
         assertThatThrownBy(() -> user.changeNickNameOrProfileImageIfExists(s3Uploader, null, multipartFile))
-            .isEqualTo(ExceptionWithMessageAndCode.INTERNAL_SERVER.getException());
+            .isEqualTo(ExceptionWithMessageAndCode.IO_EXCEPTION.getException());
     }
 }

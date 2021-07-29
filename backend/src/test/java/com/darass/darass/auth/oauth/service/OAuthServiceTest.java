@@ -2,7 +2,6 @@ package com.darass.darass.auth.oauth.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.isNotNull;
 import static org.mockito.BDDMockito.given;
 
 import com.darass.darass.SpringContainerTest;
@@ -74,15 +73,6 @@ class OAuthServiceTest extends SpringContainerTest {
         //given
         socialLoginUserRepository.save(socialLoginUser);
 
-        SocialLoginUser updatedSocialLoginUser = SocialLoginUser
-            .builder()
-            .nickName("병욱")
-            .oauthId(socialLoginUser.getOauthId())
-            .oauthProviderType(OAuthProviderType.KAKAO)
-            .email("bbwwpark@naver.com")
-            .profileImageUrl("http://kakao/updated_profile_image.png")
-            .build();
-
         given(oAuthProvider.findSocialLoginUser(any(), any())).willReturn(socialLoginUser);
 
         //then
@@ -91,13 +81,6 @@ class OAuthServiceTest extends SpringContainerTest {
         //when
         String payload = jwtTokenProvider.getPayload(tokenResponse.getAccessToken());
         assertThat(payload).isNotNull();
-
-        SocialLoginUser result = socialLoginUserRepository.findById(Long.parseLong(payload)).get();
-        assertThat(result.getNickName()).isNotNull();
-        assertThat(result.getProfileImageUrl()).isNotNull();
-        assertThat(result.getOauthId()).isNotNull();
-        assertThat(result.getOauthProviderType()).isNotNull();
-        assertThat(result.getEmail()).isNotNull();
     }
 
     @DisplayName("findSocialLoginUserByAccessToken 메서드는 accessToken이 주어지면 SocialLoginUser를 리턴한다.")

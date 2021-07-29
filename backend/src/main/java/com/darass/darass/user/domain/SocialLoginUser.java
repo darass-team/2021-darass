@@ -55,7 +55,7 @@ public class SocialLoginUser extends User {
                 String imageUrl = s3Uploader.upload(profileImageFile);
                 changeProfileImageUrl(imageUrl);
             } catch (IOException e) {
-                throw ExceptionWithMessageAndCode.INTERNAL_SERVER.getException();
+                throw ExceptionWithMessageAndCode.IO_EXCEPTION.getException();
             }
         }
     }

@@ -1,6 +1,7 @@
 package com.darass.darass.exception.controller;
 
 import com.darass.darass.exception.dto.ExceptionResponse;
+import com.darass.darass.exception.httpbasicexception.BadRequestException;
 import com.darass.darass.exception.httpbasicexception.ConflictException;
 import com.darass.darass.exception.httpbasicexception.NotFoundException;
 import com.darass.darass.exception.httpbasicexception.UnauthorizedException;
@@ -19,6 +20,12 @@ public class ControllerAdvice {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ExceptionResponse handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
         return new ExceptionResponse(e.getMessage(), HttpStatus.BAD_REQUEST.value());
+    }
+
+    @ExceptionHandler(BadRequestException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ExceptionResponse handleBadRequestException(UnauthorizedException e) {
+        return new ExceptionResponse(e.getMessage(), e.getCode());
     }
 
     @ExceptionHandler(UnauthorizedException.class)
