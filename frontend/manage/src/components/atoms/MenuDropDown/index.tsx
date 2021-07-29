@@ -30,7 +30,7 @@ const MenuDropDown = ({ name, route, subMenus = [], depth = 0 }: Props) => {
 
       {isDropDown &&
         subMenus.map(({ name, route, subMenus }) => (
-          <MenuDropDown name={name} route={route} subMenus={subMenus} depth={depth + 1} />
+          <MenuDropDown key={name} name={name} route={route} subMenus={subMenus} depth={depth + 1} />
         ))}
     </Container>
   );

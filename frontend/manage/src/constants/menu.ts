@@ -8,7 +8,7 @@ export const PROJECT_MENU = {
       {
         name: "통계",
         subMenus: [
-          { name: "전체", route: ROUTE.MY_PROJECT },
+          { name: "전체", route: ROUTE.GET_SCRIPT_PUBLISHING(projectId) },
           { name: "페이지 별", route: ROUTE.MY_PROJECT },
           { name: "테스트 메뉴", subMenus: [{ name: "테스트 서브메뉴", route: ROUTE.MY_PROJECT }] }
         ]
