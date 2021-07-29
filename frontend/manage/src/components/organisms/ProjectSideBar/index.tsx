@@ -6,13 +6,14 @@ import { Container } from "./styles";
 
 export interface Props {
   projectId: Project["id"];
+  className?: string;
 }
 
-const ProjectSideBar = ({ projectId }: Props) => {
+const ProjectSideBar = ({ projectId, className }: Props) => {
   const history = useHistory();
 
   return (
-    <Container>
+    <Container className={className}>
       <MenuDropDown title="프로젝트 정보" onClick={() => history.push(ROUTE.GET_PROJECT_DETAIL(projectId))} />
       <MenuDropDown
         title="통계"

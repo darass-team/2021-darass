@@ -1,32 +1,41 @@
 import styled from "styled-components";
 import { contentBoxCSS } from "../../../styles/css";
+import ProjectSideBar from "../ProjectSideBar";
 
 export const Container = styled.div`
   display: flex;
   justify-content: space-between;
   transition: all 0.3s ease-in;
+  position: relative;
+  width: 100%;
+
+  @media (max-width: 1080px) {
+    flex-direction: column;
+  }
+
   > * {
     transition: all 0.3s ease-in;
   }
-  @media (max-width: 780px) {
-    flex-direction: column;
-    > * {
-      width: 100%;
-      & + & {
-        margin-top: 2rem;
-      }
-    }
+`;
+
+export const SideBar = styled(ProjectSideBar)`
+  width: 15rem;
+  @media (max-width: 1080px) {
+    width: 100%;
   }
 `;
 
 export const MainContent = styled.main`
-  width: 100%;
-  transition: all 0.3s ease-in;
-  margin-left: 2rem;
   ${contentBoxCSS}
+  position: absolute;
+  left: 18rem;
+  top: 0;
+  width: 50rem;
 
-  @media (max-width: 780px) {
-    margin-left: 0;
+  @media (max-width: 1080px) {
+    left: 0;
+    top: 100%;
     margin-top: 2rem;
+    width: 100%;
   }
 `;

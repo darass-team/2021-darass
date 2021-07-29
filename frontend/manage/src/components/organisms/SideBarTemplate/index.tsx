@@ -1,6 +1,5 @@
 import { ReactNode } from "react";
-import ProjectSideBar from "../ProjectSideBar";
-import { Container, MainContent } from "./styles";
+import { Container, MainContent, SideBar } from "./styles";
 
 interface Props {
   projectId: number;
@@ -10,7 +9,7 @@ interface Props {
 const SideBarTemplate = ({ projectId, children }: Props) => {
   return (
     <Container>
-      <ProjectSideBar projectId={projectId} />
+      <SideBar projectId={projectId} />
       <MainContent>{children}</MainContent>
     </Container>
   );
