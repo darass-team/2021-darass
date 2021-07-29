@@ -1,8 +1,7 @@
-import { PALETTE } from "./../../../styles/palette";
 import styled from "styled-components";
-import { inputCSS, labelCSS, subTitleCSS, titleCSS } from "../../../styles/css";
-import DeleteButtonComponent from "../../atoms/Buttons/DeleteButton";
+import { inputCSS, labelCSS, titleCSS } from "../../../styles/css";
 import SubmitButtonComponent from "../../atoms/Buttons/SubmitButton";
+import { PALETTE } from "./../../../styles/palette";
 
 export const Container = styled.div`
   display: flex;
@@ -43,32 +42,4 @@ export const SubmitButton = styled(SubmitButtonComponent)`
   align-items: flex-end;
   margin-top: 4rem;
   margin-bottom: 5rem;
-`;
-
-export const DeleteSection = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 3rem;
-
-  & > h3 {
-    ${subTitleCSS};
-    margin-top: 5rem;
-  }
-`;
-
-export const DeleteWrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
-
-export const DeleteAlertMessage = styled.span`
-  font-size: 1rem;
-  font-weight: 700;
-`;
-
-export const DeleteButton = styled(DeleteButtonComponent)`
-  font-size: 1rem;
-  font-weight: 700;
 `;

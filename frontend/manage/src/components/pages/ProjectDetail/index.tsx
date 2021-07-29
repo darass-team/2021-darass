@@ -5,21 +5,10 @@ import { useEditProject, useGetProject, useInput } from "../../../hooks";
 import { useDeleteProject } from "../../../hooks/useDeleteProject";
 import ScreenContainer from "../../../styles/ScreenContainer";
 import { isEmptyString } from "../../../utils/validation";
+import DeleteSection from "../../molecules/DeleteSection";
 import ProjectSideBar from "../../organisms/ProjectSideBar";
 import SideBarTemplate from "../SideBarTemplate";
-import {
-  Container,
-  InfoWrapper,
-  Form,
-  Title,
-  Label,
-  Input,
-  SubmitButton,
-  DeleteAlertMessage,
-  DeleteSection,
-  DeleteButton,
-  DeleteWrapper
-} from "./styles";
+import { Container, Form, InfoWrapper, Input, Label, SubmitButton, Title } from "./styles";
 
 const ProjectDetail = () => {
   const match = useRouteMatch<{ id?: string }>();
@@ -104,13 +93,8 @@ const ProjectDetail = () => {
             </InfoWrapper>
             <SubmitButton>수정</SubmitButton>
           </Form>
-          <DeleteSection>
-            <h3>프로젝트 삭제</h3>
-            <DeleteWrapper>
-              <DeleteAlertMessage>프로젝트를 삭제하면 복구할 수 없습니다.</DeleteAlertMessage>
-              <DeleteButton onClick={confirmDeleteProject}>프로젝트 삭제하기</DeleteButton>
-            </DeleteWrapper>
-          </DeleteSection>
+
+          <DeleteSection name={"프로젝트"} onDelete={confirmDeleteProject} />
         </Container>
       </SideBarTemplate>
     </ScreenContainer>
