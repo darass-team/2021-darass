@@ -1,14 +1,14 @@
 import { useState } from "react";
 import { Redirect, useRouteMatch } from "react-router-dom";
 import SyntaxHighlighter from "react-syntax-highlighter";
+import { atomOneDark } from "react-syntax-highlighter/dist/esm/styles/hljs";
 import { GUIDE_FILE, ROUTE } from "../../../constants";
 import { useCopyButton, useGetProject } from "../../../hooks";
 import ScreenContainer from "../../../styles/ScreenContainer";
 import BlogLogoButton from "../../atoms/Buttons/BlogLogoButton";
 import ProjectSideBar from "../../organisms/ProjectSideBar";
-import SideBarTemplate from "../SideBarTemplate";
-import { SubTitle, CodeBlockWrapper, Container, CopyButton, P, Ol, Section, Title, BlogLogoWrapper } from "./styles";
-import { atomOneDark } from "react-syntax-highlighter/dist/esm/styles/hljs";
+import SideBarTemplate from "../../organisms/SideBarTemplate";
+import { BlogLogoWrapper, CodeBlockWrapper, Container, CopyButton, Ol, P, Section, SubTitle, Title } from "./styles";
 
 const scriptCode = (projectSecretKey: string) => `
 <!-- 다라쓰 설치 코드 -->
@@ -45,7 +45,7 @@ const ScriptPublishing = () => {
 
   return (
     <ScreenContainer>
-      <SideBarTemplate SideBar={() => <ProjectSideBar projectId={projectId} />}>
+      <SideBarTemplate projectId={projectId}>
         <Container>
           <Title>스크립트 적용 가이드</Title>
           <Section>

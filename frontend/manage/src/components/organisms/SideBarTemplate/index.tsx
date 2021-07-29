@@ -1,15 +1,16 @@
 import { ReactNode } from "react";
+import ProjectSideBar from "../ProjectSideBar";
 import { Container, MainContent } from "./styles";
 
 interface Props {
-  SideBar: React.FunctionComponent;
+  projectId: number;
   children: ReactNode;
 }
 
-const SideBarTemplate = ({ SideBar, children }: Props) => {
+const SideBarTemplate = ({ projectId, children }: Props) => {
   return (
     <Container>
-      <SideBar />
+      <ProjectSideBar projectId={projectId} />
       <MainContent>{children}</MainContent>
     </Container>
   );

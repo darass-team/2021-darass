@@ -6,19 +6,19 @@ import { useDeleteProject } from "../../../hooks/useDeleteProject";
 import ScreenContainer from "../../../styles/ScreenContainer";
 import { isEmptyString } from "../../../utils/validation";
 import ProjectSideBar from "../../organisms/ProjectSideBar";
-import SideBarTemplate from "../SideBarTemplate";
+import SideBarTemplate from "../../organisms/SideBarTemplate";
 import {
   Container,
-  InfoWrapper,
-  Form,
-  Title,
-  Label,
-  Input,
-  SubmitButton,
   DeleteAlertMessage,
-  DeleteSection,
   DeleteButton,
-  DeleteWrapper
+  DeleteSection,
+  DeleteWrapper,
+  Form,
+  InfoWrapper,
+  Input,
+  Label,
+  SubmitButton,
+  Title
 } from "./styles";
 
 const ProjectDetail = () => {
@@ -84,7 +84,7 @@ const ProjectDetail = () => {
 
   return (
     <ScreenContainer>
-      <SideBarTemplate SideBar={() => <ProjectSideBar projectId={projectId} />}>
+      <SideBarTemplate projectId={projectId}>
         <Container>
           <Title>프로젝트 정보</Title>
           <Form onSubmit={onEditProject}>
