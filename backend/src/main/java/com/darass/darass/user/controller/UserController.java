@@ -14,9 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
 @AllArgsConstructor
 @RequestMapping("/api/v1/users")
@@ -33,10 +31,8 @@ public class UserController {
 
     @PatchMapping
     public ResponseEntity<UserResponse> updateNickname(@RequiredLogin User user,
-        @RequestParam(name = "nickName", required = false) String nickName,
-        @RequestParam(name = "profileImageFile", required = false) MultipartFile profileImageFile
+        @ModelAttribute UserUpdateRequest userUpdateRequest
     ) {
-        UserUpdateRequest userUpdateRequest = new UserUpdateRequest(nickName, profileImageFile);
         UserResponse userResponse = userService.update(user.getId(), userUpdateRequest);
         return ResponseEntity.ok(userResponse);
     }
