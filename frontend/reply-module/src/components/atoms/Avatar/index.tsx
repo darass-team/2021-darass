@@ -13,7 +13,13 @@ export interface Props {
 
 const Avatar = ({ imageURL, size = "MD", onClick, alt }: Props) => {
   return (
-    <Container src={imageURL || defaultUserImage} size={size} onClick={onClick} alt={alt} data-testid="avatar-img" />
+    <Container
+      src={imageURL ? (imageURL === "guestProfileImageUrl" ? defaultUserImage : imageURL) : defaultUserImage}
+      size={size}
+      onClick={onClick}
+      alt={alt}
+      data-testid="avatar-img"
+    />
   );
 };
 

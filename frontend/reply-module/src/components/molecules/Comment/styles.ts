@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { InputCSS } from "../../../styles/css";
 import { PALETTE } from "../../../styles/palette";
-import LikeButtonComponent from "../../atoms/Buttons/LikeButton";
+import LikingUsersButtonComponent from "../../atoms/Buttons/LikingUsersButton";
 import CommentOptionComponent from "../../atoms/CommentOption";
 
 export const Container = styled.div<{ align: "left" | "right" }>`
@@ -21,7 +21,7 @@ export const CommentTextBoxWrapper = styled.div<{ align: "left" | "right" }>`
   margin: ${props => (props.align === "left" ? "0 0 0 0.6rem" : "0 0.6rem 0 0")};
 `;
 
-export const LikeButton = styled(LikeButtonComponent)`
+export const LikingUsersButton = styled(LikingUsersButtonComponent)`
   position: absolute;
   bottom: 0.5rem;
   right: -1.5rem;
@@ -33,11 +33,27 @@ export const LikeButton = styled(LikeButtonComponent)`
 
 export const CommentBottomWrapper = styled.div`
   display: flex;
-  margin-top: 0.3rem;
+  align-items: center;
+  margin: 0.3rem 1rem 0 1rem;
+
+  & > *:not(:first-child):before {
+    content: "·";
+    color: ${PALETTE.BLACK_700};
+    margin: 0 0.3rem;
+  }
+`;
+
+export const LikeButton = styled.button<{ isLiked: boolean }>`
+  background-color: transparent;
+  color: ${props => (props.isLiked ? PALETTE.BLUE_700 : PALETTE.BLACK_700)};
+
+  &:hover {
+    color: ${props => (props.isLiked ? PALETTE.BLACK_700 : PALETTE.BLUE_700)};
+  }
 `;
 
 export const Time = styled.span`
-  margin: 0 1rem;
+  font-size: 0.8rem;
 `;
 
 export const CommentOption = styled(CommentOptionComponent)`

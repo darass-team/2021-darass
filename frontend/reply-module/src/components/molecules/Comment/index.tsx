@@ -8,8 +8,10 @@ import { postScrollHeightToParentWindow } from "../../../utils/iframePostMessage
 import { getTimeDifference } from "../../../utils/time";
 import Avatar from "../../atoms/Avatar";
 import CommentTextBox from "../../atoms/CommentTextBox";
+import LikingUsersModal from "../LikingUsersModal";
 import {
   Button,
+  LikeButton,
   CancelButton,
   CommentBottomWrapper,
   CommentOption,
@@ -18,7 +20,7 @@ import {
   Container,
   PasswordForm,
   PasswordInput,
-  LikeButton,
+  LikingUsersButton,
   Time
 } from "./styles";
 
@@ -35,13 +37,14 @@ type SubmitType = "Edit" | "Delete";
 
 const Comment = ({ user, comment, align = "left", shouldShowOption, iAmAdmin, thisCommentIsMine }: Props) => {
   const [isEditing, setEditing] = useState(false);
+  const [isLikingUsersModalOpen, setLikingUsersModalOpen] = useState(false);
   const [isPasswordSubmitted, setPasswordSubmitted] = useState(false);
   const [shouldShowPasswordInput, setShouldShowPasswordInput] = useState(false);
   const [submitType, setSubmitType] = useState<SubmitType | null>();
   const { value: password, setValue: setPassword, onChange: onChangePassword } = useInput("");
   const { editComment } = useEditComment();
   const { deleteComment } = useDeleteComment();
-  const { likeComment, error } = useLikeComment();
+  const { likeComment } = useLikeComment();
   const { getPasswordConfirmResult } = useConfirmGuestPassword({
     guestUserId: comment.user.id,
     guestUserPassword: password
@@ -56,7 +59,7 @@ const Comment = ({ user, comment, align = "left", shouldShowOption, iAmAdmin, th
     setPassword("");
   };
 
-  const canIControl = (iAmAdmin && thisCommentIsMine) || !iAmAdmin;
+  const canIEdit = (iAmAdmin && thisCommentIsMine) || !iAmAdmin;
 
   const confirmGuestPassword = async () => {
     try {
@@ -142,6 +145,14 @@ const Comment = ({ user, comment, align = "left", shouldShowOption, iAmAdmin, th
     }
   };
 
+  const onLikingUsersModalOpen = () => {
+    setLikingUsersModalOpen(true);
+  };
+
+  const onLikingUsersModalClose = () => {
+    setLikingUsersModalOpen(false);
+  };
+
   useEffect(() => {
     postScrollHeightToParentWindow();
   }, [shouldShowPasswordInput]);
@@ -162,13 +173,22 @@ const Comment = ({ user, comment, align = "left", shouldShowOption, iAmAdmin, th
           >
             {comment.content}
           </CommentTextBox>
-          <LikeButton numOfLikes={comment.likingUsers.length} isLiked={isLiked} onClick={onClickLikeButton} />
           <CommentBottomWrapper>
+            <LikeButton isLiked={isLiked} onClick={onClickLikeButton}>
+              좋아요
+            </LikeButton>
             <Time>{getTimeDifference(comment.createdDate)}</Time>
-            {shouldShowOption && !submitType && (
-              <CommentOption startEditing={canIControl ? startEditing : undefined} startDeleting={startDeleting} />
-            )}
           </CommentBottomWrapper>
+          {shouldShowOption && !submitType && (
+            <CommentOption startEditing={canIEdit ? startEditing : undefined} startDeleting={startDeleting} />
+          )}
+          {comment.likingUsers.length > 0 && (
+            <LikingUsersButton
+              numOfLikes={comment.likingUsers.length}
+              isLiked={isLiked}
+              onClick={onLikingUsersModalOpen}
+            />
+          )}
         </CommentTextBoxWrapper>
       </CommentWrapper>
       {shouldShowPasswordInput && shouldShowOption && (
@@ -192,6 +212,9 @@ const Comment = ({ user, comment, align = "left", shouldShowOption, iAmAdmin, th
           </CancelButton>
           <Button data-testid="comment-guest-password-submit-button">입력</Button>
         </PasswordForm>
+      )}
+      {isLikingUsersModalOpen && (
+        <LikingUsersModal users={comment.likingUsers} onCloseModal={onLikingUsersModalClose} />
       )}
     </Container>
   );

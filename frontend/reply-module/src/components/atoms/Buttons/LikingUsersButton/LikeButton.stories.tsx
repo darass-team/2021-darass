@@ -1,13 +1,13 @@
 import { Story } from "@storybook/react";
-import LikeButton, { Props } from ".";
+import LikingUsersButton, { Props } from ".";
 
 export default {
-  title: "atoms/LikeButton",
-  component: LikeButton,
+  title: "atoms/LikingUsersButton",
+  component: LikingUsersButton,
   argTypes: { children: { control: "text" } }
 };
 
-const Template: Story<Props> = args => <LikeButton {...args} />;
+const Template: Story<Props> = args => <LikingUsersButton {...args} />;
 
 export const Default = Template.bind({});
 
