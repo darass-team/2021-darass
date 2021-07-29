@@ -4,9 +4,9 @@ import { PALETTE } from "../../../styles/palette";
 import LikingUsersButtonComponent from "../../atoms/Buttons/LikingUsersButton";
 import CommentOptionComponent from "../../atoms/CommentOption";
 
-export const Container = styled.div<{ align: "left" | "right" }>`
+export const Container = styled.div`
   display: flex;
-  flex-direction: ${props => (props.align === "left" ? "row" : "row-reverse")};
+  flex-direction: column;
 `;
 
 export const CommentWrapper = styled.div<{ align: "left" | "right" }>`

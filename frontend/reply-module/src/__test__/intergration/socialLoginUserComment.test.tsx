@@ -1,11 +1,16 @@
 import "@testing-library/jest-dom/extend-expect";
-import { fireEvent, render, waitFor } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { comments as _comments } from "../fixture/comments";
 import { socialLoginUser } from "../fixture/user";
 import CommentList from "../../components/organisms/CommentList";
-import { useCreateComment, useConfirmGuestPassword, useDeleteComment, useEditComment } from "../../hooks";
+import {
+  useCreateComment,
+  useConfirmGuestPassword,
+  useDeleteComment,
+  useEditComment,
+  useLikeComment
+} from "../../hooks";
 import CommentInput from "../../components/organisms/CommentInput";
-import { useLikeComment } from "../../hooks/useLikeComment";
 
 jest.mock("../../hooks/useCreateComment");
 jest.mock("../../hooks/useEditComment");
@@ -26,6 +31,12 @@ window.confirm = function (str) {
 
 describe("로그인 유저의 댓글 CRUD 테스트 코드를 작성한다.", () => {
   beforeEach(() => {
+    (useCreateComment as jest.Mock).mockImplementation(() => {
+      return {
+        createComment: () => true
+      };
+    });
+
     (useEditComment as jest.Mock).mockImplementation(() => {
       return {
         editComment: () => {},
@@ -72,14 +83,6 @@ describe("로그인 유저의 댓글 CRUD 테스트 코드를 작성한다.", ()
     });
   });
   describe("로그인 유저 댓글 생성", () => {
-    beforeEach(() => {
-      (useCreateComment as jest.Mock).mockImplementation(() => {
-        return {
-          createComment: () => true
-        };
-      });
-    });
-
     test("로그인 유저는 비밀번호와 이름을 입력하지 않고, 댓글을 생성할 수 있다.", async () => {
       const user = socialLoginUser;
 
@@ -165,6 +168,63 @@ describe("로그인 유저의 댓글 CRUD 테스트 코드를 작성한다.", ()
       const commentList = render(<CommentList user={user} project={undefined} comments={commentsWrittenByOthers} />);
 
       expect(commentList.queryAllByTestId("comment-option").length).toEqual(0);
+    });
+  });
+  describe("로그인 유저는 좋아요 기능을 사용할 수 있다.", () => {
+    test("좋아요를 누르지 않은 댓글에 좋아요를 누르면 좋아요 숫자가 올라간다.", async () => {
+      const user = socialLoginUser;
+      const comments = JSON.parse(JSON.stringify(_comments));
+
+      (useLikeComment as jest.Mock).mockImplementation(() => {
+        return {
+          likeComment: () => {
+            comments[0].likingUsers.push(user);
+          },
+          isLoading: false,
+          error: false
+        };
+      });
+
+      const { rerender } = render(<CommentList user={user} project={undefined} comments={comments} />);
+
+      const likeButton = screen.getAllByTestId("comment-like-button")[0];
+
+      fireEvent.click(likeButton);
+
+      rerender(<CommentList user={user} project={undefined} comments={comments} />);
+
+      await waitFor(() => {
+        const numOfLikes = screen.getAllByTestId("liking-users-button-num-of-likes")[0];
+        expect(numOfLikes).toHaveTextContent("1");
+      });
+    });
+  });
+
+  test("좋아요를 누른 상태에서 좋아요를 한 번 더 누르면 좋아요가 취소된다.", async () => {
+    const user = socialLoginUser;
+    const comments = JSON.parse(JSON.stringify(_comments));
+    comments[0].likingUsers.push(user);
+
+    (useLikeComment as jest.Mock).mockImplementation(() => {
+      return {
+        likeComment: () => {
+          comments[0].likingUsers.pop();
+        },
+        isLoading: false,
+        error: false
+      };
+    });
+
+    const { rerender } = render(<CommentList user={user} project={undefined} comments={comments} />);
+
+    const likeButton = screen.getAllByTestId("comment-like-button")[0];
+
+    fireEvent.click(likeButton);
+
+    rerender(<CommentList user={user} project={undefined} comments={comments} />);
+
+    await waitFor(() => {
+      expect(screen.queryByTestId("liking-users-button-num-of-likes")).toBeFalsy();
     });
   });
 });
