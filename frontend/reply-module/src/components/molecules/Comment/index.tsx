@@ -10,6 +10,7 @@ import Avatar from "../../atoms/Avatar";
 import CommentTextBox from "../../atoms/CommentTextBox";
 import {
   Button,
+  LikeButton,
   CancelButton,
   CommentBottomWrapper,
   CommentOption,
@@ -18,7 +19,7 @@ import {
   Container,
   PasswordForm,
   PasswordInput,
-  LikeButton,
+  LikingUsersButton,
   Time
 } from "./styles";
 
@@ -41,7 +42,7 @@ const Comment = ({ user, comment, align = "left", shouldShowOption, iAmAdmin, th
   const { value: password, setValue: setPassword, onChange: onChangePassword } = useInput("");
   const { editComment } = useEditComment();
   const { deleteComment } = useDeleteComment();
-  const { likeComment, error } = useLikeComment();
+  const { likeComment } = useLikeComment();
   const { getPasswordConfirmResult } = useConfirmGuestPassword({
     guestUserId: comment.user.id,
     guestUserPassword: password
@@ -56,7 +57,7 @@ const Comment = ({ user, comment, align = "left", shouldShowOption, iAmAdmin, th
     setPassword("");
   };
 
-  const canIControl = (iAmAdmin && thisCommentIsMine) || !iAmAdmin;
+  const canIEdit = (iAmAdmin && thisCommentIsMine) || !iAmAdmin;
 
   const confirmGuestPassword = async () => {
     try {
@@ -162,11 +163,14 @@ const Comment = ({ user, comment, align = "left", shouldShowOption, iAmAdmin, th
           >
             {comment.content}
           </CommentTextBox>
-          <LikeButton numOfLikes={comment.likingUsers.length} isLiked={isLiked} onClick={onClickLikeButton} />
+          <LikingUsersButton numOfLikes={comment.likingUsers.length} isLiked={isLiked} onClick={onClickLikeButton} />
           <CommentBottomWrapper>
+            <LikeButton isLiked={isLiked} onClick={onClickLikeButton}>
+              좋아요
+            </LikeButton>
             <Time>{getTimeDifference(comment.createdDate)}</Time>
             {shouldShowOption && !submitType && (
-              <CommentOption startEditing={canIControl ? startEditing : undefined} startDeleting={startDeleting} />
+              <CommentOption startEditing={canIEdit ? startEditing : undefined} startDeleting={startDeleting} />
             )}
           </CommentBottomWrapper>
         </CommentTextBoxWrapper>

@@ -6,7 +6,7 @@ export interface Props {
   onClick: () => void;
 }
 
-const LikeButton = ({ className, numOfLikes, isLiked, onClick }: Props) => {
+const LikingUsersButton = ({ className, numOfLikes, isLiked, onClick }: Props) => {
   return (
     <Button className={className} onClick={onClick} isLiked={isLiked}>
       <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -21,4 +21,4 @@ const LikeButton = ({ className, numOfLikes, isLiked, onClick }: Props) => {
   );
 };
 
-export default LikeButton;
+export default LikingUsersButton;
