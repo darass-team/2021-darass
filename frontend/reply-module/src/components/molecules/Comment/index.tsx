@@ -1,6 +1,5 @@
 import { FormEvent, useEffect, useState } from "react";
-import { useConfirmGuestPassword, useDeleteComment, useEditComment, useInput } from "../../../hooks";
-import { useLikeComment } from "../../../hooks/useLikeComment";
+import { useConfirmGuestPassword, useDeleteComment, useEditComment, useLikeComment, useInput } from "../../../hooks";
 import { Comment as CommentType } from "../../../types";
 import { DeleteCommentRequestParameter } from "../../../types/comment";
 import { User } from "../../../types/user";
@@ -162,7 +161,7 @@ const Comment = ({ user, comment, align = "left", shouldShowOption, iAmAdmin, th
   }, [user]);
 
   return (
-    <Container align={align} data-testid="comment">
+    <Container data-testid="comment">
       <CommentWrapper align={align}>
         <Avatar imageURL={comment.user.profileImageUrl} />
         <CommentTextBoxWrapper align={align}>
@@ -174,7 +173,7 @@ const Comment = ({ user, comment, align = "left", shouldShowOption, iAmAdmin, th
             {comment.content}
           </CommentTextBox>
           <CommentBottomWrapper>
-            <LikeButton isLiked={isLiked} onClick={onClickLikeButton}>
+            <LikeButton isLiked={isLiked} onClick={onClickLikeButton} data-testid="comment-like-button">
               좋아요
             </LikeButton>
             <Time>{getTimeDifference(comment.createdDate)}</Time>

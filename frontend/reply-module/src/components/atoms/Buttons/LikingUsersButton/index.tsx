@@ -16,7 +16,7 @@ const LikingUsersButton = ({ className, numOfLikes, isLiked, onClick }: Props) =
         />
       </svg>
 
-      <span>{numOfLikes}</span>
+      <span data-testid="liking-users-button-num-of-likes">{numOfLikes}</span>
     </Button>
   );
 };

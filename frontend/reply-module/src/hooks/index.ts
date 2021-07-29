@@ -6,3 +6,4 @@ export { useDeleteComment } from "./useDeleteComment";
 export { useInput } from "./useInput";
 export { useProject } from "./useProject";
 export { useConfirmGuestPassword } from "./useConfirmGuestPassword";
+export { useLikeComment } from "./useLikeComment";
