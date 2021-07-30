@@ -209,7 +209,7 @@ const Comment = ({ user, comment, align = "left", shouldShowOption, iAmAdmin, th
             isValidInput={!isPasswordSubmitted}
             data-testid="comment-guest-password-input"
           />
-          <CancelButton type="button" onClick={() => clear()} data-testid="comment-guest-password-cancel-button">
+          <CancelButton onClick={() => clear()} data-testid="comment-guest-password-cancel-button">
             취소
           </CancelButton>
           <Button data-testid="comment-guest-password-submit-button">입력</Button>

@@ -24,6 +24,7 @@ export const Text = styled.div`
   max-width: 20rem;
   word-break: break-word;
   white-space: break-spaces;
+  font-size: 1.2rem;
 `;
 
 export const Button = styled.button`

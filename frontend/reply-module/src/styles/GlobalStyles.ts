@@ -20,9 +20,14 @@ const GlobalStyles = createGlobalStyle`
         color: ${PALETTE.BLACK_700};
         margin: 0 auto;
       }
-      @media all and (max-width:780px) {
+      @media all and (max-width:1080px) {
         html {
-          font-size: 10px;
+          font-size: 14px;
+        }
+      }
+      @media all and (max-width:580px) {
+        html {
+          font-size: 12px;
         }
       }
       ul {
