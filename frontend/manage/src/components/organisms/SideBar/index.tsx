@@ -1,4 +1,3 @@
-import { memo } from "react";
 import { MenuType } from "../../../types/menu";
 import MenuDropDown from "../../atoms/MenuDropDown";
 import { Container } from "./styles";
@@ -8,7 +7,7 @@ export interface Props {
   className?: string;
 }
 
-const SideBar = memo(({ menus, className }: Props) => {
+const SideBar = ({ menus, className }: Props) => {
   return (
     <Container className={className}>
       {menus.map(({ name, route, subMenus }) => {
@@ -16,6 +15,6 @@ const SideBar = memo(({ menus, className }: Props) => {
       })}
     </Container>
   );
-});
+};
 
 export default SideBar;

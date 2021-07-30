@@ -12,7 +12,7 @@ export interface Props extends MenuType {
 
 const MenuDropDown = ({ name, route, subMenus = [], depth = 0 }: Props) => {
   const history = useHistory();
-  const [isDropDown, setDropDown] = useState(false);
+  const [isDropDown, setDropDown] = useState<boolean | null>(null);
 
   const hasSubMenus = subMenus.length > 0;
 
@@ -22,13 +22,13 @@ const MenuDropDown = ({ name, route, subMenus = [], depth = 0 }: Props) => {
   const onClickMenu = hasSubMenus ? onToggleDropDown : movePage;
 
   return (
-    <Container>
+    <Container isDropDown={isDropDown}>
       <MainTitle onClick={onClickMenu} isDropDown={isDropDown} depth={depth}>
         {name}
         {hasSubMenus && <img src={arrowDown} alt={`${name} 메뉴 열기 버튼`} />}
       </MainTitle>
 
-      {isDropDown &&
+      {isDropDown !== null &&
         subMenus.map(({ name, route, subMenus }) => (
           <MenuDropDown key={name} name={name} route={route} subMenus={subMenus} depth={depth + 1} />
         ))}
