@@ -1,6 +1,5 @@
 package com.darass.darass.comment.domain;
 
-import static javax.persistence.CascadeType.ALL;
 import static javax.persistence.FetchType.LAZY;
 
 import com.darass.darass.common.domain.BaseTimeEntity;
@@ -19,6 +18,8 @@ import javax.persistence.OneToMany;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Getter
 @NoArgsConstructor
@@ -29,16 +30,18 @@ public class Comment extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn
     private User user;
 
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn
     private Project project;
 
-    @OneToMany(mappedBy = "comment", fetch = LAZY, cascade = ALL, orphanRemoval = true)
-    private List<CommentLike> commentLikes = new ArrayList<>();
+    @OneToMany(mappedBy = "comment", fetch = LAZY)
+    private final List<CommentLike> commentLikes = new ArrayList<>();
 
     private String url;
 
