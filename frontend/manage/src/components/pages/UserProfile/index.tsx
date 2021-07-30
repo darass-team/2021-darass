@@ -27,6 +27,7 @@ const UserProfile = () => {
     try {
       await deleteUser();
 
+      alert("회원탈퇴에 성공하셨습니다.");
       logout();
     } catch (error) {
       alert("회원탈퇴에 실패하였습니다.");
