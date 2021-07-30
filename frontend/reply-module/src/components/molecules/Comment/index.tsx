@@ -181,7 +181,6 @@ const Comment = ({ user, comment, align = "left", shouldShowOption, iAmAdmin, th
             </LikeButton>
             <Time>{getTimeDifference(comment.createdDate)}</Time>
           </CommentBottomWrapper>
-          {console.log(shouldShowOption, submitType)}
           {shouldShowOption && !submitType && (
             <CommentOption startEditing={canIEdit ? startEditing : undefined} startDeleting={startDeleting} />
           )}
