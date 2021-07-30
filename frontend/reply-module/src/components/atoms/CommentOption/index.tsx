@@ -10,14 +10,14 @@ export interface Props {
 
 const CommentOption = ({ className, startEditing, startDeleting }: Props) => {
   const [isShowOptionBox, setShowOptionBox] = useState(false);
-  const optionIconRef = useRef(null);
+  const $optionIcon = useRef(null);
 
   const onShowOptionBox = () => {
     setShowOptionBox(state => !state);
   };
 
   const onHideOptionBox = (event: MouseEvent) => {
-    if (event.target === optionIconRef.current) return;
+    if (event.target === $optionIcon.current) return;
     setShowOptionBox(false);
   };
 
@@ -46,7 +46,7 @@ const CommentOption = ({ className, startEditing, startDeleting }: Props) => {
   return (
     <Container className={className}>
       <OptionIcon
-        ref={optionIconRef}
+        ref={$optionIcon}
         src={threeDots}
         alt="댓글 옵션"
         onClick={onShowOptionBox}

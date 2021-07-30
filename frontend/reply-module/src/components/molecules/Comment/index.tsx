@@ -1,8 +1,9 @@
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 import { useConfirmGuestPassword, useDeleteComment, useEditComment, useLikeComment, useInput } from "../../../hooks";
 import { Comment as CommentType } from "../../../types";
 import { DeleteCommentRequestParameter } from "../../../types/comment";
 import { User } from "../../../types/user";
+import { focusContentEditableTextToEnd } from "../../../utils/focusContentEditableTextToEnd";
 import { postScrollHeightToParentWindow } from "../../../utils/iframePostMessage";
 import { getTimeDifference } from "../../../utils/time";
 import Avatar from "../../atoms/Avatar";
@@ -35,6 +36,7 @@ export interface Props {
 type SubmitType = "Edit" | "Delete";
 
 const Comment = ({ user, comment, align = "left", shouldShowOption, iAmAdmin, thisCommentIsMine }: Props) => {
+  const $commentTextBox = useRef<HTMLDivElement>(null);
   const [isEditing, setEditing] = useState(false);
   const [isLikingUsersModalOpen, setLikingUsersModalOpen] = useState(false);
   const [isPasswordSubmitted, setPasswordSubmitted] = useState(false);
@@ -156,6 +158,12 @@ const Comment = ({ user, comment, align = "left", shouldShowOption, iAmAdmin, th
   };
 
   useEffect(() => {
+    if (isEditing && $commentTextBox.current) {
+      focusContentEditableTextToEnd($commentTextBox.current);
+    }
+  }, [isEditing]);
+
+  useEffect(() => {
     postScrollHeightToParentWindow();
   }, [shouldShowPasswordInput]);
 
@@ -169,8 +177,10 @@ const Comment = ({ user, comment, align = "left", shouldShowOption, iAmAdmin, th
         <Avatar imageURL={comment.user.profileImageUrl} />
         <CommentTextBoxWrapper align={align}>
           <CommentTextBox
+            ref={$commentTextBox}
             name={comment.user.nickName}
             contentEditable={isEditing}
+            clear={clear}
             onSubmitEditedComment={onSubmitEditedComment}
           >
             {comment.content}

@@ -12,16 +12,16 @@ export const Header = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 0.8rem;
+  margin-bottom: 1.6rem;
 `;
 
 export const CommentCountWrapper = styled.span`
-  font-size: 24px;
+  font-size: 1.6rem;
 `;
 
 export const CommentCount = styled.span`
   color: ${PALETTE.RED_500};
-  font-weight: 800;
+  font-weight: 700;
   margin-left: 0.5rem;
 `;
 
