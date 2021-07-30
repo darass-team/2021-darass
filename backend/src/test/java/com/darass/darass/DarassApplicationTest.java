@@ -8,10 +8,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 @DisplayName("DarassApplication 클래스 ")
 class DarassApplicationTest {
-
-    @DisplayName("애플리케이션이 실행된다.")
-    @Test
-    void main() {
-        DarassApplication.main(new String[]{});
-    }
+//
+//    @DisplayName("애플리케이션이 실행된다.")
+//    @Test
+//    void main() {
+//        DarassApplication.main(new String[]{});
+//    }
 }
