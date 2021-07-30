@@ -67,35 +67,20 @@ class OAuthServiceTest extends SpringContainerTest {
     }
 
     @Transactional
-    @DisplayName("(로그인 - 이미 DB에 회원정보가 있는경우) login 메서드는 oauth 토큰이 주어지면, 인증서버에서 사용자 정보를 받아와서 DB 업데이트를 하고 primary key를 payload 삼아 accessToken을 리턴한다.")
+    @DisplayName("(로그인 - 이미 DB에 회원정보가 있는경우) login 메서드는 oauth 토큰이 주어지면, primary key를 payload 삼아 accessToken을 리턴한다.")
     @Test
     void oauthLogin_login() {
         //given
         socialLoginUserRepository.save(socialLoginUser);
 
-        SocialLoginUser updatedSocialLoginUser = SocialLoginUser
-            .builder()
-            .nickName("병욱")
-            .oauthId(socialLoginUser.getOauthId())
-            .oauthProviderType(OAuthProviderType.KAKAO)
-            .email("bbwwpark@naver.com")
-            .profileImageUrl("http://kakao/updated_profile_image.png")
-            .build();
-
-        given(oAuthProvider.findSocialLoginUser(any(), any())).willReturn(updatedSocialLoginUser);
+        given(oAuthProvider.findSocialLoginUser(any(), any())).willReturn(socialLoginUser);
 
         //then
         TokenResponse tokenResponse = oAuthService.oauthLogin(OAuthProviderType.KAKAO.getName(), oauthAccessToken);
 
         //when
         String payload = jwtTokenProvider.getPayload(tokenResponse.getAccessToken());
-
-        SocialLoginUser result = socialLoginUserRepository.findById(Long.parseLong(payload)).get();
-        assertThat(result.getNickName()).isEqualTo(updatedSocialLoginUser.getNickName());
-        assertThat(result.getProfileImageUrl()).isEqualTo(updatedSocialLoginUser.getProfileImageUrl());
-        assertThat(result.getOauthId()).isEqualTo(updatedSocialLoginUser.getOauthId());
-        assertThat(result.getOauthProviderType()).isEqualTo(updatedSocialLoginUser.getOauthProviderType());
-        assertThat(result.getEmail()).isEqualTo(updatedSocialLoginUser.getEmail());
+        assertThat(payload).isNotNull();
     }
 
     @DisplayName("findSocialLoginUserByAccessToken 메서드는 accessToken이 주어지면 SocialLoginUser를 리턴한다.")

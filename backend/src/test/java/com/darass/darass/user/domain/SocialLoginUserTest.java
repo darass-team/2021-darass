@@ -2,12 +2,19 @@ package com.darass.darass.user.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import com.darass.darass.auth.oauth.api.domain.OAuthProviderType;
 import com.darass.darass.exception.ExceptionWithMessageAndCode;
+import com.darass.darass.user.infrastructure.S3Uploader;
+import java.io.IOException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.web.multipart.MultipartFile;
+import software.amazon.awssdk.core.exception.SdkClientException;
 
 @DisplayName("SocialLoginUser 클래스")
 class SocialLoginUserTest {
@@ -49,5 +56,48 @@ class SocialLoginUserTest {
         assertThatThrownBy(() -> {
             assertThat(socialLoginUser.isValidGuestPassword("password")).isTrue();
         }).isEqualTo(ExceptionWithMessageAndCode.NOT_GUEST_USER.getException());
+    }
+
+    @DisplayName("changeNickNameOrProfileImageIfExists 메서드는 nickName만 입력되면, nickName만 변경된다.")
+    @Test
+    void changeNickNameOrProfileImageIfExists_nickName() {
+        // given
+        String initName = "첫이름";
+        String changedName = "변경된이름";
+        String initProfileImageUrl = "첫이미지url주소";
+        SocialLoginUser user = SocialLoginUser.builder()
+            .nickName(initName)
+            .profileImageUrl(initProfileImageUrl)
+            .build();
+
+        // when
+        user.changeNickNameOrProfileImageIfExists(null, changedName, null);
+
+        // then
+        assertThat(user.getNickName()).isEqualTo(changedName);
+        assertThat(user.getProfileImageUrl()).isEqualTo(initProfileImageUrl);
+    }
+
+    @DisplayName("changeNickNameOrProfileImageIfExists 메서드는 profileImageFile만 입력되면, profileImageFile만 변경된다.")
+    @Test
+    void changeNickNameOrProfileImageIfExists_profileImageFile() throws IOException {
+        // given
+        String initName = "첫이름";
+        String initProfileImageUrl = "첫이미지url주소";
+        String changedProfileImageUrl = "변경된이미지url주소";
+        S3Uploader s3Uploader = mock(S3Uploader.class);
+        MultipartFile multipartFile = mock(MultipartFile.class);
+
+        when(s3Uploader.upload(any())).thenReturn(changedProfileImageUrl);
+        SocialLoginUser user = SocialLoginUser.builder()
+            .nickName(initName)
+            .profileImageUrl(initProfileImageUrl)
+            .build();
+
+        // when
+        user.changeNickNameOrProfileImageIfExists(s3Uploader, null, multipartFile);
+
+        // then
+        assertThat(user.getProfileImageUrl()).isEqualTo(changedProfileImageUrl);
     }
 }
