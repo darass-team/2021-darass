@@ -21,7 +21,7 @@ include::{snippets}/api/v1/users/get/fail/response-fields.adoc[]
 
 include::{snippets}/api/v1/users/patch/success/http-request.adoc[]
 include::{snippets}/api/v1/users/patch/success/request-headers.adoc[]
-include::{snippets}/api/v1/users/patch/success/request-fields.adoc[]
+include::{snippets}/api/v1/users/patch/success/request-parts.adoc[]
 
 ==== Response (성공 - 소셜 로그인 유저 닉네임 수정)
 

@@ -1,17 +1,20 @@
 package com.darass.darass.user.dto;
 
-import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 
 @NoArgsConstructor
 @Getter
+@Setter
 @AllArgsConstructor
 public class UserUpdateRequest {
 
-    @NotNull
     private String nickName;
+
+    private MultipartFile profileImageFile;
 
 }
 

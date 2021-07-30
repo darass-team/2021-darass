@@ -29,14 +29,11 @@ public class OAuthService {
             .findByOauthId(socialLoginUser.getOauthId());
 
         if (possibleSocialLoginUser.isEmpty()) { //TODO: 옵셔널로 변경 가능?
-
             socialLoginUserRepository.save(socialLoginUser);
             return TokenResponse.of(jwtTokenProvider.createAccessToken(socialLoginUser.getId().toString()));
         }
 
         SocialLoginUser foundSocialLoginUser = possibleSocialLoginUser.get();
-        foundSocialLoginUser.update(socialLoginUser);
-
         return TokenResponse.of(jwtTokenProvider.createAccessToken(foundSocialLoginUser.getId().toString()));
     }
 
