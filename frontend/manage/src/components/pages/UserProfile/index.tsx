@@ -11,14 +11,14 @@ const UserProfile = () => {
   const { editUser } = useEditUser();
   const { deleteUser } = useDeleteUser();
   const { value: userName, setValue: setUserName, onChange: onChangeUserName } = useInput("");
-  const [profileImageAsBase64, setProfileImageAsBase64] = useState<string>();
+  const [profileImageAsUrl, setProfileImageAsUrl] = useState<string>();
   const [profileImageAsFile, setProfileImageAsFile] = useState<Blob | string>();
 
   const onChangeFile = (event: ChangeEvent<HTMLInputElement>) => {
     const target = event.target;
     const files = target?.files || [];
 
-    setProfileImageAsBase64(state => {
+    setProfileImageAsUrl(state => {
       URL.revokeObjectURL(state || "");
 
       return URL.createObjectURL(files[0]);
@@ -60,7 +60,7 @@ const UserProfile = () => {
   useEffect(() => {
     if (user) {
       setUserName(user.nickName);
-      setProfileImageAsBase64(user.profileImageUrl);
+      setProfileImageAsUrl(user.profileImageUrl);
     }
   }, [user]);
 
@@ -73,7 +73,7 @@ const UserProfile = () => {
           <InfoWrapper>
             <FileLabel>
               <CameraIcon src={cameraIcon} />
-              <UserProfileImage imageURL={profileImageAsBase64} size="LG" />
+              <UserProfileImage imageURL={profileImageAsUrl} size="LG" />
               <Input type="file" accept="image/*" onChange={onChangeFile} />
             </FileLabel>
           </InfoWrapper>
