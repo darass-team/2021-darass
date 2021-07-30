@@ -9,6 +9,7 @@ export enum PALETTE {
   "GRAY_300" = "#F5F5F5",
   "GRAY_400" = "#ced4da",
   "GRAY_500" = "#B5B5B5",
+  "GRAY_600" = "#868e96",
   "RED_500" = "#EC2626",
   "RED_600" = "#E41E1E",
   "RED_800" = "#CB2431",
