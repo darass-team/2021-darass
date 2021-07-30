@@ -2,11 +2,16 @@ import { css } from "styled-components";
 import { PALETTE } from "./palette";
 
 export const InputCSS = css`
+  box-sizing: border-box;
   border: 1px solid ${PALETTE.BLACK_700};
   border-radius: 10px;
   color: ${PALETTE.BLACK_700};
   font-size: 1.2rem;
   outline: none;
+
+  &:focus {
+    box-shadow: 0 0 0 1px ${PALETTE.BLACK_700};
+  }
 
   &::placeholder {
     color: ${PALETTE.BLACK_700};

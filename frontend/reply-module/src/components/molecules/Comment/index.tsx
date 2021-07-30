@@ -5,6 +5,7 @@ import { DeleteCommentRequestParameter } from "../../../types/comment";
 import { User } from "../../../types/user";
 import { focusContentEditableTextToEnd } from "../../../utils/focusContentEditableTextToEnd";
 import { postScrollHeightToParentWindow } from "../../../utils/iframePostMessage";
+import { isEmptyString } from "../../../utils/isEmptyString";
 import { getTimeDifference } from "../../../utils/time";
 import Avatar from "../../atoms/Avatar";
 import CommentTextBox from "../../atoms/CommentTextBox";
@@ -124,6 +125,12 @@ const Comment = ({ user, comment, align = "left", shouldShowOption, iAmAdmin, th
 
   const onSubmitEditedComment = async (content: CommentType["content"]) => {
     try {
+      if (isEmptyString(content)) {
+        alert("최소 한 글자 이상 입력해주세요.");
+
+        return;
+      }
+
       await editComment({
         id: comment.id,
         content,

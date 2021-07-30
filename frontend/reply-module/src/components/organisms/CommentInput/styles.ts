@@ -24,6 +24,10 @@ export const TextBox = styled.div<{ isValidInput: Boolean }>`
   &:empty:focus:before {
     content: "";
   }
+
+  &:focus {
+    box-shadow: 0 0 0 1 ${props => (props.isValidInput ? PALETTE.BLACK_700 : PALETTE.RED_600)};
+  }
 `;
 
 export const Wrapper = styled.div`
@@ -44,5 +48,9 @@ export const GuestInfo = styled.input<{ isValidInput: Boolean }>`
 
   :first-child {
     margin-right: 1.2rem;
+  }
+
+  &:focus {
+    box-shadow: 0 0 0 1 ${props => (props.isValidInput ? PALETTE.BLACK_700 : PALETTE.RED_600)};
   }
 `;
