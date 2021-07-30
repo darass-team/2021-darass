@@ -32,18 +32,18 @@ public class CommentController {
     private final CommentService commentService;
 
     @GetMapping
-    public ResponseEntity<List<CommentResponse>> read(@RequestParam("url") String url,
-        @RequestParam("projectKey") String projectKey) {
-        List<CommentResponse> commentResponses = commentService.findAllCommentsByUrlAndProjectKey(url, projectKey);
+    public ResponseEntity<List<CommentResponse>> read2(@RequestParam("sorting") String sorting,
+        @RequestParam("url") String url, @RequestParam("projectKey") String projectKey) {
+        List<CommentResponse> commentResponses = commentService.findAllCommentsByUrlAndProjectKey(sorting, url, projectKey);
         return ResponseEntity.status(HttpStatus.OK).body(commentResponses);
     }
 
     @GetMapping("/paging")
-    public ResponseEntity<List<CommentResponse>> readByPageRequest(@RequestParam("url") String url,
-        @RequestParam("projectKey") String projectKey, @RequestParam("page") Integer page,
+    public ResponseEntity<List<CommentResponse>> readByPageRequest2(@RequestParam("sorting") String sorting,
+        @RequestParam("url") String url, @RequestParam("projectKey") String projectKey, @RequestParam("page") Integer page,
         @RequestParam("size") Integer size) {
         List<CommentResponse> commentResponses = commentService
-            .findAllCommentsByUrlAndProjectKeyUsingPagination(url, projectKey, page, size);
+            .findAllCommentsByUrlAndProjectKeyUsingPagination(sorting, url, projectKey, page, size);
         return ResponseEntity.status(HttpStatus.OK).body(commentResponses);
     }
 
