@@ -20,7 +20,7 @@ export const Dimmed = styled.div<{ isOpen: boolean }>`
   background-color: ${PALETTE.BLACK_900};
   transition: all 0.3s ease-in;
   opacity: ${({ isOpen }) => (isOpen ? 0.5 : 0)};
-  z-index: ${({ isOpen }) => (isOpen ? Z_INDEX.MOBILE_NAV.DIMMED.OPEN : Z_INDEX.MOBILE_NAV.DIMMED.CLOSE)};
+  z-index: ${({ isOpen }) => (isOpen ? Z_INDEX.NAV.MOBILE.DIMMED.OPEN : Z_INDEX.NAV.MOBILE.DIMMED.CLOSE)};
 `;
 
 export const MenuWrapper = styled.nav<{ isOpen: boolean }>`
@@ -30,7 +30,7 @@ export const MenuWrapper = styled.nav<{ isOpen: boolean }>`
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  z-index: ${Z_INDEX.MOBILE_NAV.MENU_WRAPPER};
+  z-index: ${Z_INDEX.NAV.MOBILE.MENU_WRAPPER};
 
   background: ${PALETTE.PRIMARY};
   height: 100vh;
