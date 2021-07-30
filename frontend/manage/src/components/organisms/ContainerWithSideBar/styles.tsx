@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { PAGE_MAX_WIDTH } from "../../../styles/constants";
-import { contentBoxCSS, crossBrowsingPrefix } from "../../../styles/css";
+import { contentBoxCSS } from "../../../styles/css";
 import SiderComponent from "../SideBar";
 
 export const Container = styled.div`
@@ -18,7 +18,7 @@ export const SideBar = styled(SiderComponent)<{ offsetY: number }>`
   z-index: 1;
 
   top: ${props => props.offsetY}px;
-  ${crossBrowsingPrefix("transition", "width 0.3s, top 1.5s ease-out")}
+  transition: width 0.3s, top 1.5s ease-out;
 
   width: 15rem;
 
@@ -36,9 +36,9 @@ export const MainContent = styled.main`
   top: 0;
   width: 48rem;
 
-  ${crossBrowsingPrefix("transition", "all 0.3s ease-in")}
+  transition: all 0.3s ease-in;
 
-  @media (max-width:${PAGE_MAX_WIDTH}) {
+  @media (max-width: ${PAGE_MAX_WIDTH}) {
     left: 0;
     top: 14rem;
     margin-top: 2rem;

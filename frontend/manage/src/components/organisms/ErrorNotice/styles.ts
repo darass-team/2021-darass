@@ -33,31 +33,31 @@ export const TextArea = styled.div`
 export const Img = styled.img`
   @keyframes fall {
     from {
-      -webkit-transform: rotate(0deg);
+      transform: rotate(0deg);
     }
     to {
-      -webkit-transform: rotate(210deg);
+      transform: rotate(210deg);
     }
   }
 
   @keyframes swing {
     from {
-      -webkit-transform: rotate(210deg);
+      transform: rotate(210deg);
     }
     to {
-      -webkit-transform: rotate(150deg);
+      transform: rotate(150deg);
     }
   }
 
   @keyframes sway {
     0% {
-      -webkit-transform: rotate(150deg);
+      transform: rotate(150deg);
     }
     50% {
-      -webkit-transform: rotate(210deg);
+      transform: rotate(210deg);
     }
     100% {
-      -webkit-transform: rotate(150deg);
+      transform: rotate(150deg);
     }
   }
 
