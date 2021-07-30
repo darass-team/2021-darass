@@ -10,3 +10,5 @@ declare interface Window {
 }
 
 declare type ObjectValueType<T> = T[keyof T];
+
+declare type OptionalBy<T, K extends keyof T> = Pick<Partial<T>, K> & Omit<T, K>;

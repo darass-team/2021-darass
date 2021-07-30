@@ -6,7 +6,6 @@ export const Container = styled.div`
   display: flex;
   align-items: center;
   width: fit-content;
-  cursor: pointer;
 
   & > img {
     cursor: pointer;

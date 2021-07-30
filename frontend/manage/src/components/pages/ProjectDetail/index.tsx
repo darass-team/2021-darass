@@ -1,24 +1,23 @@
 import { FormEvent, useEffect } from "react";
 import { Redirect, useHistory, useRouteMatch } from "react-router-dom";
-import { ROUTE } from "../../../constants";
+import { PROJECT_MENU, ROUTE } from "../../../constants";
 import { useEditProject, useGetProject, useInput } from "../../../hooks";
 import { useDeleteProject } from "../../../hooks/useDeleteProject";
 import ScreenContainer from "../../../styles/ScreenContainer";
 import { isEmptyString } from "../../../utils/validation";
-import ProjectSideBar from "../../organisms/ProjectSideBar";
-import SideBarTemplate from "../SideBarTemplate";
+import ContainerWithSideBar from "../../organisms/ContainerWithSideBar";
 import {
   Container,
-  InfoWrapper,
-  Form,
-  Title,
-  Label,
-  Input,
-  SubmitButton,
   DeleteAlertMessage,
-  DeleteSection,
   DeleteButton,
-  DeleteWrapper
+  DeleteSection,
+  DeleteWrapper,
+  Form,
+  InfoWrapper,
+  Input,
+  Label,
+  SubmitButton,
+  Title
 } from "./styles";
 
 const ProjectDetail = () => {
@@ -84,7 +83,7 @@ const ProjectDetail = () => {
 
   return (
     <ScreenContainer>
-      <SideBarTemplate SideBar={() => <ProjectSideBar projectId={projectId} />}>
+      <ContainerWithSideBar menus={PROJECT_MENU.get(projectId)}>
         <Container>
           <Title>프로젝트 정보</Title>
           <Form onSubmit={onEditProject}>
@@ -112,7 +111,7 @@ const ProjectDetail = () => {
             </DeleteWrapper>
           </DeleteSection>
         </Container>
-      </SideBarTemplate>
+      </ContainerWithSideBar>
     </ScreenContainer>
   );
 };

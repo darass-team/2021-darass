@@ -1,39 +1,36 @@
 import { useState } from "react";
+import { useHistory } from "react-router-dom";
 import arrowDown from "../../../assets/svg/arrow-down.svg";
-import { Container, MainTitle, SubTitle } from "./styles";
+import { ROUTE } from "../../../constants";
+import { MenuType } from "../../../types/menu";
+import { Container, MainTitle } from "./styles";
 
-interface SubMenuType {
-  title: string;
-  onClick: () => void;
+export interface Props extends MenuType {
+  subMenus?: Props[];
+  depth?: number;
 }
 
-export interface Props {
-  title: string;
-  onClick?: () => void;
-  menu?: SubMenuType[];
-}
+const MenuDropDown = ({ name, route, subMenus = [], depth = 0 }: Props) => {
+  const history = useHistory();
+  const [isDropDown, setDropDown] = useState<boolean | null>(null);
 
-const MenuDropDown = ({ title, onClick, menu }: Props) => {
-  const [isDropDown, setDropDown] = useState(false);
+  const hasSubMenus = subMenus.length > 0;
+
+  const onToggleDropDown = () => setDropDown(state => !state);
+  const movePage = () => history.push(route || ROUTE.HOME);
+
+  const onClickMenu = hasSubMenus ? onToggleDropDown : movePage;
 
   return (
-    <Container>
-      {menu?.length ? (
-        <MainTitle isDropDown={isDropDown} onClick={() => setDropDown(state => !state)}>
-          {title}
-          <img src={arrowDown} alt={`${title} 메뉴 열기 버튼`} />
-        </MainTitle>
-      ) : (
-        <MainTitle isDropDown={isDropDown} onClick={onClick}>
-          {title}
-        </MainTitle>
-      )}
+    <Container isDropDown={isDropDown}>
+      <MainTitle onClick={onClickMenu} isDropDown={isDropDown} depth={depth}>
+        {name}
+        {hasSubMenus && <img src={arrowDown} alt={`${name} 메뉴 열기 버튼`} />}
+      </MainTitle>
 
-      {isDropDown &&
-        menu?.map(menu => (
-          <SubTitle onClick={menu.onClick} key={menu.title}>
-            {menu.title}
-          </SubTitle>
+      {isDropDown !== null &&
+        subMenus.map(({ name, route, subMenus }) => (
+          <MenuDropDown key={name} name={name} route={route} subMenus={subMenus} depth={depth + 1} />
         ))}
     </Container>
   );

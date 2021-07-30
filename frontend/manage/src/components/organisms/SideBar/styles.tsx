@@ -2,8 +2,7 @@ import styled from "styled-components";
 import { PALETTE } from "../../../styles/palette";
 
 export const Container = styled.div`
-  width: 15rem;
-  height: fit-content;
+  font-size: inherit;
   padding: 2rem 1rem;
   border-radius: 20px;
   background-color: ${PALETTE.WHITE};

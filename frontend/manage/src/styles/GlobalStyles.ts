@@ -16,10 +16,11 @@ const GlobalStyles = createGlobalStyle`
       }
       html, body {
         padding: 0;
-        min-height: 100vh;
+        height: 100vh;
         width: 100%;
         color: ${PALETTE.BLACK_700};
         margin: 0 auto;
+        line-height: 1.8rem;
       }
       @media all and (max-width:780px) {
         html {

@@ -1,14 +1,14 @@
 import { useState } from "react";
 import { Redirect, useRouteMatch } from "react-router-dom";
 import SyntaxHighlighter from "react-syntax-highlighter";
-import { GUIDE_FILE, ROUTE } from "../../../constants";
+import { atomOneDark } from "react-syntax-highlighter/dist/esm/styles/hljs";
+import { GUIDE_FILE, PROJECT_MENU, ROUTE } from "../../../constants";
 import { useCopyButton, useGetProject } from "../../../hooks";
 import ScreenContainer from "../../../styles/ScreenContainer";
 import BlogLogoButton from "../../atoms/Buttons/BlogLogoButton";
-import ProjectSideBar from "../../organisms/ProjectSideBar";
-import SideBarTemplate from "../SideBarTemplate";
-import { SubTitle, CodeBlockWrapper, Container, CopyButton, P, Ol, Section, Title, BlogLogoWrapper } from "./styles";
-import { atomOneDark } from "react-syntax-highlighter/dist/esm/styles/hljs";
+import GuideStep from "../../molecules/GuideStep";
+import ContainerWithSideBar from "../../organisms/ContainerWithSideBar";
+import { BlogLogoWrapper, CodeBlockWrapper, Container, CopyButton, Ol, Title } from "./styles";
 
 const scriptCode = (projectSecretKey: string) => `
 <!-- 다라쓰 설치 코드 -->
@@ -45,13 +45,12 @@ const ScriptPublishing = () => {
 
   return (
     <ScreenContainer>
-      <SideBarTemplate SideBar={() => <ProjectSideBar projectId={projectId} />}>
+      <ContainerWithSideBar menus={PROJECT_MENU.get(projectId)}>
         <Container>
           <Title>스크립트 적용 가이드</Title>
-          <Section>
-            <SubTitle>다라쓰를 적용할 플랫폼을 선택하세요.</SubTitle>
+          <GuideStep title="다라쓰를 적용할 플랫폼을 선택하세요.">
             <BlogLogoWrapper>
-              {Object.entries(GUIDE_FILE).map(([blogName, info]) => (
+              {Object.values(GUIDE_FILE).map(info => (
                 <BlogLogoButton
                   src={info.logoURL}
                   name={info.name}
@@ -61,35 +60,32 @@ const ScriptPublishing = () => {
                 />
               ))}
             </BlogLogoWrapper>
-          </Section>
+          </GuideStep>
+
           {selectedBlogInfo && (
             <>
-              <Section>
-                <SubTitle>다라쓰 코드 설치</SubTitle>
-                <P> 다라쓰를 설치하고자 하는 웹 페이지에 발급 받은 설치코드를 삽입해주세요.</P>
+              <GuideStep
+                title="다라쓰 코드 설치"
+                description="다라쓰를 설치하고자 하는 웹 페이지에 발급 받은 설치코드를 삽입해주세요."
+              >
                 <iframe src={selectedBlogInfo.iframeSrc} style={{ width: "100%", height: "650px" }} frameBorder="0" />
-              </Section>
+              </GuideStep>
 
-              <Section>
-                <SubTitle>주의 사항</SubTitle>
-                <P>스크립트 내부의 코드는 변경해서는 안됩니다.</P>
-              </Section>
+              <GuideStep title="주의 사항" description="스크립트 내부의 코드는 변경해서는 안됩니다." />
 
-              <Section>
-                <SubTitle>브라우저 지원 현황</SubTitle>
-                <P>
-                  다라쓰는 아래의 최신 브라우저 사용을 권장합니다. 구형 브라우저에서는 일부 기능이 동작하지 않을 수
-                  있습니다.
-                </P>
+              <GuideStep
+                title="브라우저 지원 현황"
+                description="다라쓰는 아래의 최신 브라우저 사용을 권장합니다. 구형 브라우저에서는 일부 기능이 동작하지 않을 수
+                  있습니다."
+              >
                 <Ol>
                   <li>Chrome</li>
                   <li>Safari</li>
                   <li>Samsung browser</li>
                 </Ol>
-              </Section>
+              </GuideStep>
 
-              <Section>
-                <SubTitle>스크립트</SubTitle>
+              <GuideStep title="스크립트">
                 <CodeBlockWrapper>
                   <CopyButton type="button" onClick={() => onCopy(script)}>
                     {isCopyButtonClicked ? "Copied !" : "Copy"}
@@ -111,11 +107,11 @@ const ScriptPublishing = () => {
                     {script}
                   </SyntaxHighlighter>
                 </CodeBlockWrapper>
-              </Section>
+              </GuideStep>
             </>
           )}
         </Container>
-      </SideBarTemplate>
+      </ContainerWithSideBar>
     </ScreenContainer>
   );
 };
