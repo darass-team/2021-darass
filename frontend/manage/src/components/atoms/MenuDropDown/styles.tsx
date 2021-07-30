@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { crossBrowsingPrefix } from "../../../styles/css";
+import { Z_INDEX } from "../../../styles/constants";
 import { PALETTE } from "../../../styles/palette";
 
 export const Container = styled.div<{ isDropDown: boolean | null }>`
@@ -10,7 +10,7 @@ export const Container = styled.div<{ isDropDown: boolean | null }>`
 
   @keyframes fadein {
     0% {
-      ${crossBrowsingPrefix("transform", "translateY(-100%)")}
+      transform: translateY(-100%);
       opacity: 0;
       max-height: 0;
     }
@@ -18,7 +18,7 @@ export const Container = styled.div<{ isDropDown: boolean | null }>`
       max-height: 100vh;
     }
     100% {
-      ${crossBrowsingPrefix("transform", "translateY(0%)")}
+      transform: translateY(0%);
       opacity: 1;
       max-height: 100vh;
     }
@@ -26,7 +26,7 @@ export const Container = styled.div<{ isDropDown: boolean | null }>`
 
   @keyframes fadeout {
     0% {
-      ${crossBrowsingPrefix("transform", "translateY(0%)")}
+      transform: translateY(0%);
       opacity: 1;
       max-height: 100vh;
     }
@@ -34,7 +34,7 @@ export const Container = styled.div<{ isDropDown: boolean | null }>`
       max-height: 0;
     }
     100% {
-      ${crossBrowsingPrefix("transform", "translateY(-100%)")}
+      transform: translateY(-100%);
       opacity: 0;
       max-height: 0;
     }
@@ -43,10 +43,7 @@ export const Container = styled.div<{ isDropDown: boolean | null }>`
   > *:not(:first-child) {
     overflow: hidden;
     max-height: 100vh;
-    ${props =>
-      props.isDropDown
-        ? crossBrowsingPrefix("animation", "fadein 0.5s linear forwards")
-        : crossBrowsingPrefix("animation", "fadeout 0.5s linear forwards")}
+    animation: ${props => (props.isDropDown ? "fadein 0.5s linear forwards" : "fadeout 0.5s linear forwards")};
   }
 `;
 
@@ -59,14 +56,13 @@ export const MainTitle = styled.button<{ isDropDown: boolean | null; depth: numb
   font-weight: 700;
   font-size: ${props => 1.2 - 1.2 * 0.1 * props.depth}rem;
   padding: 0.3rem 0 0.3rem ${props => 1 + 1 * 0.5 * props.depth}rem;
-  z-index: ${props => 1 + props.depth};
-  ${crossBrowsingPrefix("transition", "all 0.1s ease-in")};
-
+  z-index: ${props => Z_INDEX.CONTAINER_WITH_SIDEBAR.SIDEBAR.TITLE + props.depth};
+  transition: "all 0.1s ease-in";
   &:hover {
     background-color: ${PALETTE.WHITE_HOVER};
   }
 
   & > img {
-    ${props => props.isDropDown && crossBrowsingPrefix("transform", "rotate(180deg);")};
+    transform: ${props => props.isDropDown && "rotate(180deg)"};
   }
 `;

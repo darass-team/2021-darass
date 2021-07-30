@@ -12,14 +12,14 @@ const ContainerWithSideBar = ({ menus, children }: Props) => {
   const [sideBarOffsetY, setSideBarOffsetY] = useState(0);
 
   useEffect(() => {
-    const cb = debounce(() => {
+    const callback = debounce(() => {
       setSideBarOffsetY(window.pageYOffset);
     }, 500);
 
-    window.addEventListener("scroll", cb);
+    window.addEventListener("scroll", callback);
 
     return () => {
-      window.removeEventListener("scroll", cb);
+      window.removeEventListener("scroll", callback);
     };
   }, []);
 

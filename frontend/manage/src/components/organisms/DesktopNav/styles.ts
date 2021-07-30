@@ -1,6 +1,6 @@
 import { Link, NavLink } from "react-router-dom";
 import styled from "styled-components";
-import { NAVIGATION_HEIGHT, PAGE_MAX_WIDTH } from "../../../styles/constants";
+import { NAVIGATION_HEIGHT, PAGE_MAX_WIDTH, Z_INDEX } from "../../../styles/constants";
 import { PALETTE } from "../../../styles/palette";
 
 export const Container = styled.nav`
@@ -62,6 +62,7 @@ export const Title = styled.span`
 
 export const UserAvatarOptionWrapper = styled.div`
   margin-left: auto;
+  z-index: ${Z_INDEX.NAV.DESKTOP.USER_AVATAR_WRAPPER};
 `;
 
 export const LoginLink = styled(Link)`

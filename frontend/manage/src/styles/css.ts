@@ -1,16 +1,6 @@
 import { css } from "styled-components";
 import { PALETTE } from "./palette";
 
-export const crossBrowsingPrefix = (property: string, value: string) => {
-  return `
-    ${property}: ${value};
-    -webkit-${property}: ${value};
-    --moz-${property}: ${value};
-    --o-${property}: ${value};
-    --ms-${property}: ${value};
-  `;
-};
-
 export const speechBubbleCSS = css`
   position: absolute;
   width: 6rem;

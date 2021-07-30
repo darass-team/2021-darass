@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import { PAGE_MAX_WIDTH } from "../../../styles/constants";
-import { contentBoxCSS, crossBrowsingPrefix } from "../../../styles/css";
+import { PAGE_MAX_WIDTH, Z_INDEX } from "../../../styles/constants";
+import { contentBoxCSS } from "../../../styles/css";
 import SiderComponent from "../SideBar";
 
 export const Container = styled.div`
@@ -15,10 +15,10 @@ export const Container = styled.div`
 
 export const SideBar = styled(SiderComponent)<{ offsetY: number }>`
   position: absolute;
-  z-index: 1;
+  z-index: ${Z_INDEX.CONTAINER_WITH_SIDEBAR.SIDEBAR.SELF};
 
   top: ${props => props.offsetY}px;
-  ${crossBrowsingPrefix("transition", "width 0.3s, top 1.5s ease-out")}
+  transition: width 0.3s, top 1.5s ease-out;
 
   width: 15rem;
 
@@ -29,16 +29,16 @@ export const SideBar = styled(SiderComponent)<{ offsetY: number }>`
 `;
 
 export const MainContent = styled.main`
-  z-index: 0;
+  z-index: ${Z_INDEX.CONTAINER_WITH_SIDEBAR.MAIN_CONTENT.SELF};
   ${contentBoxCSS}
   position: relative;
   left: 18rem;
   top: 0;
   width: 48rem;
 
-  ${crossBrowsingPrefix("transition", "all 0.3s ease-in")}
+  transition: all 0.3s ease-in;
 
-  @media (max-width:${PAGE_MAX_WIDTH}) {
+  @media (max-width: ${PAGE_MAX_WIDTH}) {
     left: 0;
     top: 14rem;
     margin-top: 2rem;

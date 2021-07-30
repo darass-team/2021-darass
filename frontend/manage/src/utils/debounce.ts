@@ -1,4 +1,4 @@
-export const debounce = (cb: () => void, delay: number) => {
+export const debounce = (callback: () => void, delay: number) => {
   let timeId: NodeJS.Timeout;
 
   const innerFun = () => {
@@ -6,7 +6,7 @@ export const debounce = (cb: () => void, delay: number) => {
       clearTimeout(timeId);
     }
 
-    timeId = setTimeout(cb, delay);
+    timeId = setTimeout(callback, delay);
   };
 
   return innerFun;
