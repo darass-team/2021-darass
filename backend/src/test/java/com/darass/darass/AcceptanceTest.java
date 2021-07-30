@@ -35,7 +35,6 @@ public class AcceptanceTest extends SpringContainerTest {
                 .operationPreprocessors()
                 .withRequestDefaults(prettyPrint())
                 .withResponseDefaults(prettyPrint()))
-            // .alwaysDo(MockMvcResultHandlers.print())
             .build();
     }
 
