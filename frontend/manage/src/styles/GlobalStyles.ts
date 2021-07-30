@@ -20,6 +20,7 @@ const GlobalStyles = createGlobalStyle`
         width: 100%;
         color: ${PALETTE.BLACK_700};
         margin: 0 auto;
+        line-height: 1.8rem;
       }
       @media all and (max-width:780px) {
         html {
