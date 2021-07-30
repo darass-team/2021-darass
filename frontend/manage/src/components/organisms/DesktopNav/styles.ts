@@ -62,6 +62,7 @@ export const Title = styled.span`
 
 export const UserAvatarOptionWrapper = styled.div`
   margin-left: auto;
+  z-index: 1;
 `;
 
 export const LoginLink = styled(Link)`
