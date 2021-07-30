@@ -8,13 +8,22 @@ export const Form = styled.form`
   flex-direction: column;
 `;
 
-export const TextArea = styled.textarea<{ isValidInput: Boolean }>`
+export const TextBox = styled.div<{ isValidInput: Boolean }>`
   ${InputCSS};
   border: ${props => !props.isValidInput && `3px solid ${PALETTE.RED_600}`};
-  padding: 1.6rem;
-  height: 9rem;
+  padding: 1rem 0.8rem;
+  min-height: 6rem;
+  max-height: 12rem;
   margin-bottom: 1.6rem;
-  resize: none;
+  overflow: auto;
+
+  &:empty:before {
+    content: "댓글을 입력해주세요.";
+  }
+
+  &:empty:focus:before {
+    content: "";
+  }
 `;
 
 export const Wrapper = styled.div`
@@ -30,12 +39,10 @@ export const Wrapper = styled.div`
 export const GuestInfo = styled.input<{ isValidInput: Boolean }>`
   ${InputCSS};
   border: ${props => !props.isValidInput && `3px solid ${PALETTE.RED_600}`};
-  padding: 1.1rem 1.6rem;
-  width: 10rem;
-  height: 3.6rem;
-  line-height: 1.4rem;
+  padding: 1rem 0.8rem;
+  width: 8rem;
 
   :first-child {
-    margin-right: 1.6rem;
+    margin-right: 1.2rem;
   }
 `;

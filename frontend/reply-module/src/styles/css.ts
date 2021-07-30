@@ -5,7 +5,7 @@ export const InputCSS = css`
   border: 1px solid ${PALETTE.BLACK_700};
   border-radius: 10px;
   color: ${PALETTE.BLACK_700};
-  font-size: 1.4rem;
+  font-size: 1.2rem;
   outline: none;
 
   &::placeholder {

@@ -11,11 +11,12 @@ const GlobalStyles = createGlobalStyle`
       html { 
           font-size: 16px;
           font-family: 'Noto Sans KR', sans-serif;
-      }
-      html, body {
-        margin: 0;
-        padding: 0;
-        min-height: 100vh;
+        }
+        html, body {
+          margin: 0;
+          padding: 0;
+          min-height: 100vh;
+          line-height: 1.8rem;
         width: 100%;
         color: ${PALETTE.BLACK_700};
         margin: 0 auto;

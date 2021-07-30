@@ -1,8 +1,8 @@
-import { FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 import { useCreateComment, useInput } from "../../../hooks";
 import { User } from "../../../types/user";
 import SubmitButton from "../../atoms/Buttons/SubmitButton";
-import { Form, GuestInfo, TextArea, Wrapper } from "./styles";
+import { Form, GuestInfo, TextBox, Wrapper } from "./styles";
 
 export interface Props {
   user: User | undefined;
@@ -11,7 +11,7 @@ export interface Props {
 }
 
 const CommentInput = ({ user, url, projectSecretKey }: Props) => {
-  const { value: content, onChange: onChangeContent, setValue: setContent } = useInput("");
+  const [content, setContent] = useState("");
   const { value: guestNickName, onChange: onChangeGuestNickName, setValue: setGuestNickName } = useInput("");
   const { value: guestPassword, onChange: onChangeGuestPassword, setValue: setGuestPassword } = useInput("");
   const { createComment } = useCreateComment();
@@ -48,15 +48,18 @@ const CommentInput = ({ user, url, projectSecretKey }: Props) => {
     }
   };
 
+  const onInput = (event: ChangeEvent<HTMLDivElement>) => {
+    setContent(event.target.innerText);
+  };
+
   return (
     <Form onSubmit={onSubmit}>
-      <TextArea
-        value={content}
-        onChange={onChangeContent}
-        placeholder="댓글을 입력해주세요."
+      <TextBox
+        contentEditable={true}
+        onInput={onInput}
         isValidInput={!isFormSubmitted || isValidTextInput}
         data-testid="comment-input-textarea"
-      />
+      ></TextBox>
 
       <Wrapper>
         {!user && (
