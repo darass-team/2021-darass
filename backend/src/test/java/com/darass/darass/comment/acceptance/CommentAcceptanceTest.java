@@ -83,8 +83,8 @@ public class CommentAcceptanceTest extends AcceptanceTest {
         setUpProject();
     }
 
-    @Test
     @DisplayName("소셜 로그인 유저가 댓글을 등록한다.")
+    @Test
     void saveLoginUser() throws Exception {
         소셜_로그인_댓글_등록됨("content", "url").andDo(
 
@@ -119,8 +119,8 @@ public class CommentAcceptanceTest extends AcceptanceTest {
         );
     }
 
-    @Test
     @DisplayName("비로그인 유저가 댓글을 등록한다.")
+    @Test
     void saveGuestUser() throws Exception {
         비로그인_댓글_등록됨("content", "url").andDo(
             document("api/v1/comments/post/success-guest-user",
@@ -153,8 +153,8 @@ public class CommentAcceptanceTest extends AcceptanceTest {
         );
     }
 
-    @Test
     @DisplayName("프로젝트 시크릿 키 존재하지 않다면 댓글을 등록할 수 없다.")
+    @Test
     void saveWithInvalidSecretKey() throws Exception {
         mockMvc.perform(post("/api/v1/comments")
             .contentType(MediaType.APPLICATION_JSON)
@@ -171,8 +171,8 @@ public class CommentAcceptanceTest extends AcceptanceTest {
             );
     }
 
-    @Test
     @DisplayName("전체 댓글을 최신순으로 조회한다.")
+    @Test
     void readOrderByLatest() throws Exception {
         소셜_로그인_댓글_등록됨("content1", "url");
         소셜_로그인_댓글_등록됨("content2", "url");
@@ -186,7 +186,7 @@ public class CommentAcceptanceTest extends AcceptanceTest {
             .param("url", "url")
             .param("projectKey", secretKey))
             .andExpect(status().isOk())
-            .andDo(document("api/v1/comments/get/success",
+            .andDo(document("api/v1/comments/get/latest/success",
                 requestParameters(
                     parameterWithName("sorting").description("정렬 방식"),
                     parameterWithName("url").description("조회 url"),
@@ -215,8 +215,8 @@ public class CommentAcceptanceTest extends AcceptanceTest {
             ));
     }
 
-    @Test
     @DisplayName("전체 댓글을 좋아요순으로 조회한다.")
+    @Test
     void readOrderByLike() throws Exception {
         소셜_로그인_댓글_등록됨("content1", "url");
         소셜_로그인_댓글_등록됨("content2", "url");
@@ -236,7 +236,7 @@ public class CommentAcceptanceTest extends AcceptanceTest {
             .param("url", "url")
             .param("projectKey", secretKey))
             .andExpect(status().isOk())
-            .andDo(document("api/v1/comments/get/success",
+            .andDo(document("api/v1/comments/get/like/success",
                 requestParameters(
                     parameterWithName("sorting").description("정렬 방식"),
                     parameterWithName("url").description("조회 url"),
@@ -265,8 +265,8 @@ public class CommentAcceptanceTest extends AcceptanceTest {
             ));
     }
 
-    @Test
     @DisplayName("전체 댓글을 과거순으로 조회한다.")
+    @Test
     void readOrderByOldest() throws Exception {
         소셜_로그인_댓글_등록됨("content1", "url");
         소셜_로그인_댓글_등록됨("content2", "url");
@@ -280,7 +280,7 @@ public class CommentAcceptanceTest extends AcceptanceTest {
             .param("url", "url")
             .param("projectKey", secretKey))
             .andExpect(status().isOk())
-            .andDo(document("api/v1/comments/get/success",
+            .andDo(document("api/v1/comments/get/oldest/success",
                 requestParameters(
                     parameterWithName("sorting").description("정렬 방식"),
                     parameterWithName("url").description("조회 url"),
@@ -309,8 +309,8 @@ public class CommentAcceptanceTest extends AcceptanceTest {
             ));
     }
 
-    @Test
     @DisplayName("특정 페이지의 댓글을 최신순으로 조회한다.")
+    @Test
     void readByPageRequestOrderByLatest() throws Exception {
         소셜_로그인_댓글_등록됨("content1", "url");
         소셜_로그인_댓글_등록됨("content2", "url");
@@ -331,7 +331,7 @@ public class CommentAcceptanceTest extends AcceptanceTest {
             .param("page", "2")
             .param("size", "5"))
             .andExpect(status().isOk())
-            .andDo(document("api/v1/comments/paging/get/success",
+            .andDo(document("api/v1/comments/paging/get/latest/success",
                 requestParameters(
                     parameterWithName("sorting").description("정렬 방식"),
                     parameterWithName("url").description("조회 url"),
@@ -356,8 +356,8 @@ public class CommentAcceptanceTest extends AcceptanceTest {
             ));
     }
 
-    @Test
     @DisplayName("특정 페이지의 댓글을 좋아요순으로 조회한다.")
+    @Test
     void readByPageRequestOrderByLike() throws Exception {
         소셜_로그인_댓글_등록됨("content1", "url");
 
@@ -390,7 +390,7 @@ public class CommentAcceptanceTest extends AcceptanceTest {
             .param("page", "1")
             .param("size", "5"))
             .andExpect(status().isOk())
-            .andDo(document("api/v1/comments/paging/get/success",
+            .andDo(document("api/v1/comments/paging/get/like/success",
                 requestParameters(
                     parameterWithName("sorting").description("정렬 방식"),
                     parameterWithName("url").description("조회 url"),
@@ -415,8 +415,8 @@ public class CommentAcceptanceTest extends AcceptanceTest {
             ));
     }
 
-    @Test
     @DisplayName("특정 페이지의 댓글을 과거순으로 조회한다.")
+    @Test
     void readByPageRequestOrderByOldest() throws Exception {
         소셜_로그인_댓글_등록됨("content1", "url");
         소셜_로그인_댓글_등록됨("content2", "url");
@@ -437,7 +437,7 @@ public class CommentAcceptanceTest extends AcceptanceTest {
             .param("page", "2")
             .param("size", "5"))
             .andExpect(status().isOk())
-            .andDo(document("api/v1/comments/paging/get/success",
+            .andDo(document("api/v1/comments/paging/get/oldest/success",
                 requestParameters(
                     parameterWithName("sorting").description("정렬 방식"),
                     parameterWithName("url").description("조회 url"),
@@ -462,8 +462,8 @@ public class CommentAcceptanceTest extends AcceptanceTest {
             ));
     }
 
-    @Test
     @DisplayName("소셜 로그인 유저가 댓글을 수정한다.")
+    @Test
     void updateByLoginUser() throws Exception {
         CommentResponse commentResponse = 소셜_로그인_댓글_등록됨_Response_반환("content1", "url");
         Long commentId = commentResponse.getId();
@@ -487,8 +487,8 @@ public class CommentAcceptanceTest extends AcceptanceTest {
             ));
     }
 
-    @Test
     @DisplayName("비로그인 유저가 댓글을 수정한다.")
+    @Test
     void updateByGuestUser() throws Exception {
         CommentResponse commentResponse = 비로그인_댓글_등록됨_Response_반환("content1", "url");
         UserResponse userResponse = commentResponse.getUser();
@@ -513,8 +513,8 @@ public class CommentAcceptanceTest extends AcceptanceTest {
             ));
     }
 
-    @Test
     @DisplayName("소셜 로그인 유저는 남의 댓글을 수정할 수 없다.")
+    @Test
     void updateUnauthorized() throws Exception {
         CommentResponse commentResponse1 = 소셜_로그인_댓글_등록됨_Response_반환("content1", "url");
         CommentResponse commentResponse2 = 비로그인_댓글_등록됨_Response_반환("content2", "url");
@@ -534,8 +534,8 @@ public class CommentAcceptanceTest extends AcceptanceTest {
             ));
     }
 
-    @Test
     @DisplayName("비로그인 유저가 비밀번호를 틀리면 댓글을 수정할 수 없다.")
+    @Test
     void updateInvalidGuestPassword() throws Exception {
         CommentResponse commentResponse = 비로그인_댓글_등록됨_Response_반환("content2", "url");
         Long commentId = commentResponse.getId();
@@ -555,8 +555,8 @@ public class CommentAcceptanceTest extends AcceptanceTest {
             ));
     }
 
-    @Test
     @DisplayName("소셜 로그인 유저가 댓글을 삭제한다.")
+    @Test
     void deleteLoginUser() throws Exception {
         CommentResponse commentResponse = 소셜_로그인_댓글_등록됨_Response_반환("content1", "url");
         Long commentId = commentResponse.getId();
@@ -575,8 +575,8 @@ public class CommentAcceptanceTest extends AcceptanceTest {
             ));
     }
 
-    @Test
     @DisplayName("비로그인 유저가 댓글을 삭제한다.")
+    @Test
     void deleteGuestUser() throws Exception {
         CommentResponse commentResponse = 비로그인_댓글_등록됨_Response_반환("content1", "url");
         Long commentId = commentResponse.getId();
@@ -598,8 +598,8 @@ public class CommentAcceptanceTest extends AcceptanceTest {
             ));
     }
 
-    @Test
     @DisplayName("관리자가 다른 유저의 댓글을 삭제한다.")
+    @Test
     void deleteAdminUser() throws Exception {
         CommentResponse commentResponse = 비로그인_댓글_등록됨_Response_반환("content1", "url");
         Long commentId = commentResponse.getId();
@@ -615,8 +615,8 @@ public class CommentAcceptanceTest extends AcceptanceTest {
             ));
     }
 
-    @Test
     @DisplayName("비로그인 유저는 남의 댓글을 삭제할 수 없다.")
+    @Test
     void deleteUnauthorized() throws Exception {
         CommentResponse commentResponse1 = 소셜_로그인_댓글_등록됨_Response_반환("content1", "url");
         CommentResponse commentResponse2 = 비로그인_댓글_등록됨_Response_반환("content2", "url");
@@ -638,8 +638,8 @@ public class CommentAcceptanceTest extends AcceptanceTest {
             ));
     }
 
-    @Test
     @DisplayName("댓글 좋아요를 누른다.")
+    @Test
     void likeComment() throws Exception {
         CommentResponse commentResponse = 소셜_로그인_댓글_등록됨_Response_반환("content", "url");
 
@@ -657,8 +657,8 @@ public class CommentAcceptanceTest extends AcceptanceTest {
             ));
     }
 
-    @Test
     @DisplayName("비로그인 사용자가 댓글 좋아요를 누르면 예외가 발생한다.")
+    @Test
     void invalidCommentLikeByGuestUser() throws Exception {
         CommentResponse commentResponse = 소셜_로그인_댓글_등록됨_Response_반환("content", "url");
 
