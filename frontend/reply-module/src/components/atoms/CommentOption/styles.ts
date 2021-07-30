@@ -1,9 +1,11 @@
 import styled from "styled-components";
+import { Z_INDEX } from "../../../styles/constants";
 import { SpeechBubbleCSS } from "../../../styles/css";
 import { PALETTE } from "../../../styles/palette";
 
 export const Container = styled.div`
   position: absolute;
+  z-index: ${Z_INDEX.CommentOption};
 `;
 
 export const OptionIcon = styled.img`
