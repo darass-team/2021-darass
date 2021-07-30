@@ -9,9 +9,10 @@ export const Button = styled.button<{ isLiked: boolean }>`
   border-radius: 20px;
   box-shadow: rgba(0, 0, 0, 0.16) 0 1px 4px;
   background-color: ${PALETTE.WHITE};
+  transition: background-color 0.1s;
 
   &:hover {
-    background-color: ${PALETTE.GRAY_300};
+    background-color: ${PALETTE.GRAY_500};
   }
 
   &:hover > img {

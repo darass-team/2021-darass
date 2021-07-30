@@ -25,12 +25,8 @@ export const CommentTextBoxWrapper = styled.div<{ align: "left" | "right" }>`
 
 export const LikingUsersButton = styled(LikingUsersButtonComponent)`
   position: absolute;
-  bottom: 0.5rem;
+  bottom: 1.2rem;
   right: -1.5rem;
-
-  @media screen and (max-width: 768px) {
-    bottom: 0.5rem;
-  }
 `;
 
 export const CommentBottomWrapper = styled.div`
