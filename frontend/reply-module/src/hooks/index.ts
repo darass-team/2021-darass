@@ -7,3 +7,4 @@ export { useInput } from "./useInput";
 export { useProject } from "./useProject";
 export { useConfirmGuestPassword } from "./useConfirmGuestPassword";
 export { useLikeComment } from "./useLikeComment";
+export { useContentEditable } from "./useContentEditable";

@@ -1,6 +1,7 @@
 import { ChangeEvent, FormEvent, useRef, useState } from "react";
 import { useCreateComment, useInput } from "../../../hooks";
 import { User } from "../../../types/user";
+import { focusContentEditableTextToEnd } from "../../../utils/focusContentEditableTextToEnd";
 import { isEmptyString } from "../../../utils/isEmptyString";
 import SubmitButton from "../../atoms/Buttons/SubmitButton";
 import { Form, GuestInfo, TextBox, Wrapper } from "./styles";
@@ -52,6 +53,7 @@ const CommentInput = ({ user, url, projectSecretKey }: Props) => {
 
   const onInput = (event: ChangeEvent<HTMLDivElement>) => {
     setContent(event.target.innerText);
+    focusContentEditableTextToEnd(event.target);
   };
 
   return (
@@ -62,7 +64,9 @@ const CommentInput = ({ user, url, projectSecretKey }: Props) => {
         onInput={onInput}
         isValidInput={!isFormSubmitted || isValidTextInput}
         data-testid="comment-input-text-box"
-      ></TextBox>
+      >
+        {content}
+      </TextBox>
 
       <Wrapper>
         {!user && (

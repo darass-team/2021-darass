@@ -1,6 +1,8 @@
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useEffect, useRef, useState } from "react";
+import { useContentEditable } from "../../../hooks";
 import { Comment } from "../../../types";
 import { User } from "../../../types/user";
+import { focusContentEditableTextToEnd } from "../../../utils/focusContentEditableTextToEnd";
 import { SubmitButton, Container, Name, Text, CancelButton, ButtonWrapper } from "./styles";
 
 export interface Props {
@@ -11,41 +13,47 @@ export interface Props {
   onSubmitEditedComment: (content: Comment["content"]) => void;
 }
 
-const CommentTextBox = React.forwardRef<HTMLDivElement, Props>(
-  ({ name, children, contentEditable = false, clear, onSubmitEditedComment }, ref) => {
-    const [editedContent, setEditedContent] = useState(children);
-    const isValidEditedContent = editedContent.length > 0;
+const CommentTextBox = ({ name, children, contentEditable = false, clear, onSubmitEditedComment }: Props) => {
+  const { content, setContent, onInput } = useContentEditable(children);
+  const $text = useRef<HTMLDivElement>(null);
 
-    return (
-      <Container>
-        <Name>{name}</Name>
-        <Text
-          ref={ref}
-          contentEditable={contentEditable}
-          suppressContentEditableWarning={true}
-          onInput={(event: ChangeEvent<HTMLDivElement>) => {
-            setEditedContent(event.target.innerText);
-          }}
-          data-testid="comment-text-box-contenteditable-input"
-        >
-          {children}
-        </Text>
-        {contentEditable && (
-          <ButtonWrapper>
-            <CancelButton onClick={clear}>취소</CancelButton>
-            <SubmitButton
-              type="button"
-              onClick={() => onSubmitEditedComment(editedContent)}
-              disabled={!isValidEditedContent}
-              dataTestId="comment-text-box-submit-button"
-            >
-              등록
-            </SubmitButton>
-          </ButtonWrapper>
-        )}
-      </Container>
-    );
-  }
-);
+  const cancelEdit = () => {
+    setContent(children);
+    clear();
+  };
+
+  useEffect(() => {
+    if (contentEditable && $text.current) {
+      focusContentEditableTextToEnd($text.current);
+    }
+  }, [contentEditable]);
+
+  return (
+    <Container>
+      <Name>{name}</Name>
+      <Text
+        ref={$text}
+        contentEditable={contentEditable}
+        suppressContentEditableWarning={true}
+        onInput={onInput}
+        data-testid="comment-text-box-contenteditable-input"
+      >
+        {content}
+      </Text>
+      {contentEditable && (
+        <ButtonWrapper>
+          <CancelButton onClick={cancelEdit}>취소</CancelButton>
+          <SubmitButton
+            type="button"
+            onClick={() => onSubmitEditedComment(content)}
+            data-testid="comment-text-box-submit-button"
+          >
+            등록
+          </SubmitButton>
+        </ButtonWrapper>
+      )}
+    </Container>
+  );
+};
 
 export default CommentTextBox;

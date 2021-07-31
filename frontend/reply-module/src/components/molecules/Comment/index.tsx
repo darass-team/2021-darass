@@ -3,7 +3,6 @@ import { useConfirmGuestPassword, useDeleteComment, useEditComment, useLikeComme
 import { Comment as CommentType } from "../../../types";
 import { DeleteCommentRequestParameter } from "../../../types/comment";
 import { User } from "../../../types/user";
-import { focusContentEditableTextToEnd } from "../../../utils/focusContentEditableTextToEnd";
 import { postScrollHeightToParentWindow } from "../../../utils/iframePostMessage";
 import { isEmptyString } from "../../../utils/isEmptyString";
 import { getTimeDifference } from "../../../utils/time";
@@ -165,12 +164,6 @@ const Comment = ({ user, comment, align = "left", shouldShowOption, iAmAdmin, th
   };
 
   useEffect(() => {
-    if (isEditing && $commentTextBox.current) {
-      focusContentEditableTextToEnd($commentTextBox.current);
-    }
-  }, [isEditing]);
-
-  useEffect(() => {
     postScrollHeightToParentWindow();
   }, [shouldShowPasswordInput]);
 
@@ -184,7 +177,6 @@ const Comment = ({ user, comment, align = "left", shouldShowOption, iAmAdmin, th
         <Avatar imageURL={comment.user.profileImageUrl} />
         <CommentTextBoxWrapper align={align}>
           <CommentTextBox
-            ref={$commentTextBox}
             name={comment.user.nickName}
             contentEditable={isEditing}
             clear={clear}
