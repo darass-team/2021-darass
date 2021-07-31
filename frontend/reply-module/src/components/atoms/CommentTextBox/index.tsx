@@ -37,7 +37,7 @@ const CommentTextBox = React.forwardRef<HTMLDivElement, Props>(
               type="button"
               onClick={() => onSubmitEditedComment(editedContent)}
               disabled={!isValidEditedContent}
-              data-testid="comment-text-box-submit-button"
+              dataTestId="comment-text-box-submit-button"
             >
               등록
             </SubmitButton>

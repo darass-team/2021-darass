@@ -18,6 +18,7 @@ jest.mock("../../hooks/useDeleteComment");
 jest.mock("../../hooks/useCreateComment");
 jest.mock("../../hooks/useConfirmGuestPassword");
 jest.mock("../../hooks/useLikeComment");
+jest.mock("../../utils/focusContentEditableTextToEnd");
 
 window.alert = function (str) {
   console.log(str);
@@ -88,11 +89,11 @@ describe("로그인 유저의 댓글 CRUD 테스트 코드를 작성한다.", ()
 
       const commentInput = render(<CommentInput user={user} url="" projectSecretKey="" />);
 
-      const commentInputTextArea = commentInput.getByTestId("comment-input-textarea");
+      const commentInputTextArea = commentInput.getByTestId("comment-input-text-box");
       expect(commentInput.queryByTestId("comment-input-guest-name")).toBeFalsy();
       expect(commentInput.queryByTestId("comment-input-guest-password")).toBeFalsy();
 
-      fireEvent.change(commentInputTextArea, { target: { value: "곤이" } });
+      fireEvent.input(commentInputTextArea, { target: { innerText: "곤이" } });
 
       const submitButton = commentInput.getAllByRole("button", {
         name: /등록/i
