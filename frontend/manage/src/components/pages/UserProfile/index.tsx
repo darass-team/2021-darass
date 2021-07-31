@@ -11,13 +11,20 @@ const UserProfile = () => {
   const { editUser } = useEditUser();
   const { deleteUser } = useDeleteUser();
   const { value: userName, setValue: setUserName, onChange: onChangeUserName } = useInput("");
-  const [profileImage, setProfileImage] = useState<string>();
+  const [profileImageAsUrl, setProfileImageAsUrl] = useState<string>();
+  const [profileImageAsFile, setProfileImageAsFile] = useState<Blob | string>();
 
   const onChangeFile = (event: ChangeEvent<HTMLInputElement>) => {
     const target = event.target;
     const files = target?.files || [];
 
-    setProfileImage(URL.createObjectURL(files[0]));
+    setProfileImageAsUrl(state => {
+      URL.revokeObjectURL(state || "");
+
+      return URL.createObjectURL(files[0]);
+    });
+
+    setProfileImageAsFile(files[0]);
   };
 
   const confirmDeleteUser = async () => {
@@ -39,7 +46,11 @@ const UserProfile = () => {
     event.preventDefault();
 
     try {
-      await editUser({ nickName: userName });
+      const formData = new FormData();
+      userName && formData.append("nickName", userName);
+      profileImageAsFile && formData.append("profileImageFile", profileImageAsFile);
+
+      await editUser(formData);
     } catch (error) {
       alert(error.response.data.message);
       console.error(error.response.data.message);
@@ -49,7 +60,7 @@ const UserProfile = () => {
   useEffect(() => {
     if (user) {
       setUserName(user.nickName);
-      setProfileImage(user.profileImageUrl);
+      setProfileImageAsUrl(user.profileImageUrl);
     }
   }, [user]);
 
@@ -62,7 +73,7 @@ const UserProfile = () => {
           <InfoWrapper>
             <FileLabel>
               <CameraIcon src={cameraIcon} />
-              <UserProfileImage imageURL={profileImage} size="LG" />
+              <UserProfileImage imageURL={profileImageAsUrl} size="LG" />
               <Input type="file" accept="image/*" onChange={onChangeFile} />
             </FileLabel>
           </InfoWrapper>

@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import { BASE_URL } from "../constants/api";
 import { COOKIE_KEY } from "../constants/cookie";
 import { getCookie } from "./cookie";
@@ -20,7 +20,10 @@ customAxios.interceptors.request.use(config => {
 const request = {
   get: async (query: string) => await customAxios.get(query),
   post: async <T>(query: string, data: T) => await customAxios.post(query, data),
-  patch: async <T>(query: string, data: T) => await customAxios.patch(query, data),
+  patch: async <T>(query: string, data: T, headers?: AxiosResponse["headers"]) =>
+    await customAxios.patch(query, data, {
+      headers
+    }),
   delete: async (query: string) => await customAxios.delete(query)
 };
 

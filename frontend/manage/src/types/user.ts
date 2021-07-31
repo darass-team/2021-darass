@@ -7,4 +7,6 @@ export interface User {
   modifiedDate: string;
 }
 
-export type EditUserRequest = Pick<User, "nickName">;
+export interface EditUserRequest extends Pick<User, "nickName"> {
+  profileImageFile?: Blob | string;
+}
