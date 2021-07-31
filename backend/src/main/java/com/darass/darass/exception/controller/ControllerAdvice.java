@@ -49,7 +49,7 @@ public class ControllerAdvice {
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ExceptionResponse handleException(Exception e) {
-        log.error("Unexpected Error From Server \n message : {} \n stacktrace : ", e.getMessage(), e);
+        log.error(e.getMessage(), e);
         return new ExceptionResponse(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR.value());
     }
 }

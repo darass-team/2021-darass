@@ -47,9 +47,18 @@
       </rollingPolicy>
     </appender>
 
+
+    <appender name="stash" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+      <destination>192.168.1.97:8000</destination>
+
+      <!-- encoder is required -->
+      <encoder class="net.logstash.logback.encoder.LogstashEncoder" />
+    </appender>
+
     <root level="info">
       <appender-ref ref="File"/>
       <appender-ref ref="ErrorFile"/>
+      <appender-ref ref="stash"/>
     </root>
   </springProfile>
 </configuration>
