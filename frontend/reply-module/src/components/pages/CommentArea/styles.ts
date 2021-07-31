@@ -20,7 +20,7 @@ export const CommentCountWrapper = styled.span`
 `;
 
 export const CommentCount = styled.span`
-  color: ${PALETTE.RED_500};
+  color: ${PALETTE.SECONDARY};
   font-weight: 700;
   margin-left: 0.5rem;
 `;

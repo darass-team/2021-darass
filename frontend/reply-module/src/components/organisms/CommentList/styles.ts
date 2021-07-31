@@ -51,7 +51,7 @@ export const CommentContainer = styled.div`
 `;
 
 export const Notice = styled.span`
-  margin: 1.5rem auto;
+  padding: 1.5rem 0;
   font-size: 1.6rem;
   text-align: center;
 `;
