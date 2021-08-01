@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useRef, useState } from "react";
+import { useEffect } from "react";
 import { useContentEditable } from "../../../hooks";
 import { Comment } from "../../../types";
 import { User } from "../../../types/user";
@@ -14,8 +14,7 @@ export interface Props {
 }
 
 const CommentTextBox = ({ name, children, contentEditable = false, clear, onSubmitEditedComment }: Props) => {
-  const { content, setContent, onInput } = useContentEditable(children);
-  const $text = useRef<HTMLDivElement>(null);
+  const { content, setContent, onInput, $contentEditable } = useContentEditable(children);
 
   const cancelEdit = () => {
     setContent(children);
@@ -23,8 +22,8 @@ const CommentTextBox = ({ name, children, contentEditable = false, clear, onSubm
   };
 
   useEffect(() => {
-    if (contentEditable && $text.current) {
-      focusContentEditableTextToEnd($text.current);
+    if (contentEditable && $contentEditable.current) {
+      focusContentEditableTextToEnd($contentEditable.current);
     }
   }, [contentEditable]);
 
@@ -32,14 +31,12 @@ const CommentTextBox = ({ name, children, contentEditable = false, clear, onSubm
     <Container>
       <Name>{name}</Name>
       <Text
-        ref={$text}
+        ref={$contentEditable}
         contentEditable={contentEditable}
         suppressContentEditableWarning={true}
         onInput={onInput}
         data-testid="comment-text-box-contenteditable-input"
-      >
-        {content}
-      </Text>
+      />
       {contentEditable && (
         <ButtonWrapper>
           <CancelButton onClick={cancelEdit}>취소</CancelButton>

@@ -1,5 +1,5 @@
 import { ChangeEvent, FormEvent, useRef, useState } from "react";
-import { useCreateComment, useInput } from "../../../hooks";
+import { useContentEditable, useCreateComment, useInput } from "../../../hooks";
 import { User } from "../../../types/user";
 import { focusContentEditableTextToEnd } from "../../../utils/focusContentEditableTextToEnd";
 import { isEmptyString } from "../../../utils/isEmptyString";
@@ -13,8 +13,7 @@ export interface Props {
 }
 
 const CommentInput = ({ user, url, projectSecretKey }: Props) => {
-  const [content, setContent] = useState("");
-  const $commentInputTextBox = useRef<HTMLDivElement>(null);
+  const { content, setContent, onInput, $contentEditable } = useContentEditable("");
   const { value: guestNickName, onChange: onChangeGuestNickName, setValue: setGuestNickName } = useInput("");
   const { value: guestPassword, onChange: onChangeGuestPassword, setValue: setGuestPassword } = useInput("");
   const { createComment } = useCreateComment();
@@ -43,7 +42,6 @@ const CommentInput = ({ user, url, projectSecretKey }: Props) => {
       setContent("");
       setGuestNickName("");
       setGuestPassword("");
-      $commentInputTextBox.current && ($commentInputTextBox.current.innerText = "");
     } catch (error) {
       alert("댓글 생성에 실패하였습니다.\n잠시 후 다시 시도해주세요.");
     } finally {
@@ -51,22 +49,15 @@ const CommentInput = ({ user, url, projectSecretKey }: Props) => {
     }
   };
 
-  const onInput = (event: ChangeEvent<HTMLDivElement>) => {
-    setContent(event.target.innerText);
-    focusContentEditableTextToEnd(event.target);
-  };
-
   return (
     <Form onSubmit={onSubmit}>
       <TextBox
-        ref={$commentInputTextBox}
+        ref={$contentEditable}
         contentEditable={true}
         onInput={onInput}
         isValidInput={!isFormSubmitted || isValidTextInput}
         data-testid="comment-input-text-box"
-      >
-        {content}
-      </TextBox>
+      />
 
       <Wrapper>
         {!user && (
