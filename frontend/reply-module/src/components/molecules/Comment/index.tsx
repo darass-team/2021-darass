@@ -3,7 +3,7 @@ import { useConfirmGuestPassword, useDeleteComment, useEditComment, useLikeComme
 import { Comment as CommentType } from "../../../types";
 import { DeleteCommentRequestParameter } from "../../../types/comment";
 import { User } from "../../../types/user";
-import { postScrollHeightToParentWindow } from "../../../utils/iframePostMessage";
+import { postOpenLikingUsersModal, postScrollHeightToParentWindow } from "../../../utils/postMessage";
 import { isEmptyString } from "../../../utils/isEmptyString";
 import { getTimeDifference } from "../../../utils/time";
 import Avatar from "../../atoms/Avatar";
@@ -37,7 +37,6 @@ type SubmitType = "Edit" | "Delete";
 
 const Comment = ({ user, comment, align = "left", shouldShowOption, iAmAdmin, thisCommentIsMine }: Props) => {
   const [isEditing, setEditing] = useState(false);
-  const [isLikingUsersModalOpen, setLikingUsersModalOpen] = useState(false);
   const [isPasswordSubmitted, setPasswordSubmitted] = useState(false);
   const [shouldShowPasswordInput, setShouldShowPasswordInput] = useState(false);
   const [submitType, setSubmitType] = useState<SubmitType | null>();
@@ -155,11 +154,7 @@ const Comment = ({ user, comment, align = "left", shouldShowOption, iAmAdmin, th
   };
 
   const onLikingUsersModalOpen = () => {
-    setLikingUsersModalOpen(true);
-  };
-
-  const onLikingUsersModalClose = () => {
-    setLikingUsersModalOpen(false);
+    postOpenLikingUsersModal(comment.likingUsers);
   };
 
   useEffect(() => {
@@ -222,9 +217,6 @@ const Comment = ({ user, comment, align = "left", shouldShowOption, iAmAdmin, th
           </CancelButton>
           <Button data-testid="comment-guest-password-submit-button">입력</Button>
         </PasswordForm>
-      )}
-      {isLikingUsersModalOpen && (
-        <LikingUsersModal users={comment.likingUsers} onCloseModal={onLikingUsersModalClose} />
       )}
     </Container>
   );

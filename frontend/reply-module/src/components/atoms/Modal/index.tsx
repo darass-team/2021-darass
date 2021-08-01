@@ -1,23 +1,20 @@
 import { ReactNode } from "react";
-import ReactDOM from "react-dom";
 import { Container, Dimmed } from "./styles";
 
 export interface Props {
   children: ReactNode;
-  onCloseModal: () => void;
 }
 
-const $modalRoot = document.getElementById("modal-root");
+const Modal = ({ children }: Props) => {
+  const onCloseModal = () => {
+    window.parent.postMessage({ type: "closeModal" }, "*");
+  };
 
-const Modal = ({ children, onCloseModal }: Props) => {
-  if (!$modalRoot) return null;
-
-  return ReactDOM.createPortal(
+  return (
     <>
       <Dimmed onClick={onCloseModal}></Dimmed>
       <Container>{children}</Container>
-    </>,
-    $modalRoot
+    </>
   );
 };
 

@@ -6,10 +6,10 @@ const { DotEnv } = require("webpack-dotenv");
 const Package = require("./package.json");
 
 const config = {
-  entry: "./src/index.tsx",
+  entry: { replyModule: "./src/index.tsx", modal: "./src/modal.tsx" },
   output: {
     path: path.resolve(__dirname, "dist"),
-    filename: `reply-module-${Package.version.replace("^", "")}.js`
+    filename: `[name]-${Package.version.replace("^", "")}.js`
   },
   module: {
     rules: [
@@ -37,7 +37,14 @@ const config = {
   },
   plugins: [
     new HtmlWebpackPlugin({
+      filename: "index.html",
+      chunks: ["replyModule"],
       template: "./public/index.html"
+    }),
+    new HtmlWebpackPlugin({
+      filename: "modal.html",
+      chunks: ["modal"],
+      template: "./public/modal.html"
     }),
     new DefinePlugin({
       "process.env.KAKAO_REST_API_KEY": JSON.stringify(process.env.KAKAO_REST_API_KEY),

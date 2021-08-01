@@ -10,7 +10,8 @@ export const Dimmed = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: transparent;
+  background-color: ${PALETTE.BLACK_900};
+  opacity: 0.4;
 `;
 
 export const Container = styled.div`
