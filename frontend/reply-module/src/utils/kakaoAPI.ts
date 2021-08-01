@@ -13,7 +13,6 @@ export const getKakaoAccessToken = async () => {
         resolve(kakaoAccessToken);
       },
       fail: function (error: Error) {
-        alert(JSON.stringify(error));
         reject(error);
       }
     })

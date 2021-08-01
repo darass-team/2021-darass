@@ -11,3 +11,7 @@ export const postScrollHeightToParentWindow = () => {
 export const postOpenLikingUsersModal = (likingUsers: Comment["likingUsers"]) => {
   window.parent.postMessage({ type: POST_MESSAGE_TYPE.OPEN_LIKING_USERS_MODAL, data: likingUsers }, "*");
 };
+
+export const postAlertMessage = (message: string) => {
+  window.parent.postMessage({ type: POST_MESSAGE_TYPE.ALERT, data: message }, "*");
+};

@@ -39,5 +39,11 @@ import { IFRAME_STYLE } from "./style.js";
       enableScroll();
       return;
     }
+
+    if (type === POST_MESSAGE_TYPE.ALERT) {
+      alert(data);
+
+      return;
+    }
   });
 })();

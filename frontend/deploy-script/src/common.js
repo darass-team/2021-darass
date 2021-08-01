@@ -1,4 +1,4 @@
-import { POST_MESSAGE_TYPE } from "./constants";
+import { POST_MESSAGE_TYPE } from "./constants.js";
 
 export const postMessageToIframe = ({ $iframe, message }) => {
   $iframe.contentWindow.postMessage(message, "*");

@@ -43,6 +43,8 @@ export const useUser = () => {
 
       queryClient.invalidateQueries(REACT_QUERY_KEY.USER);
     } catch (error) {
+      console.log(error);
+
       console.error(error.message);
     }
   };
