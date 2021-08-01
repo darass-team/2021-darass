@@ -13,7 +13,7 @@ export const Z_INDEX = Object.freeze({
       }
     },
     DESKTOP: {
-      USER_AVATAR_WRAPPER: 1
+      USER_AVATAR_WRAPPER: 2
     }
   },
 

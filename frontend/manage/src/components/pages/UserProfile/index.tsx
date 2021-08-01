@@ -2,9 +2,19 @@ import { ChangeEvent, FormEventHandler, useEffect, useState } from "react";
 import cameraIcon from "../../../assets/svg/camera.svg";
 import { useDeleteUser, useEditUser, useInput, useUser } from "../../../hooks";
 import ScreenContainer from "../../../styles/ScreenContainer";
-import SubmitButton from "../../atoms/Buttons/SubmitButton";
 import DeleteSection from "../../molecules/DeleteSection";
-import { CameraIcon, Container, FileLabel, Form, InfoWrapper, Input, Label, Title, UserProfileImage } from "./styles";
+import {
+  CameraIcon,
+  Container,
+  FileLabel,
+  Form,
+  InfoWrapper,
+  Input,
+  Label,
+  Title,
+  UserProfileImage,
+  SubmitButton
+} from "./styles";
 
 const UserProfile = () => {
   const { user, logout } = useUser();
