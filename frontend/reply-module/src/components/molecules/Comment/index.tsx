@@ -3,7 +3,12 @@ import { useConfirmGuestPassword, useDeleteComment, useEditComment, useLikeComme
 import { Comment as CommentType } from "../../../types";
 import { DeleteCommentRequestParameter } from "../../../types/comment";
 import { User } from "../../../types/user";
-import { postAlertMessage, postOpenLikingUsersModal, postScrollHeightToParentWindow } from "../../../utils/postMessage";
+import {
+  postAlertMessage,
+  postOpenConfirm,
+  postOpenLikingUsersModal,
+  postScrollHeightToParentWindow
+} from "../../../utils/postMessage";
 import { isEmptyString } from "../../../utils/isEmptyString";
 import { getTimeDifference } from "../../../utils/time";
 import Avatar from "../../atoms/Avatar";
@@ -23,6 +28,7 @@ import {
   LikingUsersButton,
   Time
 } from "./styles";
+import { POST_MESSAGE_TYPE } from "../../../constants/postMessageType";
 
 export interface Props {
   user: User | undefined;
@@ -83,7 +89,23 @@ const Comment = ({ user, comment, align = "left", shouldShowOption, iAmAdmin, th
   };
 
   const confirmDelete = async () => {
-    if (!confirm("정말 지우시겠습니까?")) {
+    const confirmResult = await new Promise(resolve => {
+      postOpenConfirm("정말 지우시겠습니까?");
+
+      window.addEventListener("message", ({ data }: MessageEvent) => {
+        if (data.type === POST_MESSAGE_TYPE.CLOSE_CONFIRM || data.type === POST_MESSAGE_TYPE.CLOSE_MODAL) {
+          resolve("no");
+
+          return;
+        }
+
+        if (data.type === POST_MESSAGE_TYPE.CONFIRM_OK) {
+          resolve("yes");
+        }
+      });
+    });
+
+    if (confirmResult === "no") {
       setSubmitType(null);
 
       return;

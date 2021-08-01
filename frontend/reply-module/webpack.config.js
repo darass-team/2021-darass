@@ -6,7 +6,7 @@ const { DotEnv } = require("webpack-dotenv");
 const Package = require("./package.json");
 
 const config = {
-  entry: { replyModule: "./src/index.tsx", modal: "./src/modal.tsx" },
+  entry: { replyModule: "./src/index.tsx", modal: "./src/Modal.tsx" },
   output: {
     path: path.resolve(__dirname, "dist"),
     filename: `[name]-${Package.version.replace("^", "")}.js`

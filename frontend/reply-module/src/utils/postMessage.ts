@@ -15,3 +15,15 @@ export const postOpenLikingUsersModal = (likingUsers: Comment["likingUsers"]) =>
 export const postAlertMessage = (message: string) => {
   window.parent.postMessage({ type: POST_MESSAGE_TYPE.ALERT, data: message }, "*");
 };
+
+export const postOpenConfirm = (message: string) => {
+  window.parent.postMessage({ type: POST_MESSAGE_TYPE.OPEN_CONFIRM, data: message }, "*");
+};
+
+export const postCloseConfirm = () => {
+  window.parent.postMessage({ type: POST_MESSAGE_TYPE.CLOSE_CONFIRM }, "*");
+};
+
+export const postConfirmOK = () => {
+  window.parent.postMessage({ type: POST_MESSAGE_TYPE.CONFIRM_OK }, "*");
+};
