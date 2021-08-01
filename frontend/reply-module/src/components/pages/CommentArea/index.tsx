@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import kakaoTalkIcon from "../../../assets/png/kakaotalk.png";
 import { useGetAllComments, useProject, useUser } from "../../../hooks";
-import { postScrollHeightToParentWindow } from "../../../utils/iframePostMessage";
+import { postScrollHeightToParentWindow } from "../../../utils/postMessage";
 import Avatar from "../../atoms/Avatar";
 import UserAvatarOption from "../../molecules/UserAvatarOption";
 import CommentInput from "../../organisms/CommentInput";

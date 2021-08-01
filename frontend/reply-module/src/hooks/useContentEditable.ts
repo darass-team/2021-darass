@@ -1,5 +1,5 @@
 import { ChangeEvent, useEffect, useRef, useState } from "react";
-import { postScrollHeightToParentWindow } from "../utils/iframePostMessage";
+import { postScrollHeightToParentWindow } from "../utils/postMessage";
 
 export const useContentEditable = (initialContent: string) => {
   const $contentEditable = useRef<HTMLDivElement>(null);

@@ -1,31 +1,20 @@
-import { ReactNode, useEffect } from "react";
-import ReactDOM from "react-dom";
+import { ReactNode } from "react";
 import { Container, Dimmed } from "./styles";
 
 export interface Props {
   children: ReactNode;
-  onCloseModal: () => void;
 }
 
-const $modalRoot = document.getElementById("modal-root");
+const Modal = ({ children }: Props) => {
+  const onCloseModal = () => {
+    window.parent.postMessage({ type: "closeModal" }, "*");
+  };
 
-const Modal = ({ children, onCloseModal }: Props) => {
-  useEffect(() => {
-    window.addEventListener("click", onCloseModal);
-
-    return () => {
-      window.removeEventListener("click", onCloseModal);
-    };
-  }, []);
-
-  if (!$modalRoot) return null;
-
-  return ReactDOM.createPortal(
+  return (
     <>
       <Dimmed onClick={onCloseModal}></Dimmed>
       <Container>{children}</Container>
-    </>,
-    $modalRoot
+    </>
   );
 };
 
