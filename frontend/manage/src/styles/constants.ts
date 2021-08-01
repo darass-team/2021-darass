@@ -8,7 +8,7 @@ export const Z_INDEX = Object.freeze({
       HAMBUGER_BUTTON: 3,
       MENU_WRAPPER: 2,
       DIMMED: {
-        OPEN: 1,
+        OPEN: 2,
         CLOSE: -1
       }
     },

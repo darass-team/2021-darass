@@ -17,6 +17,7 @@ export const Dimmed = styled.div<{ isOpen: boolean }>`
 
   width: 100%;
   height: 100%;
+  position: fixed;
   background-color: ${PALETTE.BLACK_900};
   transition: all 0.3s ease-in;
   opacity: ${({ isOpen }) => (isOpen ? 0.5 : 0)};
@@ -31,12 +32,12 @@ export const MenuWrapper = styled.nav<{ isOpen: boolean }>`
   justify-content: flex-start;
   align-items: center;
   z-index: ${Z_INDEX.NAV.MOBILE.MENU_WRAPPER};
+  position: fixed;
 
   background: ${PALETTE.PRIMARY};
-  height: 100vh;
+  height: 100%;
   text-align: left;
   padding: 10rem 2rem;
-  position: absolute;
   top: 0;
   left: 0;
   transform: ${({ isOpen }) => (isOpen ? "translateX(0)" : "translateX(-100%)")};

@@ -24,7 +24,6 @@ const GlobalStyles = createGlobalStyle`
       @media all and (max-width:780px) {
         html {
           font-size: 10px;
-          overflow: scroll;
         }
       }
       p {
