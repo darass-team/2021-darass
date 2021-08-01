@@ -1,21 +1,20 @@
+import { postCloseConfirm, postConfirmOK } from "../../../utils/postMessage";
 import { Container, Message, ButtonWrapper, ConfirmButton, CancelButton, Modal } from "./styles";
 
 export interface Props {
   message: string;
-  onConfirm: () => void;
-  onCancel: () => void;
 }
 
-const ConfirmModal = ({ message, onConfirm, onCancel }: Props) => {
+const ConfirmModal = ({ message }: Props) => {
   return (
     <Modal>
       <Container>
         <Message>{message}</Message>
         <ButtonWrapper>
-          <ConfirmButton type="button" onClick={onConfirm}>
+          <ConfirmButton type="button" onClick={postConfirmOK}>
             예
           </ConfirmButton>
-          <CancelButton type="button" onClick={onCancel}>
+          <CancelButton type="button" onClick={postCloseConfirm}>
             아니요
           </CancelButton>
         </ButtonWrapper>
