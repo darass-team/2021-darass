@@ -35,6 +35,7 @@ import { IFRAME_STYLE } from "./style.js";
     }
 
     if (type === POST_MESSAGE_TYPE.CLOSE_MODAL) {
+      $replyModuleIframe.contentWindow.postMessage({ type: POST_MESSAGE_TYPE.CLOSE_MODAL }, "*");
       hideElement($modalIframe);
       enableScroll();
       return;
@@ -43,6 +44,27 @@ import { IFRAME_STYLE } from "./style.js";
     if (type === POST_MESSAGE_TYPE.ALERT) {
       alert(data);
 
+      return;
+    }
+
+    if (type === POST_MESSAGE_TYPE.OPEN_CONFIRM) {
+      $modalIframe.contentWindow.postMessage({ type: POST_MESSAGE_TYPE.OPEN_CONFIRM, data }, "*");
+      showElement($modalIframe);
+      disableScroll();
+      return;
+    }
+
+    if (type === POST_MESSAGE_TYPE.CLOSE_CONFIRM) {
+      $replyModuleIframe.contentWindow.postMessage({ type: POST_MESSAGE_TYPE.CLOSE_CONFIRM }, "*");
+      hideElement($modalIframe);
+      enableScroll();
+      return;
+    }
+
+    if (type === POST_MESSAGE_TYPE.CONFIRM_OK) {
+      $replyModuleIframe.contentWindow.postMessage({ type: POST_MESSAGE_TYPE.CONFIRM_OK, data }, "*");
+      hideElement($modalIframe);
+      enableScroll();
       return;
     }
   });
