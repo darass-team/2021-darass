@@ -1,29 +1,43 @@
+import {
+  disableScroll,
+  enableScroll,
+  hideElement,
+  postParentClickEventToIframe,
+  resizeElementHeight,
+  showElement
+} from "./common.js";
+import { POST_MESSAGE_TYPE } from "./constants.js";
 import { createIframe } from "./createIframe.js";
+import { getReplyModuleURL } from "./getReplyModuleURL.js";
+import { IFRAME_STYLE } from "./style.js";
 
 (function () {
   const $darass = document.querySelector("#darass");
+  const $replyModuleIframe = createIframe({ src: getReplyModuleURL(), style: IFRAME_STYLE.REPLY_MODULE });
+  const $modalIframe = createIframe({ src: "http://localhost:3000/public/modal.html", style: IFRAME_STYLE.MODAL });
+  $replyModuleIframe.setAttribute("scrolling", "no");
+  $darass.append($replyModuleIframe, $modalIframe);
 
-  const replyModuleURL = "https://dorvcm7xtbd6v.cloudfront.net" + "?";
-  const currentURL = (window.location.origin + window.location.pathname).replace("index.html", "");
+  window.addEventListener("click", () => postParentClickEventToIframe($replyModuleIframe));
+  window.addEventListener("message", ({ data: { type, data } }) => {
+    if (!type) return;
 
-  const projectKey = $darass.dataset.projectKey;
+    if (type === POST_MESSAGE_TYPE.SCROLL_HEIGHT) {
+      resizeElementHeight({ element: $replyModuleIframe, height: data });
+      return;
+    }
 
-  const urlParams = new URLSearchParams(replyModuleURL);
-  urlParams.set("url", currentURL);
-  urlParams.set("projectKey", projectKey);
+    if (type === POST_MESSAGE_TYPE.OPEN_LIKING_USERS_MODAL) {
+      $modalIframe.contentWindow.postMessage({ type: POST_MESSAGE_TYPE.OPEN_LIKING_USERS_MODAL, data }, "*");
+      showElement($modalIframe);
+      disableScroll();
+      return;
+    }
 
-  const url = decodeURIComponent(urlParams.toString());
-  const $iframe = createIframe(url);
-  $darass.appendChild($iframe);
-
-  const postMessageToIframe = () => {
-    $iframe.contentWindow.postMessage("click", "*");
-  };
-
-  window.addEventListener("click", postMessageToIframe);
-  window.addEventListener("message", event => {
-    if (typeof event.data === "number") {
-      $iframe.style.setProperty("height", `${event.data}px`, "important");
+    if (type === POST_MESSAGE_TYPE.CLOSE_MODAL) {
+      hideElement($modalIframe);
+      enableScroll();
+      return;
     }
   });
 })();

@@ -1,9 +1,7 @@
-export const createIframe = url => {
+export const createIframe = ({ src, style }) => {
   const $iframe = document.createElement("iframe");
-  const defaultStyle = `width: 1px !important; min-width: 100% !important; border: none !important; overflow: hidden !important; height: 540px !important;`;
-  $iframe.setAttribute("scrolling", "no");
-  $iframe.setAttribute("src", url);
-  $iframe.setAttribute("style", defaultStyle);
+  $iframe.setAttribute("src", src);
+  $iframe.setAttribute("style", style);
 
   return $iframe;
 };
