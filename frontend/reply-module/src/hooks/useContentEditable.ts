@@ -1,4 +1,5 @@
 import { ChangeEvent, useEffect, useRef, useState } from "react";
+import { postScrollHeightToParentWindow } from "../utils/iframePostMessage";
 
 export const useContentEditable = (initialContent: string) => {
   const $contentEditable = useRef<HTMLDivElement>(null);
@@ -6,6 +7,7 @@ export const useContentEditable = (initialContent: string) => {
 
   const onInput = (event: ChangeEvent<HTMLDivElement>) => {
     _setContent(event.target.innerText);
+    postScrollHeightToParentWindow();
   };
 
   const setContent = (newContent: string) => {

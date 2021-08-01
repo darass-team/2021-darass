@@ -14,7 +14,7 @@ const GlobalStyles = createGlobalStyle`
       }
       html, body {
         margin: 0;
-        padding: 0;
+        padding: 0 1px;
         line-height: 1.8rem;
         width: 100%;
         color: ${PALETTE.BLACK_700};

@@ -12,8 +12,9 @@
 
   const $iframe = document.createElement("iframe");
   const defaultStyle = `width: 1px !important; min-width: 100% !important; border: none !important; overflow: hidden !important; height: 540px !important;`;
-  $iframe.src = decodeURIComponent(urlParams.toString());
-  $iframe.style = defaultStyle;
+  $iframe.setAttribute("scrolling", "no");
+  $iframe.setAttribute("src", decodeURIComponent(urlParams.toString()));
+  $iframe.setAttribute("style", defaultStyle);
   $darass.appendChild($iframe);
 
   window.addEventListener("message", event => {
