@@ -15,7 +15,7 @@ describe("Time Util", () => {
     beforeOneDay.setDate(beforeOneDay.getDate() - 1);
 
     const beforeOneWeek = new Date();
-    beforeOneWeek.setDate(beforeOneDay.getDate() - 7);
+    beforeOneWeek.setDate(beforeOneWeek.getDate() - 7);
 
     const beforeOneMonth = new Date();
     beforeOneMonth.setMonth(beforeOneMonth.getMonth() - 1);

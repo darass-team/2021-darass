@@ -19,18 +19,23 @@ export const Label = styled.span`
 `;
 
 export const OptionContainer = styled.div`
+  width: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
   cursor: pointer;
 
   & > * {
-    font-size: 1.2rem;
-    font-weight: bold;
-    margin-bottom: 3px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 2.5rem;
+    border-radius: 0.7rem;
+    padding: 0.4rem 0;
+    transition: background-color 0.3s;
   }
 
   & > *:hover {
-    color: ${PALETTE.BLACK_900};
+    background-color: ${PALETTE.GRAY_HOVER};
   }
 `;

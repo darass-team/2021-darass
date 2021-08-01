@@ -1,8 +1,10 @@
-import { FormEvent, useState } from "react";
-import { useCreateComment, useInput } from "../../../hooks";
+import { ChangeEvent, FormEvent, useRef, useState } from "react";
+import { useContentEditable, useCreateComment, useInput } from "../../../hooks";
 import { User } from "../../../types/user";
+import { focusContentEditableTextToEnd } from "../../../utils/focusContentEditableTextToEnd";
+import { isEmptyString } from "../../../utils/isEmptyString";
 import SubmitButton from "../../atoms/Buttons/SubmitButton";
-import { Form, GuestInfo, TextArea, Wrapper } from "./styles";
+import { Form, GuestInfo, TextBox, Wrapper } from "./styles";
 
 export interface Props {
   user: User | undefined;
@@ -11,13 +13,12 @@ export interface Props {
 }
 
 const CommentInput = ({ user, url, projectSecretKey }: Props) => {
-  const { value: content, onChange: onChangeContent, setValue: setContent } = useInput("");
+  const { content, setContent, onInput, $contentEditable } = useContentEditable("");
   const { value: guestNickName, onChange: onChangeGuestNickName, setValue: setGuestNickName } = useInput("");
   const { value: guestPassword, onChange: onChangeGuestPassword, setValue: setGuestPassword } = useInput("");
   const { createComment } = useCreateComment();
   const [isFormSubmitted, setFormSubmitted] = useState(false);
-
-  const isValidTextInput = content.length > 0;
+  const isValidTextInput = !isEmptyString(content);
   const isValidGuestNickName = !user ? guestNickName.length > 0 : true;
   const isValidGuestPassword = !user ? guestPassword.length > 0 : true;
   const isValidFormInput = isValidTextInput && isValidGuestNickName && isValidGuestPassword;
@@ -50,12 +51,12 @@ const CommentInput = ({ user, url, projectSecretKey }: Props) => {
 
   return (
     <Form onSubmit={onSubmit}>
-      <TextArea
-        value={content}
-        onChange={onChangeContent}
-        placeholder="댓글을 입력해주세요."
+      <TextBox
+        ref={$contentEditable}
+        contentEditable={true}
+        onInput={onInput}
         isValidInput={!isFormSubmitted || isValidTextInput}
-        data-testid="comment-input-textarea"
+        data-testid="comment-input-text-box"
       />
 
       <Wrapper>

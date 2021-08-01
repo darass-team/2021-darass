@@ -42,7 +42,7 @@ const UserAvatarOption = ({ user, children }: Props) => {
         alt="유저 프로필 이미지"
         data-testid="avartar-option-img"
       />
-      {isShowOptionBox && <UserOption userName={user?.nickName || "Login With"}>{children}</UserOption>}
+      {isShowOptionBox && <UserOption userName={user?.nickName}>{children}</UserOption>}
     </Container>
   );
 };

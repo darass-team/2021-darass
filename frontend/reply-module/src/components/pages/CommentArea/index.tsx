@@ -5,7 +5,16 @@ import { postScrollHeightToParentWindow } from "../../../utils/iframePostMessage
 import Avatar from "../../atoms/Avatar";
 import UserAvatarOption from "../../molecules/UserAvatarOption";
 import CommentInput from "../../organisms/CommentInput";
-import { CommentCount, CommentCountWrapper, CommentList, Container, Header } from "./styles";
+import {
+  CommentCount,
+  CommentCountWrapper,
+  CommentList,
+  Container,
+  Header,
+  LoginMethod,
+  LoginMethodWrapper,
+  LogOut
+} from "./styles";
 
 const CommentArea = () => {
   const urlParams = new URLSearchParams(window.location.search);
@@ -30,11 +39,16 @@ const CommentArea = () => {
 
         <UserAvatarOption user={user}>
           {user ? (
-            <button type="button" onClick={logout}>
+            <LogOut type="button" onClick={logout}>
               로그아웃
-            </button>
+            </LogOut>
           ) : (
-            <Avatar onClick={login} size="SM" imageURL={kakaoTalkIcon} alt="카카오톡 로그인 이미지" />
+            <>
+              <LoginMethodWrapper onClick={login}>
+                <Avatar size="SM" imageURL={kakaoTalkIcon} alt="카카오톡 로그인 이미지" />
+                <LoginMethod>카카오</LoginMethod>
+              </LoginMethodWrapper>
+            </>
           )}
         </UserAvatarOption>
       </Header>

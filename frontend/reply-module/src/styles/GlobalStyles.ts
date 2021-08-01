@@ -9,20 +9,25 @@ const GlobalStyles = createGlobalStyle`
         box-sizing: border-box;
       }
       html { 
-          font-size: 16px;
-          font-family: 'Noto Sans KR', sans-serif;
+        font-size: 16px;
+        font-family: 'Noto Sans KR', sans-serif;
       }
       html, body {
         margin: 0;
         padding: 0;
-        min-height: 100vh;
+        line-height: 1.8rem;
         width: 100%;
         color: ${PALETTE.BLACK_700};
         margin: 0 auto;
       }
-      @media all and (max-width:780px) {
+      @media all and (max-width:1080px) {
         html {
-          font-size: 10px;
+          font-size: 14px;
+        }
+      }
+      @media all and (max-width:580px) {
+        html {
+          font-size: 12px;
         }
       }
       ul {

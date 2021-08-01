@@ -3,6 +3,7 @@ import Comment from "../../molecules/Comment";
 import { CommentContainer, Container, OrderButton, OrderButtonContainer, OrderButtonWrapper, Notice } from "./styles";
 import { User } from "../../../types/user";
 import { Project } from "../../../types/project";
+import { MouseEvent, useState } from "react";
 
 export interface Props {
   className?: string;
@@ -11,14 +12,30 @@ export interface Props {
   project: Project | undefined;
 }
 
+const orderButtons = ["과거순", "최신순", "좋아요순"];
+
 const CommentList = ({ className, comments, user, project }: Props) => {
+  const [selectedOrder, setSelectedOrder] = useState("과거순");
+
+  const onSelectOrderButton = (event: MouseEvent) => {
+    const target = event.target as HTMLElement;
+    setSelectedOrder(target.innerText);
+  };
+
   return (
     <Container className={className}>
       <OrderButtonContainer>
         <OrderButtonWrapper>
-          <OrderButton type="button">최신순</OrderButton>
-          <OrderButton type="button">공감순</OrderButton>
-          <OrderButton type="button">과거순</OrderButton>
+          {orderButtons.map(orderButton => (
+            <OrderButton
+              type="button"
+              key={orderButton}
+              isSelected={selectedOrder === orderButton}
+              onClick={onSelectOrderButton}
+            >
+              {orderButton}
+            </OrderButton>
+          ))}
         </OrderButtonWrapper>
       </OrderButtonContainer>
       <CommentContainer>

@@ -2,11 +2,16 @@ import { css } from "styled-components";
 import { PALETTE } from "./palette";
 
 export const InputCSS = css`
+  box-sizing: border-box;
   border: 1px solid ${PALETTE.BLACK_700};
   border-radius: 10px;
   color: ${PALETTE.BLACK_700};
-  font-size: 1.4rem;
+  font-size: 1.2rem;
   outline: none;
+
+  &:focus {
+    box-shadow: 0 0 0 1px ${PALETTE.BLACK_700};
+  }
 
   &::placeholder {
     color: ${PALETTE.BLACK_700};
@@ -26,28 +31,11 @@ export const SpeechBubbleCSS = css`
   ::before {
     content: "";
     position: absolute;
-    top: -5px;
+    top: -7px;
     right: 8px;
 
     border-bottom: 10px solid ${PALETTE.WHITE};
     border-left: 5px solid transparent;
     border-right: 5px solid transparent;
-  }
-
-  & > button {
-    width: 100%;
-    background-color: ${PALETTE.WHITE};
-    font-weight: 600;
-    margin-bottom: 0.3rem;
-    border-radius: 10px;
-
-    :first-child {
-      padding-top: 0.5rem;
-    }
-
-    :last-child {
-      margin-bottom: 0;
-      padding-bottom: 0.5rem;
-    }
   }
 `;

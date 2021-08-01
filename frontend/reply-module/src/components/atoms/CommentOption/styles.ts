@@ -1,9 +1,11 @@
 import styled from "styled-components";
+import { Z_INDEX } from "../../../styles/constants";
 import { SpeechBubbleCSS } from "../../../styles/css";
 import { PALETTE } from "../../../styles/palette";
 
 export const Container = styled.div`
   position: absolute;
+  z-index: ${Z_INDEX.CommentOption};
 `;
 
 export const OptionIcon = styled.img`
@@ -12,7 +14,20 @@ export const OptionIcon = styled.img`
 
 export const OptionContainer = styled.div`
   ${SpeechBubbleCSS};
+  padding: 0.6rem 0.6rem;
   right: -5px;
+
+  & > * {
+    width: 100%;
+    border-radius: 0.5rem;
+    font-weight: 700;
+    padding: 0.3rem 0;
+    transition: background-color 0.3s;
+  }
+
+  & > *:hover {
+    background-color: ${PALETTE.WHITE_HOVER};
+  }
 `;
 
 export const EditButton = styled.button`

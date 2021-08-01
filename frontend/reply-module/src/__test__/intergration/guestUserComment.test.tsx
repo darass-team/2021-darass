@@ -13,6 +13,7 @@ jest.mock("../../hooks/useCreateComment");
 jest.mock("../../hooks/useConfirmGuestPassword");
 jest.mock("../../hooks/useLikeComment");
 jest.mock("../../utils/request");
+jest.mock("../../utils/focusContentEditableTextToEnd");
 
 window.alert = function (str) {
   console.log(str);
@@ -99,7 +100,7 @@ describe("비로그인 유저 댓글 CRUD 테스트 코드를 작성한다.", ()
   describe("비로그인 유저 댓글 생성", () => {
     test("비로그인 유저인 경우, 댓글 입력에 게스트 비밀번호/이름 입력란이 노출된다.", () => {
       const commentInput = render(<CommentInput user={undefined} url={null} projectSecretKey={null} />);
-      const $commentInputArea = commentInput.container.querySelector("textarea");
+      const $commentInputArea = commentInput.container.querySelector("form > div:nth-child(1)");
       const [$guestNickName, $guestPassword] = Array.from(commentInput.container.querySelectorAll("form  input"));
 
       expect($commentInputArea).toBeVisible();
@@ -109,32 +110,23 @@ describe("비로그인 유저 댓글 CRUD 테스트 코드를 작성한다.", ()
 
     test("비로그인 유저인 경우, 댓글 생성 시 댓글 내용/작성자 이름/비밀번호를 모두 입력해야 댓글을 작성할 수 있다.", async () => {
       const commentInput = render(<CommentInput user={undefined} url={null} projectSecretKey={null} />);
-      const $commentInputArea = commentInput.container.querySelector("textarea") as HTMLElement;
-      const [$guestNickName, $guestPassword] = Array.from(commentInput.container.querySelectorAll("form  input"));
-      const $submitButton = commentInput.container.querySelector("button") as HTMLButtonElement;
+      const $commentInputTextArea = commentInput.getByTestId("comment-input-text-box") as HTMLElement;
+      const $guestNickName = commentInput.getByPlaceholderText(/이름/i);
+      const $guestPassword = commentInput.getByPlaceholderText(/비밀번호/i);
+      const $submitButton = commentInput.getByRole("button", {
+        name: /등록/i
+      }) as HTMLButtonElement;
 
-      fireEvent.change($commentInputArea, { target: { value: "댓글 내용" } });
+      fireEvent.input($commentInputTextArea, { target: { innerText: "댓글 내용" } });
       fireEvent.change($guestNickName, { target: { value: "게스트 이름" } });
       fireEvent.change($guestPassword, { target: { value: "게스트 비밀번호" } });
 
       fireEvent.click($submitButton);
 
       await waitFor(() => {
-        expect(($commentInputArea as HTMLTextAreaElement).value).toBe("");
+        expect(($commentInputTextArea as HTMLTextAreaElement).innerText).toBe("");
         expect(($guestNickName as HTMLInputElement).value).toBe("");
         expect(($guestPassword as HTMLInputElement).value).toBe("");
-      });
-
-      fireEvent.change($commentInputArea, { target: { value: "댓글 내용" } });
-      fireEvent.change($guestNickName, { target: { value: "게스트 이름" } });
-      fireEvent.change($guestPassword, { target: { value: "게스트 비밀번호" } });
-
-      fireEvent.click($submitButton);
-
-      await waitFor(() => {
-        expect(($commentInputArea as HTMLTextAreaElement).value).toBe("댓글 내용");
-        expect(($guestNickName as HTMLInputElement).value).toBe("게스트 이름");
-        expect(($guestPassword as HTMLInputElement).value).toBe("게스트 비밀번호");
       });
     });
   });

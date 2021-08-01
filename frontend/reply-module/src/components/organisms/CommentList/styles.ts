@@ -18,13 +18,22 @@ export const OrderButtonContainer = styled.div`
 
 export const OrderButtonWrapper = styled.div`
   display: flex;
+
+  & > button:not(:last-child) {
+    margin-right: 1.2rem;
+  }
 `;
 
-export const OrderButton = styled.button`
-  color: ${PALETTE.BLACK_700};
+export const OrderButton = styled.button<{ isSelected: boolean }>`
+  color: ${props => (props.isSelected ? PALETTE.BLACK_700 : PALETTE.GRAY_500)};
   font-size: 1.6rem;
   font-weight: 700;
   background-color: transparent;
+  transition: color 0.1s;
+
+  &:hover {
+    color: ${props => !props.isSelected && PALETTE.BLACK_700};
+  }
 `;
 
 export const CommentContainer = styled.div`
@@ -42,7 +51,7 @@ export const CommentContainer = styled.div`
 `;
 
 export const Notice = styled.span`
-  margin: 1.5rem auto;
+  padding: 1.5rem 0;
   font-size: 1.6rem;
   text-align: center;
 `;

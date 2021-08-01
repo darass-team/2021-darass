@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import threeDots from "../../../assets/svg/three-dots.svg";
 import { Container, DeleteButton, EditButton, OptionContainer, OptionIcon } from "./styles";
 
@@ -10,8 +10,15 @@ export interface Props {
 
 const CommentOption = ({ className, startEditing, startDeleting }: Props) => {
   const [isShowOptionBox, setShowOptionBox] = useState(false);
+  const $optionIcon = useRef(null);
+
   const onShowOptionBox = () => {
     setShowOptionBox(state => !state);
+  };
+
+  const onHideOptionBox = (event: MouseEvent) => {
+    if (event.target === $optionIcon.current) return;
+    setShowOptionBox(false);
   };
 
   const onEdit = () => {
@@ -29,9 +36,22 @@ const CommentOption = ({ className, startEditing, startDeleting }: Props) => {
     setShowOptionBox(false);
   };
 
+  useEffect(() => {
+    window.addEventListener("click", onHideOptionBox);
+    return () => {
+      window.removeEventListener("click", onHideOptionBox);
+    };
+  }, []);
+
   return (
     <Container className={className}>
-      <OptionIcon src={threeDots} alt="댓글 옵션" onClick={onShowOptionBox} data-testid="comment-option" />
+      <OptionIcon
+        ref={$optionIcon}
+        src={threeDots}
+        alt="댓글 옵션"
+        onClick={onShowOptionBox}
+        data-testid="comment-option"
+      />
       {isShowOptionBox && (
         <OptionContainer>
           {startEditing && (

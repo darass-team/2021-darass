@@ -1,9 +1,10 @@
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 import { useConfirmGuestPassword, useDeleteComment, useEditComment, useLikeComment, useInput } from "../../../hooks";
 import { Comment as CommentType } from "../../../types";
 import { DeleteCommentRequestParameter } from "../../../types/comment";
 import { User } from "../../../types/user";
 import { postScrollHeightToParentWindow } from "../../../utils/iframePostMessage";
+import { isEmptyString } from "../../../utils/isEmptyString";
 import { getTimeDifference } from "../../../utils/time";
 import Avatar from "../../atoms/Avatar";
 import CommentTextBox from "../../atoms/CommentTextBox";
@@ -35,6 +36,7 @@ export interface Props {
 type SubmitType = "Edit" | "Delete";
 
 const Comment = ({ user, comment, align = "left", shouldShowOption, iAmAdmin, thisCommentIsMine }: Props) => {
+  const $commentTextBox = useRef<HTMLDivElement>(null);
   const [isEditing, setEditing] = useState(false);
   const [isLikingUsersModalOpen, setLikingUsersModalOpen] = useState(false);
   const [isPasswordSubmitted, setPasswordSubmitted] = useState(false);
@@ -73,19 +75,21 @@ const Comment = ({ user, comment, align = "left", shouldShowOption, iAmAdmin, th
   };
 
   const startEditing = () => {
-    user ? setEditing(true) : setShouldShowPasswordInput(true);
-
     setSubmitType("Edit");
+    user ? setEditing(true) : setShouldShowPasswordInput(true);
   };
 
   const startDeleting = () => {
-    user ? confirmDelete() : setShouldShowPasswordInput(true);
-
     setSubmitType("Delete");
+    user ? confirmDelete() : setShouldShowPasswordInput(true);
   };
 
   const confirmDelete = async () => {
-    if (!confirm("정말 지우시겠습니까?")) return;
+    if (!confirm("정말 지우시겠습니까?")) {
+      setSubmitType(null);
+
+      return;
+    }
 
     const deleteCommentRequestParameter: DeleteCommentRequestParameter = {
       id: comment.id,
@@ -100,6 +104,7 @@ const Comment = ({ user, comment, align = "left", shouldShowOption, iAmAdmin, th
       alert("댓글 제거에 실패하셨습니다.");
     } finally {
       clear();
+      setSubmitType(null);
     }
   };
 
@@ -119,6 +124,12 @@ const Comment = ({ user, comment, align = "left", shouldShowOption, iAmAdmin, th
 
   const onSubmitEditedComment = async (content: CommentType["content"]) => {
     try {
+      if (isEmptyString(content)) {
+        alert("최소 한 글자 이상 입력해주세요.");
+
+        return;
+      }
+
       await editComment({
         id: comment.id,
         content,
@@ -168,6 +179,7 @@ const Comment = ({ user, comment, align = "left", shouldShowOption, iAmAdmin, th
           <CommentTextBox
             name={comment.user.nickName}
             contentEditable={isEditing}
+            clear={clear}
             onSubmitEditedComment={onSubmitEditedComment}
           >
             {comment.content}
@@ -206,7 +218,7 @@ const Comment = ({ user, comment, align = "left", shouldShowOption, iAmAdmin, th
             isValidInput={!isPasswordSubmitted}
             data-testid="comment-guest-password-input"
           />
-          <CancelButton type="button" onClick={() => clear()} data-testid="comment-guest-password-cancel-button">
+          <CancelButton onClick={() => clear()} data-testid="comment-guest-password-cancel-button">
             취소
           </CancelButton>
           <Button data-testid="comment-guest-password-submit-button">입력</Button>
