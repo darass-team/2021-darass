@@ -1,4 +1,4 @@
-import { FormEvent, useEffect, useRef, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { useConfirmGuestPassword, useDeleteComment, useEditComment, useLikeComment, useInput } from "../../../hooks";
 import { Comment as CommentType } from "../../../types";
 import { DeleteCommentRequestParameter } from "../../../types/comment";
@@ -36,7 +36,6 @@ export interface Props {
 type SubmitType = "Edit" | "Delete";
 
 const Comment = ({ user, comment, align = "left", shouldShowOption, iAmAdmin, thisCommentIsMine }: Props) => {
-  const $commentTextBox = useRef<HTMLDivElement>(null);
   const [isEditing, setEditing] = useState(false);
   const [isLikingUsersModalOpen, setLikingUsersModalOpen] = useState(false);
   const [isPasswordSubmitted, setPasswordSubmitted] = useState(false);
@@ -165,7 +164,7 @@ const Comment = ({ user, comment, align = "left", shouldShowOption, iAmAdmin, th
 
   useEffect(() => {
     postScrollHeightToParentWindow();
-  }, [shouldShowPasswordInput]);
+  }, [shouldShowPasswordInput, submitType]);
 
   useEffect(() => {
     clear();
