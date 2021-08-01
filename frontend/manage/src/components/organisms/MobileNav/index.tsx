@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { ROUTE } from "../../../constants";
 import { PALETTE } from "../../../styles/palette";
@@ -19,6 +19,14 @@ const MobileNav = ({ user, logout, menuList }: Props) => {
   const onToggleNav = () => {
     setOpen(state => !state);
   };
+
+  useEffect(() => {
+    document.body.style.overflow = isOpen ? "hidden" : "revert";
+
+    return () => {
+      document.body.style.overflow = "revert";
+    };
+  }, [isOpen]);
 
   return (
     <Container>

@@ -3,7 +3,7 @@ import { useConfirmGuestPassword, useDeleteComment, useEditComment, useLikeComme
 import { Comment as CommentType } from "../../../types";
 import { DeleteCommentRequestParameter } from "../../../types/comment";
 import { User } from "../../../types/user";
-import { postOpenLikingUsersModal, postScrollHeightToParentWindow } from "../../../utils/postMessage";
+import { postAlertMessage, postOpenLikingUsersModal, postScrollHeightToParentWindow } from "../../../utils/postMessage";
 import { isEmptyString } from "../../../utils/isEmptyString";
 import { getTimeDifference } from "../../../utils/time";
 import Avatar from "../../atoms/Avatar";
@@ -99,7 +99,7 @@ const Comment = ({ user, comment, align = "left", shouldShowOption, iAmAdmin, th
       await deleteComment(deleteCommentRequestParameter);
     } catch (error) {
       console.error(error.message);
-      alert("댓글 제거에 실패하셨습니다.");
+      postAlertMessage("댓글 삭제에 실패하셨습니다.");
     } finally {
       clear();
       setSubmitType(null);
@@ -112,7 +112,8 @@ const Comment = ({ user, comment, align = "left", shouldShowOption, iAmAdmin, th
     const isValidPassword = await confirmGuestPassword();
 
     if (!isValidPassword) {
-      alert("비밀번호가 일치하지 않습니다.");
+      postAlertMessage("비밀번호가 일치하지 않습니다.");
+
       return;
     }
 
@@ -123,7 +124,7 @@ const Comment = ({ user, comment, align = "left", shouldShowOption, iAmAdmin, th
   const onSubmitEditedComment = async (content: CommentType["content"]) => {
     try {
       if (isEmptyString(content)) {
-        alert("최소 한 글자 이상 입력해주세요.");
+        postAlertMessage("최소 한 글자 이상 입력해주세요.");
 
         return;
       }
@@ -148,8 +149,9 @@ const Comment = ({ user, comment, align = "left", shouldShowOption, iAmAdmin, th
     try {
       await likeComment({ user, commentId: comment.id });
     } catch (error) {
+      postAlertMessage(error.message);
+
       console.error(error.message);
-      alert(error.message);
     }
   };
 
