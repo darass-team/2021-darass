@@ -5,11 +5,14 @@ import { POST_MESSAGE_TYPE } from "./constants/postMessageType";
 import GlobalStyles from "./styles/GlobalStyles";
 import { User } from "./types/user";
 
+const isValidMessageType = (type: string) =>
+  [POST_MESSAGE_TYPE.OPEN_LIKING_USERS_MODAL, POST_MESSAGE_TYPE.CONFIRM].some(_type => _type === type);
+
 const Modal = () => {
   const [users, setUsers] = useState<User[]>([]);
   useEffect(() => {
     window.addEventListener("message", ({ data: { type, data } }: MessageEvent) => {
-      if (type !== POST_MESSAGE_TYPE.OPEN_LIKING_USERS_MODAL) return;
+      if (!isValidMessageType(type)) return;
 
       setUsers(data);
     });

@@ -3,9 +3,10 @@ import { Container, Dimmed } from "./styles";
 
 export interface Props {
   children: ReactNode;
+  className?: string;
 }
 
-const Modal = ({ children }: Props) => {
+const Modal = ({ children, className }: Props) => {
   const onCloseModal = () => {
     window.parent.postMessage({ type: "closeModal" }, "*");
   };
@@ -13,7 +14,7 @@ const Modal = ({ children }: Props) => {
   return (
     <>
       <Dimmed onClick={onCloseModal}></Dimmed>
-      <Container>{children}</Container>
+      <Container className={className}>{children}</Container>
     </>
   );
 };
