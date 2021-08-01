@@ -1,5 +1,8 @@
 package com.darass.darass.exception.controller;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.mock;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -11,6 +14,7 @@ import com.darass.darass.auth.oauth.controller.OAuthController;
 import com.darass.darass.auth.oauth.service.OAuthService;
 import com.darass.darass.comment.controller.CommentController;
 import com.darass.darass.comment.dto.CommentCreateRequest;
+import com.darass.darass.exception.ExceptionWithMessageAndCode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -49,6 +53,21 @@ class ControllerAdviceTest extends SpringContainerTest {
             .contentType(MediaType.APPLICATION_JSON)
             .header("Authorization", "")
             .content(new ObjectMapper().writeValueAsString(new CommentCreateRequest())))
+            .andExpect(status().isBadRequest());
+    }
+
+    @DisplayName("handleBadRequestException 메서드는 BadRequestException 예외가 발생하면 http 응답코드 400을 반환한다.")
+    @Test
+    void handleBadRequestException() throws Exception {
+        OAuthController oAuthController = mock(OAuthController.class);
+        given(oAuthController.oauthLogin(any(), any())).willThrow(ExceptionWithMessageAndCode.IO_EXCEPTION.getException());
+
+        mockMvc = MockMvcBuilders
+            .standaloneSetup(oAuthController)
+            .setControllerAdvice(new ControllerAdvice())
+            .build();
+
+        mockMvc.perform(get("/api/v1/login/oauth?oauthAccessToken=invalid&oauthProviderName=kakao"))
             .andExpect(status().isBadRequest());
     }
 
@@ -92,5 +111,4 @@ class ControllerAdviceTest extends SpringContainerTest {
         mockMvc.perform(get("/api/v1/login/oauth"))
             .andExpect(status().isInternalServerError());
     }
-
 }

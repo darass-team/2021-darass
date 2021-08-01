@@ -27,12 +27,16 @@ public class ProjectServiceTest extends SpringContainerTest {
     private final static String JEKYLL_PROJECT_DESCRIPTION = "지킬 블로그 프로젝트 설명";
     private final static String TSTORY_PROJECT_NAME = "티스토리 블로그 프로젝트";
     private final static String TSTORY_PROJECT_DESCRIPTION = "티스토리 블로그 프로젝트 설명";
+
     @Autowired
     private ProjectService projectService;
+
     @Autowired
     private UserRepository userRepository;
+
     @Autowired
     private ProjectRepository projectRepository;
+
     private SocialLoginUser socialLoginUser;
 
     @BeforeEach
