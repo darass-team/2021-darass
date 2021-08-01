@@ -30,4 +30,5 @@ export const DeleteAlertMessage = styled.span`
 export const DeleteButton = styled(DeleteButtonComponent)`
   font-size: 1rem;
   font-weight: 700;
+  padding: 1rem;
 `;

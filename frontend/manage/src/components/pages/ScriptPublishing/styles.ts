@@ -1,10 +1,9 @@
 import styled from "styled-components";
 import { PALETTE } from "../../../styles/palette";
-import { orderedListCSS, titleCSS } from "./../../../styles/css";
+import { contentBoxCSS, orderedListCSS, titleCSS } from "./../../../styles/css";
 
 export const Container = styled.div`
-  display: flex;
-  flex-direction: column;
+  ${contentBoxCSS}
 `;
 
 export const Title = styled.h2`

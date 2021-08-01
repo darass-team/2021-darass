@@ -4,7 +4,6 @@ import Avatar from "../../atoms/Avatar";
 import SubmitButtonComponent from "../../atoms/Buttons/SubmitButton";
 
 export const Container = styled.div`
-  width: 40rem;
   ${contentBoxCSS}
 `;
 

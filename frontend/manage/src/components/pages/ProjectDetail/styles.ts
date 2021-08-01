@@ -1,11 +1,9 @@
 import styled from "styled-components";
-import { inputCSS, labelCSS, titleCSS } from "../../../styles/css";
+import { contentBoxCSS, inputCSS, labelCSS, titleCSS } from "../../../styles/css";
 import SubmitButtonComponent from "../../atoms/Buttons/SubmitButton";
 
 export const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+  ${contentBoxCSS}
 `;
 
 export const Title = styled.h2`

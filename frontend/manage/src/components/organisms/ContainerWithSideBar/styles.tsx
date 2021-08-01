@@ -32,7 +32,6 @@ export const SideBar = styled(SiderComponent)<{ offsetY: number }>`
 
 export const MainContent = styled.main`
   z-index: ${Z_INDEX.CONTAINER_WITH_SIDEBAR.MAIN_CONTENT.SELF};
-  ${contentBoxCSS}
 
   margin-left: 2rem;
   left: 18rem;
