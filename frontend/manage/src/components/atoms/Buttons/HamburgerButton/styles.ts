@@ -3,7 +3,7 @@ import { Z_INDEX } from "../../../../styles/constants";
 import { PALETTE } from "../../../../styles/palette";
 
 const Container = styled.button<{ isOpen: boolean }>`
-  position: absolute;
+  position: fixed;
   top: 5%;
   left: 2rem;
   display: flex;
@@ -18,7 +18,7 @@ const Container = styled.button<{ isOpen: boolean }>`
   z-index: ${Z_INDEX.NAV.MOBILE.HAMBUGER_BUTTON};
 
   div {
-    width: 30px;
+    width: 3rem;
     height: 5px;
     background-color: ${PALETTE.BLACK_700};
     border-radius: 10px;

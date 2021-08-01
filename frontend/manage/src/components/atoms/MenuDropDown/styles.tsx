@@ -6,7 +6,6 @@ export const Container = styled.div<{ isDropDown: boolean | null }>`
   width: 100%;
   display: flex;
   flex-direction: column;
-  overflow: scroll;
 
   @keyframes fadein {
     0% {
@@ -58,6 +57,7 @@ export const MainTitle = styled.button<{ isDropDown: boolean | null; depth: numb
   padding: 0.3rem 0 0.3rem ${props => 1 + 1 * 0.5 * props.depth}rem;
   z-index: ${props => Z_INDEX.CONTAINER_WITH_SIDEBAR.SIDEBAR.TITLE + props.depth};
   transition: "all 0.1s ease-in";
+
   &:hover {
     background-color: ${PALETTE.WHITE_HOVER};
   }

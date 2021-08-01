@@ -1,9 +1,10 @@
 import styled from "styled-components";
 import { contentBoxCSS, inputCSS, labelCSS, titleCSS } from "../../../styles/css";
 import Avatar from "../../atoms/Avatar";
+import SubmitButtonComponent from "../../atoms/Buttons/SubmitButton";
 
 export const Container = styled.div`
-  width: 40rem;
+  max-width: 40rem;
   ${contentBoxCSS}
 `;
 
@@ -15,16 +16,19 @@ export const Title = styled.h2`
 
 export const Form = styled.form`
   display: flex;
+  width: 100%;
   flex-direction: column;
   align-items: flex-end;
+  margin-top: 2rem;
+  padding-bottom: 5rem;
 `;
 
 export const InfoWrapper = styled.div`
-  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  margin-bottom: 4rem;
+  margin-bottom: 2rem;
+  width: 100%;
 `;
 
 export const UserProfileImage = styled(Avatar)`
@@ -56,4 +60,9 @@ export const FileLabel = styled(Label)`
 
 export const Input = styled.input`
   ${inputCSS}
+`;
+
+export const SubmitButton = styled(SubmitButtonComponent)`
+  align-items: flex-end;
+  margin-top: 4rem;
 `;

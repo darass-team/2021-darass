@@ -1,12 +1,9 @@
 import styled from "styled-components";
-import { inputCSS, labelCSS, titleCSS } from "../../../styles/css";
+import { contentBoxCSS, inputCSS, labelCSS, titleCSS } from "../../../styles/css";
 import SubmitButtonComponent from "../../atoms/Buttons/SubmitButton";
-import { PALETTE } from "./../../../styles/palette";
 
 export const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+  ${contentBoxCSS}
 `;
 
 export const Title = styled.h2`
@@ -19,7 +16,7 @@ export const Form = styled.form`
   flex-direction: column;
   align-items: flex-end;
   margin-top: 2rem;
-  border-bottom: 1px solid ${PALETTE.BAR};
+  padding-bottom: 5rem;
 `;
 
 export const InfoWrapper = styled.div`
@@ -41,5 +38,4 @@ export const Input = styled.input`
 export const SubmitButton = styled(SubmitButtonComponent)`
   align-items: flex-end;
   margin-top: 4rem;
-  margin-bottom: 5rem;
 `;
