@@ -15,7 +15,7 @@ const LikingUsersModal = ({ users, onCloseModal }: Props) => {
         <Title>👍 좋아요 누른 사람들</Title>
         <UserGrid>
           {users.map(user => (
-            <UserWrapper>
+            <UserWrapper key={user.id}>
               <Avatar size="SM" imageURL={user.profileImageUrl} alt={user.nickName} key={user.id}></Avatar>
               <UserNickName>{user.nickName}</UserNickName>
             </UserWrapper>
