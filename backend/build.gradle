@@ -64,6 +64,9 @@ dependencies {
 
     // logstash
     implementation 'net.logstash.logback:logstash-logback-encoder:6.3'
+
+    // 슬랙 알람
+    implementation 'com.github.maricn:logback-slack-appender:1.4.0'
 }
 
 test {
