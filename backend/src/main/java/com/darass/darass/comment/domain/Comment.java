@@ -19,6 +19,7 @@ import javax.persistence.OneToMany;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Formula;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -47,6 +48,9 @@ public class Comment extends BaseTimeEntity {
     private String url;
 
     private String content;
+
+    @Formula("(select count(*) from comment_like where comment_like.comment_id=id)")
+    private int likeCount;
 
     @Builder
     public Comment(Long id, User user, Project project, String url, String content) {

@@ -2,9 +2,11 @@ package com.darass.darass.comment.service;
 
 import com.darass.darass.comment.domain.Comment;
 import com.darass.darass.comment.domain.CommentLike;
-import com.darass.darass.comment.domain.Comments;
+import com.darass.darass.comment.domain.SortOption;
 import com.darass.darass.comment.dto.CommentCreateRequest;
 import com.darass.darass.comment.dto.CommentDeleteRequest;
+import com.darass.darass.comment.dto.CommentReadRequest;
+import com.darass.darass.comment.dto.CommentReadRequestByPagination;
 import com.darass.darass.comment.dto.CommentResponse;
 import com.darass.darass.comment.dto.CommentUpdateRequest;
 import com.darass.darass.comment.repository.CommentRepository;
@@ -40,8 +42,7 @@ public class CommentService {
         Comment comment = savedComment(user, commentRequest, project);
         String userType = userRepository.findUserTypeById(user.getId());
         String profileImageUrl = userRepository.findProfileImageUrlById(user.getId());
-        return CommentResponse
-            .of(comment, UserResponse.of(comment.getUser(), userType, profileImageUrl));
+        return CommentResponse.of(comment, UserResponse.of(comment.getUser(), userType, profileImageUrl));
     }
 
     private Project getBySecretKey(CommentCreateRequest commentRequest) {
@@ -67,19 +68,21 @@ public class CommentService {
         return userRepository.save(user);
     }
 
-    public List<CommentResponse> findAllCommentsByUrlAndProjectKey(String url, String projectKey) {
-        List<Comment> comments = commentRepository.findAllByUrlAndProjectSecretKey(url, projectKey);
+    public List<CommentResponse> findAllCommentsByUrlAndProjectKey(CommentReadRequest request) {
+        List<Comment> comments = commentRepository
+            .findByUrlAndProjectSecretKey(request.getUrl(), request.getProjectKey(),
+                SortOption.getMatchedSort(request.getSortOption()));
 
         return comments.stream()
             .map(comment -> CommentResponse.of(comment, UserResponse.of(comment.getUser())))
             .collect(Collectors.toList());
     }
 
-    public List<CommentResponse> findAllCommentsByUrlAndProjectKeyUsingPagination(String url, String projectKey,
-        Integer page, Integer size) {
-        int pageBasedIndex = page - 1;
+    public List<CommentResponse> findAllCommentsByUrlAndProjectKeyUsingPagination(CommentReadRequestByPagination request) {
+        int pageBasedIndex = request.getPage() - 1;
         Page<Comment> comments = commentRepository
-            .findAllByUrlAndProjectSecretKey(url, projectKey, PageRequest.of(pageBasedIndex, size));
+            .findByUrlAndProjectSecretKey(request.getUrl(), request.getProjectKey(),
+                PageRequest.of(pageBasedIndex, request.getSize(), SortOption.getMatchedSort(request.getSortOption())));
 
         return comments.stream()
             .map(comment -> CommentResponse.of(comment, UserResponse.of(comment.getUser())))
