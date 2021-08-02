@@ -4,6 +4,8 @@ import com.darass.darass.auth.oauth.domain.AuthenticationPrincipal;
 import com.darass.darass.auth.oauth.domain.RequiredLogin;
 import com.darass.darass.comment.dto.CommentCreateRequest;
 import com.darass.darass.comment.dto.CommentDeleteRequest;
+import com.darass.darass.comment.dto.CommentReadRequest;
+import com.darass.darass.comment.dto.CommentReadRequestByPagination;
 import com.darass.darass.comment.dto.CommentResponse;
 import com.darass.darass.comment.dto.CommentUpdateRequest;
 import com.darass.darass.comment.service.CommentService;
@@ -21,7 +23,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
@@ -32,18 +33,16 @@ public class CommentController {
     private final CommentService commentService;
 
     @GetMapping
-    public ResponseEntity<List<CommentResponse>> read(@RequestParam("sorting") String sorting,
-        @RequestParam("url") String url, @RequestParam("projectKey") String projectKey) {
-        List<CommentResponse> commentResponses = commentService.findAllCommentsByUrlAndProjectKey(sorting, url, projectKey);
+    public ResponseEntity<List<CommentResponse>> read(@ModelAttribute CommentReadRequest commentReadRequest) {
+        List<CommentResponse> commentResponses = commentService.findAllCommentsByUrlAndProjectKey(commentReadRequest);
         return ResponseEntity.status(HttpStatus.OK).body(commentResponses);
     }
 
     @GetMapping("/paging")
-    public ResponseEntity<List<CommentResponse>> readByPageRequest(@RequestParam("sorting") String sorting,
-        @RequestParam("url") String url, @RequestParam("projectKey") String projectKey, @RequestParam("page") Integer page,
-        @RequestParam("size") Integer size) {
+    public ResponseEntity<List<CommentResponse>> readByPageRequest(
+        @ModelAttribute CommentReadRequestByPagination commentReadRequestByPagination) {
         List<CommentResponse> commentResponses = commentService
-            .findAllCommentsByUrlAndProjectKeyUsingPagination(sorting, url, projectKey, page, size);
+            .findAllCommentsByUrlAndProjectKeyUsingPagination(commentReadRequestByPagination);
         return ResponseEntity.status(HttpStatus.OK).body(commentResponses);
     }
 

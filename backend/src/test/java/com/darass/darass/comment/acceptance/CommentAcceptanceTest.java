@@ -182,13 +182,13 @@ public class CommentAcceptanceTest extends AcceptanceTest {
 
         mockMvc.perform(get("/api/v1/comments")
             .contentType(MediaType.APPLICATION_JSON)
-            .param("sorting", "LATEST")
+            .param("sortOption", "LATEST")
             .param("url", "url")
             .param("projectKey", secretKey))
             .andExpect(status().isOk())
             .andDo(document("api/v1/comments/get/latest/success",
                 requestParameters(
-                    parameterWithName("sorting").description("정렬 방식"),
+                    parameterWithName("sortOption").description("정렬 방식"),
                     parameterWithName("url").description("조회 url"),
                     parameterWithName("projectKey").description("프로젝트 시크릿 키")
                 ),
@@ -232,13 +232,13 @@ public class CommentAcceptanceTest extends AcceptanceTest {
 
         mockMvc.perform(get("/api/v1/comments")
             .contentType(MediaType.APPLICATION_JSON)
-            .param("sorting", "LIKE")
+            .param("sortOption", "LIKE")
             .param("url", "url")
             .param("projectKey", secretKey))
             .andExpect(status().isOk())
             .andDo(document("api/v1/comments/get/like/success",
                 requestParameters(
-                    parameterWithName("sorting").description("정렬 방식"),
+                    parameterWithName("sortOption").description("정렬 방식"),
                     parameterWithName("url").description("조회 url"),
                     parameterWithName("projectKey").description("프로젝트 시크릿 키")
                 ),
@@ -282,13 +282,13 @@ public class CommentAcceptanceTest extends AcceptanceTest {
 
         mockMvc.perform(get("/api/v1/comments")
             .contentType(MediaType.APPLICATION_JSON)
-            .param("sorting", "OLDEST")
+            .param("sortOption", "OLDEST")
             .param("url", "url")
             .param("projectKey", secretKey))
             .andExpect(status().isOk())
             .andDo(document("api/v1/comments/get/oldest/success",
                 requestParameters(
-                    parameterWithName("sorting").description("정렬 방식"),
+                    parameterWithName("sortOption").description("정렬 방식"),
                     parameterWithName("url").description("조회 url"),
                     parameterWithName("projectKey").description("프로젝트 시크릿 키")
                 ),
@@ -331,7 +331,7 @@ public class CommentAcceptanceTest extends AcceptanceTest {
 
         mockMvc.perform(get("/api/v1/comments/paging")
             .contentType(MediaType.APPLICATION_JSON)
-            .param("sorting", "LATEST")
+            .param("sortOption", "LATEST")
             .param("url", "url")
             .param("projectKey", secretKey)
             .param("page", "2")
@@ -339,7 +339,7 @@ public class CommentAcceptanceTest extends AcceptanceTest {
             .andExpect(status().isOk())
             .andDo(document("api/v1/comments/paging/get/latest/success",
                 requestParameters(
-                    parameterWithName("sorting").description("정렬 방식"),
+                    parameterWithName("sortOption").description("정렬 방식"),
                     parameterWithName("url").description("조회 url"),
                     parameterWithName("projectKey").description("프로젝트 시크릿 키"),
                     parameterWithName("page").description("페이지"),
@@ -390,7 +390,7 @@ public class CommentAcceptanceTest extends AcceptanceTest {
 
         mockMvc.perform(get("/api/v1/comments/paging")
             .contentType(MediaType.APPLICATION_JSON)
-            .param("sorting", "LIKE")
+            .param("sortOption", "LIKE")
             .param("url", "url")
             .param("projectKey", secretKey)
             .param("page", "1")
@@ -398,7 +398,7 @@ public class CommentAcceptanceTest extends AcceptanceTest {
             .andExpect(status().isOk())
             .andDo(document("api/v1/comments/paging/get/like/success",
                 requestParameters(
-                    parameterWithName("sorting").description("정렬 방식"),
+                    parameterWithName("sortOption").description("정렬 방식"),
                     parameterWithName("url").description("조회 url"),
                     parameterWithName("projectKey").description("프로젝트 시크릿 키"),
                     parameterWithName("page").description("페이지"),
@@ -443,7 +443,7 @@ public class CommentAcceptanceTest extends AcceptanceTest {
 
         mockMvc.perform(get("/api/v1/comments/paging")
             .contentType(MediaType.APPLICATION_JSON)
-            .param("sorting", "OLDEST")
+            .param("sortOption", "OLDEST")
             .param("url", "url")
             .param("projectKey", secretKey)
             .param("page", "2")
@@ -451,7 +451,7 @@ public class CommentAcceptanceTest extends AcceptanceTest {
             .andExpect(status().isOk())
             .andDo(document("api/v1/comments/paging/get/oldest/success",
                 requestParameters(
-                    parameterWithName("sorting").description("정렬 방식"),
+                    parameterWithName("sortOption").description("정렬 방식"),
                     parameterWithName("url").description("조회 url"),
                     parameterWithName("projectKey").description("프로젝트 시크릿 키"),
                     parameterWithName("page").description("페이지"),

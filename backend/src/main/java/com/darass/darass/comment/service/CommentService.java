@@ -5,6 +5,8 @@ import com.darass.darass.comment.domain.CommentLike;
 import com.darass.darass.comment.domain.SortOption;
 import com.darass.darass.comment.dto.CommentCreateRequest;
 import com.darass.darass.comment.dto.CommentDeleteRequest;
+import com.darass.darass.comment.dto.CommentReadRequest;
+import com.darass.darass.comment.dto.CommentReadRequestByPagination;
 import com.darass.darass.comment.dto.CommentResponse;
 import com.darass.darass.comment.dto.CommentUpdateRequest;
 import com.darass.darass.comment.repository.CommentRepository;
@@ -67,21 +69,21 @@ public class CommentService {
         return userRepository.save(user);
     }
 
-    public List<CommentResponse> findAllCommentsByUrlAndProjectKey(String sorting, String url, String projectKey) {
+    public List<CommentResponse> findAllCommentsByUrlAndProjectKey(CommentReadRequest request) {
         List<Comment> comments = commentRepository
-            .findByUrlAndProjectSecretKey(url, projectKey, SortOption.getMatchedSort(sorting));
+            .findByUrlAndProjectSecretKey(request.getUrl(), request.getProjectKey(),
+                SortOption.getMatchedSort(request.getSortOption()));
 
         return comments.stream()
             .map(comment -> CommentResponse.of(comment, UserResponse.of(comment.getUser())))
             .collect(Collectors.toList());
     }
 
-    public List<CommentResponse> findAllCommentsByUrlAndProjectKeyUsingPagination(String sorting, String url,
-        String projectKey, Integer page, Integer size) {
-        int pageBasedIndex = page - 1;
+    public List<CommentResponse> findAllCommentsByUrlAndProjectKeyUsingPagination(CommentReadRequestByPagination request) {
+        int pageBasedIndex = request.getPage() - 1;
         Page<Comment> comments = commentRepository
-            .findByUrlAndProjectSecretKey(url, projectKey,
-                PageRequest.of(pageBasedIndex, size, SortOption.getMatchedSort(sorting)));
+            .findByUrlAndProjectSecretKey(request.getUrl(), request.getProjectKey(),
+                PageRequest.of(pageBasedIndex, request.getSize(), SortOption.getMatchedSort(request.getSortOption())));
 
         return comments.stream()
             .map(comment -> CommentResponse.of(comment, UserResponse.of(comment.getUser())))
