@@ -42,8 +42,7 @@ public class CommentService {
         Comment comment = savedComment(user, commentRequest, project);
         String userType = userRepository.findUserTypeById(user.getId());
         String profileImageUrl = userRepository.findProfileImageUrlById(user.getId());
-        return CommentResponse
-            .of(comment, UserResponse.of(comment.getUser(), userType, profileImageUrl));
+        return CommentResponse.of(comment, UserResponse.of(comment.getUser(), userType, profileImageUrl));
     }
 
     private Project getBySecretKey(CommentCreateRequest commentRequest) {
