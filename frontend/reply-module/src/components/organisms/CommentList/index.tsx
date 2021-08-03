@@ -1,39 +1,35 @@
-import { Comment as CommentType } from "../../../types";
-import Comment from "../../molecules/Comment";
-import { CommentContainer, Container, OrderButton, OrderButtonContainer, OrderButtonWrapper, Notice } from "./styles";
-import { User } from "../../../types/user";
+import { useState } from "react";
+import { ORDER_BUTTON } from "../../../constants/orderButton";
+import { Comment as CommentType } from "../../../types/comment";
 import { Project } from "../../../types/project";
-import { MouseEvent, useState } from "react";
+import { User } from "../../../types/user";
+import Comment from "../../molecules/Comment";
+import { CommentContainer, Container, Notice, OrderButton, OrderButtonContainer, OrderButtonWrapper } from "./styles";
 
 export interface Props {
   className?: string;
-  comments: CommentType[];
   user?: User;
-  project: Project | undefined;
+  project?: Project;
+  comments: CommentType[];
+  sortOption: keyof typeof ORDER_BUTTON;
+  setSortOption: (value: keyof typeof ORDER_BUTTON) => void;
 }
 
-const orderButtons = ["과거순", "최신순", "좋아요순"];
-
-const CommentList = ({ className, comments, user, project }: Props) => {
-  const [selectedOrder, setSelectedOrder] = useState("과거순");
-
-  const onSelectOrderButton = (event: MouseEvent) => {
-    const target = event.target as HTMLElement;
-    setSelectedOrder(target.innerText);
-  };
-
+const CommentList = ({ className, user, project, comments, sortOption, setSortOption }: Props) => {
   return (
     <Container className={className}>
       <OrderButtonContainer>
         <OrderButtonWrapper>
-          {orderButtons.map(orderButton => (
+          {Object.entries(ORDER_BUTTON).map(([key, value]) => (
             <OrderButton
               type="button"
-              key={orderButton}
-              isSelected={selectedOrder === orderButton}
-              onClick={onSelectOrderButton}
+              key={key}
+              isSelected={sortOption === key}
+              onClick={() => {
+                setSortOption(key as keyof typeof ORDER_BUTTON);
+              }}
             >
-              {orderButton}
+              {value}
             </OrderButton>
           ))}
         </OrderButtonWrapper>
