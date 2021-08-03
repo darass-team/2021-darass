@@ -28,8 +28,10 @@ class SortOptionTest {
     void getMatchedOldestSort() {
         Sort actual1 = SortOption.getMatchedSort("Oldest");
         Sort actual2 = SortOption.getMatchedSort("Jayon");
+        Sort actual3 = SortOption.getMatchedSort(null);
 
         assertThat(actual1).isEqualTo(SortOption.OTHER.getSort());
         assertThat(actual2).isEqualTo(SortOption.OTHER.getSort());
+        assertThat(actual3).isEqualTo(SortOption.OTHER.getSort());
     }
 }
