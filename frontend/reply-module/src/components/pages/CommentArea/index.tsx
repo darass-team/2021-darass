@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import kakaoTalkIcon from "../../../assets/png/kakaotalk.png";
 import { useGetAllComments, useProject, useUser } from "../../../hooks";
 import { postScrollHeightToParentWindow } from "../../../utils/postMessage";
@@ -22,13 +22,22 @@ const CommentArea = () => {
   const url = urlParams.get("url");
   const projectSecretKey = urlParams.get("projectKey");
 
+  const [sortOption, setSortOption] = useState("oldest");
   const { user, login, logout } = useUser();
-  const { comments } = useGetAllComments({ url, projectSecretKey });
+  const { comments, refetch } = useGetAllComments({ url, projectSecretKey, sortOption });
   const { project } = useProject({ projectSecretKey });
 
   useEffect(() => {
     postScrollHeightToParentWindow();
   }, [comments]);
+
+  useEffect(() => {
+    refetch();
+  }, [sortOption]);
+
+  if (!url || !projectSecretKey) {
+    return <>유효하지 않은 url과 projectSecretKey입니다.</>;
+  }
 
   return (
     <Container>
@@ -53,7 +62,7 @@ const CommentArea = () => {
         </UserAvatarOption>
       </Header>
       <CommentInput url={url} projectSecretKey={projectSecretKey} user={user} />
-      <CommentList user={user} comments={comments || []} project={project} />
+      {project && <CommentList user={user} comments={comments || []} project={project} setSortOption={setSortOption} />}
     </Container>
   );
 };

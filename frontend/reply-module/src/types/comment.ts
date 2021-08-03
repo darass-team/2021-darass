@@ -24,7 +24,9 @@ export interface CreateCommentRequestData extends Omit<GuestUserInfo, "guestUser
   content: string;
 }
 
-export type GetCommentsRequestParams = ScriptInfo;
+export interface GetCommentsRequestParams extends ScriptInfo {
+  sortOption?: string;
+}
 
 export type GetProjectRequestParams = Pick<ScriptInfo, "projectSecretKey">;
 
