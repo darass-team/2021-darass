@@ -2,6 +2,7 @@ package com.darass.darass.comment.domain;
 
 import java.util.Arrays;
 import java.util.Locale;
+import java.util.Objects;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
@@ -17,6 +18,9 @@ public enum SortOption {
     private final Sort sort;
 
     public static Sort getMatchedSort(String sorting) {
+        if (Objects.isNull(sorting)) {
+            return OTHER.sort;
+        }
         return Arrays.stream(values())
             .filter(sortOption -> sortOption.name().equals(sorting.toUpperCase(Locale.ROOT)))
             .findAny()
