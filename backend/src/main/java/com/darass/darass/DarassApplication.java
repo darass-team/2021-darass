@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class DarassApplication {
 
     public static void main(String[] args) {
-        System.out.println("수정15");
+        System.out.println("수정16");
         SpringApplication.run(DarassApplication.class, args);
     }
 }
