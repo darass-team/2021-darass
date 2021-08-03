@@ -4,8 +4,8 @@ import { PALETTE } from "../../../../styles/palette";
 
 const Container = styled.button<{ isOpen: boolean }>`
   position: fixed;
-  top: 5%;
-  left: 2rem;
+  top: 3%;
+  left: 1.4rem;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
