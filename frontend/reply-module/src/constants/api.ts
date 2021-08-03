@@ -1,7 +1,8 @@
 import { GetCommentsRequestParams, GuestUserInfo } from "../types/comment";
 
 export const BASE_URL = "https://darass.o-r.kr";
-export const QUERY = {
+
+export const QUERY = Object.freeze({
   LOGIN: "/api/v1/login/oauth?oauthProviderName=kakao&oauthAccessToken=",
   COMMENT: "/api/v1/comments",
   GET_ALL_COMMENTS: ({ url, projectSecretKey, sortOption }: GetCommentsRequestParams) =>
@@ -11,4 +12,4 @@ export const QUERY = {
     `/api/v1/users/check-password?guestUserId=${guestUserId}&guestUserPassword=${guestUserPassword}`,
   LIKE_COMMENT: (commentId: number) => `/api/v1/comments/${commentId}/like`,
   USER: "/api/v1/users"
-};
+});
