@@ -6,7 +6,8 @@ import { PALETTE } from "../../../styles/palette";
 import SubmitButtonComponent from "../../atoms/Buttons/SubmitButton";
 
 export const Container = styled.div`
-  width: 45rem;
+  width: 100%;
+  max-width: 45rem;
   padding: 6rem 5.5rem;
   background-color: ${PALETTE.WHITE};
   border-radius: 15px;
