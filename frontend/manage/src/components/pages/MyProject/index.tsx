@@ -1,13 +1,13 @@
-import { useHistory } from "react-router-dom";
+import { Redirect, useHistory } from "react-router-dom";
 import { ROUTE } from "../../../constants";
-import { useGetAllProjects } from "../../../hooks";
+import { useGetAllProjects, useUser } from "../../../hooks";
 import ScreenContainer from "../../../styles/ScreenContainer";
 import ProjectButton from "../../atoms/Buttons/ProjectButton";
-import ErrorNotice from "../../organisms/ErrorNotice";
 import { AddProjectButton, ButtonWrapper, Container, Message } from "./styles";
 
 const MyProject = () => {
   const history = useHistory();
+  const { logout } = useUser();
   const { projects, error } = useGetAllProjects();
 
   const moveProjectDetailPage = (id: number) => {
@@ -19,7 +19,7 @@ const MyProject = () => {
   };
 
   if (error) {
-    return <ErrorNotice>{"프로젝트를 불러오는데 실패하였습니다.\n잠시 후 다시 시도해주세요"}</ErrorNotice>;
+    logout();
   }
 
   return (

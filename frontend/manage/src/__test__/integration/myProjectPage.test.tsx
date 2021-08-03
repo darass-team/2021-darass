@@ -1,7 +1,7 @@
 import "@testing-library/jest-dom/extend-expect";
 import { fireEvent, render, waitFor } from "@testing-library/react";
 import { createMemoryHistory } from "history";
-import { useGetAllProjects } from "../../hooks";
+import { useGetAllProjects, useUser } from "../../hooks";
 import { myProject, myProject2, myProject3 } from "../fixture/project";
 import { ROUTE } from "../../constants";
 import { Router } from "react-router-dom";
@@ -10,6 +10,13 @@ import MyProject from "../../components/pages/MyProject";
 jest.mock("../../hooks");
 
 describe("myProject 페이지 테스트", () => {
+  beforeEach(() => {
+    (useUser as jest.Mock).mockImplementation(() => {
+      return {
+        logout: jest.fn()
+      };
+    });
+  });
   test("프로젝트가 하나도 없는 경우 프로젝트 추가 안내 메시지를 보여준다.", () => {
     (useGetAllProjects as jest.Mock).mockImplementation(() => {
       return {
