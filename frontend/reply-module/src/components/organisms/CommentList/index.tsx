@@ -1,4 +1,5 @@
-import { MouseEvent, useState } from "react";
+import { useState } from "react";
+import { ORDER_BUTTON } from "../../../constants/orderButton";
 import { Comment as CommentType } from "../../../types/comment";
 import { Project } from "../../../types/project";
 import { User } from "../../../types/user";
@@ -8,35 +9,27 @@ import { CommentContainer, Container, Notice, OrderButton, OrderButtonContainer,
 export interface Props {
   className?: string;
   user?: User;
+  project?: Project;
   comments: CommentType[];
-  project: Project;
-  setSortOption: (value: string) => void;
+  sortOption: keyof typeof ORDER_BUTTON;
+  setSortOption: (value: keyof typeof ORDER_BUTTON) => void;
 }
 
-const orderInfos = {
-  과거순: "oldest",
-  최신순: "latest",
-  좋아요순: "like"
-};
-
-const CommentList = ({ className, user, project, comments, setSortOption }: Props) => {
-  const [selectedOrder, setSelectedOrder] = useState("과거순");
-
+const CommentList = ({ className, user, project, comments, sortOption, setSortOption }: Props) => {
   return (
     <Container className={className}>
       <OrderButtonContainer>
         <OrderButtonWrapper>
-          {Object.entries(orderInfos).map(([key, value]) => (
+          {Object.entries(ORDER_BUTTON).map(([key, value]) => (
             <OrderButton
               type="button"
               key={key}
-              isSelected={selectedOrder === key}
+              isSelected={sortOption === key}
               onClick={() => {
-                setSelectedOrder(key);
-                setSortOption(value);
+                setSortOption(key as keyof typeof ORDER_BUTTON);
               }}
             >
-              {key}
+              {value}
             </OrderButton>
           ))}
         </OrderButtonWrapper>

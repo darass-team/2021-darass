@@ -1,4 +1,4 @@
-import { useQuery, useQueryClient } from "react-query";
+import { useQuery } from "react-query";
 import { QUERY } from "../constants/api";
 import { REACT_QUERY_KEY } from "../constants/reactQueryKey";
 import { Comment } from "../types";
@@ -17,7 +17,7 @@ const getAllComments = async ({ url, projectSecretKey, sortOption }: GetComments
   }
 };
 
-export const useGetAllComments = ({ url, projectSecretKey, sortOption = "latest" }: GetCommentsRequestParams) => {
+export const useGetAllComments = ({ url, projectSecretKey, sortOption = "oldest" }: GetCommentsRequestParams) => {
   const {
     data: comments,
     isLoading,

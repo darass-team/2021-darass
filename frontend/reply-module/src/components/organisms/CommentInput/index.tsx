@@ -16,7 +16,7 @@ const CommentInput = ({ user, url, projectSecretKey }: Props) => {
   const { content, setContent, onInput, $contentEditable } = useContentEditable("");
   const { value: guestNickName, onChange: onChangeGuestNickName, setValue: setGuestNickName } = useInput("");
   const { value: guestPassword, onChange: onChangeGuestPassword, setValue: setGuestPassword } = useInput("");
-  const { createComment } = useCreateComment();
+  const { createComment, error: createCommentError } = useCreateComment();
   const [isFormSubmitted, setFormSubmitted] = useState(false);
   const isValidTextInput = !isEmptyString(content);
   const isValidGuestNickName = !user ? guestNickName.length > 0 : true;

@@ -72,7 +72,9 @@ describe("비로그인 유저 댓글 CRUD 테스트 코드를 작성한다.", ()
   describe("비로그인 유저 댓글 조회", () => {
     test("비로그인 유저인 경우, 비로그인 유저가 작성한 모든 댓글들에 수정/삭제 옵션이 노출된다.", () => {
       const comments: Comment[] = JSON.parse(JSON.stringify(_comments));
-      const commentList = render(<CommentList comments={comments} project={undefined} />);
+      const commentList = render(
+        <CommentList comments={comments} project={undefined} sortOption={"oldest"} setSortOption={() => {}} />
+      );
       const $$comments = commentList.container.querySelectorAll("section > div:nth-child(2) > div");
 
       $$comments.forEach(($comment, index) => {
@@ -84,7 +86,9 @@ describe("비로그인 유저 댓글 CRUD 테스트 코드를 작성한다.", ()
 
     test("비로그인 유저인 경우, 모든 댓글들이 왼쪽에 정렬된다", async () => {
       const comments: Comment[] = JSON.parse(JSON.stringify(_comments));
-      const commentList = render(<CommentList comments={comments} project={undefined} />);
+      const commentList = render(
+        <CommentList comments={comments} project={undefined} sortOption={"oldest"} setSortOption={() => {}} />
+      );
 
       await waitFor(() => {
         const $$comments = commentList.container.querySelectorAll("section > div:nth-child(2) > div > div");
@@ -135,7 +139,15 @@ describe("비로그인 유저 댓글 CRUD 테스트 코드를 작성한다.", ()
     test("비로그인 유저는 댓글을 수정시, 비밀번호를 입력해야 수정내용 입력란이 활성화 된다.", async () => {
       const comments: Comment[] = JSON.parse(JSON.stringify(_comments));
       const guestUserComments = comments.filter(comment => comment.user.type === "GuestUser");
-      const commentList = render(<CommentList user={undefined} comments={guestUserComments} project={undefined} />);
+      const commentList = render(
+        <CommentList
+          user={undefined}
+          comments={guestUserComments}
+          project={undefined}
+          sortOption={"oldest"}
+          setSortOption={() => {}}
+        />
+      );
 
       const firstThreeDotButton = commentList.getAllByAltText("댓글 옵션")[0];
       fireEvent.click(firstThreeDotButton);
@@ -157,7 +169,9 @@ describe("비로그인 유저 댓글 CRUD 테스트 코드를 작성한다.", ()
     test("비로그인 유저는 댓글을 수정시, 비밀번호를 입력해야 삭제를 할 수 있다.", async () => {
       const comments: Comment[] = JSON.parse(JSON.stringify(_comments));
       const guestUserComments = comments.filter(comment => comment.user.type === "GuestUser");
-      const commentList = render(<CommentList comments={guestUserComments} project={undefined} />);
+      const commentList = render(
+        <CommentList comments={guestUserComments} project={undefined} sortOption={"oldest"} setSortOption={() => {}} />
+      );
 
       const firstThreeDotButton = commentList.getAllByAltText("댓글 옵션")[0];
       fireEvent.click(firstThreeDotButton);
@@ -187,13 +201,29 @@ describe("비로그인 유저 댓글 CRUD 테스트 코드를 작성한다.", ()
         };
       });
 
-      const { rerender } = render(<CommentList user={undefined} project={undefined} comments={comments} />);
+      const { rerender } = render(
+        <CommentList
+          user={undefined}
+          project={undefined}
+          comments={comments}
+          sortOption={"oldest"}
+          setSortOption={() => {}}
+        />
+      );
 
       const likeButton = screen.getAllByTestId("comment-like-button")[0];
 
       fireEvent.click(likeButton);
 
-      rerender(<CommentList user={undefined} project={undefined} comments={comments} />);
+      rerender(
+        <CommentList
+          user={undefined}
+          project={undefined}
+          comments={comments}
+          sortOption={"oldest"}
+          setSortOption={() => {}}
+        />
+      );
 
       await waitFor(() => {
         expect(screen.queryByTestId("liking-users-button-num-of-likes")).toBeFalsy();

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import kakaoTalkIcon from "../../../assets/png/kakaotalk.png";
+import { ORDER_BUTTON } from "../../../constants/orderButton";
 import { useGetAllComments, useProject, useUser } from "../../../hooks";
 import { postScrollHeightToParentWindow } from "../../../utils/postMessage";
 import Avatar from "../../atoms/Avatar";
@@ -22,9 +23,10 @@ const CommentArea = () => {
   const url = urlParams.get("url");
   const projectSecretKey = urlParams.get("projectKey");
 
-  const [sortOption, setSortOption] = useState("oldest");
+  const [sortOption, setSortOption] = useState<keyof typeof ORDER_BUTTON>("oldest");
+
   const { user, login, logout } = useUser();
-  const { comments, refetch } = useGetAllComments({ url, projectSecretKey, sortOption });
+  const { comments, refetch: refetchAllComments } = useGetAllComments({ url, projectSecretKey, sortOption });
   const { project } = useProject({ projectSecretKey });
 
   useEffect(() => {
@@ -32,7 +34,7 @@ const CommentArea = () => {
   }, [comments]);
 
   useEffect(() => {
-    refetch();
+    refetchAllComments();
   }, [sortOption]);
 
   if (!url || !projectSecretKey) {
@@ -62,7 +64,13 @@ const CommentArea = () => {
         </UserAvatarOption>
       </Header>
       <CommentInput url={url} projectSecretKey={projectSecretKey} user={user} />
-      {project && <CommentList user={user} comments={comments || []} project={project} setSortOption={setSortOption} />}
+      <CommentList
+        user={user}
+        comments={comments || []}
+        project={project}
+        sortOption={sortOption}
+        setSortOption={setSortOption}
+      />
     </Container>
   );
 };

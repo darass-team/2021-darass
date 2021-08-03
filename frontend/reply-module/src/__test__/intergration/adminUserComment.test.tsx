@@ -1,6 +1,7 @@
 import "@testing-library/jest-dom/extend-expect";
 import { fireEvent, render, waitFor } from "@testing-library/react";
 import CommentList from "../../components/organisms/CommentList";
+import { ORDER_BUTTON } from "../../constants/orderButton";
 import { useConfirmGuestPassword, useDeleteComment, useEditComment } from "../../hooks";
 import { useLikeComment } from "../../hooks/useLikeComment";
 import { comments } from "../fixture/comments";
@@ -67,7 +68,15 @@ describe("관리자 유저일 때의 동작 테스트", () => {
     const iAmAdmin = user.id === project.userId;
     expect(iAmAdmin).toBeTruthy();
 
-    const commentList = render(<CommentList user={user} project={project} comments={guestComments} />);
+    const commentList = render(
+      <CommentList
+        user={user}
+        project={project}
+        comments={guestComments}
+        sortOption={"oldest"}
+        setSortOption={() => {}}
+      />
+    );
     const allCommentOptions = commentList.getAllByAltText("댓글 옵션");
     expect(allCommentOptions.length).toEqual(guestComments.length);
 
@@ -87,7 +96,15 @@ describe("관리자 유저일 때의 동작 테스트", () => {
     const iAmAdmin = user.id === project.userId;
     expect(iAmAdmin).toBeTruthy();
 
-    const commentList = render(<CommentList user={user} project={project} comments={socialLoginedComments} />);
+    const commentList = render(
+      <CommentList
+        user={user}
+        project={project}
+        comments={socialLoginedComments}
+        sortOption={"oldest"}
+        setSortOption={() => {}}
+      />
+    );
     const allCommentOptions = commentList.getAllByAltText("댓글 옵션");
     expect(allCommentOptions.length).toEqual(socialLoginedComments.length);
 
@@ -108,7 +125,15 @@ describe("관리자 유저일 때의 동작 테스트", () => {
     const iAmAdmin = user.id === project.userId;
     expect(iAmAdmin).toBeTruthy();
 
-    const commentList = render(<CommentList user={user} project={project} comments={guestComments} />);
+    const commentList = render(
+      <CommentList
+        user={user}
+        project={project}
+        comments={guestComments}
+        sortOption={"oldest"}
+        setSortOption={() => {}}
+      />
+    );
     const allCommentOptions = commentList.getAllByAltText("댓글 옵션");
     expect(allCommentOptions.length).toEqual(guestComments.length);
 
@@ -128,7 +153,13 @@ describe("관리자 유저일 때의 동작 테스트", () => {
     expect(iAmAdmin).toBeTruthy();
 
     const commentList = render(
-      <CommentList user={user} project={project} comments={socialLoginedCommentsWrittenByOther} />
+      <CommentList
+        user={user}
+        project={project}
+        comments={socialLoginedCommentsWrittenByOther}
+        sortOption={"oldest"}
+        setSortOption={() => {}}
+      />
     );
     const allCommentOptions = commentList.getAllByAltText("댓글 옵션");
     expect(allCommentOptions.length).toEqual(socialLoginedCommentsWrittenByOther.length);
@@ -148,7 +179,13 @@ describe("관리자 유저일 때의 동작 테스트", () => {
     expect(iAmAdmin).toBeTruthy();
 
     const commentList = render(
-      <CommentList user={user} project={project} comments={socialLoginedCommentsWrittenByMe} />
+      <CommentList
+        user={user}
+        project={project}
+        comments={socialLoginedCommentsWrittenByMe}
+        sortOption={"oldest"}
+        setSortOption={() => {}}
+      />
     );
     const allCommentOptions = commentList.getAllByAltText("댓글 옵션");
     expect(allCommentOptions.length).toEqual(socialLoginedCommentsWrittenByMe.length);

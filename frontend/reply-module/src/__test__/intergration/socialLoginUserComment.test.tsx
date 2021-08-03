@@ -78,7 +78,15 @@ describe("로그인 유저의 댓글 CRUD 테스트 코드를 작성한다.", ()
     test("로그인 유저는 모든 댓글을 조회할 수 있다.", () => {
       const user = socialLoginUser;
       const comments = JSON.parse(JSON.stringify(_comments));
-      const commentList = render(<CommentList user={user} comments={comments} project={undefined} />);
+      const commentList = render(
+        <CommentList
+          user={user}
+          comments={comments}
+          project={undefined}
+          sortOption={"oldest"}
+          setSortOption={() => {}}
+        />
+      );
 
       expect(commentList.getAllByTestId("comment").length).toEqual(comments.length);
     });
@@ -109,7 +117,15 @@ describe("로그인 유저의 댓글 CRUD 테스트 코드를 작성한다.", ()
     test("로그인 유저는, 자신의 댓글을 비밀번호 입력 없이 수정할 수 있다.", async () => {
       const user = socialLoginUser;
       const myComments = JSON.parse(JSON.stringify(_comments.filter(comment => comment.user.id === user.id)));
-      const commentList = render(<CommentList user={user} project={undefined} comments={myComments} />);
+      const commentList = render(
+        <CommentList
+          user={user}
+          project={undefined}
+          comments={myComments}
+          sortOption={"oldest"}
+          setSortOption={() => {}}
+        />
+      );
 
       const firstCommentOption = commentList.getAllByTestId("comment-option")[0];
       fireEvent.click(firstCommentOption);
@@ -136,7 +152,15 @@ describe("로그인 유저의 댓글 CRUD 테스트 코드를 작성한다.", ()
       const commentsWrittenByOthers = JSON.parse(
         JSON.stringify(_comments.filter(comment => comment.user.id !== user.id))
       );
-      const commentList = render(<CommentList user={user} project={undefined} comments={commentsWrittenByOthers} />);
+      const commentList = render(
+        <CommentList
+          user={user}
+          project={undefined}
+          comments={commentsWrittenByOthers}
+          sortOption={"oldest"}
+          setSortOption={() => {}}
+        />
+      );
 
       expect(commentList.queryAllByTestId("comment-option").length).toEqual(0);
     });
@@ -147,7 +171,15 @@ describe("로그인 유저의 댓글 CRUD 테스트 코드를 작성한다.", ()
       const commentsWrittenByOthers = JSON.parse(
         JSON.stringify(_comments.filter(comment => comment.user.id === user.id))
       );
-      const commentList = render(<CommentList user={user} project={undefined} comments={commentsWrittenByOthers} />);
+      const commentList = render(
+        <CommentList
+          user={user}
+          project={undefined}
+          comments={commentsWrittenByOthers}
+          sortOption={"oldest"}
+          setSortOption={() => {}}
+        />
+      );
 
       const firstCommentOption = commentList.getAllByTestId("comment-option")[0];
       fireEvent.click(firstCommentOption);
@@ -166,7 +198,15 @@ describe("로그인 유저의 댓글 CRUD 테스트 코드를 작성한다.", ()
         JSON.stringify(_comments.filter(comment => comment.user.id !== user.id))
       );
 
-      const commentList = render(<CommentList user={user} project={undefined} comments={commentsWrittenByOthers} />);
+      const commentList = render(
+        <CommentList
+          user={user}
+          project={undefined}
+          comments={commentsWrittenByOthers}
+          sortOption={"oldest"}
+          setSortOption={() => {}}
+        />
+      );
 
       expect(commentList.queryAllByTestId("comment-option").length).toEqual(0);
     });
@@ -186,13 +226,29 @@ describe("로그인 유저의 댓글 CRUD 테스트 코드를 작성한다.", ()
         };
       });
 
-      const { rerender } = render(<CommentList user={user} project={undefined} comments={comments} />);
+      const { rerender } = render(
+        <CommentList
+          user={user}
+          project={undefined}
+          comments={comments}
+          sortOption={"oldest"}
+          setSortOption={() => {}}
+        />
+      );
 
       const likeButton = screen.getAllByTestId("comment-like-button")[0];
 
       fireEvent.click(likeButton);
 
-      rerender(<CommentList user={user} project={undefined} comments={comments} />);
+      rerender(
+        <CommentList
+          user={user}
+          project={undefined}
+          comments={comments}
+          sortOption={"oldest"}
+          setSortOption={() => {}}
+        />
+      );
 
       await waitFor(() => {
         const numOfLikes = screen.getAllByTestId("liking-users-button-num-of-likes")[0];
@@ -216,13 +272,17 @@ describe("로그인 유저의 댓글 CRUD 테스트 코드를 작성한다.", ()
       };
     });
 
-    const { rerender } = render(<CommentList user={user} project={undefined} comments={comments} />);
+    const { rerender } = render(
+      <CommentList user={user} project={undefined} comments={comments} sortOption={"oldest"} setSortOption={() => {}} />
+    );
 
     const likeButton = screen.getAllByTestId("comment-like-button")[0];
 
     fireEvent.click(likeButton);
 
-    rerender(<CommentList user={user} project={undefined} comments={comments} />);
+    rerender(
+      <CommentList user={user} project={undefined} comments={comments} sortOption={"oldest"} setSortOption={() => {}} />
+    );
 
     await waitFor(() => {
       expect(screen.queryByTestId("liking-users-button-num-of-likes")).toBeFalsy();
