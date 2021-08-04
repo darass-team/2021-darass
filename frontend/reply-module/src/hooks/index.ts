@@ -7,3 +7,4 @@ export { useInput } from "./useInput";
 export { useGetProject } from "./useGetProject";
 export { useLikeComment } from "./useLikeComment";
 export { useContentEditable } from "./useContentEditable";
+export { useShowMoreComments } from "./useShowMoreComments";

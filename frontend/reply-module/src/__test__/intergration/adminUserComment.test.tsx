@@ -1,8 +1,8 @@
 import "@testing-library/jest-dom/extend-expect";
 import { fireEvent, render, waitFor } from "@testing-library/react";
+import { getPasswordConfirmResult } from "../../api/getPasswordConfirmResult";
 import CommentList from "../../components/organisms/CommentList";
-import { ORDER_BUTTON } from "../../constants/orderButton";
-import { useConfirmGuestPassword, useDeleteComment, useEditComment } from "../../hooks";
+import { useDeleteComment, useEditComment, useShowMoreComments } from "../../hooks";
 import { useLikeComment } from "../../hooks/useLikeComment";
 import { comments } from "../fixture/comments";
 import { myProject } from "../fixture/project";
@@ -11,8 +11,9 @@ import { socialLoginUser } from "../fixture/user";
 jest.mock("../../hooks/useEditComment");
 jest.mock("../../hooks/useDeleteComment");
 jest.mock("../../hooks/useCreateComment");
-jest.mock("../../hooks/useConfirmGuestPassword");
 jest.mock("../../hooks/useLikeComment");
+jest.mock("../../api/getPasswordConfirmResult");
+jest.mock("../../hooks/useShowMoreComments");
 
 window.alert = function (str) {
   console.log(str);
@@ -41,21 +42,19 @@ describe("관리자 유저일 때의 동작 테스트", () => {
         error: false
       };
     });
-    (useConfirmGuestPassword as jest.Mock).mockImplementation(() => {
-      return {
-        isValid: true,
-        getPasswordConfirmResult: () => {
-          return {
-            data: {
-              isCorrectPassword: true
-            }
-          };
-        }
-      };
+    (getPasswordConfirmResult as jest.Mock).mockImplementation(() => {
+      return true;
     });
     (useLikeComment as jest.Mock).mockImplementation(() => {
       return {
         likeComment: () => {},
+        isLoading: false,
+        error: false
+      };
+    });
+    (useShowMoreComments as jest.Mock).mockImplementation(() => {
+      return {
+        showMoreComments: () => {},
         isLoading: false,
         error: false
       };
@@ -74,6 +73,8 @@ describe("관리자 유저일 때의 동작 테스트", () => {
         project={project}
         comments={guestComments}
         sortOption={"oldest"}
+        notice={""}
+        onShowMoreComment={() => {}}
         setSortOption={() => {}}
       />
     );
@@ -101,6 +102,8 @@ describe("관리자 유저일 때의 동작 테스트", () => {
         user={user}
         project={project}
         comments={socialLoginedComments}
+        notice={""}
+        onShowMoreComment={() => {}}
         sortOption={"oldest"}
         setSortOption={() => {}}
       />
@@ -130,6 +133,8 @@ describe("관리자 유저일 때의 동작 테스트", () => {
         user={user}
         project={project}
         comments={guestComments}
+        notice={""}
+        onShowMoreComment={() => {}}
         sortOption={"oldest"}
         setSortOption={() => {}}
       />
@@ -157,6 +162,8 @@ describe("관리자 유저일 때의 동작 테스트", () => {
         user={user}
         project={project}
         comments={socialLoginedCommentsWrittenByOther}
+        notice={""}
+        onShowMoreComment={() => {}}
         sortOption={"oldest"}
         setSortOption={() => {}}
       />
@@ -183,6 +190,8 @@ describe("관리자 유저일 때의 동작 테스트", () => {
         user={user}
         project={project}
         comments={socialLoginedCommentsWrittenByMe}
+        notice={""}
+        onShowMoreComment={() => {}}
         sortOption={"oldest"}
         setSortOption={() => {}}
       />
