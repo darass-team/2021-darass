@@ -5,7 +5,7 @@ import { Comment } from "../types";
 import { GetCommentsRequestParams } from "../types/comment";
 import { request } from "../utils/request";
 
-const getAllComments = async ({ url, projectSecretKey, sortOption, pageParam }: GetCommentsRequestParams) => {
+const getCommentsByPage = async ({ url, projectSecretKey, sortOption, pageParam }: GetCommentsRequestParams) => {
   if (!url || !projectSecretKey) return undefined;
 
   try {
@@ -13,11 +13,11 @@ const getAllComments = async ({ url, projectSecretKey, sortOption, pageParam }: 
 
     return response.data;
   } catch (error) {
-    throw new Error(error.response.data.message);
+    throw new Error("댓글을 불러오는데 실패하였습니다.\n잠시 후 다시 시도해주세요.");
   }
 };
 
-export const useGetAllComments = ({
+export const useCommentsByPage = ({
   url,
   projectSecretKey,
   sortOption = "oldest",
@@ -29,7 +29,7 @@ export const useGetAllComments = ({
     error,
     refetch
   } = useQuery<Comment[], Error>(REACT_QUERY_KEY.COMMENT, () =>
-    getAllComments({ url, projectSecretKey, sortOption, pageParam })
+    getCommentsByPage({ url, projectSecretKey, sortOption, pageParam })
   );
 
   return { comments, isLoading, error, refetch };

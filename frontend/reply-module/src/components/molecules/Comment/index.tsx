@@ -1,5 +1,5 @@
 import { FormEvent, useEffect, useState } from "react";
-import { useConfirmGuestPassword, useDeleteComment, useEditComment, useLikeComment, useInput } from "../../../hooks";
+import { useDeleteComment, useEditComment, useLikeComment, useInput } from "../../../hooks";
 import { Comment as CommentType } from "../../../types";
 import { DeleteCommentRequestParameter } from "../../../types/comment";
 import { User } from "../../../types/user";
@@ -13,7 +13,6 @@ import { isEmptyString } from "../../../utils/isEmptyString";
 import { getTimeDifference } from "../../../utils/time";
 import Avatar from "../../atoms/Avatar";
 import CommentTextBox from "../../atoms/CommentTextBox";
-import LikingUsersModal from "../LikingUsersModal";
 import {
   Button,
   LikeButton,
@@ -29,6 +28,8 @@ import {
   Time
 } from "./styles";
 import { POST_MESSAGE_TYPE } from "../../../constants/postMessageType";
+import { getPasswordConfirmResult } from "../../../api/getPasswordConfirmResult";
+import { AlertError } from "../../../utils/Error";
 
 export interface Props {
   user: User | undefined;
@@ -50,10 +51,6 @@ const Comment = ({ user, comment, align = "left", shouldShowOption, iAmAdmin, th
   const { editComment } = useEditComment();
   const { deleteComment } = useDeleteComment();
   const { likeComment } = useLikeComment();
-  const { getPasswordConfirmResult } = useConfirmGuestPassword({
-    guestUserId: comment.user.id,
-    guestUserPassword: password
-  });
   const isLiked = comment.likingUsers.some(likingUser => likingUser.id === user?.id);
 
   const clear = () => {
@@ -68,11 +65,13 @@ const Comment = ({ user, comment, align = "left", shouldShowOption, iAmAdmin, th
 
   const confirmGuestPassword = async () => {
     try {
-      const { data } = await getPasswordConfirmResult();
+      const isCorrectPassword = await getPasswordConfirmResult({
+        guestUserId: comment.user.id,
+        guestUserPassword: password
+      });
 
-      return !!data?.isCorrectPassword;
+      return isCorrectPassword;
     } catch (error) {
-      console.error(error.message);
       setPasswordSubmitted(true);
       return false;
     }
@@ -120,8 +119,9 @@ const Comment = ({ user, comment, align = "left", shouldShowOption, iAmAdmin, th
     try {
       await deleteComment(deleteCommentRequestParameter);
     } catch (error) {
-      console.error(error.message);
-      postAlertMessage("댓글 삭제에 실패하셨습니다.");
+      if (error instanceof AlertError) {
+        postAlertMessage(error.message);
+      }
     } finally {
       clear();
       setSubmitType(null);
@@ -160,7 +160,9 @@ const Comment = ({ user, comment, align = "left", shouldShowOption, iAmAdmin, th
 
       clear();
     } catch (error) {
-      console.error(error.message);
+      if (error instanceof AlertError) {
+        postAlertMessage(error.message);
+      }
     } finally {
       setPassword("");
       setSubmitType(null);
@@ -172,8 +174,6 @@ const Comment = ({ user, comment, align = "left", shouldShowOption, iAmAdmin, th
       await likeComment({ user, commentId: comment.id });
     } catch (error) {
       postAlertMessage(error.message);
-
-      console.error(error.message);
     }
   };
 

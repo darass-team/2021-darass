@@ -12,11 +12,21 @@ export interface Props {
   project?: Project;
   comments: CommentType[];
   sortOption: keyof typeof ORDER_BUTTON;
+  notice: string;
   setSortOption: (value: keyof typeof ORDER_BUTTON) => void;
   onShowMoreComment: () => void;
 }
 
-const CommentList = ({ className, user, project, comments, sortOption, setSortOption, onShowMoreComment }: Props) => {
+const CommentList = ({
+  className,
+  user,
+  project,
+  comments,
+  sortOption,
+  notice,
+  setSortOption,
+  onShowMoreComment
+}: Props) => {
   return (
     <Container className={className}>
       <OrderButtonContainer>
@@ -36,7 +46,8 @@ const CommentList = ({ className, user, project, comments, sortOption, setSortOp
         </OrderButtonWrapper>
       </OrderButtonContainer>
       <CommentContainer>
-        {comments.length === 0 ? (
+        {notice && <Notice>{notice}</Notice>}
+        {!notice && comments.length === 0 ? (
           <Notice>아직 작성된 댓글이 없습니다.</Notice>
         ) : (
           comments.map(comment => {

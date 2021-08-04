@@ -13,11 +13,15 @@ const getProject = async (projectSecretKey: GetProjectRequestParams["projectSecr
 
     return response.data;
   } catch (error) {
-    throw new Error(error.response.data.message);
+    if (error.response.data.code === 700) {
+      throw new Error("해당하는 프로젝트가 존재하지 않습니다.\n관리자에게 문의하시기 바랍니다.");
+    }
+
+    throw new Error("프로젝트를 불러오는데 문제가 발생하였습니다.\n잠시 후 다시 시도해주세요.");
   }
 };
 
-export const useProject = ({ projectSecretKey }: GetProjectRequestParams) => {
+export const useGetProject = ({ projectSecretKey }: GetProjectRequestParams) => {
   const {
     data: project,
     isLoading,

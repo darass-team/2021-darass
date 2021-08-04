@@ -15,6 +15,8 @@ export interface GuestUserInfo {
   guestUserPassword?: string;
 }
 
+export type GuestUserConfirmInfo = Omit<GuestUserInfo, "guestNickName">;
+
 export interface ScriptInfo {
   url: string | null;
   projectSecretKey: string | null;

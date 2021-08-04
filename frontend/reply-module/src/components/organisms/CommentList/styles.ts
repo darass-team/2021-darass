@@ -42,7 +42,7 @@ export const CommentContainer = styled.div`
   margin: 3rem 0;
 
   & > * {
-    margin-bottom: 1.6rem;
+    margin-bottom: 1.5rem;
 
     &:last-child {
       margin-bottom: 0;
@@ -52,6 +52,8 @@ export const CommentContainer = styled.div`
 
 export const Notice = styled.span`
   padding: 1.5rem 0;
+  min-height: 7rem;
   font-size: 1.6rem;
   text-align: center;
+  white-space: pre;
 `;

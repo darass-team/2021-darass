@@ -1,10 +1,9 @@
 export { useUser } from "./useUser";
-export { useGetAllComments } from "./useGetAllComments";
+export { useCommentsByPage } from "./useCommentsByPage";
 export { useCreateComment } from "./useCreateComment";
 export { useEditComment } from "./useEditComment";
 export { useDeleteComment } from "./useDeleteComment";
 export { useInput } from "./useInput";
-export { useProject } from "./useProject";
-export { useConfirmGuestPassword } from "./useConfirmGuestPassword";
+export { useGetProject } from "./useGetProject";
 export { useLikeComment } from "./useLikeComment";
 export { useContentEditable } from "./useContentEditable";

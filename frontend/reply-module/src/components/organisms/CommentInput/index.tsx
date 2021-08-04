@@ -1,6 +1,7 @@
 import { FormEvent, useState } from "react";
 import { useContentEditable, useCreateComment, useInput } from "../../../hooks";
 import { User } from "../../../types/user";
+import { AlertError } from "../../../utils/Error";
 import { isEmptyString } from "../../../utils/isEmptyString";
 import { postAlertMessage } from "../../../utils/postMessage";
 import SubmitButton from "../../atoms/Buttons/SubmitButton";
@@ -43,8 +44,9 @@ const CommentInput = ({ user, url, projectSecretKey }: Props) => {
       setGuestNickName("");
       setGuestPassword("");
     } catch (error) {
-      postAlertMessage("댓글 생성에 실패하였습니다.\n잠시 후 다시 시도해주세요.");
-      console.error(error.message);
+      if (error instanceof AlertError) {
+        postAlertMessage(error.message);
+      }
     } finally {
       setFormSubmitted(false);
     }
