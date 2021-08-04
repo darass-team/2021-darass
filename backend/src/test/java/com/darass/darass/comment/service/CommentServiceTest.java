@@ -17,7 +17,7 @@ import com.darass.darass.comment.dto.CommentResponse;
 import com.darass.darass.comment.dto.CommentUpdateRequest;
 import com.darass.darass.comment.repository.CommentLikeRepository;
 import com.darass.darass.comment.repository.CommentRepository;
-import com.darass.darass.exception.ExceptionWithMessageAndCode;
+import com.darass.darass.exception.httpbasicexception.BadRequestException;
 import com.darass.darass.exception.httpbasicexception.NotFoundException;
 import com.darass.darass.exception.httpbasicexception.UnauthorizedException;
 import com.darass.darass.project.domain.Project;
@@ -217,6 +217,16 @@ class CommentServiceTest extends SpringContainerTest {
         List<CommentResponse> responses = commentService.findAllCommentsByProjectKeyUsingPaginationAndDateBetween(request);
         assertThat(responses).extracting("content")
             .isEqualTo(Collections.singletonList("hello"));
+    }
+
+    @DisplayName("페이지네이션할 때 페이지는 1 이상이어야 한다.")
+    @Test
+    void pagination_exception() {
+        CommentReadRequestDateBetween request =
+            new CommentReadRequestDateBetween(project.getSecretKey(), LocalDate.EPOCH, LocalDate.now(), 0, 1);
+        assertThatThrownBy(() -> commentService.findAllCommentsByProjectKeyUsingPaginationAndDateBetween(request))
+            .isInstanceOf(BadRequestException.class)
+            .hasMessage("페이지의 값은 1 이상이어야 합니다.");
     }
 
     @DisplayName("소셜 로그인 유저가 댓글을 수정한다.")

@@ -33,7 +33,10 @@ public enum ExceptionWithMessageAndCode {
     UNAUTHORIZED_FOR_COMMENT(new UnauthorizedException("해당 댓글을 관리할 권한이 없습니다.", 903)),
 
     // 파일 관련 : 10xx
-    IO_EXCEPTION(new BadRequestException("업로드할 파일이 잘못되었습니다.", 1000));
+    IO_EXCEPTION(new BadRequestException("업로드할 파일이 잘못되었습니다.", 1000)),
+
+    // 페이지네이션 관련 : 11xx
+    NOT_POSITIVE_EXCEPTION(new BadRequestException("페이지의 값은 1 이상이어야 합니다.", 1100));
 
     private final CustomException exception;
 

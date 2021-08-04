@@ -82,29 +82,36 @@ public class CommentService {
 
     public List<CommentResponse> findAllCommentsByUrlAndProjectKeyUsingPagination(CommentReadRequestByPagination request) {
         int pageBasedIndex = request.getPage() - 1;
-        Page<Comment> comments = commentRepository
-            .findByUrlAndProjectSecretKey(request.getUrl(), request.getProjectKey(),
-                PageRequest.of(pageBasedIndex, request.getSize(), SortOption.getMatchedSort(request.getSortOption())));
-
-        return comments.stream()
-            .map(comment -> CommentResponse.of(comment, UserResponse.of(comment.getUser())))
-            .collect(Collectors.toList());
+        try {
+            Page<Comment> comments = commentRepository
+                .findByUrlAndProjectSecretKey(request.getUrl(), request.getProjectKey(),
+                    PageRequest.of(pageBasedIndex, request.getSize(), SortOption.getMatchedSort(request.getSortOption())));
+            return comments.stream()
+                .map(comment -> CommentResponse.of(comment, UserResponse.of(comment.getUser())))
+                .collect(Collectors.toList());
+        } catch (IllegalArgumentException e) {
+            throw ExceptionWithMessageAndCode.NOT_POSITIVE_EXCEPTION.getException();
+        }
     }
 
     public List<CommentResponse> findAllCommentsByProjectKeyUsingPaginationAndDateBetween(
         CommentReadRequestDateBetween request) {
         int pageBasedIndex = request.getPage() - 1;
-        Page<Comment> comments = commentRepository
-            .findByProjectSecretKeyAndCreatedDateBetween(
-                request.getProjectKey(),
-                request.getStartDate().atTime(LocalTime.MIN),
-                request.getEndDate().atTime(LocalTime.MAX),
-                PageRequest.of(pageBasedIndex, request.getSize(), SortOption.LATEST.getSort())
-            );
+        try {
+            Page<Comment> comments = commentRepository
+                .findByProjectSecretKeyAndCreatedDateBetween(
+                    request.getProjectKey(),
+                    request.getStartDate().atTime(LocalTime.MIN),
+                    request.getEndDate().atTime(LocalTime.MAX),
+                    PageRequest.of(pageBasedIndex, request.getSize(), SortOption.LATEST.getSort())
+                );
 
-        return comments.stream()
-            .map(comment -> CommentResponse.of(comment, UserResponse.of(comment.getUser())))
-            .collect(Collectors.toList());
+            return comments.stream()
+                .map(comment -> CommentResponse.of(comment, UserResponse.of(comment.getUser())))
+                .collect(Collectors.toList());
+        } catch (IllegalArgumentException e) {
+            throw ExceptionWithMessageAndCode.NOT_POSITIVE_EXCEPTION.getException();
+        }
     }
 
     public void updateContent(Long id, User user, CommentUpdateRequest request) { //TODO: 리팩터링 고민
