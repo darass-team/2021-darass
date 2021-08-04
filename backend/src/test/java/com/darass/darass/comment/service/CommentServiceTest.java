@@ -12,6 +12,7 @@ import com.darass.darass.comment.dto.CommentCreateRequest;
 import com.darass.darass.comment.dto.CommentDeleteRequest;
 import com.darass.darass.comment.dto.CommentReadRequest;
 import com.darass.darass.comment.dto.CommentReadRequestByPagination;
+import com.darass.darass.comment.dto.CommentReadRequestDateBetween;
 import com.darass.darass.comment.dto.CommentResponse;
 import com.darass.darass.comment.dto.CommentUpdateRequest;
 import com.darass.darass.comment.repository.CommentLikeRepository;
@@ -25,6 +26,7 @@ import com.darass.darass.user.domain.GuestUser;
 import com.darass.darass.user.domain.SocialLoginUser;
 import com.darass.darass.user.domain.User;
 import com.darass.darass.user.repository.UserRepository;
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -207,6 +209,16 @@ class CommentServiceTest extends SpringContainerTest {
             .isEqualTo(Collections.singletonList("content1"));
     }
 
+    @DisplayName("특정 프로젝트에 해당하고, 시작 날짜와 종료 날짜 사이에 있는 임의의 페이지의 댓글을 최신순으로 조회한다.")
+    @Test
+    void findAllCommentsByProjectKeyUsingPaginationAndDateBetween() {
+        CommentReadRequestDateBetween request =
+            new CommentReadRequestDateBetween(project.getSecretKey(), LocalDate.EPOCH, LocalDate.now(), 1, 1);
+        List<CommentResponse> responses = commentService.findAllCommentsByProjectKeyUsingPaginationAndDateBetween(request);
+        assertThat(responses).extracting("content")
+            .isEqualTo(Collections.singletonList("hello"));
+    }
+
     @DisplayName("소셜 로그인 유저가 댓글을 수정한다.")
     @Test
     void updateContent_social_login_user() {
@@ -273,21 +285,6 @@ class CommentServiceTest extends SpringContainerTest {
         CommentDeleteRequest request = new CommentDeleteRequest(null, null);
         commentService.delete(comments.get(3).getId(), socialLoginUser, request);
         assertThat(commentRepository.existsById(comments.get(3).getId())).isFalse();
-    }
-
-    public void toggleLikeStatus(Long id, User user) {
-        Comment comment = commentRepository.findById(id)
-            .orElseThrow(ExceptionWithMessageAndCode.NOT_FOUND_COMMENT::getException);
-
-        if (comment.isLikedByUser(user)) {
-            comment.deleteCommentLikeByUser(user);
-            return;
-        }
-
-        comment.addCommentLike(CommentLike.builder()
-            .comment(comment)
-            .user(user)
-            .build());
     }
 
     @DisplayName("좋아요를 누른다.")

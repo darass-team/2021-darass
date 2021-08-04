@@ -156,6 +156,18 @@ include::{snippets}/api/v1/comments/paging/get/oldest-random-sortOption/success/
 include::{snippets}/api/v1/comments/paging/get/oldest-random-sortOption/success/http-response.adoc[]
 include::{snippets}/api/v1/comments/paging/get/oldest-random-sortOption/success/response-fields.adoc[]
 
+==== 특정 프로젝트에 해당하는 댓글 조회
+
+==== Request
+
+include::{snippets}/api/v1/projects/comments/paging/get/success/http-request.adoc[]
+include::{snippets}/api/v1/projects/comments/paging/get/success/request-parameters.adoc[]
+
+==== Response
+
+include::{snippets}/api/v1/projects/comments/paging/get/success/http-response.adoc[]
+include::{snippets}/api/v1/projects/comments/paging/get/success/response-fields.adoc[]
+
 === 댓글 수정 (PATCH /api/v1/comments)
 
 ==== (성공) 소셜 로그인 유저 댓글 수정
