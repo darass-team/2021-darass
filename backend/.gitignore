@@ -39,6 +39,7 @@ out/
 ### 설정 관련 파일
 /src/main/resources/*.yml
 /src/main/resources/*.properties
+!/src/main/resources/db/migration/
 
 ## RestDocs 파일
 /src/main/resources/static/docs/
@@ -52,4 +53,3 @@ data/
 
 ## 기타
 /2021-darass/
-db/
