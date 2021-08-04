@@ -1,5 +1,6 @@
 import { PALETTE } from "./../../../styles/palette";
 import styled from "styled-components";
+import { getByPlaceholderText } from "@testing-library/dom";
 
 export const Container = styled.section`
   width: 100%;
@@ -27,6 +28,7 @@ export const OrderButtonWrapper = styled.div`
 export const OrderButton = styled.button<{ isSelected: boolean }>`
   color: ${props => (props.isSelected ? PALETTE.BLACK_700 : PALETTE.GRAY_500)};
   font-size: 1.6rem;
+  line-height: 2.4rem;
   font-weight: 700;
   background-color: transparent;
   transition: color 0.1s;
@@ -54,6 +56,20 @@ export const Notice = styled.span`
   padding: 1.5rem 0;
   min-height: 7rem;
   font-size: 1.6rem;
+  line-height: 2.4rem;
+  line-height: 2.4rem;
   text-align: center;
-  white-space: pre;
+  white-space: pre-wrap;
+`;
+
+export const ShowMoreButton = styled.button`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.3rem 1rem;
+  gap: 0.3rem;
+  margin: 0 auto;
+  background-color: transparent;
+  font-size: 1.2rem;
+  line-height: 1.8rem;
 `;

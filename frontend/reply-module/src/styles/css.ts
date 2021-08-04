@@ -7,6 +7,7 @@ export const InputCSS = css`
   border-radius: 10px;
   color: ${PALETTE.BLACK_700};
   font-size: 1.2rem;
+  line-height: 1.8rem;
   outline: none;
 
   &:focus {

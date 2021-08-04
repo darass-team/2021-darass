@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import kakaoTalkIcon from "../../../assets/png/kakaotalk.png";
+import { INITIAL_PAGE_PARAM } from "../../../constants/comment";
 import { ORDER_BUTTON } from "../../../constants/orderButton";
 import { useCommentsByPage, useGetProject, useUser } from "../../../hooks";
 import { useShowMoreComments } from "../../../hooks/useShowMoreComments";
@@ -26,7 +27,7 @@ const CommentArea = () => {
   const projectSecretKey = urlParams.get("projectKey");
 
   const [sortOption, setSortOption] = useState<keyof typeof ORDER_BUTTON>("oldest");
-  const [pageParam, setPageParam] = useState(1);
+  const [pageParam, setPageParam] = useState(INITIAL_PAGE_PARAM);
   const [notice, setNotice] = useState("로딩 중...");
 
   const { user, login, logout } = useUser();
@@ -78,6 +79,11 @@ const CommentArea = () => {
     }
   };
 
+  const onSelectSortOption = (sortOption: keyof typeof ORDER_BUTTON) => {
+    setPageParam(INITIAL_PAGE_PARAM);
+    setSortOption(sortOption);
+  };
+
   if (!url || !projectSecretKey) {
     setNotice("유효하지 않은 url과 projectSecretKey입니다.\n관리자에게 문의하세요.");
   }
@@ -109,7 +115,7 @@ const CommentArea = () => {
         comments={comments || []}
         project={project}
         sortOption={sortOption}
-        setSortOption={setSortOption}
+        onSelectSortOption={onSelectSortOption}
         notice={notice}
         onShowMoreComment={onShowMoreComment}
       />

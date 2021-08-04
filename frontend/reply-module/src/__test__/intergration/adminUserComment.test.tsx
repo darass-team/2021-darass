@@ -75,7 +75,7 @@ describe("관리자 유저일 때의 동작 테스트", () => {
         sortOption={"oldest"}
         notice={""}
         onShowMoreComment={() => {}}
-        setSortOption={() => {}}
+        onSelectSortOption={() => {}}
       />
     );
     const allCommentOptions = commentList.getAllByAltText("댓글 옵션");
@@ -105,7 +105,7 @@ describe("관리자 유저일 때의 동작 테스트", () => {
         notice={""}
         onShowMoreComment={() => {}}
         sortOption={"oldest"}
-        setSortOption={() => {}}
+        onSelectSortOption={() => {}}
       />
     );
     const allCommentOptions = commentList.getAllByAltText("댓글 옵션");
@@ -136,7 +136,7 @@ describe("관리자 유저일 때의 동작 테스트", () => {
         notice={""}
         onShowMoreComment={() => {}}
         sortOption={"oldest"}
-        setSortOption={() => {}}
+        onSelectSortOption={() => {}}
       />
     );
     const allCommentOptions = commentList.getAllByAltText("댓글 옵션");
@@ -165,7 +165,7 @@ describe("관리자 유저일 때의 동작 테스트", () => {
         notice={""}
         onShowMoreComment={() => {}}
         sortOption={"oldest"}
-        setSortOption={() => {}}
+        onSelectSortOption={() => {}}
       />
     );
     const allCommentOptions = commentList.getAllByAltText("댓글 옵션");
@@ -193,7 +193,7 @@ describe("관리자 유저일 때의 동작 테스트", () => {
         notice={""}
         onShowMoreComment={() => {}}
         sortOption={"oldest"}
-        setSortOption={() => {}}
+        onSelectSortOption={() => {}}
       />
     );
     const allCommentOptions = commentList.getAllByAltText("댓글 옵션");

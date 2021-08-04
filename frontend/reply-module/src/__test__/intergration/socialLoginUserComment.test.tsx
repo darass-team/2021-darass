@@ -80,7 +80,7 @@ describe("로그인 유저의 댓글 CRUD 테스트 코드를 작성한다.", ()
           notice={""}
           onShowMoreComment={() => {}}
           sortOption={"oldest"}
-          setSortOption={() => {}}
+          onSelectSortOption={() => {}}
         />
       );
 
@@ -121,7 +121,7 @@ describe("로그인 유저의 댓글 CRUD 테스트 코드를 작성한다.", ()
           onShowMoreComment={() => {}}
           comments={myComments}
           sortOption={"oldest"}
-          setSortOption={() => {}}
+          onSelectSortOption={() => {}}
         />
       );
 
@@ -158,7 +158,7 @@ describe("로그인 유저의 댓글 CRUD 테스트 코드를 작성한다.", ()
           onShowMoreComment={() => {}}
           comments={commentsWrittenByOthers}
           sortOption={"oldest"}
-          setSortOption={() => {}}
+          onSelectSortOption={() => {}}
         />
       );
 
@@ -179,7 +179,7 @@ describe("로그인 유저의 댓글 CRUD 테스트 코드를 작성한다.", ()
           onShowMoreComment={() => {}}
           comments={commentsWrittenByOthers}
           sortOption={"oldest"}
-          setSortOption={() => {}}
+          onSelectSortOption={() => {}}
         />
       );
 
@@ -208,7 +208,7 @@ describe("로그인 유저의 댓글 CRUD 테스트 코드를 작성한다.", ()
           onShowMoreComment={() => {}}
           comments={commentsWrittenByOthers}
           sortOption={"oldest"}
-          setSortOption={() => {}}
+          onSelectSortOption={() => {}}
         />
       );
 
@@ -238,7 +238,7 @@ describe("로그인 유저의 댓글 CRUD 테스트 코드를 작성한다.", ()
           notice={""}
           onShowMoreComment={() => {}}
           sortOption={"oldest"}
-          setSortOption={() => {}}
+          onSelectSortOption={() => {}}
         />
       );
 
@@ -254,7 +254,7 @@ describe("로그인 유저의 댓글 CRUD 테스트 코드를 작성한다.", ()
           notice={""}
           onShowMoreComment={() => {}}
           sortOption={"oldest"}
-          setSortOption={() => {}}
+          onSelectSortOption={() => {}}
         />
       );
 
@@ -288,7 +288,7 @@ describe("로그인 유저의 댓글 CRUD 테스트 코드를 작성한다.", ()
         notice={""}
         onShowMoreComment={() => {}}
         sortOption={"oldest"}
-        setSortOption={() => {}}
+        onSelectSortOption={() => {}}
       />
     );
 
@@ -304,7 +304,7 @@ describe("로그인 유저의 댓글 CRUD 테스트 코드를 작성한다.", ()
         notice={""}
         onShowMoreComment={() => {}}
         sortOption={"oldest"}
-        setSortOption={() => {}}
+        onSelectSortOption={() => {}}
       />
     );
 

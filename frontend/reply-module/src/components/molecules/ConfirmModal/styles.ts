@@ -13,6 +13,7 @@ export const Container = styled.div`
 
 export const Message = styled.span`
   font-size: 1.2rem;
+  line-height: 1.8rem;
   font-weight: 700;
   padding: 2rem;
   text-align: center;

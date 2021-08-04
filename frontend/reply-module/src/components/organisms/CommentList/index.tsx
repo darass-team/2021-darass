@@ -1,10 +1,18 @@
-import { useState } from "react";
 import { ORDER_BUTTON } from "../../../constants/orderButton";
 import { Comment as CommentType } from "../../../types/comment";
 import { Project } from "../../../types/project";
 import { User } from "../../../types/user";
 import Comment from "../../molecules/Comment";
-import { CommentContainer, Container, Notice, OrderButton, OrderButtonContainer, OrderButtonWrapper } from "./styles";
+import downArrowSVG from "../../../assets/svg/down-arrow.svg";
+import {
+  CommentContainer,
+  Container,
+  Notice,
+  OrderButton,
+  OrderButtonContainer,
+  OrderButtonWrapper,
+  ShowMoreButton
+} from "./styles";
 
 export interface Props {
   className?: string;
@@ -13,7 +21,7 @@ export interface Props {
   comments: CommentType[];
   sortOption: keyof typeof ORDER_BUTTON;
   notice: string;
-  setSortOption: (value: keyof typeof ORDER_BUTTON) => void;
+  onSelectSortOption: (value: keyof typeof ORDER_BUTTON) => void;
   onShowMoreComment: () => void;
 }
 
@@ -24,7 +32,7 @@ const CommentList = ({
   comments,
   sortOption,
   notice,
-  setSortOption,
+  onSelectSortOption,
   onShowMoreComment
 }: Props) => {
   return (
@@ -37,7 +45,7 @@ const CommentList = ({
               key={key}
               isSelected={sortOption === key}
               onClick={() => {
-                setSortOption(key as keyof typeof ORDER_BUTTON);
+                onSelectSortOption(key as keyof typeof ORDER_BUTTON);
               }}
             >
               {value}
@@ -75,8 +83,11 @@ const CommentList = ({
             );
           })
         )}
-        <button onClick={onShowMoreComment}>더 보기</button>
       </CommentContainer>
+      <ShowMoreButton onClick={onShowMoreComment}>
+        <span>더 보기</span>
+        <img src={downArrowSVG} />
+      </ShowMoreButton>
     </Container>
   );
 };

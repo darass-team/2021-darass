@@ -52,6 +52,7 @@ export const LikeButton = styled.button<{ isLiked: boolean }>`
 
 export const Time = styled.span`
   font-size: 0.8rem;
+  line-height: 1.2rem;
 `;
 
 export const CommentOption = styled(CommentOptionComponent)`

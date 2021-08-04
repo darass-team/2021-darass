@@ -79,7 +79,7 @@ describe("비로그인 유저 댓글 CRUD 테스트 코드를 작성한다.", ()
           notice={""}
           onShowMoreComment={() => {}}
           sortOption={"oldest"}
-          setSortOption={() => {}}
+          onSelectSortOption={() => {}}
         />
       );
       const $$comments = commentList.container.querySelectorAll("section > div:nth-child(2) > div");
@@ -100,7 +100,7 @@ describe("비로그인 유저 댓글 CRUD 테스트 코드를 작성한다.", ()
           notice={""}
           onShowMoreComment={() => {}}
           sortOption={"oldest"}
-          setSortOption={() => {}}
+          onSelectSortOption={() => {}}
         />
       );
 
@@ -161,7 +161,7 @@ describe("비로그인 유저 댓글 CRUD 테스트 코드를 작성한다.", ()
           notice={""}
           onShowMoreComment={() => {}}
           sortOption={"oldest"}
-          setSortOption={() => {}}
+          onSelectSortOption={() => {}}
         />
       );
 
@@ -192,7 +192,7 @@ describe("비로그인 유저 댓글 CRUD 테스트 코드를 작성한다.", ()
           notice={""}
           onShowMoreComment={() => {}}
           sortOption={"oldest"}
-          setSortOption={() => {}}
+          onSelectSortOption={() => {}}
         />
       );
 
@@ -232,7 +232,7 @@ describe("비로그인 유저 댓글 CRUD 테스트 코드를 작성한다.", ()
           notice={""}
           onShowMoreComment={() => {}}
           sortOption={"oldest"}
-          setSortOption={() => {}}
+          onSelectSortOption={() => {}}
         />
       );
 
@@ -248,7 +248,7 @@ describe("비로그인 유저 댓글 CRUD 테스트 코드를 작성한다.", ()
           notice={""}
           onShowMoreComment={() => {}}
           sortOption={"oldest"}
-          setSortOption={() => {}}
+          onSelectSortOption={() => {}}
         />
       );
 

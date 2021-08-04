@@ -10,7 +10,6 @@ const getCommentsByPage = async ({ url, projectSecretKey, sortOption, pageParam 
 
   try {
     const response = await request.get(QUERY.GET_ALL_COMMENTS({ url, projectSecretKey, sortOption, pageParam }));
-
     return response.data;
   } catch (error) {
     throw new Error("댓글을 불러오는데 실패하였습니다.\n잠시 후 다시 시도해주세요.");
