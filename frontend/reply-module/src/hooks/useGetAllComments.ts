@@ -5,11 +5,11 @@ import { Comment } from "../types";
 import { GetCommentsRequestParams } from "../types/comment";
 import { request } from "../utils/request";
 
-const getAllComments = async ({ url, projectSecretKey, sortOption }: GetCommentsRequestParams) => {
+const getAllComments = async ({ url, projectSecretKey, sortOption, pageParam }: GetCommentsRequestParams) => {
   if (!url || !projectSecretKey) return undefined;
 
   try {
-    const response = await request.get(QUERY.GET_ALL_COMMENTS({ url, projectSecretKey, sortOption }));
+    const response = await request.get(QUERY.GET_ALL_COMMENTS({ url, projectSecretKey, sortOption, pageParam }));
 
     return response.data;
   } catch (error) {
@@ -17,13 +17,20 @@ const getAllComments = async ({ url, projectSecretKey, sortOption }: GetComments
   }
 };
 
-export const useGetAllComments = ({ url, projectSecretKey, sortOption = "oldest" }: GetCommentsRequestParams) => {
+export const useGetAllComments = ({
+  url,
+  projectSecretKey,
+  sortOption = "oldest",
+  pageParam = 1
+}: GetCommentsRequestParams) => {
   const {
     data: comments,
     isLoading,
     error,
     refetch
-  } = useQuery<Comment[], Error>(REACT_QUERY_KEY.COMMENT, () => getAllComments({ url, projectSecretKey, sortOption }));
+  } = useQuery<Comment[], Error>(REACT_QUERY_KEY.COMMENT, () =>
+    getAllComments({ url, projectSecretKey, sortOption, pageParam })
+  );
 
   return { comments, isLoading, error, refetch };
 };

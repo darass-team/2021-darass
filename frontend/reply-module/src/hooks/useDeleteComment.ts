@@ -20,10 +20,8 @@ export const useDeleteComment = () => {
   const queryClient = useQueryClient();
 
   const deleteMutation = useMutation<void, Error, DeleteCommentRequestParameter>(data => _deleteComment(data), {
-    onSuccess: (_, deletedComment) => {
-      queryClient.setQueryData<Comment[] | undefined>(REACT_QUERY_KEY.COMMENT, comments => {
-        return comments?.filter(comment => comment.id !== deletedComment.id);
-      });
+    onSuccess: () => {
+      queryClient.invalidateQueries(REACT_QUERY_KEY.COMMENT);
     }
   });
 

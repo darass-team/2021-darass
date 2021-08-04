@@ -18,10 +18,8 @@ export const useCreateComment = () => {
   const queryClient = useQueryClient();
 
   const createMutation = useMutation<Comment, Error, CreateCommentRequestData>(_data => _createComment(_data), {
-    onSuccess: data => {
-      queryClient.setQueryData<Comment[] | undefined>(REACT_QUERY_KEY.COMMENT, comments => {
-        return comments?.concat(data);
-      });
+    onSuccess: () => {
+      queryClient.invalidateQueries(REACT_QUERY_KEY.COMMENT);
     }
   });
 

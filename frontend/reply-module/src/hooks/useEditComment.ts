@@ -22,16 +22,8 @@ export const useEditComment = () => {
   const queryClient = useQueryClient();
 
   const editMutation = useMutation<void, Error, EditCommentParameter>(comment => _editComment(comment), {
-    onSuccess: (_, editedComment) => {
-      queryClient.setQueryData<Comment[] | undefined>(REACT_QUERY_KEY.COMMENT, comments => {
-        return comments?.map(comment => {
-          if (comment.id === editedComment.id) {
-            return { ...comment, content: editedComment.content };
-          }
-
-          return comment;
-        });
-      });
+    onSuccess: () => {
+      queryClient.invalidateQueries(REACT_QUERY_KEY.COMMENT);
     }
   });
 

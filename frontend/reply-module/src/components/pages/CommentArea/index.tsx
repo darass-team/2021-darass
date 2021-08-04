@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import kakaoTalkIcon from "../../../assets/png/kakaotalk.png";
 import { ORDER_BUTTON } from "../../../constants/orderButton";
 import { useGetAllComments, useProject, useUser } from "../../../hooks";
+import { useShowMoreComments } from "../../../hooks/useShowMoreComments";
 import { postScrollHeightToParentWindow } from "../../../utils/postMessage";
 import Avatar from "../../atoms/Avatar";
 import UserAvatarOption from "../../molecules/UserAvatarOption";
@@ -24,9 +25,11 @@ const CommentArea = () => {
   const projectSecretKey = urlParams.get("projectKey");
 
   const [sortOption, setSortOption] = useState<keyof typeof ORDER_BUTTON>("oldest");
+  const [pageParam, setPageParam] = useState(1);
 
   const { user, login, logout } = useUser();
-  const { comments, refetch: refetchAllComments } = useGetAllComments({ url, projectSecretKey, sortOption });
+  const { comments, refetch: refetchAllComments } = useGetAllComments({ url, projectSecretKey, sortOption, pageParam });
+  const { showMoreComment } = useShowMoreComments();
   const { project } = useProject({ projectSecretKey });
 
   useEffect(() => {
@@ -36,6 +39,15 @@ const CommentArea = () => {
   useEffect(() => {
     refetchAllComments();
   }, [sortOption]);
+
+  useEffect(() => {
+    if (pageParam === 1) return;
+    showMoreComment({ url, projectSecretKey, sortOption, pageParam });
+  }, [pageParam]);
+
+  const onShowMoreComment = () => {
+    setPageParam(currentPageParam => currentPageParam + 1);
+  };
 
   if (!url || !projectSecretKey) {
     return <>유효하지 않은 url과 projectSecretKey입니다.</>;
@@ -47,7 +59,7 @@ const CommentArea = () => {
         <CommentCountWrapper>
           댓글 <CommentCount>{comments?.length || 0}</CommentCount>
         </CommentCountWrapper>
-
+        // 곤이 파이팅
         <UserAvatarOption user={user}>
           {user ? (
             <LogOut type="button" onClick={logout}>
@@ -70,6 +82,7 @@ const CommentArea = () => {
         project={project}
         sortOption={sortOption}
         setSortOption={setSortOption}
+        onShowMoreComment={onShowMoreComment}
       />
     </Container>
   );

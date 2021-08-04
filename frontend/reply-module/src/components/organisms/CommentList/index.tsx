@@ -13,9 +13,10 @@ export interface Props {
   comments: CommentType[];
   sortOption: keyof typeof ORDER_BUTTON;
   setSortOption: (value: keyof typeof ORDER_BUTTON) => void;
+  onShowMoreComment: () => void;
 }
 
-const CommentList = ({ className, user, project, comments, sortOption, setSortOption }: Props) => {
+const CommentList = ({ className, user, project, comments, sortOption, setSortOption, onShowMoreComment }: Props) => {
   return (
     <Container className={className}>
       <OrderButtonContainer>
@@ -63,6 +64,7 @@ const CommentList = ({ className, user, project, comments, sortOption, setSortOp
             );
           })
         )}
+        <button onClick={onShowMoreComment}>더 보기</button>
       </CommentContainer>
     </Container>
   );
