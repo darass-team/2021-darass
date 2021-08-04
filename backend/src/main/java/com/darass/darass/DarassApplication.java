@@ -7,7 +7,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class DarassApplication {
 
     public static void main(String[] args) {
-
         SpringApplication.run(DarassApplication.class, args);
     }
 }
