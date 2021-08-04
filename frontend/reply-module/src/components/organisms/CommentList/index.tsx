@@ -65,9 +65,10 @@ const CommentList = ({
             const iAmAdmin = user !== undefined && project?.userId === user.id;
 
             const thisCommentIsMine = authorId !== undefined && authorId === user?.id;
+            const thisCommentIsWrittenByAdmin = comment.user.id === project?.userId;
             const thisCommentIsWrittenByGuest = comment.user.type === "GuestUser";
 
-            const align = thisCommentIsMine ? "right" : "left";
+            const align = thisCommentIsWrittenByAdmin ? "right" : "left";
             const shouldShowOption = iAmAdmin || thisCommentIsMine || (iAmGuestUser && thisCommentIsWrittenByGuest);
 
             return (
