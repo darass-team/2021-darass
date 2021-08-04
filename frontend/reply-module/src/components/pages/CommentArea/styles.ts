@@ -17,6 +17,7 @@ export const Header = styled.div`
 
 export const CommentCountWrapper = styled.span`
   font-size: 1.6rem;
+  line-height: 2.4rem;
 `;
 
 export const CommentCount = styled.span`

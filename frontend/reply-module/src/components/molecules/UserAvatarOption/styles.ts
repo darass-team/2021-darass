@@ -14,6 +14,7 @@ export const Container = styled.div`
 
 export const UserNickName = styled.button`
   font-size: 1.6rem;
+  line-height: 2.4rem;
   font-weight: 700;
   margin-right: 10px;
   padding: 0;

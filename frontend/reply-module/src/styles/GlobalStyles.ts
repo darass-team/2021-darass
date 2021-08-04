@@ -3,7 +3,6 @@ import { normalize } from "styled-normalize";
 import { PALETTE } from "./palette";
 
 const GlobalStyles = createGlobalStyle`
-      @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;800&display=swap');
       ${normalize}
       * {
         box-sizing: border-box;
@@ -15,7 +14,7 @@ const GlobalStyles = createGlobalStyle`
       html, body {
         margin: 0;
         padding: 0 1px;
-        line-height: 1.8rem;
+        line-height: 1.5rem;
         width: 100%;
         color: ${PALETTE.BLACK_700};
         margin: 0 auto;

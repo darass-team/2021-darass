@@ -15,6 +15,7 @@ export const Container = styled.div`
 export const Name = styled.span`
   font-weight: 700;
   font-size: 1.4rem;
+  line-height: 2.1rem;
   margin-bottom: 0.7rem;
 `;
 
@@ -28,6 +29,7 @@ export const Text = styled.div`
   word-break: break-word;
   white-space: break-spaces;
   font-size: 1.2rem;
+  line-height: 2.1rem;
 `;
 
 export const ButtonWrapper = styled.div`

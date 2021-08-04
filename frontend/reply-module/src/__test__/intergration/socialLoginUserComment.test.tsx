@@ -3,22 +3,18 @@ import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { comments as _comments } from "../fixture/comments";
 import { socialLoginUser } from "../fixture/user";
 import CommentList from "../../components/organisms/CommentList";
-import {
-  useCreateComment,
-  useConfirmGuestPassword,
-  useDeleteComment,
-  useEditComment,
-  useLikeComment
-} from "../../hooks";
+import { useCreateComment, useDeleteComment, useEditComment, useLikeComment, useShowMoreComments } from "../../hooks";
 import CommentInput from "../../components/organisms/CommentInput";
+import { getPasswordConfirmResult } from "../../api/getPasswordConfirmResult";
 
 jest.mock("../../hooks/useCreateComment");
 jest.mock("../../hooks/useEditComment");
 jest.mock("../../hooks/useDeleteComment");
 jest.mock("../../hooks/useCreateComment");
-jest.mock("../../hooks/useConfirmGuestPassword");
 jest.mock("../../hooks/useLikeComment");
 jest.mock("../../utils/focusContentEditableTextToEnd");
+jest.mock("../../api/getPasswordConfirmResult");
+jest.mock("../../hooks/useShowMoreComments");
 
 window.alert = function (str) {
   console.log(str);
@@ -53,16 +49,14 @@ describe("로그인 유저의 댓글 CRUD 테스트 코드를 작성한다.", ()
         error: false
       };
     });
-    (useConfirmGuestPassword as jest.Mock).mockImplementation(() => {
+    (getPasswordConfirmResult as jest.Mock).mockImplementation(() => {
+      return true;
+    });
+    (useShowMoreComments as jest.Mock).mockImplementation(() => {
       return {
-        isValid: true,
-        getPasswordConfirmResult: () => {
-          return {
-            data: {
-              isCorrectPassword: true
-            }
-          };
-        }
+        showMoreComments: () => {},
+        isLoading: false,
+        error: false
       };
     });
     (useLikeComment as jest.Mock).mockImplementation(() => {
@@ -83,8 +77,10 @@ describe("로그인 유저의 댓글 CRUD 테스트 코드를 작성한다.", ()
           user={user}
           comments={comments}
           project={undefined}
+          notice={""}
+          onShowMoreComment={() => {}}
           sortOption={"oldest"}
-          setSortOption={() => {}}
+          onSelectSortOption={() => {}}
         />
       );
 
@@ -121,9 +117,11 @@ describe("로그인 유저의 댓글 CRUD 테스트 코드를 작성한다.", ()
         <CommentList
           user={user}
           project={undefined}
+          notice={""}
+          onShowMoreComment={() => {}}
           comments={myComments}
           sortOption={"oldest"}
-          setSortOption={() => {}}
+          onSelectSortOption={() => {}}
         />
       );
 
@@ -156,9 +154,11 @@ describe("로그인 유저의 댓글 CRUD 테스트 코드를 작성한다.", ()
         <CommentList
           user={user}
           project={undefined}
+          notice={""}
+          onShowMoreComment={() => {}}
           comments={commentsWrittenByOthers}
           sortOption={"oldest"}
-          setSortOption={() => {}}
+          onSelectSortOption={() => {}}
         />
       );
 
@@ -175,9 +175,11 @@ describe("로그인 유저의 댓글 CRUD 테스트 코드를 작성한다.", ()
         <CommentList
           user={user}
           project={undefined}
+          notice={""}
+          onShowMoreComment={() => {}}
           comments={commentsWrittenByOthers}
           sortOption={"oldest"}
-          setSortOption={() => {}}
+          onSelectSortOption={() => {}}
         />
       );
 
@@ -202,9 +204,11 @@ describe("로그인 유저의 댓글 CRUD 테스트 코드를 작성한다.", ()
         <CommentList
           user={user}
           project={undefined}
+          notice={""}
+          onShowMoreComment={() => {}}
           comments={commentsWrittenByOthers}
           sortOption={"oldest"}
-          setSortOption={() => {}}
+          onSelectSortOption={() => {}}
         />
       );
 
@@ -231,8 +235,10 @@ describe("로그인 유저의 댓글 CRUD 테스트 코드를 작성한다.", ()
           user={user}
           project={undefined}
           comments={comments}
+          notice={""}
+          onShowMoreComment={() => {}}
           sortOption={"oldest"}
-          setSortOption={() => {}}
+          onSelectSortOption={() => {}}
         />
       );
 
@@ -245,8 +251,10 @@ describe("로그인 유저의 댓글 CRUD 테스트 코드를 작성한다.", ()
           user={user}
           project={undefined}
           comments={comments}
+          notice={""}
+          onShowMoreComment={() => {}}
           sortOption={"oldest"}
-          setSortOption={() => {}}
+          onSelectSortOption={() => {}}
         />
       );
 
@@ -273,7 +281,15 @@ describe("로그인 유저의 댓글 CRUD 테스트 코드를 작성한다.", ()
     });
 
     const { rerender } = render(
-      <CommentList user={user} project={undefined} comments={comments} sortOption={"oldest"} setSortOption={() => {}} />
+      <CommentList
+        user={user}
+        project={undefined}
+        comments={comments}
+        notice={""}
+        onShowMoreComment={() => {}}
+        sortOption={"oldest"}
+        onSelectSortOption={() => {}}
+      />
     );
 
     const likeButton = screen.getAllByTestId("comment-like-button")[0];
@@ -281,7 +297,15 @@ describe("로그인 유저의 댓글 CRUD 테스트 코드를 작성한다.", ()
     fireEvent.click(likeButton);
 
     rerender(
-      <CommentList user={user} project={undefined} comments={comments} sortOption={"oldest"} setSortOption={() => {}} />
+      <CommentList
+        user={user}
+        project={undefined}
+        comments={comments}
+        notice={""}
+        onShowMoreComment={() => {}}
+        sortOption={"oldest"}
+        onSelectSortOption={() => {}}
+      />
     );
 
     await waitFor(() => {

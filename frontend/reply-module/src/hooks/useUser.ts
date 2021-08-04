@@ -1,4 +1,5 @@
-import { useMutation, useQuery, useQueryClient } from "react-query";
+import { AlertError } from "./../utils/Error";
+import { useQuery, useQueryClient } from "react-query";
 import { QUERY } from "../constants/api";
 import { COOKIE_KEY } from "../constants/cookie";
 import { REACT_QUERY_KEY } from "../constants/reactQueryKey";
@@ -13,7 +14,7 @@ const getUser = async () => {
 
     return response.data;
   } catch (error) {
-    throw new Error(error.response.data.message);
+    console.error(error.response.data.message);
   }
 };
 
@@ -34,29 +35,19 @@ export const useUser = () => {
       const kakaoAccessToken = await getKakaoAccessToken();
       const response = await request.get(`${QUERY.LOGIN}${kakaoAccessToken}`);
 
-      if (response.status >= 400) {
-        throw new Error(response.data.message);
-      }
-
       const { accessToken: serverAccessToken } = response.data;
       setCookie(COOKIE_KEY.ATK, serverAccessToken);
 
       queryClient.invalidateQueries(REACT_QUERY_KEY.USER);
     } catch (error) {
-      console.log(error);
-
-      console.error(error.message);
+      throw new AlertError("로그인에 실패하였습니다.");
     }
   };
 
-  const logout = async () => {
-    try {
-      deleteCookie(COOKIE_KEY.ATK);
+  const logout = () => {
+    deleteCookie(COOKIE_KEY.ATK);
 
-      queryClient.setQueryData<User | undefined>(REACT_QUERY_KEY.USER, () => undefined);
-    } catch (error) {
-      console.error(error.message);
-    }
+    queryClient.setQueryData<User | undefined>(REACT_QUERY_KEY.USER, () => undefined);
   };
 
   return { user, login, logout, isLoading, error };
