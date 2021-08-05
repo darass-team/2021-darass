@@ -1,7 +1,7 @@
 export const PAGE_MAX_WIDTH = "1080px";
 export const NAVIGATION_HEIGHT = "70px";
 
-export const Z_INDEX = Object.freeze({
+export const Z_INDEX = {
   ERROR_NOTICE: 1,
   NAV: {
     MOBILE: {
@@ -26,4 +26,4 @@ export const Z_INDEX = Object.freeze({
       SELF: 0
     }
   }
-});
+} as const;
