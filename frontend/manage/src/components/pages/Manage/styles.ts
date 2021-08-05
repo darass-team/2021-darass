@@ -4,6 +4,7 @@ import { contentBoxCSS, titleCSS } from "../../../styles/css";
 import { LINE_HEIGHT_SCALE } from "../../../styles/constants";
 import AvatarComponent from "../../atoms/Avatar";
 import DeleteButtonComponent from "../../atoms/Buttons/DeleteButton";
+import SubmitButton from "../../atoms/Buttons/SubmitButton";
 
 export const Container = styled.div`
   ${contentBoxCSS}
@@ -44,12 +45,37 @@ export const Row = styled.li`
   }
 `;
 
+export const SearchCondition = styled.div``;
+
 export const Header = styled(Row.withComponent("header"))`
   display: flex;
   align-items: center;
   justify-content: space-between;
   border: 1px solid ${PALETTE.GRAY_400};
   margin-bottom: 1rem;
+`;
+
+export const DateInputWrapper = styled.div`
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  & > * {
+    &:not(:first-child) {
+      margin-left: 0.5rem;
+    }
+  }
+`;
+
+export const DateInputText = styled.span`
+  border-radius: 10px;
+  border: 1px solid ${PALETTE.GRAY_400};
+  padding: 0.5rem;
+`;
+
+export const CalendarToggleButton = styled(SubmitButton).attrs({ type: "button" })`
+  transform: scale(0.6);
 `;
 
 export const Avatar = styled(AvatarComponent)`

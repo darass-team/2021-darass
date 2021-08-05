@@ -1,32 +1,28 @@
 import moment from "moment";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Days from "./Days";
 import { Container, Header, MoveMonthButton, Month, Year } from "./styles";
 
 export interface Props {
-  a?: string;
+  date: moment.Moment;
+  startDate: moment.Moment | null;
+  endDate: moment.Moment | null;
+  setDate: (date: moment.Moment) => void;
+  setStartDate: (date: moment.Moment | null) => void;
+  setEndDate: (date: moment.Moment | null) => void;
 }
 
-const Calendar = ({ a }: Props) => {
-  const [date, setDate] = useState(() => moment());
-
-  const [startDate, setStartDate] = useState<moment.Moment | null>(date);
-  const [endDate, setEndDate] = useState<moment.Moment | null>(date);
-
-  useEffect(() => {
-    console.log(startDate?.format("YY MM DD"), endDate?.format("YY MM DD"));
-  }, [startDate, endDate]);
-
+const Calendar = ({ date, startDate, endDate, setDate, setStartDate, setEndDate }: Props) => {
   const resetDate = () => {
     setDate(moment());
   };
 
   const setPrevMonth = () => {
-    setDate(_date => _date.subtract(1, "month").clone());
+    setDate(date.subtract(1, "month").clone());
   };
 
   const setNextMonth = () => {
-    setDate(_date => _date.add(1, "month").clone());
+    setDate(date.add(1, "month").clone());
   };
 
   const changeDate = (_date: moment.Moment) => {

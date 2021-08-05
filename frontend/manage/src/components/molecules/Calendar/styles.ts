@@ -12,6 +12,8 @@ export const Container = styled.div`
   min-height: 20rem;
   z-index: ${Z_INDEX.CALENDAR};
   background-color: ${PALETTE.GRAY_200};
+  top: 5rem;
+  left: auto;
 `;
 
 export const Header = styled.div`

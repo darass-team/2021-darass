@@ -1,3 +1,4 @@
+import moment from "moment";
 import { useEffect, useState } from "react";
 import { useHistory, useLocation, useRouteMatch } from "react-router-dom";
 import { PROJECT_MENU, ROUTE } from "../../../constants";
@@ -18,6 +19,10 @@ import {
   ContentMeta,
   Name,
   Date,
+  DateInputWrapper,
+  DateInputText,
+  CalendarToggleButton,
+  SearchCondition,
   Content,
   Url,
   Avatar,
@@ -38,6 +43,11 @@ const Manage = () => {
   const [checkedCommentIds, setCheckedCommentIds] = useState<Comment["id"][]>([]);
   const [checkingAllCommentInCurrentPage, setCheckingAllCommentInCurrentPage] = useState<boolean>(false);
   const [currentPageIndex, setCurrentPageIndex] = useState<number>(Number(pageIndex));
+
+  const [showCalendar, setShowCalendar] = useState(false);
+  const [currentDate, setCurrentDate] = useState<moment.Moment>(() => moment());
+  const [startDate, setStartDate] = useState<moment.Moment | null>(currentDate);
+  const [endDate, setEndDate] = useState<moment.Moment | null>(currentDate);
 
   const updateCheckedCommentId = (commentId: Comment["id"]) => {
     const targetIndex = checkedCommentIds.findIndex(id => id === commentId);
@@ -71,13 +81,30 @@ const Manage = () => {
         <Container>
           <Title>프로젝트 관리</Title>
           <CommentList>
+            <SearchCondition>
+              <DateInputWrapper>
+                <DateInputText>{startDate?.format("YY-MM-DD")}</DateInputText>
+                <DateInputText>{endDate?.format("YY-MM-DD")}</DateInputText>
+                <CalendarToggleButton onClick={() => setShowCalendar(state => !state)}>날짜 선택</CalendarToggleButton>
+                {showCalendar && (
+                  <Calendar
+                    date={currentDate}
+                    setDate={setCurrentDate}
+                    startDate={startDate}
+                    setStartDate={setStartDate}
+                    endDate={endDate}
+                    setEndDate={setEndDate}
+                  />
+                )}
+              </DateInputWrapper>
+            </SearchCondition>
             <Header>
-              <Calendar />
               <CheckBox
                 isChecked={checkingAllCommentInCurrentPage}
                 onChange={onChangeCheckingAllCommentsInput}
                 labelText="모두 선택"
               />
+
               <DeleteButton>삭제</DeleteButton>
             </Header>
 
