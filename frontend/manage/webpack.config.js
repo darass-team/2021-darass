@@ -61,7 +61,8 @@ const config = {
     }),
     new DefinePlugin({
       "process.env.KAKAO_REST_API_KEY": JSON.stringify(process.env.KAKAO_REST_API_KEY),
-      "process.env.KAKAO_JAVASCRIPT_API_KEY": JSON.stringify(process.env.KAKAO_JAVASCRIPT_API_KEY)
+      "process.env.KAKAO_JAVASCRIPT_API_KEY": JSON.stringify(process.env.KAKAO_JAVASCRIPT_API_KEY),
+      "process.env.BUILD_MODE": JSON.stringify(process.env.BUILD_MODE)
     }),
 
     new CleanWebpackPlugin(),
@@ -72,7 +73,7 @@ const config = {
     extensions: [".tsx", ".ts", ".jsx", ".js"]
   },
   devtool: "inline-source-map",
-  mode: "development",
+  mode: process.env.BUILD_MODE,
   devServer: {
     host: "localhost",
     port: 3001,
