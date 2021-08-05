@@ -84,10 +84,6 @@ const CommentArea = () => {
     setSortOption(sortOption);
   };
 
-  if (!url || !projectSecretKey) {
-    setNotice("유효하지 않은 url과 projectSecretKey입니다.\n관리자에게 문의하세요.");
-  }
-
   return (
     <Container>
       <Header>

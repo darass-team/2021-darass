@@ -1,7 +1,9 @@
 import { GetCommentsRequestParams, GuestUserConfirmInfo } from "../types/comment";
 import { NUM_OF_COMMENTS_PER_PAGE } from "./comment";
 
-export const BASE_URL = "https://darass.o-r.kr";
+const DEVELOPMENT_BASE_URL = "https://darass.o-r.kr";
+const PRODUCTION_BASE_URL = "https://darass.o-r.kr";
+export const BASE_URL = process.env.BUILD_MODE === "development" ? DEVELOPMENT_BASE_URL : PRODUCTION_BASE_URL;
 
 export const QUERY = Object.freeze({
   LOGIN: "/api/v1/login/oauth?oauthProviderName=kakao&oauthAccessToken=",
