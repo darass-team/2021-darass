@@ -25,8 +25,10 @@ export const OptionContainer = styled.div`
     transition: background-color 0.3s;
   }
 
-  & > *:hover {
-    background-color: ${PALETTE.WHITE_HOVER};
+  @media (hover: hover) {
+    & > *:hover {
+      background-color: ${PALETTE.WHITE_HOVER};
+    }
   }
 `;
 

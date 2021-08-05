@@ -45,8 +45,10 @@ export const LikeButton = styled.button<{ isLiked: boolean }>`
   background-color: transparent;
   color: ${props => (props.isLiked ? PALETTE.BLUE_700 : PALETTE.BLACK_700)};
 
-  &:hover {
-    color: ${props => (props.isLiked ? PALETTE.BLACK_700 : PALETTE.BLUE_700)};
+  @media (hover: hover) {
+    &:hover {
+      color: ${props => (props.isLiked ? PALETTE.BLACK_700 : PALETTE.BLUE_700)};
+    }
   }
 `;
 

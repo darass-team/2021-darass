@@ -32,8 +32,10 @@ export const OrderButton = styled.button<{ isSelected: boolean }>`
   background-color: transparent;
   transition: color 0.1s;
 
-  &:hover {
-    color: ${props => !props.isSelected && PALETTE.BLACK_700};
+  @media (hover: hover) {
+    &:hover {
+      color: ${props => !props.isSelected && PALETTE.BLACK_700};
+    }
   }
 `;
 
@@ -78,11 +80,13 @@ export const ShowMoreButton = styled.button`
     stroke: ${PALETTE.GRAY_600};
   }
 
-  &:hover {
-    color: ${PALETTE.BLACK_700};
+  @media (hover: hover) {
+    &:hover {
+      color: ${PALETTE.BLACK_700};
 
-    & > svg > path {
-      stroke: ${PALETTE.BLACK_700};
+      & > svg > path {
+        stroke: ${PALETTE.BLACK_700};
+      }
     }
   }
 `;
