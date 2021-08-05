@@ -34,8 +34,8 @@ const Calendar = ({ showCalendar, date, startDate, endDate, setDate, setStartDat
       setStartDate(moment(_date));
       setEndDate(moment(_date));
     } else if (_date.isSame(startDate, "day") && _date.isSame(endDate, "day")) {
-      setStartDate(null);
-      setEndDate(null);
+      setStartDate(date);
+      setEndDate(date);
     } else if (_date.isAfter(startDate, "day")) {
       setEndDate(moment(_date));
     }
