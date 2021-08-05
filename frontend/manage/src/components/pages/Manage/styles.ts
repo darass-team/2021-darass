@@ -1,6 +1,6 @@
 import { PALETTE } from "./../../../styles/palette";
 import styled from "styled-components";
-import { contentBoxCSS, titleCSS } from "../../../styles/css";
+import { contentBoxCSS, inputCSS, titleCSS } from "../../../styles/css";
 import { LINE_HEIGHT_SCALE } from "../../../styles/constants";
 import AvatarComponent from "../../atoms/Avatar";
 import DeleteButtonComponent from "../../atoms/Buttons/DeleteButton";
@@ -45,12 +45,20 @@ export const Row = styled.li`
   }
 `;
 
-export const SearchCondition = styled.div`
+export const SearchCondition = styled.form`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
   padding: 1rem;
+  border: 1px solid ${PALETTE.GRAY_400};
+  margin-bottom: 1rem;
+
+  & > * {
+    &:not(:first-child) {
+      margin-top: 1rem;
+    }
+  }
 `;
 
 export const Header = styled(Row.withComponent("header"))`
@@ -58,7 +66,7 @@ export const Header = styled(Row.withComponent("header"))`
   align-items: center;
   justify-content: space-between;
   border: 1px solid ${PALETTE.GRAY_400};
-  margin-bottom: 1rem;
+  border-bottom: 0;
 `;
 
 export const DateInputWrapper = styled.div`
@@ -69,7 +77,7 @@ export const DateInputWrapper = styled.div`
 
   & > * {
     &:not(:first-child) {
-      margin-left: 0.5rem;
+      margin-left: 1rem;
     }
   }
 `;
@@ -88,6 +96,7 @@ export const Avatar = styled(AvatarComponent)`
 `;
 
 export const ContentWrapper = styled.div`
+  width: 100%;
   display: flex;
   flex-direction: column;
 `;
@@ -121,4 +130,24 @@ export const DeleteButton = styled(DeleteButtonComponent)`
   width: fit-content;
   height: fit-content;
   font-size: 1.2rem;
+`;
+
+export const SearchTermInputWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  & > label {
+    display: flex;
+    align-items: center;
+  }
+`;
+
+export const SearchTermInput = styled.input.attrs({ type: "text" })`
+  ${inputCSS};
+  max-width: 20rem;
+  margin-left: 1rem;
+`;
+
+export const SearchButton = styled(SubmitButton)`
+  align-self: flex-end;
 `;

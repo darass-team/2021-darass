@@ -11,22 +11,25 @@ import PageNationBar from "../../atoms/PageNationBar";
 import Calendar from "../../molecules/Calendar";
 import ContainerWithSideBar from "../../organisms/ContainerWithSideBar";
 import {
-  Container,
-  Title,
-  CommentList,
-  Header,
-  Row,
-  ContentWrapper,
-  ContentMeta,
-  Name,
-  Date,
-  DateInputWrapper,
-  DateInputText,
-  SearchCondition,
-  Content,
-  Url,
   Avatar,
-  DeleteButton
+  CommentList,
+  Container,
+  Content,
+  ContentMeta,
+  ContentWrapper,
+  Date,
+  DateInputText,
+  DateInputWrapper,
+  DeleteButton,
+  Header,
+  Name,
+  Row,
+  SearchButton,
+  SearchCondition,
+  SearchTermInput,
+  SearchTermInputWrapper,
+  Title,
+  Url
 } from "./styles";
 
 const Manage = () => {
@@ -92,6 +95,15 @@ const Manage = () => {
                   {endDate?.format("YY-MM-DD")}
                 </DateInputText>
               </DateInputWrapper>
+
+              <SearchTermInputWrapper>
+                <label>
+                  <span>내용 검색</span>
+                  <SearchTermInput placeholder="검색어를 입력해주세요." />
+                </label>
+              </SearchTermInputWrapper>
+
+              <SearchButton>조회</SearchButton>
 
               <Modal isOpen={showCalendar} closeModal={() => setShowCalendar(false)}>
                 <Calendar

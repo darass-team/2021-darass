@@ -23,10 +23,6 @@ const MobileNav = ({ user, logout, menuList }: Props) => {
 
   useEffect(() => {
     document.body.style.overflow = isOpen ? "hidden" : "revert";
-
-    return () => {
-      document.body.style.overflow = "revert";
-    };
   }, [isOpen]);
 
   return (
