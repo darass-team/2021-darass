@@ -25,7 +25,7 @@ export const CommentTextBoxWrapper = styled.div<{ align: "left" | "right" }>`
 
 export const LikingUsersButton = styled(LikingUsersButtonComponent)`
   position: absolute;
-  bottom: 1.2rem;
+  bottom: 0.7rem;
   right: -1.5rem;
 `;
 

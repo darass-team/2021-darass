@@ -52,6 +52,7 @@ const GlobalStyles = createGlobalStyle`
         &:active,
         &:focus {
           text-decoration: none;
+          color: ${PALETTE.BLACK_700}
         }
       }
       img {
