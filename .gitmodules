@@ -1,3 +1,4 @@
 [submodule "backend/src/main/resources/config"]
 	path = backend/src/main/resources/config
 	url = https://github.com/jaeseongDev/darass-private-key.git
+	branch = develop
