@@ -48,25 +48,23 @@
     </appender>
 
 
-    <appender name="stash" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+    <appender class="net.logstash.logback.appender.LogstashTcpSocketAppender" name="stash">
       <destination>192.168.1.97:8000</destination>
 
       <!-- encoder is required -->
-      <encoder class="net.logstash.logback.encoder.LogstashEncoder" />
+      <encoder class="net.logstash.logback.encoder.LogstashEncoder"/>
     </appender>
 
-    <springProperty name="SLACK_WEBHOOK_URI" source="logging.slack.webhook-uri"/>
-    <appender name="SLACK" class="com.github.maricn.logback.SlackAppender">
-      <webhookUri>${SLACK_WEBHOOK_URI}</webhookUri>
+    <appender class="com.github.maricn.logback.SlackAppender" name="SLACK">
+      <colorCoding>true</colorCoding>
+      <iconEmoji>:stuck_out_tongue_winking_eye:</iconEmoji>
       <layout class="ch.qos.logback.classic.PatternLayout">
         <pattern>%msg %n</pattern>
       </layout>
       <username>Cake-Server-log</username>
-      <iconEmoji>:stuck_out_tongue_winking_eye:</iconEmoji>
-      <colorCoding>true</colorCoding>
+      <webhookUri>${SLACK_WEBHOOK_URI}</webhookUri>
     </appender>
-
-    <appender name="ASYNC_SLACK" class="ch.qos.logback.classic.AsyncAppender">
+    <appender class="ch.qos.logback.classic.AsyncAppender" name="ASYNC_SLACK">
       <appender-ref ref="SLACK"/>
       <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
         <level>ERROR</level>
@@ -79,5 +77,7 @@
       <appender-ref ref="stash"/>
       <appender-ref ref="ASYNC_SLACK"/>
     </root>
+
+    <springProperty name="SLACK_WEBHOOK_URI" source="logging.slack.webhook-uri"/>
   </springProfile>
 </configuration>

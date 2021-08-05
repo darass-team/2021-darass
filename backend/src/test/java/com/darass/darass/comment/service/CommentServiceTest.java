@@ -216,7 +216,8 @@ class CommentServiceTest extends SpringContainerTest {
     void findAllCommentsByProjectKeyUsingPaginationAndDateBetween_latest() {
         CommentReadRequestInProject request =
             new CommentReadRequestInProject("LATEST", project.getSecretKey(), LocalDate.EPOCH, LocalDate.now(), 1, 1);
-        List<CommentReadResponseInProject> responses = commentService.findAllCommentsByProjectKeyUsingPaginationAndDateBetween(request);
+        List<CommentReadResponseInProject> responses = commentService
+            .findAllCommentsByProjectKeyUsingPaginationAndDateBetween(request);
         assertThat(responses).extracting("content")
             .isEqualTo(Collections.singletonList("hello"));
     }
@@ -226,7 +227,8 @@ class CommentServiceTest extends SpringContainerTest {
     void findAllCommentsByProjectKeyUsingPaginationAndDateBetween_like() {
         CommentReadRequestInProject request =
             new CommentReadRequestInProject("LIKE", project.getSecretKey(), LocalDate.EPOCH, LocalDate.now(), 1, 1);
-        List<CommentReadResponseInProject> responses = commentService.findAllCommentsByProjectKeyUsingPaginationAndDateBetween(request);
+        List<CommentReadResponseInProject> responses = commentService
+            .findAllCommentsByProjectKeyUsingPaginationAndDateBetween(request);
         assertThat(responses).extracting("content")
             .isEqualTo(Collections.singletonList("content2"));
     }
@@ -236,7 +238,8 @@ class CommentServiceTest extends SpringContainerTest {
     void findAllCommentsByProjectKeyUsingPaginationAndDateBetween_oldest() {
         CommentReadRequestInProject request =
             new CommentReadRequestInProject("OLDEST", project.getSecretKey(), LocalDate.EPOCH, LocalDate.now(), 1, 1);
-        List<CommentReadResponseInProject> responses = commentService.findAllCommentsByProjectKeyUsingPaginationAndDateBetween(request);
+        List<CommentReadResponseInProject> responses = commentService
+            .findAllCommentsByProjectKeyUsingPaginationAndDateBetween(request);
         assertThat(responses).extracting("content")
             .isEqualTo(Collections.singletonList("content1"));
     }

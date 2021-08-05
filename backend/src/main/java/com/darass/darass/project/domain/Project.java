@@ -33,18 +33,15 @@ import org.hibernate.annotations.OnDeleteAction;
 @Entity
 public class Project extends BaseTimeEntity {
 
+    @OneToMany(mappedBy = "project", fetch = LAZY)
+    private final List<Comment> comments = new ArrayList<>();
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @OnDelete(action = OnDeleteAction.CASCADE)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn
     private User user;
-
-    @OneToMany(mappedBy = "project", fetch = LAZY)
-    private final List<Comment> comments = new ArrayList<>();
-
     private String name;
 
     private String description;

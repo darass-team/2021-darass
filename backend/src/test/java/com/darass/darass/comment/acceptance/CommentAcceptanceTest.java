@@ -253,7 +253,8 @@ public class CommentAcceptanceTest extends AcceptanceTest {
                     fieldWithPath("[].likingUsers[*].id").type(JsonFieldType.NUMBER).description("좋아요 누른 유저 ID"),
                     fieldWithPath("[].likingUsers[*].nickName").type(JsonFieldType.STRING).description("좋아요 누른 유저 닉네임"),
                     fieldWithPath("[].likingUsers[*].type").type(JsonFieldType.STRING).description("좋아요 누른 유저 타입"),
-                    fieldWithPath("[].likingUsers[*].profileImageUrl").type(JsonFieldType.STRING).description("좋아요 누른 유저 이미지 링크"),
+                    fieldWithPath("[].likingUsers[*].profileImageUrl").type(JsonFieldType.STRING)
+                        .description("좋아요 누른 유저 이미지 링크"),
                     fieldWithPath("[].likingUsers[*].createdDate").type(JsonFieldType.STRING).description("좋아요 누른 시간"),
                     fieldWithPath("[].likingUsers[*].modifiedDate").type(JsonFieldType.STRING).description("좋아요 수정한 시간"),
                     fieldWithPath("[].user").type(JsonFieldType.OBJECT).description("댓글 작성 유저 정보"),
@@ -413,7 +414,8 @@ public class CommentAcceptanceTest extends AcceptanceTest {
                     fieldWithPath("[].likingUsers[*].id").type(JsonFieldType.NUMBER).description("좋아요 누른 유저 ID"),
                     fieldWithPath("[].likingUsers[*].nickName").type(JsonFieldType.STRING).description("좋아요 누른 유저 닉네임"),
                     fieldWithPath("[].likingUsers[*].type").type(JsonFieldType.STRING).description("좋아요 누른 유저 타입"),
-                    fieldWithPath("[].likingUsers[*].profileImageUrl").type(JsonFieldType.STRING).description("좋아요 누른 유저 이미지 링크"),
+                    fieldWithPath("[].likingUsers[*].profileImageUrl").type(JsonFieldType.STRING)
+                        .description("좋아요 누른 유저 이미지 링크"),
                     fieldWithPath("[].likingUsers[*].createdDate").type(JsonFieldType.STRING).description("좋아요 누른 시간"),
                     fieldWithPath("[].likingUsers[*].modifiedDate").type(JsonFieldType.STRING).description("좋아요 수정한 시간"),
                     fieldWithPath("[].user").type(JsonFieldType.OBJECT).description("댓글 작성 유저 정보"),
@@ -578,7 +580,8 @@ public class CommentAcceptanceTest extends AcceptanceTest {
                     fieldWithPath("[].likingUsers[*].id").type(JsonFieldType.NUMBER).description("좋아요 누른 유저 ID"),
                     fieldWithPath("[].likingUsers[*].nickName").type(JsonFieldType.STRING).description("좋아요 누른 유저 닉네임"),
                     fieldWithPath("[].likingUsers[*].type").type(JsonFieldType.STRING).description("좋아요 누른 유저 타입"),
-                    fieldWithPath("[].likingUsers[*].profileImageUrl").type(JsonFieldType.STRING).description("좋아요 누른 유저 이미지 링크"),
+                    fieldWithPath("[].likingUsers[*].profileImageUrl").type(JsonFieldType.STRING)
+                        .description("좋아요 누른 유저 이미지 링크"),
                     fieldWithPath("[].likingUsers[*].createdDate").type(JsonFieldType.STRING).description("좋아요 누른 시간"),
                     fieldWithPath("[].likingUsers[*].modifiedDate").type(JsonFieldType.STRING).description("좋아요 수정한 시간"),
                     fieldWithPath("[].user").type(JsonFieldType.OBJECT).description("댓글 작성 유저 정보"),
@@ -742,7 +745,8 @@ public class CommentAcceptanceTest extends AcceptanceTest {
                     fieldWithPath("[].likingUsers[*].id").type(JsonFieldType.NUMBER).description("좋아요 누른 유저 ID"),
                     fieldWithPath("[].likingUsers[*].nickName").type(JsonFieldType.STRING).description("좋아요 누른 유저 닉네임"),
                     fieldWithPath("[].likingUsers[*].type").type(JsonFieldType.STRING).description("좋아요 누른 유저 타입"),
-                    fieldWithPath("[].likingUsers[*].profileImageUrl").type(JsonFieldType.STRING).description("좋아요 누른 유저 이미지 링크"),
+                    fieldWithPath("[].likingUsers[*].profileImageUrl").type(JsonFieldType.STRING)
+                        .description("좋아요 누른 유저 이미지 링크"),
                     fieldWithPath("[].likingUsers[*].createdDate").type(JsonFieldType.STRING).description("좋아요 누른 시간"),
                     fieldWithPath("[].likingUsers[*].modifiedDate").type(JsonFieldType.STRING).description("좋아요 수정한 시간"),
                     fieldWithPath("[].user").type(JsonFieldType.OBJECT).description("댓글 작성 유저 정보"),
