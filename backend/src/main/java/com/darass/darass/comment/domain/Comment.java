@@ -28,8 +28,6 @@ import org.hibernate.annotations.OnDeleteAction;
 
 @Getter
 @NoArgsConstructor
-@Inheritance(strategy = InheritanceType.JOINED)
-@DiscriminatorColumn(name = "comment_type")
 @Entity
 public class Comment extends BaseTimeEntity {
 
@@ -65,12 +63,13 @@ public class Comment extends BaseTimeEntity {
     private int likeCount;
 
     @Builder
-    public Comment(Long id, User user, Project project, String url, String content) {
+    public Comment(Long id, User user, Project project, String url, String content, Comment parent) {
         this.id = id;
         this.user = user;
         this.project = project;
         this.url = url;
         this.content = content;
+//        this.parent = parent;
     }
 
     public void changeContent(String content) {
@@ -106,5 +105,9 @@ public class Comment extends BaseTimeEntity {
 
     public void addCommentLike(CommentLike commentLike) {
         this.commentLikes.add(commentLike);
+    }
+
+    public boolean hasParent() {
+        return null != parent;
     }
 }

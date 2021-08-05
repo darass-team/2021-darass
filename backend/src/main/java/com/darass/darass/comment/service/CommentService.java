@@ -45,6 +45,22 @@ public class CommentService {
         return CommentResponse.of(comment, UserResponse.of(comment.getUser(), userType, profileImageUrl));
     }
 
+    public CommentResponse saveSubComment(Long parentId, User user, CommentCreateRequest commentRequest) {
+        if (!user.isLoginUser()) {
+            user = savedGuestUser(commentRequest);
+        }
+        Project project = getBySecretKey(commentRequest);
+        Comment parentComment = commentRepository.findById(parentId)
+            .orElseThrow(ExceptionWithMessageAndCode.NOT_FOUND_COMMENT::getException);
+        if (parentComment.hasParent()) {
+            throw ExceptionWithMessageAndCode.INVALID_SUB_COMMENT_INDEX.getException();
+        }
+        Comment comment = savedSubComment(user, commentRequest, project, parentComment);
+        String userType = userRepository.findUserTypeById(user.getId());
+        String profileImageUrl = userRepository.findProfileImageUrlById(user.getId());
+        return CommentResponse.of(comment, UserResponse.of(comment.getUser(), userType, profileImageUrl));
+    }
+
     private Project getBySecretKey(CommentCreateRequest commentRequest) {
         return projectRepository.findBySecretKey(commentRequest.getProjectSecretKey())
             .orElseThrow(ExceptionWithMessageAndCode.NOT_FOUND_PROJECT::getException);
@@ -56,6 +72,17 @@ public class CommentService {
             .content(commentRequest.getContent())
             .project(project)
             .url(commentRequest.getUrl())
+            .build();
+        return commentRepository.save(comment);
+    }
+
+    private Comment savedSubComment(User user, CommentCreateRequest commentRequest, Project project, Comment parentComment) {
+        Comment comment = Comment.builder()
+            .user(user)
+            .content(commentRequest.getContent())
+            .project(project)
+            .url(commentRequest.getUrl())
+            .parent(parentComment)
             .build();
         return commentRepository.save(comment);
     }

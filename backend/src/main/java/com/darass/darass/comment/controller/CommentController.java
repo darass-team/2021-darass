@@ -53,6 +53,14 @@ public class CommentController {
         return ResponseEntity.status(HttpStatus.CREATED).body(commentResponse);
     }
 
+    @PostMapping("/{id}/sub-comments")
+    public ResponseEntity<CommentResponse> saveSubComment(@PathVariable("id") Long parentId,
+        @AuthenticationPrincipal User user,
+        @Valid @RequestBody CommentCreateRequest commentRequest) {
+        CommentResponse commentResponse = commentService.saveSubComment(parentId, user, commentRequest);
+        return ResponseEntity.status(HttpStatus.CREATED).body(commentResponse);
+    }
+
     @PatchMapping("/{id}")
     public ResponseEntity<Void> update(@PathVariable("id") Long id, @AuthenticationPrincipal User user,
         @RequestBody CommentUpdateRequest request) {
@@ -72,4 +80,5 @@ public class CommentController {
         commentService.toggleLikeStatus(id, user);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
+
 }

@@ -29,6 +29,7 @@ import com.darass.darass.project.repository.ProjectRepository;
 import com.darass.darass.user.domain.SocialLoginUser;
 import com.darass.darass.user.dto.UserResponse;
 import com.darass.darass.user.repository.UserRepository;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -117,6 +118,48 @@ public class CommentAcceptanceTest extends AcceptanceTest {
                         .description("유저 프로필 이미지")
                 ))
         );
+    }
+
+    private ResultActions 소셜_로그인_대댓글_등록됨(String content, String url, Long parentId) throws Exception {
+        return mockMvc.perform(post("/api/v1/comments/{id}/sub-comments", parentId)
+            .contentType(MediaType.APPLICATION_JSON)
+            .header("Authorization", "Bearer " + token)
+            .content(asJsonString(new CommentCreateRequest(null, null, secretKey, content, url))))
+            .andExpect(status().isCreated())
+            .andExpect(jsonPath("$.user..type").value("SocialLoginUser"));
+    }
+
+    @DisplayName("소셜 로그인 유저가 대댓글을 등록한다.")
+    @Test
+    void saveSubCommentSocialLoginUser() throws Exception {
+        CommentResponse commentResponse = 소셜_로그인_댓글_등록됨_Response_반환("content", "url");
+        Long parentId = commentResponse.getId();
+
+        소셜_로그인_대댓글_등록됨("content", "url", parentId).andDo(
+                document("api/v1/comments/post/success-login-user",
+                    requestHeaders(
+                        headerWithName("Authorization").description("JWT - Bearer 토큰")
+                    ),
+                    relaxedRequestFields(
+                        fieldWithPath("projectSecretKey").type(JsonFieldType.STRING).description("프로젝트 시크릿 키"),
+                        fieldWithPath("content").type(JsonFieldType.STRING).description("댓글 내용"),
+                        fieldWithPath("url").type(JsonFieldType.STRING).description("url")
+                    ),
+                    responseFields(
+                        fieldWithPath("id").type(JsonFieldType.NUMBER).description("댓글 id"),
+                        fieldWithPath("content").type(JsonFieldType.STRING).description("댓글 내용"),
+                        fieldWithPath("createdDate").type(JsonFieldType.STRING).description("댓글 생성 시점"),
+                        fieldWithPath("modifiedDate").type(JsonFieldType.STRING).description("댓글 수정 시점"),
+                        fieldWithPath("likingUsers[*]").type(JsonFieldType.ARRAY).description("좋아요 누른 유저 정보"),
+                        fieldWithPath("user").type(JsonFieldType.OBJECT).description("댓글 작성 유저 정보"),
+                        fieldWithPath("user.createdDate").type(JsonFieldType.STRING).description("유저 생성 시점"),
+                        fieldWithPath("user.modifiedDate").type(JsonFieldType.STRING).description("유저 수정 시점"),
+                        fieldWithPath("user.id").type(JsonFieldType.NUMBER).description("유저 id"),
+                        fieldWithPath("user.nickName").type(JsonFieldType.STRING).description("유저 닉네임"),
+                        fieldWithPath("user.type").type(JsonFieldType.STRING).description("유저 유형"),
+                        fieldWithPath("user.profileImageUrl").type(JsonFieldType.STRING).description("유저 프로필 이미지")
+                    ))
+            );
     }
 
     @DisplayName("비로그인 유저가 댓글을 등록한다.")
