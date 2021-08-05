@@ -11,6 +11,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.darass.darass.SpringContainerTest;
 import com.darass.darass.auth.oauth.controller.AuthenticationPrincipalArgumentResolver;
 import com.darass.darass.auth.oauth.controller.OAuthController;
+import com.darass.darass.auth.oauth.dto.TokenRequest;
 import com.darass.darass.auth.oauth.service.OAuthService;
 import com.darass.darass.comment.controller.CommentController;
 import com.darass.darass.comment.dto.CommentCreateRequest;
@@ -60,14 +61,16 @@ class ControllerAdviceTest extends SpringContainerTest {
     @Test
     void handleBadRequestException() throws Exception {
         OAuthController oAuthController = mock(OAuthController.class);
-        given(oAuthController.oauthLogin(any(), any())).willThrow(ExceptionWithMessageAndCode.IO_EXCEPTION.getException());
+        given(oAuthController.oauthLogin(any())).willThrow(ExceptionWithMessageAndCode.IO_EXCEPTION.getException());
 
         mockMvc = MockMvcBuilders
             .standaloneSetup(oAuthController)
             .setControllerAdvice(new ControllerAdvice())
             .build();
 
-        mockMvc.perform(get("/api/v1/login/oauth?oauthAccessToken=invalid&oauthProviderName=kakao"))
+        mockMvc.perform(post("/api/v1/login/oauth")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(new ObjectMapper().writeValueAsString(new TokenRequest("kakao", "invalid"))))
             .andExpect(status().isBadRequest());
     }
 
@@ -79,7 +82,9 @@ class ControllerAdviceTest extends SpringContainerTest {
             .setControllerAdvice(new ControllerAdvice())
             .build();
 
-        mockMvc.perform(get("/api/v1/login/oauth?oauthAccessToken=invalid&oauthProviderName=kakao"))
+        mockMvc.perform(post("/api/v1/login/oauth")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(new ObjectMapper().writeValueAsString(new TokenRequest("kakao", "invalid"))))
             .andExpect(status().isUnauthorized());
     }
 

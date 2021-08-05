@@ -4,7 +4,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.requestBody;
+import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
@@ -13,6 +16,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.darass.darass.AcceptanceTest;
 import com.darass.darass.auth.oauth.api.domain.OAuthProvider;
 import com.darass.darass.auth.oauth.api.domain.OAuthProviderType;
+import com.darass.darass.auth.oauth.dto.TokenRequest;
 import com.darass.darass.auth.oauth.dto.TokenResponse;
 import com.darass.darass.auth.oauth.infrastructure.JwtTokenProvider;
 import com.darass.darass.exception.ExceptionWithMessageAndCode;
@@ -89,10 +93,9 @@ public class AuthAcceptanceTest extends AcceptanceTest {
     }
 
     private ResultActions 토큰_발급_요청(String oauthAccessToken) throws Exception {
-        return this.mockMvc.perform(get(apiUrl)
+        return this.mockMvc.perform(post(apiUrl)
             .contentType(MediaType.APPLICATION_JSON)
-            .param("oauthProviderName", oauthProviderName)
-            .param("oauthAccessToken", oauthAccessToken));
+            .content(new ObjectMapper().writeValueAsString(new TokenRequest(oauthProviderName, oauthAccessToken))));
     }
 
     private void 토큰_발급됨(ResultActions resultActions) throws Exception {
@@ -108,10 +111,10 @@ public class AuthAcceptanceTest extends AcceptanceTest {
 
     private void 토큰_인증_로그인_rest_doc_작성(ResultActions resultActions) throws Exception {
         resultActions.andDo(
-            document("api/v1/auth-login/get/success",
-                requestParameters(
-                    parameterWithName("oauthProviderName").description("소셜 로그인을 플랫폼 이름"),
-                    parameterWithName("oauthAccessToken").description("소셜 로그인을 통한 발급받은 엑세스 토큰")
+            document("api/v1/auth-login/post/success",
+                requestFields(
+                    fieldWithPath("oauthProviderName").description("소셜 로그인을 플랫폼 이름"),
+                    fieldWithPath("oauthAccessToken").description("소셜 로그인을 통한 발급받은 엑세스 토큰")
                 ),
                 responseFields(
                     fieldWithPath("accessToken").type(JsonFieldType.STRING).description("서버헤서 발급해준 엑세스 토큰")
@@ -133,7 +136,7 @@ public class AuthAcceptanceTest extends AcceptanceTest {
 
     private void 토큰_인증_로그인_실패_rest_doc_작성(ResultActions resultActions) throws Exception {
         resultActions.andDo(
-            document("api/v1/auth-login/get/fail",
+            document("api/v1/auth-login/post/fail",
                 responseFields(
                     fieldWithPath("message").type(JsonFieldType.STRING).description("에러 메시지"),
                     fieldWithPath("code").type(JsonFieldType.NUMBER).description("에러 코드")
