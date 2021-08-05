@@ -2,7 +2,7 @@ import { Link, NavLink } from "react-router-dom";
 import styled from "styled-components";
 import { PALETTE } from "../../../styles/palette";
 import Avatar from "../../atoms/Avatar";
-import { Z_INDEX } from "../../../styles/constants";
+import { LINE_HEIGHT_SCALE, Z_INDEX } from "../../../styles/constants";
 
 export const Container = styled.nav`
   @media (min-width: 780px) {
@@ -47,6 +47,7 @@ export const MenuWrapper = styled.nav<{ isOpen: boolean }>`
 export const Name = styled.p`
   width: 100%;
   font-size: 2rem;
+  line-height: ${2 * LINE_HEIGHT_SCALE}rem;
   padding: 2rem;
   text-align: center;
   font-weight: 800;
@@ -57,6 +58,7 @@ export const AuthLink = styled(Link)`
   top: 5%;
   right: 2rem;
   font-size: 1.5rem;
+  line-height: ${1.5 * LINE_HEIGHT_SCALE}rem;
   text-align: center;
   font-weight: 700;
 `;
@@ -69,6 +71,7 @@ export const MenuAvatar = styled(Avatar)`
 
 export const Menu = styled(NavLink)`
   font-size: 2rem;
+  line-height: ${2 * LINE_HEIGHT_SCALE}rem;
   text-transform: uppercase;
   padding: 2rem;
   border-radius: 10px;

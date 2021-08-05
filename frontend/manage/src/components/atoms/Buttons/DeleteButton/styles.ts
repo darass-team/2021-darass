@@ -1,3 +1,4 @@
+import { LINE_HEIGHT_SCALE } from "./../../../../styles/constants";
 import styled from "styled-components";
 import { PALETTE } from "../../../../styles/palette";
 
@@ -8,6 +9,7 @@ export const Button = styled.button`
   border: 1px solid ${PALETTE.GRAY_500};
   color: ${PALETTE.RED_800};
   font-size: 1.4rem;
+  line-height: ${1.4 * LINE_HEIGHT_SCALE}rem;
   font-weight: 700;
   border-radius: 10px;
   padding: 0.3rem 1.4rem;

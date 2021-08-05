@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Z_INDEX } from "../../../styles/constants";
+import { LINE_HEIGHT_SCALE, Z_INDEX } from "../../../styles/constants";
 
 export const Container = styled.div`
   margin: 4rem 0;
@@ -19,9 +19,11 @@ export const TextArea = styled.div`
   display: table;
   text-align: center;
   font-size: 1.2rem;
+  line-height: ${1.2 * LINE_HEIGHT_SCALE}rem;
 
   > h2 {
     font-size: 2rem;
+    line-height: ${2 * LINE_HEIGHT_SCALE}rem;
     font-weight: 700;
     margin-bottom: 1rem;
   }

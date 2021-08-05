@@ -1,5 +1,6 @@
 import { createGlobalStyle } from "styled-components";
 import { normalize } from "styled-normalize";
+import { LINE_HEIGHT_SCALE } from "./constants";
 import { PALETTE } from "./palette";
 
 const GlobalStyles = createGlobalStyle`
@@ -20,6 +21,7 @@ const GlobalStyles = createGlobalStyle`
         width: 100%;
         color: ${PALETTE.BLACK_700};
         margin: 0 auto;
+        line-height: ${LINE_HEIGHT_SCALE}rem;
       }
       @media all and (max-width:780px) {
         html {

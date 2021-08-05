@@ -27,3 +27,5 @@ export const Z_INDEX = {
     }
   }
 } as const;
+
+export const LINE_HEIGHT_SCALE = 1.5;

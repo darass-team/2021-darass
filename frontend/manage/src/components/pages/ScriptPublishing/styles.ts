@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { LINE_HEIGHT_SCALE } from "../../../styles/constants";
 import { PALETTE } from "../../../styles/palette";
 import { contentBoxCSS, orderedListCSS, titleCSS } from "./../../../styles/css";
 
@@ -28,6 +29,7 @@ export const CopyButton = styled.button`
   background-color: ${PALETTE.SECONDARY};
   color: ${PALETTE.WHITE};
   font-size: 1.6rem;
+  line-height: ${1.6 * LINE_HEIGHT_SCALE}rem;
   font-weight: 500;
   border-radius: 10px;
   padding: 0.7rem 1.6rem;

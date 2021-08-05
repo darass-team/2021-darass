@@ -1,5 +1,6 @@
 import { PALETTE } from "../../../styles/palette";
 import styled from "styled-components";
+import { LINE_HEIGHT_SCALE } from "../../../styles/constants";
 
 export const Container = styled.div`
   display: flex;
@@ -15,6 +16,7 @@ export const AddProjectButton = styled.button`
   border-radius: 10px;
   font-weight: 700;
   font-size: 1.4rem;
+  line-height: ${1.4 * LINE_HEIGHT_SCALE}rem;
   margin-bottom: 2rem;
   padding: 0.5rem 0.8rem;
   align-self: flex-end;
@@ -37,6 +39,7 @@ export const ButtonWrapper = styled.div`
 export const Message = styled.span`
   margin-top: 2rem;
   font-size: 1.4rem;
+  line-height: ${1.4 * LINE_HEIGHT_SCALE}rem;
   font-weight: 700;
   text-align: center;
 `;

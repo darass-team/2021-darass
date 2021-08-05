@@ -41,16 +41,12 @@ export const useUser = () => {
     }
   };
 
-  const logout = async () => {
-    try {
-      deleteCookie(COOKIE_KEY.ATK);
+  const logout = () => {
+    deleteCookie(COOKIE_KEY.ATK);
 
-      queryClient.setQueryData<User | undefined>(REACT_QUERY_KEY.USER, () => {
-        return undefined;
-      });
-    } catch (error) {
-      console.error(error.message);
-    }
+    queryClient.setQueryData<User | undefined>(REACT_QUERY_KEY.USER, () => {
+      return undefined;
+    });
   };
 
   return { user, login, logout, isLoading, error };

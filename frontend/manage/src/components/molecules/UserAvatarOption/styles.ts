@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { LINE_HEIGHT_SCALE } from "../../../styles/constants";
 import UserOptionComponent from "../../atoms/UserOption";
 
 export const Container = styled.div`
@@ -15,6 +16,7 @@ export const Container = styled.div`
 export const UserNickName = styled.button`
   margin-left: 0.5rem;
   font-size: 1.25rem;
+  line-height: ${1.25 * LINE_HEIGHT_SCALE}rem;
   font-weight: 800;
 `;
 

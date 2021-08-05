@@ -1,4 +1,4 @@
-import { DOMAIN } from "./domain";
+import { CLIENT_ASSET_BASE_URL } from "./domain";
 
 interface BlogGuideInfo {
   name: string;
@@ -13,13 +13,13 @@ interface GuideFile {
 const GUIDE_FILE: GuideFile = {
   TISTORY: {
     name: "티스토리",
-    logoURL: `${DOMAIN}/png/tistory.png`,
-    iframeSrc: `${DOMAIN}/script-guide/tistory.pdf`
+    logoURL: `${CLIENT_ASSET_BASE_URL}/png/tistory.png`,
+    iframeSrc: `${CLIENT_ASSET_BASE_URL}/script-guide/tistory.pdf`
   },
   UNIVERSAL: {
     name: "기타",
-    logoURL: `${DOMAIN}/png/universal.png`,
-    iframeSrc: `${DOMAIN}/script-guide/universal.pdf`
+    logoURL: `${CLIENT_ASSET_BASE_URL}/png/universal.png`,
+    iframeSrc: `${CLIENT_ASSET_BASE_URL}/script-guide/universal.pdf`
   }
 };
 

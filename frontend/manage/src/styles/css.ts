@@ -1,4 +1,5 @@
 import { css } from "styled-components";
+import { LINE_HEIGHT_SCALE } from "./constants";
 import { PALETTE } from "./palette";
 
 export const speechBubbleCSS = css`
@@ -42,28 +43,33 @@ export const speechBubbleCSS = css`
 
 export const titleCSS = css`
   font-size: 2rem;
+  line-height: ${2 * LINE_HEIGHT_SCALE}rem;
   font-weight: 800;
   margin-bottom: 2rem;
 `;
 
 export const subTitleCSS = css`
   font-size: 1.6rem;
+  line-height: ${1.6 * LINE_HEIGHT_SCALE}rem;
   word-break: keep-all;
   margin-bottom: 1rem;
 `;
 
 export const paragraphCSS = css`
   font-size: 1.4rem;
+  line-height: ${1.4 * LINE_HEIGHT_SCALE}rem;
   word-break: keep-all;
   margin-bottom: 1rem;
 `;
 
 export const orderedListCSS = css`
   font-size: 1.4rem;
+  line-height: ${1.4 * LINE_HEIGHT_SCALE}rem;
 `;
 
 export const labelCSS = css`
   font-size: 1.4rem;
+  line-height: ${1.4 * LINE_HEIGHT_SCALE}rem;
   font-weight: 600;
   margin-bottom: 0.8rem;
 `;
@@ -73,6 +79,7 @@ export const inputCSS = css`
   border: 1px solid ${PALETTE.BLACK_700};
   border-radius: 10px;
   font-size: 1.2rem;
+  line-height: ${1.2 * LINE_HEIGHT_SCALE}rem;
   padding: 0.7rem 1rem;
 
   &:focus {

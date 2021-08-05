@@ -23,7 +23,7 @@ export const PROJECT_MENU = {
           }
         ]
       },
-      { name: "관리", subMenus: [{ name: "전체", route: ROUTE.MY_PROJECT }] },
+      { name: "관리", subMenus: [{ name: "전체", route: ROUTE.GET_PROJECT_MANAGE(projectId) }] },
       { name: "설치 가이드", route: ROUTE.GET_SCRIPT_PUBLISHING(projectId) }
     ];
 

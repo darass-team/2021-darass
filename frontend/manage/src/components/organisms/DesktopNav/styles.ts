@@ -1,6 +1,6 @@
 import { Link, NavLink } from "react-router-dom";
 import styled from "styled-components";
-import { NAVIGATION_HEIGHT, PAGE_MAX_WIDTH, Z_INDEX } from "../../../styles/constants";
+import { LINE_HEIGHT_SCALE, NAVIGATION_HEIGHT, PAGE_MAX_WIDTH, Z_INDEX } from "../../../styles/constants";
 import { PALETTE } from "../../../styles/palette";
 
 export const Container = styled.nav`
@@ -45,6 +45,7 @@ export const MenuLink = styled(NavLink)`
   align-items: center;
   margin-left: 1.5rem;
   font-size: 1.25rem;
+  line-height: ${1.25 * LINE_HEIGHT_SCALE}rem;
   font-weight: 800;
   transition: border 0.1s;
 
@@ -56,6 +57,7 @@ export const MenuLink = styled(NavLink)`
 export const Title = styled.span`
   margin-left: 10px;
   font-size: 1.25rem;
+  line-height: ${1.25 * LINE_HEIGHT_SCALE}rem;
   font-weight: 800;
   color: ${PALETTE.BLACK_700};
 `;
@@ -68,5 +70,6 @@ export const UserAvatarOptionWrapper = styled.div`
 export const LoginLink = styled(Link)`
   margin-left: 1.5rem;
   font-size: 1.25rem;
+  line-height: ${1.25 * LINE_HEIGHT_SCALE}rem;
   font-weight: 800;
 `;
