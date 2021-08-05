@@ -76,7 +76,7 @@ jobs:
       working-directory: ./frontend/manage
     
     - name: S3 Deploy - deploy script
-      run: aws s3 sync ./dist s3://darass-script-code
+      run: aws s3 sync ./dist s3://darass-reply-module/development/
       working-directory: ./frontend/deploy-script
       
     - name: build result to slack
