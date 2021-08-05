@@ -16,7 +16,7 @@ export const Title = styled.h2`
 export const CommentList = styled.ul`
   width: 100%;
   min-height: 50vh;
-  padding: 1rem;
+  padding: 1rem 0;
 `;
 
 export const Row = styled.li`

@@ -45,7 +45,7 @@ const Manage = () => {
     <ScreenContainer>
       <ContainerWithSideBar menus={PROJECT_MENU.get(projectId)}>
         <Container>
-          <Title>프로젝트 관리</Title>
+          <Title>댓글 관리</Title>
           <CommentSearchConditionForm
             showCalendar={showCalendar}
             setShowCalendar={setShowCalendar}
