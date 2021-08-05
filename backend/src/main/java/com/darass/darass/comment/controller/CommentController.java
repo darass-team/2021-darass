@@ -38,14 +38,6 @@ public class CommentController {
         return ResponseEntity.status(HttpStatus.OK).body(commentResponses);
     }
 
-    @GetMapping("/paging")
-    public ResponseEntity<List<CommentResponse>> readByPageRequest(
-        @ModelAttribute CommentReadRequestByPagination commentReadRequestByPagination) {
-        List<CommentResponse> commentResponses = commentService
-            .findAllCommentsByUrlAndProjectKeyUsingPagination(commentReadRequestByPagination);
-        return ResponseEntity.status(HttpStatus.OK).body(commentResponses);
-    }
-
     @PostMapping
     public ResponseEntity<CommentResponse> save(@AuthenticationPrincipal User user,
         @Valid @RequestBody CommentCreateRequest commentRequest) {
@@ -59,6 +51,28 @@ public class CommentController {
         @Valid @RequestBody CommentCreateRequest commentRequest) {
         CommentResponse commentResponse = commentService.saveSubComment(parentId, user, commentRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(commentResponse);
+    }
+
+    @PostMapping("/{id}/like")
+    public ResponseEntity<Void> clickLikeButton(@PathVariable("id") Long id, @RequiredLogin User user) {
+        commentService.toggleLikeStatus(id, user);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+    @GetMapping("/paging") //TODO: 댓글 개수 리턴
+    public ResponseEntity<List<CommentResponse>> readByPageRequest(
+        @ModelAttribute CommentReadRequestByPagination commentReadRequestByPagination) {
+        List<CommentResponse> commentResponses = commentService
+            .findAllCommentsByUrlAndProjectKeyUsingPagination(commentReadRequestByPagination);
+        return ResponseEntity.status(HttpStatus.OK).body(commentResponses);
+    }
+
+    @GetMapping("/{id}/sub-comments/paging")
+    public ResponseEntity<List<CommentResponse>> readSubCommentsByPageRequest(@PathVariable("id") Long parentId,
+        @ModelAttribute CommentReadRequestByPagination commentReadRequestByPagination) {
+        List<CommentResponse> commentResponses = commentService
+            .findAllSubCommentsByUrlAndProjectKeyUsingPagination(parentId, commentReadRequestByPagination);
+        return ResponseEntity.status(HttpStatus.OK).body(commentResponses);
     }
 
     @PatchMapping("/{id}")
@@ -75,10 +89,5 @@ public class CommentController {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
-    @PostMapping("/{id}/like")
-    public ResponseEntity<Void> clickLikeButton(@PathVariable("id") Long id, @RequiredLogin User user) {
-        commentService.toggleLikeStatus(id, user);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-    }
 
 }

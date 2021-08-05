@@ -32,9 +32,11 @@ public class CommentResponse {
 
     private UserResponse user;
 
+    private int subCommentCount;
+
     public static CommentResponse of(Comment comment, UserResponse userResponse) {
         return new CommentResponse(comment.getId(), comment.getContent(), comment.getCreatedDate(),
-            comment.getModifiedDate(), parseLikingUser(comment.getCommentLikes()), userResponse);
+            comment.getModifiedDate(), parseLikingUser(comment.getCommentLikes()), userResponse, comment.getSubCommentsSize());
     }
 
     private static List<UserResponse> parseLikingUser(List<CommentLike> users) {

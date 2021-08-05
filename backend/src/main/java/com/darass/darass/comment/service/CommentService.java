@@ -95,9 +95,10 @@ public class CommentService {
         return userRepository.save(user);
     }
 
+    //TODO: 나중에 제거
     public List<CommentResponse> findAllCommentsByUrlAndProjectKey(CommentReadRequest request) {
         List<Comment> comments = commentRepository
-            .findByUrlAndProjectSecretKey(request.getUrl(), request.getProjectKey(),
+            .findByUrlAndProjectSecretKeyAndParentId(request.getUrl(), request.getProjectKey(), null,
                 SortOption.getMatchedSort(request.getSortOption()));
 
         return comments.stream()
@@ -108,8 +109,22 @@ public class CommentService {
     public List<CommentResponse> findAllCommentsByUrlAndProjectKeyUsingPagination(CommentReadRequestByPagination request) {
         int pageBasedIndex = request.getPage() - 1;
         Page<Comment> comments = commentRepository
-            .findByUrlAndProjectSecretKey(request.getUrl(), request.getProjectKey(),
+            .findByUrlAndProjectSecretKeyAndParentId(request.getUrl(), request.getProjectKey(), null,
                 PageRequest.of(pageBasedIndex, request.getSize(), SortOption.getMatchedSort(request.getSortOption())));
+
+        return comments.stream()
+            .map(comment -> CommentResponse.of(comment, UserResponse.of(comment.getUser())))
+            .collect(Collectors.toList());
+    }
+
+    public List<CommentResponse> findAllSubCommentsByUrlAndProjectKeyUsingPagination(Long parentId,
+        CommentReadRequestByPagination request) {
+        int pageBasedIndex = request.getPage() - 1;
+
+        //TODO: 부모 id 유효하지 않는 경우 예외 처리
+
+        Page<Comment> comments = commentRepository
+            .findByParentId(parentId, PageRequest.of(pageBasedIndex, request.getSize(), SortOption.OTHER.getSort()));
 
         return comments.stream()
             .map(comment -> CommentResponse.of(comment, UserResponse.of(comment.getUser())))
@@ -184,4 +199,5 @@ public class CommentService {
             .user(user)
             .build());
     }
+
 }

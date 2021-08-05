@@ -8,14 +8,11 @@ import com.darass.darass.project.domain.Project;
 import com.darass.darass.user.domain.User;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -56,8 +53,8 @@ public class Comment extends BaseTimeEntity {
     @JoinColumn(name = "parent_id", referencedColumnName = "id")
     private Comment parent;
 
-    @OneToMany(mappedBy = "parent", fetch = LAZY)
-    private List<Comment> children;
+    @OneToMany(mappedBy = "parent", fetch = LAZY, cascade = ALL, orphanRemoval = true)
+    private List<Comment> subComments = new ArrayList<>();
 
     @Formula("(select count(*) from comment_like where comment_like.comment_id=id)")
     private int likeCount;
@@ -69,7 +66,7 @@ public class Comment extends BaseTimeEntity {
         this.project = project;
         this.url = url;
         this.content = content;
-//        this.parent = parent;
+        this.parent = parent;
     }
 
     public void changeContent(String content) {
@@ -109,5 +106,9 @@ public class Comment extends BaseTimeEntity {
 
     public boolean hasParent() {
         return null != parent;
+    }
+
+    public int getSubCommentsSize() {
+        return this.subComments.size();
     }
 }
