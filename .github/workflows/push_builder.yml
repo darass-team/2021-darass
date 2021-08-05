@@ -68,11 +68,11 @@ jobs:
       uses: unfor19/install-aws-cli-action@v1
       
     - name: S3 Deploy - comment
-      run: aws s3 sync ./dist s3://darass-reply-module
+      run: aws s3 sync ./dist s3://darass-reply-module/development/
       working-directory: ./frontend/reply-module
       
     - name: S3 Deploy - project
-      run: aws s3 sync ./dist s3://darass-manage-page
+      run: aws s3 sync ./dist s3://darass-manage-page/development/
       working-directory: ./frontend/manage
     
     - name: S3 Deploy - deploy script
