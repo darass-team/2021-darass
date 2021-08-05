@@ -2,7 +2,7 @@ import moment from "moment";
 import { useEffect, useState } from "react";
 import { useHistory, useLocation, useRouteMatch } from "react-router-dom";
 import { PROJECT_MENU, ROUTE } from "../../../constants";
-import { useGetAllCommentOfProject } from "../../../hooks";
+import { useCommentList, useGetAllCommentOfProject } from "../../../hooks";
 import ScreenContainer from "../../../styles/ScreenContainer";
 import { Comment } from "../../../types/comment";
 import CheckBox from "../../atoms/CheckBox";
@@ -43,36 +43,22 @@ const Manage = () => {
   const pageIndex = urlSearchParams.get("pageIndex") || 1;
 
   const { comments } = useGetAllCommentOfProject({ projectId });
-  const [checkedCommentIds, setCheckedCommentIds] = useState<Comment["id"][]>([]);
-  const [checkingAllCommentInCurrentPage, setCheckingAllCommentInCurrentPage] = useState<boolean>(false);
+
+  const {
+    checkedCommentIds,
+    setCheckedCommentIds,
+    checkingAllCommentInCurrentPage,
+    setCheckingAllCommentInCurrentPage,
+    updateCheckedCommentId,
+    onToggleCheckingAllComments
+  } = useCommentList(comments || []);
+
   const [currentPageIndex, setCurrentPageIndex] = useState<number>(Number(pageIndex));
 
   const [showCalendar, setShowCalendar] = useState(false);
   const [currentDate, setCurrentDate] = useState<moment.Moment>(() => moment());
   const [startDate, setStartDate] = useState<moment.Moment | null>(currentDate);
   const [endDate, setEndDate] = useState<moment.Moment | null>(currentDate);
-
-  const updateCheckedCommentId = (commentId: Comment["id"]) => {
-    const targetIndex = checkedCommentIds.findIndex(id => id === commentId);
-
-    if (targetIndex !== -1) {
-      setCheckedCommentIds(ids => ids.filter(id => id !== commentId));
-    } else {
-      setCheckedCommentIds(ids => ids.concat(commentId));
-    }
-  };
-
-  const onChangeCheckingAllCommentsInput = () => {
-    setCheckingAllCommentInCurrentPage(state => !state);
-  };
-
-  useEffect(() => {
-    if (checkingAllCommentInCurrentPage) {
-      setCheckedCommentIds(comments.map(({ id }) => id));
-    } else {
-      setCheckedCommentIds([]);
-    }
-  }, [checkingAllCommentInCurrentPage]);
 
   useEffect(() => {
     history.push(`${ROUTE.GET_PROJECT_MANAGE(projectId)}?pageIndex=${currentPageIndex}`);
@@ -119,7 +105,7 @@ const Manage = () => {
             <Header>
               <CheckBox
                 isChecked={checkingAllCommentInCurrentPage}
-                onChange={onChangeCheckingAllCommentsInput}
+                onChange={onToggleCheckingAllComments}
                 labelText="모두 선택"
               />
 

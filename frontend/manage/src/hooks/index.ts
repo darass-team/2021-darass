@@ -8,3 +8,4 @@ export { useEditProject } from "./useEditProject";
 export { useEditUser } from "./useEditUser";
 export { useDeleteUser } from "./useDeleteUser";
 export { useGetAllCommentOfProject } from "./useGetAllCommentOfProject";
+export { useCommentList } from "./useCommentList";
