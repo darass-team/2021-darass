@@ -1,6 +1,5 @@
 import { PALETTE } from "./../../../styles/palette";
 import styled from "styled-components";
-import { getByPlaceholderText } from "@testing-library/dom";
 
 export const Container = styled.section`
   width: 100%;
@@ -13,7 +12,7 @@ export const OrderButtonContainer = styled.div`
   display: flex;
   justify-content: flex-end;
   align-items: flex-start;
-  border-bottom: 1px solid ${PALETTE.BLACK_700};
+  border-bottom: 2px solid ${PALETTE.GRAY_400};
   padding-bottom: 1.6rem;
 `;
 
@@ -72,4 +71,17 @@ export const ShowMoreButton = styled.button`
   background-color: transparent;
   font-size: 1.2rem;
   line-height: 1.8rem;
+  color: ${PALETTE.GRAY_600};
+
+  & > svg > path {
+    stroke: ${PALETTE.GRAY_600};
+  }
+
+  &:hover {
+    color: ${PALETTE.BLACK_700};
+
+    & > svg > path {
+      stroke: ${PALETTE.BLACK_700};
+    }
+  }
 `;
