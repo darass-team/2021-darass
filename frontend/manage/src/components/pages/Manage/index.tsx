@@ -86,16 +86,16 @@ const Manage = () => {
                 <DateInputText>{startDate?.format("YY-MM-DD")}</DateInputText>
                 <DateInputText>{endDate?.format("YY-MM-DD")}</DateInputText>
                 <CalendarToggleButton onClick={() => setShowCalendar(state => !state)}>날짜 선택</CalendarToggleButton>
-                {showCalendar && (
-                  <Calendar
-                    date={currentDate}
-                    setDate={setCurrentDate}
-                    startDate={startDate}
-                    setStartDate={setStartDate}
-                    endDate={endDate}
-                    setEndDate={setEndDate}
-                  />
-                )}
+
+                <Calendar
+                  showCalendar={showCalendar}
+                  date={currentDate}
+                  setDate={setCurrentDate}
+                  startDate={startDate}
+                  setStartDate={setStartDate}
+                  endDate={endDate}
+                  setEndDate={setEndDate}
+                />
               </DateInputWrapper>
             </SearchCondition>
             <Header>

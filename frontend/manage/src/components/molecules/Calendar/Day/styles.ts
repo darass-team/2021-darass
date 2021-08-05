@@ -24,6 +24,7 @@ const bothWithStartAndEndDayCSS = css`
 
 const withIndPeriodCSS = css`
   background-color: ${PALETTE.PRIMARY};
+  border-radius: 0;
 `;
 
 export const Container = styled.button.attrs({ type: "button" })<{ dayInfo: DayInfo }>`

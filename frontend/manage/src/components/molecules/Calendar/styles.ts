@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { LINE_HEIGHT_SCALE, Z_INDEX } from "../../../styles/constants";
 import { PALETTE } from "../../../styles/palette";
 
-export const Container = styled.div`
+export const Container = styled.div<{ showCalendar: boolean }>`
   position: absolute;
   width: 20rem;
   padding: 1rem;
@@ -10,10 +10,13 @@ export const Container = styled.div`
   border-radius: 10px;
   overflow: hidden;
   min-height: 20rem;
-  z-index: ${Z_INDEX.CALENDAR};
   background-color: ${PALETTE.GRAY_200};
   top: 5rem;
   left: auto;
+  z-index: ${({ showCalendar }) => (showCalendar ? Z_INDEX.CALENDAR : -1)};
+  opacity: ${({ showCalendar }) => (showCalendar ? 1 : 0)};
+
+  transition: all 0.2s ease-in-out;
 `;
 
 export const Header = styled.div`

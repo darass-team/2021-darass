@@ -4,6 +4,7 @@ import Days from "./Days";
 import { Container, Header, MoveMonthButton, Month, Year } from "./styles";
 
 export interface Props {
+  showCalendar: boolean;
   date: moment.Moment;
   startDate: moment.Moment | null;
   endDate: moment.Moment | null;
@@ -12,7 +13,7 @@ export interface Props {
   setEndDate: (date: moment.Moment | null) => void;
 }
 
-const Calendar = ({ date, startDate, endDate, setDate, setStartDate, setEndDate }: Props) => {
+const Calendar = ({ showCalendar, date, startDate, endDate, setDate, setStartDate, setEndDate }: Props) => {
   const resetDate = () => {
     setDate(moment());
   };
@@ -41,7 +42,7 @@ const Calendar = ({ date, startDate, endDate, setDate, setStartDate, setEndDate 
   };
 
   return (
-    <Container>
+    <Container showCalendar={showCalendar}>
       <Header>
         <MoveMonthButton onClick={setPrevMonth}>&#8249;</MoveMonthButton>
 
