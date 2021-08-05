@@ -36,8 +36,10 @@ const Button = styled.button`
     border-right: 1px solid ${PALETTE.GRAY_400};
   }
 
-  &:hover {
-    background-color: ${PALETTE.WHITE_HOVER};
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      background-color: ${PALETTE.WHITE_HOVER};
+    }
   }
 `;
 

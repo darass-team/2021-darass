@@ -14,9 +14,9 @@ export const Container = styled.div`
 
 export const Name = styled.span`
   font-weight: 700;
-  font-size: 1.4rem;
-  line-height: 2.1rem;
-  margin-bottom: 0.7rem;
+  font-size: 1.3rem;
+  line-height: 1.8rem;
+  margin-bottom: 0.4rem;
 `;
 
 export const Text = styled.div`
@@ -41,6 +41,7 @@ export const ButtonWrapper = styled.div`
     width: 4rem;
     height: 2.4rem;
     font-size: 1rem;
+    line-height: 1.5rem;
     border-radius: 10px;
     margin-top: 1rem;
   }
