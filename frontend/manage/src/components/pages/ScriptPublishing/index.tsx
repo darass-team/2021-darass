@@ -3,6 +3,7 @@ import { Redirect, useRouteMatch } from "react-router-dom";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import { atomOneDark } from "react-syntax-highlighter/dist/esm/styles/hljs";
 import { GUIDE_FILE, PROJECT_MENU, ROUTE } from "../../../constants";
+import { REPLY_MODULE_BASE_URL } from "../../../constants/domain";
 import { useCopyButton, useGetProject } from "../../../hooks";
 import ScreenContainer from "../../../styles/ScreenContainer";
 import BlogLogoButton from "../../atoms/Buttons/BlogLogoButton";
@@ -18,7 +19,7 @@ const scriptCode = (projectSecretKey: string) => `
         var $document = document;
 
         var $script = $document.createElement("script");
-        $script.src = "https://d1edjs6hdnpl8s.cloudfront.net/embed.js";
+        $script.src = "${REPLY_MODULE_BASE_URL}.js";
         $script.defer = true;
 
         $document.head.appendChild($script);
