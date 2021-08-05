@@ -6,6 +6,7 @@ import { useGetAllCommentOfProject } from "../../../hooks";
 import ScreenContainer from "../../../styles/ScreenContainer";
 import { Comment } from "../../../types/comment";
 import CheckBox from "../../atoms/CheckBox";
+import Modal from "../../atoms/Modal";
 import PageNationBar from "../../atoms/PageNationBar";
 import Calendar from "../../molecules/Calendar";
 import ContainerWithSideBar from "../../organisms/ContainerWithSideBar";
@@ -90,9 +91,10 @@ const Manage = () => {
                 <DateInputText onClick={() => setShowCalendar(state => !state)}>
                   {endDate?.format("YY-MM-DD")}
                 </DateInputText>
+              </DateInputWrapper>
 
+              <Modal isOpen={showCalendar} closeModal={() => setShowCalendar(false)}>
                 <Calendar
-                  showCalendar={showCalendar}
                   date={currentDate}
                   setDate={setCurrentDate}
                   startDate={startDate}
@@ -100,7 +102,7 @@ const Manage = () => {
                   endDate={endDate}
                   setEndDate={setEndDate}
                 />
-              </DateInputWrapper>
+              </Modal>
             </SearchCondition>
             <Header>
               <CheckBox

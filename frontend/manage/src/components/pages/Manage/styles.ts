@@ -78,6 +78,8 @@ export const DateInputText = styled.span`
   border-radius: 10px;
   border: 1px solid ${PALETTE.GRAY_400};
   padding: 0.5rem;
+  user-select: none;
+  cursor: pointer;
 `;
 
 export const Avatar = styled(AvatarComponent)`
