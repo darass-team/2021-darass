@@ -1,7 +1,6 @@
-import { useEffect, useState } from "react";
-import { useHistory, useLocation, useRouteMatch } from "react-router-dom";
-import { PROJECT_MENU, ROUTE } from "../../../constants";
-import { useCalendar, useCommentList, useGetAllCommentOfProject } from "../../../hooks";
+import { useLocation, useRouteMatch } from "react-router-dom";
+import { PROJECT_MENU } from "../../../constants";
+import { useCalendar, useCommentList, useCommentPageIndex, useGetAllCommentOfProject } from "../../../hooks";
 import ScreenContainer from "../../../styles/ScreenContainer";
 import CheckBox from "../../atoms/CheckBox";
 import Modal from "../../atoms/Modal";
@@ -32,11 +31,9 @@ import {
 
 const Manage = () => {
   const match = useRouteMatch<{ id: string }>();
-  const history = useHistory();
   const location = useLocation();
 
   const projectId = Number(match.params.id);
-
   const urlSearchParams = new URLSearchParams(location.search);
   const pageIndex = urlSearchParams.get("pageIndex") || 1;
 
@@ -46,12 +43,10 @@ const Manage = () => {
     useCommentList(comments || []);
   const { showCalendar, setShowCalendar, currentDate, setCurrentDate, startDate, setStartDate, endDate, setEndDate } =
     useCalendar();
-
-  const [currentPageIndex, setCurrentPageIndex] = useState<number>(Number(pageIndex));
-
-  useEffect(() => {
-    history.push(`${ROUTE.GET_PROJECT_MANAGE(projectId)}?pageIndex=${currentPageIndex}`);
-  }, [currentPageIndex]);
+  const { currentPageIndex, setCurrentPageIndex } = useCommentPageIndex({
+    initialPageIndex: Number(pageIndex),
+    projectId
+  });
 
   return (
     <ScreenContainer>

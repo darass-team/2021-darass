@@ -10,3 +10,4 @@ export { useDeleteUser } from "./useDeleteUser";
 export { useGetAllCommentOfProject } from "./useGetAllCommentOfProject";
 export { useCommentList } from "./useCommentList";
 export { useCalendar } from "./useCalendar";
+export { useCommentPageIndex } from "./useCommentPageIndex";
