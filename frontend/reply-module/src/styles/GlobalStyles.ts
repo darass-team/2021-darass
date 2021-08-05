@@ -8,7 +8,7 @@ const GlobalStyles = createGlobalStyle`
         box-sizing: border-box;
       }
       html { 
-        font-size: 16px;
+        font-size: 14px;
         font-family: 'Noto Sans KR', sans-serif;
       }
       html, body {
@@ -18,11 +18,6 @@ const GlobalStyles = createGlobalStyle`
         width: 100%;
         color: ${PALETTE.BLACK_700};
         margin: 0 auto;
-      }
-      @media all and (max-width:1080px) {
-        html {
-          font-size: 14px;
-        }
       }
       @media all and (max-width:580px) {
         html {

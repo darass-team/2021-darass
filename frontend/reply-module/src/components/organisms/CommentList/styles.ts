@@ -66,9 +66,10 @@ export const ShowMoreButton = styled.button`
   flex-direction: column;
   align-items: center;
   padding: 0.3rem 1rem;
-  gap: 0.3rem;
+  gap: 0.1rem;
   margin: 0 auto;
   background-color: transparent;
+  font-weight: 500;
   font-size: 1.2rem;
   line-height: 1.8rem;
   color: ${PALETTE.GRAY_600};
