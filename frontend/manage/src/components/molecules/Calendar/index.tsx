@@ -1,5 +1,5 @@
 import moment from "moment";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Days from "./Days";
 import { Container, Header, MoveMonthButton, Month, Year } from "./styles";
 
@@ -19,11 +19,11 @@ const Calendar = ({ showCalendar, date, startDate, endDate, setDate, setStartDat
   };
 
   const setPrevMonth = () => {
-    setDate(date.subtract(1, "month").clone());
+    setDate(date.clone().subtract(1, "month"));
   };
 
   const setNextMonth = () => {
-    setDate(date.add(1, "month").clone());
+    setDate(date.clone().add(1, "month"));
   };
 
   const changeDate = (_date: moment.Moment) => {

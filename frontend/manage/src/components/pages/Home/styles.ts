@@ -18,7 +18,7 @@ export const Introduction = styled.h2`
 `;
 
 export const Button = styled.button`
-  width: 18rem;
+  min-width: 18rem;
   height: 6rem;
   background: ${PALETTE.TERTIARY};
   border: none;

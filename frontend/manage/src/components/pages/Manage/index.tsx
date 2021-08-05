@@ -21,7 +21,6 @@ import {
   Date,
   DateInputWrapper,
   DateInputText,
-  CalendarToggleButton,
   SearchCondition,
   Content,
   Url,
@@ -83,9 +82,14 @@ const Manage = () => {
           <CommentList>
             <SearchCondition>
               <DateInputWrapper>
-                <DateInputText>{startDate?.format("YY-MM-DD")}</DateInputText>
-                <DateInputText>{endDate?.format("YY-MM-DD")}</DateInputText>
-                <CalendarToggleButton onClick={() => setShowCalendar(state => !state)}>날짜 선택</CalendarToggleButton>
+                <span>기간 선택</span>
+                <DateInputText onClick={() => setShowCalendar(state => !state)}>
+                  {startDate?.format("YY-MM-DD")}
+                </DateInputText>
+                <span>~</span>
+                <DateInputText onClick={() => setShowCalendar(state => !state)}>
+                  {endDate?.format("YY-MM-DD")}
+                </DateInputText>
 
                 <Calendar
                   showCalendar={showCalendar}

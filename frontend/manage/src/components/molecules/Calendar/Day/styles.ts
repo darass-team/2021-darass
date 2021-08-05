@@ -34,4 +34,6 @@ export const Container = styled.button.attrs({ type: "button" })<{ dayInfo: DayI
   ${({ dayInfo: { isStartDate } }) => isStartDate && startDayCSS};
   ${({ dayInfo: { isStartDate, isEndDate } }) => isStartDate && isEndDate && bothWithStartAndEndDayCSS};
   ${({ dayInfo: { isWithInPeriod } }) => isWithInPeriod && withIndPeriodCSS};
+
+  transition: background-color 0.3s, border-radius 0.1s;
 `;

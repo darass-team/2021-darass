@@ -4,15 +4,16 @@ import { PALETTE } from "../../../styles/palette";
 
 export const Container = styled.div<{ showCalendar: boolean }>`
   position: absolute;
-  width: 20rem;
+  min-width: 20rem;
+  min-height: 20rem;
   padding: 1rem;
   box-shadow: 1px 1px 20px 0 rgba(0, 0, 0, 0.4);
   border-radius: 10px;
   overflow: hidden;
-  min-height: 20rem;
   background-color: ${PALETTE.GRAY_200};
   top: 5rem;
   left: auto;
+  right: auto;
   z-index: ${({ showCalendar }) => (showCalendar ? Z_INDEX.CALENDAR : -1)};
   opacity: ${({ showCalendar }) => (showCalendar ? 1 : 0)};
 

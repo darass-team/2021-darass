@@ -45,7 +45,13 @@ export const Row = styled.li`
   }
 `;
 
-export const SearchCondition = styled.div``;
+export const SearchCondition = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 1rem;
+`;
 
 export const Header = styled(Row.withComponent("header"))`
   display: flex;
@@ -72,10 +78,6 @@ export const DateInputText = styled.span`
   border-radius: 10px;
   border: 1px solid ${PALETTE.GRAY_400};
   padding: 0.5rem;
-`;
-
-export const CalendarToggleButton = styled(SubmitButton).attrs({ type: "button" })`
-  transform: scale(0.6);
 `;
 
 export const Avatar = styled(AvatarComponent)`
