@@ -156,17 +156,65 @@ include::{snippets}/api/v1/comments/paging/get/oldest-random-sortOption/success/
 include::{snippets}/api/v1/comments/paging/get/oldest-random-sortOption/success/http-response.adoc[]
 include::{snippets}/api/v1/comments/paging/get/oldest-random-sortOption/success/response-fields.adoc[]
 
-==== 특정 프로젝트에 해당하는 댓글 조회
+==== 특정 프로젝트에 해당하는 댓글 최신순으로 조회
 
 ==== Request
 
-include::{snippets}/api/v1/projects/comments/paging/get/success/http-request.adoc[]
-include::{snippets}/api/v1/projects/comments/paging/get/success/request-parameters.adoc[]
+include::{snippets}/api/v1/projects/comments/paging/get/latest/success/http-request.adoc[]
+include::{snippets}/api/v1/projects/comments/paging/get/latest/success/request-parameters.adoc[]
 
 ==== Response
 
-include::{snippets}/api/v1/projects/comments/paging/get/success/http-response.adoc[]
-include::{snippets}/api/v1/projects/comments/paging/get/success/response-fields.adoc[]
+include::{snippets}/api/v1/projects/comments/paging/get/latest/success/http-response.adoc[]
+include::{snippets}/api/v1/projects/comments/paging/get/latest/success/response-fields.adoc[]
+
+==== 특정 프로젝트에 해당하는 댓글 좋아요순으로 조회
+
+==== Request
+
+include::{snippets}/api/v1/projects/comments/paging/get/like/success/http-request.adoc[]
+include::{snippets}/api/v1/projects/comments/paging/get/like/success/request-parameters.adoc[]
+
+==== Response
+
+include::{snippets}/api/v1/projects/comments/paging/get/like/success/http-response.adoc[]
+include::{snippets}/api/v1/projects/comments/paging/get/like/success/response-fields.adoc[]
+
+==== 특정 프로젝트에 해당하는 댓글 과거순으로 조회
+
+==== Request
+
+include::{snippets}/api/v1/projects/comments/paging/get/oldest/success/http-request.adoc[]
+include::{snippets}/api/v1/projects/comments/paging/get/oldest/success/request-parameters.adoc[]
+
+==== Response
+
+include::{snippets}/api/v1/projects/comments/paging/get/oldest/success/http-response.adoc[]
+include::{snippets}/api/v1/projects/comments/paging/get/oldest/success/response-fields.adoc[]
+
+==== 특정 프로젝트에 해당하는 댓글 과거순으로 조회 (sortOption: null)
+
+==== Request
+
+include::{snippets}/api/v1/projects/comments/paging/get/oldest-none-sortOption/success/http-request.adoc[]
+include::{snippets}/api/v1/projects/comments/paging/get/oldest-none-sortOption/success/request-parameters.adoc[]
+
+==== Response
+
+include::{snippets}/api/v1/projects/comments/paging/get/oldest-none-sortOption/success/http-response.adoc[]
+include::{snippets}/api/v1/projects/comments/paging/get/oldest-none-sortOption/success/response-fields.adoc[]
+
+==== 특정 프로젝트에 해당하는 댓글 과거순으로 조회 (sortOption: 임의의 값)
+
+==== Request
+
+include::{snippets}/api/v1/projects/comments/paging/get/oldest-random-sortOption/success/http-request.adoc[]
+include::{snippets}/api/v1/projects/comments/paging/get/oldest-random-sortOption/success/request-parameters.adoc[]
+
+==== Response
+
+include::{snippets}/api/v1/projects/comments/paging/get/oldest-random-sortOption/success/http-response.adoc[]
+include::{snippets}/api/v1/projects/comments/paging/get/oldest-random-sortOption/success/response-fields.adoc[]
 
 === 댓글 수정 (PATCH /api/v1/comments)
 

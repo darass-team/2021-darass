@@ -8,6 +8,7 @@ import com.darass.darass.comment.dto.CommentDeleteRequest;
 import com.darass.darass.comment.dto.CommentReadRequest;
 import com.darass.darass.comment.dto.CommentReadRequestByPagination;
 import com.darass.darass.comment.dto.CommentReadRequestDateBetween;
+import com.darass.darass.comment.dto.CommentReadResponseDateBetween;
 import com.darass.darass.comment.dto.CommentResponse;
 import com.darass.darass.comment.dto.CommentUpdateRequest;
 import com.darass.darass.comment.repository.CommentRepository;
@@ -94,7 +95,7 @@ public class CommentService {
         }
     }
 
-    public List<CommentResponse> findAllCommentsByProjectKeyUsingPaginationAndDateBetween(
+    public List<CommentReadResponseDateBetween> findAllCommentsByProjectKeyUsingPaginationAndDateBetween(
         CommentReadRequestDateBetween request) {
         int pageBasedIndex = request.getPage() - 1;
         try {
@@ -103,11 +104,11 @@ public class CommentService {
                     request.getProjectKey(),
                     request.getStartDate().atTime(LocalTime.MIN),
                     request.getEndDate().atTime(LocalTime.MAX),
-                    PageRequest.of(pageBasedIndex, request.getSize(), SortOption.LATEST.getSort())
+                    PageRequest.of(pageBasedIndex, request.getSize(), SortOption.getMatchedSort(request.getSortOption()))
                 );
 
             return comments.stream()
-                .map(comment -> CommentResponse.of(comment, UserResponse.of(comment.getUser())))
+                .map(comment -> CommentReadResponseDateBetween.of(comment, UserResponse.of(comment.getUser())))
                 .collect(Collectors.toList());
         } catch (IllegalArgumentException e) {
             throw ExceptionWithMessageAndCode.NOT_POSITIVE_EXCEPTION.getException();

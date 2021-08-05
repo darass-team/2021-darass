@@ -11,6 +11,8 @@ import org.springframework.format.annotation.DateTimeFormat.ISO;
 @AllArgsConstructor
 public class CommentReadRequestDateBetween {
 
+    private String sortOption;
+
     private String projectKey;
 
     @DateTimeFormat(iso = ISO.DATE)

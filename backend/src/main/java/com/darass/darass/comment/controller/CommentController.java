@@ -7,6 +7,7 @@ import com.darass.darass.comment.dto.CommentDeleteRequest;
 import com.darass.darass.comment.dto.CommentReadRequest;
 import com.darass.darass.comment.dto.CommentReadRequestByPagination;
 import com.darass.darass.comment.dto.CommentReadRequestDateBetween;
+import com.darass.darass.comment.dto.CommentReadResponseDateBetween;
 import com.darass.darass.comment.dto.CommentResponse;
 import com.darass.darass.comment.dto.CommentUpdateRequest;
 import com.darass.darass.comment.service.CommentService;
@@ -48,9 +49,9 @@ public class CommentController {
     }
 
     @GetMapping("/projects/comments/paging")
-    public ResponseEntity<List<CommentResponse>> readByPageRequest(
+    public ResponseEntity<List<CommentReadResponseDateBetween>> readByPageRequest(
         @ModelAttribute CommentReadRequestDateBetween commentReadRequestDateBetween) {
-        List<CommentResponse> commentResponses = commentService
+        List<CommentReadResponseDateBetween> commentResponses = commentService
             .findAllCommentsByProjectKeyUsingPaginationAndDateBetween(commentReadRequestDateBetween);
         return ResponseEntity.status(HttpStatus.OK).body(commentResponses);
     }
