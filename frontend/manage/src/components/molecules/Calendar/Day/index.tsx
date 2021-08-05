@@ -1,41 +1,32 @@
 import moment from "moment";
+import { Container } from "./styles";
 
 export interface Props {
-  currentDate: moment.Moment;
   date: moment.Moment;
   startDate: moment.Moment | null;
   endDate: moment.Moment | null;
-  onClick: () => void;
+  changeDate: (date: moment.Moment) => void;
 }
 
-const Day = ({ currentDate, date, startDate, endDate, onClick }: Props) => {
-  let className = [];
+export interface DayInfo {
+  isToday: boolean;
+  isStartDate: boolean;
+  isEndDate: boolean;
+  isWithInPeriod: boolean;
+}
 
-  if (moment().isSame(date, "day")) {
-    className.push("active");
-  }
-
-  if (date.isSame(startDate, "day")) {
-    className.push("start");
-  }
-
-  if (date.isBetween(startDate, endDate, "day")) {
-    className.push("between");
-  }
-
-  if (date.isSame(endDate, "day")) {
-    className.push("end");
-  }
-
-  if (!date.isSame(currentDate, "month")) {
-    className.push("muted");
-  }
+const Day = ({ date, startDate, endDate, changeDate }: Props) => {
+  const dayInfo: DayInfo = {
+    isToday: moment().isSame(date, "day"),
+    isStartDate: date.isSame(startDate, "day"),
+    isEndDate: date.isSame(endDate, "day"),
+    isWithInPeriod: date.isBetween(startDate, endDate, "day")
+  };
 
   return (
-    //   <span onClick={onClick} currentDate={date} className={className.join(" ")}>
-    <span onClick={onClick} className={className.join(" ")}>
+    <Container onClick={() => changeDate(date)} dayInfo={dayInfo}>
       {date.date()}
-    </span>
+    </Container>
   );
 };
 

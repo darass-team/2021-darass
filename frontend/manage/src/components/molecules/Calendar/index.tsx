@@ -1,53 +1,62 @@
 import moment from "moment";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Days from "./Days";
 import { Container, Header, MoveMonthButton, Month, Year } from "./styles";
 
 export interface Props {
-  a: string;
+  a?: string;
 }
 
 const Calendar = ({ a }: Props) => {
-  const [date, setDate] = useState(moment());
+  const [date, setDate] = useState(() => moment());
 
-  const [startDate, setStartDate] = useState<moment.Moment | null>(() => date.subtract(5, "day"));
-  const [endDate, setEndDate] = useState<moment.Moment | null>(() => date.add(3, "day"));
+  const [startDate, setStartDate] = useState<moment.Moment | null>(date);
+  const [endDate, setEndDate] = useState<moment.Moment | null>(date);
+
+  useEffect(() => {
+    console.log(startDate?.format("YY MM DD"), endDate?.format("YY MM DD"));
+  }, [startDate, endDate]);
 
   const resetDate = () => {
     setDate(moment());
   };
 
-  const changeMonth = (month: string | number) => {
-    date.month(month);
-
-    setDate(date);
+  const setPrevMonth = () => {
+    setDate(_date => _date.subtract(1, "month").clone());
   };
 
-  const changeDate = () => {
-    if (startDate === null || date.isBefore(startDate, "day") || !startDate.isSame(endDate, "day")) {
-      setStartDate(moment(date));
-      setEndDate(moment(date));
-    } else if (date.isSame(startDate, "day") && date.isSame(endDate, "day")) {
+  const setNextMonth = () => {
+    setDate(_date => _date.add(1, "month").clone());
+  };
+
+  const changeDate = (_date: moment.Moment) => {
+    const startDateIsSelected = startDate !== null;
+    const thisDateIsBeforeThanStartDate = startDateIsSelected && _date.isBefore(startDate, "day");
+
+    if (!startDateIsSelected || thisDateIsBeforeThanStartDate || !startDate?.isSame(endDate, "day")) {
+      setStartDate(moment(_date));
+      setEndDate(moment(_date));
+    } else if (_date.isSame(startDate, "day") && _date.isSame(endDate, "day")) {
       setStartDate(null);
       setEndDate(null);
-    } else if (date.isAfter(startDate, "day")) {
-      setEndDate(moment(date));
+    } else if (_date.isAfter(startDate, "day")) {
+      setEndDate(moment(_date));
     }
   };
 
   return (
     <Container>
       <Header>
-        <MoveMonthButton onClick={() => changeMonth(date.month() - 1)}>&#8249;</MoveMonthButton>
+        <MoveMonthButton onClick={setPrevMonth}>&#8249;</MoveMonthButton>
 
-        <Month onClick={() => resetDate()}>
-          {date.format("MMMM")} <Year>{date.format("YYYY")}</Year>
+        <Month onClick={resetDate}>
+          {date.locale("ko").format("MMMM")} <Year>{date.format("YYYY")}</Year>
         </Month>
 
-        <MoveMonthButton onClick={() => changeMonth(date.month() + 1)}>&#8250;</MoveMonthButton>
+        <MoveMonthButton onClick={setNextMonth}>&#8250;</MoveMonthButton>
       </Header>
 
-      {/* <Days onClick={changeDate} date={date} startDate={startDate} endDate={endDate} /> */}
+      <Days changeDate={changeDate} date={date} startDate={startDate} endDate={endDate} />
     </Container>
   );
 };

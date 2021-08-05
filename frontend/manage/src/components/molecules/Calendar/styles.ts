@@ -1,64 +1,61 @@
 import styled from "styled-components";
+import { LINE_HEIGHT_SCALE, Z_INDEX } from "../../../styles/constants";
+import { PALETTE } from "../../../styles/palette";
 
 export const Container = styled.div`
   position: absolute;
-  top: 50%;
-  left: 50%;
-  margin-top: -225px;
-  margin-left: -195px;
-  width: 360px;
-  padding: 15px;
+  width: 20rem;
+  padding: 1rem;
   box-shadow: 1px 1px 20px 0 rgba(0, 0, 0, 0.4);
-  border-radius: $radius;
+  border-radius: 10px;
   overflow: hidden;
+  min-height: 20rem;
+  z-index: ${Z_INDEX.CALENDAR};
+  background-color: ${PALETTE.GRAY_200};
 `;
 
 export const Header = styled.div`
-  margin: -15px -15px 15px;
-  padding: 0 15px;
-  background-color: $primary;
-  color: #fff;
-  height: 70px;
+  padding: 0 1rem;
+  color: ${PALETTE.BLACK_700};
   position: relative;
+  width: 100%;
+  text-align: center;
+  border-bottom: 1px solid ${PALETTE.BLACK_700};
+  margin-bottom: 2rem;
 `;
 
 export const MoveMonthButton = styled.button.attrs({ type: "button" })`
   position: absolute;
   cursor: pointer;
-  left: 10px;
-  font-size: 32px;
-  line-height: 1;
-  top: 16px;
-  width: 30px;
-  text-align: center;
-  display: inline-block;
-  color: transparentize(#fff, 0.6);
+  left: 1rem;
+  font-size: 2rem;
+  line-height: ${2 * LINE_HEIGHT_SCALE}rem;
+  width: 2rem;
   user-select: none;
 
   &:hover {
-    color: #fff;
+    color: ${PALETTE.BLACK_900};
+    font-size: 2.1rem;
   }
 
   &:last-child {
     left: auto;
-    right: 10px;
+    right: 1rem;
   }
 `;
 
 export const Month = styled.span`
   margin: 0;
-  position: absolute;
-  left: 40px;
-  right: 40px;
+  left: 2rem;
+  right: 2rem;
   text-align: center;
   cursor: pointer;
   font-weight: 400;
-  font-size: 30px;
-  line-height: 66px;
-  user-select: none;
+  font-size: 2rem;
+  line-height: ${2 * LINE_HEIGHT_SCALE}rem;
 `;
 
 export const Year = styled.span`
   font-weight: 300;
-  font-size: 60%;
+  font-size: 1rem;
 `;

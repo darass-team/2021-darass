@@ -25,7 +25,8 @@ export const Z_INDEX = {
     MAIN_CONTENT: {
       SELF: 0
     }
-  }
+  },
+  CALENDAR: 1
 } as const;
 
 export const LINE_HEIGHT_SCALE = 1.5;

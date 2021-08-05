@@ -6,6 +6,7 @@ import ScreenContainer from "../../../styles/ScreenContainer";
 import { Comment } from "../../../types/comment";
 import CheckBox from "../../atoms/CheckBox";
 import PageNationBar from "../../atoms/PageNationBar";
+import Calendar from "../../molecules/Calendar";
 import ContainerWithSideBar from "../../organisms/ContainerWithSideBar";
 import {
   Container,
@@ -71,6 +72,7 @@ const Manage = () => {
           <Title>프로젝트 관리</Title>
           <CommentList>
             <Header>
+              <Calendar />
               <CheckBox
                 isChecked={checkingAllCommentInCurrentPage}
                 onChange={onChangeCheckingAllCommentsInput}
