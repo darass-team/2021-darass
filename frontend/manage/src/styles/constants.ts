@@ -5,29 +5,14 @@ export const Z_INDEX = {
   ERROR_NOTICE: 1,
   NAV: {
     MOBILE: {
-      HAMBUGER_BUTTON: 3,
-      MENU_WRAPPER: 2,
-      DIMMED: {
-        OPEN: 2,
-        CLOSE: -1
-      }
+      HAMBUGER_BUTTON: 2,
+      MENU_WRAPPER: 1
     },
     DESKTOP: {
-      USER_AVATAR_WRAPPER: 2
+      USER_AVATAR_WRAPPER: 1
     }
   },
-
-  CONTAINER_WITH_SIDEBAR: {
-    SIDEBAR: {
-      SELF: 1,
-      TITLE: 1
-    },
-    MAIN_CONTENT: {
-      SELF: 0
-    }
-  },
-  CALENDAR: 1,
-  MODAL: 2
+  MODAL: 1
 } as const;
 
 export const LINE_HEIGHT_SCALE = 1.5;

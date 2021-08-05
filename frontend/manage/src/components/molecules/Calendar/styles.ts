@@ -3,19 +3,18 @@ import { LINE_HEIGHT_SCALE, Z_INDEX } from "../../../styles/constants";
 import { PALETTE } from "../../../styles/palette";
 
 export const Container = styled.div`
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
   min-width: 20rem;
   min-height: 20rem;
   padding: 1rem;
   box-shadow: 1px 1px 20px 0 rgba(0, 0, 0, 0.4);
   border-radius: 10px;
-  overflow: hidden;
-  background-color: ${PALETTE.GRAY_200};
 
-  left: auto;
-  right: auto;
-  z-index: ${Z_INDEX.CALENDAR};
-
-  transition: all 0.2s ease-in-out;
+  background-color: ${PALETTE.WHITE};
 `;
 
 export const Header = styled.div`

@@ -21,12 +21,10 @@ const Modal = ({ isOpen, closeModal, children }: Props) => {
     document.body.style.setProperty("overflow", isOpen ? "hidden" : "revert");
   }, [isOpen]);
 
-  if (!isOpen) return <ModalPortal>{""}</ModalPortal>;
-
   return (
     <ModalPortal>
-      <Dimmed onClick={closeModal}></Dimmed>
-      <Container>{children}</Container>
+      <Dimmed onClick={closeModal} isOpen={isOpen}></Dimmed>
+      <Container isOpen={isOpen}>{children}</Container>
     </ModalPortal>
   );
 };

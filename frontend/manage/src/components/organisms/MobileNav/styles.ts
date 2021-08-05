@@ -10,20 +10,6 @@ export const Container = styled.nav`
   }
 `;
 
-export const Dimmed = styled.div<{ isOpen: boolean }>`
-  position: absolute;
-  top: 0;
-  left: 0;
-
-  width: 100%;
-  height: 100%;
-  position: fixed;
-  background-color: ${PALETTE.BLACK_900};
-  transition: all 0.3s ease-in;
-  opacity: ${({ isOpen }) => (isOpen ? 0.5 : 0)};
-  z-index: ${({ isOpen }) => (isOpen ? Z_INDEX.NAV.MOBILE.DIMMED.OPEN : Z_INDEX.NAV.MOBILE.DIMMED.CLOSE)};
-`;
-
 export const MenuWrapper = styled.nav<{ isOpen: boolean }>`
   width: 70%;
 

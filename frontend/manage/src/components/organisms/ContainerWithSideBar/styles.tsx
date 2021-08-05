@@ -1,7 +1,6 @@
 import styled from "styled-components";
-import { PAGE_MAX_WIDTH, Z_INDEX } from "../../../styles/constants";
-import { contentBoxCSS } from "../../../styles/css";
-import SiderComponent from "../SideBar";
+import { PAGE_MAX_WIDTH } from "../../../styles/constants";
+import SideBarrComponent from "../SideBar";
 
 export const Container = styled.div`
   position: relative;
@@ -15,9 +14,8 @@ export const Container = styled.div`
   }
 `;
 
-export const SideBar = styled(SiderComponent)<{ offsetY: number }>`
+export const SideBar = styled(SideBarrComponent)<{ offsetY: number }>`
   position: relative;
-  z-index: ${Z_INDEX.CONTAINER_WITH_SIDEBAR.SIDEBAR.SELF};
   height: max-content;
   top: ${props => props.offsetY}px;
   transition: width 0.3s, top 1.5s ease-out;
@@ -31,8 +29,6 @@ export const SideBar = styled(SiderComponent)<{ offsetY: number }>`
 `;
 
 export const MainContent = styled.main`
-  z-index: ${Z_INDEX.CONTAINER_WITH_SIDEBAR.MAIN_CONTENT.SELF};
-
   margin-left: 2rem;
   left: 18rem;
   width: 48rem;
