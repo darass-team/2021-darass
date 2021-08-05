@@ -1,10 +1,9 @@
-import { PALETTE } from "./../../../styles/palette";
 import styled from "styled-components";
-import { contentBoxCSS, inputCSS, titleCSS } from "../../../styles/css";
 import { LINE_HEIGHT_SCALE } from "../../../styles/constants";
+import { contentBoxCSS, titleCSS } from "../../../styles/css";
 import AvatarComponent from "../../atoms/Avatar";
 import DeleteButtonComponent from "../../atoms/Buttons/DeleteButton";
-import SubmitButton from "../../atoms/Buttons/SubmitButton";
+import { PALETTE } from "./../../../styles/palette";
 
 export const Container = styled.div`
   ${contentBoxCSS}
@@ -45,49 +44,12 @@ export const Row = styled.li`
   }
 `;
 
-export const SearchCondition = styled.form`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  padding: 1rem;
-  border: 1px solid ${PALETTE.GRAY_400};
-  margin-bottom: 1rem;
-
-  & > * {
-    &:not(:first-child) {
-      margin-top: 1rem;
-    }
-  }
-`;
-
 export const Header = styled(Row.withComponent("header"))`
   display: flex;
   align-items: center;
   justify-content: space-between;
   border: 1px solid ${PALETTE.GRAY_400};
   border-bottom: 0;
-`;
-
-export const DateInputWrapper = styled.div`
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  & > * {
-    &:not(:first-child) {
-      margin-left: 1rem;
-    }
-  }
-`;
-
-export const DateInputText = styled.span`
-  border-radius: 10px;
-  border: 1px solid ${PALETTE.GRAY_400};
-  padding: 0.5rem;
-  user-select: none;
-  cursor: pointer;
 `;
 
 export const Avatar = styled(AvatarComponent)`
@@ -130,24 +92,4 @@ export const DeleteButton = styled(DeleteButtonComponent)`
   width: fit-content;
   height: fit-content;
   font-size: 1.2rem;
-`;
-
-export const SearchTermInputWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  & > label {
-    display: flex;
-    align-items: center;
-  }
-`;
-
-export const SearchTermInput = styled.input.attrs({ type: "text" })`
-  ${inputCSS};
-  max-width: 20rem;
-  margin-left: 1rem;
-`;
-
-export const SearchButton = styled(SubmitButton)`
-  align-self: flex-end;
 `;

@@ -3,9 +3,8 @@ import { PROJECT_MENU } from "../../../constants";
 import { useCalendar, useCommentList, useCommentPageIndex, useGetAllCommentOfProject } from "../../../hooks";
 import ScreenContainer from "../../../styles/ScreenContainer";
 import CheckBox from "../../atoms/CheckBox";
-import Modal from "../../atoms/Modal";
 import PageNationBar from "../../atoms/PageNationBar";
-import Calendar from "../../molecules/Calendar";
+import CommentSearchConditionForm from "../../organisms/CommentSearchConditionForm";
 import ContainerWithSideBar from "../../organisms/ContainerWithSideBar";
 import {
   Avatar,
@@ -15,16 +14,10 @@ import {
   ContentMeta,
   ContentWrapper,
   Date,
-  DateInputText,
-  DateInputWrapper,
   DeleteButton,
   Header,
   Name,
   Row,
-  SearchButton,
-  SearchCondition,
-  SearchTermInput,
-  SearchTermInputWrapper,
   Title,
   Url
 } from "./styles";
@@ -53,39 +46,17 @@ const Manage = () => {
       <ContainerWithSideBar menus={PROJECT_MENU.get(projectId)}>
         <Container>
           <Title>프로젝트 관리</Title>
+          <CommentSearchConditionForm
+            showCalendar={showCalendar}
+            setShowCalendar={setShowCalendar}
+            currentDate={currentDate}
+            setCurrentDate={setCurrentDate}
+            startDate={startDate}
+            setStartDate={setStartDate}
+            endDate={endDate}
+            setEndDate={setEndDate}
+          />
           <CommentList>
-            <SearchCondition>
-              <DateInputWrapper>
-                <span>기간 선택</span>
-                <DateInputText onClick={() => setShowCalendar(state => !state)}>
-                  {startDate?.format("YY-MM-DD")}
-                </DateInputText>
-                <span>~</span>
-                <DateInputText onClick={() => setShowCalendar(state => !state)}>
-                  {endDate?.format("YY-MM-DD")}
-                </DateInputText>
-              </DateInputWrapper>
-
-              <SearchTermInputWrapper>
-                <label>
-                  <span>내용 검색</span>
-                  <SearchTermInput placeholder="검색어를 입력해주세요." />
-                </label>
-              </SearchTermInputWrapper>
-
-              <SearchButton>조회</SearchButton>
-
-              <Modal isOpen={showCalendar} closeModal={() => setShowCalendar(false)}>
-                <Calendar
-                  date={currentDate}
-                  setDate={setCurrentDate}
-                  startDate={startDate}
-                  setStartDate={setStartDate}
-                  endDate={endDate}
-                  setEndDate={setEndDate}
-                />
-              </Modal>
-            </SearchCondition>
             <Header>
               <CheckBox
                 isChecked={checkingAllCommentInCurrentPage}
