@@ -1,5 +1,5 @@
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
-const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
+const { DefinePlugin } = require("webpack");
 
 const path = require("path");
 
@@ -23,10 +23,13 @@ module.exports = {
       }
     ]
   },
-  plugins: [new CleanWebpackPlugin(), new UglifyJsPlugin()],
+  plugins: [
+    new CleanWebpackPlugin(),
+    new DefinePlugin({ "process.env.BUILD_MODE": JSON.stringify(process.env.BUILD_MODE) })
+  ],
   resolve: {
     extensions: [".jsx", ".js"]
   },
   devtool: "source-map",
-  mode: "production"
+  mode: process.env.BUILD_MODE
 };
