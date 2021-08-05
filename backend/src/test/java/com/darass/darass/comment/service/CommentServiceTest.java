@@ -12,8 +12,9 @@ import com.darass.darass.comment.dto.CommentCreateRequest;
 import com.darass.darass.comment.dto.CommentDeleteRequest;
 import com.darass.darass.comment.dto.CommentReadRequest;
 import com.darass.darass.comment.dto.CommentReadRequestByPagination;
-import com.darass.darass.comment.dto.CommentReadRequestDateBetween;
-import com.darass.darass.comment.dto.CommentReadResponseDateBetween;
+import com.darass.darass.comment.dto.CommentReadRequestBySearch;
+import com.darass.darass.comment.dto.CommentReadRequestInProject;
+import com.darass.darass.comment.dto.CommentReadResponseInProject;
 import com.darass.darass.comment.dto.CommentResponse;
 import com.darass.darass.comment.dto.CommentUpdateRequest;
 import com.darass.darass.comment.repository.CommentLikeRepository;
@@ -213,9 +214,9 @@ class CommentServiceTest extends SpringContainerTest {
     @DisplayName("특정 프로젝트에 해당하고, 시작 날짜와 종료 날짜 사이에 있는 임의의 페이지의 댓글을 최신순으로 조회한다.")
     @Test
     void findAllCommentsByProjectKeyUsingPaginationAndDateBetween_latest() {
-        CommentReadRequestDateBetween request =
-            new CommentReadRequestDateBetween("LATEST", project.getSecretKey(), LocalDate.EPOCH, LocalDate.now(), 1, 1);
-        List<CommentReadResponseDateBetween> responses = commentService.findAllCommentsByProjectKeyUsingPaginationAndDateBetween(request);
+        CommentReadRequestInProject request =
+            new CommentReadRequestInProject("LATEST", project.getSecretKey(), LocalDate.EPOCH, LocalDate.now(), 1, 1);
+        List<CommentReadResponseInProject> responses = commentService.findAllCommentsByProjectKeyUsingPaginationAndDateBetween(request);
         assertThat(responses).extracting("content")
             .isEqualTo(Collections.singletonList("hello"));
     }
@@ -223,9 +224,9 @@ class CommentServiceTest extends SpringContainerTest {
     @DisplayName("특정 프로젝트에 해당하고, 시작 날짜와 종료 날짜 사이에 있는 임의의 페이지의 댓글을 좋아요으로 조회한다.")
     @Test
     void findAllCommentsByProjectKeyUsingPaginationAndDateBetween_like() {
-        CommentReadRequestDateBetween request =
-            new CommentReadRequestDateBetween("LIKE", project.getSecretKey(), LocalDate.EPOCH, LocalDate.now(), 1, 1);
-        List<CommentReadResponseDateBetween> responses = commentService.findAllCommentsByProjectKeyUsingPaginationAndDateBetween(request);
+        CommentReadRequestInProject request =
+            new CommentReadRequestInProject("LIKE", project.getSecretKey(), LocalDate.EPOCH, LocalDate.now(), 1, 1);
+        List<CommentReadResponseInProject> responses = commentService.findAllCommentsByProjectKeyUsingPaginationAndDateBetween(request);
         assertThat(responses).extracting("content")
             .isEqualTo(Collections.singletonList("content2"));
     }
@@ -233,18 +234,54 @@ class CommentServiceTest extends SpringContainerTest {
     @DisplayName("특정 프로젝트에 해당하고, 시작 날짜와 종료 날짜 사이에 있는 임의의 페이지의 댓글을 과거순으로 조회한다.")
     @Test
     void findAllCommentsByProjectKeyUsingPaginationAndDateBetween_oldest() {
-        CommentReadRequestDateBetween request =
-            new CommentReadRequestDateBetween("OLDEST", project.getSecretKey(), LocalDate.EPOCH, LocalDate.now(), 1, 1);
-        List<CommentReadResponseDateBetween> responses = commentService.findAllCommentsByProjectKeyUsingPaginationAndDateBetween(request);
+        CommentReadRequestInProject request =
+            new CommentReadRequestInProject("OLDEST", project.getSecretKey(), LocalDate.EPOCH, LocalDate.now(), 1, 1);
+        List<CommentReadResponseInProject> responses = commentService.findAllCommentsByProjectKeyUsingPaginationAndDateBetween(request);
         assertThat(responses).extracting("content")
             .isEqualTo(Collections.singletonList("content1"));
+    }
+
+    @DisplayName("특정 키워드가 들어 있는 내용의 댓글을 최신순으로 조회한다.")
+    @Test
+    void findAllCommentsByProjectKeyUsingPaginationAndDateBetweenAndLike_latest() {
+        CommentReadRequestBySearch request =
+            new CommentReadRequestBySearch("LATEST", project.getSecretKey(), "content", 1, 5);
+        List<CommentReadResponseInProject> responses
+            = commentService.findAllCommentsByProjectKeyUsingPaginationAndDateBetweenAndLike(request);
+
+        assertThat(responses).extracting("content")
+            .isEqualTo(Arrays.asList("content3", "content2", "content1"));
+    }
+
+    @DisplayName("특정 키워드가 들어 있는 내용의 댓글을 좋아요순으로 조회한다.")
+    @Test
+    void findAllCommentsByProjectKeyUsingPaginationAndDateBetweenAndLike_like() {
+        CommentReadRequestBySearch request =
+            new CommentReadRequestBySearch("LIKE", project.getSecretKey(), "content", 1, 5);
+        List<CommentReadResponseInProject> responses
+            = commentService.findAllCommentsByProjectKeyUsingPaginationAndDateBetweenAndLike(request);
+
+        assertThat(responses).extracting("content")
+            .isEqualTo(Arrays.asList("content2", "content1", "content3"));
+    }
+
+    @DisplayName("특정 키워드가 들어 있는 내용의 댓글을 과거순으로 조회한다.")
+    @Test
+    void findAllCommentsByProjectKeyUsingPaginationAndDateBetweenAndLike_oldest() {
+        CommentReadRequestBySearch request =
+            new CommentReadRequestBySearch("OLDEST", project.getSecretKey(), "content", 1, 5);
+        List<CommentReadResponseInProject> responses
+            = commentService.findAllCommentsByProjectKeyUsingPaginationAndDateBetweenAndLike(request);
+
+        assertThat(responses).extracting("content")
+            .isEqualTo(Arrays.asList("content1", "content2", "content3"));
     }
 
     @DisplayName("페이지네이션할 때 페이지는 1 이상이어야 한다.")
     @Test
     void pagination_exception() {
-        CommentReadRequestDateBetween request =
-            new CommentReadRequestDateBetween("LATEST", project.getSecretKey(), LocalDate.EPOCH, LocalDate.now(), 0, 1);
+        CommentReadRequestInProject request =
+            new CommentReadRequestInProject("LATEST", project.getSecretKey(), LocalDate.EPOCH, LocalDate.now(), 0, 1);
         assertThatThrownBy(() -> commentService.findAllCommentsByProjectKeyUsingPaginationAndDateBetween(request))
             .isInstanceOf(BadRequestException.class)
             .hasMessage("페이지의 값은 1 이상이어야 합니다.");

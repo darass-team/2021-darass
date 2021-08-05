@@ -315,92 +315,6 @@ public class CommentAcceptanceTest extends AcceptanceTest {
             ));
     }
 
-    @DisplayName("전체 댓글을 과거순으로 조회할 때 sortOption이 없어도 된다.")
-    @Test
-    void readOrderByOldest_none_sortOption() throws Exception {
-        소셜_로그인_댓글_등록됨("content1", "url");
-        소셜_로그인_댓글_등록됨("content2", "url");
-        소셜_로그인_댓글_등록됨("content3", "url");
-        소셜_로그인_댓글_등록됨("content4", "url");
-        소셜_로그인_댓글_등록됨("content5", "url");
-
-        mockMvc.perform(get("/api/v1/comments")
-            .contentType(MediaType.APPLICATION_JSON)
-            .param("url", "url")
-            .param("projectKey", secretKey))
-            .andExpect(status().isOk())
-            .andDo(document("api/v1/comments/get/oldest-none-sortOption/success",
-                requestParameters(
-                    parameterWithName("url").description("조회 url"),
-                    parameterWithName("projectKey").description("프로젝트 시크릿 키")
-                ),
-                responseFields(
-                    fieldWithPath("[].createdDate").type(JsonFieldType.STRING)
-                        .description("댓글 생성 시점"),
-                    fieldWithPath("[].modifiedDate").type(JsonFieldType.STRING)
-                        .description("댓글 수정 시점"),
-                    fieldWithPath("[].id").type(JsonFieldType.NUMBER).description("댓글 id"),
-                    fieldWithPath("[].content").type(JsonFieldType.STRING).description("댓글 내용"),
-                    fieldWithPath("[].likingUsers[*]").type(JsonFieldType.ARRAY).description("좋아요 누른 유저 정보"),
-                    fieldWithPath("[].user").type(JsonFieldType.OBJECT).description("댓글 작성 유저 정보"),
-                    fieldWithPath("[].user.createdDate").type(JsonFieldType.STRING)
-                        .description("유저 생성 시점"),
-                    fieldWithPath("[].user.modifiedDate").type(JsonFieldType.STRING)
-                        .description("유저 수정 시점"),
-                    fieldWithPath("[].user.id").type(JsonFieldType.NUMBER).description("유저 id"),
-                    fieldWithPath("[].user.nickName").type(JsonFieldType.STRING)
-                        .description("유저 닉네임"),
-                    fieldWithPath("[].user.type").type(JsonFieldType.STRING).description("유저 타입"),
-                    fieldWithPath("[].user.profileImageUrl").type(JsonFieldType.STRING)
-                        .description("유저 프로필 이미지")
-                )
-            ));
-    }
-
-    @DisplayName("전체 댓글을 과거순으로 조회할 때 sortOption이 oldest가 아니어도 된다..")
-    @Test
-    void readOrderByOldest_random_sortOption() throws Exception {
-        소셜_로그인_댓글_등록됨("content1", "url");
-        소셜_로그인_댓글_등록됨("content2", "url");
-        소셜_로그인_댓글_등록됨("content3", "url");
-        소셜_로그인_댓글_등록됨("content4", "url");
-        소셜_로그인_댓글_등록됨("content5", "url");
-
-        mockMvc.perform(get("/api/v1/comments")
-            .contentType(MediaType.APPLICATION_JSON)
-            .param("sortOption", "dobi")
-            .param("url", "url")
-            .param("projectKey", secretKey))
-            .andExpect(status().isOk())
-            .andDo(document("api/v1/comments/get/oldest-random-sortOption/success",
-                requestParameters(
-                    parameterWithName("sortOption").description("정렬 방식"),
-                    parameterWithName("url").description("조회 url"),
-                    parameterWithName("projectKey").description("프로젝트 시크릿 키")
-                ),
-                responseFields(
-                    fieldWithPath("[].createdDate").type(JsonFieldType.STRING)
-                        .description("댓글 생성 시점"),
-                    fieldWithPath("[].modifiedDate").type(JsonFieldType.STRING)
-                        .description("댓글 수정 시점"),
-                    fieldWithPath("[].id").type(JsonFieldType.NUMBER).description("댓글 id"),
-                    fieldWithPath("[].content").type(JsonFieldType.STRING).description("댓글 내용"),
-                    fieldWithPath("[].likingUsers[*]").type(JsonFieldType.ARRAY).description("좋아요 누른 유저 정보"),
-                    fieldWithPath("[].user").type(JsonFieldType.OBJECT).description("댓글 작성 유저 정보"),
-                    fieldWithPath("[].user.createdDate").type(JsonFieldType.STRING)
-                        .description("유저 생성 시점"),
-                    fieldWithPath("[].user.modifiedDate").type(JsonFieldType.STRING)
-                        .description("유저 수정 시점"),
-                    fieldWithPath("[].user.id").type(JsonFieldType.NUMBER).description("유저 id"),
-                    fieldWithPath("[].user.nickName").type(JsonFieldType.STRING)
-                        .description("유저 닉네임"),
-                    fieldWithPath("[].user.type").type(JsonFieldType.STRING).description("유저 타입"),
-                    fieldWithPath("[].user.profileImageUrl").type(JsonFieldType.STRING)
-                        .description("유저 프로필 이미지")
-                )
-            ));
-    }
-
     @DisplayName("특정 페이지의 댓글을 최신순으로 조회한다.")
     @Test
     void readByPageRequestOrderByLatest() throws Exception {
@@ -536,98 +450,6 @@ public class CommentAcceptanceTest extends AcceptanceTest {
             .param("size", "5"))
             .andExpect(status().isOk())
             .andDo(document("api/v1/comments/paging/get/oldest/success",
-                requestParameters(
-                    parameterWithName("sortOption").description("정렬 방식"),
-                    parameterWithName("url").description("조회 url"),
-                    parameterWithName("projectKey").description("프로젝트 시크릿 키"),
-                    parameterWithName("page").description("페이지"),
-                    parameterWithName("size").description("페이지당 댓글의 개수")
-                ),
-                responseFields(
-                    fieldWithPath("[].createdDate").type(JsonFieldType.STRING).description("댓글 생성 시점"),
-                    fieldWithPath("[].modifiedDate").type(JsonFieldType.STRING).description("댓글 수정 시점"),
-                    fieldWithPath("[].id").type(JsonFieldType.NUMBER).description("댓글 id"),
-                    fieldWithPath("[].content").type(JsonFieldType.STRING).description("댓글 내용"),
-                    fieldWithPath("[].likingUsers[*]").type(JsonFieldType.ARRAY).description("좋아요 누른 유저 정보"),
-                    fieldWithPath("[].user").type(JsonFieldType.OBJECT).description("댓글 작성 유저 정보"),
-                    fieldWithPath("[].user.createdDate").type(JsonFieldType.STRING).description("유저 생성 시점"),
-                    fieldWithPath("[].user.modifiedDate").type(JsonFieldType.STRING).description("유저 수정 시점"),
-                    fieldWithPath("[].user.id").type(JsonFieldType.NUMBER).description("유저 id"),
-                    fieldWithPath("[].user.nickName").type(JsonFieldType.STRING).description("유저 닉네임"),
-                    fieldWithPath("[].user.type").type(JsonFieldType.STRING).description("유저 타입"),
-                    fieldWithPath("[].user.profileImageUrl").type(JsonFieldType.STRING).description("유저 프로필 이미지")
-                )
-            ));
-    }
-
-    @DisplayName("특정 페이지의 댓글을 과거순으로 조회할 때 sortOption이 없어도 된다.")
-    @Test
-    void readByPageRequestOrderByOldest_none_sortOption() throws Exception {
-        소셜_로그인_댓글_등록됨("content1", "url");
-        소셜_로그인_댓글_등록됨("content2", "url");
-        소셜_로그인_댓글_등록됨("content3", "url");
-        소셜_로그인_댓글_등록됨("content4", "url");
-        소셜_로그인_댓글_등록됨("content5", "url");
-        소셜_로그인_댓글_등록됨("content6", "url");
-        소셜_로그인_댓글_등록됨("content7", "url");
-        소셜_로그인_댓글_등록됨("content8", "url");
-        소셜_로그인_댓글_등록됨("content9", "url");
-        소셜_로그인_댓글_등록됨("content10", "url");
-
-        mockMvc.perform(get("/api/v1/comments/paging")
-            .contentType(MediaType.APPLICATION_JSON)
-            .param("url", "url")
-            .param("projectKey", secretKey)
-            .param("page", "2")
-            .param("size", "5"))
-            .andExpect(status().isOk())
-            .andDo(document("api/v1/comments/paging/get/oldest-none-sortOption/success",
-                requestParameters(
-                    parameterWithName("url").description("조회 url"),
-                    parameterWithName("projectKey").description("프로젝트 시크릿 키"),
-                    parameterWithName("page").description("페이지"),
-                    parameterWithName("size").description("페이지당 댓글의 개수")
-                ),
-                responseFields(
-                    fieldWithPath("[].createdDate").type(JsonFieldType.STRING).description("댓글 생성 시점"),
-                    fieldWithPath("[].modifiedDate").type(JsonFieldType.STRING).description("댓글 수정 시점"),
-                    fieldWithPath("[].id").type(JsonFieldType.NUMBER).description("댓글 id"),
-                    fieldWithPath("[].content").type(JsonFieldType.STRING).description("댓글 내용"),
-                    fieldWithPath("[].likingUsers[*]").type(JsonFieldType.ARRAY).description("좋아요 누른 유저 정보"),
-                    fieldWithPath("[].user").type(JsonFieldType.OBJECT).description("댓글 작성 유저 정보"),
-                    fieldWithPath("[].user.createdDate").type(JsonFieldType.STRING).description("유저 생성 시점"),
-                    fieldWithPath("[].user.modifiedDate").type(JsonFieldType.STRING).description("유저 수정 시점"),
-                    fieldWithPath("[].user.id").type(JsonFieldType.NUMBER).description("유저 id"),
-                    fieldWithPath("[].user.nickName").type(JsonFieldType.STRING).description("유저 닉네임"),
-                    fieldWithPath("[].user.type").type(JsonFieldType.STRING).description("유저 타입"),
-                    fieldWithPath("[].user.profileImageUrl").type(JsonFieldType.STRING).description("유저 프로필 이미지")
-                )
-            ));
-    }
-
-    @DisplayName("특정 페이지의 댓글을 과거순으로 조회할 때 sortOption이 oldest가 아니어도 된다.")
-    @Test
-    void readByPageRequestOrderByOldest_random_sortOption() throws Exception {
-        소셜_로그인_댓글_등록됨("content1", "url");
-        소셜_로그인_댓글_등록됨("content2", "url");
-        소셜_로그인_댓글_등록됨("content3", "url");
-        소셜_로그인_댓글_등록됨("content4", "url");
-        소셜_로그인_댓글_등록됨("content5", "url");
-        소셜_로그인_댓글_등록됨("content6", "url");
-        소셜_로그인_댓글_등록됨("content7", "url");
-        소셜_로그인_댓글_등록됨("content8", "url");
-        소셜_로그인_댓글_등록됨("content9", "url");
-        소셜_로그인_댓글_등록됨("content10", "url");
-
-        mockMvc.perform(get("/api/v1/comments/paging")
-            .contentType(MediaType.APPLICATION_JSON)
-            .param("sortOption", "dobi")
-            .param("url", "url")
-            .param("projectKey", secretKey)
-            .param("page", "2")
-            .param("size", "5"))
-            .andExpect(status().isOk())
-            .andDo(document("api/v1/comments/paging/get/oldest-random-sortOption/success",
                 requestParameters(
                     parameterWithName("sortOption").description("정렬 방식"),
                     parameterWithName("url").description("조회 url"),
@@ -820,33 +642,33 @@ public class CommentAcceptanceTest extends AcceptanceTest {
             ));
     }
 
-    @DisplayName("특정 프로젝트에 해당하고, 시작 날짜와 종료 날짜 사이에 있는 임의의 페이지의 댓글을 조회할 때 sortOption이 없어도 된다.")
+    @DisplayName("특정 프로젝트에 해당하고, 특정 키워드의 내용이 있는 댓글을 최신순으로 조회한다.")
     @Test
-    void findAllCommentsByProjectKeyUsingPaginationAndDateBetweenOrderByOldest_none_sortOption() throws Exception {
+    void findAllCommentsByProjectKeyUsingPaginationAndDateBetweenAndLike_latest() throws Exception {
         소셜_로그인_댓글_등록됨("content1", "url");
         소셜_로그인_댓글_등록됨("content2", "url");
         소셜_로그인_댓글_등록됨("content3", "url");
         소셜_로그인_댓글_등록됨("content4", "url");
         소셜_로그인_댓글_등록됨("content5", "url");
-        소셜_로그인_댓글_등록됨("content6", "url");
-        소셜_로그인_댓글_등록됨("content7", "url");
-        소셜_로그인_댓글_등록됨("content8", "url");
-        소셜_로그인_댓글_등록됨("content9", "url2");
-        소셜_로그인_댓글_등록됨("content10", "url");
+        소셜_로그인_댓글_등록됨("hello6", "url");
+        소셜_로그인_댓글_등록됨("hello7", "url");
+        소셜_로그인_댓글_등록됨("hello8", "url");
+        소셜_로그인_댓글_등록됨("hello9", "url2");
+        소셜_로그인_댓글_등록됨("hello10", "url");
 
-        mockMvc.perform(get("/api/v1/projects/comments/paging")
+        mockMvc.perform(get("/api/v1/projects/comments/search/paging")
             .contentType(MediaType.APPLICATION_JSON)
+            .param("sortOption", "latest")
             .param("projectKey", secretKey)
-            .param("startDate", "2000-01-01")
-            .param("endDate", "2030-12-31")
-            .param("page", "2")
+            .param("keyword", "content")
+            .param("page", "1")
             .param("size", "5"))
             .andExpect(status().isOk())
-            .andDo(document("api/v1/projects/comments/paging/get/oldest-none-sortOption/success",
+            .andDo(document("api/v1/projects/comments/search/paging/get/latest/success",
                 requestParameters(
+                    parameterWithName("sortOption").description("정렬 방식"),
                     parameterWithName("projectKey").description("프로젝트 시크릿 키"),
-                    parameterWithName("startDate").description("시작 날짜"),
-                    parameterWithName("endDate").description("종료 날짜"),
+                    parameterWithName("keyword").description("검색할 댓글의 내용"),
                     parameterWithName("page").description("페이지"),
                     parameterWithName("size").description("페이지당 댓글의 개수")
                 ),
@@ -868,35 +690,99 @@ public class CommentAcceptanceTest extends AcceptanceTest {
             ));
     }
 
-    @DisplayName("특정 프로젝트에 해당하고, 시작 날짜와 종료 날짜 사이에 있는 임의의 페이지의 댓글을 조회할 때 sortOption이 oldest가 아니어도 된다.")
+    @DisplayName("특정 프로젝트에 해당하고, 특정 키워드의 내용이 있는 댓글을 좋아요순으로 조회한다.")
     @Test
-    void findAllCommentsByProjectKeyUsingPaginationAndDateBetweenOrderByOldest_random_sortOption() throws Exception {
+    void findAllCommentsByProjectKeyUsingPaginationAndDateBetweenAndLike_like() throws Exception {
+        소셜_로그인_댓글_등록됨("hello1", "url2");
+
+        CommentResponse commentResponse1 = 소셜_로그인_댓글_등록됨_Response_반환("content2", "url");
+        소셜_로그인_댓글_좋아요_누름("content2", "url", commentResponse1.getId());
+
+        소셜_로그인_댓글_등록됨("hello3", "url");
+        소셜_로그인_댓글_등록됨("hello4", "url");
+
+        CommentResponse commentResponse5 = 소셜_로그인_댓글_등록됨_Response_반환("content5", "url");
+        소셜_로그인_댓글_좋아요_누름("content5", "url", commentResponse5.getId());
+
+        소셜_로그인_댓글_등록됨("hello6", "url3");
+        소셜_로그인_댓글_등록됨("hello7", "url4");
+
+        CommentResponse commentResponse8 = 소셜_로그인_댓글_등록됨_Response_반환("content8", "url");
+        소셜_로그인_댓글_좋아요_누름("content8", "url", commentResponse8.getId());
+
+        CommentResponse commentResponse9 = 소셜_로그인_댓글_등록됨_Response_반환("content9", "url");
+        소셜_로그인_댓글_좋아요_누름("content9", "url", commentResponse9.getId());
+
+        CommentResponse commentResponse10 = 소셜_로그인_댓글_등록됨_Response_반환("content10", "url");
+        소셜_로그인_댓글_좋아요_누름("content5", "url", commentResponse10.getId());
+
+        mockMvc.perform(get("/api/v1/projects/comments/search/paging")
+            .contentType(MediaType.APPLICATION_JSON)
+            .param("sortOption", "like")
+            .param("projectKey", secretKey)
+            .param("keyword", "content")
+            .param("page", "1")
+            .param("size", "5"))
+            .andExpect(status().isOk())
+            .andDo(document("api/v1/projects/comments/search/paging/get/like/success",
+                requestParameters(
+                    parameterWithName("sortOption").description("정렬 방식"),
+                    parameterWithName("projectKey").description("프로젝트 시크릿 키"),
+                    parameterWithName("keyword").description("검색할 댓글의 내용"),
+                    parameterWithName("page").description("페이지"),
+                    parameterWithName("size").description("페이지당 댓글의 개수")
+                ),
+                responseFields(
+                    fieldWithPath("[].createdDate").type(JsonFieldType.STRING).description("댓글 생성 시점"),
+                    fieldWithPath("[].modifiedDate").type(JsonFieldType.STRING).description("댓글 수정 시점"),
+                    fieldWithPath("[].id").type(JsonFieldType.NUMBER).description("댓글 id"),
+                    fieldWithPath("[].content").type(JsonFieldType.STRING).description("댓글 내용"),
+                    fieldWithPath("[].url").type(JsonFieldType.STRING).description("댓글이 있는 url"),
+                    fieldWithPath("[].likingUsers[*]").type(JsonFieldType.ARRAY).description("좋아요 누른 유저 정보"),
+                    fieldWithPath("[].likingUsers[*].id").type(JsonFieldType.NUMBER).description("좋아요 누른 유저 ID"),
+                    fieldWithPath("[].likingUsers[*].nickName").type(JsonFieldType.STRING).description("좋아요 누른 유저 닉네임"),
+                    fieldWithPath("[].likingUsers[*].type").type(JsonFieldType.STRING).description("좋아요 누른 유저 타입"),
+                    fieldWithPath("[].likingUsers[*].profileImageUrl").type(JsonFieldType.STRING).description("좋아요 누른 유저 이미지 링크"),
+                    fieldWithPath("[].likingUsers[*].createdDate").type(JsonFieldType.STRING).description("좋아요 누른 시간"),
+                    fieldWithPath("[].likingUsers[*].modifiedDate").type(JsonFieldType.STRING).description("좋아요 수정한 시간"),
+                    fieldWithPath("[].user").type(JsonFieldType.OBJECT).description("댓글 작성 유저 정보"),
+                    fieldWithPath("[].user.createdDate").type(JsonFieldType.STRING).description("유저 생성 시점"),
+                    fieldWithPath("[].user.modifiedDate").type(JsonFieldType.STRING).description("유저 수정 시점"),
+                    fieldWithPath("[].user.id").type(JsonFieldType.NUMBER).description("유저 id"),
+                    fieldWithPath("[].user.nickName").type(JsonFieldType.STRING).description("유저 닉네임"),
+                    fieldWithPath("[].user.type").type(JsonFieldType.STRING).description("유저 타입"),
+                    fieldWithPath("[].user.profileImageUrl").type(JsonFieldType.STRING).description("유저 프로필 이미지")
+                )
+            ));
+    }
+
+    @DisplayName("특정 프로젝트에 해당하고, 특정 키워드의 내용이 있는 댓글을 과거순으로 조회한다.")
+    @Test
+    void findAllCommentsByProjectKeyUsingPaginationAndDateBetweenAndLike_oldest() throws Exception {
         소셜_로그인_댓글_등록됨("content1", "url");
         소셜_로그인_댓글_등록됨("content2", "url");
         소셜_로그인_댓글_등록됨("content3", "url");
         소셜_로그인_댓글_등록됨("content4", "url");
         소셜_로그인_댓글_등록됨("content5", "url");
-        소셜_로그인_댓글_등록됨("content6", "url");
-        소셜_로그인_댓글_등록됨("content7", "url");
-        소셜_로그인_댓글_등록됨("content8", "url");
-        소셜_로그인_댓글_등록됨("content9", "url2");
-        소셜_로그인_댓글_등록됨("content10", "url");
+        소셜_로그인_댓글_등록됨("hello6", "url");
+        소셜_로그인_댓글_등록됨("hello7", "url");
+        소셜_로그인_댓글_등록됨("hello8", "url");
+        소셜_로그인_댓글_등록됨("hello9", "url2");
+        소셜_로그인_댓글_등록됨("hello10", "url");
 
-        mockMvc.perform(get("/api/v1/projects/comments/paging")
+        mockMvc.perform(get("/api/v1/projects/comments/search/paging")
             .contentType(MediaType.APPLICATION_JSON)
-            .param("sortOption", "dobi")
+            .param("sortOption", "oldest")
             .param("projectKey", secretKey)
-            .param("startDate", "2000-01-01")
-            .param("endDate", "2030-12-31")
-            .param("page", "2")
+            .param("keyword", "content")
+            .param("page", "1")
             .param("size", "5"))
             .andExpect(status().isOk())
-            .andDo(document("api/v1/projects/comments/paging/get/oldest-random-sortOption/success",
+            .andDo(document("api/v1/projects/comments/search/paging/get/oldest/success",
                 requestParameters(
                     parameterWithName("sortOption").description("정렬 방식"),
                     parameterWithName("projectKey").description("프로젝트 시크릿 키"),
-                    parameterWithName("startDate").description("시작 날짜"),
-                    parameterWithName("endDate").description("종료 날짜"),
+                    parameterWithName("keyword").description("검색할 댓글의 내용"),
                     parameterWithName("page").description("페이지"),
                     parameterWithName("size").description("페이지당 댓글의 개수")
                 ),

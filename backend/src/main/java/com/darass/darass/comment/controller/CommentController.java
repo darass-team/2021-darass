@@ -6,8 +6,9 @@ import com.darass.darass.comment.dto.CommentCreateRequest;
 import com.darass.darass.comment.dto.CommentDeleteRequest;
 import com.darass.darass.comment.dto.CommentReadRequest;
 import com.darass.darass.comment.dto.CommentReadRequestByPagination;
-import com.darass.darass.comment.dto.CommentReadRequestDateBetween;
-import com.darass.darass.comment.dto.CommentReadResponseDateBetween;
+import com.darass.darass.comment.dto.CommentReadRequestBySearch;
+import com.darass.darass.comment.dto.CommentReadRequestInProject;
+import com.darass.darass.comment.dto.CommentReadResponseInProject;
 import com.darass.darass.comment.dto.CommentResponse;
 import com.darass.darass.comment.dto.CommentUpdateRequest;
 import com.darass.darass.comment.service.CommentService;
@@ -48,11 +49,19 @@ public class CommentController {
         return ResponseEntity.status(HttpStatus.OK).body(commentResponses);
     }
 
+    @GetMapping("/projects/comments/search/paging")
+    public ResponseEntity<List<CommentReadResponseInProject>> readByPageRequestUsingSearch(
+        @ModelAttribute CommentReadRequestBySearch CommentReadRequestBySearch) {
+        List<CommentReadResponseInProject> commentResponses = commentService
+            .findAllCommentsByProjectKeyUsingPaginationAndDateBetweenAndLike(CommentReadRequestBySearch);
+        return ResponseEntity.status(HttpStatus.OK).body(commentResponses);
+    }
+
     @GetMapping("/projects/comments/paging")
-    public ResponseEntity<List<CommentReadResponseDateBetween>> readByPageRequest(
-        @ModelAttribute CommentReadRequestDateBetween commentReadRequestDateBetween) {
-        List<CommentReadResponseDateBetween> commentResponses = commentService
-            .findAllCommentsByProjectKeyUsingPaginationAndDateBetween(commentReadRequestDateBetween);
+    public ResponseEntity<List<CommentReadResponseInProject>> readByPageRequest(
+        @ModelAttribute CommentReadRequestInProject commentReadRequestInProject) {
+        List<CommentReadResponseInProject> commentResponses = commentService
+            .findAllCommentsByProjectKeyUsingPaginationAndDateBetween(commentReadRequestInProject);
         return ResponseEntity.status(HttpStatus.OK).body(commentResponses);
     }
 

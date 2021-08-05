@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CommentReadResponseDateBetween {
+public class CommentReadResponseInProject {
 
     private Long id;
 
@@ -33,8 +33,8 @@ public class CommentReadResponseDateBetween {
 
     private UserResponse user;
 
-    public static CommentReadResponseDateBetween of(Comment comment, UserResponse userResponse) {
-        return new CommentReadResponseDateBetween(comment.getId(), comment.getContent(), comment.getUrl(),
+    public static CommentReadResponseInProject of(Comment comment, UserResponse userResponse) {
+        return new CommentReadResponseInProject(comment.getId(), comment.getContent(), comment.getUrl(),
             comment.getCreatedDate(), comment.getModifiedDate(), parseLikingUser(comment.getCommentLikes()), userResponse);
     }
 

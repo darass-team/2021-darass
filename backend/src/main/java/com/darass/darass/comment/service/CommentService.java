@@ -7,8 +7,9 @@ import com.darass.darass.comment.dto.CommentCreateRequest;
 import com.darass.darass.comment.dto.CommentDeleteRequest;
 import com.darass.darass.comment.dto.CommentReadRequest;
 import com.darass.darass.comment.dto.CommentReadRequestByPagination;
-import com.darass.darass.comment.dto.CommentReadRequestDateBetween;
-import com.darass.darass.comment.dto.CommentReadResponseDateBetween;
+import com.darass.darass.comment.dto.CommentReadRequestBySearch;
+import com.darass.darass.comment.dto.CommentReadRequestInProject;
+import com.darass.darass.comment.dto.CommentReadResponseInProject;
 import com.darass.darass.comment.dto.CommentResponse;
 import com.darass.darass.comment.dto.CommentUpdateRequest;
 import com.darass.darass.comment.repository.CommentRepository;
@@ -95,8 +96,8 @@ public class CommentService {
         }
     }
 
-    public List<CommentReadResponseDateBetween> findAllCommentsByProjectKeyUsingPaginationAndDateBetween(
-        CommentReadRequestDateBetween request) {
+    public List<CommentReadResponseInProject> findAllCommentsByProjectKeyUsingPaginationAndDateBetween(
+        CommentReadRequestInProject request) {
         int pageBasedIndex = request.getPage() - 1;
         try {
             Page<Comment> comments = commentRepository
@@ -108,7 +109,26 @@ public class CommentService {
                 );
 
             return comments.stream()
-                .map(comment -> CommentReadResponseDateBetween.of(comment, UserResponse.of(comment.getUser())))
+                .map(comment -> CommentReadResponseInProject.of(comment, UserResponse.of(comment.getUser())))
+                .collect(Collectors.toList());
+        } catch (IllegalArgumentException e) {
+            throw ExceptionWithMessageAndCode.NOT_POSITIVE_EXCEPTION.getException();
+        }
+    }
+
+    public List<CommentReadResponseInProject> findAllCommentsByProjectKeyUsingPaginationAndDateBetweenAndLike(
+        CommentReadRequestBySearch request) {
+        int pageBasedIndex = request.getPage() - 1;
+        try {
+            Page<Comment> comments = commentRepository
+                .findByProjectSecretKeyAndContentContaining(
+                    request.getProjectKey(),
+                    request.getKeyword(),
+                    PageRequest.of(pageBasedIndex, request.getSize(), SortOption.getMatchedSort(request.getSortOption()))
+                );
+
+            return comments.stream()
+                .map(comment -> CommentReadResponseInProject.of(comment, UserResponse.of(comment.getUser())))
                 .collect(Collectors.toList());
         } catch (IllegalArgumentException e) {
             throw ExceptionWithMessageAndCode.NOT_POSITIVE_EXCEPTION.getException();
