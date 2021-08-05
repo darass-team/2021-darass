@@ -1,18 +1,20 @@
 import "@testing-library/jest-dom/extend-expect";
 import { fireEvent, render, waitFor } from "@testing-library/react";
+import { getPasswordConfirmResult } from "../../api/getPasswordConfirmResult";
 import CommentList from "../../components/organisms/CommentList";
-import { ORDER_BUTTON } from "../../constants/orderButton";
-import { useConfirmGuestPassword, useDeleteComment, useEditComment } from "../../hooks";
+import { useDeleteComment, useEditComment, useShowMoreComments } from "../../hooks";
 import { useLikeComment } from "../../hooks/useLikeComment";
-import { comments } from "../fixture/comments";
+import { Comment } from "../../types";
+import { comments as _comments } from "../fixture/comments";
 import { myProject } from "../fixture/project";
 import { socialLoginUser } from "../fixture/user";
 
 jest.mock("../../hooks/useEditComment");
 jest.mock("../../hooks/useDeleteComment");
 jest.mock("../../hooks/useCreateComment");
-jest.mock("../../hooks/useConfirmGuestPassword");
 jest.mock("../../hooks/useLikeComment");
+jest.mock("../../api/getPasswordConfirmResult");
+jest.mock("../../hooks/useShowMoreComments");
 
 window.alert = function (str) {
   console.log(str);
@@ -41,17 +43,8 @@ describe("관리자 유저일 때의 동작 테스트", () => {
         error: false
       };
     });
-    (useConfirmGuestPassword as jest.Mock).mockImplementation(() => {
-      return {
-        isValid: true,
-        getPasswordConfirmResult: () => {
-          return {
-            data: {
-              isCorrectPassword: true
-            }
-          };
-        }
-      };
+    (getPasswordConfirmResult as jest.Mock).mockImplementation(() => {
+      return true;
     });
     (useLikeComment as jest.Mock).mockImplementation(() => {
       return {
@@ -60,11 +53,18 @@ describe("관리자 유저일 때의 동작 테스트", () => {
         error: false
       };
     });
+    (useShowMoreComments as jest.Mock).mockImplementation(() => {
+      return {
+        showMoreComments: () => {},
+        isLoading: false,
+        error: false
+      };
+    });
   });
   test("관리자 유저인 경우, 비회원 유저의 댓글을 삭제할 수 있다.", async () => {
     const user = socialLoginUser;
     const project = myProject;
-    const guestComments = comments.filter(comment => comment.user.type === "GuestUser");
+    const guestComments = _comments.filter(comment => comment.user.type === "GuestUser");
     const iAmAdmin = user.id === project.userId;
     expect(iAmAdmin).toBeTruthy();
 
@@ -74,7 +74,9 @@ describe("관리자 유저일 때의 동작 테스트", () => {
         project={project}
         comments={guestComments}
         sortOption={"oldest"}
-        setSortOption={() => {}}
+        notice={""}
+        onShowMoreComment={() => {}}
+        onSelectSortOption={() => {}}
       />
     );
     const allCommentOptions = commentList.getAllByAltText("댓글 옵션");
@@ -92,7 +94,7 @@ describe("관리자 유저일 때의 동작 테스트", () => {
   test("관리자 유저인 경우, 회원 유저의 댓글을 삭제할 수 있다.", async () => {
     const user = socialLoginUser;
     const project = myProject;
-    const socialLoginedComments = comments.filter(comment => comment.user.type === "SocialLoginUser");
+    const socialLoginedComments = _comments.filter(comment => comment.user.type === "SocialLoginUser");
     const iAmAdmin = user.id === project.userId;
     expect(iAmAdmin).toBeTruthy();
 
@@ -101,8 +103,10 @@ describe("관리자 유저일 때의 동작 테스트", () => {
         user={user}
         project={project}
         comments={socialLoginedComments}
+        notice={""}
+        onShowMoreComment={() => {}}
         sortOption={"oldest"}
-        setSortOption={() => {}}
+        onSelectSortOption={() => {}}
       />
     );
     const allCommentOptions = commentList.getAllByAltText("댓글 옵션");
@@ -121,7 +125,7 @@ describe("관리자 유저일 때의 동작 테스트", () => {
   test("관리자 유저인 경우, 비회원 유저의 댓글을 수정할 수 없다.", () => {
     const user = socialLoginUser;
     const project = myProject;
-    const guestComments = comments.filter(comment => comment.user.type === "GuestUser");
+    const guestComments = _comments.filter(comment => comment.user.type === "GuestUser");
     const iAmAdmin = user.id === project.userId;
     expect(iAmAdmin).toBeTruthy();
 
@@ -130,8 +134,10 @@ describe("관리자 유저일 때의 동작 테스트", () => {
         user={user}
         project={project}
         comments={guestComments}
+        notice={""}
+        onShowMoreComment={() => {}}
         sortOption={"oldest"}
-        setSortOption={() => {}}
+        onSelectSortOption={() => {}}
       />
     );
     const allCommentOptions = commentList.getAllByAltText("댓글 옵션");
@@ -146,7 +152,7 @@ describe("관리자 유저일 때의 동작 테스트", () => {
   test("관라자 유저인 경우, 다른 소셜 로그인 유저가 작성한 댓글을 수정할 수 없다.", () => {
     const user = socialLoginUser;
     const project = myProject;
-    const socialLoginedCommentsWrittenByOther = comments.filter(
+    const socialLoginedCommentsWrittenByOther = _comments.filter(
       comment => comment.user.type === "SocialLoginUser" && comment.user.id !== user.id
     );
     const iAmAdmin = user.id === project.userId;
@@ -157,8 +163,10 @@ describe("관리자 유저일 때의 동작 테스트", () => {
         user={user}
         project={project}
         comments={socialLoginedCommentsWrittenByOther}
+        notice={""}
+        onShowMoreComment={() => {}}
         sortOption={"oldest"}
-        setSortOption={() => {}}
+        onSelectSortOption={() => {}}
       />
     );
     const allCommentOptions = commentList.getAllByAltText("댓글 옵션");
@@ -172,7 +180,7 @@ describe("관리자 유저일 때의 동작 테스트", () => {
   test("관라자 유저인 경우, 관리자가 작성한 댓글 수정할 수 있다.", () => {
     const user = socialLoginUser;
     const project = myProject;
-    const socialLoginedCommentsWrittenByMe = comments.filter(
+    const socialLoginedCommentsWrittenByMe = _comments.filter(
       comment => comment.user.type === "SocialLoginUser" && comment.user.id === user.id
     );
     const iAmAdmin = user.id === project.userId;
@@ -183,8 +191,10 @@ describe("관리자 유저일 때의 동작 테스트", () => {
         user={user}
         project={project}
         comments={socialLoginedCommentsWrittenByMe}
+        notice={""}
+        onShowMoreComment={() => {}}
         sortOption={"oldest"}
-        setSortOption={() => {}}
+        onSelectSortOption={() => {}}
       />
     );
     const allCommentOptions = commentList.getAllByAltText("댓글 옵션");
@@ -194,5 +204,32 @@ describe("관리자 유저일 때의 동작 테스트", () => {
     fireEvent.click(firstCommentOption);
 
     expect(commentList.queryByTestId("comment-option-edit-button")).toBeTruthy();
+  });
+  test("관리자 유저의 댓글은 오른쪽에 정렬된다.", async () => {
+    const user = socialLoginUser;
+    const project = myProject;
+    const comments: Comment[] = JSON.parse(JSON.stringify(_comments));
+
+    const commentList = render(
+      <CommentList
+        user={user}
+        project={project}
+        comments={comments}
+        notice={""}
+        onShowMoreComment={() => {}}
+        sortOption={"oldest"}
+        onSelectSortOption={() => {}}
+      />
+    );
+
+    await waitFor(() => {
+      const $$comments = commentList.container.querySelectorAll("section > div:nth-child(2) > div > div");
+
+      $$comments.forEach(($comment, index) => {
+        if (comments[index].user.id === project.userId) {
+          expect($comment).toHaveStyle("flex-direction: row-reverse");
+        }
+      });
+    });
   });
 });

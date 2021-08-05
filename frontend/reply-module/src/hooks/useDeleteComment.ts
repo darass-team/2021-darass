@@ -1,7 +1,8 @@
+import { AlertError } from "./../utils/Error";
 import { useMutation, useQueryClient } from "react-query";
 import { QUERY } from "../constants/api";
 import { request } from "../utils/request";
-import { Comment, DeleteCommentRequestParameter } from "../types/comment";
+import { DeleteCommentRequestParameter } from "../types/comment";
 import { REACT_QUERY_KEY } from "../constants/reactQueryKey";
 
 const _deleteComment = async ({ id, guestUserId, guestUserPassword }: DeleteCommentRequestParameter) => {
@@ -12,7 +13,11 @@ const _deleteComment = async ({ id, guestUserId, guestUserPassword }: DeleteComm
 
     return response.data;
   } catch (error) {
-    throw new Error(error.response.data.message);
+    if (error.response.data.code === 903) {
+      throw new AlertError("해당 댓글을 삭제할 권한이 없습니다.");
+    }
+
+    throw new AlertError("댓글 삭제에 실패하였습니다.\n잠시 후 다시 시도해주세요.");
   }
 };
 
@@ -20,10 +25,8 @@ export const useDeleteComment = () => {
   const queryClient = useQueryClient();
 
   const deleteMutation = useMutation<void, Error, DeleteCommentRequestParameter>(data => _deleteComment(data), {
-    onSuccess: (_, deletedComment) => {
-      queryClient.setQueryData<Comment[] | undefined>(REACT_QUERY_KEY.COMMENT, comments => {
-        return comments?.filter(comment => comment.id !== deletedComment.id);
-      });
+    onSuccess: () => {
+      queryClient.invalidateQueries(REACT_QUERY_KEY.COMMENT);
     }
   });
 

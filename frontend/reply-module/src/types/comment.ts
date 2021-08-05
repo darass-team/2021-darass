@@ -15,6 +15,8 @@ export interface GuestUserInfo {
   guestUserPassword?: string;
 }
 
+export type GuestUserConfirmInfo = Omit<GuestUserInfo, "guestNickName">;
+
 export interface ScriptInfo {
   url: string | null;
   projectSecretKey: string | null;
@@ -26,6 +28,7 @@ export interface CreateCommentRequestData extends Omit<GuestUserInfo, "guestUser
 
 export interface GetCommentsRequestParams extends ScriptInfo {
   sortOption?: string;
+  pageParam: number;
 }
 
 export type GetProjectRequestParams = Pick<ScriptInfo, "projectSecretKey">;
