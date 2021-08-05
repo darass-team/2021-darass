@@ -28,6 +28,7 @@
     "babel-loader": "^8.2.2",
     "babel-plugin-remove-react-jsx-attribute": "^1.0.1",
     "clean-webpack-plugin": "^4.0.0-alpha.0",
+    "cross-env": "^7.0.3",
     "eslint": "^7.29.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^3.4.0",
@@ -54,9 +55,10 @@
     "styled-normalize": "^8.0.7"
   },
   "scripts": {
-    "start": "webpack server",
-    "build": "webpack",
-    "watch": "webpack watch",
+    "start": "cross-env BUILD_MODE=development webpack serve",
+    "build": "cross-env BUILD_MODE=development webpack",
+    "build:production": "cross-env BUILD_MODE=production webpack",
+    "watch": "cross-env BUILD_MODE=development webpack watch",
     "test": "jest",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
