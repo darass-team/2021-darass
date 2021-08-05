@@ -11,12 +11,10 @@ export const Button = styled.button<{ isLiked: boolean }>`
   background-color: ${PALETTE.WHITE};
   transition: background-color 0.1s;
 
-  &:hover {
-    background-color: ${PALETTE.GRAY_500};
-  }
-
-  &:hover > img {
-    color: red;
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      background-color: ${PALETTE.GRAY_500};
+    }
   }
 
   & > span {

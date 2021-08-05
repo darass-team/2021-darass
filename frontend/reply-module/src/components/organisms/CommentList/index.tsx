@@ -3,7 +3,7 @@ import { Comment as CommentType } from "../../../types/comment";
 import { Project } from "../../../types/project";
 import { User } from "../../../types/user";
 import Comment from "../../molecules/Comment";
-import downArrowSVG from "../../../assets/svg/down-arrow.svg";
+import { ReactComponent as DownArrow } from "../../../assets/svg/down-arrow.svg";
 import {
   CommentContainer,
   Container,
@@ -87,7 +87,7 @@ const CommentList = ({
       </CommentContainer>
       <ShowMoreButton onClick={onShowMoreComment}>
         <span>더 보기</span>
-        <img src={downArrowSVG} />
+        <DownArrow />
       </ShowMoreButton>
     </Container>
   );

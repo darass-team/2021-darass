@@ -14,8 +14,10 @@ export const Button = styled.button`
   padding: 0.3rem 1.4rem;
   transition: all 0.3s;
 
-  &:hover {
-    color: ${PALETTE.WHITE};
-    background-color: ${PALETTE.RED_800};
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      color: ${PALETTE.WHITE};
+      background-color: ${PALETTE.RED_800};
+    }
   }
 `;

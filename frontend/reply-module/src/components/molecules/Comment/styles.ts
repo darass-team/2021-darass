@@ -25,7 +25,7 @@ export const CommentTextBoxWrapper = styled.div<{ align: "left" | "right" }>`
 
 export const LikingUsersButton = styled(LikingUsersButtonComponent)`
   position: absolute;
-  bottom: 1.2rem;
+  bottom: 0.7rem;
   right: -1.5rem;
 `;
 
@@ -45,8 +45,10 @@ export const LikeButton = styled.button<{ isLiked: boolean }>`
   background-color: transparent;
   color: ${props => (props.isLiked ? PALETTE.BLUE_700 : PALETTE.BLACK_700)};
 
-  &:hover {
-    color: ${props => (props.isLiked ? PALETTE.BLACK_700 : PALETTE.BLUE_700)};
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      color: ${props => (props.isLiked ? PALETTE.BLACK_700 : PALETTE.BLUE_700)};
+    }
   }
 `;
 
@@ -72,6 +74,7 @@ export const PasswordInput = styled.input<{ isValidInput: Boolean }>`
   width: 16rem;
   padding: 0.6rem;
   font-size: 1rem;
+  line-height: 1.5rem;
 `;
 
 export const Button = styled(SubmitButton)`
@@ -80,6 +83,7 @@ export const Button = styled(SubmitButton)`
   padding: 0.2rem 0.3rem;
   background-color: ${PALETTE.SECONDARY};
   font-size: 1rem;
+  line-height: 1.5rem;
   margin-top: 1rem;
   margin-left: auto;
 `;
@@ -89,5 +93,6 @@ export const CancelButton = styled(DeleteButton)`
   height: 2.4rem;
   padding: 0.2rem 0.3rem;
   font-size: 1rem;
+  line-height: 1.5rem;
   margin-right: 0.5rem;
 `;

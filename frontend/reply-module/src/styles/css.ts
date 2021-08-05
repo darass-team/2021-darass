@@ -3,7 +3,7 @@ import { PALETTE } from "./palette";
 
 export const InputCSS = css`
   box-sizing: border-box;
-  border: 1px solid ${PALETTE.BLACK_700};
+  border: 1px solid ${PALETTE.GRAY_500};
   border-radius: 10px;
   color: ${PALETTE.BLACK_700};
   font-size: 1.2rem;
@@ -15,7 +15,7 @@ export const InputCSS = css`
   }
 
   &::placeholder {
-    color: ${PALETTE.BLACK_700};
+    color: ${PALETTE.GRAY_600};
   }
 `;
 

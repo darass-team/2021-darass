@@ -9,6 +9,7 @@ import { postScrollHeightToParentWindow } from "../../../utils/postMessage";
 import Avatar from "../../atoms/Avatar";
 import UserAvatarOption from "../../molecules/UserAvatarOption";
 import CommentInput from "../../organisms/CommentInput";
+import Footer from "../../organisms/Footer";
 import {
   CommentCount,
   CommentCountWrapper,
@@ -115,6 +116,7 @@ const CommentArea = () => {
         notice={notice}
         onShowMoreComment={onShowMoreComment}
       />
+      <Footer />
     </Container>
   );
 };

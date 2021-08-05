@@ -1,6 +1,5 @@
 import { PALETTE } from "./../../../styles/palette";
 import styled from "styled-components";
-import { getByPlaceholderText } from "@testing-library/dom";
 
 export const Container = styled.section`
   width: 100%;
@@ -13,7 +12,7 @@ export const OrderButtonContainer = styled.div`
   display: flex;
   justify-content: flex-end;
   align-items: flex-start;
-  border-bottom: 1px solid ${PALETTE.BLACK_700};
+  border-bottom: 2px solid ${PALETTE.GRAY_400};
   padding-bottom: 1.6rem;
 `;
 
@@ -33,8 +32,10 @@ export const OrderButton = styled.button<{ isSelected: boolean }>`
   background-color: transparent;
   transition: color 0.1s;
 
-  &:hover {
-    color: ${props => !props.isSelected && PALETTE.BLACK_700};
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      color: ${props => !props.isSelected && PALETTE.BLACK_700};
+    }
   }
 `;
 
@@ -67,9 +68,25 @@ export const ShowMoreButton = styled.button`
   flex-direction: column;
   align-items: center;
   padding: 0.3rem 1rem;
-  gap: 0.3rem;
+  gap: 0.1rem;
   margin: 0 auto;
   background-color: transparent;
+  font-weight: 500;
   font-size: 1.2rem;
   line-height: 1.8rem;
+  color: ${PALETTE.GRAY_600};
+
+  & > svg > path {
+    stroke: ${PALETTE.GRAY_600};
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      color: ${PALETTE.BLACK_700};
+
+      & > svg > path {
+        stroke: ${PALETTE.BLACK_700};
+      }
+    }
+  }
 `;

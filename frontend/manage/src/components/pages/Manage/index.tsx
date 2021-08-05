@@ -4,23 +4,10 @@ import { useCalendar, useCommentList, useCommentPageIndex, useGetAllCommentOfPro
 import ScreenContainer from "../../../styles/ScreenContainer";
 import CheckBox from "../../atoms/CheckBox";
 import PageNationBar from "../../atoms/PageNationBar";
+import Comment from "../../molecules/Comment";
 import CommentSearchConditionForm from "../../organisms/CommentSearchConditionForm";
 import ContainerWithSideBar from "../../organisms/ContainerWithSideBar";
-import {
-  Avatar,
-  CommentList,
-  Container,
-  Content,
-  ContentMeta,
-  ContentWrapper,
-  Date,
-  DeleteButton,
-  Header,
-  Name,
-  Row,
-  Title,
-  Url
-} from "./styles";
+import { CommentList, Container, DeleteButton, Header, Row, Title } from "./styles";
 
 const Manage = () => {
   const match = useRouteMatch<{ id: string }>();
@@ -69,19 +56,14 @@ const Manage = () => {
 
             {comments.map(({ id, content, user, createdDate }) => (
               <Row key={id}>
-                <CheckBox
+                <Comment
                   isChecked={checkedCommentIds.some(_id => _id === id)}
-                  onChange={() => updateCheckedCommentId(id)}
+                  onChangeCheckBox={() => updateCheckedCommentId(id)}
+                  authorProfileImageUrl={user.profileImageUrl}
+                  authorNickName={user.nickName}
+                  createdDate={createdDate}
+                  content={content}
                 />
-                <Avatar imageURL={user.profileImageUrl} />
-                <ContentWrapper>
-                  <ContentMeta>
-                    <Name>{user.nickName}</Name>
-                    <Date>{createdDate}</Date>
-                  </ContentMeta>
-                  <Content>{content}</Content>
-                  <Url>www.naver.com</Url>
-                </ContentWrapper>
               </Row>
             ))}
 
