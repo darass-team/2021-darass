@@ -8,7 +8,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import com.darass.darass.SpringContainerTest;
-import com.darass.darass.exception.ExceptionWithMessageAndCode;
 import com.darass.darass.exception.httpbasicexception.BadRequestException;
 import com.darass.darass.exception.httpbasicexception.InternalServerException;
 import java.io.IOException;

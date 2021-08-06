@@ -39,7 +39,7 @@ import org.springframework.test.web.servlet.ResultActions;
 public class ProjectAcceptanceTest extends AcceptanceTest {
 
     private static final String PROJECT_NAME = "지킬 블로그 프로젝트";
-  
+
     private final static String JEKYLL_PROJECT_NAME = "지킬 블로그 프로젝트";
 
     private final static String JEKYLL_PROJECT_DESCRIPTION = "지킬 블로그 프로젝트 설명";

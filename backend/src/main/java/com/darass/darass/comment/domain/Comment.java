@@ -28,23 +28,19 @@ import org.hibernate.annotations.OnDeleteAction;
 @Entity
 public class Comment extends BaseTimeEntity {
 
+    @OneToMany(mappedBy = "comment", fetch = LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private final List<CommentLike> commentLikes = new ArrayList<>();
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @OnDelete(action = OnDeleteAction.CASCADE)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn
     private User user;
-
     @OnDelete(action = OnDeleteAction.CASCADE)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn
     private Project project;
-
-    @OneToMany(mappedBy = "comment", fetch = LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    private final List<CommentLike> commentLikes = new ArrayList<>();
-
     private String url;
 
     private String content;
