@@ -40,7 +40,7 @@ const Manage = () => {
     startDate: startDate?.format("YYYY-MM-DD") || null,
     endDate: endDate?.format("YYYY-MM-DD") || null,
     page: currentPageIndex,
-    size: 5
+    size: 2
   });
 
   const {
