@@ -27,6 +27,7 @@ export const useDeleteComment = () => {
   const deleteMutation = useMutation<void, Error, DeleteCommentRequestParameter>(data => _deleteComment(data), {
     onSuccess: () => {
       queryClient.invalidateQueries(REACT_QUERY_KEY.COMMENT);
+      queryClient.invalidateQueries(REACT_QUERY_KEY.COMMENT_COUNT);
     }
   });
 

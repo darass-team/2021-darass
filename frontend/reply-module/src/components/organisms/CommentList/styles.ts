@@ -12,7 +12,7 @@ export const OrderButtonContainer = styled.div`
   display: flex;
   justify-content: flex-end;
   align-items: flex-start;
-  border-bottom: 2px solid ${PALETTE.GRAY_400};
+  border-bottom: 1px solid ${PALETTE.GRAY_400};
   padding-bottom: 1.6rem;
 `;
 
@@ -54,12 +54,15 @@ export const CommentContainer = styled.div`
 `;
 
 export const Notice = styled.span`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
   padding: 1.5rem 0;
   min-height: 7rem;
-  font-size: 1.6rem;
-  line-height: 2.4rem;
-  line-height: 2.4rem;
-  text-align: center;
+  font-size: 1.4rem;
+  line-height: 2.1rem;
+  color: ${PALETTE.GRAY_600};
   white-space: pre-wrap;
 `;
 

@@ -1,5 +1,6 @@
 import { useQuery } from "react-query";
 import { QUERY } from "../constants/api";
+import { INITIAL_PAGE_PARAM } from "../constants/comment";
 import { REACT_QUERY_KEY } from "../constants/reactQueryKey";
 import { Comment } from "../types";
 import { GetCommentsRequestParams } from "../types/comment";
@@ -20,7 +21,7 @@ export const useCommentsByPage = ({
   url,
   projectSecretKey,
   sortOption = "oldest",
-  pageParam = 1
+  pageParam = INITIAL_PAGE_PARAM
 }: GetCommentsRequestParams) => {
   const {
     data: comments,

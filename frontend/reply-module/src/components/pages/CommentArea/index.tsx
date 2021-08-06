@@ -56,7 +56,7 @@ const CommentArea = () => {
   }, [sortOption]);
 
   useEffect(() => {
-    if (pageParam === 1) return;
+    if (pageParam === INITIAL_PAGE_PARAM) return;
     showMoreComment({ url, projectSecretKey, sortOption, pageParam });
   }, [pageParam]);
 
@@ -67,28 +67,23 @@ const CommentArea = () => {
       return;
     }
 
+    setNotice("");
+  }, [projectLoading, commentsByPageLoading, totalCommentsCountLoading]);
+
+  useEffect(() => {
     if (projectError) setNotice(projectError.message);
     if (totalCommentsCountError) setNotice(totalCommentsCountError.message);
     if (commentsByPageError) setNotice(commentsByPageError.message);
-    if (
-      !(
-        projectError ||
-        totalCommentsCountError ||
-        commentsByPageError ||
-        projectLoading ||
-        totalCommentsCountLoading ||
-        commentsByPageLoading
-      )
-    )
+
+    if (!(projectError || totalCommentsCountError || commentsByPageError)) {
+      if (totalCommentsCount === 0) {
+        setNotice("작성된 댓글이 없습니다.");
+        return;
+      }
+
       setNotice("");
-  }, [
-    projectLoading,
-    commentsByPageLoading,
-    totalCommentsCountLoading,
-    projectError,
-    totalCommentsCountError,
-    commentsByPageError
-  ]);
+    }
+  }, [projectError, totalCommentsCountError, commentsByPageError, totalCommentsCount]);
 
   const onShowMoreComment = () => {
     setPageParam(currentPageParam => currentPageParam + 1);
@@ -133,6 +128,7 @@ const CommentArea = () => {
       <CommentInput url={url} projectSecretKey={projectSecretKey} user={user} />
       <CommentList
         user={user}
+        totalCommentsCount={totalCommentsCount || 0}
         comments={comments || []}
         project={project}
         sortOption={sortOption}

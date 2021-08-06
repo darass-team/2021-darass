@@ -21,7 +21,7 @@ export const useTotalCommentsCount = ({ url, projectSecretKey }: ScriptInfo) => 
     isLoading,
     error,
     refetch
-  } = useQuery<Comment[], Error>(REACT_QUERY_KEY.COMMENT_COUNT, () => getTotalCommentsCount({ url, projectSecretKey }));
+  } = useQuery<number, Error>(REACT_QUERY_KEY.COMMENT_COUNT, () => getTotalCommentsCount({ url, projectSecretKey }));
 
   return { totalCommentsCount, isLoading, error, refetch };
 };

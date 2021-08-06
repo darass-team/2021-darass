@@ -6,7 +6,7 @@ export const Container = styled.footer`
   align-items: center;
   margin-top: 2rem;
   padding: 1rem 0;
-  border-top: 2px solid ${PALETTE.GRAY_400};
+  border-top: 1px solid ${PALETTE.GRAY_400};
 `;
 
 export const CopyRight = styled.span`

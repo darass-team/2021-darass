@@ -28,6 +28,7 @@ export const useEditComment = () => {
   const editMutation = useMutation<void, Error, EditCommentParameter>(comment => _editComment(comment), {
     onSuccess: () => {
       queryClient.invalidateQueries(REACT_QUERY_KEY.COMMENT);
+      queryClient.invalidateQueries(REACT_QUERY_KEY.COMMENT_COUNT);
     }
   });
 
