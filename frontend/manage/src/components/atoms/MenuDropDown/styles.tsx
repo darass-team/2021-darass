@@ -7,7 +7,7 @@ export const Container = styled.div<{ isDropDown: boolean | null }>`
   display: flex;
   flex-direction: column;
 
-  @keyframes fadein {
+  @keyframes fadeIn {
     0% {
       transform: translateY(-100%);
       opacity: 0;
@@ -42,7 +42,7 @@ export const Container = styled.div<{ isDropDown: boolean | null }>`
   > *:not(:first-child) {
     overflow: hidden;
     max-height: 100vh;
-    animation: ${props => (props.isDropDown ? "fadein 0.5s linear forwards" : "fadeout 0.5s linear forwards")};
+    animation: ${props => (props.isDropDown ? "fadeIn 0.5s linear forwards" : "fadeout 0.5s linear forwards")};
   }
 `;
 
