@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useLocation, useRouteMatch } from "react-router-dom";
 import { PROJECT_MENU } from "../../../constants";
 import {
@@ -25,6 +26,7 @@ const Manage = () => {
 
   const { showCalendar, setShowCalendar, currentDate, setCurrentDate, startDate, setStartDate, endDate, setEndDate } =
     useCalendar();
+
   const { currentPageIndex, setCurrentPageIndex } = useCommentPageIndex({
     initialPageIndex: Number(pageIndex),
     projectId
@@ -33,14 +35,14 @@ const Manage = () => {
   const { project } = useGetProject(projectId);
   const projectSecretKey = project?.secretKey;
 
-  const { comments } = useGetAllCommentsOfProject({
+  const { comments, refetch: getAllCommentsOfProject } = useGetAllCommentsOfProject({
     projectId,
     sortOption: "latest",
     projectKey: projectSecretKey || "",
     startDate: startDate?.format("YYYY-MM-DD") || null,
     endDate: endDate?.format("YYYY-MM-DD") || null,
     page: currentPageIndex,
-    size: 2
+    size: 5
   });
 
   const {
@@ -49,6 +51,10 @@ const Manage = () => {
     updateCheckedCommentId,
     onToggleIsCheckingAllComments
   } = useCommentList(comments || []);
+
+  useEffect(() => {
+    getAllCommentsOfProject();
+  }, [projectSecretKey]);
 
   return (
     <ScreenContainer>
