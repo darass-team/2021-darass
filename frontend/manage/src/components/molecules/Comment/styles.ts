@@ -38,6 +38,6 @@ export const Content = styled.span`
   margin: 0.5rem 0;
 `;
 
-export const Url = styled.span`
+export const Url = styled.a`
   color: ${PALETTE.GRAY_500};
 `;

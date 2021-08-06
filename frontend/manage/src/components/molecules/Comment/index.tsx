@@ -10,6 +10,7 @@ export interface Props {
   authorNickName: User["nickName"];
   createdDate: CommentType["createdDate"];
   content: CommentType["content"];
+  url: CommentType["url"];
 }
 
 const Comment = ({
@@ -18,7 +19,8 @@ const Comment = ({
   authorProfileImageUrl,
   authorNickName,
   createdDate,
-  content
+  content,
+  url
 }: Props) => {
   return (
     <>
@@ -30,7 +32,9 @@ const Comment = ({
           <Date>{createdDate}</Date>
         </ContentMeta>
         <Content>{content}</Content>
-        <Url>www.naver.com</Url>
+        <Url href={`https://${url}`} target="_blank" rel="noopener noreferrer nofollow">
+          {url}
+        </Url>
       </ContentWrapper>
     </>
   );

@@ -52,7 +52,7 @@ export const useGetAllCommentsOfProject = ({
     isLoading,
     error
   } = useQuery<Comment[], Error>(
-    [REACT_QUERY_KEY.COMMENT_OF_PROJECT, projectId, page],
+    [REACT_QUERY_KEY.COMMENT_OF_PROJECT, page],
     () => _getAllCommentsOfProject({ sortOption, projectKey, startDate, endDate, page, size }),
     {
       retry: false

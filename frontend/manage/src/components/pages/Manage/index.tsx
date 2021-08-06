@@ -76,7 +76,7 @@ const Manage = () => {
               <DeleteButton>삭제</DeleteButton>
             </Header>
 
-            {comments?.map(({ id, content, user, createdDate }) => (
+            {comments?.map(({ id, content, user, createdDate, url }) => (
               <Row key={id}>
                 <Comment
                   isChecked={checkedCommentIds.some(_id => _id === id)}
@@ -85,6 +85,7 @@ const Manage = () => {
                   authorNickName={user.nickName}
                   createdDate={createdDate}
                   content={content}
+                  url={url}
                 />
               </Row>
             ))}
