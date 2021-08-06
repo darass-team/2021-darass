@@ -3,35 +3,35 @@ import { Comment } from "../types/comment";
 
 export const useCommentList = (comments: Comment[]) => {
   const [checkedCommentIds, setCheckedCommentIds] = useState<Comment["id"][]>([]);
-  const [checkingAllCommentInCurrentPage, setCheckingAllCommentInCurrentPage] = useState<boolean>(false);
+  const [isCheckingAllCommentsInCurrentPage, setIsCheckingAllCommentsInCurrentPage] = useState<boolean>(false);
 
   const updateCheckedCommentId = (commentId: Comment["id"]) => {
     const isAlreadyChecked = checkedCommentIds.find(id => id === commentId);
 
     if (isAlreadyChecked) {
       setCheckedCommentIds(ids => ids.filter(id => id !== commentId));
-      setCheckingAllCommentInCurrentPage(false);
+      setIsCheckingAllCommentsInCurrentPage(false);
     } else {
       setCheckedCommentIds(ids => ids.concat(commentId));
     }
   };
 
-  const onToggleCheckingAllComments = () => {
-    if (checkingAllCommentInCurrentPage) {
+  const onToggleIsCheckingAllComments = () => {
+    if (isCheckingAllCommentsInCurrentPage) {
       setCheckedCommentIds([]);
-      setCheckingAllCommentInCurrentPage(false);
+      setIsCheckingAllCommentsInCurrentPage(false);
     } else {
       setCheckedCommentIds(comments.map(({ id }) => id));
-      setCheckingAllCommentInCurrentPage(true);
+      setIsCheckingAllCommentsInCurrentPage(true);
     }
   };
 
   return {
     checkedCommentIds,
     setCheckedCommentIds,
-    checkingAllCommentInCurrentPage,
-    setCheckingAllCommentInCurrentPage,
+    isCheckingAllCommentsInCurrentPage,
+    setIsCheckingAllCommentsInCurrentPage,
     updateCheckedCommentId,
-    onToggleCheckingAllComments
+    onToggleIsCheckingAllComments
   };
 };

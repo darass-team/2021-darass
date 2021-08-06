@@ -1,19 +1,13 @@
 import styled from "styled-components";
-import { LINE_HEIGHT_SCALE, Z_INDEX } from "../../../styles/constants";
+import { LINE_HEIGHT_SCALE } from "../../../styles/constants";
 import { PALETTE } from "../../../styles/palette";
 
 export const Container = styled.div`
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-
   min-width: 20rem;
   min-height: 20rem;
   padding: 1rem;
   box-shadow: 1px 1px 20px 0 rgba(0, 0, 0, 0.4);
   border-radius: 10px;
-
   background-color: ${PALETTE.WHITE};
 `;
 

@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { PAGE_MAX_WIDTH } from "../../../styles/constants";
-import SideBarrComponent from "../SideBar";
+import SideBarComponent from "../SideBar";
 
 export const Container = styled.div`
   position: relative;
@@ -14,7 +14,7 @@ export const Container = styled.div`
   }
 `;
 
-export const SideBar = styled(SideBarrComponent)<{ offsetY: number }>`
+export const SideBar = styled(SideBarComponent)<{ offsetY: number }>`
   position: relative;
   height: max-content;
   top: ${props => props.offsetY}px;
