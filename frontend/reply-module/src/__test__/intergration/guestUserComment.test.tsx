@@ -74,6 +74,7 @@ describe("비로그인 유저 댓글 CRUD 테스트 코드를 작성한다.", ()
       const comments: Comment[] = JSON.parse(JSON.stringify(_comments));
       const commentList = render(
         <CommentList
+          totalCommentsCount={_comments.length}
           comments={comments}
           project={undefined}
           notice={""}
@@ -95,6 +96,7 @@ describe("비로그인 유저 댓글 CRUD 테스트 코드를 작성한다.", ()
       const comments: Comment[] = JSON.parse(JSON.stringify(_comments));
       const commentList = render(
         <CommentList
+          totalCommentsCount={_comments.length}
           comments={comments}
           project={undefined}
           notice={""}
@@ -155,6 +157,7 @@ describe("비로그인 유저 댓글 CRUD 테스트 코드를 작성한다.", ()
       const guestUserComments = comments.filter(comment => comment.user.type === "GuestUser");
       const commentList = render(
         <CommentList
+          totalCommentsCount={_comments.length}
           user={undefined}
           comments={guestUserComments}
           project={undefined}
@@ -187,6 +190,8 @@ describe("비로그인 유저 댓글 CRUD 테스트 코드를 작성한다.", ()
       const guestUserComments = comments.filter(comment => comment.user.type === "GuestUser");
       const commentList = render(
         <CommentList
+          totalCommentsCount={_comments.length}
+          user={undefined}
           comments={guestUserComments}
           project={undefined}
           notice={""}
@@ -226,6 +231,7 @@ describe("비로그인 유저 댓글 CRUD 테스트 코드를 작성한다.", ()
 
       const { rerender } = render(
         <CommentList
+          totalCommentsCount={_comments.length}
           user={undefined}
           project={undefined}
           comments={comments}
@@ -242,6 +248,7 @@ describe("비로그인 유저 댓글 CRUD 테스트 코드를 작성한다.", ()
 
       rerender(
         <CommentList
+          totalCommentsCount={_comments.length}
           user={undefined}
           project={undefined}
           comments={comments}

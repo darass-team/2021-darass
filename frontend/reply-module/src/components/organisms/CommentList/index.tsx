@@ -18,6 +18,7 @@ export interface Props {
   className?: string;
   user?: User;
   project?: Project;
+  totalCommentsCount: number;
   comments: CommentType[];
   sortOption: keyof typeof ORDER_BUTTON;
   notice: string;
@@ -29,12 +30,15 @@ const CommentList = ({
   className,
   user,
   project,
+  totalCommentsCount,
   comments,
   sortOption,
   notice,
   onSelectSortOption,
   onShowMoreComment
 }: Props) => {
+  const hasMoreComments = comments.length < totalCommentsCount;
+
   return (
     <Container className={className}>
       <OrderButtonContainer>
@@ -55,40 +59,38 @@ const CommentList = ({
       </OrderButtonContainer>
       <CommentContainer>
         {notice && <Notice>{notice}</Notice>}
-        {!notice && comments.length === 0 ? (
-          <Notice>아직 작성된 댓글이 없습니다.</Notice>
-        ) : (
-          comments.map(comment => {
-            const authorId = comment.user.id;
+        {comments.map(comment => {
+          const authorId = comment.user.id;
 
-            const iAmGuestUser = !user;
-            const iAmAdmin = user !== undefined && project?.userId === user.id;
+          const iAmGuestUser = !user;
+          const iAmAdmin = user !== undefined && project?.userId === user.id;
 
-            const thisCommentIsMine = authorId !== undefined && authorId === user?.id;
-            const thisCommentIsWrittenByAdmin = comment.user.id === project?.userId;
-            const thisCommentIsWrittenByGuest = comment.user.type === "GuestUser";
+          const thisCommentIsMine = authorId !== undefined && authorId === user?.id;
+          const thisCommentIsWrittenByAdmin = comment.user.id === project?.userId;
+          const thisCommentIsWrittenByGuest = comment.user.type === "GuestUser";
 
-            const align = thisCommentIsWrittenByAdmin ? "right" : "left";
-            const shouldShowOption = iAmAdmin || thisCommentIsMine || (iAmGuestUser && thisCommentIsWrittenByGuest);
+          const align = thisCommentIsWrittenByAdmin ? "right" : "left";
+          const shouldShowOption = iAmAdmin || thisCommentIsMine || (iAmGuestUser && thisCommentIsWrittenByGuest);
 
-            return (
-              <Comment
-                user={user}
-                comment={comment}
-                key={comment.id}
-                shouldShowOption={shouldShowOption}
-                iAmAdmin={iAmAdmin}
-                thisCommentIsMine={thisCommentIsMine}
-                align={align}
-              />
-            );
-          })
-        )}
+          return (
+            <Comment
+              user={user}
+              comment={comment}
+              key={comment.id}
+              shouldShowOption={shouldShowOption}
+              iAmAdmin={iAmAdmin}
+              thisCommentIsMine={thisCommentIsMine}
+              align={align}
+            />
+          );
+        })}
       </CommentContainer>
-      <ShowMoreButton onClick={onShowMoreComment}>
-        <span>더 보기</span>
-        <DownArrow />
-      </ShowMoreButton>
+      {hasMoreComments && (
+        <ShowMoreButton onClick={onShowMoreComment}>
+          <span>더 보기</span>
+          <DownArrow />
+        </ShowMoreButton>
+      )}
     </Container>
   );
 };

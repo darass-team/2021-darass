@@ -1,3 +1,4 @@
+import { ScriptInfo } from "./../types/comment";
 import { GetCommentsRequestParams, GuestUserConfirmInfo } from "../types/comment";
 import { NUM_OF_COMMENTS_PER_PAGE } from "./comment";
 
@@ -10,8 +11,10 @@ export const BASE_URL = process.env.BUILD_MODE === "development" ? DEVELOPMENT_B
 export const QUERY = Object.freeze({
   LOGIN: "/api/v1/login/oauth?oauthProviderName=kakao&oauthAccessToken=",
   COMMENT: "/api/v1/comments",
-  GET_ALL_COMMENTS: ({ url, projectSecretKey, sortOption, pageParam }: GetCommentsRequestParams) =>
+  GET_COMMENTS_BY_PAGE: ({ url, projectSecretKey, sortOption, pageParam }: GetCommentsRequestParams) =>
     `/api/v1/comments/paging?url=${url}&projectKey=${projectSecretKey}&sortOption=${sortOption}&page=${pageParam}&size=${NUM_OF_COMMENTS_PER_PAGE}`,
+  GET_TOTAL_COMMENTS_COUNT: ({ url, projectSecretKey }: ScriptInfo) =>
+    `/api/v1/comments/count?url=${url}&projectKey=${projectSecretKey}`,
   GET_PROJECT: (projectKey: string) => `/api/v1/projects/user-id?secretKey=${projectKey}`,
   CHECK_GUEST_PASSWORD: ({ guestUserId, guestUserPassword }: GuestUserConfirmInfo) =>
     `/api/v1/users/check-password?guestUserId=${guestUserId}&guestUserPassword=${guestUserPassword}`,

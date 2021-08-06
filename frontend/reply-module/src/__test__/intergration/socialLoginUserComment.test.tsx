@@ -74,6 +74,7 @@ describe("로그인 유저의 댓글 CRUD 테스트 코드를 작성한다.", ()
       const comments = JSON.parse(JSON.stringify(_comments));
       const commentList = render(
         <CommentList
+          totalCommentsCount={_comments.length}
           user={user}
           comments={comments}
           project={undefined}
@@ -115,6 +116,7 @@ describe("로그인 유저의 댓글 CRUD 테스트 코드를 작성한다.", ()
       const myComments = JSON.parse(JSON.stringify(_comments.filter(comment => comment.user.id === user.id)));
       const commentList = render(
         <CommentList
+          totalCommentsCount={_comments.length}
           user={user}
           project={undefined}
           notice={""}
@@ -152,6 +154,7 @@ describe("로그인 유저의 댓글 CRUD 테스트 코드를 작성한다.", ()
       );
       const commentList = render(
         <CommentList
+          totalCommentsCount={_comments.length}
           user={user}
           project={undefined}
           notice={""}
@@ -173,6 +176,7 @@ describe("로그인 유저의 댓글 CRUD 테스트 코드를 작성한다.", ()
       );
       const commentList = render(
         <CommentList
+          totalCommentsCount={_comments.length}
           user={user}
           project={undefined}
           notice={""}
@@ -202,6 +206,7 @@ describe("로그인 유저의 댓글 CRUD 테스트 코드를 작성한다.", ()
 
       const commentList = render(
         <CommentList
+          totalCommentsCount={_comments.length}
           user={user}
           project={undefined}
           notice={""}
@@ -232,6 +237,7 @@ describe("로그인 유저의 댓글 CRUD 테스트 코드를 작성한다.", ()
 
       const { rerender } = render(
         <CommentList
+          totalCommentsCount={_comments.length}
           user={user}
           project={undefined}
           comments={comments}
@@ -248,6 +254,7 @@ describe("로그인 유저의 댓글 CRUD 테스트 코드를 작성한다.", ()
 
       rerender(
         <CommentList
+          totalCommentsCount={_comments.length}
           user={user}
           project={undefined}
           comments={comments}
@@ -282,6 +289,7 @@ describe("로그인 유저의 댓글 CRUD 테스트 코드를 작성한다.", ()
 
     const { rerender } = render(
       <CommentList
+        totalCommentsCount={_comments.length}
         user={user}
         project={undefined}
         comments={comments}
@@ -298,6 +306,7 @@ describe("로그인 유저의 댓글 CRUD 테스트 코드를 작성한다.", ()
 
     rerender(
       <CommentList
+        totalCommentsCount={_comments.length}
         user={user}
         project={undefined}
         comments={comments}
