@@ -197,7 +197,7 @@ class CommentServiceTest extends SpringContainerTest {
         CommentReadRequestInProject request =
             new CommentReadRequestInProject("LATEST", project.getSecretKey(), LocalDate.EPOCH, LocalDate.now(), 1, 1);
         List<CommentReadResponseInProject> responses = commentService
-            .findAllCommentsByProjectKeyUsingPaginationAndDateBetween(request);
+            .findAllCommentsInProject(request);
         assertThat(responses).extracting("content")
             .isEqualTo(Collections.singletonList("hello"));
     }
@@ -208,7 +208,7 @@ class CommentServiceTest extends SpringContainerTest {
         CommentReadRequestInProject request =
             new CommentReadRequestInProject("LIKE", project.getSecretKey(), LocalDate.EPOCH, LocalDate.now(), 1, 1);
         List<CommentReadResponseInProject> responses = commentService
-            .findAllCommentsByProjectKeyUsingPaginationAndDateBetween(request);
+            .findAllCommentsInProject(request);
         assertThat(responses).extracting("content")
             .isEqualTo(Collections.singletonList("content2"));
     }
@@ -219,7 +219,7 @@ class CommentServiceTest extends SpringContainerTest {
         CommentReadRequestInProject request =
             new CommentReadRequestInProject("OLDEST", project.getSecretKey(), LocalDate.EPOCH, LocalDate.now(), 1, 1);
         List<CommentReadResponseInProject> responses = commentService
-            .findAllCommentsByProjectKeyUsingPaginationAndDateBetween(request);
+            .findAllCommentsInProject(request);
         assertThat(responses).extracting("content")
             .isEqualTo(Collections.singletonList("content1"));
     }
@@ -230,7 +230,7 @@ class CommentServiceTest extends SpringContainerTest {
         CommentReadRequestBySearch request =
             new CommentReadRequestBySearch("LATEST", project.getSecretKey(), "content", 1, 5);
         List<CommentReadResponseInProject> responses
-            = commentService.findAllCommentsByProjectKeyUsingPaginationAndDateBetweenAndLike(request);
+            = commentService.findAllCommentsInProjectUsingSearch(request);
 
         assertThat(responses).extracting("content")
             .isEqualTo(Arrays.asList("content3", "content2", "content1"));
@@ -242,7 +242,7 @@ class CommentServiceTest extends SpringContainerTest {
         CommentReadRequestBySearch request =
             new CommentReadRequestBySearch("LIKE", project.getSecretKey(), "content", 1, 5);
         List<CommentReadResponseInProject> responses
-            = commentService.findAllCommentsByProjectKeyUsingPaginationAndDateBetweenAndLike(request);
+            = commentService.findAllCommentsInProjectUsingSearch(request);
 
         assertThat(responses).extracting("content")
             .isEqualTo(Arrays.asList("content2", "content1", "content3"));
@@ -254,7 +254,7 @@ class CommentServiceTest extends SpringContainerTest {
         CommentReadRequestBySearch request =
             new CommentReadRequestBySearch("OLDEST", project.getSecretKey(), "content", 1, 5);
         List<CommentReadResponseInProject> responses
-            = commentService.findAllCommentsByProjectKeyUsingPaginationAndDateBetweenAndLike(request);
+            = commentService.findAllCommentsInProjectUsingSearch(request);
 
         assertThat(responses).extracting("content")
             .isEqualTo(Arrays.asList("content1", "content2", "content3"));
@@ -265,7 +265,7 @@ class CommentServiceTest extends SpringContainerTest {
     void pagination_exception() {
         CommentReadRequestInProject request =
             new CommentReadRequestInProject("LATEST", project.getSecretKey(), LocalDate.EPOCH, LocalDate.now(), 0, 1);
-        assertThatThrownBy(() -> commentService.findAllCommentsByProjectKeyUsingPaginationAndDateBetween(request))
+        assertThatThrownBy(() -> commentService.findAllCommentsInProject(request))
             .isInstanceOf(BadRequestException.class)
             .hasMessage("페이지의 값은 1 이상이어야 합니다.");
     }

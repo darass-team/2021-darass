@@ -87,7 +87,7 @@ public class CommentService {
         }
     }
 
-    public List<CommentReadResponseInProject> findAllCommentsByProjectKeyUsingPaginationAndDateBetween(
+    public List<CommentReadResponseInProject> findAllCommentsInProject(
         CommentReadRequestInProject request) {
         int pageBasedIndex = request.getPage() - 1;
         try {
@@ -107,7 +107,7 @@ public class CommentService {
         }
     }
 
-    public List<CommentReadResponseInProject> findAllCommentsByProjectKeyUsingPaginationAndDateBetweenAndLike(
+    public List<CommentReadResponseInProject> findAllCommentsInProjectUsingSearch(
         CommentReadRequestBySearch request) {
         int pageBasedIndex = request.getPage() - 1;
         try {

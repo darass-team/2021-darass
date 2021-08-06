@@ -53,7 +53,7 @@ public class CommentController {
     public ResponseEntity<List<CommentReadResponseInProject>> readByPageRequestUsingSearch(
         @ModelAttribute CommentReadRequestBySearch CommentReadRequestBySearch) {
         List<CommentReadResponseInProject> commentResponses = commentService
-            .findAllCommentsByProjectKeyUsingPaginationAndDateBetweenAndLike(CommentReadRequestBySearch);
+            .findAllCommentsInProjectUsingSearch(CommentReadRequestBySearch);
         return ResponseEntity.status(HttpStatus.OK).body(commentResponses);
     }
 
@@ -61,7 +61,7 @@ public class CommentController {
     public ResponseEntity<List<CommentReadResponseInProject>> readByPageRequest(
         @ModelAttribute CommentReadRequestInProject commentReadRequestInProject) {
         List<CommentReadResponseInProject> commentResponses = commentService
-            .findAllCommentsByProjectKeyUsingPaginationAndDateBetween(commentReadRequestInProject);
+            .findAllCommentsInProject(commentReadRequestInProject);
         return ResponseEntity.status(HttpStatus.OK).body(commentResponses);
     }
 
