@@ -1,5 +1,6 @@
 import { PALETTE } from "./../../../../styles/palette";
 import styled from "styled-components";
+import { LINE_HEIGHT_SCALE } from "../../../../styles/constants";
 
 export const Button = styled.button`
   display: flex;
@@ -19,10 +20,12 @@ export const Button = styled.button`
 
 export const Title = styled.span`
   font-size: 1.6rem;
+  line-height: ${1.6 * LINE_HEIGHT_SCALE}rem;
   font-weight: 800;
   margin-bottom: 8px;
 `;
 
 export const Description = styled.span`
   font-size: 1.2rem;
+  line-height: ${1.2 * LINE_HEIGHT_SCALE}rem;
 `;

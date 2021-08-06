@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { LINE_HEIGHT_SCALE } from "../../../styles/constants";
 import { speechBubbleCSS } from "../../../styles/css";
 import { PALETTE } from "../../../styles/palette";
 
@@ -15,6 +16,7 @@ export const Container = styled.div`
 export const Label = styled.span`
   align-self: flex-start;
   font-size: 0.8rem;
+  line-height: ${0.8 * LINE_HEIGHT_SCALE}rem;
   margin-bottom: 0.5rem;
 `;
 
@@ -29,6 +31,7 @@ export const OptionContainer = styled.div`
     text-align: center;
     width: 100%;
     font-size: 1.2rem;
+    line-height: ${1.2 * LINE_HEIGHT_SCALE}rem;
     font-weight: bold;
     border-radius: 10px;
     padding: 0.3rem 0;

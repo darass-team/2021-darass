@@ -1,4 +1,4 @@
-import { Redirect, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { ROUTE } from "../../../constants";
 import { useGetAllProjects, useUser } from "../../../hooks";
 import ScreenContainer from "../../../styles/ScreenContainer";
@@ -8,7 +8,7 @@ import { AddProjectButton, ButtonWrapper, Container, Message } from "./styles";
 const MyProject = () => {
   const history = useHistory();
   const { logout } = useUser();
-  const { projects, error } = useGetAllProjects();
+  const { projects, error, isLoading } = useGetAllProjects();
 
   const moveProjectDetailPage = (id: number) => {
     history.push(ROUTE.GET_SCRIPT_PUBLISHING(id));
@@ -18,7 +18,7 @@ const MyProject = () => {
     history.push(ROUTE.NEW_PROJECT);
   };
 
-  if (error) {
+  if (error && !isLoading) {
     logout();
   }
 

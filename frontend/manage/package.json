@@ -1,6 +1,6 @@
 {
   "name": "manage",
-  "version": "^0.5.0",
+  "version": "^0.5.1",
   "description": "관리자 페이지",
   "main": "index.js",
   "author": "도비, 곤이",
@@ -50,6 +50,7 @@
   },
   "dependencies": {
     "axios": "^0.21.1",
+    "moment": "^2.29.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-query": "^3.18.1",
