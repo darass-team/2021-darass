@@ -6,6 +6,8 @@ plugins {
     id 'org.asciidoctor.jvm.convert' version '3.1.0'
     // jacoco
     id 'jacoco'
+    // flyway
+    id "org.flywaydb.flyway" version "7.9.1"
 }
 
 group = 'com.darass'
@@ -183,6 +185,12 @@ task testCoverage(type: Test) {
 
     tasks['jacocoTestReport'].mustRunAfter(tasks['test'])
     tasks['jacocoTestCoverageVerification'].mustRunAfter(tasks['jacocoTestReport'])
+}
+
+flyway {
+    url = 'jdbc:mariadb://localhost:3306/darass-local'
+    user = 'darass'
+    password = 'local'
 }
 
 // 빌드 시 jar 파일이 2개 생성되는 것을 방지
