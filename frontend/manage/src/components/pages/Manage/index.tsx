@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { FormEvent, useEffect } from "react";
 import { useLocation, useRouteMatch } from "react-router-dom";
 import { PROJECT_MENU } from "../../../constants";
 import {
@@ -52,6 +52,12 @@ const Manage = () => {
     onToggleIsCheckingAllComments
   } = useCommentList(comments || []);
 
+  const onSubmit = (event: FormEvent) => {
+    event.preventDefault();
+
+    getAllCommentsOfProject();
+  };
+
   useEffect(() => {
     getAllCommentsOfProject();
   }, [projectSecretKey]);
@@ -62,6 +68,7 @@ const Manage = () => {
         <Container>
           <Title>댓글 관리</Title>
           <CommentSearchConditionForm
+            onSubmit={onSubmit}
             showCalendar={showCalendar}
             setShowCalendar={setShowCalendar}
             currentDate={currentDate}

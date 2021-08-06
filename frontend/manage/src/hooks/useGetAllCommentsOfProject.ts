@@ -37,22 +37,14 @@ interface Props extends GetAllCommentOfProjectRequest {
   projectId: number;
 }
 
-export const useGetAllCommentsOfProject = ({
-  projectId,
-  sortOption,
-  projectKey,
-  startDate,
-  endDate,
-  page,
-  size
-}: Props) => {
+export const useGetAllCommentsOfProject = ({ sortOption, projectKey, startDate, endDate, page, size }: Props) => {
   const {
     data: comments,
     refetch,
     isLoading,
     error
   } = useQuery<Comment[], Error>(
-    [REACT_QUERY_KEY.COMMENT_OF_PROJECT, page],
+    [REACT_QUERY_KEY.COMMENT_OF_PROJECT, projectKey, page],
     () => _getAllCommentsOfProject({ sortOption, projectKey, startDate, endDate, page, size }),
     {
       retry: false
