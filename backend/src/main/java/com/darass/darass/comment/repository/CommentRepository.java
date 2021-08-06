@@ -16,4 +16,6 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
     Page<Comment> findByProjectSecretKeyAndContentContaining(String projectSecretKey, String keyword, Pageable pageable);
 
     Long countCommentByUrlAndProjectSecretKey(String url, String projectSecretKey);
+
+    Long countCommentByProjectSecretKey(String projectSecretKey);
 }

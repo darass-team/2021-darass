@@ -4,6 +4,7 @@ import com.darass.darass.comment.domain.Comment;
 import com.darass.darass.comment.domain.CommentLike;
 import com.darass.darass.comment.domain.SortOption;
 import com.darass.darass.comment.dto.CommentCountRequest;
+import com.darass.darass.comment.dto.CommentCountRequestInProject;
 import com.darass.darass.comment.dto.CommentCountResponse;
 import com.darass.darass.comment.dto.CommentCreateRequest;
 import com.darass.darass.comment.dto.CommentDeleteRequest;
@@ -124,6 +125,11 @@ public class CommentService {
         } catch (IllegalArgumentException e) {
             throw ExceptionWithMessageAndCode.PAGE_NOT_POSITIVE_EXCEPTION.getException();
         }
+    }
+
+    public CommentCountResponse getCommentCountInProject(CommentCountRequestInProject request) {
+        Long count = commentRepository.countCommentByProjectSecretKey(request.getProjectKey());
+        return new CommentCountResponse(count);
     }
 
     public CommentCountResponse getCommentCount(CommentCountRequest request) {
