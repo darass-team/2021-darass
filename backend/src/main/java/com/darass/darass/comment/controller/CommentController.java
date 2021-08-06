@@ -58,7 +58,7 @@ public class CommentController {
     }
 
     @GetMapping("/projects/comments/paging")
-    public ResponseEntity<List<CommentReadResponseInProject>> readByPageRequest(
+    public ResponseEntity<List<CommentReadResponseInProject>> readByPageRequestInProject(
         @ModelAttribute CommentReadRequestInProject commentReadRequestInProject) {
         List<CommentReadResponseInProject> commentResponses = commentService
             .findAllCommentsInProject(commentReadRequestInProject);
