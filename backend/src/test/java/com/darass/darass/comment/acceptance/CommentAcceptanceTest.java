@@ -355,6 +355,28 @@ public class CommentAcceptanceTest extends AcceptanceTest {
             ));
     }
 
+    @DisplayName("특정 프로젝트에 해당하는 전체 댓글의 개수를 조회한다.")
+    @Test
+    void findCommentCountInProject() throws Exception {
+        소셜_로그인_댓글_등록됨("content1", "url");
+        소셜_로그인_댓글_등록됨("content2", "url");
+        소셜_로그인_댓글_등록됨("content3", "url");
+        소셜_로그인_댓글_등록됨("content4", "url");
+        소셜_로그인_댓글_등록됨("content5", "url2");
+
+        mockMvc.perform(get("/api/v1/projects/comments/count")
+            .contentType(MediaType.APPLICATION_JSON)
+            .param("projectKey", secretKey))
+            .andDo(document("api/v1/projects/comments/count/get/success",
+                requestParameters(
+                    parameterWithName("projectKey").description("프로젝트 시크릿 키")
+                ),
+                responseFields(
+                    fieldWithPath("count").type(JsonFieldType.NUMBER).description("댓글의 개수")
+                )
+            ));
+    }
+
     @DisplayName("특정 프로젝트에 해당하고, 시작 날짜와 종료 날짜 사이에 있는 임의의 페이지의 댓글을 최신순으로 조회한다.")
     @Test
     void findAllCommentsByProjectKeyUsingPaginationAndDateBetween_latest() throws Exception {
