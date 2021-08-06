@@ -91,6 +91,13 @@ include::{snippets}/api/v1/comments/paging/get/sub-comments/success/request-para
 include::{snippets}/api/v1/comments/paging/get/sub-comments/success/http-response.adoc[]
 include::{snippets}/api/v1/comments/paging/get/sub-comments/success/response-fields.adoc[]
 
+==== (실패) 부모 대댓글이 유효하지 않은 경우 대댓글 조회
+
+==== Response
+include::{snippets}/api/v1/comments/paging/get/sub-comments/fail/http-response.adoc[]
+include::{snippets}/api/v1/comments/paging/get/sub-comments/fail/response-fields.adoc[]
+
+
 === 댓글 수정 (PATCH /api/v1/comments)
 
 ==== (성공) 소셜 로그인 유저 댓글 수정

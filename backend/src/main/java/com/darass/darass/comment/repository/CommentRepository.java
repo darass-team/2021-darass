@@ -13,4 +13,7 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
     Page<Comment> findByParentId(Long parentId, Pageable pageable);
 
     Long countCommentByUrlAndProjectSecretKey(String url, String projectSecretKey);
+
+    boolean existsByIdAndUrlAndProjectSecretKey(Long parentId, String url, String projectKey);
+
 }

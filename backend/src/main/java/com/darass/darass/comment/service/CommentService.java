@@ -54,6 +54,7 @@ public class CommentService {
         Project project = getBySecretKey(commentRequest);
         Comment parentComment = commentRepository.findById(parentId)
             .orElseThrow(ExceptionWithMessageAndCode.NOT_FOUND_COMMENT::getException);
+
         if (parentComment.hasParent()) {
             throw ExceptionWithMessageAndCode.INVALID_SUB_COMMENT_INDEX.getException();
         }
@@ -112,7 +113,9 @@ public class CommentService {
         SubCommentReadRequestByPagination request) {
         int pageBasedIndex = request.getPage() - 1;
 
-        //TODO: 프로젝트 키 & URL에 해당하는 부모 id 유효하지 않는 경우 예외 처리
+        if (!commentRepository.existsByIdAndUrlAndProjectSecretKey(parentId, request.getUrl(), request.getProjectKey())) {
+            throw ExceptionWithMessageAndCode.NOT_FOUND_COMMENT.getException();
+        }
 
         Page<Comment> comments = commentRepository
             .findByParentId(parentId, PageRequest.of(pageBasedIndex, request.getSize(), SortOption.OTHER.getSort()));

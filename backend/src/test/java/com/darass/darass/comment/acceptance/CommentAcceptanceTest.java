@@ -139,7 +139,7 @@ public class CommentAcceptanceTest extends AcceptanceTest {
 
     @DisplayName("대댓글을 조회한다.")
     @Test
-    void read_sub_comment() throws Exception {
+    void readSubComment() throws Exception {
         CommentResponse commentResponse = 소셜_로그인_댓글_등록됨_Response_반환("parentComment", "url");
         Long parentId = commentResponse.getId();
 
@@ -155,6 +155,28 @@ public class CommentAcceptanceTest extends AcceptanceTest {
             .param("size", "3"))
             .andExpect(status().isOk());
         특정_페이지_댓글_조회_Rest_doc_작성(resultActions, "api/v1/comments/paging/get/sub-comments/success");
+    }
+
+    @DisplayName("대댓글 조회 요청시 부모 id, url, project key에 일치하는 댓글이 존재하지 않으면 예외를 반환한다.")
+    @Test
+    void subCommentReadFail() throws Exception {
+        CommentResponse commentResponse = 소셜_로그인_댓글_등록됨_Response_반환("parentComment", "url");
+        Long parentId = commentResponse.getId();
+        CommentResponse commentResponse2 = 소셜_로그인_댓글_등록됨_Response_반환("parentComment", "url2");
+        Long invalidParentId = commentResponse2.getId();
+
+        소셜_로그인_대댓글_등록됨("subComment1", "url", parentId);
+        소셜_로그인_대댓글_등록됨("subComment2", "url", parentId);
+        소셜_로그인_대댓글_등록됨("subComment3", "url", parentId);
+
+        ResultActions resultActions = mockMvc.perform(get("/api/v1/comments/{id}/sub-comments/paging", invalidParentId)
+            .contentType(MediaType.APPLICATION_JSON)
+            .param("url", "url")
+            .param("projectKey", secretKey)
+            .param("page", "1")
+            .param("size", "3"))
+            .andExpect(status().isNotFound());
+        예외_발생_Rest_doc_작성(resultActions, "api/v1/comments/paging/get/sub-comments/fail");
     }
 
     @DisplayName("특정 URL에 해당하는 전체 댓글의 개수를 조회한다.")
