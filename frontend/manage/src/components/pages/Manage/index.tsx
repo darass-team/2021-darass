@@ -1,11 +1,13 @@
-import { FormEvent, useEffect } from "react";
+import { FormEvent, Suspense, useEffect } from "react";
 import { useLocation, useRouteMatch } from "react-router-dom";
 import { PROJECT_MENU } from "../../../constants";
+import { COMMENT_COUNT_PER_PAGE } from "../../../constants/pagenation";
 import {
   useCalendar,
   useCommentList,
   useCommentPageIndex,
   useDeleteComment,
+  useGetCommentCountOfProject,
   useGetCommentsOfProjectPerPage,
   useGetProject
 } from "../../../hooks";
@@ -39,14 +41,18 @@ const Manage = () => {
 
   const { deleteComment } = useDeleteComment({ projectKey: projectSecretKey, page: Number(pageIndex) });
 
-  const { comments, refetch: getAllCommentsOfProject } = useGetCommentsOfProjectPerPage({
+  const { commentsCount, refetch: getTotalCommentCount } = useGetCommentCountOfProject({
+    projectKey: projectSecretKey
+  });
+
+  const { comments, refetch: getCommentsOfProjectPerPage } = useGetCommentsOfProjectPerPage({
     projectId,
     sortOption: "latest",
-    projectKey: projectSecretKey || "",
+    projectKey: projectSecretKey,
     startDate: startDate?.format("YYYY-MM-DD") || null,
     endDate: endDate?.format("YYYY-MM-DD") || null,
     page: currentPageIndex,
-    size: 5
+    size: COMMENT_COUNT_PER_PAGE
   });
 
   const {
@@ -61,7 +67,9 @@ const Manage = () => {
   const onSubmit = (event: FormEvent) => {
     event.preventDefault();
 
-    getAllCommentsOfProject();
+    getCommentsOfProjectPerPage();
+    getTotalCommentCount();
+    setCurrentPageIndex(1);
   };
 
   const onClickDeleteButton = async () => {
@@ -87,8 +95,15 @@ const Manage = () => {
   };
 
   useEffect(() => {
-    getAllCommentsOfProject();
+    if (projectSecretKey) {
+      getTotalCommentCount();
+      getCommentsOfProjectPerPage();
+    }
   }, [projectSecretKey]);
+
+  useEffect(() => {
+    getCommentsOfProjectPerPage();
+  }, [currentPageIndex]);
 
   return (
     <ScreenContainer>
@@ -116,7 +131,6 @@ const Manage = () => {
 
               <DeleteButton onClick={onClickDeleteButton}>삭제</DeleteButton>
             </Header>
-
             {comments?.length === 0 ? (
               <Row>
                 <ErrorNotice>{"해당하는 댓글을 찾을 수 없습니다"}</ErrorNotice>
@@ -141,7 +155,7 @@ const Manage = () => {
               <PageNationBar
                 currentPageIndex={currentPageIndex}
                 setCurrentPageIndex={setCurrentPageIndex}
-                totalDataLength={comments?.length || 0}
+                totalDataLength={commentsCount || 0}
               />
             </Row>
           </CommentList>

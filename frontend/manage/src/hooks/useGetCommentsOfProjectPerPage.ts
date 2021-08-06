@@ -1,7 +1,7 @@
 import moment from "moment";
 import { useQuery } from "react-query";
 import { QUERY, REACT_QUERY_KEY } from "../constants";
-import { Comment, GetAllCommentOfProjectRequest } from "../types/comment";
+import { Comment, GetCommentsOfProjectPerPageRequest } from "../types/comment";
 import { request } from "../utils/request";
 import { comments as _comments } from "../__test__/fixture/comments";
 
@@ -12,13 +12,13 @@ const _getAllCommentsOfProject = async ({
   endDate,
   page,
   size
-}: GetAllCommentOfProjectRequest) => {
+}: GetCommentsOfProjectPerPageRequest) => {
   try {
     const today = moment().format("YYYY-MM-DD");
 
-    const urlSearchParam = new URLSearchParams(QUERY.COMMENTS_OF_PROJECT + "?");
+    const urlSearchParam = new URLSearchParams(QUERY.COMMENTS_OF_PROJECT_PER_PAGE + "?");
     urlSearchParam.set("sortOption", sortOption);
-    urlSearchParam.set("projectKey", projectKey);
+    projectKey && urlSearchParam.set("projectKey", projectKey);
     urlSearchParam.set("startDate", startDate || today);
     urlSearchParam.set("endDate", endDate || today);
     urlSearchParam.set("page", `${page}`);
@@ -33,7 +33,7 @@ const _getAllCommentsOfProject = async ({
   }
 };
 
-interface Props extends GetAllCommentOfProjectRequest {
+interface Props extends GetCommentsOfProjectPerPageRequest {
   projectId: number;
 }
 
@@ -44,10 +44,11 @@ export const useGetCommentsOfProjectPerPage = ({ sortOption, projectKey, startDa
     isLoading,
     error
   } = useQuery<Comment[], Error>(
-    [REACT_QUERY_KEY.COMMENT_OF_PROJECT, projectKey, page],
+    [REACT_QUERY_KEY.COMMENT_OF_PROJECT_PER_PAGE, projectKey, page],
     () => _getAllCommentsOfProject({ sortOption, projectKey, startDate, endDate, page, size }),
     {
-      retry: false
+      retry: false,
+      enabled: false
     }
   );
 

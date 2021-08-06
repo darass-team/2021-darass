@@ -26,7 +26,7 @@ export const useDeleteComment = ({ projectKey, page }: Props) => {
 
   const deleteMutation = useMutation<void, Error, DeleteCommentRequestParameter>(({ id }) => _deleteComment({ id }), {
     onSuccess: () => {
-      queryClient.invalidateQueries([REACT_QUERY_KEY.COMMENT_OF_PROJECT, projectKey, page]);
+      queryClient.invalidateQueries([REACT_QUERY_KEY.COMMENT_OF_PROJECT_PER_PAGE, projectKey, page]);
     }
   });
 

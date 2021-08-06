@@ -1,3 +1,4 @@
+import { COMMENT_COUNT_PER_PAGE } from "../../../constants/pagenation";
 import { Container, PageIndex } from "./styles";
 
 export interface Props {
@@ -7,7 +8,12 @@ export interface Props {
   numOfContentPerPage?: number;
 }
 
-const PageNationBar = ({ setCurrentPageIndex, totalDataLength, numOfContentPerPage = 10, currentPageIndex }: Props) => {
+const PageNationBar = ({
+  setCurrentPageIndex,
+  totalDataLength,
+  numOfContentPerPage = COMMENT_COUNT_PER_PAGE,
+  currentPageIndex
+}: Props) => {
   const totalPageLength = Math.floor(totalDataLength / numOfContentPerPage) + 1;
 
   return (

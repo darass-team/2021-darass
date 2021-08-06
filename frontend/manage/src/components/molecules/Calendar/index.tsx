@@ -14,6 +14,8 @@ export interface Props {
 const Calendar = ({ date, startDate, endDate, setDate, setStartDate, setEndDate }: Props) => {
   const resetDate = () => {
     setDate(moment());
+    setStartDate(moment());
+    setEndDate(moment());
   };
 
   const setPrevMonth = () => {

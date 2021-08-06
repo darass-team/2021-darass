@@ -13,9 +13,9 @@ export interface Comment {
 
 export type SortOption = "latest" | "oldest" | "like";
 
-export interface GetAllCommentOfProjectRequest {
+export interface GetCommentsOfProjectPerPageRequest {
   sortOption: SortOption;
-  projectKey: Project["secretKey"];
+  projectKey?: Project["secretKey"];
   startDate: string | null;
   endDate: string | null;
   page: number;
@@ -24,4 +24,8 @@ export interface GetAllCommentOfProjectRequest {
 
 export interface DeleteCommentRequestParameter {
   id: Comment["id"];
+}
+
+export interface GetCommentCountOfProject {
+  projectKey?: Project["secretKey"];
 }
