@@ -30,6 +30,8 @@ import {
 import { POST_MESSAGE_TYPE } from "../../../constants/postMessageType";
 import { getPasswordConfirmResult } from "../../../api/getPasswordConfirmResult";
 import { AlertError } from "../../../utils/Error";
+import { MAX_COMMENT_INPUT_LENGTH } from "../../../constants/comment";
+import { getErrorMessage } from "../../../utils/errorMessage";
 
 export interface Props {
   user: User | undefined;
@@ -145,8 +147,10 @@ const Comment = ({ user, comment, align = "left", shouldShowOption, iAmAdmin, th
 
   const onSubmitEditedComment = async (content: CommentType["content"]) => {
     try {
-      if (isEmptyString(content)) {
-        postAlertMessage("최소 한 글자 이상 입력해주세요.");
+      const isValidContent = !isEmptyString(content) && content.length <= MAX_COMMENT_INPUT_LENGTH;
+
+      if (!isValidContent) {
+        postAlertMessage(getErrorMessage.commentInput(content));
 
         return;
       }

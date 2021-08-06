@@ -8,7 +8,7 @@ const DEVELOPMENT_BASE_URL = "https://darass.o-r.kr";
 const PRODUCTION_BASE_URL = "https://darass.o-r.kr";
 export const BASE_URL = process.env.BUILD_MODE === "development" ? DEVELOPMENT_BASE_URL : PRODUCTION_BASE_URL;
 
-export const QUERY = Object.freeze({
+export const QUERY = {
   LOGIN: "/api/v1/login/oauth?oauthProviderName=kakao&oauthAccessToken=",
   COMMENT: "/api/v1/comments",
   GET_COMMENTS_BY_PAGE: ({ url, projectSecretKey, sortOption, pageParam }: GetCommentsRequestParams) =>
@@ -20,4 +20,4 @@ export const QUERY = Object.freeze({
     `/api/v1/users/check-password?guestUserId=${guestUserId}&guestUserPassword=${guestUserPassword}`,
   LIKE_COMMENT: (commentId: number) => `/api/v1/comments/${commentId}/like`,
   USER: "/api/v1/users"
-});
+} as const;

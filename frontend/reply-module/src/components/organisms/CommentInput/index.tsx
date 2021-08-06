@@ -1,4 +1,12 @@
 import { FormEvent, useState } from "react";
+import {
+  GUEST_NICKNAME_MAX_LENGTH,
+  GUEST_NICKNAME_MIN_LENGTH,
+  GUEST_PASSWORD_MAX_LENGTH,
+  GUEST_PASSWORD_MIN_LENGTH,
+  MAX_COMMENT_INPUT_LENGTH
+} from "../../../constants/comment";
+import { getErrorMessage } from "../../../utils/errorMessage";
 import { useContentEditable, useCreateComment, useInput } from "../../../hooks";
 import { User } from "../../../types/user";
 import { AlertError } from "../../../utils/Error";
@@ -17,19 +25,32 @@ const CommentInput = ({ user, url, projectSecretKey }: Props) => {
   const { content, setContent, onInput, $contentEditable } = useContentEditable("");
   const { value: guestNickName, onChange: onChangeGuestNickName, setValue: setGuestNickName } = useInput("");
   const { value: guestPassword, onChange: onChangeGuestPassword, setValue: setGuestPassword } = useInput("");
-  const { createComment, error: createCommentError } = useCreateComment();
+  const { createComment } = useCreateComment();
   const [isFormSubmitted, setFormSubmitted] = useState(false);
-  const isValidTextInput = !isEmptyString(content);
-  const isValidGuestNickName = !user ? guestNickName.length > 0 : true;
-  const isValidGuestPassword = !user ? guestPassword.length > 0 : true;
-  const isValidFormInput = isValidTextInput && isValidGuestNickName && isValidGuestPassword;
+  const isValidCommentInput = !isEmptyString(content) && content.length <= MAX_COMMENT_INPUT_LENGTH;
+  const isValidGuestNickName = !user
+    ? GUEST_NICKNAME_MIN_LENGTH <= guestNickName.length && guestNickName.length <= GUEST_NICKNAME_MAX_LENGTH
+    : true;
+  const isValidGuestPassword = !user
+    ? GUEST_PASSWORD_MIN_LENGTH <= guestPassword.length && guestPassword.length <= GUEST_PASSWORD_MAX_LENGTH
+    : true;
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setFormSubmitted(true);
 
-    if (!isValidFormInput) {
-      setFormSubmitted(true);
+    if (!isValidCommentInput) {
+      postAlertMessage(getErrorMessage.commentInput(content));
+      return;
+    }
 
+    if (!isValidGuestNickName) {
+      postAlertMessage(getErrorMessage.guestNickName(guestNickName));
+      return;
+    }
+
+    if (!isValidGuestPassword) {
+      postAlertMessage(getErrorMessage.guestPassword(guestPassword));
       return;
     }
 
@@ -58,7 +79,7 @@ const CommentInput = ({ user, url, projectSecretKey }: Props) => {
         ref={$contentEditable}
         contentEditable={true}
         onInput={onInput}
-        isValidInput={!isFormSubmitted || isValidTextInput}
+        isValidInput={!isFormSubmitted || isValidCommentInput}
         data-testid="comment-input-text-box"
       />
 
