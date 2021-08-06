@@ -9,6 +9,7 @@ import com.darass.darass.comment.domain.Comment;
 import com.darass.darass.comment.domain.CommentLike;
 import com.darass.darass.comment.domain.SortOption;
 import com.darass.darass.comment.dto.CommentCountRequest;
+import com.darass.darass.comment.dto.CommentCountRequestInProject;
 import com.darass.darass.comment.dto.CommentCreateRequest;
 import com.darass.darass.comment.dto.CommentDeleteRequest;
 import com.darass.darass.comment.dto.CommentReadRequestByPagination;
@@ -189,6 +190,13 @@ class CommentServiceTest extends SpringContainerTest {
         List<CommentResponse> responses = commentService.findAllCommentsByUrlAndProjectKeyUsingPagination(request);
         assertThat(responses).extracting("content")
             .isEqualTo(Collections.singletonList("content1"));
+    }
+
+    @DisplayName("특정 프로젝트에 해당하는 전체 댓글의 개수를 반환한다.")
+    @Test
+    void getCommentCountInProject() {
+        CommentCountRequestInProject request = new CommentCountRequestInProject(project.getSecretKey());
+        assertThat(commentService.getCommentCountInProject(request).getCount()).isEqualTo(4L);
     }
 
     @DisplayName("특정 프로젝트에 해당하고, 시작 날짜와 종료 날짜 사이에 있는 임의의 페이지의 댓글을 최신순으로 조회한다.")
