@@ -83,7 +83,7 @@ public class CommentService {
                 .map(comment -> CommentResponse.of(comment, UserResponse.of(comment.getUser())))
                 .collect(Collectors.toList());
         } catch (IllegalArgumentException e) {
-            throw ExceptionWithMessageAndCode.NOT_POSITIVE_EXCEPTION.getException();
+            throw ExceptionWithMessageAndCode.PAGE_NOT_POSITIVE_EXCEPTION.getException();
         }
     }
 
@@ -103,7 +103,7 @@ public class CommentService {
                 .map(comment -> CommentReadResponseInProject.of(comment, UserResponse.of(comment.getUser())))
                 .collect(Collectors.toList());
         } catch (IllegalArgumentException e) {
-            throw ExceptionWithMessageAndCode.NOT_POSITIVE_EXCEPTION.getException();
+            throw ExceptionWithMessageAndCode.PAGE_NOT_POSITIVE_EXCEPTION.getException();
         }
     }
 
@@ -122,7 +122,7 @@ public class CommentService {
                 .map(comment -> CommentReadResponseInProject.of(comment, UserResponse.of(comment.getUser())))
                 .collect(Collectors.toList());
         } catch (IllegalArgumentException e) {
-            throw ExceptionWithMessageAndCode.NOT_POSITIVE_EXCEPTION.getException();
+            throw ExceptionWithMessageAndCode.PAGE_NOT_POSITIVE_EXCEPTION.getException();
         }
     }
 
