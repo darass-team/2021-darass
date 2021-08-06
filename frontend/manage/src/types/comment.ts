@@ -1,3 +1,4 @@
+import { Project } from "./project";
 import { User } from "./user";
 
 export interface Comment {
@@ -7,4 +8,16 @@ export interface Comment {
   likingUsers: User[];
   createdDate: string;
   modifiedDate: string;
+  url: string;
+}
+
+export type SortOption = "latest" | "oldest" | "like";
+
+export interface GetAllCommentOfProjectRequest {
+  sortOption: SortOption;
+  projectKey: Project["secretKey"];
+  startDate: string | null;
+  endDate: string | null;
+  page: number;
+  size: number;
 }

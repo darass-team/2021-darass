@@ -1,6 +1,12 @@
 import { useLocation, useRouteMatch } from "react-router-dom";
 import { PROJECT_MENU } from "../../../constants";
-import { useCalendar, useCommentList, useCommentPageIndex, useGetAllCommentOfProject } from "../../../hooks";
+import {
+  useCalendar,
+  useCommentList,
+  useCommentPageIndex,
+  useGetAllCommentsOfProject,
+  useGetProject
+} from "../../../hooks";
 import ScreenContainer from "../../../styles/ScreenContainer";
 import CheckBox from "../../atoms/CheckBox";
 import PageNationBar from "../../atoms/PageNationBar";
@@ -17,7 +23,25 @@ const Manage = () => {
   const urlSearchParams = new URLSearchParams(location.search);
   const pageIndex = urlSearchParams.get("pageIndex") || 1;
 
-  const { comments } = useGetAllCommentOfProject({ projectId });
+  const { showCalendar, setShowCalendar, currentDate, setCurrentDate, startDate, setStartDate, endDate, setEndDate } =
+    useCalendar();
+  const { currentPageIndex, setCurrentPageIndex } = useCommentPageIndex({
+    initialPageIndex: Number(pageIndex),
+    projectId
+  });
+
+  const { project } = useGetProject(projectId);
+  const projectSecretKey = project?.secretKey;
+
+  const { comments } = useGetAllCommentsOfProject({
+    projectId,
+    sortOption: "latest",
+    projectKey: projectSecretKey || "",
+    startDate: startDate?.format("YYYY-MM-DD") || null,
+    endDate: endDate?.format("YYYY-MM-DD") || null,
+    page: currentPageIndex,
+    size: 5
+  });
 
   const {
     checkedCommentIds,
@@ -25,12 +49,6 @@ const Manage = () => {
     updateCheckedCommentId,
     onToggleIsCheckingAllComments
   } = useCommentList(comments || []);
-  const { showCalendar, setShowCalendar, currentDate, setCurrentDate, startDate, setStartDate, endDate, setEndDate } =
-    useCalendar();
-  const { currentPageIndex, setCurrentPageIndex } = useCommentPageIndex({
-    initialPageIndex: Number(pageIndex),
-    projectId
-  });
 
   return (
     <ScreenContainer>
@@ -58,7 +76,7 @@ const Manage = () => {
               <DeleteButton>삭제</DeleteButton>
             </Header>
 
-            {comments.map(({ id, content, user, createdDate }) => (
+            {comments?.map(({ id, content, user, createdDate }) => (
               <Row key={id}>
                 <Comment
                   isChecked={checkedCommentIds.some(_id => _id === id)}
@@ -75,7 +93,7 @@ const Manage = () => {
               <PageNationBar
                 currentPageIndex={currentPageIndex}
                 setCurrentPageIndex={setCurrentPageIndex}
-                totalDataLength={comments.length}
+                totalDataLength={comments?.length || 0}
               />
             </Row>
           </CommentList>
