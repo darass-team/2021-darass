@@ -2,6 +2,8 @@ package com.darass.darass.comment.controller;
 
 import com.darass.darass.auth.oauth.domain.AuthenticationPrincipal;
 import com.darass.darass.auth.oauth.domain.RequiredLogin;
+import com.darass.darass.comment.dto.CommentCountRequest;
+import com.darass.darass.comment.dto.CommentCountResponse;
 import com.darass.darass.comment.dto.CommentCreateRequest;
 import com.darass.darass.comment.dto.CommentDeleteRequest;
 import com.darass.darass.comment.dto.CommentReadRequestByPagination;
@@ -67,6 +69,11 @@ public class CommentController {
         List<CommentResponse> commentResponses = commentService
             .findAllSubCommentsByUrlAndProjectKeyUsingPagination(parentId, commentReadRequestByPagination);
         return ResponseEntity.status(HttpStatus.OK).body(commentResponses);
+    }
+
+    @GetMapping("/count")
+    public ResponseEntity<CommentCountResponse> findCommentCount(@ModelAttribute CommentCountRequest commentCountRequest) {
+        return ResponseEntity.status(HttpStatus.OK).body(commentService.getCommentCount(commentCountRequest));
     }
 
     @PatchMapping("/{id}")

@@ -3,7 +3,6 @@ package com.darass.darass.user.domain;
 import com.darass.darass.auth.oauth.api.domain.OAuthProviderType;
 import com.darass.darass.exception.ExceptionWithMessageAndCode;
 import com.darass.darass.user.infrastructure.S3Uploader;
-import java.io.IOException;
 import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -12,7 +11,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
-import software.amazon.awssdk.core.exception.SdkClientException;
 
 @Getter
 @NoArgsConstructor

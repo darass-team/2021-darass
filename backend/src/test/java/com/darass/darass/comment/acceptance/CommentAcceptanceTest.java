@@ -167,6 +167,31 @@ public class CommentAcceptanceTest extends AcceptanceTest {
         특정_페이지_댓글_조회_Rest_doc_작성(resultActions, "api/v1/comments/{id}/sub-comments/paging-success");
     }
 
+    @DisplayName("특정 URL에 해당하는 전체 댓글의 개수를 조회한다.")
+    @Test
+    void findCommentCount() throws Exception {
+        소셜_로그인_댓글_등록됨("content1", "url");
+        소셜_로그인_댓글_등록됨("content2", "url");
+        소셜_로그인_댓글_등록됨("content3", "url");
+        소셜_로그인_댓글_등록됨("content4", "url");
+        소셜_로그인_댓글_등록됨("content5", "url2");
+
+        mockMvc.perform(get("/api/v1/comments/count")
+            .contentType(MediaType.APPLICATION_JSON)
+            .param("url", "url")
+            .param("projectKey", secretKey))
+            .andExpect(status().isOk())
+            .andDo(document("api/v1/comments/count/get/success",
+                requestParameters(
+                    parameterWithName("url").description("조회 url"),
+                    parameterWithName("projectKey").description("프로젝트 시크릿 키")
+                ),
+                responseFields(
+                    fieldWithPath("count").type(JsonFieldType.NUMBER).description("댓글의 개수")
+                )
+            ));
+    }
+
     @DisplayName("특정 페이지의 댓글을 최신순으로 조회한다.")
     @Test
     void readByPageRequestOrderByLatest() throws Exception {
