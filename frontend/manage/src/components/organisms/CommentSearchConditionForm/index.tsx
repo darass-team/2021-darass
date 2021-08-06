@@ -1,14 +1,7 @@
 import moment from "moment";
 import Modal from "../../atoms/Modal";
 import Calendar from "../../molecules/Calendar";
-import {
-  Container,
-  SearchTermInputWrapper,
-  SearchTermInput,
-  SearchButton,
-  DateInputWrapper,
-  DateInputText
-} from "./styles";
+import { Container, SearchTermInput, SearchButton, DateRange, Wrapper, Meta, DateInputText } from "./styles";
 
 export interface Props {
   showCalendar: boolean;
@@ -32,24 +25,26 @@ const CommentSearchConditionForm = ({
   setEndDate
 }: Props) => {
   return (
-    <Container>
-      <DateInputWrapper>
-        <span>기간 선택</span>
-        <DateInputText onClick={() => setShowCalendar(!showCalendar)}>{startDate?.format("YY-MM-DD")}</DateInputText>
-        <span>~</span>
-        <DateInputText onClick={() => setShowCalendar(!showCalendar)}>{endDate?.format("YY-MM-DD")}</DateInputText>
-      </DateInputWrapper>
+    <>
+      <Container>
+        <Wrapper>
+          <Meta>기간 선택</Meta>
+          <DateRange>
+            <DateInputText onClick={() => setShowCalendar(true)}>{startDate?.format("YY-MM-DD")}</DateInputText>
+            <span>{" ~ "}</span>
+            <DateInputText onClick={() => setShowCalendar(true)}>{endDate?.format("YY-MM-DD")}</DateInputText>
+          </DateRange>
+        </Wrapper>
 
-      <SearchTermInputWrapper>
-        <label>
-          <span>내용 검색</span>
+        <Wrapper>
+          <Meta>내용 검색</Meta>
           <SearchTermInput placeholder="검색어를 입력해주세요." />
-        </label>
-      </SearchTermInputWrapper>
+        </Wrapper>
 
-      <SearchButton>조회</SearchButton>
+        <SearchButton>조회</SearchButton>
+      </Container>
 
-      <Modal isOpen={showCalendar} closeModal={() => setShowCalendar(false)}>
+      <Modal isOpen={showCalendar} closeModal={() => setShowCalendar(false)} dimmedOpacity={0}>
         <Calendar
           date={currentDate}
           setDate={setCurrentDate}
@@ -59,7 +54,7 @@ const CommentSearchConditionForm = ({
           setEndDate={setEndDate}
         />
       </Modal>
-    </Container>
+    </>
   );
 };
 

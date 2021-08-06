@@ -1,6 +1,6 @@
 import moment from "moment";
 import Days from "./Days";
-import { Container, Header, MoveMonthButton, Month, Year } from "./styles";
+import { Container, Header, Month, MoveMonthButton, Year } from "./styles";
 
 export interface Props {
   date: moment.Moment;

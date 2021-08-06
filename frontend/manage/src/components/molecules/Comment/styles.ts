@@ -6,6 +6,9 @@ import AvatarComponent from "../../atoms/Avatar";
 export const Avatar = styled(AvatarComponent)`
   width: 4rem;
   height: 4rem;
+  @media all and (max-width: 780px) {
+    height: auto;
+  }
 `;
 
 export const ContentWrapper = styled.div`

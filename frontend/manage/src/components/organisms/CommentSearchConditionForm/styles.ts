@@ -8,54 +8,51 @@ export const Container = styled.form`
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  padding: 1rem;
+  padding: 2rem 1rem;
   border: 1px solid ${PALETTE.GRAY_400};
   margin-bottom: 1rem;
 
   & > * {
     &:not(:first-child) {
-      margin-top: 1rem;
+      margin-top: 2rem;
     }
-  }
-`;
-
-export const SearchTermInputWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  & > label {
-    display: flex;
-    align-items: center;
   }
 `;
 
 export const SearchTermInput = styled.input.attrs({ type: "text" })`
   ${inputCSS};
-  max-width: 20rem;
+  padding: 0.3rem 1rem;
+  border: 1px solid ${PALETTE.GRAY_400};
   margin-left: 1rem;
 `;
 
 export const SearchButton = styled(SubmitButton)`
   align-self: flex-end;
+  width: fit-content;
+  height: fit-content;
+  font-size: 1.2rem;
 `;
 
-export const DateInputWrapper = styled.div`
-  position: relative;
+export const Meta = styled.span`
+  min-width: 4.5rem;
+`;
+
+export const Wrapper = styled.div`
   display: flex;
   align-items: center;
-  justify-content: center;
-
-  & > * {
-    &:not(:first-child) {
-      margin-left: 1rem;
-    }
-  }
+  justify-content: flex-start;
+  width: 100%;
 `;
 
 export const DateInputText = styled.span`
   border-radius: 10px;
+  height: fit-content;
   border: 1px solid ${PALETTE.GRAY_400};
   padding: 0.5rem;
   user-select: none;
   cursor: pointer;
+`;
+
+export const DateRange = styled.span`
+  margin-left: 1rem;
 `;
