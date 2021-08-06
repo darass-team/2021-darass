@@ -26,5 +26,6 @@ export const Logo = styled.img<{ isSelected: boolean }>`
 
 export const Name = styled.span`
   margin-top: 1.5rem;
-  font-size: ${1.2 * LINE_HEIGHT_SCALE}rem;
+  font-size: 1.2rem;
+  line-height: ${1.2 * LINE_HEIGHT_SCALE}rem;
 `;

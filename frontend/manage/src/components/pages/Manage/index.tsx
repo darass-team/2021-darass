@@ -19,8 +19,12 @@ const Manage = () => {
 
   const { comments } = useGetAllCommentOfProject({ projectId });
 
-  const { checkedCommentIds, checkingAllCommentInCurrentPage, updateCheckedCommentId, onToggleCheckingAllComments } =
-    useCommentList(comments || []);
+  const {
+    checkedCommentIds,
+    isCheckingAllCommentsInCurrentPage,
+    updateCheckedCommentId,
+    onToggleIsCheckingAllComments
+  } = useCommentList(comments || []);
   const { showCalendar, setShowCalendar, currentDate, setCurrentDate, startDate, setStartDate, endDate, setEndDate } =
     useCalendar();
   const { currentPageIndex, setCurrentPageIndex } = useCommentPageIndex({
@@ -46,8 +50,8 @@ const Manage = () => {
           <CommentList>
             <Header>
               <CheckBox
-                isChecked={checkingAllCommentInCurrentPage}
-                onChange={onToggleCheckingAllComments}
+                isChecked={isCheckingAllCommentsInCurrentPage}
+                onChange={onToggleIsCheckingAllComments}
                 labelText="모두 선택"
               />
 
