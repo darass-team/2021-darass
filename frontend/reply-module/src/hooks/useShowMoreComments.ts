@@ -12,7 +12,7 @@ const _showMoreComments = async ({ url, projectSecretKey, sortOption, pageParam 
 
     return response.data;
   } catch (error) {
-    throw new Error(error.response.data.message);
+    throw new Error("댓글을 더 불러오는 데에 실패하였습니다.");
   }
 };
 

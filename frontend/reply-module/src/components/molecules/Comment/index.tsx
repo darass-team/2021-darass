@@ -173,7 +173,9 @@ const Comment = ({ user, comment, align = "left", shouldShowOption, iAmAdmin, th
     try {
       await likeComment({ user, commentId: comment.id });
     } catch (error) {
-      postAlertMessage(error.message);
+      if (error instanceof AlertError) {
+        postAlertMessage(error.message);
+      }
     }
   };
 
