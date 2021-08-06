@@ -5,9 +5,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class CommentReadRequestByPagination {
-
-    private String sortOption;
+public class SubCommentReadRequestByPagination {
 
     private String url;
 

@@ -9,6 +9,7 @@ import com.darass.darass.comment.dto.CommentReadRequest;
 import com.darass.darass.comment.dto.CommentReadRequestByPagination;
 import com.darass.darass.comment.dto.CommentResponse;
 import com.darass.darass.comment.dto.CommentUpdateRequest;
+import com.darass.darass.comment.dto.SubCommentReadRequestByPagination;
 import com.darass.darass.comment.repository.CommentRepository;
 import com.darass.darass.exception.ExceptionWithMessageAndCode;
 import com.darass.darass.project.domain.Project;
@@ -118,10 +119,10 @@ public class CommentService {
     }
 
     public List<CommentResponse> findAllSubCommentsByUrlAndProjectKeyUsingPagination(Long parentId,
-        CommentReadRequestByPagination request) {
+        SubCommentReadRequestByPagination request) {
         int pageBasedIndex = request.getPage() - 1;
 
-        //TODO: 부모 id 유효하지 않는 경우 예외 처리
+        //TODO: 프로젝트 키 & URL에 해당하는 부모 id 유효하지 않는 경우 예외 처리
 
         Page<Comment> comments = commentRepository
             .findByParentId(parentId, PageRequest.of(pageBasedIndex, request.getSize(), SortOption.OTHER.getSort()));

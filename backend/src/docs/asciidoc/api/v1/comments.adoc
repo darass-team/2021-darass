@@ -32,6 +32,24 @@ include::{snippets}/api/v1/comments/post/success-guest-user/response-fields.adoc
 include::{snippets}/api/v1/comments/post/fail-missing-project-key/http-response.adoc[]
 include::{snippets}/api/v1/comments/post/fail-missing-project-key/response-fields.adoc[]
 
+==== (성공) 소셜 로그인 유저 대댓글 작성
+
+==== Request
+
+include::{snippets}/api/v1/comments/post/sub-comments/success-login-user/http-request.adoc[]
+include::{snippets}/api/v1/comments/post/sub-comments/success-login-user/request-fields.adoc[]
+
+==== Response
+
+include::{snippets}/api/v1/comments/post/sub-comments/success-login-user/http-response.adoc[]
+include::{snippets}/api/v1/comments/post/sub-comments/success-login-user/response-fields.adoc[]
+
+==== (실패) 소셜 로그인 유저 대댓글 작성 실패 (대댓글에 대댓글을 다는경우)
+==== Response
+
+include::{snippets}/api/v1/comments/post/sub-comments/fail-login-user/http-response.adoc[]
+include::{snippets}/api/v1/comments/post/sub-comments/fail-login-user/response-fields.adoc[]
+
 === 댓글 조회 (GET /api/v1/comments)
 
 ==== URL에 해당하는 전체 댓글 최신순으로 조회
@@ -155,6 +173,18 @@ include::{snippets}/api/v1/comments/paging/get/oldest-random-sortOption/success/
 
 include::{snippets}/api/v1/comments/paging/get/oldest-random-sortOption/success/http-response.adoc[]
 include::{snippets}/api/v1/comments/paging/get/oldest-random-sortOption/success/response-fields.adoc[]
+
+=== 대댓글 조회
+
+==== Request
+
+include::{snippets}/api/v1/comments/{id}/sub-comments/paging-success/http-request.adoc[]
+include::{snippets}/api/v1/comments/{id}/sub-comments/paging-success/request-parameters.adoc[]
+
+==== Response
+
+include::{snippets}/api/v1/comments/{id}/sub-comments/paging-success/http-response.adoc[]
+include::{snippets}/api/v1/comments/{id}/sub-comments/paging-success/response-fields.adoc[]
 
 === 댓글 수정 (PATCH /api/v1/comments)
 

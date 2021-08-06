@@ -4,10 +4,10 @@ import com.darass.darass.auth.oauth.domain.AuthenticationPrincipal;
 import com.darass.darass.auth.oauth.domain.RequiredLogin;
 import com.darass.darass.comment.dto.CommentCreateRequest;
 import com.darass.darass.comment.dto.CommentDeleteRequest;
-import com.darass.darass.comment.dto.CommentReadRequest;
 import com.darass.darass.comment.dto.CommentReadRequestByPagination;
 import com.darass.darass.comment.dto.CommentResponse;
 import com.darass.darass.comment.dto.CommentUpdateRequest;
+import com.darass.darass.comment.dto.SubCommentReadRequestByPagination;
 import com.darass.darass.comment.service.CommentService;
 import com.darass.darass.user.domain.User;
 import java.util.List;
@@ -32,12 +32,6 @@ public class CommentController {
 
     private final CommentService commentService;
 
-    @GetMapping
-    public ResponseEntity<List<CommentResponse>> read(@ModelAttribute CommentReadRequest commentReadRequest) {
-        List<CommentResponse> commentResponses = commentService.findAllCommentsByUrlAndProjectKey(commentReadRequest);
-        return ResponseEntity.status(HttpStatus.OK).body(commentResponses);
-    }
-
     @PostMapping
     public ResponseEntity<CommentResponse> save(@AuthenticationPrincipal User user,
         @Valid @RequestBody CommentCreateRequest commentRequest) {
@@ -59,7 +53,7 @@ public class CommentController {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
-    @GetMapping("/paging") //TODO: 댓글 개수 리턴
+    @GetMapping("/paging")
     public ResponseEntity<List<CommentResponse>> readByPageRequest(
         @ModelAttribute CommentReadRequestByPagination commentReadRequestByPagination) {
         List<CommentResponse> commentResponses = commentService
@@ -69,7 +63,7 @@ public class CommentController {
 
     @GetMapping("/{id}/sub-comments/paging")
     public ResponseEntity<List<CommentResponse>> readSubCommentsByPageRequest(@PathVariable("id") Long parentId,
-        @ModelAttribute CommentReadRequestByPagination commentReadRequestByPagination) {
+        @ModelAttribute SubCommentReadRequestByPagination commentReadRequestByPagination) {
         List<CommentResponse> commentResponses = commentService
             .findAllSubCommentsByUrlAndProjectKeyUsingPagination(parentId, commentReadRequestByPagination);
         return ResponseEntity.status(HttpStatus.OK).body(commentResponses);
@@ -88,6 +82,5 @@ public class CommentController {
         commentService.delete(id, user, request);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
-
 
 }
