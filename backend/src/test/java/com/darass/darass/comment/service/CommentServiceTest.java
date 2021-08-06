@@ -8,9 +8,9 @@ import com.darass.darass.auth.oauth.api.domain.OAuthProviderType;
 import com.darass.darass.comment.domain.Comment;
 import com.darass.darass.comment.domain.CommentLike;
 import com.darass.darass.comment.domain.SortOption;
+import com.darass.darass.comment.dto.CommentCountRequest;
 import com.darass.darass.comment.dto.CommentCreateRequest;
 import com.darass.darass.comment.dto.CommentDeleteRequest;
-import com.darass.darass.comment.dto.CommentReadRequest;
 import com.darass.darass.comment.dto.CommentReadRequestByPagination;
 import com.darass.darass.comment.dto.CommentResponse;
 import com.darass.darass.comment.dto.CommentUpdateRequest;
@@ -150,31 +150,11 @@ class CommentServiceTest extends SpringContainerTest {
             .hasMessage("해당하는 프로젝트가 없습니다.");
     }
 
-    @DisplayName("전체 댓글을 최신순으로 조회한다.")
+    @DisplayName("특정 URL에 해당하는 전체 댓글의 개수를 반환한다.")
     @Test
-    void findAllCommentsByUrlAndProjectKey_latest() {
-        CommentReadRequest request = new CommentReadRequest(SortOption.LATEST.name(), "url", project.getSecretKey());
-        List<CommentResponse> responses = commentService.findAllCommentsByUrlAndProjectKey(request);
-        assertThat(responses).extracting("content")
-            .isEqualTo(Arrays.asList("content3", "content2", "content1"));
-    }
-
-    @DisplayName("전체 댓글을 좋아요순으로 조회한다.")
-    @Test
-    void findAllCommentsByUrlAndProjectKey_like() {
-        CommentReadRequest request = new CommentReadRequest(SortOption.LIKE.name(), "url", project.getSecretKey());
-        List<CommentResponse> responses = commentService.findAllCommentsByUrlAndProjectKey(request);
-        assertThat(responses).extracting("content")
-            .isEqualTo(Arrays.asList("content2", "content1", "content3"));
-    }
-
-    @DisplayName("전체 댓글을 과거순으로 조회한다.")
-    @Test
-    void findAllCommentsByUrlAndProjectKey_oldest() {
-        CommentReadRequest request = new CommentReadRequest(SortOption.OTHER.name(), "url", project.getSecretKey());
-        List<CommentResponse> responses = commentService.findAllCommentsByUrlAndProjectKey(request);
-        assertThat(responses).extracting("content")
-            .isEqualTo(Arrays.asList("content1", "content2", "content3"));
+    void getCommentCount() {
+        CommentCountRequest request = new CommentCountRequest("url", project.getSecretKey());
+        assertThat(commentService.getCommentCount(request).getCount()).isEqualTo(3L);
     }
 
     @DisplayName("특정 페이지의 댓글을 최신순으로 조회한다.")

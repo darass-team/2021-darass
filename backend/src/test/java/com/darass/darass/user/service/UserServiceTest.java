@@ -5,10 +5,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.darass.darass.SpringContainerTest;
 import com.darass.darass.comment.domain.Comment;
 import com.darass.darass.comment.domain.CommentLike;
-import com.darass.darass.comment.dto.CommentCreateRequest;
 import com.darass.darass.comment.repository.CommentLikeRepository;
 import com.darass.darass.comment.repository.CommentRepository;
-import com.darass.darass.comment.service.CommentService;
 import com.darass.darass.exception.ExceptionWithMessageAndCode;
 import com.darass.darass.project.domain.Project;
 import com.darass.darass.project.repository.ProjectRepository;
@@ -29,17 +27,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 class UserServiceTest extends SpringContainerTest {
 
     @Autowired
-    private UserService userService;
-
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
     ProjectRepository projectRepository;
-
     @Autowired
     CommentRepository commentRepository;
-
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private UserRepository userRepository;
     @Autowired
     private CommentLikeRepository commentLikeRepository;
 
