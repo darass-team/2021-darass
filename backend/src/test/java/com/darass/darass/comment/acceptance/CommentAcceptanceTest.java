@@ -137,16 +137,6 @@ public class CommentAcceptanceTest extends AcceptanceTest {
         예외_발생_Rest_doc_작성(resultActions, "api/v1/comments/post/fail-missing-project-key");
     }
 
-    private void 예외_발생_Rest_doc_작성(ResultActions resultActions, String documentPath) throws Exception {
-        resultActions.andDo(
-            document(documentPath,
-                responseFields(
-                    fieldWithPath("message").type(JsonFieldType.STRING).description("에러 메시지"),
-                    fieldWithPath("code").type(JsonFieldType.NUMBER).description("에러 코드")
-                ))
-        );
-    }
-
     @DisplayName("대댓글을 조회한다.")
     @Test
     void read_sub_comment() throws Exception {
@@ -164,7 +154,7 @@ public class CommentAcceptanceTest extends AcceptanceTest {
             .param("page", "1")
             .param("size", "3"))
             .andExpect(status().isOk());
-        특정_페이지_댓글_조회_Rest_doc_작성(resultActions, "api/v1/comments/{id}/sub-comments/paging-success");
+        특정_페이지_댓글_조회_Rest_doc_작성(resultActions, "api/v1/comments/paging/get/sub-comments/success");
     }
 
     @DisplayName("특정 URL에 해당하는 전체 댓글의 개수를 조회한다.")
@@ -639,7 +629,7 @@ public class CommentAcceptanceTest extends AcceptanceTest {
     }
 
     private void 특정_페이지_댓글_조회_Rest_doc_작성(ResultActions resultActions, String documentPath) throws Exception {
-        resultActions.andDo(document("api/v1/comments/paging/get/latest/success",
+        resultActions.andDo(document(documentPath,
             requestParameters(
                 parameterWithName("sortOption").optional().description("정렬 방식"),
                 parameterWithName("url").description("조회 url"),
@@ -669,5 +659,15 @@ public class CommentAcceptanceTest extends AcceptanceTest {
                 fieldWithPath("[].subCommentCount").type(JsonFieldType.NUMBER).description("대댓글 개수")
             )
         ));
+    }
+
+    private void 예외_발생_Rest_doc_작성(ResultActions resultActions, String documentPath) throws Exception {
+        resultActions.andDo(
+            document(documentPath,
+                responseFields(
+                    fieldWithPath("message").type(JsonFieldType.STRING).description("에러 메시지"),
+                    fieldWithPath("code").type(JsonFieldType.NUMBER).description("에러 코드")
+                ))
+        );
     }
 }
