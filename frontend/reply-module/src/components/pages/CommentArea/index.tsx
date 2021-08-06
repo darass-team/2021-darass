@@ -4,6 +4,7 @@ import { INITIAL_PAGE_PARAM } from "../../../constants/comment";
 import { ORDER_BUTTON } from "../../../constants/orderButton";
 import { useCommentsByPage, useGetProject, useUser } from "../../../hooks";
 import { useShowMoreComments } from "../../../hooks/useShowMoreComments";
+import useTotalCommentsCount from "../../../hooks/useTotalCommentsCount";
 import { AlertError } from "../../../utils/Error";
 import { postScrollHeightToParentWindow } from "../../../utils/postMessage";
 import Avatar from "../../atoms/Avatar";
@@ -33,6 +34,11 @@ const CommentArea = () => {
 
   const { user, login, logout } = useUser();
   const {
+    totalCommentsCount,
+    isLoading: totalCommentsCountLoading,
+    error: totalCommentsCountError
+  } = useTotalCommentsCount({ url, projectSecretKey });
+  const {
     comments,
     refetch: refetchCommentsByPage,
     isLoading: commentsByPageLoading,
@@ -55,16 +61,34 @@ const CommentArea = () => {
   }, [pageParam]);
 
   useEffect(() => {
-    if (projectLoading || commentsByPageLoading) {
+    if (projectLoading || totalCommentsCountLoading || commentsByPageLoading) {
       setNotice("로딩 중...");
 
       return;
     }
 
     if (projectError) setNotice(projectError.message);
+    if (totalCommentsCountError) setNotice(totalCommentsCountError.message);
     if (commentsByPageError) setNotice(commentsByPageError.message);
-    if (!(projectError || commentsByPageError || projectLoading || commentsByPageLoading)) setNotice("");
-  }, [projectLoading, commentsByPageLoading, projectError, commentsByPageError]);
+    if (
+      !(
+        projectError ||
+        totalCommentsCountError ||
+        commentsByPageError ||
+        projectLoading ||
+        totalCommentsCountLoading ||
+        commentsByPageLoading
+      )
+    )
+      setNotice("");
+  }, [
+    projectLoading,
+    commentsByPageLoading,
+    totalCommentsCountLoading,
+    projectError,
+    totalCommentsCountError,
+    commentsByPageError
+  ]);
 
   const onShowMoreComment = () => {
     setPageParam(currentPageParam => currentPageParam + 1);
@@ -89,7 +113,7 @@ const CommentArea = () => {
     <Container>
       <Header>
         <CommentCountWrapper>
-          댓글 <CommentCount>{comments?.length || 0}</CommentCount>
+          댓글 <CommentCount>{totalCommentsCount || 0}</CommentCount>
         </CommentCountWrapper>
         <UserAvatarOption user={user}>
           {user ? (
