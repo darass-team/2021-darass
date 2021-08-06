@@ -3,9 +3,10 @@ package com.darass.darass.comment.service;
 import com.darass.darass.comment.domain.Comment;
 import com.darass.darass.comment.domain.CommentLike;
 import com.darass.darass.comment.domain.SortOption;
+import com.darass.darass.comment.dto.CommentCountRequest;
+import com.darass.darass.comment.dto.CommentCountResponse;
 import com.darass.darass.comment.dto.CommentCreateRequest;
 import com.darass.darass.comment.dto.CommentDeleteRequest;
-import com.darass.darass.comment.dto.CommentReadRequest;
 import com.darass.darass.comment.dto.CommentReadRequestByPagination;
 import com.darass.darass.comment.dto.CommentReadRequestBySearch;
 import com.darass.darass.comment.dto.CommentReadRequestInProject;
@@ -72,16 +73,6 @@ public class CommentService {
         return userRepository.save(user);
     }
 
-    public List<CommentResponse> findAllCommentsByUrlAndProjectKey(CommentReadRequest request) {
-        List<Comment> comments = commentRepository
-            .findByUrlAndProjectSecretKey(request.getUrl(), request.getProjectKey(),
-                SortOption.getMatchedSort(request.getSortOption()));
-
-        return comments.stream()
-            .map(comment -> CommentResponse.of(comment, UserResponse.of(comment.getUser())))
-            .collect(Collectors.toList());
-    }
-
     public List<CommentResponse> findAllCommentsByUrlAndProjectKeyUsingPagination(CommentReadRequestByPagination request) {
         int pageBasedIndex = request.getPage() - 1;
         try {
@@ -133,6 +124,11 @@ public class CommentService {
         } catch (IllegalArgumentException e) {
             throw ExceptionWithMessageAndCode.NOT_POSITIVE_EXCEPTION.getException();
         }
+    }
+
+    public CommentCountResponse getCommentCount(CommentCountRequest request) {
+        Long count = commentRepository.countCommentByUrlAndProjectSecretKey(request.getUrl(), request.getProjectKey());
+        return new CommentCountResponse(count);
     }
 
     public void updateContent(Long id, User user, CommentUpdateRequest request) { //TODO: 리팩터링 고민

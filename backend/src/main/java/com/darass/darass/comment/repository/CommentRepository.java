@@ -2,15 +2,11 @@ package com.darass.darass.comment.repository;
 
 import com.darass.darass.comment.domain.Comment;
 import java.time.LocalDateTime;
-import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface CommentRepository extends JpaRepository<Comment, Long> {
-
-    List<Comment> findByUrlAndProjectSecretKey(String url, String project_secretKey, Sort sort);
 
     Page<Comment> findByUrlAndProjectSecretKey(String url, String projectSecretKey, Pageable pageable);
 
@@ -18,4 +14,6 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
         LocalDateTime endDate, Pageable pageable);
 
     Page<Comment> findByProjectSecretKeyAndContentContaining(String projectSecretKey, String keyword, Pageable pageable);
+
+    Long countCommentByUrlAndProjectSecretKey(String url, String projectSecretKey);
 }
