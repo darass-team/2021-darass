@@ -21,3 +21,7 @@ export interface GetAllCommentOfProjectRequest {
   page: number;
   size: number;
 }
+
+export interface DeleteCommentRequestParameter {
+  id: Comment["id"];
+}

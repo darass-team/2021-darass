@@ -5,6 +5,7 @@ import {
   useCalendar,
   useCommentList,
   useCommentPageIndex,
+  useDeleteComment,
   useGetAllCommentsOfProject,
   useGetProject
 } from "../../../hooks";
@@ -14,6 +15,7 @@ import PageNationBar from "../../atoms/PageNationBar";
 import Comment from "../../molecules/Comment";
 import CommentSearchConditionForm from "../../organisms/CommentSearchConditionForm";
 import ContainerWithSideBar from "../../organisms/ContainerWithSideBar";
+import ErrorNotice from "../../organisms/ErrorNotice";
 import { CommentList, Container, DeleteButton, Header, Row, Title } from "./styles";
 
 const Manage = () => {
@@ -35,6 +37,8 @@ const Manage = () => {
   const { project } = useGetProject(projectId);
   const projectSecretKey = project?.secretKey;
 
+  const { deleteComment } = useDeleteComment({ projectKey: projectSecretKey, page: Number(pageIndex) });
+
   const { comments, refetch: getAllCommentsOfProject } = useGetAllCommentsOfProject({
     projectId,
     sortOption: "latest",
@@ -47,6 +51,8 @@ const Manage = () => {
 
   const {
     checkedCommentIds,
+    setCheckedCommentIds,
+    setIsCheckingAllCommentsInCurrentPage,
     isCheckingAllCommentsInCurrentPage,
     updateCheckedCommentId,
     onToggleIsCheckingAllComments
@@ -56,6 +62,28 @@ const Manage = () => {
     event.preventDefault();
 
     getAllCommentsOfProject();
+  };
+
+  const onClickDeleteButton = async () => {
+    if (checkedCommentIds.length === 0) {
+      alert("삭제할 댓글이 없습니다.");
+
+      return;
+    }
+
+    try {
+      const deleteAllComments = checkedCommentIds.map(id => {
+        return deleteComment({ id });
+      });
+
+      await Promise.all(deleteAllComments);
+
+      alert("댓글이 정상적으로 삭제되었습니다.");
+      setIsCheckingAllCommentsInCurrentPage(false);
+      setCheckedCommentIds([]);
+    } catch (error) {
+      console.error(error.message);
+    }
   };
 
   useEffect(() => {
@@ -86,22 +114,28 @@ const Manage = () => {
                 labelText="모두 선택"
               />
 
-              <DeleteButton>삭제</DeleteButton>
+              <DeleteButton onClick={onClickDeleteButton}>삭제</DeleteButton>
             </Header>
 
-            {comments?.map(({ id, content, user, createdDate, url }) => (
-              <Row key={id}>
-                <Comment
-                  isChecked={checkedCommentIds.some(_id => _id === id)}
-                  onChangeCheckBox={() => updateCheckedCommentId(id)}
-                  authorProfileImageUrl={user.profileImageUrl}
-                  authorNickName={user.nickName}
-                  createdDate={createdDate}
-                  content={content}
-                  url={url}
-                />
+            {comments?.length === 0 ? (
+              <Row>
+                <ErrorNotice>{"해당하는 댓글을 찾을 수 없습니다"}</ErrorNotice>
               </Row>
-            ))}
+            ) : (
+              comments?.map(({ id, content, user, createdDate, url }) => (
+                <Row key={id}>
+                  <Comment
+                    isChecked={checkedCommentIds.some(_id => _id === id)}
+                    onChangeCheckBox={() => updateCheckedCommentId(id)}
+                    authorProfileImageUrl={user.profileImageUrl}
+                    authorNickName={user.nickName}
+                    createdDate={createdDate}
+                    content={content}
+                    url={url}
+                  />
+                </Row>
+              ))
+            )}
 
             <Row>
               <PageNationBar

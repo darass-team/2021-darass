@@ -33,7 +33,7 @@ const Comment = ({
           <Date>{moment(createdDate).format("YYYY-MM-DD")}</Date>
         </ContentMeta>
         <Content>{content}</Content>
-        <Url href={`https://${url}`} target="_blank" rel="noopener noreferrer nofollow">
+        <Url href={url} target="_blank" rel="noopener noreferrer nofollow">
           {url}
         </Url>
       </ContentWrapper>
