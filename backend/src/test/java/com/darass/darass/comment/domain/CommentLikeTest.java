@@ -1,7 +1,6 @@
 package com.darass.darass.comment.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 import com.darass.darass.user.domain.GuestUser;
 import org.junit.jupiter.api.DisplayName;
