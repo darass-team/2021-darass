@@ -7,7 +7,7 @@ export { useCopyButton } from "./useCopyButton";
 export { useEditProject } from "./useEditProject";
 export { useEditUser } from "./useEditUser";
 export { useDeleteUser } from "./useDeleteUser";
-export { useGetAllCommentsOfProject } from "./useGetAllCommentsOfProject";
+export { useGetCommentsOfProjectPerPage } from "./useGetCommentsOfProjectPerPage";
 export { useCommentList } from "./useCommentList";
 export { useCalendar } from "./useCalendar";
 export { useCommentPageIndex } from "./useCommentPageIndex";

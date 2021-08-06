@@ -6,7 +6,7 @@ import {
   useCommentList,
   useCommentPageIndex,
   useDeleteComment,
-  useGetAllCommentsOfProject,
+  useGetCommentsOfProjectPerPage,
   useGetProject
 } from "../../../hooks";
 import ScreenContainer from "../../../styles/ScreenContainer";
@@ -39,7 +39,7 @@ const Manage = () => {
 
   const { deleteComment } = useDeleteComment({ projectKey: projectSecretKey, page: Number(pageIndex) });
 
-  const { comments, refetch: getAllCommentsOfProject } = useGetAllCommentsOfProject({
+  const { comments, refetch: getAllCommentsOfProject } = useGetCommentsOfProjectPerPage({
     projectId,
     sortOption: "latest",
     projectKey: projectSecretKey || "",

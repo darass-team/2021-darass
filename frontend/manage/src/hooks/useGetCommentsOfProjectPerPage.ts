@@ -37,7 +37,7 @@ interface Props extends GetAllCommentOfProjectRequest {
   projectId: number;
 }
 
-export const useGetAllCommentsOfProject = ({ sortOption, projectKey, startDate, endDate, page, size }: Props) => {
+export const useGetCommentsOfProjectPerPage = ({ sortOption, projectKey, startDate, endDate, page, size }: Props) => {
   const {
     data: comments,
     refetch,
