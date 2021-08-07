@@ -29,4 +29,10 @@ public class OAuthController {
         );
         return ResponseEntity.status(HttpStatus.OK).body(tokenResponse);
     }
+
+    @PostMapping("/login/refresh")
+    public ResponseEntity<TokenResponse> refreshToken(HttpServletRequest request, HttpServletResponse response) {
+        TokenResponse tokenResponse = oAuthService.createAccessTokenWithRefreshToken(request, response);
+        return ResponseEntity.status(HttpStatus.OK).body(tokenResponse);
+    }
 }
