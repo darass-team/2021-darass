@@ -172,30 +172,6 @@ public class CommentAcceptanceTest extends AcceptanceTest {
             );
     }
 
-    @DisplayName("특정 URL에 해당하는 전체 댓글의 개수를 조회한다.")
-    @Test
-    void findCommentCount() throws Exception {
-        소셜_로그인_댓글_등록됨("content1", "url");
-        소셜_로그인_댓글_등록됨("content2", "url");
-        소셜_로그인_댓글_등록됨("content3", "url");
-        소셜_로그인_댓글_등록됨("content4", "url");
-        소셜_로그인_댓글_등록됨("content5", "url2");
-
-        mockMvc.perform(get("/api/v1/comments/count")
-            .contentType(MediaType.APPLICATION_JSON)
-            .param("url", "url")
-            .param("projectKey", secretKey))
-            .andDo(document("api/v1/comments/count/get/success",
-                requestParameters(
-                    parameterWithName("url").description("조회 url"),
-                    parameterWithName("projectKey").description("프로젝트 시크릿 키")
-                ),
-                responseFields(
-                fieldWithPath("count").type(JsonFieldType.NUMBER).description("댓글의 개수")
-                )
-            ));
-    }
-
     @DisplayName("특정 페이지의 댓글을 최신순으로 조회한다.")
     @Test
     void readByPageRequestOrderByLatest() throws Exception {
@@ -227,19 +203,21 @@ public class CommentAcceptanceTest extends AcceptanceTest {
                     parameterWithName("size").description("페이지당 댓글의 개수")
                 ),
                 responseFields(
-                    fieldWithPath("[].createdDate").type(JsonFieldType.STRING).description("댓글 생성 시점"),
-                    fieldWithPath("[].modifiedDate").type(JsonFieldType.STRING).description("댓글 수정 시점"),
-                    fieldWithPath("[].id").type(JsonFieldType.NUMBER).description("댓글 id"),
-                    fieldWithPath("[].content").type(JsonFieldType.STRING).description("댓글 내용"),
-                    fieldWithPath("[].url").type(JsonFieldType.STRING).description("댓글이 있는 url"),
-                    fieldWithPath("[].likingUsers[*]").type(JsonFieldType.ARRAY).description("좋아요 누른 유저 정보"),
-                    fieldWithPath("[].user").type(JsonFieldType.OBJECT).description("댓글 작성 유저 정보"),
-                    fieldWithPath("[].user.createdDate").type(JsonFieldType.STRING).description("유저 생성 시점"),
-                    fieldWithPath("[].user.modifiedDate").type(JsonFieldType.STRING).description("유저 수정 시점"),
-                    fieldWithPath("[].user.id").type(JsonFieldType.NUMBER).description("유저 id"),
-                    fieldWithPath("[].user.nickName").type(JsonFieldType.STRING).description("유저 닉네임"),
-                    fieldWithPath("[].user.type").type(JsonFieldType.STRING).description("유저 타입"),
-                    fieldWithPath("[].user.profileImageUrl").type(JsonFieldType.STRING).description("유저 프로필 이미지")
+                    fieldWithPath("totalComment").type(JsonFieldType.NUMBER).description("댓글의 총 개수"),
+                    fieldWithPath("totalPage").type(JsonFieldType.NUMBER).description("페이지의 총 개수"),
+                    fieldWithPath("comments.[].createdDate").type(JsonFieldType.STRING).description("댓글 생성 시점"),
+                    fieldWithPath("comments.[].modifiedDate").type(JsonFieldType.STRING).description("댓글 수정 시점"),
+                    fieldWithPath("comments.[].id").type(JsonFieldType.NUMBER).description("댓글 id"),
+                    fieldWithPath("comments.[].content").type(JsonFieldType.STRING).description("댓글 내용"),
+                    fieldWithPath("comments.[].url").type(JsonFieldType.STRING).description("댓글이 있는 url"),
+                    fieldWithPath("comments.[].likingUsers[*]").type(JsonFieldType.ARRAY).description("좋아요 누른 유저 정보"),
+                    fieldWithPath("comments.[].user").type(JsonFieldType.OBJECT).description("댓글 작성 유저 정보"),
+                    fieldWithPath("comments.[].user.createdDate").type(JsonFieldType.STRING).description("유저 생성 시점"),
+                    fieldWithPath("comments.[].user.modifiedDate").type(JsonFieldType.STRING).description("유저 수정 시점"),
+                    fieldWithPath("comments.[].user.id").type(JsonFieldType.NUMBER).description("유저 id"),
+                    fieldWithPath("comments.[].user.nickName").type(JsonFieldType.STRING).description("유저 닉네임"),
+                    fieldWithPath("comments.[].user.type").type(JsonFieldType.STRING).description("유저 타입"),
+                    fieldWithPath("comments.[].user.profileImageUrl").type(JsonFieldType.STRING).description("유저 프로필 이미지")
                 )
             ));
     }
@@ -287,26 +265,31 @@ public class CommentAcceptanceTest extends AcceptanceTest {
                     parameterWithName("size").description("페이지당 댓글의 개수")
                 ),
                 responseFields(
-                    fieldWithPath("[].createdDate").type(JsonFieldType.STRING).description("댓글 생성 시점"),
-                    fieldWithPath("[].modifiedDate").type(JsonFieldType.STRING).description("댓글 수정 시점"),
-                    fieldWithPath("[].id").type(JsonFieldType.NUMBER).description("댓글 id"),
-                    fieldWithPath("[].content").type(JsonFieldType.STRING).description("댓글 내용"),
-                    fieldWithPath("[].url").type(JsonFieldType.STRING).description("댓글이 있는 url"),
-                    fieldWithPath("[].likingUsers[*]").type(JsonFieldType.ARRAY).description("좋아요 누른 유저 정보"),
-                    fieldWithPath("[].likingUsers[*].id").type(JsonFieldType.NUMBER).description("좋아요 누른 유저 ID"),
-                    fieldWithPath("[].likingUsers[*].nickName").type(JsonFieldType.STRING).description("좋아요 누른 유저 닉네임"),
-                    fieldWithPath("[].likingUsers[*].type").type(JsonFieldType.STRING).description("좋아요 누른 유저 타입"),
-                    fieldWithPath("[].likingUsers[*].profileImageUrl").type(JsonFieldType.STRING)
+                    fieldWithPath("totalComment").type(JsonFieldType.NUMBER).description("댓글의 총 개수"),
+                    fieldWithPath("totalPage").type(JsonFieldType.NUMBER).description("페이지의 총 개수"),
+                    fieldWithPath("comments.[].createdDate").type(JsonFieldType.STRING).description("댓글 생성 시점"),
+                    fieldWithPath("comments.[].modifiedDate").type(JsonFieldType.STRING).description("댓글 수정 시점"),
+                    fieldWithPath("comments.[].id").type(JsonFieldType.NUMBER).description("댓글 id"),
+                    fieldWithPath("comments.[].content").type(JsonFieldType.STRING).description("댓글 내용"),
+                    fieldWithPath("comments.[].url").type(JsonFieldType.STRING).description("댓글이 있는 url"),
+                    fieldWithPath("comments.[].likingUsers[*]").type(JsonFieldType.ARRAY).description("좋아요 누른 유저 정보"),
+                    fieldWithPath("comments.[].likingUsers[*].id").type(JsonFieldType.NUMBER).description("좋아요 누른 유저 ID"),
+                    fieldWithPath("comments.[].likingUsers[*].nickName").type(JsonFieldType.STRING)
+                        .description("좋아요 누른 유저 닉네임"),
+                    fieldWithPath("comments.[].likingUsers[*].type").type(JsonFieldType.STRING).description("좋아요 누른 유저 타입"),
+                    fieldWithPath("comments.[].likingUsers[*].profileImageUrl").type(JsonFieldType.STRING)
                         .description("좋아요 누른 유저 이미지 링크"),
-                    fieldWithPath("[].likingUsers[*].createdDate").type(JsonFieldType.STRING).description("좋아요 누른 시간"),
-                    fieldWithPath("[].likingUsers[*].modifiedDate").type(JsonFieldType.STRING).description("좋아요 수정한 시간"),
-                    fieldWithPath("[].user").type(JsonFieldType.OBJECT).description("댓글 작성 유저 정보"),
-                    fieldWithPath("[].user.createdDate").type(JsonFieldType.STRING).description("유저 생성 시점"),
-                    fieldWithPath("[].user.modifiedDate").type(JsonFieldType.STRING).description("유저 수정 시점"),
-                    fieldWithPath("[].user.id").type(JsonFieldType.NUMBER).description("유저 id"),
-                    fieldWithPath("[].user.nickName").type(JsonFieldType.STRING).description("유저 닉네임"),
-                    fieldWithPath("[].user.type").type(JsonFieldType.STRING).description("유저 타입"),
-                    fieldWithPath("[].user.profileImageUrl").type(JsonFieldType.STRING).description("유저 프로필 이미지")
+                    fieldWithPath("comments.[].likingUsers[*].createdDate").type(JsonFieldType.STRING)
+                        .description("좋아요 누른 시간"),
+                    fieldWithPath("comments.[].likingUsers[*].modifiedDate").type(JsonFieldType.STRING)
+                        .description("좋아요 수정한 시간"),
+                    fieldWithPath("comments.[].user").type(JsonFieldType.OBJECT).description("댓글 작성 유저 정보"),
+                    fieldWithPath("comments.[].user.createdDate").type(JsonFieldType.STRING).description("유저 생성 시점"),
+                    fieldWithPath("comments.[].user.modifiedDate").type(JsonFieldType.STRING).description("유저 수정 시점"),
+                    fieldWithPath("comments.[].user.id").type(JsonFieldType.NUMBER).description("유저 id"),
+                    fieldWithPath("comments.[].user.nickName").type(JsonFieldType.STRING).description("유저 닉네임"),
+                    fieldWithPath("comments.[].user.type").type(JsonFieldType.STRING).description("유저 타입"),
+                    fieldWithPath("comments.[].user.profileImageUrl").type(JsonFieldType.STRING).description("유저 프로필 이미지")
                 )
             ));
     }
@@ -342,41 +325,21 @@ public class CommentAcceptanceTest extends AcceptanceTest {
                     parameterWithName("size").description("페이지당 댓글의 개수")
                 ),
                 responseFields(
-                    fieldWithPath("[].createdDate").type(JsonFieldType.STRING).description("댓글 생성 시점"),
-                    fieldWithPath("[].modifiedDate").type(JsonFieldType.STRING).description("댓글 수정 시점"),
-                    fieldWithPath("[].id").type(JsonFieldType.NUMBER).description("댓글 id"),
-                    fieldWithPath("[].content").type(JsonFieldType.STRING).description("댓글 내용"),
-                    fieldWithPath("[].url").type(JsonFieldType.STRING).description("댓글이 있는 url"),
-                    fieldWithPath("[].likingUsers[*]").type(JsonFieldType.ARRAY).description("좋아요 누른 유저 정보"),
-                    fieldWithPath("[].user").type(JsonFieldType.OBJECT).description("댓글 작성 유저 정보"),
-                    fieldWithPath("[].user.createdDate").type(JsonFieldType.STRING).description("유저 생성 시점"),
-                    fieldWithPath("[].user.modifiedDate").type(JsonFieldType.STRING).description("유저 수정 시점"),
-                    fieldWithPath("[].user.id").type(JsonFieldType.NUMBER).description("유저 id"),
-                    fieldWithPath("[].user.nickName").type(JsonFieldType.STRING).description("유저 닉네임"),
-                    fieldWithPath("[].user.type").type(JsonFieldType.STRING).description("유저 타입"),
-                    fieldWithPath("[].user.profileImageUrl").type(JsonFieldType.STRING).description("유저 프로필 이미지")
-                )
-            ));
-    }
-
-    @DisplayName("특정 프로젝트에 해당하는 전체 댓글의 개수를 조회한다.")
-    @Test
-    void findCommentCountInProject() throws Exception {
-        소셜_로그인_댓글_등록됨("content1", "url");
-        소셜_로그인_댓글_등록됨("content2", "url");
-        소셜_로그인_댓글_등록됨("content3", "url");
-        소셜_로그인_댓글_등록됨("content4", "url");
-        소셜_로그인_댓글_등록됨("content5", "url2");
-
-        mockMvc.perform(get("/api/v1/projects/comments/count")
-            .contentType(MediaType.APPLICATION_JSON)
-            .param("projectKey", secretKey))
-            .andDo(document("api/v1/projects/comments/count/get/success",
-                requestParameters(
-                    parameterWithName("projectKey").description("프로젝트 시크릿 키")
-                ),
-                responseFields(
-                    fieldWithPath("count").type(JsonFieldType.NUMBER).description("댓글의 개수")
+                    fieldWithPath("totalComment").type(JsonFieldType.NUMBER).description("댓글의 총 개수"),
+                    fieldWithPath("totalPage").type(JsonFieldType.NUMBER).description("페이지의 총 개수"),
+                    fieldWithPath("comments.[].createdDate").type(JsonFieldType.STRING).description("댓글 생성 시점"),
+                    fieldWithPath("comments.[].modifiedDate").type(JsonFieldType.STRING).description("댓글 수정 시점"),
+                    fieldWithPath("comments.[].id").type(JsonFieldType.NUMBER).description("댓글 id"),
+                    fieldWithPath("comments.[].content").type(JsonFieldType.STRING).description("댓글 내용"),
+                    fieldWithPath("comments.[].url").type(JsonFieldType.STRING).description("댓글이 있는 url"),
+                    fieldWithPath("comments.[].likingUsers[*]").type(JsonFieldType.ARRAY).description("좋아요 누른 유저 정보"),
+                    fieldWithPath("comments.[].user").type(JsonFieldType.OBJECT).description("댓글 작성 유저 정보"),
+                    fieldWithPath("comments.[].user.createdDate").type(JsonFieldType.STRING).description("유저 생성 시점"),
+                    fieldWithPath("comments.[].user.modifiedDate").type(JsonFieldType.STRING).description("유저 수정 시점"),
+                    fieldWithPath("comments.[].user.id").type(JsonFieldType.NUMBER).description("유저 id"),
+                    fieldWithPath("comments.[].user.nickName").type(JsonFieldType.STRING).description("유저 닉네임"),
+                    fieldWithPath("comments.[].user.type").type(JsonFieldType.STRING).description("유저 타입"),
+                    fieldWithPath("comments.[].user.profileImageUrl").type(JsonFieldType.STRING).description("유저 프로필 이미지")
                 )
             ));
     }
@@ -414,19 +377,21 @@ public class CommentAcceptanceTest extends AcceptanceTest {
                     parameterWithName("size").description("페이지당 댓글의 개수")
                 ),
                 responseFields(
-                    fieldWithPath("[].createdDate").type(JsonFieldType.STRING).description("댓글 생성 시점"),
-                    fieldWithPath("[].modifiedDate").type(JsonFieldType.STRING).description("댓글 수정 시점"),
-                    fieldWithPath("[].id").type(JsonFieldType.NUMBER).description("댓글 id"),
-                    fieldWithPath("[].content").type(JsonFieldType.STRING).description("댓글 내용"),
-                    fieldWithPath("[].url").type(JsonFieldType.STRING).description("댓글이 있는 url"),
-                    fieldWithPath("[].likingUsers[*]").type(JsonFieldType.ARRAY).description("좋아요 누른 유저 정보"),
-                    fieldWithPath("[].user").type(JsonFieldType.OBJECT).description("댓글 작성 유저 정보"),
-                    fieldWithPath("[].user.createdDate").type(JsonFieldType.STRING).description("유저 생성 시점"),
-                    fieldWithPath("[].user.modifiedDate").type(JsonFieldType.STRING).description("유저 수정 시점"),
-                    fieldWithPath("[].user.id").type(JsonFieldType.NUMBER).description("유저 id"),
-                    fieldWithPath("[].user.nickName").type(JsonFieldType.STRING).description("유저 닉네임"),
-                    fieldWithPath("[].user.type").type(JsonFieldType.STRING).description("유저 타입"),
-                    fieldWithPath("[].user.profileImageUrl").type(JsonFieldType.STRING).description("유저 프로필 이미지")
+                    fieldWithPath("totalComment").type(JsonFieldType.NUMBER).description("댓글의 총 개수"),
+                    fieldWithPath("totalPage").type(JsonFieldType.NUMBER).description("페이지의 총 개수"),
+                    fieldWithPath("comments.[].createdDate").type(JsonFieldType.STRING).description("댓글 생성 시점"),
+                    fieldWithPath("comments.[].modifiedDate").type(JsonFieldType.STRING).description("댓글 수정 시점"),
+                    fieldWithPath("comments.[].id").type(JsonFieldType.NUMBER).description("댓글 id"),
+                    fieldWithPath("comments.[].content").type(JsonFieldType.STRING).description("댓글 내용"),
+                    fieldWithPath("comments.[].url").type(JsonFieldType.STRING).description("댓글이 있는 url"),
+                    fieldWithPath("comments.[].likingUsers[*]").type(JsonFieldType.ARRAY).description("좋아요 누른 유저 정보"),
+                    fieldWithPath("comments.[].user").type(JsonFieldType.OBJECT).description("댓글 작성 유저 정보"),
+                    fieldWithPath("comments.[].user.createdDate").type(JsonFieldType.STRING).description("유저 생성 시점"),
+                    fieldWithPath("comments.[].user.modifiedDate").type(JsonFieldType.STRING).description("유저 수정 시점"),
+                    fieldWithPath("comments.[].user.id").type(JsonFieldType.NUMBER).description("유저 id"),
+                    fieldWithPath("comments.[].user.nickName").type(JsonFieldType.STRING).description("유저 닉네임"),
+                    fieldWithPath("comments.[].user.type").type(JsonFieldType.STRING).description("유저 타입"),
+                    fieldWithPath("comments.[].user.profileImageUrl").type(JsonFieldType.STRING).description("유저 프로필 이미지")
                 )
             ));
     }
@@ -476,26 +441,31 @@ public class CommentAcceptanceTest extends AcceptanceTest {
                     parameterWithName("size").description("페이지당 댓글의 개수")
                 ),
                 responseFields(
-                    fieldWithPath("[].createdDate").type(JsonFieldType.STRING).description("댓글 생성 시점"),
-                    fieldWithPath("[].modifiedDate").type(JsonFieldType.STRING).description("댓글 수정 시점"),
-                    fieldWithPath("[].id").type(JsonFieldType.NUMBER).description("댓글 id"),
-                    fieldWithPath("[].content").type(JsonFieldType.STRING).description("댓글 내용"),
-                    fieldWithPath("[].url").type(JsonFieldType.STRING).description("댓글이 있는 url"),
-                    fieldWithPath("[].likingUsers[*]").type(JsonFieldType.ARRAY).description("좋아요 누른 유저 정보"),
-                    fieldWithPath("[].likingUsers[*].id").type(JsonFieldType.NUMBER).description("좋아요 누른 유저 ID"),
-                    fieldWithPath("[].likingUsers[*].nickName").type(JsonFieldType.STRING).description("좋아요 누른 유저 닉네임"),
-                    fieldWithPath("[].likingUsers[*].type").type(JsonFieldType.STRING).description("좋아요 누른 유저 타입"),
-                    fieldWithPath("[].likingUsers[*].profileImageUrl").type(JsonFieldType.STRING)
+                    fieldWithPath("totalComment").type(JsonFieldType.NUMBER).description("댓글의 총 개수"),
+                    fieldWithPath("totalPage").type(JsonFieldType.NUMBER).description("페이지의 총 개수"),
+                    fieldWithPath("comments.[].createdDate").type(JsonFieldType.STRING).description("댓글 생성 시점"),
+                    fieldWithPath("comments.[].modifiedDate").type(JsonFieldType.STRING).description("댓글 수정 시점"),
+                    fieldWithPath("comments.[].id").type(JsonFieldType.NUMBER).description("댓글 id"),
+                    fieldWithPath("comments.[].content").type(JsonFieldType.STRING).description("댓글 내용"),
+                    fieldWithPath("comments.[].url").type(JsonFieldType.STRING).description("댓글이 있는 url"),
+                    fieldWithPath("comments.[].likingUsers[*]").type(JsonFieldType.ARRAY).description("좋아요 누른 유저 정보"),
+                    fieldWithPath("comments.[].likingUsers[*].id").type(JsonFieldType.NUMBER).description("좋아요 누른 유저 ID"),
+                    fieldWithPath("comments.[].likingUsers[*].nickName").type(JsonFieldType.STRING)
+                        .description("좋아요 누른 유저 닉네임"),
+                    fieldWithPath("comments.[].likingUsers[*].type").type(JsonFieldType.STRING).description("좋아요 누른 유저 타입"),
+                    fieldWithPath("comments.[].likingUsers[*].profileImageUrl").type(JsonFieldType.STRING)
                         .description("좋아요 누른 유저 이미지 링크"),
-                    fieldWithPath("[].likingUsers[*].createdDate").type(JsonFieldType.STRING).description("좋아요 누른 시간"),
-                    fieldWithPath("[].likingUsers[*].modifiedDate").type(JsonFieldType.STRING).description("좋아요 수정한 시간"),
-                    fieldWithPath("[].user").type(JsonFieldType.OBJECT).description("댓글 작성 유저 정보"),
-                    fieldWithPath("[].user.createdDate").type(JsonFieldType.STRING).description("유저 생성 시점"),
-                    fieldWithPath("[].user.modifiedDate").type(JsonFieldType.STRING).description("유저 수정 시점"),
-                    fieldWithPath("[].user.id").type(JsonFieldType.NUMBER).description("유저 id"),
-                    fieldWithPath("[].user.nickName").type(JsonFieldType.STRING).description("유저 닉네임"),
-                    fieldWithPath("[].user.type").type(JsonFieldType.STRING).description("유저 타입"),
-                    fieldWithPath("[].user.profileImageUrl").type(JsonFieldType.STRING).description("유저 프로필 이미지")
+                    fieldWithPath("comments.[].likingUsers[*].createdDate").type(JsonFieldType.STRING)
+                        .description("좋아요 누른 시간"),
+                    fieldWithPath("comments.[].likingUsers[*].modifiedDate").type(JsonFieldType.STRING)
+                        .description("좋아요 수정한 시간"),
+                    fieldWithPath("comments.[].user").type(JsonFieldType.OBJECT).description("댓글 작성 유저 정보"),
+                    fieldWithPath("comments.[].user.createdDate").type(JsonFieldType.STRING).description("유저 생성 시점"),
+                    fieldWithPath("comments.[].user.modifiedDate").type(JsonFieldType.STRING).description("유저 수정 시점"),
+                    fieldWithPath("comments.[].user.id").type(JsonFieldType.NUMBER).description("유저 id"),
+                    fieldWithPath("comments.[].user.nickName").type(JsonFieldType.STRING).description("유저 닉네임"),
+                    fieldWithPath("comments.[].user.type").type(JsonFieldType.STRING).description("유저 타입"),
+                    fieldWithPath("comments.[].user.profileImageUrl").type(JsonFieldType.STRING).description("유저 프로필 이미지")
                 )
             ));
     }
@@ -533,19 +503,21 @@ public class CommentAcceptanceTest extends AcceptanceTest {
                     parameterWithName("size").description("페이지당 댓글의 개수")
                 ),
                 responseFields(
-                    fieldWithPath("[].createdDate").type(JsonFieldType.STRING).description("댓글 생성 시점"),
-                    fieldWithPath("[].modifiedDate").type(JsonFieldType.STRING).description("댓글 수정 시점"),
-                    fieldWithPath("[].id").type(JsonFieldType.NUMBER).description("댓글 id"),
-                    fieldWithPath("[].content").type(JsonFieldType.STRING).description("댓글 내용"),
-                    fieldWithPath("[].url").type(JsonFieldType.STRING).description("댓글이 있는 url"),
-                    fieldWithPath("[].likingUsers[*]").type(JsonFieldType.ARRAY).description("좋아요 누른 유저 정보"),
-                    fieldWithPath("[].user").type(JsonFieldType.OBJECT).description("댓글 작성 유저 정보"),
-                    fieldWithPath("[].user.createdDate").type(JsonFieldType.STRING).description("유저 생성 시점"),
-                    fieldWithPath("[].user.modifiedDate").type(JsonFieldType.STRING).description("유저 수정 시점"),
-                    fieldWithPath("[].user.id").type(JsonFieldType.NUMBER).description("유저 id"),
-                    fieldWithPath("[].user.nickName").type(JsonFieldType.STRING).description("유저 닉네임"),
-                    fieldWithPath("[].user.type").type(JsonFieldType.STRING).description("유저 타입"),
-                    fieldWithPath("[].user.profileImageUrl").type(JsonFieldType.STRING).description("유저 프로필 이미지")
+                    fieldWithPath("totalComment").type(JsonFieldType.NUMBER).description("댓글의 총 개수"),
+                    fieldWithPath("totalPage").type(JsonFieldType.NUMBER).description("페이지의 총 개수"),
+                    fieldWithPath("comments.[].createdDate").type(JsonFieldType.STRING).description("댓글 생성 시점"),
+                    fieldWithPath("comments.[].modifiedDate").type(JsonFieldType.STRING).description("댓글 수정 시점"),
+                    fieldWithPath("comments.[].id").type(JsonFieldType.NUMBER).description("댓글 id"),
+                    fieldWithPath("comments.[].content").type(JsonFieldType.STRING).description("댓글 내용"),
+                    fieldWithPath("comments.[].url").type(JsonFieldType.STRING).description("댓글이 있는 url"),
+                    fieldWithPath("comments.[].likingUsers[*]").type(JsonFieldType.ARRAY).description("좋아요 누른 유저 정보"),
+                    fieldWithPath("comments.[].user").type(JsonFieldType.OBJECT).description("댓글 작성 유저 정보"),
+                    fieldWithPath("comments.[].user.createdDate").type(JsonFieldType.STRING).description("유저 생성 시점"),
+                    fieldWithPath("comments.[].user.modifiedDate").type(JsonFieldType.STRING).description("유저 수정 시점"),
+                    fieldWithPath("comments.[].user.id").type(JsonFieldType.NUMBER).description("유저 id"),
+                    fieldWithPath("comments.[].user.nickName").type(JsonFieldType.STRING).description("유저 닉네임"),
+                    fieldWithPath("comments.[].user.type").type(JsonFieldType.STRING).description("유저 타입"),
+                    fieldWithPath("comments.[].user.profileImageUrl").type(JsonFieldType.STRING).description("유저 프로필 이미지")
                 )
             ));
     }
@@ -581,19 +553,21 @@ public class CommentAcceptanceTest extends AcceptanceTest {
                     parameterWithName("size").description("페이지당 댓글의 개수")
                 ),
                 responseFields(
-                    fieldWithPath("[].createdDate").type(JsonFieldType.STRING).description("댓글 생성 시점"),
-                    fieldWithPath("[].modifiedDate").type(JsonFieldType.STRING).description("댓글 수정 시점"),
-                    fieldWithPath("[].id").type(JsonFieldType.NUMBER).description("댓글 id"),
-                    fieldWithPath("[].content").type(JsonFieldType.STRING).description("댓글 내용"),
-                    fieldWithPath("[].url").type(JsonFieldType.STRING).description("댓글이 있는 url"),
-                    fieldWithPath("[].likingUsers[*]").type(JsonFieldType.ARRAY).description("좋아요 누른 유저 정보"),
-                    fieldWithPath("[].user").type(JsonFieldType.OBJECT).description("댓글 작성 유저 정보"),
-                    fieldWithPath("[].user.createdDate").type(JsonFieldType.STRING).description("유저 생성 시점"),
-                    fieldWithPath("[].user.modifiedDate").type(JsonFieldType.STRING).description("유저 수정 시점"),
-                    fieldWithPath("[].user.id").type(JsonFieldType.NUMBER).description("유저 id"),
-                    fieldWithPath("[].user.nickName").type(JsonFieldType.STRING).description("유저 닉네임"),
-                    fieldWithPath("[].user.type").type(JsonFieldType.STRING).description("유저 타입"),
-                    fieldWithPath("[].user.profileImageUrl").type(JsonFieldType.STRING).description("유저 프로필 이미지")
+                    fieldWithPath("totalComment").type(JsonFieldType.NUMBER).description("댓글의 총 개수"),
+                    fieldWithPath("totalPage").type(JsonFieldType.NUMBER).description("페이지의 총 개수"),
+                    fieldWithPath("comments.[].createdDate").type(JsonFieldType.STRING).description("댓글 생성 시점"),
+                    fieldWithPath("comments.[].modifiedDate").type(JsonFieldType.STRING).description("댓글 수정 시점"),
+                    fieldWithPath("comments.[].id").type(JsonFieldType.NUMBER).description("댓글 id"),
+                    fieldWithPath("comments.[].content").type(JsonFieldType.STRING).description("댓글 내용"),
+                    fieldWithPath("comments.[].url").type(JsonFieldType.STRING).description("댓글이 있는 url"),
+                    fieldWithPath("comments.[].likingUsers[*]").type(JsonFieldType.ARRAY).description("좋아요 누른 유저 정보"),
+                    fieldWithPath("comments.[].user").type(JsonFieldType.OBJECT).description("댓글 작성 유저 정보"),
+                    fieldWithPath("comments.[].user.createdDate").type(JsonFieldType.STRING).description("유저 생성 시점"),
+                    fieldWithPath("comments.[].user.modifiedDate").type(JsonFieldType.STRING).description("유저 수정 시점"),
+                    fieldWithPath("comments.[].user.id").type(JsonFieldType.NUMBER).description("유저 id"),
+                    fieldWithPath("comments.[].user.nickName").type(JsonFieldType.STRING).description("유저 닉네임"),
+                    fieldWithPath("comments.[].user.type").type(JsonFieldType.STRING).description("유저 타입"),
+                    fieldWithPath("comments.[].user.profileImageUrl").type(JsonFieldType.STRING).description("유저 프로필 이미지")
                 )
             ));
     }
@@ -641,26 +615,31 @@ public class CommentAcceptanceTest extends AcceptanceTest {
                     parameterWithName("size").description("페이지당 댓글의 개수")
                 ),
                 responseFields(
-                    fieldWithPath("[].createdDate").type(JsonFieldType.STRING).description("댓글 생성 시점"),
-                    fieldWithPath("[].modifiedDate").type(JsonFieldType.STRING).description("댓글 수정 시점"),
-                    fieldWithPath("[].id").type(JsonFieldType.NUMBER).description("댓글 id"),
-                    fieldWithPath("[].content").type(JsonFieldType.STRING).description("댓글 내용"),
-                    fieldWithPath("[].url").type(JsonFieldType.STRING).description("댓글이 있는 url"),
-                    fieldWithPath("[].likingUsers[*]").type(JsonFieldType.ARRAY).description("좋아요 누른 유저 정보"),
-                    fieldWithPath("[].likingUsers[*].id").type(JsonFieldType.NUMBER).description("좋아요 누른 유저 ID"),
-                    fieldWithPath("[].likingUsers[*].nickName").type(JsonFieldType.STRING).description("좋아요 누른 유저 닉네임"),
-                    fieldWithPath("[].likingUsers[*].type").type(JsonFieldType.STRING).description("좋아요 누른 유저 타입"),
-                    fieldWithPath("[].likingUsers[*].profileImageUrl").type(JsonFieldType.STRING)
+                    fieldWithPath("totalComment").type(JsonFieldType.NUMBER).description("댓글의 총 개수"),
+                    fieldWithPath("totalPage").type(JsonFieldType.NUMBER).description("페이지의 총 개수"),
+                    fieldWithPath("comments.[].createdDate").type(JsonFieldType.STRING).description("댓글 생성 시점"),
+                    fieldWithPath("comments.[].modifiedDate").type(JsonFieldType.STRING).description("댓글 수정 시점"),
+                    fieldWithPath("comments.[].id").type(JsonFieldType.NUMBER).description("댓글 id"),
+                    fieldWithPath("comments.[].content").type(JsonFieldType.STRING).description("댓글 내용"),
+                    fieldWithPath("comments.[].url").type(JsonFieldType.STRING).description("댓글이 있는 url"),
+                    fieldWithPath("comments.[].likingUsers[*]").type(JsonFieldType.ARRAY).description("좋아요 누른 유저 정보"),
+                    fieldWithPath("comments.[].likingUsers[*].id").type(JsonFieldType.NUMBER).description("좋아요 누른 유저 ID"),
+                    fieldWithPath("comments.[].likingUsers[*].nickName").type(JsonFieldType.STRING)
+                        .description("좋아요 누른 유저 닉네임"),
+                    fieldWithPath("comments.[].likingUsers[*].type").type(JsonFieldType.STRING).description("좋아요 누른 유저 타입"),
+                    fieldWithPath("comments.[].likingUsers[*].profileImageUrl").type(JsonFieldType.STRING)
                         .description("좋아요 누른 유저 이미지 링크"),
-                    fieldWithPath("[].likingUsers[*].createdDate").type(JsonFieldType.STRING).description("좋아요 누른 시간"),
-                    fieldWithPath("[].likingUsers[*].modifiedDate").type(JsonFieldType.STRING).description("좋아요 수정한 시간"),
-                    fieldWithPath("[].user").type(JsonFieldType.OBJECT).description("댓글 작성 유저 정보"),
-                    fieldWithPath("[].user.createdDate").type(JsonFieldType.STRING).description("유저 생성 시점"),
-                    fieldWithPath("[].user.modifiedDate").type(JsonFieldType.STRING).description("유저 수정 시점"),
-                    fieldWithPath("[].user.id").type(JsonFieldType.NUMBER).description("유저 id"),
-                    fieldWithPath("[].user.nickName").type(JsonFieldType.STRING).description("유저 닉네임"),
-                    fieldWithPath("[].user.type").type(JsonFieldType.STRING).description("유저 타입"),
-                    fieldWithPath("[].user.profileImageUrl").type(JsonFieldType.STRING).description("유저 프로필 이미지")
+                    fieldWithPath("comments.[].likingUsers[*].createdDate").type(JsonFieldType.STRING)
+                        .description("좋아요 누른 시간"),
+                    fieldWithPath("comments.[].likingUsers[*].modifiedDate").type(JsonFieldType.STRING)
+                        .description("좋아요 수정한 시간"),
+                    fieldWithPath("comments.[].user").type(JsonFieldType.OBJECT).description("댓글 작성 유저 정보"),
+                    fieldWithPath("comments.[].user.createdDate").type(JsonFieldType.STRING).description("유저 생성 시점"),
+                    fieldWithPath("comments.[].user.modifiedDate").type(JsonFieldType.STRING).description("유저 수정 시점"),
+                    fieldWithPath("comments.[].user.id").type(JsonFieldType.NUMBER).description("유저 id"),
+                    fieldWithPath("comments.[].user.nickName").type(JsonFieldType.STRING).description("유저 닉네임"),
+                    fieldWithPath("comments.[].user.type").type(JsonFieldType.STRING).description("유저 타입"),
+                    fieldWithPath("comments.[].user.profileImageUrl").type(JsonFieldType.STRING).description("유저 프로필 이미지")
                 )
             ));
     }
@@ -696,19 +675,21 @@ public class CommentAcceptanceTest extends AcceptanceTest {
                     parameterWithName("size").description("페이지당 댓글의 개수")
                 ),
                 responseFields(
-                    fieldWithPath("[].createdDate").type(JsonFieldType.STRING).description("댓글 생성 시점"),
-                    fieldWithPath("[].modifiedDate").type(JsonFieldType.STRING).description("댓글 수정 시점"),
-                    fieldWithPath("[].id").type(JsonFieldType.NUMBER).description("댓글 id"),
-                    fieldWithPath("[].content").type(JsonFieldType.STRING).description("댓글 내용"),
-                    fieldWithPath("[].url").type(JsonFieldType.STRING).description("댓글이 있는 url"),
-                    fieldWithPath("[].likingUsers[*]").type(JsonFieldType.ARRAY).description("좋아요 누른 유저 정보"),
-                    fieldWithPath("[].user").type(JsonFieldType.OBJECT).description("댓글 작성 유저 정보"),
-                    fieldWithPath("[].user.createdDate").type(JsonFieldType.STRING).description("유저 생성 시점"),
-                    fieldWithPath("[].user.modifiedDate").type(JsonFieldType.STRING).description("유저 수정 시점"),
-                    fieldWithPath("[].user.id").type(JsonFieldType.NUMBER).description("유저 id"),
-                    fieldWithPath("[].user.nickName").type(JsonFieldType.STRING).description("유저 닉네임"),
-                    fieldWithPath("[].user.type").type(JsonFieldType.STRING).description("유저 타입"),
-                    fieldWithPath("[].user.profileImageUrl").type(JsonFieldType.STRING).description("유저 프로필 이미지")
+                    fieldWithPath("totalComment").type(JsonFieldType.NUMBER).description("댓글의 총 개수"),
+                    fieldWithPath("totalPage").type(JsonFieldType.NUMBER).description("페이지의 총 개수"),
+                    fieldWithPath("comments.[].createdDate").type(JsonFieldType.STRING).description("댓글 생성 시점"),
+                    fieldWithPath("comments.[].modifiedDate").type(JsonFieldType.STRING).description("댓글 수정 시점"),
+                    fieldWithPath("comments.[].id").type(JsonFieldType.NUMBER).description("댓글 id"),
+                    fieldWithPath("comments.[].content").type(JsonFieldType.STRING).description("댓글 내용"),
+                    fieldWithPath("comments.[].url").type(JsonFieldType.STRING).description("댓글이 있는 url"),
+                    fieldWithPath("comments.[].likingUsers[*]").type(JsonFieldType.ARRAY).description("좋아요 누른 유저 정보"),
+                    fieldWithPath("comments.[].user").type(JsonFieldType.OBJECT).description("댓글 작성 유저 정보"),
+                    fieldWithPath("comments.[].user.createdDate").type(JsonFieldType.STRING).description("유저 생성 시점"),
+                    fieldWithPath("comments.[].user.modifiedDate").type(JsonFieldType.STRING).description("유저 수정 시점"),
+                    fieldWithPath("comments.[].user.id").type(JsonFieldType.NUMBER).description("유저 id"),
+                    fieldWithPath("comments.[].user.nickName").type(JsonFieldType.STRING).description("유저 닉네임"),
+                    fieldWithPath("comments.[].user.type").type(JsonFieldType.STRING).description("유저 타입"),
+                    fieldWithPath("comments.[].user.profileImageUrl").type(JsonFieldType.STRING).description("유저 프로필 이미지")
                 )
             ));
     }

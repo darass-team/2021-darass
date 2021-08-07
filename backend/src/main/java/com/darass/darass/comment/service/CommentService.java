@@ -3,15 +3,13 @@ package com.darass.darass.comment.service;
 import com.darass.darass.comment.domain.Comment;
 import com.darass.darass.comment.domain.CommentLike;
 import com.darass.darass.comment.domain.SortOption;
-import com.darass.darass.comment.dto.CommentCountRequest;
-import com.darass.darass.comment.dto.CommentCountRequestInProject;
-import com.darass.darass.comment.dto.CommentCountResponse;
 import com.darass.darass.comment.dto.CommentCreateRequest;
 import com.darass.darass.comment.dto.CommentDeleteRequest;
 import com.darass.darass.comment.dto.CommentReadRequestByPagination;
 import com.darass.darass.comment.dto.CommentReadRequestBySearch;
 import com.darass.darass.comment.dto.CommentReadRequestInProject;
 import com.darass.darass.comment.dto.CommentResponse;
+import com.darass.darass.comment.dto.CommentResponses;
 import com.darass.darass.comment.dto.CommentUpdateRequest;
 import com.darass.darass.comment.repository.CommentRepository;
 import com.darass.darass.exception.ExceptionWithMessageAndCode;
@@ -73,21 +71,21 @@ public class CommentService {
         return userRepository.save(user);
     }
 
-    public List<CommentResponse> findAllCommentsByUrlAndProjectKeyUsingPagination(CommentReadRequestByPagination request) {
+    public CommentResponses findAllCommentsByUrlAndProjectKeyUsingPagination(CommentReadRequestByPagination request) {
         int pageBasedIndex = request.getPage() - 1;
         try {
             Page<Comment> comments = commentRepository
                 .findByUrlAndProjectSecretKey(request.getUrl(), request.getProjectKey(),
                     PageRequest.of(pageBasedIndex, request.getSize(), SortOption.getMatchedSort(request.getSortOption())));
-            return comments.stream()
+            return new CommentResponses(comments.getTotalElements(), comments.getTotalPages(), comments.stream()
                 .map(comment -> CommentResponse.of(comment, UserResponse.of(comment.getUser())))
-                .collect(Collectors.toList());
+                .collect(Collectors.toList()));
         } catch (IllegalArgumentException e) {
             throw ExceptionWithMessageAndCode.PAGE_NOT_POSITIVE_EXCEPTION.getException();
         }
     }
 
-    public List<CommentResponse> findAllCommentsInProject(
+    public CommentResponses findAllCommentsInProject(
         CommentReadRequestInProject request) {
         int pageBasedIndex = request.getPage() - 1;
         try {
@@ -99,15 +97,15 @@ public class CommentService {
                     PageRequest.of(pageBasedIndex, request.getSize(), SortOption.getMatchedSort(request.getSortOption()))
                 );
 
-            return comments.stream()
+            return new CommentResponses(comments.getTotalElements(), comments.getTotalPages(), comments.stream()
                 .map(comment -> CommentResponse.of(comment, UserResponse.of(comment.getUser())))
-                .collect(Collectors.toList());
+                .collect(Collectors.toList()));
         } catch (IllegalArgumentException e) {
             throw ExceptionWithMessageAndCode.PAGE_NOT_POSITIVE_EXCEPTION.getException();
         }
     }
 
-    public List<CommentResponse> findAllCommentsInProjectUsingSearch(
+    public CommentResponses findAllCommentsInProjectUsingSearch(
         CommentReadRequestBySearch request) {
         int pageBasedIndex = request.getPage() - 1;
         try {
@@ -118,9 +116,9 @@ public class CommentService {
                     PageRequest.of(pageBasedIndex, request.getSize(), SortOption.getMatchedSort(request.getSortOption()))
                 );
 
-            return comments.stream()
+            return new CommentResponses(comments.getTotalElements(), comments.getTotalPages(), comments.stream()
                 .map(comment -> CommentResponse.of(comment, UserResponse.of(comment.getUser())))
-                .collect(Collectors.toList());
+                .collect(Collectors.toList()));
         } catch (IllegalArgumentException e) {
             throw ExceptionWithMessageAndCode.PAGE_NOT_POSITIVE_EXCEPTION.getException();
         }
