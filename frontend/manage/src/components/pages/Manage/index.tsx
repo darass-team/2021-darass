@@ -18,7 +18,7 @@ import Comment from "../../molecules/Comment";
 import CommentSearchConditionForm from "../../organisms/CommentSearchConditionForm";
 import ContainerWithSideBar from "../../organisms/ContainerWithSideBar";
 import ErrorNotice from "../../organisms/ErrorNotice";
-import { CommentList, Container, DeleteButton, Header, Row, Title } from "./styles";
+import { CommentList, TotalComment, CommentsViewer, Container, DeleteButton, Header, Row, Title } from "./styles";
 
 const Manage = () => {
   const match = useRouteMatch<{ id: string }>();
@@ -122,7 +122,15 @@ const Manage = () => {
             endDate={endDate}
             setEndDate={setEndDate}
           />
-          <CommentList>
+
+          <CommentsViewer>
+            <TotalComment>
+              <span>{totalComment}</span>
+              개의 댓글{" "}
+              <span>
+                ({totalPage} 중 {currentPageIndex} 페이지)
+              </span>
+            </TotalComment>
             <Header>
               <CheckBox
                 isChecked={isCheckingAllCommentsInCurrentPage}
@@ -132,34 +140,34 @@ const Manage = () => {
 
               <DeleteButton onClick={onClickDeleteButton}>삭제</DeleteButton>
             </Header>
-            {comments?.length === 0 ? (
-              <Row>
-                <ErrorNotice>{"해당하는 댓글을 찾을 수 없습니다"}</ErrorNotice>
-              </Row>
-            ) : (
-              comments?.map(({ id, content, user, createdDate, url }) => (
-                <Row key={id}>
-                  <Comment
-                    isChecked={checkedCommentIds.some(_id => _id === id)}
-                    onChangeCheckBox={() => updateCheckedCommentId(id)}
-                    authorProfileImageUrl={user.profileImageUrl}
-                    authorNickName={user.nickName}
-                    createdDate={createdDate}
-                    content={content}
-                    url={url}
-                  />
+            <CommentList>
+              {comments?.length === 0 ? (
+                <Row>
+                  <ErrorNotice>{"해당하는 댓글을 찾을 수 없습니다"}</ErrorNotice>
                 </Row>
-              ))
-            )}
+              ) : (
+                comments?.map(({ id, content, user, createdDate, url }) => (
+                  <Row key={id}>
+                    <Comment
+                      isChecked={checkedCommentIds.some(_id => _id === id)}
+                      onChangeCheckBox={() => updateCheckedCommentId(id)}
+                      authorProfileImageUrl={user.profileImageUrl}
+                      authorNickName={user.nickName}
+                      createdDate={createdDate}
+                      content={content}
+                      url={url}
+                    />
+                  </Row>
+                ))
+              )}
+            </CommentList>
 
-            <Row>
-              <PageNationBar
-                currentPageIndex={currentPageIndex}
-                setCurrentPageIndex={setCurrentPageIndex}
-                totalDataLength={totalComment || 0}
-              />
-            </Row>
-          </CommentList>
+            <PageNationBar
+              currentPageIndex={currentPageIndex}
+              setCurrentPageIndex={setCurrentPageIndex}
+              totalDataLength={totalComment || 0}
+            />
+          </CommentsViewer>
         </Container>
       </ContainerWithSideBar>
     </ScreenContainer>
