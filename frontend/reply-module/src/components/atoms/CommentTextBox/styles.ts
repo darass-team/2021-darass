@@ -3,9 +3,9 @@ import { PALETTE } from "../../../styles/palette";
 import DeleteButton from "../Buttons/DeleteButton";
 import SubmitButtonComponent from "../Buttons/SubmitButton";
 
-export const Container = styled.div`
+export const Container = styled.div<{ isNestedComment: boolean }>`
   width: 100%;
-  background-color: ${PALETTE.GRAY_200};
+  background-color: ${props => (props.isNestedComment ? PALETTE.GRAY_400 : PALETTE.GRAY_200)};
   border-radius: 10px;
   padding: 0.8rem 1rem 1.2rem 1rem;
   display: flex;
@@ -23,17 +23,28 @@ export const Name = styled.span<{ thisCommentIsWrittenByAdmin: boolean }>`
     props.thisCommentIsWrittenByAdmin &&
     css`
       &:after {
-        content: "(작성자)";
-        font-size: 1rem;
-        margin-left: 0.3rem;
-        color: ${PALETTE.BLUE_700};
+        content: "작성자";
+        font-size: 0.9rem;
+        line-height: 1.2rem;
+        margin-left: 0.5rem;
+        color: ${PALETTE.INDIGO_600};
       }
     `}
 `;
 
-export const Text = styled.div`
+export const Text = styled.div<{ isNestedComment: boolean; contentEditable: boolean }>`
   outline-color: ${PALETTE.BLACK_700};
-  background-color: ${props => (props.contentEditable ? PALETTE.WHITE : PALETTE.GRAY_200)};
+  /* background-color: ${props => (props.contentEditable ? PALETTE.WHITE : PALETTE.GRAY_200)}; */
+  background-color: ${props => {
+    if (props.contentEditable) {
+      return PALETTE.WHITE;
+    }
+    if (props.isNestedComment) {
+      return PALETTE.GRAY_400;
+    }
+
+    return PALETTE.GRAY_200;
+  }};
   padding: 0.2rem 0.3rem;
   min-width: 10rem;
   //max-width: 20rem;

@@ -61,11 +61,9 @@ export const OrderButton = styled.button<{ isSelected: boolean }>`
 export const CommentContainer = styled.div`
   display: flex;
   flex-direction: column;
-  margin: 3rem 0;
+  margin: 3rem 2rem 3rem 0;
 
   & > * {
-    margin-bottom: 1.5rem;
-
     &:last-child {
       margin-bottom: 0;
     }

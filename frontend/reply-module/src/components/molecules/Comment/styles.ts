@@ -6,14 +6,22 @@ import LikingUsersButtonComponent from "../../atoms/Buttons/LikingUsersButton";
 import SubmitButton from "../../atoms/Buttons/SubmitButton";
 import CommentOptionComponent from "../../atoms/CommentOption";
 
-export const Container = styled.div`
+export const Container = styled.div<{ isNestedComment: boolean }>`
   display: flex;
   flex-direction: column;
-  margin-right: 2rem;
+  margin-left: ${props => props.isNestedComment && "3rem"};
+  margin-bottom: 1.5rem;
+  //margin-bottom: ${props => (props.isNestedComment ? "5rem" : "1.5rem")};
 `;
 
 export const CommentWrapper = styled.div`
   display: flex;
+`;
+
+export const DownRightArrow = styled.img`
+  width: 1.5rem;
+  height: 1.5rem;
+  margin-right: 0.6rem;
 `;
 
 export const CommentTextBoxWrapper = styled.div`
@@ -63,7 +71,9 @@ export const CommentOption = styled(CommentOptionComponent)`
   top: 0.75rem;
 `;
 
-export const PasswordForm = styled.form``;
+export const PasswordForm = styled.form<{ isNestedComment: boolean }>`
+  margin-left: ${props => props.isNestedComment && "2.1rem"};
+`;
 
 export const PasswordInput = styled.input<{ isValidInput: Boolean }>`
   ${InputCSS};

@@ -25,13 +25,15 @@ import {
   PasswordForm,
   PasswordInput,
   LikingUsersButton,
-  Time
+  Time,
+  DownRightArrow
 } from "./styles";
 import { POST_MESSAGE_TYPE } from "../../../constants/postMessageType";
 import { getPasswordConfirmResult } from "../../../api/getPasswordConfirmResult";
 import { AlertError } from "../../../utils/Error";
 import { MAX_COMMENT_INPUT_LENGTH } from "../../../constants/comment";
 import { getErrorMessage } from "../../../utils/errorMessage";
+import downRightArrowSVG from "../../../assets/svg/down-right-arrow.svg";
 
 export interface Props {
   user: User | undefined;
@@ -40,6 +42,8 @@ export interface Props {
   iAmAdmin: boolean;
   thisCommentIsWrittenByAdmin: boolean;
   thisCommentIsMine: boolean;
+  hasNestedComment: boolean;
+  isNestedComment: boolean;
 }
 
 type SubmitType = "Edit" | "Delete";
@@ -50,7 +54,9 @@ const Comment = ({
   shouldShowOption,
   iAmAdmin,
   thisCommentIsWrittenByAdmin,
-  thisCommentIsMine
+  thisCommentIsMine,
+  hasNestedComment,
+  isNestedComment
 }: Props) => {
   const [isEditing, setEditing] = useState(false);
   const [isPasswordSubmitted, setPasswordSubmitted] = useState(false);
@@ -61,7 +67,6 @@ const Comment = ({
   const { deleteComment } = useDeleteComment();
   const { likeComment } = useLikeComment();
   const isLiked = comment.likingUsers.some(likingUser => likingUser.id === user?.id);
-
   const clear = () => {
     setEditing(false);
     setPasswordSubmitted(false);
@@ -203,13 +208,15 @@ const Comment = ({
   }, [user]);
 
   return (
-    <Container data-testid="comment">
+    <Container data-testid="comment" isNestedComment={isNestedComment}>
       <CommentWrapper>
+        {isNestedComment && <DownRightArrow src={downRightArrowSVG} />}
         <Avatar imageURL={comment.user.profileImageUrl} />
         <CommentTextBoxWrapper>
           <CommentTextBox
             name={comment.user.nickName}
             thisCommentIsWrittenByAdmin={thisCommentIsWrittenByAdmin}
+            isNestedComment={isNestedComment}
             contentEditable={isEditing}
             clear={clear}
             onSubmitEditedComment={onSubmitEditedComment}
@@ -236,6 +243,7 @@ const Comment = ({
       </CommentWrapper>
       {shouldShowPasswordInput && shouldShowOption && (
         <PasswordForm
+          isNestedComment={isNestedComment}
           onSubmit={event => {
             const submitPasswordCallback = submitType === "Edit" ? () => setEditing(true) : confirmDelete;
 
