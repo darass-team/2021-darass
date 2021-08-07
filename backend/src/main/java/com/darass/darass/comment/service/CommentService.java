@@ -11,7 +11,6 @@ import com.darass.darass.comment.dto.CommentDeleteRequest;
 import com.darass.darass.comment.dto.CommentReadRequestByPagination;
 import com.darass.darass.comment.dto.CommentReadRequestBySearch;
 import com.darass.darass.comment.dto.CommentReadRequestInProject;
-import com.darass.darass.comment.dto.CommentReadResponseInProject;
 import com.darass.darass.comment.dto.CommentResponse;
 import com.darass.darass.comment.dto.CommentUpdateRequest;
 import com.darass.darass.comment.repository.CommentRepository;
@@ -88,7 +87,7 @@ public class CommentService {
         }
     }
 
-    public List<CommentReadResponseInProject> findAllCommentsInProject(
+    public List<CommentResponse> findAllCommentsInProject(
         CommentReadRequestInProject request) {
         int pageBasedIndex = request.getPage() - 1;
         try {
@@ -101,14 +100,14 @@ public class CommentService {
                 );
 
             return comments.stream()
-                .map(comment -> CommentReadResponseInProject.of(comment, UserResponse.of(comment.getUser())))
+                .map(comment -> CommentResponse.of(comment, UserResponse.of(comment.getUser())))
                 .collect(Collectors.toList());
         } catch (IllegalArgumentException e) {
             throw ExceptionWithMessageAndCode.PAGE_NOT_POSITIVE_EXCEPTION.getException();
         }
     }
 
-    public List<CommentReadResponseInProject> findAllCommentsInProjectUsingSearch(
+    public List<CommentResponse> findAllCommentsInProjectUsingSearch(
         CommentReadRequestBySearch request) {
         int pageBasedIndex = request.getPage() - 1;
         try {
@@ -120,21 +119,11 @@ public class CommentService {
                 );
 
             return comments.stream()
-                .map(comment -> CommentReadResponseInProject.of(comment, UserResponse.of(comment.getUser())))
+                .map(comment -> CommentResponse.of(comment, UserResponse.of(comment.getUser())))
                 .collect(Collectors.toList());
         } catch (IllegalArgumentException e) {
             throw ExceptionWithMessageAndCode.PAGE_NOT_POSITIVE_EXCEPTION.getException();
         }
-    }
-
-    public CommentCountResponse getCommentCountInProject(CommentCountRequestInProject request) {
-        Long count = commentRepository.countCommentByProjectSecretKey(request.getProjectKey());
-        return new CommentCountResponse(count);
-    }
-
-    public CommentCountResponse getCommentCount(CommentCountRequest request) {
-        Long count = commentRepository.countCommentByUrlAndProjectSecretKey(request.getUrl(), request.getProjectKey());
-        return new CommentCountResponse(count);
     }
 
     public void updateContent(Long id, User user, CommentUpdateRequest request) { //TODO: 리팩터링 고민

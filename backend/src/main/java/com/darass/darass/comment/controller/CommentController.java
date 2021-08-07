@@ -10,7 +10,6 @@ import com.darass.darass.comment.dto.CommentDeleteRequest;
 import com.darass.darass.comment.dto.CommentReadRequestByPagination;
 import com.darass.darass.comment.dto.CommentReadRequestBySearch;
 import com.darass.darass.comment.dto.CommentReadRequestInProject;
-import com.darass.darass.comment.dto.CommentReadResponseInProject;
 import com.darass.darass.comment.dto.CommentResponse;
 import com.darass.darass.comment.dto.CommentUpdateRequest;
 import com.darass.darass.comment.service.CommentService;
@@ -37,11 +36,6 @@ public class CommentController {
 
     private final CommentService commentService;
 
-    @GetMapping("/comments/count")
-    public ResponseEntity<CommentCountResponse> findCommentCount(@ModelAttribute CommentCountRequest commentCountRequest) {
-        return ResponseEntity.status(HttpStatus.OK).body(commentService.getCommentCount(commentCountRequest));
-    }
-
     @GetMapping("/comments/paging")
     public ResponseEntity<List<CommentResponse>> readByPageRequest(
         @ModelAttribute CommentReadRequestByPagination commentReadRequestByPagination) {
@@ -50,25 +44,18 @@ public class CommentController {
         return ResponseEntity.status(HttpStatus.OK).body(commentResponses);
     }
 
-    @GetMapping("/projects/comments/count")
-    public ResponseEntity<CommentCountResponse> findCommentCountInProject(
-        @ModelAttribute CommentCountRequestInProject commentCountRequestInProject) {
-        return ResponseEntity.status(HttpStatus.OK)
-            .body(commentService.getCommentCountInProject(commentCountRequestInProject));
-    }
-
     @GetMapping("/projects/comments/search/paging")
-    public ResponseEntity<List<CommentReadResponseInProject>> readByPageRequestUsingSearch(
+    public ResponseEntity<List<CommentResponse>> readByPageRequestUsingSearch(
         @ModelAttribute CommentReadRequestBySearch CommentReadRequestBySearch) {
-        List<CommentReadResponseInProject> commentResponses = commentService
+        List<CommentResponse> commentResponses = commentService
             .findAllCommentsInProjectUsingSearch(CommentReadRequestBySearch);
         return ResponseEntity.status(HttpStatus.OK).body(commentResponses);
     }
 
     @GetMapping("/projects/comments/paging")
-    public ResponseEntity<List<CommentReadResponseInProject>> readByPageRequestInProject(
+    public ResponseEntity<List<CommentResponse>> readByPageRequestInProject(
         @ModelAttribute CommentReadRequestInProject commentReadRequestInProject) {
-        List<CommentReadResponseInProject> commentResponses = commentService
+        List<CommentResponse> commentResponses = commentService
             .findAllCommentsInProject(commentReadRequestInProject);
         return ResponseEntity.status(HttpStatus.OK).body(commentResponses);
     }

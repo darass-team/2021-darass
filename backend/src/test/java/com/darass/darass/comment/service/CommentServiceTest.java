@@ -15,7 +15,6 @@ import com.darass.darass.comment.dto.CommentDeleteRequest;
 import com.darass.darass.comment.dto.CommentReadRequestByPagination;
 import com.darass.darass.comment.dto.CommentReadRequestBySearch;
 import com.darass.darass.comment.dto.CommentReadRequestInProject;
-import com.darass.darass.comment.dto.CommentReadResponseInProject;
 import com.darass.darass.comment.dto.CommentResponse;
 import com.darass.darass.comment.dto.CommentUpdateRequest;
 import com.darass.darass.comment.repository.CommentLikeRepository;
@@ -155,13 +154,6 @@ class CommentServiceTest extends SpringContainerTest {
             .hasMessage("해당하는 프로젝트가 없습니다.");
     }
 
-    @DisplayName("특정 URL에 해당하는 전체 댓글의 개수를 반환한다.")
-    @Test
-    void getCommentCount() {
-        CommentCountRequest request = new CommentCountRequest("url", project.getSecretKey());
-        assertThat(commentService.getCommentCount(request).getCount()).isEqualTo(3L);
-    }
-
     @DisplayName("특정 페이지의 댓글을 최신순으로 조회한다.")
     @Test
     void findAllCommentsByUrlAndProjectKeyUsingPagination_latest() {
@@ -192,20 +184,12 @@ class CommentServiceTest extends SpringContainerTest {
             .isEqualTo(Collections.singletonList("content1"));
     }
 
-    @DisplayName("특정 프로젝트에 해당하는 전체 댓글의 개수를 반환한다.")
-    @Test
-    void getCommentCountInProject() {
-        CommentCountRequestInProject request = new CommentCountRequestInProject(project.getSecretKey());
-        assertThat(commentService.getCommentCountInProject(request).getCount()).isEqualTo(4L);
-    }
-
     @DisplayName("특정 프로젝트에 해당하고, 시작 날짜와 종료 날짜 사이에 있는 임의의 페이지의 댓글을 최신순으로 조회한다.")
     @Test
     void findAllCommentsByProjectKeyUsingPaginationAndDateBetween_latest() {
         CommentReadRequestInProject request =
             new CommentReadRequestInProject("LATEST", project.getSecretKey(), LocalDate.EPOCH, LocalDate.now(), 1, 1);
-        List<CommentReadResponseInProject> responses = commentService
-            .findAllCommentsInProject(request);
+        List<CommentResponse> responses = commentService.findAllCommentsInProject(request);
         assertThat(responses).extracting("content")
             .isEqualTo(Collections.singletonList("hello"));
     }
@@ -215,8 +199,7 @@ class CommentServiceTest extends SpringContainerTest {
     void findAllCommentsByProjectKeyUsingPaginationAndDateBetween_like() {
         CommentReadRequestInProject request =
             new CommentReadRequestInProject("LIKE", project.getSecretKey(), LocalDate.EPOCH, LocalDate.now(), 1, 1);
-        List<CommentReadResponseInProject> responses = commentService
-            .findAllCommentsInProject(request);
+        List<CommentResponse> responses = commentService.findAllCommentsInProject(request);
         assertThat(responses).extracting("content")
             .isEqualTo(Collections.singletonList("content2"));
     }
@@ -226,8 +209,7 @@ class CommentServiceTest extends SpringContainerTest {
     void findAllCommentsByProjectKeyUsingPaginationAndDateBetween_oldest() {
         CommentReadRequestInProject request =
             new CommentReadRequestInProject("OLDEST", project.getSecretKey(), LocalDate.EPOCH, LocalDate.now(), 1, 1);
-        List<CommentReadResponseInProject> responses = commentService
-            .findAllCommentsInProject(request);
+        List<CommentResponse> responses = commentService.findAllCommentsInProject(request);
         assertThat(responses).extracting("content")
             .isEqualTo(Collections.singletonList("content1"));
     }
@@ -237,8 +219,7 @@ class CommentServiceTest extends SpringContainerTest {
     void findAllCommentsByProjectKeyUsingPaginationAndDateBetweenAndLike_latest() {
         CommentReadRequestBySearch request =
             new CommentReadRequestBySearch("LATEST", project.getSecretKey(), "content", 1, 5);
-        List<CommentReadResponseInProject> responses
-            = commentService.findAllCommentsInProjectUsingSearch(request);
+        List<CommentResponse> responses = commentService.findAllCommentsInProjectUsingSearch(request);
 
         assertThat(responses).extracting("content")
             .isEqualTo(Arrays.asList("content3", "content2", "content1"));
@@ -249,8 +230,7 @@ class CommentServiceTest extends SpringContainerTest {
     void findAllCommentsByProjectKeyUsingPaginationAndDateBetweenAndLike_like() {
         CommentReadRequestBySearch request =
             new CommentReadRequestBySearch("LIKE", project.getSecretKey(), "content", 1, 5);
-        List<CommentReadResponseInProject> responses
-            = commentService.findAllCommentsInProjectUsingSearch(request);
+        List<CommentResponse> responses = commentService.findAllCommentsInProjectUsingSearch(request);
 
         assertThat(responses).extracting("content")
             .isEqualTo(Arrays.asList("content2", "content1", "content3"));
@@ -261,8 +241,7 @@ class CommentServiceTest extends SpringContainerTest {
     void findAllCommentsByProjectKeyUsingPaginationAndDateBetweenAndLike_oldest() {
         CommentReadRequestBySearch request =
             new CommentReadRequestBySearch("OLDEST", project.getSecretKey(), "content", 1, 5);
-        List<CommentReadResponseInProject> responses
-            = commentService.findAllCommentsInProjectUsingSearch(request);
+        List<CommentResponse> responses = commentService.findAllCommentsInProjectUsingSearch(request);
 
         assertThat(responses).extracting("content")
             .isEqualTo(Arrays.asList("content1", "content2", "content3"));
