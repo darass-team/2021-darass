@@ -1,6 +1,7 @@
 import moment from "moment";
 import { FormEvent, useEffect } from "react";
 import { useLocation, useRouteMatch } from "react-router-dom";
+import { IgnorePlugin } from "webpack";
 import { PROJECT_MENU } from "../../../constants";
 import { COMMENT_COUNT_PER_PAGE } from "../../../constants/pagenation";
 import {
@@ -48,7 +49,8 @@ const Manage = () => {
     comments,
     totalComment,
     totalPage,
-    refetch: getCommentsOfProjectPerPage
+    refetch: getCommentsOfProjectPerPage,
+    prefetch: preGetCommentsOfProjectPerPage
   } = useGetCommentsOfProjectPerPage({
     projectKey: projectSecretKey,
     startDate: startDateAsString,
@@ -97,14 +99,16 @@ const Manage = () => {
   };
 
   useEffect(() => {
-    if (projectSecretKey) {
-      getCommentsOfProjectPerPage();
-    }
-  }, [projectSecretKey]);
+    if (!currentPageIndex || !projectSecretKey) return;
 
-  useEffect(() => {
     getCommentsOfProjectPerPage();
-  }, [currentPageIndex]);
+
+    currentPageIndex - 3 > 0 && preGetCommentsOfProjectPerPage(currentPageIndex - 3);
+    currentPageIndex - 2 > 0 && preGetCommentsOfProjectPerPage(currentPageIndex - 2);
+    currentPageIndex - 1 > 0 && preGetCommentsOfProjectPerPage(currentPageIndex - 1);
+    currentPageIndex + 1 <= totalPage && preGetCommentsOfProjectPerPage(currentPageIndex + 1);
+    currentPageIndex + 2 <= totalPage && preGetCommentsOfProjectPerPage(currentPageIndex + 2);
+  }, [currentPageIndex, projectSecretKey, totalPage]);
 
   return (
     <ScreenContainer>
@@ -126,10 +130,7 @@ const Manage = () => {
           <CommentsViewer>
             <TotalComment>
               <span>{totalComment}</span>
-              개의 댓글{" "}
-              <span>
-                ({totalPage} 중 {currentPageIndex} 페이지)
-              </span>
+              개의 댓글 (<span>총 {totalPage} 페이지</span>)
             </TotalComment>
             <Header>
               <CheckBox

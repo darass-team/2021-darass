@@ -1,4 +1,5 @@
 import { COMMENT_COUNT_PER_PAGE } from "../../../constants/pagenation";
+import { getPagesOfLength5 } from "../../../utils/pagenation";
 import { Container, PageIndexWrapper, PageIndex, PageIndexMoveButton } from "./styles";
 
 export interface Props {
@@ -28,10 +29,7 @@ const PageNationBar = ({
     }
   };
 
-  const pageNationNumbers = Array.from({ length: totalPageLength }, (_, index) => index + 1).slice(
-    currentPageIndex - 3 > 0 ? currentPageIndex - 3 : 0,
-    currentPageIndex + 2
-  );
+  const pageNationNumbers = getPagesOfLength5(currentPageIndex, totalPageLength);
 
   return (
     <Container>

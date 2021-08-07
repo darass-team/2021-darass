@@ -1,4 +1,4 @@
-import { useQuery } from "react-query";
+import { useQuery, useQueryClient } from "react-query";
 import { QUERY, REACT_QUERY_KEY } from "../constants";
 import { Comment, GetCommentsOfProjectPerPageRequest } from "../types/comment";
 import { request } from "../utils/request";
@@ -19,6 +19,7 @@ const _getAllCommentsOfProject = async ({
     urlSearchParam.set("endDate", endDate);
     urlSearchParam.set("page", `${page}`);
     urlSearchParam.set("size", `${size}`);
+
     const response = await request.get(decodeURIComponent(urlSearchParam.toString()));
 
     return response.data;
@@ -38,6 +39,8 @@ export const useGetCommentsOfProjectPerPage = ({
   page,
   size
 }: Props) => {
+  const queryClient = useQueryClient();
+
   const { data, refetch, isLoading, error } = useQuery<
     {
       comments: Comment[];
@@ -54,9 +57,24 @@ export const useGetCommentsOfProjectPerPage = ({
     }
   );
 
+  const prefetch = (pageIndex: number) => {
+    queryClient.prefetchQuery([REACT_QUERY_KEY.COMMENT_OF_PROJECT_PER_PAGE, projectKey, pageIndex], async () => {
+      const response = await _getAllCommentsOfProject({
+        sortOption,
+        projectKey,
+        startDate,
+        endDate,
+        page: pageIndex,
+        size
+      });
+
+      return response;
+    });
+  };
+
   const comments = !data || data?.comments.length === 0 ? [] : data.comments;
   const totalComment = data?.totalComment ? data?.totalComment : 0;
   const totalPage = data?.totalPage ? data?.totalPage : 0;
 
-  return { comments, totalComment, totalPage, refetch, isLoading, error };
+  return { comments, totalComment, totalPage, refetch, isLoading, error, prefetch };
 };
