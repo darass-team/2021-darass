@@ -2,6 +2,7 @@ package com.darass.darass.auth.oauth.api.domain.dto;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.darass.darass.auth.oauth.api.domain.vo.NaverAccount;
 import com.darass.darass.user.domain.SocialLoginUser;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

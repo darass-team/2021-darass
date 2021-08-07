@@ -7,4 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface SocialLoginUserRepository extends JpaRepository<SocialLoginUser, Long> {
 
     Optional<SocialLoginUser> findByOauthId(String oauthId);
+
 }

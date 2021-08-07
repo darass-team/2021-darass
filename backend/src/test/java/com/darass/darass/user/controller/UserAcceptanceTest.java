@@ -18,7 +18,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.darass.darass.AcceptanceTest;
-import com.darass.darass.auth.oauth.api.domain.OAuthProviderType;
 import com.darass.darass.auth.oauth.infrastructure.JwtTokenProvider;
 import com.darass.darass.comment.dto.CommentCreateRequest;
 import com.darass.darass.comment.dto.CommentResponse;
@@ -64,7 +63,7 @@ public class UserAcceptanceTest extends AcceptanceTest {
             .builder()
             .nickName("우기")
             .oauthId("2312312312")
-            .oauthProviderType(OAuthProviderType.KAKAO)
+            .oAuthProvider("kakao")
             .email("bbwwpark@naver.com")
             .profileImageUrl("https://imageUrl")
             .build();

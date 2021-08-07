@@ -1,6 +1,7 @@
 package com.darass.darass.auth.oauth.service;
 
 import com.darass.darass.auth.oauth.api.domain.OAuthProvider;
+import com.darass.darass.auth.oauth.api.domain.OAuthProviderFactory;
 import com.darass.darass.auth.oauth.dto.TokenResponse;
 import com.darass.darass.auth.oauth.infrastructure.JwtTokenProvider;
 import com.darass.darass.exception.ExceptionWithMessageAndCode;
@@ -16,19 +17,20 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class OAuthService {
 
-    private SocialLoginUserRepository socialLoginUserRepository;
+    private final SocialLoginUserRepository socialLoginUserRepository;
 
-    private JwtTokenProvider jwtTokenProvider;
+    private final JwtTokenProvider jwtTokenProvider;
 
-    private OAuthProvider oAuthProvider;
+    private final OAuthProviderFactory oAuthProviderFactory;
 
-    public TokenResponse oauthLogin(String oauthProviderName, String oauthAccessToken) {
-        SocialLoginUser socialLoginUser = oAuthProvider.findSocialLoginUser(oauthProviderName, oauthAccessToken);
+    public TokenResponse oauthLogin(String oauthProviderName, String authorizationCode) {
+        OAuthProvider oAuthProvider = oAuthProviderFactory.getOAuthProvider(oauthProviderName);
+        SocialLoginUser socialLoginUser = oAuthProvider.findSocialLoginUser(authorizationCode);
 
-        Optional<SocialLoginUser> possibleSocialLoginUser = socialLoginUserRepository
-            .findByOauthId(socialLoginUser.getOauthId());
+        Optional<SocialLoginUser> possibleSocialLoginUser =
+            socialLoginUserRepository.findByOauthId(socialLoginUser.getOauthId());
 
-        if (possibleSocialLoginUser.isEmpty()) { //TODO: 옵셔널로 변경 가능?
+        if (possibleSocialLoginUser.isEmpty()) {
             socialLoginUserRepository.save(socialLoginUser);
             return TokenResponse.of(jwtTokenProvider.createAccessToken(socialLoginUser.getId().toString()));
         }

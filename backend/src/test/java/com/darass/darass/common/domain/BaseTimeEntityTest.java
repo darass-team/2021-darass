@@ -3,7 +3,6 @@ package com.darass.darass.common.domain;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.darass.darass.SpringContainerTest;
-import com.darass.darass.auth.oauth.api.domain.OAuthProviderType;
 import com.darass.darass.user.domain.SocialLoginUser;
 import com.darass.darass.user.repository.SocialLoginUserRepository;
 import java.time.LocalDateTime;
@@ -27,7 +26,7 @@ class BaseTimeEntityTest extends SpringContainerTest {
             .nickName("병욱")
             .email("jujubebat@kakao.com")
             .oauthId("241323123")
-            .oauthProviderType(OAuthProviderType.KAKAO)
+            .oAuthProvider("kakao")
             .build());
 
         //when

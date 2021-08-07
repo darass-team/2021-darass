@@ -19,8 +19,8 @@ public class OAuthController {
 
     @GetMapping("/login/oauth")
     public ResponseEntity<TokenResponse> oauthLogin(@RequestParam String oauthProviderName,
-        @RequestParam String oauthAccessToken) {
-        TokenResponse tokenResponse = oAuthService.oauthLogin(oauthProviderName, oauthAccessToken);
+        @RequestParam String authorizationCode) {
+        TokenResponse tokenResponse = oAuthService.oauthLogin(oauthProviderName, authorizationCode);
         return ResponseEntity.status(HttpStatus.OK).body(tokenResponse);
     }
 

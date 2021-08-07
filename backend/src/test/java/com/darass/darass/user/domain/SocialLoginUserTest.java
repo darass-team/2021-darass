@@ -6,7 +6,6 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import com.darass.darass.auth.oauth.api.domain.OAuthProviderType;
 import com.darass.darass.exception.ExceptionWithMessageAndCode;
 import com.darass.darass.user.infrastructure.S3Uploader;
 import java.io.IOException;
@@ -21,7 +20,8 @@ class SocialLoginUserTest {
     private final String nickName = "우기";
     private final String email = "bbwwpark@naver.com";
     private final String oauthId = "12314341451354";
-    private final OAuthProviderType oAuthProviderType = OAuthProviderType.KAKAO;
+    private final String oauthProvider = "kakao";
+
     private SocialLoginUser socialLoginUser;
 
     @BeforeEach
@@ -30,7 +30,7 @@ class SocialLoginUserTest {
             .nickName(nickName)
             .email(email)
             .oauthId(oauthId)
-            .oauthProviderType(oAuthProviderType)
+            .oAuthProvider("kakao")
             .build();
     }
 
@@ -40,7 +40,7 @@ class SocialLoginUserTest {
         assertThat(socialLoginUser).isNotNull();
         assertThat(socialLoginUser.getNickName()).isEqualTo(nickName);
         assertThat(socialLoginUser.getOauthId()).isEqualTo(oauthId);
-        assertThat(socialLoginUser.getOauthProviderType()).isEqualTo(oAuthProviderType);
+        assertThat(socialLoginUser.getOAuthProvider()).isEqualTo(oauthProvider);
     }
 
     @DisplayName("isLoginUser 메서드는 true를 리턴한다.")

@@ -5,8 +5,8 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
 import com.darass.darass.SpringContainerTest;
-import com.darass.darass.auth.oauth.api.domain.OAuthProvider;
-import com.darass.darass.auth.oauth.api.domain.OAuthProviderType;
+import com.darass.darass.auth.oauth.api.domain.KaKaoOAuthProvider;
+import com.darass.darass.auth.oauth.api.domain.OAuthProviderFactory;
 import com.darass.darass.auth.oauth.dto.TokenResponse;
 import com.darass.darass.auth.oauth.infrastructure.JwtTokenProvider;
 import com.darass.darass.user.domain.SocialLoginUser;
@@ -25,27 +25,30 @@ class OAuthServiceTest extends SpringContainerTest {
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
 
+    @Autowired
+    private OAuthService oAuthService;
+
     @SpyBean
     private SocialLoginUserRepository socialLoginUserRepository;
 
     @MockBean
-    private OAuthProvider oAuthProvider;
+    private OAuthProviderFactory oAuthProviderFactory;
 
-    @Autowired
-    private OAuthService oAuthService;
+    @MockBean
+    private KaKaoOAuthProvider kaKaoOAuthProvider;
 
-    private String oauthAccessToken;
+    private String authorizationCode;
 
     private SocialLoginUser socialLoginUser;
 
     @BeforeEach
     public void setup() throws Exception {
-        oauthAccessToken = "LiCNQrImAFxi3LJAdt9ipGMSeOhmR4hw33Ao9cx6jkvW5w";
+        authorizationCode = "LiCNQrImAFxi3LJAdt9ipGMSeOhmR4hw33Ao9cx6jkvW5w";
         socialLoginUser = SocialLoginUser
             .builder()
             .nickName("우기")
             .oauthId("6752453")
-            .oauthProviderType(OAuthProviderType.KAKAO)
+            .oAuthProvider("kakao")
             .email("jujubebat@kakao.com")
             .profileImageUrl("http://kakao/profile_image.png")
             .build();
@@ -55,10 +58,11 @@ class OAuthServiceTest extends SpringContainerTest {
     @Test
     void oauthLogin_register() {
         //given
-        given(oAuthProvider.findSocialLoginUser(any(), any())).willReturn(socialLoginUser);
+        given(oAuthProviderFactory.getOAuthProvider(any())).willReturn(kaKaoOAuthProvider);
+        given(kaKaoOAuthProvider.findSocialLoginUser(any())).willReturn(socialLoginUser);
 
         //then
-        TokenResponse tokenResponse = oAuthService.oauthLogin(OAuthProviderType.KAKAO.getName(), oauthAccessToken);
+        TokenResponse tokenResponse = oAuthService.oauthLogin(KaKaoOAuthProvider.NAME, authorizationCode);
 
         //when
         String payload = jwtTokenProvider.getPayload(tokenResponse.getAccessToken());
@@ -67,16 +71,16 @@ class OAuthServiceTest extends SpringContainerTest {
     }
 
     @Transactional
-    @DisplayName("(로그인 - 이미 DB에 회원정보가 있는경우) login 메서드는 oauth 토큰이 주어지면, primary key를 payload 삼아 accessToken을 리턴한다.")
+    @DisplayName("(로그인 - 이미 DB에 회원정보가 있는경우) login 메서드는 oauth 토큰이 주어지면, 인증서버에서 사용자 정보를 받아와서 DB 저장을 하고 primary key를 payload 삼아 accessToken을 리턴한다.")
     @Test
     void oauthLogin_login() {
         //given
         socialLoginUserRepository.save(socialLoginUser);
-
-        given(oAuthProvider.findSocialLoginUser(any(), any())).willReturn(socialLoginUser);
+        given(oAuthProviderFactory.getOAuthProvider(any())).willReturn(kaKaoOAuthProvider);
+        given(kaKaoOAuthProvider.findSocialLoginUser(any())).willReturn(socialLoginUser);
 
         //then
-        TokenResponse tokenResponse = oAuthService.oauthLogin(OAuthProviderType.KAKAO.getName(), oauthAccessToken);
+        TokenResponse tokenResponse = oAuthService.oauthLogin(KaKaoOAuthProvider.NAME, authorizationCode);
 
         //when
         String payload = jwtTokenProvider.getPayload(tokenResponse.getAccessToken());
@@ -87,9 +91,10 @@ class OAuthServiceTest extends SpringContainerTest {
     @Test
     void findSocialLoginUserByAccessToken() {
         //given
-        given(oAuthProvider.findSocialLoginUser(any(), any())).willReturn(socialLoginUser);
+        given(oAuthProviderFactory.getOAuthProvider(any())).willReturn(kaKaoOAuthProvider);
+        given(kaKaoOAuthProvider.findSocialLoginUser(any())).willReturn(socialLoginUser);
 
-        TokenResponse tokenResponse = oAuthService.oauthLogin(OAuthProviderType.KAKAO.getName(), oauthAccessToken);
+        TokenResponse tokenResponse = oAuthService.oauthLogin(KaKaoOAuthProvider.NAME, authorizationCode);
 
         //then
         SocialLoginUser socialLoginUser = oAuthService.findSocialLoginUserByAccessToken(tokenResponse.getAccessToken());
@@ -98,7 +103,7 @@ class OAuthServiceTest extends SpringContainerTest {
         assertThat(socialLoginUser.getId()).isEqualTo(this.socialLoginUser.getId());
         assertThat(socialLoginUser.getNickName()).isEqualTo(this.socialLoginUser.getNickName());
         assertThat(socialLoginUser.getProfileImageUrl()).isEqualTo(this.socialLoginUser.getProfileImageUrl());
-        assertThat(socialLoginUser.getOauthProviderType()).isEqualTo(this.socialLoginUser.getOauthProviderType());
+        assertThat(socialLoginUser.getOAuthProvider()).isEqualTo(this.socialLoginUser.getOAuthProvider());
         assertThat(socialLoginUser.getEmail()).isEqualTo(this.socialLoginUser.getEmail());
     }
 

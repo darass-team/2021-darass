@@ -2,7 +2,6 @@ package com.darass.darass.comment.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.darass.darass.auth.oauth.api.domain.OAuthProviderType;
 import com.darass.darass.project.domain.Project;
 import com.darass.darass.user.domain.SocialLoginUser;
 import java.util.ArrayList;
@@ -27,7 +26,7 @@ class CommentsTest {
             .profileImageUrl("http://프로필이미지-url")
             .userType("socialLoginUser")
             .email("bbwwpark@naver.com")
-            .oauthProviderType(OAuthProviderType.KAKAO)
+            .oAuthProvider("kakao")
             .oauthId("1234")
             .build();
 

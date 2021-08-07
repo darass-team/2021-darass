@@ -1,6 +1,6 @@
 package com.darass.darass.user.domain;
 
-import com.darass.darass.auth.oauth.api.domain.OAuthProviderType;
+import com.darass.darass.auth.oauth.api.domain.OAuthProvider;
 import com.darass.darass.exception.ExceptionWithMessageAndCode;
 import com.darass.darass.user.infrastructure.S3Uploader;
 import java.util.Objects;
@@ -21,15 +21,14 @@ public class SocialLoginUser extends User {
 
     private String oauthId;
 
-    @Enumerated(EnumType.STRING)
-    private OAuthProviderType oauthProviderType;
+    private String oAuthProvider;
 
     @Builder
     public SocialLoginUser(Long id, String nickName, String profileImageUrl, String userType, String oauthId,
-        OAuthProviderType oauthProviderType, String email) {
+        String oAuthProvider, String email) {
         super(id, nickName, profileImageUrl, userType);
         this.oauthId = oauthId;
-        this.oauthProviderType = oauthProviderType;
+        this.oAuthProvider = oAuthProvider;
         this.email = email;
     }
 

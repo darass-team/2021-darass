@@ -1,45 +1,84 @@
 package com.darass.darass.auth.oauth.api.domain;
 
-import com.darass.darass.auth.oauth.api.domain.dto.SocialLoginResponse;
 import com.darass.darass.exception.ExceptionWithMessageAndCode;
 import com.darass.darass.user.domain.SocialLoginUser;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import java.nio.charset.StandardCharsets;
 import java.util.Collections;
-import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.apache.tomcat.util.json.ParseException;
+import org.json.JSONException;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
-import org.springframework.stereotype.Component;
+import org.springframework.http.ResponseEntity;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
-@Component
-public class OAuthProvider {
+public abstract class OAuthProvider {
 
-    private final RestTemplate restTemplate;
+    protected RestTemplate restTemplate;
+    protected String clientId;
+    protected String clientSecret;
+    protected String authorizationServerUrl;
+    protected String apiServerUrl;
 
-    public OAuthProvider(RestTemplateBuilder restTemplateBuilder) {
-        this.restTemplate = restTemplateBuilder.build();
+    public SocialLoginUser findSocialLoginUser(String authorizationCode) {
+        String accessToken = requestAccessToken(authorizationCode);
+        return requestUserInformation(accessToken);
     }
 
-    public SocialLoginUser findSocialLoginUser(String providerName, String accessToken) {
+    private String requestAccessToken(String authorizationCode) {
         try {
-            return requestSocialLoginUser(providerName, accessToken).toEntity();
+            ResponseEntity<String> tokenResponse = restTemplate.exchange(
+                authorizationServerUrl, HttpMethod.POST, makeAccessTokenRequest(authorizationCode), String.class
+            );
+            return parseAccessToken(tokenResponse);
         } catch (Exception e) {
-            throw ExceptionWithMessageAndCode.INVALID_JWT_TOKEN.getException();
+            throw ExceptionWithMessageAndCode.INVALID_OAUTH_AUTHORIZATION_CODE.getException();
         }
     }
 
-    private SocialLoginResponse requestSocialLoginUser(String providerName, String accessToken) {
-        String apiUrl = OAuthProviderType.urlOf(providerName);
-        HttpHeaders apiRequestHeader = new HttpHeaders();
-        apiRequestHeader.setBearerAuth(accessToken);
-        apiRequestHeader.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-        apiRequestHeader.setAcceptCharset(Collections.singletonList(StandardCharsets.UTF_8));
-
-        return restTemplate.exchange(apiUrl, HttpMethod.GET, new HttpEntity<>(apiRequestHeader),
-            OAuthProviderType.responseTypeOf(providerName).getClass())
-            .getBody();
+    private SocialLoginUser requestUserInformation(String accessToken) {
+        try {
+            ResponseEntity<String> tokenResponse = restTemplate.exchange(
+                apiServerUrl, HttpMethod.GET, makeUserInformationRequest(accessToken), String.class
+            );
+            return parseSocialLoginUser(tokenResponse);
+        } catch (JSONException e){
+            throw ExceptionWithMessageAndCode.JSON_PROCESSING_EXCEPTION.getException();
+        }
+        catch (Exception e) {
+            throw ExceptionWithMessageAndCode.INVALID_OAUTH_ACCESS_TOKEN.getException();
+        }
     }
+
+    private HttpEntity<MultiValueMap<String, String>> makeAccessTokenRequest(String authorizationCode) {
+        MultiValueMap<String, String> requestBody = new LinkedMultiValueMap<>();
+        requestBody.add("grant_type", "authorization_code");
+        requestBody.add("code", authorizationCode);
+        requestBody.add("client_id", clientId);
+        requestBody.add("client_secret", clientSecret);
+
+        HttpHeaders requestHeader = new HttpHeaders();
+        requestHeader.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
+
+        return new HttpEntity<>(requestBody, requestHeader);
+    }
+
+    private HttpEntity<MultiValueMap<String, String>> makeUserInformationRequest(String accessToken) {
+        HttpHeaders requestHeader = new HttpHeaders();
+        requestHeader.setBearerAuth(accessToken);
+        requestHeader.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        requestHeader.setAcceptCharset(Collections.singletonList(StandardCharsets.UTF_8));
+
+        return new HttpEntity<>(requestHeader);
+    }
+
+    abstract protected String parseAccessToken(ResponseEntity<String> response);
+
+    abstract protected SocialLoginUser parseSocialLoginUser(ResponseEntity<String> response)
+        throws JsonProcessingException, ParseException;
 
 }
