@@ -6,10 +6,10 @@ import {
   GUEST_PASSWORD_MIN_LENGTH,
   MAX_COMMENT_INPUT_LENGTH
 } from "../../../constants/comment";
-import { getErrorMessage } from "../../../utils/errorMessage";
 import { useContentEditable, useCreateComment, useInput } from "../../../hooks";
 import { User } from "../../../types/user";
 import { AlertError } from "../../../utils/Error";
+import { getErrorMessage } from "../../../utils/errorMessage";
 import { isEmptyString } from "../../../utils/isEmptyString";
 import { postAlertMessage } from "../../../utils/postMessage";
 import SubmitButton from "../../atoms/Buttons/SubmitButton";

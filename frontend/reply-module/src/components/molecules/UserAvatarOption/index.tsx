@@ -5,10 +5,11 @@ import { Container, UserNickName, UserOption } from "./styles";
 
 export interface Props {
   user: User | undefined;
+  className?: string;
   children: ReactNode;
 }
 
-const UserAvatarOption = ({ user, children }: Props) => {
+const UserAvatarOption = ({ user, children, className }: Props) => {
   const [isShowOptionBox, setShowOptionBox] = useState(false);
   const ref = useRef(false);
   ref.current = isShowOptionBox;
@@ -34,7 +35,7 @@ const UserAvatarOption = ({ user, children }: Props) => {
   }, []);
 
   return (
-    <Container>
+    <Container className={className}>
       <UserNickName onClick={onShowOptionBox}>{user?.nickName ?? "로그인"}</UserNickName>
       <Avatar
         imageURL={user?.profileImageUrl}

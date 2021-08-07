@@ -36,15 +36,22 @@ import { getErrorMessage } from "../../../utils/errorMessage";
 export interface Props {
   user: User | undefined;
   comment: CommentType;
-  align?: "left" | "right";
   shouldShowOption?: boolean;
   iAmAdmin: boolean;
+  thisCommentIsWrittenByAdmin: boolean;
   thisCommentIsMine: boolean;
 }
 
 type SubmitType = "Edit" | "Delete";
 
-const Comment = ({ user, comment, align = "left", shouldShowOption, iAmAdmin, thisCommentIsMine }: Props) => {
+const Comment = ({
+  user,
+  comment,
+  shouldShowOption,
+  iAmAdmin,
+  thisCommentIsWrittenByAdmin,
+  thisCommentIsMine
+}: Props) => {
   const [isEditing, setEditing] = useState(false);
   const [isPasswordSubmitted, setPasswordSubmitted] = useState(false);
   const [shouldShowPasswordInput, setShouldShowPasswordInput] = useState(false);
@@ -197,11 +204,12 @@ const Comment = ({ user, comment, align = "left", shouldShowOption, iAmAdmin, th
 
   return (
     <Container data-testid="comment">
-      <CommentWrapper align={align}>
+      <CommentWrapper>
         <Avatar imageURL={comment.user.profileImageUrl} />
-        <CommentTextBoxWrapper align={align}>
+        <CommentTextBoxWrapper>
           <CommentTextBox
             name={comment.user.nickName}
+            thisCommentIsWrittenByAdmin={thisCommentIsWrittenByAdmin}
             contentEditable={isEditing}
             clear={clear}
             onSubmitEditedComment={onSubmitEditedComment}

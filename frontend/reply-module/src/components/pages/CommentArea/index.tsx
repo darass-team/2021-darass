@@ -7,19 +7,9 @@ import { useShowMoreComments } from "../../../hooks/useShowMoreComments";
 import { AlertError } from "../../../utils/Error";
 import { postScrollHeightToParentWindow } from "../../../utils/postMessage";
 import Avatar from "../../atoms/Avatar";
-import UserAvatarOption from "../../molecules/UserAvatarOption";
 import CommentInput from "../../organisms/CommentInput";
 import Footer from "../../organisms/Footer";
-import {
-  CommentCount,
-  CommentCountWrapper,
-  CommentList,
-  Container,
-  Header,
-  LoginMethod,
-  LoginMethodWrapper,
-  LogOut
-} from "./styles";
+import { CommentList, Container, LoginMethod, LoginMethodWrapper, LogOut, UserAvatarOption } from "./styles";
 
 const CommentArea = () => {
   const urlParams = new URLSearchParams(window.location.search);
@@ -100,26 +90,6 @@ const CommentArea = () => {
 
   return (
     <Container>
-      <Header>
-        <CommentCountWrapper>
-          댓글 <CommentCount>{totalCommentsCount || 0}</CommentCount>
-        </CommentCountWrapper>
-        <UserAvatarOption user={user}>
-          {user ? (
-            <LogOut type="button" onClick={logout}>
-              로그아웃
-            </LogOut>
-          ) : (
-            <>
-              <LoginMethodWrapper onClick={onLogin}>
-                <Avatar size="SM" imageURL={kakaoTalkIcon} alt="카카오톡 로그인 이미지" />
-                <LoginMethod>카카오</LoginMethod>
-              </LoginMethodWrapper>
-            </>
-          )}
-        </UserAvatarOption>
-      </Header>
-      <CommentInput url={url} projectSecretKey={projectSecretKey} user={user} />
       <CommentList
         user={user}
         totalCommentsCount={totalCommentsCount || 0}
@@ -130,6 +100,21 @@ const CommentArea = () => {
         notice={notice}
         onShowMoreComment={onShowMoreComment}
       />
+      <UserAvatarOption user={user}>
+        {user ? (
+          <LogOut type="button" onClick={logout}>
+            로그아웃
+          </LogOut>
+        ) : (
+          <>
+            <LoginMethodWrapper onClick={onLogin}>
+              <Avatar size="SM" imageURL={kakaoTalkIcon} alt="카카오톡 로그인 이미지" />
+              <LoginMethod>카카오</LoginMethod>
+            </LoginMethodWrapper>
+          </>
+        )}
+      </UserAvatarOption>
+      <CommentInput url={url} projectSecretKey={projectSecretKey} user={user} />
       <Footer />
     </Container>
   );

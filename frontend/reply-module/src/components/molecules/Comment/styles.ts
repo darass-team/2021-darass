@@ -9,18 +9,18 @@ import CommentOptionComponent from "../../atoms/CommentOption";
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
+  margin-right: 2rem;
 `;
 
-export const CommentWrapper = styled.div<{ align: "left" | "right" }>`
+export const CommentWrapper = styled.div`
   display: flex;
-  flex-direction: ${props => (props.align === "left" ? "row" : "row-reverse")};
 `;
 
-export const CommentTextBoxWrapper = styled.div<{ align: "left" | "right" }>`
+export const CommentTextBoxWrapper = styled.div`
   position: relative;
   display: flex;
   flex-direction: column;
-  margin: ${props => (props.align === "left" ? "0 0 0 0.6rem" : "0 0.6rem 0 0")};
+  margin: 0 0 0 0.6rem;
 `;
 
 export const LikingUsersButton = styled(LikingUsersButtonComponent)`

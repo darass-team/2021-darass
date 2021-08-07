@@ -7,13 +7,33 @@ export const Container = styled.section`
   flex-direction: column;
 `;
 
+export const Header = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.6rem;
+  border-bottom: 1px solid ${PALETTE.GRAY_400};
+  padding-bottom: 1.6rem;
+`;
+
+export const CommentCountWrapper = styled.div`
+  display: flex;
+  font-size: 1.6rem;
+  line-height: 2.4rem;
+  word-break: keep-all;
+`;
+
+export const CommentCount = styled.span`
+  color: ${PALETTE.SECONDARY};
+  font-weight: 700;
+  margin-left: 0.5rem;
+`;
+
 export const OrderButtonContainer = styled.div`
   width: 100%;
   display: flex;
   justify-content: flex-end;
-  align-items: flex-start;
-  border-bottom: 1px solid ${PALETTE.GRAY_400};
-  padding-bottom: 1.6rem;
+  align-items: center;
 `;
 
 export const OrderButtonWrapper = styled.div`

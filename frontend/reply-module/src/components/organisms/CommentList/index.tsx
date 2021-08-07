@@ -6,7 +6,10 @@ import Comment from "../../molecules/Comment";
 import { ReactComponent as DownArrow } from "../../../assets/svg/down-arrow.svg";
 import {
   CommentContainer,
+  CommentCount,
+  CommentCountWrapper,
   Container,
+  Header,
   Notice,
   OrderButton,
   OrderButtonContainer,
@@ -41,22 +44,28 @@ const CommentList = ({
 
   return (
     <Container className={className}>
-      <OrderButtonContainer>
-        <OrderButtonWrapper>
-          {Object.entries(ORDER_BUTTON).map(([key, value]) => (
-            <OrderButton
-              type="button"
-              key={key}
-              isSelected={sortOption === key}
-              onClick={() => {
-                onSelectSortOption(key as keyof typeof ORDER_BUTTON);
-              }}
-            >
-              {value}
-            </OrderButton>
-          ))}
-        </OrderButtonWrapper>
-      </OrderButtonContainer>
+      <Header>
+        <CommentCountWrapper>
+          <span>댓글</span>
+          <CommentCount>{totalCommentsCount || 0}</CommentCount>
+        </CommentCountWrapper>
+        <OrderButtonContainer>
+          <OrderButtonWrapper>
+            {Object.entries(ORDER_BUTTON).map(([key, value]) => (
+              <OrderButton
+                type="button"
+                key={key}
+                isSelected={sortOption === key}
+                onClick={() => {
+                  onSelectSortOption(key as keyof typeof ORDER_BUTTON);
+                }}
+              >
+                {value}
+              </OrderButton>
+            ))}
+          </OrderButtonWrapper>
+        </OrderButtonContainer>
+      </Header>
       <CommentContainer>
         {notice && <Notice>{notice}</Notice>}
         {comments.map(comment => {
@@ -68,8 +77,6 @@ const CommentList = ({
           const thisCommentIsMine = authorId !== undefined && authorId === user?.id;
           const thisCommentIsWrittenByAdmin = comment.user.id === project?.userId;
           const thisCommentIsWrittenByGuest = comment.user.type === "GuestUser";
-
-          const align = thisCommentIsWrittenByAdmin ? "right" : "left";
           const shouldShowOption = iAmAdmin || thisCommentIsMine || (iAmGuestUser && thisCommentIsWrittenByGuest);
 
           return (
@@ -77,10 +84,10 @@ const CommentList = ({
               user={user}
               comment={comment}
               key={comment.id}
+              thisCommentIsWrittenByAdmin={thisCommentIsWrittenByAdmin}
               shouldShowOption={shouldShowOption}
               iAmAdmin={iAmAdmin}
               thisCommentIsMine={thisCommentIsMine}
-              align={align}
             />
           );
         })}

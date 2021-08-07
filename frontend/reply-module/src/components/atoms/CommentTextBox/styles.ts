@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { PALETTE } from "../../../styles/palette";
 import DeleteButton from "../Buttons/DeleteButton";
 import SubmitButtonComponent from "../Buttons/SubmitButton";
@@ -12,11 +12,22 @@ export const Container = styled.div`
   flex-direction: column;
 `;
 
-export const Name = styled.span`
+export const Name = styled.span<{ thisCommentIsWrittenByAdmin: boolean }>`
   font-weight: 700;
   font-size: 1.3rem;
   line-height: 1.8rem;
   margin-bottom: 0.4rem;
+  margin-right: 2rem;
+
+  ${props =>
+    props.thisCommentIsWrittenByAdmin &&
+    css`
+      &:after {
+        content: "(작성자)";
+        font-size: 1rem;
+        color: ${PALETTE.BLUE_700};
+      }
+    `}
 `;
 
 export const Text = styled.div`
@@ -24,7 +35,7 @@ export const Text = styled.div`
   background-color: ${props => (props.contentEditable ? PALETTE.WHITE : PALETTE.GRAY_200)};
   padding: 0.2rem 0.3rem;
   min-width: 10rem;
-  max-width: 20rem;
+  //max-width: 20rem;
   border-radius: 0.3rem;
   word-break: break-word;
   white-space: break-spaces;
