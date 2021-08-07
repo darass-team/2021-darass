@@ -2,7 +2,7 @@ import { Project } from "./../types/project";
 import { useMutation, useQueryClient } from "react-query";
 import { QUERY } from "../constants/api";
 import { request } from "../utils/request";
-import { Comment, DeleteCommentRequestParameter } from "../types/comment";
+import { DeleteCommentRequestParameter } from "../types/comment";
 import { REACT_QUERY_KEY } from "../constants/reactQueryKey";
 
 const _deleteComment = async ({ id }: DeleteCommentRequestParameter) => {

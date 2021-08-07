@@ -18,7 +18,7 @@ import Comment from "../../molecules/Comment";
 import CommentSearchConditionForm from "../../organisms/CommentSearchConditionForm";
 import ContainerWithSideBar from "../../organisms/ContainerWithSideBar";
 import ErrorNotice from "../../organisms/ErrorNotice";
-import { CommentList, TotalComment, CommentsViewer, Container, DeleteButton, Header, Row, Title } from "./styles";
+import { CommentList, CommentsViewer, Container, DeleteButton, Header, Row, Title, TotalComment } from "./styles";
 
 const Manage = () => {
   const match = useRouteMatch<{ id: string }>();
@@ -50,7 +50,6 @@ const Manage = () => {
     totalPage,
     refetch: getCommentsOfProjectPerPage
   } = useGetCommentsOfProjectPerPage({
-    projectId,
     projectKey: projectSecretKey,
     startDate: startDateAsString,
     endDate: endDateAsString,
@@ -88,9 +87,10 @@ const Manage = () => {
 
       await Promise.all(deleteAllComments);
 
-      alert("댓글이 정상적으로 삭제되었습니다.");
+      getCommentsOfProjectPerPage();
       setIsCheckingAllCommentsInCurrentPage(false);
       setCheckedCommentIds([]);
+      alert("댓글이 정상적으로 삭제되었습니다.");
     } catch (error) {
       console.error(error.message);
     }
@@ -141,12 +141,12 @@ const Manage = () => {
               <DeleteButton onClick={onClickDeleteButton}>삭제</DeleteButton>
             </Header>
             <CommentList>
-              {comments?.length === 0 ? (
+              {comments.length === 0 ? (
                 <Row>
                   <ErrorNotice>{"해당하는 댓글을 찾을 수 없습니다"}</ErrorNotice>
                 </Row>
               ) : (
-                comments?.map(({ id, content, user, createdDate, url }) => (
+                comments.map(({ id, content, user, createdDate, url }) => (
                   <Row key={id}>
                     <Comment
                       isChecked={checkedCommentIds.some(_id => _id === id)}
@@ -165,7 +165,7 @@ const Manage = () => {
             <PageNationBar
               currentPageIndex={currentPageIndex}
               setCurrentPageIndex={setCurrentPageIndex}
-              totalDataLength={totalComment || 0}
+              totalDataLength={totalComment}
             />
           </CommentsViewer>
         </Container>

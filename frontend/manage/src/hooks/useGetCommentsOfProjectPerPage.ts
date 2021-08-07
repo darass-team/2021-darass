@@ -28,12 +28,9 @@ const _getAllCommentsOfProject = async ({
   }
 };
 
-interface Props extends GetCommentsOfProjectPerPageRequest {
-  projectId: number;
-}
+type Props = GetCommentsOfProjectPerPageRequest;
 
 export const useGetCommentsOfProjectPerPage = ({
-  projectId,
   sortOption = "latest",
   projectKey,
   startDate,
@@ -49,7 +46,7 @@ export const useGetCommentsOfProjectPerPage = ({
     },
     Error
   >(
-    [REACT_QUERY_KEY.COMMENT_OF_PROJECT_PER_PAGE, projectId, page],
+    [REACT_QUERY_KEY.COMMENT_OF_PROJECT_PER_PAGE, projectKey, page],
     () => _getAllCommentsOfProject({ sortOption, projectKey, startDate, endDate, page, size }),
     {
       retry: false,
@@ -57,7 +54,7 @@ export const useGetCommentsOfProjectPerPage = ({
     }
   );
 
-  const comments = data?.comments.length === 0 ? [] : data?.comments;
+  const comments = !data || data?.comments.length === 0 ? [] : data.comments;
   const totalComment = data?.totalComment ? data?.totalComment : 0;
   const totalPage = data?.totalPage ? data?.totalPage : 0;
 
