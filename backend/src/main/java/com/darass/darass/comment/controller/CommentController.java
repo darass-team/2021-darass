@@ -4,6 +4,7 @@ import com.darass.darass.auth.oauth.domain.AuthenticationPrincipal;
 import com.darass.darass.auth.oauth.domain.RequiredLogin;
 import com.darass.darass.comment.dto.CommentCreateRequest;
 import com.darass.darass.comment.dto.CommentDeleteRequest;
+import com.darass.darass.comment.dto.CommentReadRequest;
 import com.darass.darass.comment.dto.CommentReadRequestByPagination;
 import com.darass.darass.comment.dto.CommentReadRequestBySearch;
 import com.darass.darass.comment.dto.CommentReadRequestInProject;
@@ -32,6 +33,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class CommentController {
 
     private final CommentService commentService;
+
+    @GetMapping("/comments")
+    public ResponseEntity<CommentResponses> read(@ModelAttribute CommentReadRequest commentReadRequest) {
+        CommentResponses commentResponses = commentService.findAllCommentsByUrlAndProjectKey(commentReadRequest);
+        return ResponseEntity.status(HttpStatus.OK).body(commentResponses);
+    }
 
     @GetMapping("/comments/paging")
     public ResponseEntity<CommentResponses> readByPageRequest(
