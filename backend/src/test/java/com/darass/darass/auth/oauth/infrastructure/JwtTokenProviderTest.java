@@ -47,14 +47,14 @@ class JwtTokenProviderTest extends SpringContainerTest {
         String accessToken = jwtTokenProvider.createAccessToken("1");
 
         // when then
-        assertThat(jwtTokenProvider.getPayload(accessToken)).isEqualTo("1");
+        assertThat(jwtTokenProvider.getPayloadOfAccessToken(accessToken)).isEqualTo("1");
     }
 
     @DisplayName("getPayload 메서드는 유효하지 않은 accessToken이 주어지면, 예외를 던진다.")
     @Test
     void getPayload_exception() {
         Assertions.assertThrows(ExceptionWithMessageAndCode.INVALID_JWT_TOKEN.getException().getClass(),
-            () -> jwtTokenProvider.getPayload("IncorrectToken"));
+            () -> jwtTokenProvider.getPayloadOfAccessToken("IncorrectToken"));
     }
 
 }

@@ -14,27 +14,44 @@ import org.springframework.stereotype.Component;
 public class JwtTokenProvider {
 
     @Value("${security.jwt.access-token.secret-key}")
-    private String secretKey;
+    private String secretKeyOfAccessToken;
+
+    @Value("${security.jwt.refresh-token.secret-key}")
+    private String secretKeyOfRefreshToken;
 
     @Value("${security.jwt.access-token.expire-length}")
-    private long validityInMilliseconds;
+    private long validityInMillisecondsOfAccessToken;
+
+    @Value("${security.jwt.refresh-token.expire-length}")
+    private long validityInMillisecondsOfRefreshToken;
 
     public String createAccessToken(String payload) {
+        Date now = new Date();
+        Date expiration = new Date(now.getTime() + validityInMillisecondsOfAccessToken);
+        return createToken(payload, expiration, secretKeyOfAccessToken);
+    }
+
+    public String createRefreshToken() {
+        Date now = new Date();
+        Date expiration = new Date(now.getTime() + validityInMillisecondsOfRefreshToken);
+        return createToken(null, expiration, secretKeyOfRefreshToken);
+    }
+
+    private String createToken(String payload, Date expiration, String secretKey) {
         Claims claims = Jwts.claims().setSubject(payload);
         Date now = new Date();
-        Date validity = new Date(now.getTime() + validityInMilliseconds);
 
         return Jwts.builder()
             .setClaims(claims)
             .setIssuedAt(now)
-            .setExpiration(validity)
+            .setExpiration(expiration)
             .signWith(SignatureAlgorithm.HS256, secretKey)
             .compact();
     }
 
-    public String getPayload(String accessToken) {
+    public String getPayloadOfAccessToken(String accessToken) {
         try {
-            return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(accessToken).getBody().getSubject();
+            return Jwts.parser().setSigningKey(secretKeyOfAccessToken).parseClaimsJws(accessToken).getBody().getSubject();
         } catch (MalformedJwtException e) {
             throw ExceptionWithMessageAndCode.INVALID_JWT_TOKEN.getException();
         }
@@ -42,7 +59,7 @@ public class JwtTokenProvider {
 
     public void validateAccessToken(String accessToken) {
         try {
-            Jwts.parser().setSigningKey(secretKey).parseClaimsJws(accessToken);
+            Jwts.parser().setSigningKey(secretKeyOfAccessToken).parseClaimsJws(accessToken);
         } catch (JwtException | IllegalArgumentException e) {
             throw ExceptionWithMessageAndCode.INVALID_JWT_TOKEN.getException();
         }

@@ -3,6 +3,8 @@ package com.darass.darass.auth.oauth.controller;
 import com.darass.darass.auth.oauth.dto.TokenResponse;
 import com.darass.darass.auth.oauth.dto.TokenRequest;
 import com.darass.darass.auth.oauth.service.OAuthService;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,10 +21,11 @@ public class OAuthController {
     private final OAuthService oAuthService;
 
     @PostMapping("/login/oauth")
-    public ResponseEntity<TokenResponse> oauthLogin(@RequestBody TokenRequest tokenRequest) {
+    public ResponseEntity<TokenResponse> oauthLogin(@RequestBody TokenRequest tokenRequest, HttpServletResponse response) {
         TokenResponse tokenResponse = oAuthService.oauthLogin(
             tokenRequest.getOauthProviderName(),
-            tokenRequest.getOauthAccessToken()
+            tokenRequest.getOauthAccessToken(),
+            response
         );
         return ResponseEntity.status(HttpStatus.OK).body(tokenResponse);
     }

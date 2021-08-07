@@ -3,6 +3,7 @@ package com.darass.darass.auth.oauth.service;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.mock;
 
 import com.darass.darass.SpringContainerTest;
 import com.darass.darass.auth.oauth.api.domain.OAuthProvider;
@@ -11,6 +12,7 @@ import com.darass.darass.auth.oauth.dto.TokenResponse;
 import com.darass.darass.auth.oauth.infrastructure.JwtTokenProvider;
 import com.darass.darass.user.domain.SocialLoginUser;
 import com.darass.darass.user.repository.SocialLoginUserRepository;
+import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -56,13 +58,13 @@ class OAuthServiceTest extends SpringContainerTest {
     void oauthLogin_register() {
         //given
         given(oAuthProvider.findSocialLoginUser(any(), any())).willReturn(socialLoginUser);
+        HttpServletResponse response = mock(HttpServletResponse.class);
 
         //then
-        TokenResponse tokenResponse = oAuthService.oauthLogin(OAuthProviderType.KAKAO.getName(), oauthAccessToken);
+        TokenResponse tokenResponse = oAuthService.oauthLogin(OAuthProviderType.KAKAO.getName(), oauthAccessToken, response);
 
         //when
-        String payload = jwtTokenProvider.getPayload(tokenResponse.getAccessToken());
-//        assertThat(payload).isEqualTo("1");
+        String payload = jwtTokenProvider.getPayloadOfAccessToken(tokenResponse.getAccessToken());
         assertThat(socialLoginUserRepository.findById(Long.parseLong(payload)).isPresent()).isTrue();
     }
 
@@ -72,14 +74,15 @@ class OAuthServiceTest extends SpringContainerTest {
     void oauthLogin_login() {
         //given
         socialLoginUserRepository.save(socialLoginUser);
-
+        HttpServletResponse response = mock(HttpServletResponse.class);
         given(oAuthProvider.findSocialLoginUser(any(), any())).willReturn(socialLoginUser);
 
+
         //then
-        TokenResponse tokenResponse = oAuthService.oauthLogin(OAuthProviderType.KAKAO.getName(), oauthAccessToken);
+        TokenResponse tokenResponse = oAuthService.oauthLogin(OAuthProviderType.KAKAO.getName(), oauthAccessToken, response);
 
         //when
-        String payload = jwtTokenProvider.getPayload(tokenResponse.getAccessToken());
+        String payload = jwtTokenProvider.getPayloadOfAccessToken(tokenResponse.getAccessToken());
         assertThat(payload).isNotNull();
     }
 
@@ -88,8 +91,9 @@ class OAuthServiceTest extends SpringContainerTest {
     void findSocialLoginUserByAccessToken() {
         //given
         given(oAuthProvider.findSocialLoginUser(any(), any())).willReturn(socialLoginUser);
+        HttpServletResponse response = mock(HttpServletResponse.class);
 
-        TokenResponse tokenResponse = oAuthService.oauthLogin(OAuthProviderType.KAKAO.getName(), oauthAccessToken);
+        TokenResponse tokenResponse = oAuthService.oauthLogin(OAuthProviderType.KAKAO.getName(), oauthAccessToken, response);
 
         //then
         SocialLoginUser socialLoginUser = oAuthService.findSocialLoginUserByAccessToken(tokenResponse.getAccessToken());

@@ -61,7 +61,7 @@ class ControllerAdviceTest extends SpringContainerTest {
     @Test
     void handleBadRequestException() throws Exception {
         OAuthController oAuthController = mock(OAuthController.class);
-        given(oAuthController.oauthLogin(any())).willThrow(ExceptionWithMessageAndCode.IO_EXCEPTION.getException());
+        given(oAuthController.oauthLogin(any(), any())).willThrow(ExceptionWithMessageAndCode.IO_EXCEPTION.getException());
 
         mockMvc = MockMvcBuilders
             .standaloneSetup(oAuthController)
