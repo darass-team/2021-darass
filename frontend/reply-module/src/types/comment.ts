@@ -31,6 +31,12 @@ export interface GetCommentsRequestParams extends ScriptInfo {
   pageParam: number;
 }
 
+export interface GetCommentsByPageResponse {
+  totalComment: number;
+  totalPage: number;
+  comments: Comment[];
+}
+
 export type GetProjectRequestParams = Pick<ScriptInfo, "projectSecretKey">;
 
 export type EditCommentRequestData = Pick<Comment, "content"> & Omit<GuestUserInfo, "guestNickName">;

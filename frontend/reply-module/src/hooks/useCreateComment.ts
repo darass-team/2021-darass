@@ -25,7 +25,6 @@ export const useCreateComment = () => {
   const createMutation = useMutation<Comment, Error, CreateCommentRequestData>(_data => _createComment(_data), {
     onSuccess: () => {
       queryClient.invalidateQueries(REACT_QUERY_KEY.COMMENT);
-      queryClient.invalidateQueries(REACT_QUERY_KEY.COMMENT_COUNT);
     }
   });
 

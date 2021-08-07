@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "react-query";
 import { QUERY } from "../constants/api";
 import { request } from "../utils/request";
-import { Comment, GetCommentsRequestParams } from "../types/comment";
+import { Comment, GetCommentsByPageResponse, GetCommentsRequestParams } from "../types/comment";
 import { REACT_QUERY_KEY } from "../constants/reactQueryKey";
 
 const _showMoreComments = async ({ url, projectSecretKey, sortOption, pageParam }: GetCommentsRequestParams) => {
@@ -19,13 +19,17 @@ const _showMoreComments = async ({ url, projectSecretKey, sortOption, pageParam 
 export const useShowMoreComments = () => {
   const queryClient = useQueryClient();
 
-  const showMoreMutation = useMutation<Comment[], Error, GetCommentsRequestParams>(data => _showMoreComments(data), {
-    onSuccess: data => {
-      queryClient.setQueryData<Comment[] | undefined>(REACT_QUERY_KEY.COMMENT, (comments = []) => {
-        return [...comments, ...data];
-      });
+  const showMoreMutation = useMutation<GetCommentsByPageResponse, Error, GetCommentsRequestParams>(
+    data => _showMoreComments(data),
+    {
+      onSuccess: newData => {
+        queryClient.setQueryData<GetCommentsByPageResponse | undefined>(REACT_QUERY_KEY.COMMENT, oldData => {
+          if (!oldData) return;
+          return { ...oldData, comments: oldData.comments.concat(newData.comments) };
+        });
+      }
     }
-  });
+  );
 
   const isLoading = showMoreMutation.isLoading;
   const error = showMoreMutation.error;

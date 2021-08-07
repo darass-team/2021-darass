@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "react-query";
 import { QUERY } from "../constants/api";
 import { request } from "../utils/request";
-import { Comment, EditCommentRequestData, LikeCommentParameter } from "../types/comment";
+import { Comment, EditCommentRequestData, GetCommentsByPageResponse, LikeCommentParameter } from "../types/comment";
 import { REACT_QUERY_KEY } from "../constants/reactQueryKey";
 import { AlertError } from "../utils/Error";
 
@@ -26,22 +26,26 @@ export const useLikeComment = () => {
     ({ user, commentId }) => _likeComment(commentId),
     {
       onSuccess: (_, { user, commentId }) => {
-        queryClient.setQueryData<Comment[] | undefined>(REACT_QUERY_KEY.COMMENT, comments => {
-          return comments?.map(comment => {
-            if (!user) return comment;
+        queryClient.setQueryData<GetCommentsByPageResponse | undefined>(REACT_QUERY_KEY.COMMENT, oldData => {
+          if (!oldData) return;
+          const newComments =
+            oldData?.comments?.map(comment => {
+              if (!user) return comment;
 
-            if (comment.id === commentId) {
-              if (comment.likingUsers.some(likingUser => likingUser.id === user.id)) {
-                return {
-                  ...comment,
-                  likingUsers: comment.likingUsers.filter(likingUser => likingUser.id !== user.id)
-                };
+              if (comment.id === commentId) {
+                if (comment.likingUsers.some(likingUser => likingUser.id === user.id)) {
+                  return {
+                    ...comment,
+                    likingUsers: comment.likingUsers.filter(likingUser => likingUser.id !== user.id)
+                  };
+                }
+                return { ...comment, likingUsers: comment.likingUsers.concat(user) };
               }
-              return { ...comment, likingUsers: comment.likingUsers.concat(user) };
-            }
 
-            return comment;
-          });
+              return comment;
+            }) || [];
+
+          return { ...oldData, comments: newComments };
         });
       }
     }

@@ -2,8 +2,7 @@ import { useQuery } from "react-query";
 import { QUERY } from "../constants/api";
 import { INITIAL_PAGE_PARAM } from "../constants/comment";
 import { REACT_QUERY_KEY } from "../constants/reactQueryKey";
-import { Comment } from "../types";
-import { GetCommentsRequestParams } from "../types/comment";
+import { GetCommentsByPageResponse, GetCommentsRequestParams } from "../types/comment";
 import { request } from "../utils/request";
 
 const getCommentsByPage = async ({ url, projectSecretKey, sortOption, pageParam }: GetCommentsRequestParams) => {
@@ -23,14 +22,13 @@ export const useCommentsByPage = ({
   sortOption = "oldest",
   pageParam = INITIAL_PAGE_PARAM
 }: GetCommentsRequestParams) => {
-  const {
-    data: comments,
-    isLoading,
-    error,
-    refetch
-  } = useQuery<Comment[], Error>(REACT_QUERY_KEY.COMMENT, () =>
+  const { data, isLoading, error, refetch } = useQuery<GetCommentsByPageResponse, Error>(REACT_QUERY_KEY.COMMENT, () =>
     getCommentsByPage({ url, projectSecretKey, sortOption, pageParam })
   );
 
-  return { comments, isLoading, error, refetch };
+  const totalCommentsCount = data?.totalComment;
+  const totalPage = data?.totalPage;
+  const comments = data?.comments;
+
+  return { totalCommentsCount, totalPage, comments, isLoading, error, refetch };
 };

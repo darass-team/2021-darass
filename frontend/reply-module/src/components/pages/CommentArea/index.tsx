@@ -4,7 +4,6 @@ import { INITIAL_PAGE_PARAM } from "../../../constants/comment";
 import { ORDER_BUTTON } from "../../../constants/orderButton";
 import { useCommentsByPage, useGetProject, useUser } from "../../../hooks";
 import { useShowMoreComments } from "../../../hooks/useShowMoreComments";
-import useTotalCommentsCount from "../../../hooks/useTotalCommentsCount";
 import { AlertError } from "../../../utils/Error";
 import { postScrollHeightToParentWindow } from "../../../utils/postMessage";
 import Avatar from "../../atoms/Avatar";
@@ -35,10 +34,6 @@ const CommentArea = () => {
   const { user, login, logout } = useUser();
   const {
     totalCommentsCount,
-    isLoading: totalCommentsCountLoading,
-    error: totalCommentsCountError
-  } = useTotalCommentsCount({ url, projectSecretKey });
-  const {
     comments,
     refetch: refetchCommentsByPage,
     isLoading: commentsByPageLoading,
@@ -61,21 +56,20 @@ const CommentArea = () => {
   }, [pageParam]);
 
   useEffect(() => {
-    if (projectLoading || totalCommentsCountLoading || commentsByPageLoading) {
+    if (projectLoading || commentsByPageLoading) {
       setNotice("로딩 중...");
 
       return;
     }
 
     setNotice("");
-  }, [projectLoading, commentsByPageLoading, totalCommentsCountLoading]);
+  }, [projectLoading, commentsByPageLoading]);
 
   useEffect(() => {
     if (projectError) setNotice(projectError.message);
-    if (totalCommentsCountError) setNotice(totalCommentsCountError.message);
     if (commentsByPageError) setNotice(commentsByPageError.message);
 
-    if (!(projectError || totalCommentsCountError || commentsByPageError)) {
+    if (!(projectError || commentsByPageError)) {
       if (totalCommentsCount === 0) {
         setNotice("작성된 댓글이 없습니다.");
         return;
@@ -83,7 +77,7 @@ const CommentArea = () => {
 
       setNotice("");
     }
-  }, [projectError, totalCommentsCountError, commentsByPageError, totalCommentsCount]);
+  }, [projectError, commentsByPageError, totalCommentsCount]);
 
   const onShowMoreComment = () => {
     setPageParam(currentPageParam => currentPageParam + 1);
