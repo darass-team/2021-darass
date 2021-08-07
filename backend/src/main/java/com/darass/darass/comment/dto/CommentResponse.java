@@ -21,6 +21,8 @@ public class CommentResponse {
 
     private String content;
 
+    private String url;
+
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime createdDate;
 
@@ -32,7 +34,7 @@ public class CommentResponse {
     private UserResponse user;
 
     public static CommentResponse of(Comment comment, UserResponse userResponse) {
-        return new CommentResponse(comment.getId(), comment.getContent(), comment.getCreatedDate(),
+        return new CommentResponse(comment.getId(), comment.getContent(), comment.getUrl(), comment.getCreatedDate(),
             comment.getModifiedDate(), parseLikingUser(comment.getCommentLikes()), userResponse);
     }
 

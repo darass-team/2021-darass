@@ -2,20 +2,16 @@ package com.darass.darass.comment.controller;
 
 import com.darass.darass.auth.oauth.domain.AuthenticationPrincipal;
 import com.darass.darass.auth.oauth.domain.RequiredLogin;
-import com.darass.darass.comment.dto.CommentCountRequest;
-import com.darass.darass.comment.dto.CommentCountRequestInProject;
-import com.darass.darass.comment.dto.CommentCountResponse;
 import com.darass.darass.comment.dto.CommentCreateRequest;
 import com.darass.darass.comment.dto.CommentDeleteRequest;
 import com.darass.darass.comment.dto.CommentReadRequestByPagination;
 import com.darass.darass.comment.dto.CommentReadRequestBySearch;
 import com.darass.darass.comment.dto.CommentReadRequestInProject;
-import com.darass.darass.comment.dto.CommentReadResponseInProject;
 import com.darass.darass.comment.dto.CommentResponse;
+import com.darass.darass.comment.dto.CommentResponses;
 import com.darass.darass.comment.dto.CommentUpdateRequest;
 import com.darass.darass.comment.service.CommentService;
 import com.darass.darass.user.domain.User;
-import java.util.List;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -37,38 +33,26 @@ public class CommentController {
 
     private final CommentService commentService;
 
-    @GetMapping("/comments/count")
-    public ResponseEntity<CommentCountResponse> findCommentCount(@ModelAttribute CommentCountRequest commentCountRequest) {
-        return ResponseEntity.status(HttpStatus.OK).body(commentService.getCommentCount(commentCountRequest));
-    }
-
     @GetMapping("/comments/paging")
-    public ResponseEntity<List<CommentResponse>> readByPageRequest(
+    public ResponseEntity<CommentResponses> readByPageRequest(
         @ModelAttribute CommentReadRequestByPagination commentReadRequestByPagination) {
-        List<CommentResponse> commentResponses = commentService
+        CommentResponses commentResponses = commentService
             .findAllCommentsByUrlAndProjectKeyUsingPagination(commentReadRequestByPagination);
         return ResponseEntity.status(HttpStatus.OK).body(commentResponses);
     }
 
-    @GetMapping("/projects/comments/count")
-    public ResponseEntity<CommentCountResponse> findCommentCountInProject(
-        @ModelAttribute CommentCountRequestInProject commentCountRequestInProject) {
-        return ResponseEntity.status(HttpStatus.OK)
-            .body(commentService.getCommentCountInProject(commentCountRequestInProject));
-    }
-
     @GetMapping("/projects/comments/search/paging")
-    public ResponseEntity<List<CommentReadResponseInProject>> readByPageRequestUsingSearch(
+    public ResponseEntity<CommentResponses> readByPageRequestUsingSearch(
         @ModelAttribute CommentReadRequestBySearch CommentReadRequestBySearch) {
-        List<CommentReadResponseInProject> commentResponses = commentService
+        CommentResponses commentResponses = commentService
             .findAllCommentsInProjectUsingSearch(CommentReadRequestBySearch);
         return ResponseEntity.status(HttpStatus.OK).body(commentResponses);
     }
 
     @GetMapping("/projects/comments/paging")
-    public ResponseEntity<List<CommentReadResponseInProject>> readByPageRequestInProject(
+    public ResponseEntity<CommentResponses> readByPageRequestInProject(
         @ModelAttribute CommentReadRequestInProject commentReadRequestInProject) {
-        List<CommentReadResponseInProject> commentResponses = commentService
+        CommentResponses commentResponses = commentService
             .findAllCommentsInProject(commentReadRequestInProject);
         return ResponseEntity.status(HttpStatus.OK).body(commentResponses);
     }
