@@ -5,6 +5,7 @@ import com.darass.darass.comment.domain.CommentLike;
 import com.darass.darass.comment.domain.SortOption;
 import com.darass.darass.comment.dto.CommentCreateRequest;
 import com.darass.darass.comment.dto.CommentDeleteRequest;
+import com.darass.darass.comment.dto.CommentReadRequest;
 import com.darass.darass.comment.dto.CommentReadRequestByPagination;
 import com.darass.darass.comment.dto.CommentReadRequestBySearch;
 import com.darass.darass.comment.dto.CommentReadRequestInProject;
@@ -69,6 +70,14 @@ public class CommentService {
             .password(commentRequest.getGuestPassword())
             .build();
         return userRepository.save(user);
+    }
+
+    public CommentResponses findAllCommentsByUrlAndProjectKey(CommentReadRequest request) {
+        List<Comment> comments = commentRepository.findByUrlAndProjectSecretKey(request.getUrl(), request.getProjectKey(),
+            SortOption.getMatchedSort(request.getSortOption()));
+        return new CommentResponses((long) comments.size(), 1, comments.stream()
+            .map(comment -> CommentResponse.of(comment, UserResponse.of(comment.getUser())))
+            .collect(Collectors.toList()));
     }
 
     public CommentResponses findAllCommentsByUrlAndProjectKeyUsingPagination(CommentReadRequestByPagination request) {
