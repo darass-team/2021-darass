@@ -10,6 +10,7 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.requestB
 import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.cookie;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.darass.darass.AcceptanceTest;
@@ -22,6 +23,8 @@ import com.darass.darass.exception.ExceptionWithMessageAndCode;
 import com.darass.darass.exception.dto.ExceptionResponse;
 import com.darass.darass.user.domain.SocialLoginUser;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpSession;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -89,6 +92,20 @@ public class AuthAcceptanceTest extends AcceptanceTest {
 
         //then
         토큰_발급_실패됨(resultActions);
+    }
+
+    @Test
+    @DisplayName("login 메서드는 로그인 또는 회원가입이 성공했을 경우, refreshToken이 Response의 Cookie로 전달된다.")
+    public void login_refreshToken() throws Exception {
+        // given
+        given(oauthProvider.findSocialLoginUser(OAuthProviderType.KAKAO.getName(), oauthAccessToken))
+            .willReturn(socialLoginUser);
+
+        // when
+        Cookie refreshTokenCookie = 토큰_발급_요청(oauthAccessToken).andReturn().getResponse().getCookie("refreshToken");
+
+        // when, then
+        assertThat(refreshTokenCookie).isNotNull();
     }
 
     private ResultActions 토큰_발급_요청(String oauthAccessToken) throws Exception {
