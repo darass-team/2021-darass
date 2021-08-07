@@ -1,4 +1,5 @@
-import { FormEvent, Suspense, useEffect } from "react";
+import moment from "moment";
+import { FormEvent, useEffect } from "react";
 import { useLocation, useRouteMatch } from "react-router-dom";
 import { PROJECT_MENU } from "../../../constants";
 import { COMMENT_COUNT_PER_PAGE } from "../../../constants/pagenation";
@@ -7,7 +8,6 @@ import {
   useCommentList,
   useCommentPageIndex,
   useDeleteComment,
-  useGetCommentCountOfProject,
   useGetCommentsOfProjectPerPage,
   useGetProject
 } from "../../../hooks";
@@ -31,6 +31,9 @@ const Manage = () => {
   const { showCalendar, setShowCalendar, currentDate, setCurrentDate, startDate, setStartDate, endDate, setEndDate } =
     useCalendar();
 
+  const startDateAsString = startDate?.format("YYYY-MM-DD") || moment().format("YYYY-MM-DD");
+  const endDateAsString = endDate?.format("YYYY-MM-DD") || moment().format("YYYY-MM-DD");
+
   const { currentPageIndex, setCurrentPageIndex } = useCommentPageIndex({
     initialPageIndex: Number(pageIndex),
     projectId
@@ -41,16 +44,16 @@ const Manage = () => {
 
   const { deleteComment } = useDeleteComment({ projectKey: projectSecretKey, page: Number(pageIndex) });
 
-  const { commentsCount, refetch: getTotalCommentCount } = useGetCommentCountOfProject({
-    projectKey: projectSecretKey
-  });
-
-  const { comments, refetch: getCommentsOfProjectPerPage } = useGetCommentsOfProjectPerPage({
+  const {
+    comments,
+    totalComment,
+    totalPage,
+    refetch: getCommentsOfProjectPerPage
+  } = useGetCommentsOfProjectPerPage({
     projectId,
-    sortOption: "latest",
     projectKey: projectSecretKey,
-    startDate: startDate?.format("YYYY-MM-DD") || null,
-    endDate: endDate?.format("YYYY-MM-DD") || null,
+    startDate: startDateAsString,
+    endDate: endDateAsString,
     page: currentPageIndex,
     size: COMMENT_COUNT_PER_PAGE
   });
@@ -68,7 +71,6 @@ const Manage = () => {
     event.preventDefault();
 
     getCommentsOfProjectPerPage();
-    getTotalCommentCount();
     setCurrentPageIndex(1);
   };
 
@@ -96,7 +98,6 @@ const Manage = () => {
 
   useEffect(() => {
     if (projectSecretKey) {
-      getTotalCommentCount();
       getCommentsOfProjectPerPage();
     }
   }, [projectSecretKey]);
@@ -155,7 +156,7 @@ const Manage = () => {
               <PageNationBar
                 currentPageIndex={currentPageIndex}
                 setCurrentPageIndex={setCurrentPageIndex}
-                totalDataLength={commentsCount || 0}
+                totalDataLength={totalComment || 0}
               />
             </Row>
           </CommentList>

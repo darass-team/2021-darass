@@ -12,4 +12,3 @@ export { useCommentList } from "./useCommentList";
 export { useCalendar } from "./useCalendar";
 export { useCommentPageIndex } from "./useCommentPageIndex";
 export { useDeleteComment } from "./useDeleteComment";
-export { useGetCommentCountOfProject } from "./useGetCommentCountOfProject";

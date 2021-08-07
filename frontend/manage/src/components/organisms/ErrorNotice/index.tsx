@@ -10,7 +10,7 @@ const ErrorNotice = ({ children }: Props) => {
     <Container>
       <Img src={logo} />
       <TextArea>
-        <h2>이런...</h2>
+        <h2>Oops...</h2>
         <p>{children}</p>
       </TextArea>
     </Container>

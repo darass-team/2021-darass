@@ -1,9 +1,7 @@
-import moment from "moment";
 import { useQuery } from "react-query";
 import { QUERY, REACT_QUERY_KEY } from "../constants";
 import { Comment, GetCommentsOfProjectPerPageRequest } from "../types/comment";
 import { request } from "../utils/request";
-import { comments as _comments } from "../__test__/fixture/comments";
 
 const _getAllCommentsOfProject = async ({
   sortOption,
@@ -14,16 +12,13 @@ const _getAllCommentsOfProject = async ({
   size
 }: GetCommentsOfProjectPerPageRequest) => {
   try {
-    const today = moment().format("YYYY-MM-DD");
-
     const urlSearchParam = new URLSearchParams(QUERY.COMMENTS_OF_PROJECT_PER_PAGE + "?");
-    urlSearchParam.set("sortOption", sortOption);
     projectKey && urlSearchParam.set("projectKey", projectKey);
-    urlSearchParam.set("startDate", startDate || today);
-    urlSearchParam.set("endDate", endDate || today);
+    sortOption && urlSearchParam.set("sortOption", sortOption);
+    urlSearchParam.set("startDate", startDate);
+    urlSearchParam.set("endDate", endDate);
     urlSearchParam.set("page", `${page}`);
     urlSearchParam.set("size", `${size}`);
-
     const response = await request.get(decodeURIComponent(urlSearchParam.toString()));
 
     return response.data;
@@ -37,14 +32,24 @@ interface Props extends GetCommentsOfProjectPerPageRequest {
   projectId: number;
 }
 
-export const useGetCommentsOfProjectPerPage = ({ sortOption, projectKey, startDate, endDate, page, size }: Props) => {
-  const {
-    data: comments,
-    refetch,
-    isLoading,
-    error
-  } = useQuery<Comment[], Error>(
-    [REACT_QUERY_KEY.COMMENT_OF_PROJECT_PER_PAGE, projectKey, page],
+export const useGetCommentsOfProjectPerPage = ({
+  projectId,
+  sortOption = "latest",
+  projectKey,
+  startDate,
+  endDate,
+  page,
+  size
+}: Props) => {
+  const { data, refetch, isLoading, error } = useQuery<
+    {
+      comments: Comment[];
+      totalComment: number;
+      totalPage: number;
+    },
+    Error
+  >(
+    [REACT_QUERY_KEY.COMMENT_OF_PROJECT_PER_PAGE, projectId, page],
     () => _getAllCommentsOfProject({ sortOption, projectKey, startDate, endDate, page, size }),
     {
       retry: false,
@@ -52,5 +57,9 @@ export const useGetCommentsOfProjectPerPage = ({ sortOption, projectKey, startDa
     }
   );
 
-  return { comments, refetch, isLoading, error };
+  const comments = data?.comments.length === 0 ? [] : data?.comments;
+  const totalComment = data?.totalComment ? data?.totalComment : 0;
+  const totalPage = data?.totalPage ? data?.totalPage : 0;
+
+  return { comments, totalComment, totalPage, refetch, isLoading, error };
 };

@@ -41,7 +41,7 @@ const CommentSearchConditionForm = ({
 
         <Wrapper>
           <Meta>내용 검색</Meta>
-          <SearchTermInput placeholder="검색어를 입력해주세요." />
+          <SearchTermInput disabled placeholder="검색어를 입력해주세요." />
         </Wrapper>
 
         <SearchButton>조회</SearchButton>
