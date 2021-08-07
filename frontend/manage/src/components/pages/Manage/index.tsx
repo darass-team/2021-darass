@@ -3,7 +3,7 @@ import { FormEvent, useEffect } from "react";
 import { useLocation, useRouteMatch } from "react-router-dom";
 import { IgnorePlugin } from "webpack";
 import { PROJECT_MENU } from "../../../constants";
-import { COMMENT_COUNT_PER_PAGE } from "../../../constants/pagenation";
+import { COMMENT_COUNT_PER_PAGE } from "../../../constants/pagination";
 import {
   useCalendar,
   useCommentList,

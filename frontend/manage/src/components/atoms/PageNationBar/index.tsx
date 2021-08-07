@@ -1,5 +1,5 @@
-import { COMMENT_COUNT_PER_PAGE } from "../../../constants/pagenation";
-import { getPagesOfLength5 } from "../../../utils/pagenation";
+import { COMMENT_COUNT_PER_PAGE } from "../../../constants/pagination";
+import { getPagesOfLength5 } from "../../../utils/pagination";
 import { Container, PageIndexWrapper, PageIndex, PageIndexMoveButton } from "./styles";
 
 export interface Props {

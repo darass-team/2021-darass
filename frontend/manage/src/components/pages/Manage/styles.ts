@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { COMMENT_COUNT_PER_PAGE } from "../../../constants/pagenation";
+import { COMMENT_COUNT_PER_PAGE } from "../../../constants/pagination";
 import { contentBoxCSS, titleCSS } from "../../../styles/css";
 import DeleteButtonComponent from "../../atoms/Buttons/DeleteButton";
 import { PALETTE } from "./../../../styles/palette";
