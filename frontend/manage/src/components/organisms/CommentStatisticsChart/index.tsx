@@ -42,7 +42,11 @@ const CommentStatisticsChart = ({ data }: Props) => {
             ]
           },
           maintainAspectRatio: false,
-          legend: { display: false }
+          legend: { display: false },
+          events: ["mousemove", "mouseout", "click", "touchstart", "touchmove"],
+          hover: {
+            intersect: false
+          }
         }}
       />
     </Container>
