@@ -3,7 +3,7 @@ import { MenuType } from "../../../types/menu";
 import { debounce } from "../../../utils/debounce";
 import { Container, MainContent, SideBar } from "./styles";
 
-interface Props {
+export interface Props {
   menus: MenuType[];
   children: ReactNode;
 }

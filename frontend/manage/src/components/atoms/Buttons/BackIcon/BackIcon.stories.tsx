@@ -1,13 +1,13 @@
 import { Story } from "@storybook/react";
-import BackIcon from ".";
+import BackIcon, { Props } from ".";
 
 export default {
   title: "atoms/BackIcon",
   component: BackIcon,
-  argTypes: { children: { control: "text" } }
+  argTypes: {}
 };
 
-const Template: Story = args => <BackIcon {...args} />;
+const Template: Story<Props> = args => <BackIcon {...args} />;
 
 export const Default = Template.bind({});
 
