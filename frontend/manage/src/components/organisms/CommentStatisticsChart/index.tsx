@@ -2,8 +2,6 @@ import { Container } from "./styles";
 import { Line } from "react-chartjs-2";
 import { PALETTE } from "../../../styles/palette";
 
-type ViewType = "Time" | "Day" | "Month";
-
 interface Data {
   time: string;
   count: number;
@@ -13,7 +11,7 @@ export interface Props {
   data: Data[];
 }
 
-const CommentStatistics = ({ data }: Props) => {
+const CommentStatisticsChart = ({ data }: Props) => {
   const xValue = data.map(_data => _data.time);
   const yValue = data.map(_data => _data.count);
 
@@ -51,4 +49,4 @@ const CommentStatistics = ({ data }: Props) => {
   );
 };
 
-export default CommentStatistics;
+export default CommentStatisticsChart;

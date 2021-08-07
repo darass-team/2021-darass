@@ -10,7 +10,7 @@ interface GuideFile {
   [blogName: string]: BlogGuideInfo;
 }
 
-const GUIDE_FILE: GuideFile = {
+export const GUIDE_FILE: GuideFile = {
   TISTORY: {
     name: "티스토리",
     logoURL: `${CLIENT_ASSET_BASE_URL}/png/tistory.png`,
@@ -21,6 +21,4 @@ const GUIDE_FILE: GuideFile = {
     logoURL: `${CLIENT_ASSET_BASE_URL}/png/universal.png`,
     iframeSrc: `${CLIENT_ASSET_BASE_URL}/script-guide/universal.pdf`
   }
-};
-
-export { GUIDE_FILE };
+} as const;
