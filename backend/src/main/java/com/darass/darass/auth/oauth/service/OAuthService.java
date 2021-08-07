@@ -23,18 +23,16 @@ public class OAuthService {
     private OAuthProvider oAuthProvider;
 
     public TokenResponse oauthLogin(String oauthProviderName, String oauthAccessToken) {
-        SocialLoginUser socialLoginUser = oAuthProvider.findSocialLoginUser(oauthProviderName, oauthAccessToken);
+        SocialLoginUser inputSocialLoginUser = oAuthProvider.findSocialLoginUser(oauthProviderName, oauthAccessToken);
 
         Optional<SocialLoginUser> possibleSocialLoginUser = socialLoginUserRepository
-            .findByOauthId(socialLoginUser.getOauthId());
+            .findByOauthId(inputSocialLoginUser.getOauthId());
 
-        if (possibleSocialLoginUser.isEmpty()) { //TODO: 옵셔널로 변경 가능?
-            socialLoginUserRepository.save(socialLoginUser);
-            return TokenResponse.of(jwtTokenProvider.createAccessToken(socialLoginUser.getId().toString()));
-        }
-
-        SocialLoginUser foundSocialLoginUser = possibleSocialLoginUser.get();
-        return TokenResponse.of(jwtTokenProvider.createAccessToken(foundSocialLoginUser.getId().toString()));
+        SocialLoginUser socialLoginUser = possibleSocialLoginUser.orElseGet(() -> {
+            socialLoginUserRepository.save(inputSocialLoginUser);
+            return inputSocialLoginUser;
+        });
+        return TokenResponse.of(jwtTokenProvider.createAccessToken(socialLoginUser.getId().toString()));
     }
 
     public SocialLoginUser findSocialLoginUserByAccessToken(String accessToken) {
