@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "react-query";
 import { QUERY } from "../constants/api";
 import { request } from "../utils/request";
-import { Comment, EditCommentRequestData, GetCommentsByPageResponse, LikeCommentParameter } from "../types/comment";
+import { Comment, EditCommentRequestData, GetCommentsResponse, LikeCommentParameter } from "../types/comment";
 import { REACT_QUERY_KEY } from "../constants/reactQueryKey";
 import { AlertError } from "../utils/Error";
 
@@ -26,7 +26,7 @@ export const useLikeComment = () => {
     ({ user, commentId }) => _likeComment(commentId),
     {
       onSuccess: (_, { user, commentId }) => {
-        queryClient.setQueryData<GetCommentsByPageResponse | undefined>(REACT_QUERY_KEY.COMMENT, oldData => {
+        queryClient.setQueryData<GetCommentsResponse | undefined>(REACT_QUERY_KEY.COMMENT, oldData => {
           if (!oldData) return;
           const newComments =
             oldData?.comments?.map(comment => {

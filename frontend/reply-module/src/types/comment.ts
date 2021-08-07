@@ -28,10 +28,9 @@ export interface CreateCommentRequestData extends Omit<GuestUserInfo, "guestUser
 
 export interface GetCommentsRequestParams extends ScriptInfo {
   sortOption?: string;
-  pageParam: number;
 }
 
-export interface GetCommentsByPageResponse {
+export interface GetCommentsResponse {
   totalComment: number;
   totalPage: number;
   comments: Comment[];

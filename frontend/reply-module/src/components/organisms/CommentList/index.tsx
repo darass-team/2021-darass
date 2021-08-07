@@ -3,7 +3,6 @@ import { Comment as CommentType } from "../../../types/comment";
 import { Project } from "../../../types/project";
 import { User } from "../../../types/user";
 import Comment from "../../molecules/Comment";
-import { ReactComponent as DownArrow } from "../../../assets/svg/down-arrow.svg";
 import {
   CommentContainer,
   CommentCount,
@@ -13,8 +12,7 @@ import {
   Notice,
   OrderButton,
   OrderButtonContainer,
-  OrderButtonWrapper,
-  ShowMoreButton
+  OrderButtonWrapper
 } from "./styles";
 
 export interface Props {
@@ -37,11 +35,8 @@ const CommentList = ({
   comments,
   sortOption,
   notice,
-  onSelectSortOption,
-  onShowMoreComment
+  onSelectSortOption
 }: Props) => {
-  const hasMoreComments = comments.length < totalCommentsCount;
-
   return (
     <Container className={className}>
       <Header>
@@ -92,12 +87,6 @@ const CommentList = ({
           );
         })}
       </CommentContainer>
-      {hasMoreComments && (
-        <ShowMoreButton onClick={onShowMoreComment}>
-          <span>더 보기</span>
-          <DownArrow />
-        </ShowMoreButton>
-      )}
     </Container>
   );
 };

@@ -11,7 +11,6 @@ export const Header = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1.6rem;
   border-bottom: 1px solid ${PALETTE.GRAY_400};
   padding-bottom: 1.6rem;
 `;
@@ -84,32 +83,4 @@ export const Notice = styled.span`
   line-height: 2.1rem;
   color: ${PALETTE.GRAY_600};
   white-space: pre-wrap;
-`;
-
-export const ShowMoreButton = styled.button`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 0.3rem 1rem;
-  gap: 0.1rem;
-  margin: 0 auto;
-  background-color: transparent;
-  font-weight: 500;
-  font-size: 1.2rem;
-  line-height: 1.8rem;
-  color: ${PALETTE.GRAY_600};
-
-  & > svg > path {
-    stroke: ${PALETTE.GRAY_600};
-  }
-
-  @media (hover: hover) and (pointer: fine) {
-    &:hover {
-      color: ${PALETTE.BLACK_700};
-
-      & > svg > path {
-        stroke: ${PALETTE.BLACK_700};
-      }
-    }
-  }
 `;

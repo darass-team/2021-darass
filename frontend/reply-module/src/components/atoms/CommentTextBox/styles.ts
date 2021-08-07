@@ -25,6 +25,7 @@ export const Name = styled.span<{ thisCommentIsWrittenByAdmin: boolean }>`
       &:after {
         content: "(작성자)";
         font-size: 1rem;
+        margin-left: 0.3rem;
         color: ${PALETTE.BLUE_700};
       }
     `}

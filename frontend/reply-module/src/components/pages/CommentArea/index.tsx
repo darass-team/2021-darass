@@ -2,8 +2,7 @@ import { useEffect, useState } from "react";
 import kakaoTalkIcon from "../../../assets/png/kakaotalk.png";
 import { INITIAL_PAGE_PARAM } from "../../../constants/comment";
 import { ORDER_BUTTON } from "../../../constants/orderButton";
-import { useCommentsByPage, useGetProject, useUser } from "../../../hooks";
-import { useShowMoreComments } from "../../../hooks/useShowMoreComments";
+import { useGetAllComments, useGetProject, useUser } from "../../../hooks";
 import { AlertError } from "../../../utils/Error";
 import { postScrollHeightToParentWindow } from "../../../utils/postMessage";
 import Avatar from "../../atoms/Avatar";
@@ -28,9 +27,8 @@ const CommentArea = () => {
     refetch: refetchCommentsByPage,
     isLoading: commentsByPageLoading,
     error: commentsByPageError
-  } = useCommentsByPage({ url, projectSecretKey, sortOption, pageParam });
+  } = useGetAllComments({ url, projectSecretKey, sortOption });
   const { project, isLoading: projectLoading, error: projectError } = useGetProject({ projectSecretKey });
-  const { showMoreComment } = useShowMoreComments();
 
   useEffect(() => {
     postScrollHeightToParentWindow();
@@ -39,11 +37,6 @@ const CommentArea = () => {
   useEffect(() => {
     refetchCommentsByPage();
   }, [sortOption]);
-
-  useEffect(() => {
-    if (pageParam === INITIAL_PAGE_PARAM) return;
-    showMoreComment({ url, projectSecretKey, sortOption, pageParam });
-  }, [pageParam]);
 
   useEffect(() => {
     if (projectLoading || commentsByPageLoading) {
