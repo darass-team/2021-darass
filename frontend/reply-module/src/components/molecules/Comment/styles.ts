@@ -21,7 +21,7 @@ export const CommentWrapper = styled.div`
 export const DownRightArrow = styled.img`
   width: 1.5rem;
   height: 1.5rem;
-  margin-right: 0.6rem;
+  margin: 0.3rem 0.4rem 0 0.4rem;
 `;
 
 export const CommentTextBoxWrapper = styled.div`

@@ -5,7 +5,7 @@ import { MANAGE_PAGE_BASE_URL } from "../../../constants/api";
 const Footer = () => {
   return (
     <Container>
-      <CopyRight>ⓒ DARASS</CopyRight>
+      <CopyRight>&copy; Emergency Escape</CopyRight>
       <LogoButton href={MANAGE_PAGE_BASE_URL} target="_blank" rel="noopener noreferrer">
         <Logo src={darassLogoSVG} alt="darass-logo" />
         <ServiceName>Darass</ServiceName>

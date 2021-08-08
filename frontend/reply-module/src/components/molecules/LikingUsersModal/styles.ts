@@ -13,6 +13,7 @@ export const UserGrid = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-row-gap: 1rem;
+  grid-column-gap: 1rem;
   width: 20rem;
   max-height: 20rem;
   overflow-y: auto;
@@ -25,6 +26,5 @@ export const UserWrapper = styled.div`
 
 export const UserNickName = styled.span`
   margin-left: 0.5rem;
-  max-width: 5rem;
   word-break: break-all;
 `;

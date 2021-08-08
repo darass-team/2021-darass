@@ -10,15 +10,15 @@ export const Container = styled.section`
 export const Header = styled.div`
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: baseline;
   border-bottom: 1px solid ${PALETTE.GRAY_400};
-  padding-bottom: 1.6rem;
+  padding-bottom: 0.8rem;
 `;
 
 export const CommentCountWrapper = styled.div`
   display: flex;
-  font-size: 1.6rem;
-  line-height: 2.4rem;
+  font-size: 1.4rem;
+  line-height: 2.1rem;
   word-break: keep-all;
 `;
 
@@ -32,7 +32,6 @@ export const OrderButtonContainer = styled.div`
   width: 100%;
   display: flex;
   justify-content: flex-end;
-  align-items: center;
 `;
 
 export const OrderButtonWrapper = styled.div`
@@ -45,8 +44,8 @@ export const OrderButtonWrapper = styled.div`
 
 export const OrderButton = styled.button<{ isSelected: boolean }>`
   color: ${props => (props.isSelected ? PALETTE.BLACK_700 : PALETTE.GRAY_500)};
-  font-size: 1.6rem;
-  line-height: 2.4rem;
+  font-size: 1.2rem;
+  line-height: 1.8rem;
   font-weight: 700;
   background-color: transparent;
   transition: color 0.1s;
@@ -80,5 +79,5 @@ export const Notice = styled.span`
   font-size: 1.4rem;
   line-height: 2.1rem;
   color: ${PALETTE.GRAY_600};
-  white-space: pre-wrap;
+  white-space: break-spaces;
 `;

@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { PALETTE } from "../../../styles/palette";
 import UserOptionComponent from "../../atoms/UserOption";
 
 export const Container = styled.div`
@@ -13,10 +14,11 @@ export const Container = styled.div`
 `;
 
 export const UserNickName = styled.button`
-  font-size: 1.6rem;
-  line-height: 2.4rem;
+  font-size: 1.4rem;
+  line-height: 2.1rem;
   font-weight: 700;
   margin-right: 10px;
+  color: ${PALETTE.GRAY_800};
   padding: 0;
   background-color: transparent;
 `;

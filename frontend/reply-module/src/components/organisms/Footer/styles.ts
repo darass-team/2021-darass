@@ -32,4 +32,5 @@ export const ServiceName = styled.span`
   font-size: 1.5rem;
   line-height: 2.25rem;
   font-weight: 700;
+  color: ${PALETTE.GRAY_600};
 `;
