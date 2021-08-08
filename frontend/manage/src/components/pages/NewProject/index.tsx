@@ -3,6 +3,7 @@ import { Redirect, useHistory } from "react-router-dom";
 import { ROUTE } from "../../../constants";
 import { useCreateProject, useGetAllProjects, useInput } from "../../../hooks";
 import ScreenContainer from "../../../styles/ScreenContainer";
+import { AlertError } from "../../../utils/error";
 import { isEmptyString } from "../../../utils/validation";
 import { Container, Form, Input, Label, SubmitButton, Title, InputWrapper } from "./styles";
 
@@ -29,8 +30,9 @@ const NewProject = () => {
 
       history.push(ROUTE.GET_SCRIPT_PUBLISHING(project.id));
     } catch (error) {
-      alert(error.message);
-      console.error(error.message);
+      if (error instanceof AlertError) {
+        alert(error.message);
+      }
     }
   };
 

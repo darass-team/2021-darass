@@ -1,3 +1,5 @@
+import { AlertError } from "./../utils/error";
+import axios from "axios";
 import { useQuery, useQueryClient } from "react-query";
 import { QUERY, REACT_QUERY_KEY } from "../constants";
 import { Comment, GetCommentsOfProjectPerPageRequest } from "../types/comment";
@@ -24,8 +26,13 @@ const _getAllCommentsOfProject = async ({
 
     return response.data;
   } catch (error) {
-    console.log(error.message);
-    throw new Error(error.message);
+    console.error(error);
+
+    if (!axios.isAxiosError(error)) {
+      throw new Error("알 수 없는 에러입니다.");
+    }
+
+    throw new AlertError("댓글조회에 실패하였습니다.\n잠시 후 다시 시도해주세요.");
   }
 };
 

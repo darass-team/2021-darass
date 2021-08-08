@@ -2,6 +2,7 @@ import { useHistory } from "react-router-dom";
 import { ROUTE } from "../../../constants";
 import { useGetAllProjects, useUser } from "../../../hooks";
 import ScreenContainer from "../../../styles/ScreenContainer";
+import { AlertError } from "../../../utils/error";
 import ProjectButton from "../../atoms/Buttons/ProjectButton";
 import { AddProjectButton, ButtonWrapper, Container, Message } from "./styles";
 
@@ -19,6 +20,9 @@ const MyProject = () => {
   };
 
   if (error && !isLoading) {
+    if (error instanceof AlertError) {
+      alert(error.message);
+    }
     logout();
   }
 

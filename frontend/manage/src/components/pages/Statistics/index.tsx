@@ -1,8 +1,9 @@
-import { useState } from "react";
+import moment from "moment";
+import { useEffect, useState } from "react";
 import { useRouteMatch } from "react-router-dom";
 import { PROJECT_MENU } from "../../../constants";
 import { VIEW_OPTION } from "../../../constants/statistics";
-import { useCalendar } from "../../../hooks";
+import { useCalendar, useCommentStatisticsData, useGetProject } from "../../../hooks";
 import ScreenContainer from "../../../styles/ScreenContainer";
 import Modal from "../../atoms/Modal";
 import Calendar from "../../molecules/Calendar";
@@ -22,130 +23,35 @@ import {
   DateRange
 } from "./styles";
 
-const dummyDataByMonth = [
-  {
-    time: "2020-1",
-    count: 11200
-  },
-  {
-    time: "2020-2",
-    count: 20
-  },
-  {
-    time: "2020-3",
-    count: 100
-  },
-  {
-    time: "2020-4",
-    count: 140
-  },
-  {
-    time: "2020-5",
-    count: 80
-  },
-  {
-    time: "2020-6",
-    count: 222
-  },
-  {
-    time: "2020-7",
-    count: 999
-  },
-  {
-    time: "2020-7",
-    count: 999
-  }
-];
-
-const dummyDataByDay = [
-  {
-    time: "01",
-    count: 1200
-  },
-  {
-    time: "02",
-    count: 211
-  },
-  {
-    time: "02",
-    count: 1110
-  },
-  {
-    time: "02",
-    count: 1110
-  },
-  {
-    time: "02",
-    count: 811
-  },
-  {
-    time: "02",
-    count: 2112
-  },
-  {
-    time: "02",
-    count: 9119
-  },
-  {
-    time: "02",
-    count: 99922
-  }
-];
-
-const dummyDataByTime = [
-  {
-    time: "01",
-    count: 11
-  },
-  {
-    time: "2020-2",
-    count: 2
-  },
-  {
-    time: "2020-3",
-    count: 12
-  },
-  {
-    time: "2020-4",
-    count: 12
-  },
-  {
-    time: "2020-5",
-    count: 22222
-  },
-  {
-    time: "2020-6",
-    count: 22
-  },
-  {
-    time: "2020-7",
-    count: 92
-  },
-  {
-    time: "2020-7",
-    count: 92
-  }
-];
-
 const Statistics = () => {
   const match = useRouteMatch<{ id: string }>();
   const projectId = Number(match.params.id);
 
   const [selectedViewOption, setSelectedViewOption] = useState<ObjectValueType<typeof VIEW_OPTION>>(VIEW_OPTION.DAY);
 
+  const { project } = useGetProject(projectId);
+  const projectSecretKey = project?.secretKey;
+
   const { showCalendar, setShowCalendar, currentDate, setCurrentDate, startDate, setStartDate, endDate, setEndDate } =
     useCalendar();
+
+  const startDateAsString = startDate?.format("YYYY-MM-DD") || moment().format("YYYY-MM-DD");
+  const endDateAsString = endDate?.format("YYYY-MM-DD") || moment().format("YYYY-MM-DD");
+
+  const { data, refetch: getCommentStatisticsData } = useCommentStatisticsData({
+    type: selectedViewOption,
+    projectKey: projectSecretKey,
+    startDate: startDateAsString,
+    endDate: endDateAsString
+  });
 
   const onClickViewOption = (option: ObjectValueType<typeof VIEW_OPTION>) => {
     setSelectedViewOption(option);
   };
 
-  const data =
-    selectedViewOption === VIEW_OPTION.DAY
-      ? dummyDataByDay
-      : selectedViewOption === VIEW_OPTION.MONTH
-      ? dummyDataByMonth
-      : dummyDataByTime;
+  useEffect(() => {
+    getCommentStatisticsData();
+  }, [projectSecretKey, startDate, endDate]);
 
   return (
     <ScreenContainer>
@@ -184,7 +90,7 @@ const Statistics = () => {
               </tr>
             </thead>
             <tbody>
-              {data.map(_data => (
+              {[...data].reverse().map(_data => (
                 <tr>
                   <th>{_data.time}</th>
                   <th>{_data.count}</th>

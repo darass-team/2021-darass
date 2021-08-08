@@ -12,6 +12,7 @@ import {
   useGetProject
 } from "../../../hooks";
 import ScreenContainer from "../../../styles/ScreenContainer";
+import { AlertError } from "../../../utils/error";
 import { getPagesOfLength5 } from "../../../utils/pagination";
 import CheckBox from "../../atoms/CheckBox";
 import PaginationBar from "../../atoms/PaginationBar";
@@ -97,7 +98,9 @@ const Manage = () => {
       setCheckedCommentIds([]);
       alert("댓글이 정상적으로 삭제되었습니다.");
     } catch (error) {
-      console.error(error.message);
+      if (error instanceof AlertError) {
+        alert(error.message);
+      }
     }
   };
 
@@ -106,9 +109,11 @@ const Manage = () => {
 
     getCommentsOfProjectPerPage();
 
-    Promise.all(paginationNumbers.map(num => preGetCommentsOfProjectPerPage(num))).catch(error =>
-      console.error(error.message)
-    );
+    Promise.all(paginationNumbers.map(num => preGetCommentsOfProjectPerPage(num))).catch(error => {
+      if (error instanceof AlertError) {
+        alert(error.message);
+      }
+    });
   }, [currentPageIndex, projectSecretKey, totalPage]);
 
   return (

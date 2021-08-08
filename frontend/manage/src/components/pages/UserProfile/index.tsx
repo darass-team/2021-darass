@@ -2,6 +2,7 @@ import { ChangeEvent, FormEventHandler, useEffect, useState } from "react";
 import cameraIcon from "../../../assets/svg/camera.svg";
 import { useDeleteUser, useEditUser, useInput, useUser } from "../../../hooks";
 import ScreenContainer from "../../../styles/ScreenContainer";
+import { AlertError } from "../../../utils/error";
 import DeleteSection from "../../molecules/DeleteSection";
 import {
   CameraIcon,
@@ -47,8 +48,9 @@ const UserProfile = () => {
       alert("회원탈퇴에 성공하셨습니다.");
       logout();
     } catch (error) {
-      alert("회원탈퇴에 실패하였습니다.");
-      console.error(error.message);
+      if (error instanceof AlertError) {
+        alert(error.message);
+      }
     }
   };
 
@@ -64,8 +66,9 @@ const UserProfile = () => {
 
       alert("회원정보 수정에 성공하셨습니다.");
     } catch (error) {
-      alert(error.response.data.message);
-      console.error(error.response.data.message);
+      if (error instanceof AlertError) {
+        alert(error.message);
+      }
     }
   };
 
