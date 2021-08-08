@@ -16,9 +16,38 @@ export const ChartArea = styled.div`
   width: 100%;
 `;
 
-export const SortButtonsWrapper = styled.div`
-  align-self: flex-end;
+export const Wrapper = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
   margin-bottom: 1rem;
+`;
+
+export const Meta = styled.span`
+  min-width: 4.5rem;
+`;
+
+export const DataInputWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+`;
+
+export const DateInputText = styled.span`
+  border-radius: 10px;
+  height: fit-content;
+  border: 1px solid ${PALETTE.GRAY_400};
+  padding: 0.5rem;
+  user-select: none;
+  cursor: pointer;
+`;
+
+export const DateRange = styled.span`
+  margin-left: 1rem;
+`;
+
+export const SortButtonsWrapper = styled.div`
+  margin: 0 0 0 auto;
 `;
 
 export const SortButton = styled.button.attrs({ type: "button" })<{ isSelected: boolean }>`
