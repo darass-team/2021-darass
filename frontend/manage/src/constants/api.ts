@@ -7,6 +7,7 @@ const QUERY = {
   COMMENT: "/api/v1/comments",
   PROJECT: "/api/v1/projects",
   COMMENTS_OF_PROJECT_PER_PAGE: "/api/v1/projects/comments/paging",
+  KEYWORD_COMMENTS_OF_PROJECT_PER_PAGE: "/api/v1/projects/comments/search/paging",
   COMMENTS_COUNT_OF_PROJECT: "/api/v1/projects/comments/count"
 };
 

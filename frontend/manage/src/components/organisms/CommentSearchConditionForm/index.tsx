@@ -1,5 +1,5 @@
 import moment from "moment";
-import { FormEvent } from "react";
+import { ChangeEvent, FormEvent } from "react";
 import Modal from "../../atoms/Modal";
 import Calendar from "../../molecules/Calendar";
 import { Container, DateInputText, DateRange, Meta, SearchButton, SearchTermInput, Wrapper } from "./styles";
@@ -14,6 +14,8 @@ export interface Props {
   setCurrentDate: (state: moment.Moment) => void;
   setStartDate: (state: moment.Moment | null) => void;
   setEndDate: (state: moment.Moment | null) => void;
+  onChangeKeyword: (event: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>) => void;
+  keyword: string;
 }
 
 const CommentSearchConditionForm = ({
@@ -25,7 +27,9 @@ const CommentSearchConditionForm = ({
   startDate,
   setStartDate,
   endDate,
-  setEndDate
+  setEndDate,
+  onChangeKeyword,
+  keyword
 }: Props) => {
   return (
     <>
@@ -41,7 +45,7 @@ const CommentSearchConditionForm = ({
 
         <Wrapper>
           <Meta>내용 검색</Meta>
-          <SearchTermInput disabled placeholder="검색어를 입력해주세요." />
+          <SearchTermInput value={keyword} onChange={onChangeKeyword} placeholder="검색어를 입력해주세요." />
         </Wrapper>
 
         <SearchButton>조회</SearchButton>

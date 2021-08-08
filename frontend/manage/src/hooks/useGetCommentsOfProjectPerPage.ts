@@ -11,14 +11,19 @@ const _getAllCommentsOfProject = async ({
   startDate,
   endDate,
   page,
-  size
+  size,
+  keyword
 }: GetCommentsOfProjectPerPageRequest) => {
   try {
-    const urlSearchParam = new URLSearchParams(QUERY.COMMENTS_OF_PROJECT_PER_PAGE + "?");
+    const queryURL =
+      keyword.length > 0 ? QUERY.KEYWORD_COMMENTS_OF_PROJECT_PER_PAGE : QUERY.COMMENTS_OF_PROJECT_PER_PAGE;
+
+    const urlSearchParam = new URLSearchParams(queryURL + "?");
     projectKey && urlSearchParam.set("projectKey", projectKey);
     sortOption && urlSearchParam.set("sortOption", sortOption);
-    urlSearchParam.set("startDate", startDate);
-    urlSearchParam.set("endDate", endDate);
+    keyword.length > 0 && urlSearchParam.set("keyword", keyword);
+    keyword.length === 0 && urlSearchParam.set("startDate", startDate);
+    keyword.length === 0 && urlSearchParam.set("endDate", endDate);
     urlSearchParam.set("page", `${page}`);
     urlSearchParam.set("size", `${size}`);
 
@@ -44,7 +49,8 @@ export const useGetCommentsOfProjectPerPage = ({
   startDate,
   endDate,
   page,
-  size
+  size,
+  keyword
 }: Props) => {
   const queryClient = useQueryClient();
 
@@ -57,7 +63,7 @@ export const useGetCommentsOfProjectPerPage = ({
     Error
   >(
     [REACT_QUERY_KEY.COMMENT_OF_PROJECT_PER_PAGE, projectKey, page],
-    () => _getAllCommentsOfProject({ sortOption, projectKey, startDate, endDate, page, size }),
+    () => _getAllCommentsOfProject({ sortOption, projectKey, startDate, endDate, page, size, keyword }),
     {
       retry: false,
       enabled: false
@@ -72,7 +78,8 @@ export const useGetCommentsOfProjectPerPage = ({
         startDate,
         endDate,
         page: pageIndex,
-        size
+        size,
+        keyword
       });
 
       return response;

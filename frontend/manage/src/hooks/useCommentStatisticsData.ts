@@ -47,7 +47,7 @@ const commentsGroupByDay = (
   return newRes;
 };
 
-interface Props extends Omit<GetCommentsOfProjectPerPageRequest, "page" | "size"> {
+interface Props extends Omit<GetCommentsOfProjectPerPageRequest, "page" | "size" | "keyword"> {
   type: ObjectValueType<typeof VIEW_OPTION>;
 }
 
@@ -58,7 +58,8 @@ export const useCommentStatisticsData = ({ type, projectKey, startDate, endDate 
     startDate,
     endDate,
     page: 1,
-    size: 9999
+    size: 9999,
+    keyword: ""
   });
 
   const data = commentsGroupByDay(type, comments, moment(startDate), moment(endDate));

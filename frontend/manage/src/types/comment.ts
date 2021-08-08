@@ -20,6 +20,7 @@ export interface GetCommentsOfProjectPerPageRequest {
   endDate: string;
   page: number;
   size: number;
+  keyword: string;
 }
 
 export interface DeleteCommentRequestParameter {
