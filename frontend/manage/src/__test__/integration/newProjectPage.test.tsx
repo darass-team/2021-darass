@@ -11,7 +11,15 @@ import NewProject from "../../components/pages/NewProject";
 jest.mock("../../hooks/useCreateProject");
 jest.mock("../../hooks/useGetAllProjects");
 
-let alertMsg = "";
+window.alert = function (str) {
+  console.log(str);
+  return true;
+};
+
+window.confirm = function (str) {
+  console.log(str);
+  return true;
+};
 
 describe("newProject 페이지 테스트", () => {
   beforeEach(() => {
@@ -24,13 +32,17 @@ describe("newProject 페이지 테스트", () => {
         }
       };
     });
-
-    alertMsg = "";
-    window.alert = str => {
-      alertMsg = str;
-    };
+    (useGetAllProjects as jest.Mock).mockImplementation(() => {
+      return {
+        createProject: (str: string): Project => {
+          return {
+            ...myProject
+          };
+        }
+      };
+    });
   });
-  test("프로젝트 이름에 공백으로만 구성된 문자열을 입력하고, 등록버튼을 누르면, 얼럿창이 노출된다.", async () => {
+  test("프로젝트 이름에 공백으로만 구성된 문자열을 입력하고, 등록버튼을 누르면 해당 프로젝트 배포페이지로 이동하지 않는다.", async () => {
     (useGetAllProjects as jest.Mock).mockImplementation(() => {
       return { projects: [] };
     });
@@ -55,10 +67,10 @@ describe("newProject 페이지 테스트", () => {
     fireEvent.click(projectSubmitButton);
 
     await waitFor(() => {
-      expect(alertMsg).toEqual("프로젝트 이름을 입력해주세요.");
+      expect(history.location.pathname).not.toBe(ROUTE.GET_SCRIPT_PUBLISHING(otherProject.id));
     });
   });
-  test("프로젝트 이름에 이미 등록되어있는 프로젝트를 입력하고, 등록버튼을 누르면, 중복안내 얼럿 메시지가 노출된다.", async () => {
+  test("프로젝트 이름에 이미 등록되어있는 프로젝트를 입력하고, 등록버튼을 누르면 해당 프로젝트 배포페이지로 이동하지 않는다.", async () => {
     (useGetAllProjects as jest.Mock).mockImplementation(() => {
       return { projects: [myProject] };
     });
@@ -83,7 +95,7 @@ describe("newProject 페이지 테스트", () => {
     fireEvent.click(projectSubmitButton);
 
     await waitFor(() => {
-      expect(alertMsg).toEqual("중복된 프로젝트 이름입니다. 다시 입력해주세요.");
+      expect(history.location.pathname).not.toBe(ROUTE.GET_SCRIPT_PUBLISHING(otherProject.id));
     });
   });
   test("프로젝트 이름에 유효한 문자열을 입력하고, 등록버튼을 누르면, 프로젝트가 생성된다.", async () => {

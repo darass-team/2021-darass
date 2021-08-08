@@ -10,7 +10,7 @@ import { Container, Form, Input, Label, SubmitButton, Title, InputWrapper } from
 const NewProject = () => {
   const history = useHistory();
   const { createProject } = useCreateProject();
-  const { projects, error } = useGetAllProjects();
+
   const { value: projectName, onChange: onChangeProjectName } = useInput("");
   const { value: projectDescription, onChange: onChangeProjectDescription } = useInput("");
 
@@ -18,10 +18,7 @@ const NewProject = () => {
     event.preventDefault();
 
     try {
-      const isDuplicatedProjectName = projects?.some(project => project.name === projectName.trim());
-
-      if (isEmptyString(projectName)) throw new Error("프로젝트 이름을 입력해주세요.");
-      if (isDuplicatedProjectName) throw new Error("중복된 프로젝트 이름입니다. 다시 입력해주세요.");
+      if (isEmptyString(projectName)) throw new AlertError("프로젝트 이름을 입력해주세요.");
 
       const project = await createProject({
         name: projectName.trim(),
@@ -31,14 +28,10 @@ const NewProject = () => {
       history.push(ROUTE.GET_SCRIPT_PUBLISHING(project.id));
     } catch (error) {
       if (error instanceof AlertError) {
-        alert(error.message);
+        window.alert(error.message);
       }
     }
   };
-
-  if (error) {
-    return <Redirect to={ROUTE.MY_PROJECT} />;
-  }
 
   return (
     <ScreenContainer>
@@ -53,7 +46,6 @@ const NewProject = () => {
               onChange={onChangeProjectName}
               placeholder="프로젝트 이름을 입력해주세요."
               autoFocus
-              required
             />
           </InputWrapper>
 

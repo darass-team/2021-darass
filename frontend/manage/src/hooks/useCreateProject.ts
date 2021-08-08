@@ -23,7 +23,7 @@ const _createProject = async ({ name, description }: CreateProjectRequest) => {
     }
 
     if (error.response?.data.code === 702) {
-      throw new AlertError("중복된 프로젝트 명입니다.");
+      throw new AlertError("중복된 프로젝트명입니다.");
     }
 
     throw new AlertError("프로젝트 생성에 실패하였습니다.\n잠시 후 다시 시도해주세요.");
