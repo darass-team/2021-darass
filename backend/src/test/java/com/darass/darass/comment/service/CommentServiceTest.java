@@ -290,6 +290,18 @@ class CommentServiceTest extends SpringContainerTest {
             .hasMessage("페이지의 값은 1 이상이어야 합니다.");
     }
 
+    @DisplayName("특정 프로젝트의 시간별 댓글 통계를 구한다.")
+    @Test
+    void stat_hourly() {
+        LocalDate endDate = LocalDate.now();
+        LocalDate startDate = LocalDate.of(endDate.getYear(), endDate.getMonthValue() - 1, endDate.getDayOfMonth());
+        CommentStatRequest request = new CommentStatRequest("HOURLY", project.getSecretKey(),
+            startDate, endDate);
+        CommentStatResponse commentStatResponse = commentService.giveStat(request);
+        assertThat(commentStatResponse.getStats())
+            .hasSize(24);
+    }
+
     @DisplayName("특정 프로젝트의 일별 댓글 통계를 구한다.")
     @Test
     void stat_daily() {

@@ -17,7 +17,7 @@ public class CommentCountStrategyByDaily implements CommentCountStrategy {
 
     private static final String DATE = "DAILY";
     private static final Integer BEGIN_INDEX = 1;
-    private static final Integer END_INDEX = 10;
+    private static final Integer LENGTH = 10;
 
     private final CommentRepository commentRepository;
 
@@ -28,12 +28,12 @@ public class CommentCountStrategyByDaily implements CommentCountStrategy {
 
     @Override
     public List<Stat> calculateCount(String projectKey, LocalDateTime startDate, LocalDateTime endDate) {
-        List<Stat> stats = commentRepository.findDateCount(projectKey, startDate, endDate, BEGIN_INDEX, END_INDEX).stream()
+        List<Stat> stats = commentRepository.findDateCount(projectKey, startDate, endDate, BEGIN_INDEX, LENGTH).stream()
             .map(objects -> new Stat((String) objects[0], (Long) objects[1]))
             .collect(Collectors.toList());
 
-        List<Stat> noneMonthStats = getStatByNoneDaily(startDate, endDate, stats);
-        stats.addAll(noneMonthStats);
+        List<Stat> noneDailyStats = getStatByNoneDaily(startDate, endDate, stats);
+        stats.addAll(noneDailyStats);
         stats.sort(Comparator.comparing(Stat::getDate));
         return stats;
     }

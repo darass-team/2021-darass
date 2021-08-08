@@ -17,7 +17,7 @@ public class CommentCountStrategyByMonthly implements CommentCountStrategy {
 
     private static final String DATE = "MONTHLY";
     private static final Integer BEGIN_INDEX = 1;
-    private static final Integer END_INDEX = 7;
+    private static final Integer LENGTH = 7;
 
     private final CommentRepository commentRepository;
 
@@ -28,7 +28,7 @@ public class CommentCountStrategyByMonthly implements CommentCountStrategy {
 
     @Override
     public List<Stat> calculateCount(String projectKey, LocalDateTime startDate, LocalDateTime endDate) {
-        List<Stat> stats = commentRepository.findDateCount(projectKey, startDate, endDate, BEGIN_INDEX, END_INDEX).stream()
+        List<Stat> stats = commentRepository.findDateCount(projectKey, startDate, endDate, BEGIN_INDEX, LENGTH).stream()
             .map(objects -> new Stat((String) objects[0], (Long) objects[1]))
             .collect(Collectors.toList());
 

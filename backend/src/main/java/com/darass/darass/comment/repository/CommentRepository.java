@@ -22,9 +22,9 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
 
     Page<Comment> findByProjectSecretKeyAndContentContaining(String projectSecretKey, String keyword, Pageable pageable);
 
-    @Query("select substring(c.createdDate, :beginIndex, :endIndex) as date, count(c) as count from Comment c "
+    @Query("select substring(c.createdDate, :beginIndex, :length) as date, count(c) as count from Comment c "
         + "where c.project.secretKey=:projectSecretKey and c.createdDate between :startDate and :endDate group by date")
     List<Object[]> findDateCount(@Param("projectSecretKey") String projectSecretKey,
         @Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate,
-        @Param("beginIndex") Integer beginIndex, @Param("endIndex") Integer endIndex);
+        @Param("beginIndex") Integer beginIndex, @Param("length") Integer length);
 }
