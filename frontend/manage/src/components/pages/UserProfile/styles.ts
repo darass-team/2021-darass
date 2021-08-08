@@ -66,3 +66,7 @@ export const SubmitButton = styled(SubmitButtonComponent)`
   align-items: flex-end;
   margin-top: 4rem;
 `;
+
+export const UserNameCounter = styled.span`
+  align-self: flex-end;
+`;
