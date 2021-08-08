@@ -182,6 +182,44 @@ include::{snippets}/api/v1/projects/comments/search/paging/get/oldest/success/re
 include::{snippets}/api/v1/projects/comments/search/paging/get/oldest/success/http-response.adoc[]
 include::{snippets}/api/v1/projects/comments/search/paging/get/oldest/success/response-fields.adoc[]
 
+=== 특정 프로젝트 내의 댓글에 관한 통계 (GET /api/v1/comments/stat)
+
+==== 특정 프로젝트 내의 댓글 시간별 통계
+
+==== Request
+
+include::{snippets}/api/v1/comments/stat/get/hourly/success/http-request.adoc[]
+include::{snippets}/api/v1/comments/stat/get/hourly/success/request-parameters.adoc[]
+
+==== Response
+
+include::{snippets}/api/v1/comments/stat/get/hourly/success/http-response.adoc[]
+include::{snippets}/api/v1/comments/stat/get/hourly/success/response-fields.adoc[]
+
+==== 특정 프로젝트 내의 댓글 일별 통계
+
+==== Request
+
+include::{snippets}/api/v1/comments/stat/get/daily/success/http-request.adoc[]
+include::{snippets}/api/v1/comments/stat/get/daily/success/request-parameters.adoc[]
+
+==== Response
+
+include::{snippets}/api/v1/comments/stat/get/daily/success/http-response.adoc[]
+include::{snippets}/api/v1/comments/stat/get/daily/success/response-fields.adoc[]
+
+==== 특정 프로젝트 내의 댓글 월별 통계
+
+==== Request
+
+include::{snippets}/api/v1/comments/stat/get/monthly/success/http-request.adoc[]
+include::{snippets}/api/v1/comments/stat/get/monthly/success/request-parameters.adoc[]
+
+==== Response
+
+include::{snippets}/api/v1/comments/stat/get/monthly/success/http-response.adoc[]
+include::{snippets}/api/v1/comments/stat/get/monthly/success/response-fields.adoc[]
+
 === 댓글 수정 (PATCH /api/v1/comments)
 
 ==== (성공) 소셜 로그인 유저 댓글 수정

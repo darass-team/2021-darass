@@ -29,12 +29,12 @@ public class CommentCountStrategyByHourly implements CommentCountStrategy {
     @Override
     public List<Stat> calculateCount(String projectKey, LocalDateTime startDate, LocalDateTime endDate) {
         List<Stat> stats = commentRepository.findDateCount(projectKey, startDate, endDate, BEGIN_INDEX, LENGTH).stream()
-            .map(objects -> new Stat((String) objects[0], (Long) objects[1]))
+            .map(objects -> new Stat(String.valueOf(Integer.parseInt(String.valueOf(objects[0]))), (Long) objects[1]))
             .collect(Collectors.toList());
 
         List<Stat> noneHourlyStats = getStatByNoneHourly(startDate, endDate, stats);
         stats.addAll(noneHourlyStats);
-        stats.sort(Comparator.comparing(Stat::getDate));
+        stats.sort(Comparator.comparingInt(s -> Integer.parseInt(s.getDate())));
         return stats;
     }
 
@@ -45,7 +45,7 @@ public class CommentCountStrategyByHourly implements CommentCountStrategy {
         for (LocalTime localTime = LocalTime.MIN; localTime.getHour() != LocalTime.MAX.getHour();
             localTime = localTime.plusHours(1L)) {
             for (Stat stat : stats) {
-                if (localTime.toString().equals(stat.getDate())) {
+                if (localTime.getHour() == Integer.parseInt(stat.getDate())) {
                     continue outer;
                 }
             }
