@@ -31,6 +31,7 @@ import com.darass.darass.user.domain.User;
 import com.darass.darass.user.repository.UserRepository;
 import java.time.LocalDate;
 import java.time.YearMonth;
+import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -289,16 +290,28 @@ class CommentServiceTest extends SpringContainerTest {
             .hasMessage("페이지의 값은 1 이상이어야 합니다.");
     }
 
+    @DisplayName("특정 프로젝트의 일별 댓글 통계를 구한다.")
+    @Test
+    void stat_daily() {
+        LocalDate endDate = LocalDate.now();
+        LocalDate startDate = LocalDate.of(endDate.getYear(), endDate.getMonthValue() - 1, endDate.getDayOfMonth());
+        CommentStatRequest request = new CommentStatRequest("DAILY", project.getSecretKey(),
+            startDate, endDate);
+        CommentStatResponse commentStatResponse = commentService.giveStat(request);
+        assertThat(commentStatResponse.getStats())
+            .hasSize((int) ChronoUnit.DAYS.between(startDate, endDate) + 1);
+    }
+
     @DisplayName("특정 프로젝트의 월별 댓글 통계를 구한다.")
     @Test
     void stat_monthly() {
         LocalDate endDate = LocalDate.now();
         LocalDate startDate = LocalDate.of(endDate.getYear(), endDate.getMonthValue() - 4, 1);
-        CommentStatRequest request = new CommentStatRequest("Monthly", project.getSecretKey(),
+        CommentStatRequest request = new CommentStatRequest("MONTHLY", project.getSecretKey(),
             startDate, endDate);
         CommentStatResponse commentStatResponse = commentService.giveStat(request);
         assertThat(commentStatResponse.getStats())
-            .hasSize(YearMonth.from(endDate).minusMonths(startDate.getMonthValue()).getMonthValue() + 1);
+            .hasSize((int) ChronoUnit.MONTHS.between(startDate, endDate) + 1);
     }
 
     @DisplayName("소셜 로그인 유저가 댓글을 수정한다.")
