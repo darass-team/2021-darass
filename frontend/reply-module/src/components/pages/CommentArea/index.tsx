@@ -4,6 +4,7 @@ import { INITIAL_PAGE_PARAM } from "../../../constants/comment";
 import { ORDER_BUTTON } from "../../../constants/orderButton";
 import { useCommentsByPage, useGetProject, useUser } from "../../../hooks";
 import { useShowMoreComments } from "../../../hooks/useShowMoreComments";
+import useTotalCommentsCount from "../../../hooks/useTotalCommentsCount";
 import { AlertError } from "../../../utils/Error";
 import { postScrollHeightToParentWindow } from "../../../utils/postMessage";
 import Avatar from "../../atoms/Avatar";
@@ -33,6 +34,11 @@ const CommentArea = () => {
 
   const { user, login, logout } = useUser();
   const {
+    totalCommentsCount,
+    isLoading: totalCommentsCountLoading,
+    error: totalCommentsCountError
+  } = useTotalCommentsCount({ url, projectSecretKey });
+  const {
     comments,
     refetch: refetchCommentsByPage,
     isLoading: commentsByPageLoading,
@@ -50,21 +56,34 @@ const CommentArea = () => {
   }, [sortOption]);
 
   useEffect(() => {
-    if (pageParam === 1) return;
+    if (pageParam === INITIAL_PAGE_PARAM) return;
     showMoreComment({ url, projectSecretKey, sortOption, pageParam });
   }, [pageParam]);
 
   useEffect(() => {
-    if (projectLoading || commentsByPageLoading) {
+    if (projectLoading || totalCommentsCountLoading || commentsByPageLoading) {
       setNotice("로딩 중...");
 
       return;
     }
 
+    setNotice("");
+  }, [projectLoading, commentsByPageLoading, totalCommentsCountLoading]);
+
+  useEffect(() => {
     if (projectError) setNotice(projectError.message);
+    if (totalCommentsCountError) setNotice(totalCommentsCountError.message);
     if (commentsByPageError) setNotice(commentsByPageError.message);
-    if (!(projectError || commentsByPageError || projectLoading || commentsByPageLoading)) setNotice("");
-  }, [projectLoading, commentsByPageLoading, projectError, commentsByPageError]);
+
+    if (!(projectError || totalCommentsCountError || commentsByPageError)) {
+      if (totalCommentsCount === 0) {
+        setNotice("작성된 댓글이 없습니다.");
+        return;
+      }
+
+      setNotice("");
+    }
+  }, [projectError, totalCommentsCountError, commentsByPageError, totalCommentsCount]);
 
   const onShowMoreComment = () => {
     setPageParam(currentPageParam => currentPageParam + 1);
@@ -89,7 +108,7 @@ const CommentArea = () => {
     <Container>
       <Header>
         <CommentCountWrapper>
-          댓글 <CommentCount>{comments?.length || 0}</CommentCount>
+          댓글 <CommentCount>{totalCommentsCount || 0}</CommentCount>
         </CommentCountWrapper>
         <UserAvatarOption user={user}>
           {user ? (
@@ -109,6 +128,7 @@ const CommentArea = () => {
       <CommentInput url={url} projectSecretKey={projectSecretKey} user={user} />
       <CommentList
         user={user}
+        totalCommentsCount={totalCommentsCount || 0}
         comments={comments || []}
         project={project}
         sortOption={sortOption}

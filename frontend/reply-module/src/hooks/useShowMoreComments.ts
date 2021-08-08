@@ -8,11 +8,11 @@ const _showMoreComments = async ({ url, projectSecretKey, sortOption, pageParam 
   try {
     if (!url || !projectSecretKey) return undefined;
 
-    const response = await request.get(QUERY.GET_ALL_COMMENTS({ url, projectSecretKey, sortOption, pageParam }));
+    const response = await request.get(QUERY.GET_COMMENTS_BY_PAGE({ url, projectSecretKey, sortOption, pageParam }));
 
     return response.data;
   } catch (error) {
-    throw new Error(error.response.data.message);
+    throw new Error("댓글을 더 불러오는 데에 실패하였습니다.");
   }
 };
 

@@ -1,3 +1,4 @@
+import moment from "moment";
 import { Comment as CommentType } from "../../../types/comment";
 import { User } from "../../../types/user";
 import CheckBox from "../../atoms/CheckBox";
@@ -10,6 +11,7 @@ export interface Props {
   authorNickName: User["nickName"];
   createdDate: CommentType["createdDate"];
   content: CommentType["content"];
+  url: CommentType["url"];
 }
 
 const Comment = ({
@@ -18,7 +20,8 @@ const Comment = ({
   authorProfileImageUrl,
   authorNickName,
   createdDate,
-  content
+  content,
+  url
 }: Props) => {
   return (
     <>
@@ -27,10 +30,12 @@ const Comment = ({
       <ContentWrapper>
         <ContentMeta>
           <Name>{authorNickName}</Name>
-          <Date>{createdDate}</Date>
+          <Date>{moment(createdDate).format("YYYY-MM-DD")}</Date>
         </ContentMeta>
         <Content>{content}</Content>
-        <Url>www.naver.com</Url>
+        <Url href={url} target="_blank" rel="noopener noreferrer nofollow">
+          {url}
+        </Url>
       </ContentWrapper>
     </>
   );

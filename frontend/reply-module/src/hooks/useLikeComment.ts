@@ -3,6 +3,7 @@ import { QUERY } from "../constants/api";
 import { request } from "../utils/request";
 import { Comment, EditCommentRequestData, LikeCommentParameter } from "../types/comment";
 import { REACT_QUERY_KEY } from "../constants/reactQueryKey";
+import { AlertError } from "../utils/Error";
 
 const _likeComment = async (id: Comment["id"]) => {
   try {
@@ -10,7 +11,11 @@ const _likeComment = async (id: Comment["id"]) => {
 
     return response.data;
   } catch (error) {
-    throw new Error(error.response.data.message);
+    if (error.response.data.code === 800) {
+      throw new AlertError("'좋아요'를 누르려면 로그인을 해주세요.");
+    }
+
+    throw new AlertError("잠시 후 다시 시도해주세요.");
   }
 };
 

@@ -70,6 +70,7 @@ describe("관리자 유저일 때의 동작 테스트", () => {
 
     const commentList = render(
       <CommentList
+        totalCommentsCount={_comments.length}
         user={user}
         project={project}
         comments={guestComments}
@@ -100,6 +101,7 @@ describe("관리자 유저일 때의 동작 테스트", () => {
 
     const commentList = render(
       <CommentList
+        totalCommentsCount={_comments.length}
         user={user}
         project={project}
         comments={socialLoginedComments}
@@ -131,6 +133,7 @@ describe("관리자 유저일 때의 동작 테스트", () => {
 
     const commentList = render(
       <CommentList
+        totalCommentsCount={_comments.length}
         user={user}
         project={project}
         comments={guestComments}
@@ -160,6 +163,7 @@ describe("관리자 유저일 때의 동작 테스트", () => {
 
     const commentList = render(
       <CommentList
+        totalCommentsCount={_comments.length}
         user={user}
         project={project}
         comments={socialLoginedCommentsWrittenByOther}
@@ -188,6 +192,7 @@ describe("관리자 유저일 때의 동작 테스트", () => {
 
     const commentList = render(
       <CommentList
+        totalCommentsCount={_comments.length}
         user={user}
         project={project}
         comments={socialLoginedCommentsWrittenByMe}
@@ -212,6 +217,7 @@ describe("관리자 유저일 때의 동작 테스트", () => {
 
     const commentList = render(
       <CommentList
+        totalCommentsCount={_comments.length}
         user={user}
         project={project}
         comments={comments}
