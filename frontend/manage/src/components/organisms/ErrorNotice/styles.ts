@@ -14,6 +14,7 @@ export const Container = styled.div`
 
 export const TextArea = styled.div`
   margin-top: 2rem;
+  margin-bottom: 8rem;
   width: 100%;
   height: 100%;
   display: table;

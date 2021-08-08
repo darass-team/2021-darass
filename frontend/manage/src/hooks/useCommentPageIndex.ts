@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { ROUTE } from "../constants";
 import { Project } from "../types/project";
+import { getPagesOfLength5 } from "../utils/pagination";
 
 interface Props {
   initialPageIndex: number;

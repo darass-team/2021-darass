@@ -1,10 +1,10 @@
 import { Story } from "@storybook/react";
 import styled from "styled-components";
-import PageNationBar, { Props } from ".";
+import PaginationBar, { Props } from ".";
 
 export default {
-  title: "atoms/PageNationBar",
-  component: PageNationBar,
+  title: "atoms/paginationBar",
+  component: PaginationBar,
   argTypes: { children: { control: "text" } }
 };
 
@@ -14,7 +14,7 @@ const Container = styled.div`
 
 const Template: Story<Props> = args => (
   <Container>
-    <PageNationBar {...args} />
+    <PaginationBar {...args} />
   </Container>
 );
 
