@@ -1,22 +1,13 @@
-import { COMMENT_COUNT_PER_PAGE } from "../../../constants/pagination";
-import { getPagesOfLength5 } from "../../../utils/pagination";
-import { Container, PageIndexWrapper, PageIndex, PageIndexMoveButton } from "./styles";
+import { Container, PageIndex, PageIndexMoveButton, PageIndexWrapper } from "./styles";
 
 export interface Props {
   setCurrentPageIndex: (index: number) => void;
-  totalDataLength: number;
+  totalPageLength: number;
   currentPageIndex: number;
-  numOfContentPerPage?: number;
+  paginationNumbers: number[];
 }
 
-const PageNationBar = ({
-  setCurrentPageIndex,
-  totalDataLength,
-  numOfContentPerPage = COMMENT_COUNT_PER_PAGE,
-  currentPageIndex
-}: Props) => {
-  const totalPageLength = Math.floor(totalDataLength / numOfContentPerPage) + 1;
-
+const PaginationBar = ({ setCurrentPageIndex, totalPageLength, currentPageIndex, paginationNumbers }: Props) => {
   const movePrevPage = () => {
     if (currentPageIndex > 1) {
       setCurrentPageIndex(currentPageIndex - 1);
@@ -29,15 +20,13 @@ const PageNationBar = ({
     }
   };
 
-  const pageNationNumbers = getPagesOfLength5(currentPageIndex, totalPageLength);
-
   return (
     <Container>
       <PageIndexMoveButton onClick={movePrevPage} disabled={currentPageIndex === 1}>
         &#8249;
       </PageIndexMoveButton>
       <PageIndexWrapper>
-        {pageNationNumbers.map(num => (
+        {paginationNumbers.map(num => (
           <PageIndex key={num} onClick={() => setCurrentPageIndex(num)} isCurrentPageIndex={currentPageIndex === num}>
             {num}
           </PageIndex>
@@ -50,4 +39,4 @@ const PageNationBar = ({
   );
 };
 
-export default PageNationBar;
+export default PaginationBar;

@@ -1,7 +1,6 @@
 import moment from "moment";
 import { FormEvent, useEffect } from "react";
 import { useLocation, useRouteMatch } from "react-router-dom";
-import { IgnorePlugin } from "webpack";
 import { PROJECT_MENU } from "../../../constants";
 import { COMMENT_COUNT_PER_PAGE } from "../../../constants/pagination";
 import {
@@ -13,8 +12,9 @@ import {
   useGetProject
 } from "../../../hooks";
 import ScreenContainer from "../../../styles/ScreenContainer";
+import { getPagesOfLength5 } from "../../../utils/pagination";
 import CheckBox from "../../atoms/CheckBox";
-import PageNationBar from "../../atoms/PageNationBar";
+import PaginationBar from "../../atoms/PaginationBar";
 import Comment from "../../molecules/Comment";
 import CommentSearchConditionForm from "../../organisms/CommentSearchConditionForm";
 import ContainerWithSideBar from "../../organisms/ContainerWithSideBar";
@@ -35,15 +35,15 @@ const Manage = () => {
   const startDateAsString = startDate?.format("YYYY-MM-DD") || moment().format("YYYY-MM-DD");
   const endDateAsString = endDate?.format("YYYY-MM-DD") || moment().format("YYYY-MM-DD");
 
-  const { currentPageIndex, setCurrentPageIndex } = useCommentPageIndex({
-    initialPageIndex: Number(pageIndex),
-    projectId
-  });
-
   const { project } = useGetProject(projectId);
   const projectSecretKey = project?.secretKey;
 
   const { deleteComment } = useDeleteComment({ projectKey: projectSecretKey, page: Number(pageIndex) });
+
+  const { currentPageIndex, setCurrentPageIndex } = useCommentPageIndex({
+    initialPageIndex: Number(pageIndex),
+    projectId
+  });
 
   const {
     comments,
@@ -67,6 +67,8 @@ const Manage = () => {
     updateCheckedCommentId,
     onToggleIsCheckingAllComments
   } = useCommentList(comments || []);
+
+  const paginationNumbers = getPagesOfLength5(currentPageIndex, totalPage);
 
   const onSubmit = (event: FormEvent) => {
     event.preventDefault();
@@ -103,11 +105,9 @@ const Manage = () => {
 
     getCommentsOfProjectPerPage();
 
-    currentPageIndex - 3 > 0 && preGetCommentsOfProjectPerPage(currentPageIndex - 3);
-    currentPageIndex - 2 > 0 && preGetCommentsOfProjectPerPage(currentPageIndex - 2);
-    currentPageIndex - 1 > 0 && preGetCommentsOfProjectPerPage(currentPageIndex - 1);
-    currentPageIndex + 1 <= totalPage && preGetCommentsOfProjectPerPage(currentPageIndex + 1);
-    currentPageIndex + 2 <= totalPage && preGetCommentsOfProjectPerPage(currentPageIndex + 2);
+    Promise.all(paginationNumbers.map(num => preGetCommentsOfProjectPerPage(num))).catch(error =>
+      console.error(error.message)
+    );
   }, [currentPageIndex, projectSecretKey, totalPage]);
 
   return (
@@ -163,10 +163,11 @@ const Manage = () => {
               )}
             </CommentList>
 
-            <PageNationBar
+            <PaginationBar
               currentPageIndex={currentPageIndex}
               setCurrentPageIndex={setCurrentPageIndex}
-              totalDataLength={totalComment}
+              paginationNumbers={paginationNumbers}
+              totalPageLength={totalPage}
             />
           </CommentsViewer>
         </Container>
