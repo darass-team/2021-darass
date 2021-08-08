@@ -160,9 +160,23 @@ class OAuthServiceTest extends SpringContainerTest {
         Cookie cookie = new Cookie("refreshToken", refreshToken);
         when(request.getCookies()).thenReturn(new Cookie[]{cookie});
 
-        oAuthService.createAccessTokenWithRefreshToken(request, response);
-//        //when, then
-//        assertThatThrownBy(() -> oAuthService.createAccessTokenWithRefreshToken(request, response))
-//            .isEqualTo(ExceptionWithMessageAndCode.SHOULD_LOGIN.getException());
+        //when, then
+        assertThatThrownBy(() -> oAuthService.createAccessTokenWithRefreshToken(request, response))
+            .isEqualTo(ExceptionWithMessageAndCode.SHOULD_LOGIN.getException());
+    }
+
+    @DisplayName("createAccessTokenWithRefreshToken 메서드는 쿠키에 담겨있는 RefreshToken이 담겨있지 않을 경우 SHOULD_LOGIN Exception을 발생시킨다.")
+    @Test
+    void createAccessTokenWithRefreshToken_exception_should_login3() {
+        //given
+        given(oAuthProvider.findSocialLoginUser(any(), any())).willReturn(socialLoginUser);
+        HttpServletRequest request = mock(HttpServletRequest.class);
+        HttpServletResponse response = mock(HttpServletResponse.class);
+        Cookie cookie = new Cookie("aa", "aa");
+        when(request.getCookies()).thenReturn(new Cookie[]{cookie});
+
+        //when, then
+        assertThatThrownBy(() -> oAuthService.createAccessTokenWithRefreshToken(request, response))
+            .isEqualTo(ExceptionWithMessageAndCode.SHOULD_LOGIN.getException());
     }
 }
