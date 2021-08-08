@@ -40,18 +40,20 @@ public class OAuthService {
             socialLoginUserRepository.save(inputSocialLoginUser);
             return inputSocialLoginUser;
         });
-        createCookieWithRefreshToken(response);
-        return TokenResponse.of(jwtTokenProvider.createAccessToken(socialLoginUser.getId().toString()));
+        String payload = socialLoginUser.getId().toString();
+        inputSocialLoginUser.createRefreshToken(jwtTokenProvider);
+        socialLoginUserRepository.save(inputSocialLoginUser);
+        createCookieWithRefreshToken(response, socialLoginUser.getRefreshToken());
+        return TokenResponse.of(jwtTokenProvider.createAccessToken(payload));
     }
 
-    private void createCookieWithRefreshToken(HttpServletResponse response) {
-        ResponseCookie cookie = ResponseCookie.from(REFRESH_TOKEN_NAME, jwtTokenProvider.createRefreshToken())
+    private void createCookieWithRefreshToken(HttpServletResponse response, String refreshToken) {
+        ResponseCookie cookie = ResponseCookie.from(REFRESH_TOKEN_NAME, refreshToken)
             .sameSite("None")
             .maxAge(SECONDS_OF_TWO_MONTHS)
             .path("/")
             .secure(true)
             .build();
-        // TODO :  RefreshToken을 DB에 저장하는 코드 추가하기
         response.addHeader("Set-Cookie", cookie.toString());
     }
 
@@ -70,15 +72,21 @@ public class OAuthService {
         }
         for (Cookie cookie : cookies) {
             if (cookie.getName().equals(REFRESH_TOKEN_NAME)) {
-                // TODO
-                // RefreshToken을 DB에 존재하는 지 체크
-                // -> 존재하지 않을 경우, 이상한 RefreshToken이라고 판단
-                // -> 존재할 경우, 해당 RefreshToken을 가지고 있는 User의 id를 담아서 Access Token을 새로 발급
-
-                // RefreshToken을 새로 발급해서 쿠키로 만들어주기 / DB에 RefreshToken을 새로 저장
-
+                String existingRefreshToken = cookie.getValue();
+                jwtTokenProvider.validateRefreshToken(existingRefreshToken);
+                Optional<SocialLoginUser> possibleRefreshToken = socialLoginUserRepository
+                    .findByRefreshToken(existingRefreshToken);
+                SocialLoginUser socialLoginUser = possibleRefreshToken.orElseThrow(() -> {
+                    throw ExceptionWithMessageAndCode.SHOULD_LOGIN.getException();
+                });
+                String payload = socialLoginUser.getId().toString();
+                socialLoginUser.createRefreshToken(jwtTokenProvider);
+                socialLoginUserRepository.save(socialLoginUser);
+                createCookieWithRefreshToken(response, socialLoginUser.getRefreshToken());
+                String accessToken = jwtTokenProvider.createAccessToken(payload);
+                return new TokenResponse(accessToken);
             }
         }
-        return null;
+        throw ExceptionWithMessageAndCode.SHOULD_LOGIN.getException();
     }
 }

@@ -31,10 +31,10 @@ public class JwtTokenProvider {
         return createToken(payload, expiration, secretKeyOfAccessToken);
     }
 
-    public String createRefreshToken() {
+    public String createRefreshToken(String payload) {
         Date now = new Date();
         Date expiration = new Date(now.getTime() + validityInMillisecondsOfRefreshToken);
-        return createToken(null, expiration, secretKeyOfRefreshToken);
+        return createToken(payload, expiration, secretKeyOfRefreshToken);
     }
 
     private String createToken(String payload, Date expiration, String secretKey) {
@@ -62,6 +62,14 @@ public class JwtTokenProvider {
             Jwts.parser().setSigningKey(secretKeyOfAccessToken).parseClaimsJws(accessToken);
         } catch (JwtException | IllegalArgumentException e) {
             throw ExceptionWithMessageAndCode.INVALID_JWT_TOKEN.getException();
+        }
+    }
+
+    public void validateRefreshToken(String refreshToken) {
+        try {
+            Jwts.parser().setSigningKey(secretKeyOfRefreshToken).parseClaimsJws(refreshToken);
+        } catch (JwtException | IllegalArgumentException e) {
+            throw ExceptionWithMessageAndCode.SHOULD_LOGIN.getException();
         }
     }
 }
