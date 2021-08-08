@@ -1,15 +1,6 @@
 import styled from "styled-components";
 import { LINE_HEIGHT_SCALE } from "../../../styles/constants";
 import { PALETTE } from "../../../styles/palette";
-import AvatarComponent from "../../atoms/Avatar";
-
-export const Avatar = styled(AvatarComponent)`
-  width: 4rem;
-  height: 4rem;
-  @media all and (max-width: 780px) {
-    height: auto;
-  }
-`;
 
 export const ContentWrapper = styled.div`
   width: 100%;
@@ -36,6 +27,8 @@ export const Content = styled.span`
   font-size: 1.2rem;
   line-height: ${1.2 * LINE_HEIGHT_SCALE}rem;
   margin: 0.5rem 0;
+  word-break: break-all;
+  white-space: break-spaces;
 `;
 
 export const Url = styled.a`

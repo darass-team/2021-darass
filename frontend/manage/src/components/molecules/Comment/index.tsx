@@ -1,8 +1,9 @@
 import moment from "moment";
 import { Comment as CommentType } from "../../../types/comment";
 import { User } from "../../../types/user";
+import Avatar from "../../atoms/Avatar";
 import CheckBox from "../../atoms/CheckBox";
-import { Avatar, Content, ContentMeta, ContentWrapper, Date, Name, Url } from "./styles";
+import { Content, ContentMeta, ContentWrapper, Date, Name, Url } from "./styles";
 
 export interface Props {
   isChecked: boolean;

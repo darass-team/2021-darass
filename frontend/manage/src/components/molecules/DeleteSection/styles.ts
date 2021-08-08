@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { LINE_HEIGHT_SCALE } from "../../../styles/constants";
 import { subTitleCSS } from "../../../styles/css";
 import { PALETTE } from "../../../styles/palette";
 import DeleteButtonComponent from "../../atoms/Buttons/DeleteButton";
@@ -29,6 +30,7 @@ export const DeleteAlertMessage = styled.span`
 
 export const DeleteButton = styled(DeleteButtonComponent)`
   font-size: 1rem;
+  line-height: ${1 * LINE_HEIGHT_SCALE}rem;
   font-weight: 700;
   padding: 1rem;
 `;

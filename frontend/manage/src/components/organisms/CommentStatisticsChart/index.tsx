@@ -1,6 +1,6 @@
-import { Container } from "./styles";
 import { Line } from "react-chartjs-2";
 import { PALETTE } from "../../../styles/palette";
+import { Container } from "./styles";
 
 interface Data {
   time: string;
@@ -16,7 +16,7 @@ const CommentStatisticsChart = ({ data }: Props) => {
   const yValue = data.map(_data => _data.count);
 
   return (
-    <Container style={{ width: "100%", height: "50vh" }}>
+    <Container style={{ maxWidth: "100%", height: "50vh", overflowX: "scroll" }}>
       <Line
         type="line"
         data={{
@@ -47,6 +47,7 @@ const CommentStatisticsChart = ({ data }: Props) => {
           hover: {
             intersect: false
           }
+          // animation: false
         }}
       />
     </Container>
