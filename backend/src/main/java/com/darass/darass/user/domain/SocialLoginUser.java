@@ -24,13 +24,16 @@ public class SocialLoginUser extends User {
     @Enumerated(EnumType.STRING)
     private OAuthProviderType oauthProviderType;
 
+    private String refreshToken;
+
     @Builder
     public SocialLoginUser(Long id, String nickName, String profileImageUrl, String userType, String oauthId,
-        OAuthProviderType oauthProviderType, String email) {
+        OAuthProviderType oauthProviderType, String email, String refreshToken) {
         super(id, nickName, profileImageUrl, userType);
+        this.email = email;
         this.oauthId = oauthId;
         this.oauthProviderType = oauthProviderType;
-        this.email = email;
+        this.refreshToken = refreshToken;
     }
 
     @Override
