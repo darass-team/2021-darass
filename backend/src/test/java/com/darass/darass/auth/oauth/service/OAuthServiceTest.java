@@ -58,9 +58,10 @@ class OAuthServiceTest extends SpringContainerTest {
             .email("jujubebat@kakao.com")
             .profileImageUrl("http://kakao/profile_image.png")
             .build();
-        socialLoginUser.createRefreshToken(jwtTokenProvider);
-        refreshToken = socialLoginUser.getRefreshToken();
         socialLoginUserRepository.save(socialLoginUser);
+        socialLoginUser.createRefreshToken(jwtTokenProvider);
+        socialLoginUserRepository.save(socialLoginUser);
+        refreshToken = socialLoginUser.getRefreshToken();
     }
 
     @DisplayName("(회원가입) login 메서드는 oauth 토큰이 주어지면, 인증서버에서 사용자 정보를 받아와서 DB 저장을 하고 primary key를 payload 삼아 accessToken을 리턴한다.")
@@ -145,7 +146,7 @@ class OAuthServiceTest extends SpringContainerTest {
             .isEqualTo(ExceptionWithMessageAndCode.SHOULD_LOGIN.getException());
     }
 
-    @DisplayName("createAccessTokenWithRefreshToken 메서드는 쿠키에 담겨있는 RefreshToken이 DB에 일치하는 값이 존재하지 경우에 SHOULD_LOGIN Exception을 발생시킨다.")
+    @DisplayName("createAccessTokenWithRefreshToken 메서드는 쿠키에 담겨있는 RefreshToken이 DB에 일치하는 값이 존재하지 않는 경우에 SHOULD_LOGIN Exception을 발생시킨다.")
     @Test
     void createAccessTokenWithRefreshToken_exception_should_login2() {
         //given
