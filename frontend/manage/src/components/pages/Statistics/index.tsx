@@ -72,7 +72,11 @@ const Statistics = () => {
 
               <SortButtonsWrapper>
                 {Object.values(VIEW_OPTION).map(option => (
-                  <SortButton onClick={() => onClickViewOption(option)} isSelected={selectedViewOption === option}>
+                  <SortButton
+                    key={option}
+                    onClick={() => onClickViewOption(option)}
+                    isSelected={selectedViewOption === option}
+                  >
                     {option}
                   </SortButton>
                 ))}
@@ -91,7 +95,7 @@ const Statistics = () => {
             </thead>
             <tbody>
               {[...data].reverse().map(_data => (
-                <tr>
+                <tr key={_data.time}>
                   <th>{_data.time}</th>
                   <th>{_data.count}</th>
                 </tr>
