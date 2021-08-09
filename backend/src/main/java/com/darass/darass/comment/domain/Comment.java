@@ -1,5 +1,6 @@
 package com.darass.darass.comment.domain;
 
+import static javax.persistence.CascadeType.ALL;
 import static javax.persistence.FetchType.LAZY;
 
 import com.darass.darass.common.domain.BaseTimeEntity;
@@ -28,22 +29,35 @@ import org.hibernate.annotations.OnDeleteAction;
 @Entity
 public class Comment extends BaseTimeEntity {
 
-    @OneToMany(mappedBy = "comment", fetch = LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    private final List<CommentLike> commentLikes = new ArrayList<>();
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @OnDelete(action = OnDeleteAction.CASCADE)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn
     private User user;
+
     @OnDelete(action = OnDeleteAction.CASCADE)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn
     private Project project;
+
     private String url;
 
+    @OneToMany(mappedBy = "comment", fetch = LAZY, cascade = ALL, orphanRemoval = true)
+    private final List<CommentLike> commentLikes = new ArrayList<>();
+
+    @ManyToOne
+    @JoinColumn(name = "parent_id", referencedColumnName = "id")
+    private Comment parent;
+
+    @OneToMany(mappedBy = "parent", fetch = LAZY, cascade = ALL, orphanRemoval = true)
+    private List<Comment> subComments;
+
     private String content;
+
+
 
     @Formula("(select count(*) from comment_like where comment_like.comment_id=id)")
     private int likeCount;
