@@ -1,7 +1,6 @@
 package com.darass.darass.comment.repository;
 
 import com.darass.darass.comment.domain.Comment;
-import com.darass.darass.comment.domain.Stat;
 import java.time.LocalDateTime;
 import java.util.List;
 import org.springframework.data.domain.Page;
