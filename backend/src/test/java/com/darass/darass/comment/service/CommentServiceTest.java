@@ -297,8 +297,7 @@ class CommentServiceTest extends SpringContainerTest {
         CommentStatRequest request = new CommentStatRequest("HOURLY", project.getSecretKey(),
             startDate, endDate);
         CommentStatResponse commentStatResponse = commentService.giveStat(request);
-        assertThat(commentStatResponse.getStats())
-            .hasSize(24);
+        assertThat(commentStatResponse.getStats()).hasSize(24);
     }
 
     @DisplayName("특정 프로젝트의 일별 댓글 통계를 구한다.")
