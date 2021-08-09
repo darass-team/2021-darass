@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class JwtTokenProvider {
 
+    @Value("${security.jwt.access-token.secret-key}")
     private String secretKeyOfAccessToken;
 
     @Value("${security.jwt.refresh-token.secret-key}")
