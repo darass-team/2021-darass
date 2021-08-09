@@ -3,6 +3,7 @@ package com.darass.darass.comment.service;
 import com.darass.darass.comment.domain.Comment;
 import com.darass.darass.comment.domain.CommentLike;
 import com.darass.darass.comment.domain.SortOption;
+import com.darass.darass.comment.domain.Stat;
 import com.darass.darass.comment.dto.CommentCreateRequest;
 import com.darass.darass.comment.dto.CommentDeleteRequest;
 import com.darass.darass.comment.dto.CommentReadRequest;
@@ -11,7 +12,10 @@ import com.darass.darass.comment.dto.CommentReadRequestBySearch;
 import com.darass.darass.comment.dto.CommentReadRequestInProject;
 import com.darass.darass.comment.dto.CommentResponse;
 import com.darass.darass.comment.dto.CommentResponses;
+import com.darass.darass.comment.dto.CommentStatRequest;
+import com.darass.darass.comment.dto.CommentStatResponse;
 import com.darass.darass.comment.dto.CommentUpdateRequest;
+import com.darass.darass.comment.repository.CommentCountStrategyFactory;
 import com.darass.darass.comment.repository.CommentRepository;
 import com.darass.darass.exception.ExceptionWithMessageAndCode;
 import com.darass.darass.project.domain.Project;
@@ -37,6 +41,7 @@ public class CommentService {
     private final CommentRepository commentRepository;
     private final ProjectRepository projectRepository;
     private final UserRepository userRepository;
+    private final CommentCountStrategyFactory commentCountStrategyFactory;
 
     public CommentResponse save(User user, CommentCreateRequest commentRequest) {
         if (!user.isLoginUser()) {
@@ -203,4 +208,12 @@ public class CommentService {
             .user(user)
             .build());
     }
+
+    public CommentStatResponse giveStat(CommentStatRequest request) {
+        List<Stat> stats = commentCountStrategyFactory.findStrategy(request.getPeriodicity())
+            .calculateCount(request.getProjectKey(), request.getStartDate().atTime(LocalTime.MIN),
+                request.getEndDate().atTime(LocalTime.MAX));
+        return new CommentStatResponse(stats);
+    }
+
 }

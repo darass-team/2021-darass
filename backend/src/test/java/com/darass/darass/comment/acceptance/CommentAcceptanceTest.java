@@ -30,6 +30,7 @@ import com.darass.darass.user.domain.SocialLoginUser;
 import com.darass.darass.user.dto.UserResponse;
 import com.darass.darass.user.repository.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.time.LocalDate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -862,6 +863,111 @@ public class CommentAcceptanceTest extends AcceptanceTest {
                     fieldWithPath("comments.[].user.nickName").type(JsonFieldType.STRING).description("유저 닉네임"),
                     fieldWithPath("comments.[].user.type").type(JsonFieldType.STRING).description("유저 타입"),
                     fieldWithPath("comments.[].user.profileImageUrl").type(JsonFieldType.STRING).description("유저 프로필 이미지")
+                )
+            ));
+    }
+
+    @DisplayName("특정 프로젝트의 시간별 댓글 통계를 구한다.")
+    @Test
+    void giveStat_hourly() throws Exception {
+        소셜_로그인_댓글_등록됨("content1", "url");
+        소셜_로그인_댓글_등록됨("content2", "url");
+        소셜_로그인_댓글_등록됨("content3", "url");
+        소셜_로그인_댓글_등록됨("content4", "url");
+        소셜_로그인_댓글_등록됨("content5", "url");
+        소셜_로그인_댓글_등록됨("hello6", "url");
+        소셜_로그인_댓글_등록됨("hello7", "url");
+        소셜_로그인_댓글_등록됨("hello8", "url");
+        소셜_로그인_댓글_등록됨("hello9", "url2");
+        소셜_로그인_댓글_등록됨("hello10", "url");
+
+        mockMvc.perform(get("/api/v1/comments/stat")
+            .contentType(MediaType.APPLICATION_JSON)
+            .param("periodicity", "hourly")
+            .param("projectKey", secretKey)
+            .param("startDate", LocalDate.now().minusYears(1L).toString())
+            .param("endDate", LocalDate.now().toString()))
+            .andExpect(status().isOk())
+            .andDo(document("api/v1/comments/stat/get/hourly/success",
+                requestParameters(
+                    parameterWithName("periodicity").description("주기"),
+                    parameterWithName("projectKey").description("프로젝트 시크릿 키"),
+                    parameterWithName("startDate").description("시작 날짜"),
+                    parameterWithName("endDate").description("종료 날짜")
+                ),
+                responseFields(
+                    fieldWithPath("stats.[].date").type(JsonFieldType.STRING).description("시"),
+                    fieldWithPath("stats.[].count").type(JsonFieldType.NUMBER).description("댓글의 총 개수")
+                )
+            ));
+    }
+
+    @DisplayName("특정 프로젝트의 일별 댓글 통계를 구한다.")
+    @Test
+    void giveStat_daily() throws Exception {
+        소셜_로그인_댓글_등록됨("content1", "url");
+        소셜_로그인_댓글_등록됨("content2", "url");
+        소셜_로그인_댓글_등록됨("content3", "url");
+        소셜_로그인_댓글_등록됨("content4", "url");
+        소셜_로그인_댓글_등록됨("content5", "url");
+        소셜_로그인_댓글_등록됨("hello6", "url");
+        소셜_로그인_댓글_등록됨("hello7", "url");
+        소셜_로그인_댓글_등록됨("hello8", "url");
+        소셜_로그인_댓글_등록됨("hello9", "url2");
+        소셜_로그인_댓글_등록됨("hello10", "url");
+
+        mockMvc.perform(get("/api/v1/comments/stat")
+            .contentType(MediaType.APPLICATION_JSON)
+            .param("periodicity", "daily")
+            .param("projectKey", secretKey)
+            .param("startDate", LocalDate.now().minusMonths(1L).toString())
+            .param("endDate", LocalDate.now().toString()))
+            .andExpect(status().isOk())
+            .andDo(document("api/v1/comments/stat/get/daily/success",
+                requestParameters(
+                    parameterWithName("periodicity").description("주기"),
+                    parameterWithName("projectKey").description("프로젝트 시크릿 키"),
+                    parameterWithName("startDate").description("시작 날짜"),
+                    parameterWithName("endDate").description("종료 날짜")
+                ),
+                responseFields(
+                    fieldWithPath("stats.[].date").type(JsonFieldType.STRING).description("연월일"),
+                    fieldWithPath("stats.[].count").type(JsonFieldType.NUMBER).description("댓글의 총 개수")
+                )
+            ));
+    }
+
+    @DisplayName("특정 프로젝트의 월별 댓글 통계를 구한다.")
+    @Test
+    void giveStat_monthly() throws Exception {
+        소셜_로그인_댓글_등록됨("content1", "url");
+        소셜_로그인_댓글_등록됨("content2", "url");
+        소셜_로그인_댓글_등록됨("content3", "url");
+        소셜_로그인_댓글_등록됨("content4", "url");
+        소셜_로그인_댓글_등록됨("content5", "url");
+        소셜_로그인_댓글_등록됨("hello6", "url");
+        소셜_로그인_댓글_등록됨("hello7", "url");
+        소셜_로그인_댓글_등록됨("hello8", "url");
+        소셜_로그인_댓글_등록됨("hello9", "url2");
+        소셜_로그인_댓글_등록됨("hello10", "url");
+
+        mockMvc.perform(get("/api/v1/comments/stat")
+            .contentType(MediaType.APPLICATION_JSON)
+            .param("periodicity", "monthly")
+            .param("projectKey", secretKey)
+            .param("startDate", LocalDate.now().minusYears(1L).toString())
+            .param("endDate", LocalDate.now().toString()))
+            .andExpect(status().isOk())
+            .andDo(document("api/v1/comments/stat/get/monthly/success",
+                requestParameters(
+                    parameterWithName("periodicity").description("주기"),
+                    parameterWithName("projectKey").description("프로젝트 시크릿 키"),
+                    parameterWithName("startDate").description("시작 날짜"),
+                    parameterWithName("endDate").description("종료 날짜")
+                ),
+                responseFields(
+                    fieldWithPath("stats.[].date").type(JsonFieldType.STRING).description("연월"),
+                    fieldWithPath("stats.[].count").type(JsonFieldType.NUMBER).description("댓글의 총 개수")
                 )
             ));
     }

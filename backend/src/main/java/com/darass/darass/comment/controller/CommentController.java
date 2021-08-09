@@ -10,6 +10,8 @@ import com.darass.darass.comment.dto.CommentReadRequestBySearch;
 import com.darass.darass.comment.dto.CommentReadRequestInProject;
 import com.darass.darass.comment.dto.CommentResponse;
 import com.darass.darass.comment.dto.CommentResponses;
+import com.darass.darass.comment.dto.CommentStatRequest;
+import com.darass.darass.comment.dto.CommentStatResponse;
 import com.darass.darass.comment.dto.CommentUpdateRequest;
 import com.darass.darass.comment.service.CommentService;
 import com.darass.darass.user.domain.User;
@@ -62,6 +64,13 @@ public class CommentController {
         CommentResponses commentResponses = commentService
             .findAllCommentsInProject(commentReadRequestInProject);
         return ResponseEntity.status(HttpStatus.OK).body(commentResponses);
+    }
+
+    // 요청: 옵션(시간별, 일별, 월별), 시작 날짜, 종료 날짜, 프로젝트 키
+    // 응답: {날짜: 카운팅} 리스트
+    @GetMapping("/comments/stat")
+    public ResponseEntity<CommentStatResponse> giveStat(@ModelAttribute CommentStatRequest commentStatRequest) {
+        return ResponseEntity.status(HttpStatus.OK).body(commentService.giveStat(commentStatRequest));
     }
 
     @PostMapping("/comments")
