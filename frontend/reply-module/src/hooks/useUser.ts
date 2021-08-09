@@ -33,7 +33,10 @@ export const useUser = () => {
   const login = async () => {
     try {
       const kakaoAccessToken = await getKakaoAccessToken();
-      const response = await request.get(`${QUERY.LOGIN}${kakaoAccessToken}`);
+      const response = await request.post(`${QUERY.LOGIN}`, {
+        oauthProviderName: "kakao",
+        oauthAccessToken: kakaoAccessToken
+      });
 
       const { accessToken: serverAccessToken } = response.data;
       setCookie(COOKIE_KEY.ATK, serverAccessToken);
