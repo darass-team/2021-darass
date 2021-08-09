@@ -317,6 +317,58 @@ public class CommentAcceptanceTest extends AcceptanceTest {
             ));
     }
 
+    @DisplayName("특정 URL의 댓글을 대댓글이 달린 상태로 조회한다..")
+    @Test
+    void readIncludingSubComment() throws Exception {
+        CommentResponse commentResponse = 소셜_로그인_댓글_등록됨_Response_반환("content", "url");
+        소셜_로그인_대댓글_등록됨("subContent", "url", commentResponse.getId());
+
+        mockMvc.perform(get("/api/v1/comments")
+            .contentType(MediaType.APPLICATION_JSON)
+            .param("sortOption", "LATEST")
+            .param("url", "url")
+            .param("projectKey", secretKey))
+            .andExpect(status().isOk())
+            .andDo(document("api/v1/comments/get/sub-comment/success",
+                requestParameters(
+                    parameterWithName("sortOption").description("정렬 방식"),
+                    parameterWithName("url").description("조회 url"),
+                    parameterWithName("projectKey").description("프로젝트 시크릿 키")
+                ),
+                responseFields(
+                    fieldWithPath("totalComment").type(JsonFieldType.NUMBER).description("댓글의 총 개수"),
+                    fieldWithPath("totalPage").type(JsonFieldType.NUMBER).description("페이지의 총 개수"),
+                    fieldWithPath("comments.[].createdDate").type(JsonFieldType.STRING).description("댓글 생성 시점"),
+                    fieldWithPath("comments.[].modifiedDate").type(JsonFieldType.STRING).description("댓글 수정 시점"),
+                    fieldWithPath("comments.[].id").type(JsonFieldType.NUMBER).description("댓글 id"),
+                    fieldWithPath("comments.[].content").type(JsonFieldType.STRING).description("댓글 내용"),
+                    fieldWithPath("comments.[].url").type(JsonFieldType.STRING).description("댓글이 있는 url"),
+                    fieldWithPath("comments.[].likingUsers[*]").type(JsonFieldType.ARRAY).description("좋아요 누른 유저 정보"),
+                    fieldWithPath("comments.[].user").type(JsonFieldType.OBJECT).description("댓글 작성 유저 정보"),
+                    fieldWithPath("comments.[].user.createdDate").type(JsonFieldType.STRING).description("유저 생성 시점"),
+                    fieldWithPath("comments.[].user.modifiedDate").type(JsonFieldType.STRING).description("유저 수정 시점"),
+                    fieldWithPath("comments.[].user.id").type(JsonFieldType.NUMBER).description("유저 id"),
+                    fieldWithPath("comments.[].user.nickName").type(JsonFieldType.STRING).description("유저 닉네임"),
+                    fieldWithPath("comments.[].user.type").type(JsonFieldType.STRING).description("유저 타입"),
+                    fieldWithPath("comments.[].user.profileImageUrl").type(JsonFieldType.STRING).description("유저 프로필 이미지"),
+                    fieldWithPath("comments.[].subComments[]").type(JsonFieldType.ARRAY).description("대댓글 정보"),
+                    fieldWithPath("comments.[].subComments[].createdDate").type(JsonFieldType.STRING).description("대댓글 생성 시점"),
+                    fieldWithPath("comments.[].subComments[].modifiedDate").type(JsonFieldType.STRING).description("대댓글 수정 시점"),
+                    fieldWithPath("comments.[].subComments[].id").type(JsonFieldType.NUMBER).description("대댓글 id"),
+                    fieldWithPath("comments.[].subComments[].content").type(JsonFieldType.STRING).description("대댓글 내용"),
+                    fieldWithPath("comments.[].subComments[].url").type(JsonFieldType.STRING).description("대댓글이 있는 url"),
+                    fieldWithPath("comments.[].subComments[].likingUsers[*]").type(JsonFieldType.ARRAY).description("대좋아요 누른 유저 정보"),
+                    fieldWithPath("comments.[].subComments[].user").type(JsonFieldType.OBJECT).description("대댓글 작성 유저 정보"),
+                    fieldWithPath("comments.[].subComments[].user.createdDate").type(JsonFieldType.STRING).description("유저 생성 시점"),
+                    fieldWithPath("comments.[].subComments[].user.modifiedDate").type(JsonFieldType.STRING).description("유저 수정 시점"),
+                    fieldWithPath("comments.[].subComments[].user.id").type(JsonFieldType.NUMBER).description("유저 id"),
+                    fieldWithPath("comments.[].subComments[].user.nickName").type(JsonFieldType.STRING).description("유저 닉네임"),
+                    fieldWithPath("comments.[].subComments[].user.type").type(JsonFieldType.STRING).description("유저 타입"),
+                    fieldWithPath("comments.[].subComments[].user.profileImageUrl").type(JsonFieldType.STRING).description("유저 프로필 이미지")
+                )
+            ));
+    }
+
     @DisplayName("특정 URL의 댓글을 좋아요순으로 조회한다.")
     @Test
     void readOrderByLike() throws Exception {

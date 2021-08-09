@@ -33,10 +33,22 @@ include::{snippets}/api/v1/comments/post/fail-missing-project-key/http-response.
 include::{snippets}/api/v1/comments/post/fail-missing-project-key/response-fields.adoc[]
 
 
+==== (성공) 대댓글 작성
 
+==== Request
+include::{snippets}/api/v1/comments/post/sub-comments/success-login-user/http-request.adoc[]
+include::{snippets}/api/v1/comments/post/sub-comments/success-login-user/request-headers.adoc[]
+include::{snippets}/api/v1/comments/post/sub-comments/success-login-user/request-fields.adoc[]
 
+==== Response
+include::{snippets}/api/v1/comments/post/sub-comments/success-login-user/http-response.adoc[]
+include::{snippets}/api/v1/comments/post/sub-comments/success-login-user/response-fields.adoc[]
 
+==== (실패) 대댓글에 대댓글 작성하는 경우
 
+==== Response
+include::{snippets}/api/v1/comments/post/sub-comments/fail-login-user/http-response.adoc[]
+include::{snippets}/api/v1/comments/post/sub-comments/fail-login-user/response-fields.adoc[]
 
 
 
@@ -91,6 +103,16 @@ include::{snippets}/api/v1/comments/paging/get/latest/success/request-parameters
 
 include::{snippets}/api/v1/comments/paging/get/latest/success/http-response.adoc[]
 include::{snippets}/api/v1/comments/paging/get/latest/success/response-fields.adoc[]
+
+==== URL에 해당하는 댓글, 대댓글 등록되어있는 경우 조회
+
+==== Request
+include::{snippets}/api/v1/comments/get/sub-comment/success/http-request.adoc[]
+include::{snippets}/api/v1/comments/get/sub-comment/success/request-parameters.adoc[]
+
+==== Response
+include::{snippets}/api/v1/comments/get/sub-comment/success/http-response.adoc[]
+include::{snippets}/api/v1/comments/get/sub-comment/success/response-fields.adoc[]
 
 ==== URL에 해당하는 특정 페이지의 댓글 좋아요순으로 조회
 
@@ -189,6 +211,8 @@ include::{snippets}/api/v1/projects/comments/search/paging/get/oldest/success/re
 
 include::{snippets}/api/v1/projects/comments/search/paging/get/oldest/success/http-response.adoc[]
 include::{snippets}/api/v1/projects/comments/search/paging/get/oldest/success/response-fields.adoc[]
+
+
 
 === 댓글 수정 (PATCH /api/v1/comments)
 
