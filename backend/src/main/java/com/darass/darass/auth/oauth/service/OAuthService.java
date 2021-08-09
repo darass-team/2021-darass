@@ -41,8 +41,8 @@ public class OAuthService {
             return inputSocialLoginUser;
         });
         String payload = socialLoginUser.getId().toString();
-        inputSocialLoginUser.createRefreshToken(jwtTokenProvider);
-        socialLoginUserRepository.save(inputSocialLoginUser);
+        socialLoginUser.createRefreshToken(jwtTokenProvider);
+        socialLoginUserRepository.save(socialLoginUser);
         createCookieWithRefreshToken(response, socialLoginUser.getRefreshToken());
         return TokenResponse.of(jwtTokenProvider.createAccessToken(payload));
     }
