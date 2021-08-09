@@ -19,22 +19,22 @@ public class KaKaoOAuthProvider extends OAuthProvider {
     }
 
     @Value("${oauth.kakao.client-id}")
-    public void setClientId(String clientId) {
+    private void setClientId(String clientId) {
         super.clientId = clientId;
     }
 
     @Value("${oauth.kakao.client-secret}")
-    public void setClientSecret(String clientSecret) {
+    private void setClientSecret(String clientSecret) {
         super.clientSecret = clientSecret;
     }
 
     @Value("${oauth.kakao.authorization-server-url}")
-    public void setAuthorizationServerUrl(String authorizationServerUrl) {
+    private void setAuthorizationServerUrl(String authorizationServerUrl) {
         super.authorizationServerUrl = authorizationServerUrl;
     }
 
     @Value("${oauth.kakao.api-server-url}")
-    public void setApiServerUrl(String apiServerUrl) {
+    private void setApiServerUrl(String apiServerUrl) {
         super.apiServerUrl = apiServerUrl;
     }
 
