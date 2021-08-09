@@ -115,7 +115,8 @@ public class CommentAcceptanceTest extends AcceptanceTest {
                     fieldWithPath("user.nickName").type(JsonFieldType.STRING).description("유저 닉네임"),
                     fieldWithPath("user.type").type(JsonFieldType.STRING).description("유저 유형"),
                     fieldWithPath("user.profileImageUrl").type(JsonFieldType.STRING)
-                        .description("유저 프로필 이미지")
+                        .description("유저 프로필 이미지"),
+                    fieldWithPath("subComments[]").type(JsonFieldType.ARRAY).description("대댓글 정보")
                 ))
         );
     }
@@ -149,7 +150,8 @@ public class CommentAcceptanceTest extends AcceptanceTest {
                     fieldWithPath("user.modifiedDate").type(JsonFieldType.STRING)
                         .description("유저 수정 시점"),
                     fieldWithPath("user.nickName").type(JsonFieldType.STRING).description("유저 닉네임"),
-                    fieldWithPath("user.type").type(JsonFieldType.STRING).description("유저 유형")
+                    fieldWithPath("user.type").type(JsonFieldType.STRING).description("유저 유형"),
+                    fieldWithPath("subComments[]").type(JsonFieldType.ARRAY).description("대댓글 정보")
                 ))
         );
     }
@@ -213,7 +215,8 @@ public class CommentAcceptanceTest extends AcceptanceTest {
                     fieldWithPath("comments.[].user.id").type(JsonFieldType.NUMBER).description("유저 id"),
                     fieldWithPath("comments.[].user.nickName").type(JsonFieldType.STRING).description("유저 닉네임"),
                     fieldWithPath("comments.[].user.type").type(JsonFieldType.STRING).description("유저 타입"),
-                    fieldWithPath("comments.[].user.profileImageUrl").type(JsonFieldType.STRING).description("유저 프로필 이미지")
+                    fieldWithPath("comments.[].user.profileImageUrl").type(JsonFieldType.STRING).description("유저 프로필 이미지"),
+                    fieldWithPath("comments.[].subComments[]").type(JsonFieldType.ARRAY).description("대댓글 정보")
                 )
             ));
     }
@@ -281,7 +284,8 @@ public class CommentAcceptanceTest extends AcceptanceTest {
                     fieldWithPath("comments.[].user.id").type(JsonFieldType.NUMBER).description("유저 id"),
                     fieldWithPath("comments.[].user.nickName").type(JsonFieldType.STRING).description("유저 닉네임"),
                     fieldWithPath("comments.[].user.type").type(JsonFieldType.STRING).description("유저 타입"),
-                    fieldWithPath("comments.[].user.profileImageUrl").type(JsonFieldType.STRING).description("유저 프로필 이미지")
+                    fieldWithPath("comments.[].user.profileImageUrl").type(JsonFieldType.STRING).description("유저 프로필 이미지"),
+                    fieldWithPath("comments.[].subComments[]").type(JsonFieldType.ARRAY).description("대댓글 정보")
                 )
             ));
     }
@@ -327,7 +331,8 @@ public class CommentAcceptanceTest extends AcceptanceTest {
                     fieldWithPath("comments.[].user.id").type(JsonFieldType.NUMBER).description("유저 id"),
                     fieldWithPath("comments.[].user.nickName").type(JsonFieldType.STRING).description("유저 닉네임"),
                     fieldWithPath("comments.[].user.type").type(JsonFieldType.STRING).description("유저 타입"),
-                    fieldWithPath("comments.[].user.profileImageUrl").type(JsonFieldType.STRING).description("유저 프로필 이미지")
+                    fieldWithPath("comments.[].user.profileImageUrl").type(JsonFieldType.STRING).description("유저 프로필 이미지"),
+                    fieldWithPath("comments.[].subComments[]").type(JsonFieldType.ARRAY).description("대댓글 정보")
                 )
             ));
     }
@@ -377,7 +382,8 @@ public class CommentAcceptanceTest extends AcceptanceTest {
                     fieldWithPath("comments.[].user.id").type(JsonFieldType.NUMBER).description("유저 id"),
                     fieldWithPath("comments.[].user.nickName").type(JsonFieldType.STRING).description("유저 닉네임"),
                     fieldWithPath("comments.[].user.type").type(JsonFieldType.STRING).description("유저 타입"),
-                    fieldWithPath("comments.[].user.profileImageUrl").type(JsonFieldType.STRING).description("유저 프로필 이미지")
+                    fieldWithPath("comments.[].user.profileImageUrl").type(JsonFieldType.STRING).description("유저 프로필 이미지"),
+                    fieldWithPath("comments.[].subComments[]").type(JsonFieldType.ARRAY).description("대댓글 정보")
                 )
             ));
     }
@@ -449,7 +455,8 @@ public class CommentAcceptanceTest extends AcceptanceTest {
                     fieldWithPath("comments.[].user.id").type(JsonFieldType.NUMBER).description("유저 id"),
                     fieldWithPath("comments.[].user.nickName").type(JsonFieldType.STRING).description("유저 닉네임"),
                     fieldWithPath("comments.[].user.type").type(JsonFieldType.STRING).description("유저 타입"),
-                    fieldWithPath("comments.[].user.profileImageUrl").type(JsonFieldType.STRING).description("유저 프로필 이미지")
+                    fieldWithPath("comments.[].user.profileImageUrl").type(JsonFieldType.STRING).description("유저 프로필 이미지"),
+                    fieldWithPath("comments.[].subComments[]").type(JsonFieldType.ARRAY).description("대댓글 정보")
                 )
             ));
     }
@@ -499,7 +506,8 @@ public class CommentAcceptanceTest extends AcceptanceTest {
                     fieldWithPath("comments.[].user.id").type(JsonFieldType.NUMBER).description("유저 id"),
                     fieldWithPath("comments.[].user.nickName").type(JsonFieldType.STRING).description("유저 닉네임"),
                     fieldWithPath("comments.[].user.type").type(JsonFieldType.STRING).description("유저 타입"),
-                    fieldWithPath("comments.[].user.profileImageUrl").type(JsonFieldType.STRING).description("유저 프로필 이미지")
+                    fieldWithPath("comments.[].user.profileImageUrl").type(JsonFieldType.STRING).description("유저 프로필 이미지"),
+                    fieldWithPath("comments.[].subComments[]").type(JsonFieldType.ARRAY).description("대댓글 정보")
                 )
             ));
     }
@@ -551,7 +559,8 @@ public class CommentAcceptanceTest extends AcceptanceTest {
                     fieldWithPath("comments.[].user.id").type(JsonFieldType.NUMBER).description("유저 id"),
                     fieldWithPath("comments.[].user.nickName").type(JsonFieldType.STRING).description("유저 닉네임"),
                     fieldWithPath("comments.[].user.type").type(JsonFieldType.STRING).description("유저 타입"),
-                    fieldWithPath("comments.[].user.profileImageUrl").type(JsonFieldType.STRING).description("유저 프로필 이미지")
+                    fieldWithPath("comments.[].user.profileImageUrl").type(JsonFieldType.STRING).description("유저 프로필 이미지"),
+                    fieldWithPath("comments.[].subComments[]").type(JsonFieldType.ARRAY).description("대댓글 정보")
                 )
             ));
     }
@@ -625,7 +634,8 @@ public class CommentAcceptanceTest extends AcceptanceTest {
                     fieldWithPath("comments.[].user.id").type(JsonFieldType.NUMBER).description("유저 id"),
                     fieldWithPath("comments.[].user.nickName").type(JsonFieldType.STRING).description("유저 닉네임"),
                     fieldWithPath("comments.[].user.type").type(JsonFieldType.STRING).description("유저 타입"),
-                    fieldWithPath("comments.[].user.profileImageUrl").type(JsonFieldType.STRING).description("유저 프로필 이미지")
+                    fieldWithPath("comments.[].user.profileImageUrl").type(JsonFieldType.STRING).description("유저 프로필 이미지"),
+                    fieldWithPath("comments.[].subComments[]").type(JsonFieldType.ARRAY).description("대댓글 정보")
                 )
             ));
     }
@@ -677,7 +687,8 @@ public class CommentAcceptanceTest extends AcceptanceTest {
                     fieldWithPath("comments.[].user.id").type(JsonFieldType.NUMBER).description("유저 id"),
                     fieldWithPath("comments.[].user.nickName").type(JsonFieldType.STRING).description("유저 닉네임"),
                     fieldWithPath("comments.[].user.type").type(JsonFieldType.STRING).description("유저 타입"),
-                    fieldWithPath("comments.[].user.profileImageUrl").type(JsonFieldType.STRING).description("유저 프로필 이미지")
+                    fieldWithPath("comments.[].user.profileImageUrl").type(JsonFieldType.STRING).description("유저 프로필 이미지"),
+                    fieldWithPath("comments.[].subComments[]").type(JsonFieldType.ARRAY).description("대댓글 정보")
                 )
             ));
     }
@@ -731,7 +742,8 @@ public class CommentAcceptanceTest extends AcceptanceTest {
                     fieldWithPath("comments.[].user.id").type(JsonFieldType.NUMBER).description("유저 id"),
                     fieldWithPath("comments.[].user.nickName").type(JsonFieldType.STRING).description("유저 닉네임"),
                     fieldWithPath("comments.[].user.type").type(JsonFieldType.STRING).description("유저 타입"),
-                    fieldWithPath("comments.[].user.profileImageUrl").type(JsonFieldType.STRING).description("유저 프로필 이미지")
+                    fieldWithPath("comments.[].user.profileImageUrl").type(JsonFieldType.STRING).description("유저 프로필 이미지"),
+                    fieldWithPath("comments.[].subComments[]").type(JsonFieldType.ARRAY).description("대댓글 정보")
                 )
             ));
     }
@@ -807,7 +819,8 @@ public class CommentAcceptanceTest extends AcceptanceTest {
                     fieldWithPath("comments.[].user.id").type(JsonFieldType.NUMBER).description("유저 id"),
                     fieldWithPath("comments.[].user.nickName").type(JsonFieldType.STRING).description("유저 닉네임"),
                     fieldWithPath("comments.[].user.type").type(JsonFieldType.STRING).description("유저 타입"),
-                    fieldWithPath("comments.[].user.profileImageUrl").type(JsonFieldType.STRING).description("유저 프로필 이미지")
+                    fieldWithPath("comments.[].user.profileImageUrl").type(JsonFieldType.STRING).description("유저 프로필 이미지"),
+                    fieldWithPath("comments.[].subComments[]").type(JsonFieldType.ARRAY).description("대댓글 정보")
                 )
             ));
     }
@@ -861,7 +874,8 @@ public class CommentAcceptanceTest extends AcceptanceTest {
                     fieldWithPath("comments.[].user.id").type(JsonFieldType.NUMBER).description("유저 id"),
                     fieldWithPath("comments.[].user.nickName").type(JsonFieldType.STRING).description("유저 닉네임"),
                     fieldWithPath("comments.[].user.type").type(JsonFieldType.STRING).description("유저 타입"),
-                    fieldWithPath("comments.[].user.profileImageUrl").type(JsonFieldType.STRING).description("유저 프로필 이미지")
+                    fieldWithPath("comments.[].user.profileImageUrl").type(JsonFieldType.STRING).description("유저 프로필 이미지"),
+                    fieldWithPath("comments.[].subComments[]").type(JsonFieldType.ARRAY).description("대댓글 정보")
                 )
             ));
     }
@@ -1110,8 +1124,7 @@ public class CommentAcceptanceTest extends AcceptanceTest {
     }
 
     private CommentResponse 비로그인_댓글_등록됨_Response_반환(String content, String url) throws Exception {
-        String responseJson = 비로그인_댓글_등록됨(content, url).andReturn().getResponse()
-            .getContentAsString();
+        String responseJson = 비로그인_댓글_등록됨(content, url).andReturn().getResponse().getContentAsString();
         return new ObjectMapper().readValue(responseJson, CommentResponse.class);
     }
 

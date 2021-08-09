@@ -10,7 +10,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface CommentRepository extends JpaRepository<Comment, Long> {
 
-    List<Comment> findByUrlAndProjectSecretKey(String url, String projectSecretKey, Sort sort);
+    List<Comment> findByUrlAndProjectSecretKeyAndParentId(String url, String projectSecretKey, Long parentId, Sort sort);
 
     Page<Comment> findByUrlAndProjectSecretKey(String url, String projectSecretKey, Pageable pageable);
 

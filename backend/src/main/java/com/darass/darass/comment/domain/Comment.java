@@ -53,11 +53,9 @@ public class Comment extends BaseTimeEntity {
     private Comment parent;
 
     @OneToMany(mappedBy = "parent", fetch = LAZY, cascade = ALL, orphanRemoval = true)
-    private List<Comment> subComments;
+    private List<Comment> subComments = new ArrayList<>();
 
     private String content;
-
-
 
     @Formula("(select count(*) from comment_like where comment_like.comment_id=id)")
     private int likeCount;

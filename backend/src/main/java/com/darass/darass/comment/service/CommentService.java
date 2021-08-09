@@ -73,7 +73,7 @@ public class CommentService {
     }
 
     public CommentResponses findAllCommentsByUrlAndProjectKey(CommentReadRequest request) {
-        List<Comment> comments = commentRepository.findByUrlAndProjectSecretKey(request.getUrl(), request.getProjectKey(),
+        List<Comment> comments = commentRepository.findByUrlAndProjectSecretKeyAndParentId(request.getUrl(), request.getProjectKey(), null,
             SortOption.getMatchedSort(request.getSortOption()));
         return new CommentResponses((long) comments.size(), 1, comments.stream()
             .map(comment -> CommentResponse.of(comment, UserResponse.of(comment.getUser())))
