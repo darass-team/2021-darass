@@ -228,10 +228,10 @@ const Comment = ({
               좋아요
             </LikeButton>
             <Time>{getTimeDifference(comment.createdDate)}</Time>
+            {shouldShowOption && !submitType && (
+              <CommentOption startEditing={canIEdit ? startEditing : undefined} startDeleting={startDeleting} />
+            )}
           </CommentBottomWrapper>
-          {shouldShowOption && !submitType && (
-            <CommentOption startEditing={canIEdit ? startEditing : undefined} startDeleting={startDeleting} />
-          )}
           {comment.likingUsers.length > 0 && (
             <LikingUsersButton
               numOfLikes={comment.likingUsers.length}

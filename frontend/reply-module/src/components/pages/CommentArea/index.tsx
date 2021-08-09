@@ -18,7 +18,7 @@ const CommentArea = () => {
 
   const [sortOption, setSortOption] = useState<keyof typeof ORDER_BUTTON>("oldest");
   const [pageParam, setPageParam] = useState(INITIAL_PAGE_PARAM);
-  const [notice, setNotice] = useState("로딩 중...");
+  const [notice, setNotice] = useState("");
 
   const { user, login, logout } = useUser();
   const {
@@ -39,16 +39,8 @@ const CommentArea = () => {
   }, [sortOption]);
 
   useEffect(() => {
-    if (projectLoading || commentsByPageLoading) {
-      setNotice("로딩 중...");
+    if (projectLoading || commentsByPageLoading) return;
 
-      return;
-    }
-
-    setNotice("");
-  }, [projectLoading, commentsByPageLoading]);
-
-  useEffect(() => {
     if (projectError) setNotice(projectError.message);
     if (commentsByPageError) setNotice(commentsByPageError.message);
 
@@ -60,15 +52,15 @@ const CommentArea = () => {
 
       setNotice("");
     }
-  }, [projectError, commentsByPageError, totalCommentsCount]);
+  }, [projectLoading, commentsByPageLoading, projectError, commentsByPageError, totalCommentsCount]);
 
   const onShowMoreComment = () => {
     setPageParam(currentPageParam => currentPageParam + 1);
   };
 
-  const onLogin = () => {
+  const onLogin = async () => {
     try {
-      login();
+      await login();
     } catch (error) {
       if (error instanceof AlertError) {
         alert(error.message);
@@ -85,6 +77,7 @@ const CommentArea = () => {
     <Container>
       <CommentList
         user={user}
+        isLoading={projectLoading || commentsByPageLoading}
         totalCommentsCount={totalCommentsCount || 0}
         comments={comments || []}
         project={project}

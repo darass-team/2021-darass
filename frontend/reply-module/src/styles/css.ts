@@ -40,3 +40,33 @@ export const SpeechBubbleCSS = css`
     border-right: 5px solid transparent;
   }
 `;
+
+export const SkeletonCSS = css`
+  position: relative;
+  overflow: hidden;
+  background-color: rgba(165, 165, 165, 0.3);
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    transform: translateX(-100%);
+    background: linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0) 0,
+      rgba(255, 255, 255, 0.3) 33%,
+      rgba(255, 255, 255, 0.6) 66%,
+      rgba(255, 255, 255, 0)
+    );
+    animation: 1s ease-in-out 0s infinite forwards skeleton-gradient;
+  }
+
+  @keyframes skeleton-gradient {
+    100% {
+      transform: translateX(100%);
+    }
+  }
+`;

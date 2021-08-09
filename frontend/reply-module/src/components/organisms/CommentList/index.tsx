@@ -3,6 +3,7 @@ import { Comment as CommentType } from "../../../types/comment";
 import { Project } from "../../../types/project";
 import { User } from "../../../types/user";
 import Comment from "../../molecules/Comment";
+import CommentSkeleton from "../../molecules/CommentSkeleton";
 import {
   CommentContainer,
   CommentCount,
@@ -19,6 +20,7 @@ export interface Props {
   className?: string;
   user?: User;
   project?: Project;
+  isLoading: boolean;
   totalCommentsCount: number;
   comments: CommentType[];
   sortOption: keyof typeof ORDER_BUTTON;
@@ -31,6 +33,7 @@ const CommentList = ({
   className,
   user,
   project,
+  isLoading,
   totalCommentsCount,
   comments,
   sortOption,
@@ -63,6 +66,7 @@ const CommentList = ({
       </Header>
       <CommentContainer>
         {notice && <Notice>{notice}</Notice>}
+        {isLoading && <CommentSkeleton />}
         {comments.map((comment, index) => {
           const authorId = comment.user.id;
 

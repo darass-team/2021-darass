@@ -6,7 +6,7 @@ import LikingUsersButtonComponent from "../../atoms/Buttons/LikingUsersButton";
 import SubmitButton from "../../atoms/Buttons/SubmitButton";
 import CommentOptionComponent from "../../atoms/CommentOption";
 
-export const Container = styled.div<{ isNestedComment: boolean }>`
+export const Container = styled.div<{ isNestedComment?: boolean }>`
   display: flex;
   flex-direction: column;
   margin-left: ${props => props.isNestedComment && "3rem"};
