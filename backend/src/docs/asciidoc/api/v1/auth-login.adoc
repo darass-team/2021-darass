@@ -1,4 +1,4 @@
-=== JWT 토큰 발급 (GET /api/v1/login/oauth)
+=== JWT 토큰 발급 (POST /api/v1/login/oauth)
 
 ==== Request
 
@@ -13,6 +13,8 @@ include::{snippets}/api/v1/auth-login/post/success/response-fields.adoc[]
 
 include::{snippets}/api/v1/auth-login/post/fail/http-response.adoc[]
 include::{snippets}/api/v1/auth-login/post/fail/response-fields.adoc[]
+
+=== Access Token 재발급 (POST /api/v1/login/refresh)
 
 ==== Request
 
