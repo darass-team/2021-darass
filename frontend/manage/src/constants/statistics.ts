@@ -1,5 +1,14 @@
-export const VIEW_OPTION = {
-  TIME: "시간별",
-  DAY: "일별",
-  MONTH: "월별"
+export const PERIODICITY = {
+  HOURLY: {
+    display: "시간별",
+    key: "hourly"
+  },
+  DAILY: {
+    display: "일별",
+    key: "daily"
+  },
+  MONTHLY: {
+    display: "월별",
+    key: "monthly"
+  }
 } as const;

@@ -1,8 +1,9 @@
 import moment from "moment";
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { useRouteMatch } from "react-router-dom";
 import { PROJECT_MENU } from "../../../constants";
-import { VIEW_OPTION } from "../../../constants/statistics";
+import { PERIODICITY } from "../../../constants/statistics";
+
 import { useCalendar, useCommentStatisticsData, useGetProject } from "../../../hooks";
 import ScreenContainer from "../../../styles/ScreenContainer";
 import Modal from "../../atoms/Modal";
@@ -27,7 +28,9 @@ const Statistics = () => {
   const match = useRouteMatch<{ id: string }>();
   const projectId = Number(match.params.id);
 
-  const [selectedViewOption, setSelectedViewOption] = useState<ObjectValueType<typeof VIEW_OPTION>>(VIEW_OPTION.DAY);
+  const [selectedPeriodicity, setSelectedPeriodicity] = useState<ObjectValueType<typeof PERIODICITY>>(
+    PERIODICITY.DAILY
+  );
 
   const { project } = useGetProject(projectId);
   const projectSecretKey = project?.secretKey;
@@ -38,20 +41,24 @@ const Statistics = () => {
   const startDateAsString = startDate?.format("YYYY-MM-DD") || moment().format("YYYY-MM-DD");
   const endDateAsString = endDate?.format("YYYY-MM-DD") || moment().format("YYYY-MM-DD");
 
-  const { data, refetch: getCommentStatisticsData } = useCommentStatisticsData({
-    type: selectedViewOption,
+  const {
+    stats,
+    error: errorCommentStatistics,
+    refetch: getCommentStatisticsData
+  } = useCommentStatisticsData({
+    periodicity: selectedPeriodicity,
     projectKey: projectSecretKey,
     startDate: startDateAsString,
     endDate: endDateAsString
   });
 
-  const onClickViewOption = (option: ObjectValueType<typeof VIEW_OPTION>) => {
-    setSelectedViewOption(option);
+  const onClickViewOption = (option: ObjectValueType<typeof PERIODICITY>) => {
+    setSelectedPeriodicity(option);
   };
 
   useEffect(() => {
     getCommentStatisticsData();
-  }, [projectSecretKey, startDate, endDate]);
+  }, [projectSecretKey, startDate, endDate, selectedPeriodicity]);
 
   return (
     <ScreenContainer>
@@ -71,32 +78,32 @@ const Statistics = () => {
               </DataInputWrapper>
 
               <SortButtonsWrapper>
-                {Object.values(VIEW_OPTION).map(option => (
+                {Object.values(PERIODICITY).map(option => (
                   <SortButton
-                    key={option}
+                    key={option.key}
                     onClick={() => onClickViewOption(option)}
-                    isSelected={selectedViewOption === option}
+                    isSelected={selectedPeriodicity === option}
                   >
-                    {option}
+                    {option.display}
                   </SortButton>
                 ))}
               </SortButtonsWrapper>
             </Wrapper>
 
-            <CommentStatisticsChart data={data} />
+            <CommentStatisticsChart data={stats} />
           </ChartArea>
 
           <DataTable>
             <thead>
               <tr>
-                <th>{selectedViewOption}</th>
+                <th>{selectedPeriodicity.display}</th>
                 <th>댓글 개수</th>
               </tr>
             </thead>
             <tbody>
-              {[...data].reverse().map(_data => (
-                <tr key={_data.time}>
-                  <th>{_data.time}</th>
+              {[...stats].reverse().map(_data => (
+                <tr key={_data.date}>
+                  <th>{_data.date}</th>
                   <th>{_data.count}</th>
                 </tr>
               ))}

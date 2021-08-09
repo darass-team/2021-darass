@@ -1,18 +1,14 @@
 import { Line } from "react-chartjs-2";
 import { PALETTE } from "../../../styles/palette";
+import { COMMENT_STATISTICS } from "../../../types/statistics";
 import { Container } from "./styles";
 
-interface Data {
-  time: string;
-  count: number;
-}
-
 export interface Props {
-  data: Data[];
+  data: COMMENT_STATISTICS[];
 }
 
 const CommentStatisticsChart = ({ data }: Props) => {
-  const xValue = data.map(_data => _data.time);
+  const xValue = data.map(_data => _data.date);
   const yValue = data.map(_data => _data.count);
 
   return (

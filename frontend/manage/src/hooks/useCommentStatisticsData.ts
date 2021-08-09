@@ -1,68 +1,54 @@
-import moment from "moment";
-import { VIEW_OPTION } from "./../constants/statistics";
-import { useGetCommentsOfProjectPerPage } from ".";
-import { Comment, GetCommentsOfProjectPerPageRequest } from "../types/comment";
+import { AlertError } from "./../utils/error";
+import { COMMENT_STATISTICS, GetCommentStatisticsRequest } from "./../types/statistics";
+import { useQuery } from "react-query";
+import { PERIODICITY } from "./../constants/statistics";
+import { QUERY, REACT_QUERY_KEY } from "../constants";
+import axios from "axios";
+import { request } from "../utils/request";
 
-const commentsGroupByDay = (
-  type: ObjectValueType<typeof VIEW_OPTION>,
-  comments: Comment[],
-  startDate: moment.Moment,
-  endDate: moment.Moment
-) => {
-  const allDates: { [key: string]: number } = {};
+const getCommentStatistics = async ({ periodicity, projectKey, startDate, endDate }: GetCommentStatisticsRequest) => {
+  try {
+    const urlSearchParams = new URLSearchParams(QUERY.STATISTICS_OF_PROJECT + "?");
+    projectKey && urlSearchParams.set("projectKey", projectKey);
+    urlSearchParams.set("periodicity", periodicity.key);
+    urlSearchParams.set("startDate", startDate);
+    urlSearchParams.set("endDate", endDate);
 
-  // const unit = {
-  //   TIME: "hour",
-  //   DAY: "day",
-  //   MONTH: "month"
-  // };
+    const response = await request.get(decodeURIComponent(urlSearchParams.toString()));
 
-  // const format = {
-  //   TIME: "HH-MM",
-  //   DAY: "YYYY-MM-DD",
-  //   MONTH: "YYYY-MM"
-  // };
+    return response.data;
+  } catch (error) {
+    console.error(error);
 
-  const currentDate = startDate.clone();
+    if (!axios.isAxiosError(error)) {
+      throw new Error("알 수 없는 에러입니다.");
+    }
 
-  while (currentDate.diff(endDate) < 0) {
-    currentDate.add(1, "day");
-    allDates[currentDate.format("YYYY-MM-DD")] = 0;
+    throw new AlertError("댓글 통계 조회에 실패하셨습니다.\n잠시 후 다시 시도해주세요.");
   }
-
-  for (const { createdDate } of comments) {
-    const time = moment(createdDate).format("YYYY-MM-DD");
-
-    allDates[time]++;
-  }
-
-  const newRes = [];
-  for (const key of Object.keys(allDates)) {
-    newRes.push({
-      time: key,
-      count: allDates[key]
-    });
-  }
-
-  return newRes;
 };
 
-interface Props extends Omit<GetCommentsOfProjectPerPageRequest, "page" | "size" | "keyword"> {
-  type: ObjectValueType<typeof VIEW_OPTION>;
-}
+export const useCommentStatisticsData = ({
+  periodicity,
+  projectKey,
+  startDate,
+  endDate
+}: GetCommentStatisticsRequest) => {
+  const { data, isLoading, error, refetch } = useQuery<{ stats: COMMENT_STATISTICS[] }, Error>(
+    [REACT_QUERY_KEY.STATISTICS],
+    () =>
+      getCommentStatistics({
+        periodicity,
+        projectKey,
+        startDate,
+        endDate
+      }),
+    {
+      retry: false
+    }
+  );
 
-export const useCommentStatisticsData = ({ type, projectKey, startDate, endDate }: Props) => {
-  const { comments, totalComment, totalPage, refetch, isLoading, error, prefetch } = useGetCommentsOfProjectPerPage({
-    sortOption: "latest",
-    projectKey,
-    startDate,
-    endDate,
-    page: 1,
-    size: 9999,
-    keyword: ""
-  });
+  const stats = data?.stats || [];
 
-  const data = commentsGroupByDay(type, comments, moment(startDate), moment(endDate));
-
-  return { data, refetch };
+  return { stats, isLoading, error, refetch };
 };
