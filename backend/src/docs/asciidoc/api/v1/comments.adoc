@@ -32,6 +32,14 @@ include::{snippets}/api/v1/comments/post/success-guest-user/response-fields.adoc
 include::{snippets}/api/v1/comments/post/fail-missing-project-key/http-response.adoc[]
 include::{snippets}/api/v1/comments/post/fail-missing-project-key/response-fields.adoc[]
 
+
+
+
+
+
+
+
+
 === 댓글 조회 (GET /api/v1/comments)
 
 ==== URL에 해당하는 전체 댓글 최신순으로 조회

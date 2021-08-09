@@ -15,6 +15,8 @@ public class CommentCreateRequest {
 
     private String guestPassword;
 
+    private Long parentId;
+
     @NotBlank
     private String projectSecretKey;
 

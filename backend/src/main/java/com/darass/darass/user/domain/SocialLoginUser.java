@@ -5,6 +5,8 @@ import com.darass.darass.auth.oauth.infrastructure.JwtTokenProvider;
 import com.darass.darass.exception.ExceptionWithMessageAndCode;
 import com.darass.darass.user.infrastructure.S3Uploader;
 import java.util.Objects;
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;

@@ -132,14 +132,14 @@ class CommentServiceTest extends SpringContainerTest {
     @DisplayName("소셜 로그인 유저가 댓글을 등록한다.")
     @Test
     void save() {
-        CommentCreateRequest request = new CommentCreateRequest(null, null, project.getSecretKey(), "content", "url");
+        CommentCreateRequest request = new CommentCreateRequest(null, null, null, project.getSecretKey(), "content", "url");
         assertThat(commentService.save(socialLoginUser, request).getContent()).isEqualTo("content");
     }
 
     @DisplayName("비로그인 유저가 댓글을 등록한다.")
     @Test
     void save_guest() {
-        CommentCreateRequest request = new CommentCreateRequest(guestUser.getNickName(), guestUser.getPassword(),
+        CommentCreateRequest request = new CommentCreateRequest(guestUser.getNickName(), guestUser.getPassword(), null,
             project.getSecretKey(), "content", "url");
         assertThat(commentService.save(guestUser, request).getContent()).isEqualTo("content");
     }
@@ -147,7 +147,7 @@ class CommentServiceTest extends SpringContainerTest {
     @DisplayName("존재하지 않는 프로젝트에 댓글을 등록하면 에러를 던진다.")
     @Test
     void save_exception() {
-        CommentCreateRequest request = new CommentCreateRequest(null, null, "secret", "content", "url");
+        CommentCreateRequest request = new CommentCreateRequest(null, null, null, "secret", "content", "url");
         assertThatThrownBy(() -> commentService.save(socialLoginUser, request))
             .isInstanceOf(NotFoundException.class)
             .hasMessage("해당하는 프로젝트가 없습니다.");

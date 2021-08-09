@@ -22,6 +22,7 @@ import com.darass.darass.user.dto.UserResponse;
 import com.darass.darass.user.repository.UserRepository;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -43,9 +44,21 @@ public class CommentService {
             user = savedGuestUser(commentRequest);
         }
         Project project = getBySecretKey(commentRequest);
-        Comment comment = savedComment(user, commentRequest, project);
         String userType = userRepository.findUserTypeById(user.getId());
         String profileImageUrl = userRepository.findProfileImageUrlById(user.getId());
+
+        if (Objects.isNull(commentRequest.getParentId())) {
+            return savedCommentResponse(user, commentRequest, project, userType, profileImageUrl);
+        }
+
+        Comment parentComment = commentRepository.findById(commentRequest.getParentId())
+            .orElseThrow(ExceptionWithMessageAndCode.NOT_FOUND_COMMENT::getException);
+
+        if(parentComment.isSubComment()){
+            throw ExceptionWithMessageAndCode.INVALID_SUB_COMMENT_INDEX.getException();
+        }
+
+        Comment comment = savedSubComment(user, commentRequest, project, parentComment);
         return CommentResponse.of(comment, UserResponse.of(comment.getUser(), userType, profileImageUrl));
     }
 
@@ -54,12 +67,26 @@ public class CommentService {
             .orElseThrow(ExceptionWithMessageAndCode.NOT_FOUND_PROJECT::getException);
     }
 
-    private Comment savedComment(User user, CommentCreateRequest commentRequest, Project project) {
+    private CommentResponse savedCommentResponse(User user, CommentCreateRequest commentRequest, Project project, String userType, String profileImageUrl) {
         Comment comment = Comment.builder()
             .user(user)
             .content(commentRequest.getContent())
             .project(project)
             .url(commentRequest.getUrl())
+            .build();
+
+        Comment savedComment = commentRepository.save(comment);
+
+        return CommentResponse.of(savedComment, UserResponse.of(savedComment.getUser(), userType, profileImageUrl));
+    }
+
+    private Comment savedSubComment(User user, CommentCreateRequest commentRequest, Project project, Comment parentComment) {
+        Comment comment = Comment.builder()
+            .user(user)
+            .content(commentRequest.getContent())
+            .project(project)
+            .url(commentRequest.getUrl())
+            .parent(parentComment)
             .build();
         return commentRepository.save(comment);
     }
@@ -73,8 +100,9 @@ public class CommentService {
     }
 
     public CommentResponses findAllCommentsByUrlAndProjectKey(CommentReadRequest request) {
-        List<Comment> comments = commentRepository.findByUrlAndProjectSecretKeyAndParentId(request.getUrl(), request.getProjectKey(), null,
-            SortOption.getMatchedSort(request.getSortOption()));
+        List<Comment> comments = commentRepository
+            .findByUrlAndProjectSecretKeyAndParentId(request.getUrl(), request.getProjectKey(), null,
+                SortOption.getMatchedSort(request.getSortOption()));
         return new CommentResponses((long) comments.size(), 1, comments.stream()
             .map(comment -> CommentResponse.of(comment, UserResponse.of(comment.getUser())))
             .collect(Collectors.toList()));

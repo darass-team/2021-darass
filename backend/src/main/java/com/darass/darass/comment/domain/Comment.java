@@ -8,7 +8,7 @@ import com.darass.darass.project.domain.Project;
 import com.darass.darass.user.domain.User;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.CascadeType;
+import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -61,12 +61,13 @@ public class Comment extends BaseTimeEntity {
     private int likeCount;
 
     @Builder
-    public Comment(Long id, User user, Project project, String url, String content) {
+    public Comment(Long id, User user, Project project, String url, String content, Comment parent) {
         this.id = id;
         this.user = user;
         this.project = project;
         this.url = url;
         this.content = content;
+        this.parent = parent;
     }
 
     public void changeContent(String content) {
@@ -102,5 +103,9 @@ public class Comment extends BaseTimeEntity {
 
     public void addCommentLike(CommentLike commentLike) {
         this.commentLikes.add(commentLike);
+    }
+
+    public boolean isSubComment() {
+        return !Objects.isNull(this.parent);
     }
 }

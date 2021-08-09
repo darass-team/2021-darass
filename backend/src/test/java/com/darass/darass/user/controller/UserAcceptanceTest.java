@@ -229,7 +229,7 @@ public class UserAcceptanceTest extends AcceptanceTest {
     private ResultActions 비로그인_댓글_등록됨(String password) throws Exception {
         return this.mockMvc.perform(post("/api/v1/comments")
             .contentType(MediaType.APPLICATION_JSON)
-            .content(asJsonString(new CommentCreateRequest("guest", password, projectSecretKey, "content", "url"))))
+            .content(asJsonString(new CommentCreateRequest("guest", password, null, projectSecretKey, "content", "url"))))
             .andExpect(status().isCreated())
             .andExpect(jsonPath("$.user..type").value("GuestUser"));
     }
