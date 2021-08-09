@@ -74,10 +74,18 @@ export const DataTable = styled.table`
     background-color: ${PALETTE.PRIMARY};
   }
 
+  tbody {
+    width: 100%;
+  }
+
   tr {
     &:nth-child(2n) {
       background-color: ${PALETTE.GRAY_200};
     }
+  }
+
+  th {
+    width: 50%;
   }
 
   th,

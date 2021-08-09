@@ -1,27 +1,27 @@
 import moment from "moment";
-import { useEffect, useLayoutEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouteMatch } from "react-router-dom";
 import { PROJECT_MENU } from "../../../constants";
 import { PERIODICITY } from "../../../constants/statistics";
-
 import { useCalendar, useCommentStatisticsData, useGetProject } from "../../../hooks";
 import ScreenContainer from "../../../styles/ScreenContainer";
 import Modal from "../../atoms/Modal";
 import Calendar from "../../molecules/Calendar";
 import CommentStatisticsChart from "../../organisms/CommentStatisticsChart";
 import ContainerWithSideBar from "../../organisms/ContainerWithSideBar";
+import ErrorNotice from "../../organisms/ErrorNotice";
 import {
-  Container,
-  Title,
   ChartArea,
-  SortButtonsWrapper,
-  SortButton,
-  DataTable,
-  Meta,
-  Wrapper,
+  Container,
   DataInputWrapper,
+  DataTable,
   DateInputText,
-  DateRange
+  DateRange,
+  Meta,
+  SortButton,
+  SortButtonsWrapper,
+  Title,
+  Wrapper
 } from "./styles";
 
 const Statistics = () => {
@@ -101,12 +101,16 @@ const Statistics = () => {
               </tr>
             </thead>
             <tbody>
-              {[...stats].reverse().map(_data => (
-                <tr key={_data.date}>
-                  <th>{_data.date}</th>
-                  <th>{_data.count}</th>
-                </tr>
-              ))}
+              {stats.length === 0 ? (
+                <></>
+              ) : (
+                [...stats].reverse().map(_data => (
+                  <tr key={_data.date}>
+                    <th>{_data.date}</th>
+                    <th>{_data.count}</th>
+                  </tr>
+                ))
+              )}
             </tbody>
           </DataTable>
         </Container>

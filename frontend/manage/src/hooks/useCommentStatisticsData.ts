@@ -28,6 +28,17 @@ const getCommentStatistics = async ({ periodicity, projectKey, startDate, endDat
   }
 };
 
+const preprocessing = (_stats: COMMENT_STATISTICS[], periodicityKey: ObjectValueType<typeof PERIODICITY>["key"]) => {
+  if (periodicityKey === "hourly") {
+    return _stats.map(({ date, count }) => ({
+      date: `${date}시`,
+      count
+    }));
+  }
+
+  return _stats;
+};
+
 export const useCommentStatisticsData = ({
   periodicity,
   projectKey,
@@ -48,7 +59,7 @@ export const useCommentStatisticsData = ({
     }
   );
 
-  const stats = data?.stats || [];
+  const stats = data ? preprocessing(data.stats, periodicity.key) : [];
 
   return { stats, isLoading, error, refetch };
 };

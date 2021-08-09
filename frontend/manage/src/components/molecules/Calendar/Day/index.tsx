@@ -23,8 +23,10 @@ const Day = ({ date, startDate, endDate, changeDate }: Props) => {
     isWithInPeriod: date.isBetween(startDate, endDate, "day")
   };
 
+  const isFutureDate = moment().diff(date) < 0;
+
   return (
-    <Container onClick={() => changeDate(date)} dayInfo={dayInfo}>
+    <Container onClick={() => changeDate(date)} dayInfo={dayInfo} disabled={isFutureDate}>
       {date.date()}
     </Container>
   );
