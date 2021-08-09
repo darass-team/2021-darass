@@ -56,7 +56,7 @@ public class GithubOAuthProvider extends OAuthProvider {
         return SocialLoginUser.builder()
             .nickName(jsonObject.getString("login"))
             .oauthId(String.valueOf(jsonObject.getLong("id")))
-            .oAuthProvider(NAME)
+            .oauthProvider(NAME)
             .email(jsonObject.getString("email"))
             .profileImageUrl(jsonObject.getString("avatar_url"))
             .build();

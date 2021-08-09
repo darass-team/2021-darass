@@ -52,7 +52,7 @@ public class NaverOAuthProvider extends OAuthProvider {
         return SocialLoginUser.builder()
             .nickName(naverAccount.getString("name"))
             .oauthId(naverAccount.getString("id"))
-            .oAuthProvider(NAME)
+            .oauthProvider(NAME)
             .email(naverAccount.getString("email"))
             .profileImageUrl(naverAccount.getString("profile_image"))
             .build();

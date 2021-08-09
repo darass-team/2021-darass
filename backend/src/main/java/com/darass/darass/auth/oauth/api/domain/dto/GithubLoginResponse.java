@@ -26,7 +26,7 @@ public class GithubLoginResponse implements SocialLoginResponse {
             .builder()
             .nickName(name)
             .oauthId(id)
-            .oAuthProvider("github")
+            .oauthProvider("github")
             .email(email)
             .profileImageUrl(profileImageUrl)
             .build();

@@ -30,7 +30,7 @@ class SocialLoginUserTest {
             .nickName(nickName)
             .email(email)
             .oauthId(oauthId)
-            .oAuthProvider("kakao")
+            .oauthProvider("kakao")
             .build();
     }
 
@@ -40,7 +40,7 @@ class SocialLoginUserTest {
         assertThat(socialLoginUser).isNotNull();
         assertThat(socialLoginUser.getNickName()).isEqualTo(nickName);
         assertThat(socialLoginUser.getOauthId()).isEqualTo(oauthId);
-        assertThat(socialLoginUser.getOAuthProvider()).isEqualTo(oauthProvider);
+        assertThat(socialLoginUser.getOauthProvider()).isEqualTo(oauthProvider);
     }
 
     @DisplayName("isLoginUser 메서드는 true를 리턴한다.")

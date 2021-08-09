@@ -68,7 +68,7 @@ public class CommentAcceptanceTest extends AcceptanceTest {
             .builder()
             .nickName("nickname")
             .oauthId("abc13gag")
-            .oAuthProvider("kakao")
+            .oauthProvider("kakao")
             .email("qkrwotjd1445@naver.com")
             .profileImageUrl("https://imageUrl")
             .build();

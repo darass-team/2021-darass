@@ -63,7 +63,7 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
             .profileImageUrl("http://프로필이미지-url")
             .userType("socialLoginUser")
             .email("bbwwpark@naver.com")
-            .oAuthProvider("kakao")
+            .oauthProvider("kakao")
             .oauthId("1234")
             .build();
 

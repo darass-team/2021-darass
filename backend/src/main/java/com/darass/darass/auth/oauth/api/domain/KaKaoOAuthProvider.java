@@ -53,7 +53,7 @@ public class KaKaoOAuthProvider extends OAuthProvider {
         return SocialLoginUser.builder()
             .nickName(profile.getString("nickname"))
             .oauthId(String.valueOf(jsonObject.getLong("id")))
-            .oAuthProvider(NAME)
+            .oauthProvider(NAME)
             .email(kakaoAccount.getString("email"))
             .profileImageUrl(profile.getString("thumbnail_image_url"))
             .build();

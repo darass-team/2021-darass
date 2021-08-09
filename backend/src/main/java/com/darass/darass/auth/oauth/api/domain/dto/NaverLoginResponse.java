@@ -22,7 +22,7 @@ public class NaverLoginResponse implements SocialLoginResponse {
             .builder()
             .nickName(naverAccount.getNickname())
             .oauthId(naverAccount.getId())
-            .oAuthProvider("naver")
+            .oauthProvider("naver")
             .email(naverAccount.getEmail())
             .profileImageUrl(naverAccount.getProfileImageUrl())
             .build();

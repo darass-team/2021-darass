@@ -41,7 +41,7 @@ class ProjectTest {
             .profileImageUrl("http://프로필이미지-url")
             .userType("socialLoginUser")
             .email("bbwwpark@naver.com")
-            .oAuthProvider(KaKaoOAuthProvider.NAME)
+            .oauthProvider(KaKaoOAuthProvider.NAME)
             .oauthId("1234")
             .build();
         userRepository.save(socialLoginUser);

@@ -57,7 +57,7 @@ public class AuthAcceptanceTest extends AcceptanceTest {
             .builder()
             .nickName("우기")
             .oauthId("6752453")
-            .oAuthProvider(KaKaoOAuthProvider.NAME)
+            .oauthProvider(KaKaoOAuthProvider.NAME)
             .email("jujubebat@kakao.com")
             .build();
     }

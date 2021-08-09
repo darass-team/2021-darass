@@ -63,7 +63,7 @@ public class UserAcceptanceTest extends AcceptanceTest {
             .builder()
             .nickName("우기")
             .oauthId("2312312312")
-            .oAuthProvider("kakao")
+            .oauthProvider("kakao")
             .email("bbwwpark@naver.com")
             .profileImageUrl("https://imageUrl")
             .build();

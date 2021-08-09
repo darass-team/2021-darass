@@ -26,7 +26,7 @@ class BaseTimeEntityTest extends SpringContainerTest {
             .nickName("병욱")
             .email("jujubebat@kakao.com")
             .oauthId("241323123")
-            .oAuthProvider("kakao")
+            .oauthProvider("kakao")
             .build());
 
         //when

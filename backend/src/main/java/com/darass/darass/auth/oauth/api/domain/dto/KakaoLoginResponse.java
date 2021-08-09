@@ -23,7 +23,7 @@ public class KakaoLoginResponse implements SocialLoginResponse {
             .builder()
             .nickName(kaKaoAccount.getProfile().getNickname())
             .oauthId(id)
-            .oAuthProvider("kakao")
+            .oauthProvider("kakao")
             .email(kaKaoAccount.getEmail())
             .profileImageUrl(kaKaoAccount.getProfile().getThumbnailImageUrl())
             .build();

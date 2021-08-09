@@ -48,7 +48,7 @@ class OAuthServiceTest extends SpringContainerTest {
             .builder()
             .nickName("우기")
             .oauthId("6752453")
-            .oAuthProvider("kakao")
+            .oauthProvider("kakao")
             .email("jujubebat@kakao.com")
             .profileImageUrl("http://kakao/profile_image.png")
             .build();
@@ -103,7 +103,7 @@ class OAuthServiceTest extends SpringContainerTest {
         assertThat(socialLoginUser.getId()).isEqualTo(this.socialLoginUser.getId());
         assertThat(socialLoginUser.getNickName()).isEqualTo(this.socialLoginUser.getNickName());
         assertThat(socialLoginUser.getProfileImageUrl()).isEqualTo(this.socialLoginUser.getProfileImageUrl());
-        assertThat(socialLoginUser.getOAuthProvider()).isEqualTo(this.socialLoginUser.getOAuthProvider());
+        assertThat(socialLoginUser.getOauthProvider()).isEqualTo(this.socialLoginUser.getOauthProvider());
         assertThat(socialLoginUser.getEmail()).isEqualTo(this.socialLoginUser.getEmail());
     }
 

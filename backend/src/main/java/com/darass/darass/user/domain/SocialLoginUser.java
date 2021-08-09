@@ -1,12 +1,9 @@
 package com.darass.darass.user.domain;
 
-import com.darass.darass.auth.oauth.api.domain.OAuthProvider;
 import com.darass.darass.exception.ExceptionWithMessageAndCode;
 import com.darass.darass.user.infrastructure.S3Uploader;
 import java.util.Objects;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,14 +18,14 @@ public class SocialLoginUser extends User {
 
     private String oauthId;
 
-    private String oAuthProvider;
+    private String oauthProvider;
 
     @Builder
     public SocialLoginUser(Long id, String nickName, String profileImageUrl, String userType, String oauthId,
-        String oAuthProvider, String email) {
+        String oauthProvider, String email) {
         super(id, nickName, profileImageUrl, userType);
         this.oauthId = oauthId;
-        this.oAuthProvider = oAuthProvider;
+        this.oauthProvider = oauthProvider;
         this.email = email;
     }
 
