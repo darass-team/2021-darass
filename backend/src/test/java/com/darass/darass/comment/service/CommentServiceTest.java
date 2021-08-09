@@ -250,7 +250,8 @@ class CommentServiceTest extends SpringContainerTest {
     @Test
     void findAllCommentsByProjectKeyUsingPaginationAndDateBetweenAndLike_latest() {
         CommentReadRequestBySearch request =
-            new CommentReadRequestBySearch("LATEST", project.getSecretKey(), "content", 1, 5);
+            new CommentReadRequestBySearch("LATEST", project.getSecretKey(), LocalDate.EPOCH, LocalDate.now(),
+                "content", 1, 5);
         List<CommentResponse> responses = commentService.findAllCommentsInProjectUsingSearch(request)
             .getComments();
         assertThat(responses).extracting("content")
@@ -261,7 +262,8 @@ class CommentServiceTest extends SpringContainerTest {
     @Test
     void findAllCommentsByProjectKeyUsingPaginationAndDateBetweenAndLike_like() {
         CommentReadRequestBySearch request =
-            new CommentReadRequestBySearch("LIKE", project.getSecretKey(), "content", 1, 5);
+            new CommentReadRequestBySearch("LIKE", project.getSecretKey(), LocalDate.EPOCH, LocalDate.now(),
+                "content", 1, 5);
         List<CommentResponse> responses = commentService.findAllCommentsInProjectUsingSearch(request)
             .getComments();
         assertThat(responses).extracting("content")
@@ -272,7 +274,8 @@ class CommentServiceTest extends SpringContainerTest {
     @Test
     void findAllCommentsByProjectKeyUsingPaginationAndDateBetweenAndLike_oldest() {
         CommentReadRequestBySearch request =
-            new CommentReadRequestBySearch("OLDEST", project.getSecretKey(), "content", 1, 5);
+            new CommentReadRequestBySearch("OLDEST", project.getSecretKey(), LocalDate.EPOCH, LocalDate.now(),
+                "content", 1, 5);
         List<CommentResponse> responses = commentService.findAllCommentsInProjectUsingSearch(request)
             .getComments();
         assertThat(responses).extracting("content")
