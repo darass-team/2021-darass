@@ -13,10 +13,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class JwtTokenProvider {
 
-    @Value("${security.jwt.token.secret-key}")
+    @Value("${security.jwt.access-token.secret-key}")
     private String secretKey;
 
-    @Value("${security.jwt.token.expire-length}")
+    @Value("${security.jwt.access-token.expire-length}")
     private long validityInMilliseconds;
 
     public String createAccessToken(String payload) {
