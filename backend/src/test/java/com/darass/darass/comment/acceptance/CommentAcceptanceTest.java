@@ -700,6 +700,8 @@ public class CommentAcceptanceTest extends AcceptanceTest {
             .contentType(MediaType.APPLICATION_JSON)
             .param("sortOption", "latest")
             .param("projectKey", secretKey)
+            .param("startDate", "2000-01-01")
+            .param("endDate", "2030-12-31")
             .param("keyword", "content")
             .param("page", "1")
             .param("size", "5"))
@@ -708,6 +710,8 @@ public class CommentAcceptanceTest extends AcceptanceTest {
                 requestParameters(
                     parameterWithName("sortOption").description("정렬 방식"),
                     parameterWithName("projectKey").description("프로젝트 시크릿 키"),
+                    parameterWithName("startDate").description("시작 날짜"),
+                    parameterWithName("endDate").description("종료 날짜"),
                     parameterWithName("keyword").description("검색할 댓글의 내용"),
                     parameterWithName("page").description("페이지"),
                     parameterWithName("size").description("페이지당 댓글의 개수")
@@ -762,6 +766,8 @@ public class CommentAcceptanceTest extends AcceptanceTest {
             .contentType(MediaType.APPLICATION_JSON)
             .param("sortOption", "like")
             .param("projectKey", secretKey)
+            .param("startDate", "2000-01-01")
+            .param("endDate", "2030-12-31")
             .param("keyword", "content")
             .param("page", "1")
             .param("size", "5"))
@@ -770,6 +776,8 @@ public class CommentAcceptanceTest extends AcceptanceTest {
                 requestParameters(
                     parameterWithName("sortOption").description("정렬 방식"),
                     parameterWithName("projectKey").description("프로젝트 시크릿 키"),
+                    parameterWithName("startDate").description("시작 날짜"),
+                    parameterWithName("endDate").description("종료 날짜"),
                     parameterWithName("keyword").description("검색할 댓글의 내용"),
                     parameterWithName("page").description("페이지"),
                     parameterWithName("size").description("페이지당 댓글의 개수")
@@ -822,6 +830,8 @@ public class CommentAcceptanceTest extends AcceptanceTest {
             .contentType(MediaType.APPLICATION_JSON)
             .param("sortOption", "oldest")
             .param("projectKey", secretKey)
+            .param("startDate", "2000-01-01")
+            .param("endDate", "2030-12-31")
             .param("keyword", "content")
             .param("page", "1")
             .param("size", "5"))
@@ -830,6 +840,8 @@ public class CommentAcceptanceTest extends AcceptanceTest {
                 requestParameters(
                     parameterWithName("sortOption").description("정렬 방식"),
                     parameterWithName("projectKey").description("프로젝트 시크릿 키"),
+                    parameterWithName("startDate").description("시작 날짜"),
+                    parameterWithName("endDate").description("종료 날짜"),
                     parameterWithName("keyword").description("검색할 댓글의 내용"),
                     parameterWithName("page").description("페이지"),
                     parameterWithName("size").description("페이지당 댓글의 개수")

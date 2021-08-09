@@ -119,9 +119,11 @@ public class CommentService {
         int pageBasedIndex = request.getPage() - 1;
         try {
             Page<Comment> comments = commentRepository
-                .findByProjectSecretKeyAndContentContaining(
+                .findByProjectSecretKeyAndContentContainingAndCreatedDateBetween(
                     request.getProjectKey(),
                     request.getKeyword(),
+                    request.getStartDate().atTime(LocalTime.MIN),
+                    request.getEndDate().atTime(LocalTime.MAX),
                     PageRequest.of(pageBasedIndex, request.getSize(), SortOption.getMatchedSort(request.getSortOption()))
                 );
 
