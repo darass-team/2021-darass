@@ -83,7 +83,6 @@ const Manage = () => {
     getCommentsOfProjectPerPage();
 
     setCurrentPageIndex(1);
-    // setKeyword("");
   };
 
   const onClickDeleteButton = async () => {
