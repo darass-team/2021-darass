@@ -34,15 +34,15 @@ public class OAuthService {
         SocialLoginUser inputSocialLoginUser = oAuthProvider.findSocialLoginUser(oauthProviderName, oauthAccessToken);
 
         Optional<SocialLoginUser> possibleSocialLoginUser = socialLoginUserRepository
-            .findByOauthId(inputSocialLoginUser.getOauthId());
+            .findFirstByOauthId(inputSocialLoginUser.getOauthId());
 
         SocialLoginUser socialLoginUser = possibleSocialLoginUser.orElseGet(() -> {
             socialLoginUserRepository.save(inputSocialLoginUser);
             return inputSocialLoginUser;
         });
         String payload = socialLoginUser.getId().toString();
-        inputSocialLoginUser.createRefreshToken(jwtTokenProvider);
-        socialLoginUserRepository.save(inputSocialLoginUser);
+        socialLoginUser.createRefreshToken(jwtTokenProvider);
+        socialLoginUserRepository.save(socialLoginUser);
         createCookieWithRefreshToken(response, socialLoginUser.getRefreshToken());
         return TokenResponse.of(jwtTokenProvider.createAccessToken(payload));
     }
@@ -75,7 +75,7 @@ public class OAuthService {
                 String existingRefreshToken = cookie.getValue();
                 jwtTokenProvider.validateRefreshToken(existingRefreshToken);
                 Optional<SocialLoginUser> possibleRefreshToken = socialLoginUserRepository
-                    .findByRefreshToken(existingRefreshToken);
+                    .findFirstByRefreshToken(existingRefreshToken);
                 SocialLoginUser socialLoginUser = possibleRefreshToken.orElseThrow(() -> {
                     throw ExceptionWithMessageAndCode.SHOULD_LOGIN.getException();
                 });

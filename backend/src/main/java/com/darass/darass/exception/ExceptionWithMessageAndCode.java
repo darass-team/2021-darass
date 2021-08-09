@@ -37,7 +37,10 @@ public enum ExceptionWithMessageAndCode {
     IO_EXCEPTION(new BadRequestException("업로드할 파일이 잘못되었습니다.", 1000)),
 
     // 페이지네이션 관련 : 11xx
-    PAGE_NOT_POSITIVE_EXCEPTION(new BadRequestException("페이지의 값은 1 이상이어야 합니다.", 1100));
+    PAGE_NOT_POSITIVE_EXCEPTION(new BadRequestException("페이지의 값은 1 이상이어야 합니다.", 1100)),
+
+    // 통계 관련 : 12xx
+    NOT_FOUND_PERIODICITY(new NotFoundException("해당하는 주기가 없습니다.", 1200));
 
     private final CustomException exception;
 

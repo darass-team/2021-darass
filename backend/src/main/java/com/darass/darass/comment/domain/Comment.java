@@ -9,6 +9,7 @@ import com.darass.darass.user.domain.User;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -43,8 +44,6 @@ public class Comment extends BaseTimeEntity {
     @JoinColumn
     private Project project;
 
-    private String url;
-
     @OneToMany(mappedBy = "comment", fetch = LAZY, cascade = ALL, orphanRemoval = true)
     private final List<CommentLike> commentLikes = new ArrayList<>();
 
@@ -54,6 +53,8 @@ public class Comment extends BaseTimeEntity {
 
     @OneToMany(mappedBy = "parent", fetch = LAZY, cascade = ALL, orphanRemoval = true)
     private List<Comment> subComments = new ArrayList<>();
+
+    private String url;
 
     private String content;
 

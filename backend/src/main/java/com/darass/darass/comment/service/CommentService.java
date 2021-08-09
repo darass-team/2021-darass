@@ -3,6 +3,7 @@ package com.darass.darass.comment.service;
 import com.darass.darass.comment.domain.Comment;
 import com.darass.darass.comment.domain.CommentLike;
 import com.darass.darass.comment.domain.SortOption;
+import com.darass.darass.comment.domain.Stat;
 import com.darass.darass.comment.dto.CommentCreateRequest;
 import com.darass.darass.comment.dto.CommentDeleteRequest;
 import com.darass.darass.comment.dto.CommentReadRequest;
@@ -12,6 +13,9 @@ import com.darass.darass.comment.dto.CommentReadRequestInProject;
 import com.darass.darass.comment.dto.CommentResponse;
 import com.darass.darass.comment.dto.CommentResponses;
 import com.darass.darass.comment.dto.CommentUpdateRequest;
+import com.darass.darass.comment.dto.CommentStatRequest;
+import com.darass.darass.comment.dto.CommentStatResponse;
+import com.darass.darass.comment.repository.CommentCountStrategyFactory;
 import com.darass.darass.comment.repository.CommentRepository;
 import com.darass.darass.exception.ExceptionWithMessageAndCode;
 import com.darass.darass.project.domain.Project;
@@ -38,6 +42,7 @@ public class CommentService {
     private final CommentRepository commentRepository;
     private final ProjectRepository projectRepository;
     private final UserRepository userRepository;
+    private final CommentCountStrategyFactory commentCountStrategyFactory;
 
     public CommentResponse save(User user, CommentCreateRequest commentRequest) {
         if (!user.isLoginUser()) {
@@ -47,7 +52,7 @@ public class CommentService {
         String userType = userRepository.findUserTypeById(user.getId());
 
         if (Objects.isNull(commentRequest.getParentId())) {
-            Comment comment = savedCommentResponse(user, commentRequest, project);
+            Comment comment = savedComment(user, commentRequest, project);
             return CommentResponse.of(comment, UserResponse.of(comment.getUser(), userType));
         }
 
@@ -68,7 +73,7 @@ public class CommentService {
             .orElseThrow(ExceptionWithMessageAndCode.NOT_FOUND_PROJECT::getException);
     }
 
-    private Comment savedCommentResponse(User user, CommentCreateRequest commentRequest, Project project) {
+    private Comment savedComment(User user, CommentCreateRequest commentRequest, Project project) {
         Comment comment = Comment.builder()
             .user(user)
             .content(commentRequest.getContent())
@@ -105,6 +110,7 @@ public class CommentService {
         List<Comment> comments = commentRepository
             .findByUrlAndProjectSecretKeyAndParentId(request.getUrl(), request.getProjectKey(), null,
                 SortOption.getMatchedSort(request.getSortOption()));
+
         return new CommentResponses((long) comments.size(), 1, comments.stream()
             .map(comment -> CommentResponse.of(comment, UserResponse.of(comment.getUser())))
             .collect(Collectors.toList()));
@@ -232,5 +238,12 @@ public class CommentService {
             .comment(comment)
             .user(user)
             .build());
+    }
+
+    public CommentStatResponse giveStat(CommentStatRequest request) {
+        List<Stat> stats = commentCountStrategyFactory.findStrategy(request.getPeriodicity())
+            .calculateCount(request.getProjectKey(), request.getStartDate().atTime(LocalTime.MIN),
+                request.getEndDate().atTime(LocalTime.MAX));
+        return new CommentStatResponse(stats);
     }
 }
