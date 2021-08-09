@@ -1,6 +1,7 @@
 package com.darass.darass.user.domain;
 
 import com.darass.darass.auth.oauth.api.domain.OAuthProviderType;
+import com.darass.darass.auth.oauth.infrastructure.JwtTokenProvider;
 import com.darass.darass.exception.ExceptionWithMessageAndCode;
 import com.darass.darass.user.infrastructure.S3Uploader;
 import java.util.Objects;
@@ -24,13 +25,16 @@ public class SocialLoginUser extends User {
     @Enumerated(EnumType.STRING)
     private OAuthProviderType oauthProviderType;
 
+    private String refreshToken;
+
     @Builder
     public SocialLoginUser(Long id, String nickName, String profileImageUrl, String userType, String oauthId,
-        OAuthProviderType oauthProviderType, String email) {
+        OAuthProviderType oauthProviderType, String email, String refreshToken) {
         super(id, nickName, profileImageUrl, userType);
+        this.email = email;
         this.oauthId = oauthId;
         this.oauthProviderType = oauthProviderType;
-        this.email = email;
+        this.refreshToken = refreshToken;
     }
 
     @Override
@@ -52,5 +56,13 @@ public class SocialLoginUser extends User {
             String imageUrl = s3Uploader.upload(profileImageFile);
             changeProfileImageUrl(imageUrl);
         }
+    }
+
+    public void createRefreshToken(JwtTokenProvider jwtTokenProvider) {
+        String payload = null;
+        if (!Objects.isNull(getId())) {
+            payload = getId().toString();
+        }
+        this.refreshToken = jwtTokenProvider.createRefreshToken(payload);
     }
 }
