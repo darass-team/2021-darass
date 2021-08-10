@@ -111,7 +111,11 @@ public class CommentService {
             .findByUrlAndProjectSecretKeyAndParentId(request.getUrl(), request.getProjectKey(), null,
                 SortOption.getMatchedSort(request.getSortOption()));
 
-        return new CommentResponses((long) comments.size(), 1, comments.stream()
+        Long totalComment = comments.size() + comments.stream()
+            .map(Comment::getSubComments)
+            .count();
+
+        return new CommentResponses(totalComment, 1, comments.stream()
             .map(comment -> CommentResponse.of(comment, UserResponse.of(comment.getUser())))
             .collect(Collectors.toList()));
     }
@@ -122,7 +126,12 @@ public class CommentService {
             Page<Comment> comments = commentRepository
                 .findByUrlAndProjectSecretKey(request.getUrl(), request.getProjectKey(),
                     PageRequest.of(pageBasedIndex, request.getSize(), SortOption.getMatchedSort(request.getSortOption())));
-            return new CommentResponses(comments.getTotalElements(), comments.getTotalPages(), comments.stream()
+
+            Long totalComment = comments.getTotalElements() + comments.stream()
+                .map(Comment::getSubComments)
+                .count();
+
+            return new CommentResponses(totalComment, comments.getTotalPages(), comments.stream()
                 .map(comment -> CommentResponse.of(comment, UserResponse.of(comment.getUser())))
                 .collect(Collectors.toList()));
         } catch (IllegalArgumentException e) {
@@ -142,7 +151,11 @@ public class CommentService {
                     PageRequest.of(pageBasedIndex, request.getSize(), SortOption.getMatchedSort(request.getSortOption()))
                 );
 
-            return new CommentResponses(comments.getTotalElements(), comments.getTotalPages(), comments.stream()
+            Long totalComment = comments.getTotalElements() + comments.stream()
+                .map(Comment::getSubComments)
+                .count();
+
+            return new CommentResponses(totalComment, comments.getTotalPages(), comments.stream()
                 .map(comment -> CommentResponse.of(comment, UserResponse.of(comment.getUser())))
                 .collect(Collectors.toList()));
         } catch (IllegalArgumentException e) {
@@ -163,7 +176,11 @@ public class CommentService {
                     PageRequest.of(pageBasedIndex, request.getSize(), SortOption.getMatchedSort(request.getSortOption()))
                 );
 
-            return new CommentResponses(comments.getTotalElements(), comments.getTotalPages(), comments.stream()
+            Long totalComment = comments.getTotalElements() + comments.stream()
+                .map(Comment::getSubComments)
+                .count();
+
+            return new CommentResponses(totalComment, comments.getTotalPages(), comments.stream()
                 .map(comment -> CommentResponse.of(comment, UserResponse.of(comment.getUser())))
                 .collect(Collectors.toList()));
         } catch (IllegalArgumentException e) {
