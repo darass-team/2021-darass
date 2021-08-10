@@ -2,12 +2,15 @@ package com.darass.darass.user.domain;
 
 import com.darass.darass.exception.ExceptionWithMessageAndCode;
 import javax.persistence.Entity;
+import javax.persistence.ForeignKey;
+import javax.persistence.PrimaryKeyJoinColumn;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 @Getter
+@PrimaryKeyJoinColumn(foreignKey = @ForeignKey(name = "guest_user_fk_user"))
 @Entity
 public class GuestUser extends User {
 

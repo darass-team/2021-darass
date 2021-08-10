@@ -13,6 +13,7 @@ import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -39,19 +40,20 @@ public class Comment extends BaseTimeEntity {
 
     @OnDelete(action = OnDeleteAction.CASCADE)
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn
+    @JoinColumn(foreignKey = @ForeignKey(name = "comment_fk_user"))
     private User user;
 
     @OnDelete(action = OnDeleteAction.CASCADE)
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn
+    @JoinColumn(foreignKey = @ForeignKey(name = "comment_fk_project"))
     private Project project;
 
     @OneToMany(mappedBy = "comment", fetch = LAZY, cascade = ALL, orphanRemoval = true)
     private final List<CommentLike> commentLikes = new ArrayList<>();
 
     @ManyToOne
-    @JoinColumn(name = "parent_id", referencedColumnName = "id")
+    @JoinColumn(name = "parent_id", referencedColumnName = "id",
+        foreignKey = @ForeignKey(name = "comment_fk_sub_comment"))
     private Comment parent;
 
     @OneToMany(mappedBy = "parent", fetch = LAZY, cascade = ALL, orphanRemoval = true)
