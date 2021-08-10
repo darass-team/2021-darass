@@ -204,6 +204,28 @@ public class CommentAcceptanceTest extends AcceptanceTest {
             );
     }
 
+    @DisplayName("제한 길이를 초과하는 닉네임, 비밀번호로 댓글을 등록할 수 없다.")
+    @Test
+    void saveWithInvalidGuestUserLength() throws Exception {
+        String invalidNickName = "invalid_nickName_invalid_nickName_invalid_nickName_invalid_nickName";
+        String invalidPassword = "invalid_password_invalid_password_invalid_password_invalid_password";
+
+        mockMvc.perform(post("/api/v1/comments")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(asJsonString(
+                new CommentCreateRequest(invalidNickName, invalidPassword, null, secretKey,
+                    "content", "url"))))
+            .andExpect(status().isBadRequest())
+            .andExpect(jsonPath("$.code").value(ExceptionWithMessageAndCode.INVALID_INPUT_LENGTH.findCode()))
+            .andDo(
+                document("api/v1/comments/post/fail-invalid-content-length",
+                    responseFields(
+                        fieldWithPath("message").type(JsonFieldType.STRING).description("에러 메시지"),
+                        fieldWithPath("code").type(JsonFieldType.NUMBER).description("에러 코드")
+                    ))
+            );
+    }
+
     private ResultActions 소셜_로그인_대댓글_등록됨(String content, String url, Long parentId) throws Exception {
 
         ResultActions subCommentPostResult = mockMvc.perform(post("/api/v1/comments")

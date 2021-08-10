@@ -1,5 +1,6 @@
 package com.darass.darass.user.domain;
 
+import com.darass.darass.exception.ExceptionWithMessageAndCode;
 import javax.persistence.Entity;
 import lombok.Builder;
 import lombok.Getter;
@@ -10,12 +11,21 @@ import lombok.NoArgsConstructor;
 @Entity
 public class GuestUser extends User {
 
+    private static final int PASSWORD_LENGTH_LIMIT = 20;
+
     private String password;
 
     @Builder
     private GuestUser(Long id, String nickName, String password) {
         super(id, nickName, null);
+        validatePasswordLength(password);
         this.password = password;
+    }
+
+    private void validatePasswordLength(String password) {
+        if (password.length() > PASSWORD_LENGTH_LIMIT) {
+            throw ExceptionWithMessageAndCode.INVALID_INPUT_LENGTH.getException();
+        }
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.darass.darass.user.domain;
 
 import com.darass.darass.common.domain.BaseTimeEntity;
+import com.darass.darass.exception.ExceptionWithMessageAndCode;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
@@ -19,6 +20,8 @@ import lombok.NoArgsConstructor;
 @Entity
 public abstract class User extends BaseTimeEntity {
 
+    private static final int NICKNAME_LENGTH_LIMIT = 20;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -33,23 +36,29 @@ public abstract class User extends BaseTimeEntity {
     private String userType;
 
     public User(String nickName) {
-        this.nickName = nickName;
+        this(null, nickName, null, null);
     }
 
     public User(String nickName, String profileImageUrl) {
-        this(nickName);
-        this.profileImageUrl = profileImageUrl;
+        this(null, nickName, profileImageUrl, null);
     }
 
     public User(Long id, String nickName, String profileImageUrl) {
-        this(nickName, profileImageUrl);
-        this.id = id;
+        this(id, nickName, profileImageUrl, null);
     }
 
     public User(Long id, String nickName, String profileImageUrl, String userType) {
-        this(nickName, profileImageUrl);
+        validateNickName(nickName);
+        this.nickName = nickName;
+        this.profileImageUrl = profileImageUrl;
         this.id = id;
         this.userType = userType;
+    }
+
+    private void validateNickName(String nickName) {
+        if (nickName.isBlank() || nickName.length() > NICKNAME_LENGTH_LIMIT) {
+            throw ExceptionWithMessageAndCode.INVALID_INPUT_LENGTH.getException();
+        }
     }
 
     public abstract boolean isLoginUser();
@@ -61,6 +70,7 @@ public abstract class User extends BaseTimeEntity {
     }
 
     public void changeNickName(String nickName) {
+        validateNickName(nickName);
         this.nickName = nickName;
     }
 

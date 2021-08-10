@@ -112,6 +112,21 @@ public class UserAcceptanceTest extends AcceptanceTest {
     }
 
     @Test
+    @DisplayName("유효하지 않은 닉네일 길이로 인해 유저 닉네임 수정을 실패한다.")
+    public void updateUserNickname_length_fail() throws Exception {
+        //given
+        String accessToken = tokenProvider.createAccessToken(socialLoginUser.getId().toString());
+        String invalidNickName = "invalid_nickName_invalid_nickName_invalid_nickName_invalid_nickName";
+        UserUpdateRequest userUpdateRequest = new UserUpdateRequest(invalidNickName, null);
+
+        //when
+        ResultActions resultActions = 유저_닉네임_수정_요청(userUpdateRequest, accessToken);
+
+        //then
+        잘못된_닉네임으로_유저_닉네임_수정_실패됨(resultActions);
+    }
+
+    @Test
     @DisplayName("유효하지 않은 엑세스 토큰으로 인해 유저 닉네임 수정을 실패한다.")
     public void updateUserNickname_fail() throws Exception {
         //given
@@ -122,7 +137,7 @@ public class UserAcceptanceTest extends AcceptanceTest {
         ResultActions resultActions = 유저_닉네임_수정_요청(userUpdateRequest, incorrectAccessToken);
 
         //then
-        유저_닉네임_수정_실패됨(resultActions);
+        잘못된_토큰으로_유저_닉네임_수정_실패됨(resultActions);
     }
 
     @Test
@@ -323,14 +338,19 @@ public class UserAcceptanceTest extends AcceptanceTest {
         );
     }
 
-    private void 유저_닉네임_수정_실패됨(ResultActions resultActions) throws Exception {
+    private void 잘못된_토큰으로_유저_닉네임_수정_실패됨(ResultActions resultActions) throws Exception {
         유저_토큰_인증_실패됨(resultActions);
-        유저_닉네임_수정_실패_rest_doc_작성(resultActions);
+        유저_닉네임_수정_실패_rest_doc_작성(resultActions, "api/v1/users/patch/fail");
     }
 
-    private void 유저_닉네임_수정_실패_rest_doc_작성(ResultActions resultActions) throws Exception {
+    private void 잘못된_닉네임으로_유저_닉네임_수정_실패됨(ResultActions resultActions) throws Exception {
+        잘못된_닉네임으로_변경_실패됨(resultActions);
+        유저_닉네임_수정_실패_rest_doc_작성(resultActions, "api/v1/users/patch/fail-invalid-nickname");
+    }
+
+    private void 유저_닉네임_수정_실패_rest_doc_작성(ResultActions resultActions, String documentPath) throws Exception {
         resultActions.andDo(
-            document("api/v1/users/patch/fail",
+            document(documentPath,
                 responseFields(
                     fieldWithPath("message").type(JsonFieldType.STRING).description("에러 메시지"),
                     fieldWithPath("code").type(JsonFieldType.NUMBER).description("에러 코드")
@@ -381,6 +401,16 @@ public class UserAcceptanceTest extends AcceptanceTest {
 
         assertThat(exceptionResponse.getMessage()).isEqualTo(ExceptionWithMessageAndCode.INVALID_JWT_TOKEN.findMessage());
         assertThat(exceptionResponse.getCode()).isEqualTo(ExceptionWithMessageAndCode.INVALID_JWT_TOKEN.findCode());
+    }
+
+    private void 잘못된_닉네임으로_변경_실패됨(ResultActions resultActions) throws Exception {
+        resultActions.andExpect(status().isBadRequest());
+
+        String jsonResponse = resultActions.andReturn().getResponse().getContentAsString();
+        ExceptionResponse exceptionResponse = new ObjectMapper().readValue(jsonResponse, ExceptionResponse.class);
+
+        assertThat(exceptionResponse.getMessage()).isEqualTo(ExceptionWithMessageAndCode.INVALID_INPUT_LENGTH.findMessage());
+        assertThat(exceptionResponse.getCode()).isEqualTo(ExceptionWithMessageAndCode.INVALID_INPUT_LENGTH.findCode());
     }
 
 }
