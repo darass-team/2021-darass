@@ -35,14 +35,6 @@ public abstract class User extends BaseTimeEntity {
     @Column(name = "user_type", insertable = false, updatable = false)
     private String userType;
 
-    public User(String nickName) {
-        this(null, nickName, null, null);
-    }
-
-    public User(String nickName, String profileImageUrl) {
-        this(null, nickName, profileImageUrl, null);
-    }
-
     public User(Long id, String nickName, String profileImageUrl) {
         this(id, nickName, profileImageUrl, null);
     }
