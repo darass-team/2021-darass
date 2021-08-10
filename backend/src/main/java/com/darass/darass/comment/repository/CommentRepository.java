@@ -12,7 +12,7 @@ import org.springframework.data.repository.query.Param;
 
 public interface CommentRepository extends JpaRepository<Comment, Long> {
 
-    List<Comment> findByUrlAndProjectSecretKey(String url, String projectSecretKey, Sort sort);
+    List<Comment> findByUrlAndProjectSecretKeyAndParentId(String url, String projectSecretKey, Long parentId, Sort sort);
 
     Page<Comment> findByUrlAndProjectSecretKey(String url, String projectSecretKey, Pageable pageable);
 
@@ -21,7 +21,7 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
 
     Page<Comment> findByProjectSecretKeyAndContentContainingAndCreatedDateBetween(String projectSecretKey,
         String keyword, LocalDateTime startDate, LocalDateTime endDate, Pageable pageable);
-  
+
     @Query("select substring(c.createdDate, :beginIndex, :length) as date, count(c) as count from Comment c "
         + "where c.project.secretKey=:projectSecretKey and c.createdDate between :startDate and :endDate group by date")
     List<Object[]> findDateCount(@Param("projectSecretKey") String projectSecretKey,

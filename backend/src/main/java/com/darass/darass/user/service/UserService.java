@@ -26,7 +26,7 @@ public class UserService {
     public UserResponse findById(Long id) {
         Optional<User> possibleUser = userRepository.findById(id);
         User user = possibleUser.orElseThrow(ExceptionWithMessageAndCode.NOT_FOUND_USER::getException);
-        return UserResponse.of(user, user.getUserType(), user.getProfileImageUrl());
+        return UserResponse.of(user);
     }
 
     public UserResponse update(Long id, UserUpdateRequest userUpdateRequest) {
@@ -36,7 +36,7 @@ public class UserService {
         String nickName = userUpdateRequest.getNickName();
         MultipartFile profileImageFile = userUpdateRequest.getProfileImageFile();
         user.changeNickNameOrProfileImageIfExists(s3Uploader, nickName, profileImageFile);
-        return UserResponse.of(user, user.getUserType(), user.getProfileImageUrl());
+        return UserResponse.of(user);
     }
 
     public void deleteById(Long id) {

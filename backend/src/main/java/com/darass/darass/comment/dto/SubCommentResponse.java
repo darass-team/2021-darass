@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CommentResponse {
+public class SubCommentResponse {
 
     private Long id;
 
@@ -33,17 +33,20 @@ public class CommentResponse {
 
     private UserResponse user;
 
-    private List<SubCommentResponse> subComments;
-
-    public static CommentResponse of(Comment comment, UserResponse userResponse) {
-        return new CommentResponse(comment.getId(), comment.getContent(), comment.getUrl(), comment.getCreatedDate(),
-            comment.getModifiedDate(), parseLikingUser(comment.getCommentLikes()), userResponse,
-            SubCommentResponse.of(comment.getSubComments()));
+    public static SubCommentResponse of(Comment comment, UserResponse userResponse) {
+        return new SubCommentResponse(comment.getId(), comment.getContent(), comment.getUrl(), comment.getCreatedDate(),
+            comment.getModifiedDate(), parseLikingUser(comment.getCommentLikes()), userResponse);
     }
 
     private static List<UserResponse> parseLikingUser(List<CommentLike> users) {
         return users.stream()
             .map(it -> UserResponse.of(it.getUser()))
+            .collect(Collectors.toList());
+    }
+
+    public static List<SubCommentResponse> of(List<Comment> subComments) {
+        return subComments.stream()
+            .map(it -> SubCommentResponse.of(it, UserResponse.of(it.getUser())))
             .collect(Collectors.toList());
     }
 }

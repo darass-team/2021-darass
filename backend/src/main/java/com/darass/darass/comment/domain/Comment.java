@@ -1,5 +1,6 @@
 package com.darass.darass.comment.domain;
 
+import static javax.persistence.CascadeType.ALL;
 import static javax.persistence.FetchType.LAZY;
 
 import com.darass.darass.common.domain.BaseTimeEntity;
@@ -7,6 +8,7 @@ import com.darass.darass.project.domain.Project;
 import com.darass.darass.user.domain.User;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -28,19 +30,30 @@ import org.hibernate.annotations.OnDeleteAction;
 @Entity
 public class Comment extends BaseTimeEntity {
 
-    @OneToMany(mappedBy = "comment", fetch = LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    private final List<CommentLike> commentLikes = new ArrayList<>();
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @OnDelete(action = OnDeleteAction.CASCADE)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn
     private User user;
+
     @OnDelete(action = OnDeleteAction.CASCADE)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn
     private Project project;
+
+    @OneToMany(mappedBy = "comment", fetch = LAZY, cascade = ALL, orphanRemoval = true)
+    private final List<CommentLike> commentLikes = new ArrayList<>();
+
+    @ManyToOne
+    @JoinColumn(name = "parent_id", referencedColumnName = "id")
+    private Comment parent;
+
+    @OneToMany(mappedBy = "parent", fetch = LAZY, cascade = ALL, orphanRemoval = true)
+    private List<Comment> subComments = new ArrayList<>();
+
     private String url;
 
     private String content;
@@ -49,12 +62,13 @@ public class Comment extends BaseTimeEntity {
     private int likeCount;
 
     @Builder
-    public Comment(Long id, User user, Project project, String url, String content) {
+    public Comment(Long id, User user, Project project, String url, String content, Comment parent) {
         this.id = id;
         this.user = user;
         this.project = project;
         this.url = url;
         this.content = content;
+        this.parent = parent;
     }
 
     public void changeContent(String content) {
@@ -90,5 +104,9 @@ public class Comment extends BaseTimeEntity {
 
     public void addCommentLike(CommentLike commentLike) {
         this.commentLikes.add(commentLike);
+    }
+
+    public boolean isSubComment() {
+        return !Objects.isNull(this.parent);
     }
 }
