@@ -1,5 +1,5 @@
 import { FormEvent } from "react";
-import { Redirect, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { ROUTE } from "../../../constants";
 import { MAX_PROJECT_DESCRIPTION_LENGTH, MAX_PROJECT_NAME_LENGTH } from "../../../constants/validation";
 import { useCreateProject, useGetAllProjects, useInput } from "../../../hooks";

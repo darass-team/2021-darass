@@ -19,6 +19,7 @@ import { AlertError } from "../../../utils/error";
 import { getPagesOfLength5 } from "../../../utils/pagination";
 import CheckBox from "../../atoms/CheckBox";
 import PaginationBar from "../../atoms/PaginationBar";
+
 import Comment from "../../molecules/Comment";
 import CommentSearchConditionForm from "../../organisms/CommentSearchConditionForm";
 import ContainerWithSideBar from "../../organisms/ContainerWithSideBar";
@@ -61,7 +62,8 @@ const Manage = () => {
     totalComment,
     totalPage,
     refetch: getCommentsOfProjectPerPage,
-    prefetch: preGetCommentsOfProjectPerPage
+    prefetch: preGetCommentsOfProjectPerPage,
+    error: errorGetCommentsOfProjectPerPage
   } = useGetCommentsOfProjectPerPage({
     projectKey: projectSecretKey,
     startDate: startDateAsString,

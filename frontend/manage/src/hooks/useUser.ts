@@ -50,8 +50,6 @@ export const useUser = () => {
         oauthAccessToken: kakaoAccessToken
       });
 
-      console.log(response);
-
       const { accessToken: serverAccessToken } = response.data;
 
       setCookie(COOKIE_KEY.ATK, serverAccessToken);
@@ -61,9 +59,6 @@ export const useUser = () => {
       if (!axios.isAxiosError(error)) {
         throw new Error("알 수 없는 에러입니다.");
       }
-
-      console.log(error);
-      console.log(error?.response?.data);
 
       throw new AlertError("로그인에 실패하였습니다.");
     }
