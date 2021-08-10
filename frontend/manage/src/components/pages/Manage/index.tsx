@@ -3,6 +3,7 @@ import { FormEvent, useEffect } from "react";
 import { useLocation, useRouteMatch } from "react-router-dom";
 import { PROJECT_MENU } from "../../../constants";
 import { COMMENT_COUNT_PER_PAGE } from "../../../constants/pagination";
+import { MAX_COMMENT_SEARCH_TERM_LENGTH } from "../../../constants/validation";
 import {
   useCalendar,
   useCommentList,
@@ -34,7 +35,7 @@ const Manage = () => {
   const urlSearchParams = new URLSearchParams(location.search);
   const pageIndex = urlSearchParams.get("pageIndex") || 1;
 
-  const { value: keyword, onChange: onChangeKeyword } = useInput("");
+  const { value: keyword, onChangeWithMaxLength: onChangeKeyword } = useInput("", MAX_COMMENT_SEARCH_TERM_LENGTH);
 
   const { showCalendar, setShowCalendar, currentDate, setCurrentDate, startDate, setStartDate, endDate, setEndDate } =
     useCalendar();

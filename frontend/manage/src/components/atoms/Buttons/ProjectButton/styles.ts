@@ -12,6 +12,8 @@ export const Button = styled.button`
   background-color: ${PALETTE.WHITE};
   box-shadow: rgba(0, 0, 0, 0.24) 0 3px 8px;
   transition: background-color 0.3s;
+  word-break: break-all;
+  text-align: left;
 
   &:hover {
     background-color: ${PALETTE.WHITE_HOVER};

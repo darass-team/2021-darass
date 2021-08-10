@@ -1,8 +1,18 @@
 import moment from "moment";
 import { ChangeEvent, FormEvent } from "react";
+import { MAX_COMMENT_SEARCH_TERM_LENGTH } from "../../../constants/validation";
 import Modal from "../../atoms/Modal";
 import Calendar from "../../molecules/Calendar";
-import { Container, DateInputText, DateRange, Meta, SearchButton, SearchTermInput, Wrapper } from "./styles";
+import {
+  Container,
+  DateInputText,
+  DateRange,
+  Meta,
+  SearchButton,
+  SearchTermInput,
+  Wrapper,
+  SearchTermInputCounter
+} from "./styles";
 
 export interface Props {
   onSubmit: (event: FormEvent) => void;
@@ -47,6 +57,10 @@ const CommentSearchConditionForm = ({
           <Meta>내용 검색</Meta>
           <SearchTermInput value={keyword} onChange={onChangeKeyword} placeholder="검색어를 입력해주세요." />
         </Wrapper>
+
+        <SearchTermInputCounter>
+          {keyword.length} / {MAX_COMMENT_SEARCH_TERM_LENGTH}
+        </SearchTermInputCounter>
 
         <SearchButton>조회</SearchButton>
       </Container>

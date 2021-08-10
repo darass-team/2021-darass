@@ -23,17 +23,13 @@ const UserProfile = () => {
   const { user, logout } = useUser();
   const { editUser } = useEditUser();
   const { deleteUser } = useDeleteUser();
-  const { value: userName, setValue: setUserName, onChange: _onChangeUserName } = useInput("");
+  const {
+    value: userName,
+    setValue: setUserName,
+    onChangeWithMaxLength: onChangeUserName
+  } = useInput("", MAX_USER_NAME_LENGTH);
   const [profileImageAsUrl, setProfileImageAsUrl] = useState<string>();
   const [profileImageAsFile, setProfileImageAsFile] = useState<Blob | string>();
-
-  const onChangeUserName = (event: ChangeEvent<HTMLInputElement>) => {
-    if (event.target.value.length > MAX_USER_NAME_LENGTH) {
-      return;
-    }
-
-    _onChangeUserName(event);
-  };
 
   const onChangeFile = (event: ChangeEvent<HTMLInputElement>) => {
     const target = event.target;
@@ -68,6 +64,12 @@ const UserProfile = () => {
     event.preventDefault();
 
     try {
+      if (userName.length === 0) {
+        alert("유저 이름을 입력해주세요.");
+
+        return;
+      }
+
       const formData = new FormData();
       userName && formData.append("nickName", userName);
       profileImageAsFile && formData.append("profileImageFile", profileImageAsFile);

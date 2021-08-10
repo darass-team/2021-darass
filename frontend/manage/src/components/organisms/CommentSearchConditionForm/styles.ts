@@ -11,12 +11,6 @@ export const Container = styled.form`
   padding: 2rem 1rem;
   border: 1px solid ${PALETTE.GRAY_400};
   margin-bottom: 1rem;
-
-  & > * {
-    &:not(:first-child) {
-      margin-top: 2rem;
-    }
-  }
 `;
 
 export const SearchTermInput = styled.input.attrs({ type: "text" })`
@@ -26,7 +20,12 @@ export const SearchTermInput = styled.input.attrs({ type: "text" })`
   margin-left: 1rem;
 `;
 
+export const SearchTermInputCounter = styled.span`
+  align-self: flex-end;
+`;
+
 export const SearchButton = styled(SubmitButton)`
+  margin-top: 2rem;
   align-self: flex-end;
   width: fit-content;
   height: fit-content;
@@ -42,6 +41,10 @@ export const Wrapper = styled.div`
   align-items: center;
   justify-content: flex-start;
   width: 100%;
+
+  &:not(:first-child) {
+    margin-top: 2rem;
+  }
 `;
 
 export const DateInputText = styled.span`

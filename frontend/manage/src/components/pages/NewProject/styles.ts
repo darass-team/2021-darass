@@ -26,6 +26,8 @@ export const Form = styled.form`
 `;
 
 export const InputWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
   margin-bottom: 2rem;
   width: 100%;
 `;
@@ -41,5 +43,9 @@ export const Input = styled.input`
 
 export const SubmitButton = styled(SubmitButtonComponent)`
   margin-top: 4.8rem;
+  align-self: flex-end;
+`;
+
+export const ProjectInputCounter = styled.span`
   align-self: flex-end;
 `;
