@@ -35,6 +35,11 @@ const CommentStatisticsChart = ({ data }: Props) => {
                   stepSize: 100
                 }
               }
+            ],
+            xAxes: [
+              {
+                offset: true
+              }
             ]
           },
           maintainAspectRatio: false,
