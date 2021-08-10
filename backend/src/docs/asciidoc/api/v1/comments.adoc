@@ -32,7 +32,7 @@ include::{snippets}/api/v1/comments/post/success-guest-user/response-fields.adoc
 include::{snippets}/api/v1/comments/post/fail-missing-project-key/http-response.adoc[]
 include::{snippets}/api/v1/comments/post/fail-missing-project-key/response-fields.adoc[]
 
-==== (실패) 댓글 작성 시 비로그인 유저 닉네임, 비밀번호 길이 적절하지 않은 경우
+==== (실패) 비로그인 유저 닉네임, 비밀번호 길이, 댓글 내용이 제한 길이를 초과하는 경우
 
 ==== Response
 
