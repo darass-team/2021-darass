@@ -14,7 +14,7 @@ import { getTimeDifference } from "../../../utils/time";
 import Avatar from "../../atoms/Avatar";
 import CommentTextBox from "../../atoms/CommentTextBox";
 import {
-  Button,
+  SubmitButton,
   LikeButton,
   CancelButton,
   CommentBottomWrapper,
@@ -28,7 +28,8 @@ import {
   Time,
   DownRightArrow,
   AddSubCommentButton,
-  CommentInput
+  CommentInput,
+  PasswordButtonWrapper
 } from "./styles";
 import { POST_MESSAGE_TYPE } from "../../../constants/postMessageType";
 import { getPasswordConfirmResult } from "../../../api/getPasswordConfirmResult";
@@ -293,10 +294,12 @@ const Comment = ({
               isValidInput={!isPasswordSubmitted}
               data-testid="comment-guest-password-input"
             />
-            <CancelButton onClick={clear} data-testid="comment-guest-password-cancel-button">
-              취소
-            </CancelButton>
-            <Button data-testid="comment-guest-password-submit-button">입력</Button>
+            <PasswordButtonWrapper>
+              <CancelButton onClick={clear} data-testid="comment-guest-password-cancel-button">
+                취소
+              </CancelButton>
+              <SubmitButton data-testid="comment-guest-password-submit-button">입력</SubmitButton>
+            </PasswordButtonWrapper>
           </PasswordForm>
         )}
       </Container>

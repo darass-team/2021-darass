@@ -14,8 +14,7 @@ import { getErrorMessage } from "../../../utils/errorMessage";
 import { isEmptyString } from "../../../utils/isEmptyString";
 import { postAlertMessage } from "../../../utils/postMessage";
 import SubmitButton from "../../atoms/Buttons/SubmitButton";
-import { CancelButton } from "../../atoms/CommentTextBox/styles";
-import { ButtonWrapper, Form, GuestInfo, TextBox, Wrapper } from "./styles";
+import { ButtonWrapper, CancelButton, Form, GuestInfo, TextBox, Wrapper } from "./styles";
 
 export interface Props {
   className?: string;
@@ -106,6 +105,7 @@ const CommentInput = ({ className, innerRef, user, parentCommentId, onClose }: P
               value={guestNickName}
               onChange={onChangeGuestNickName}
               isValidInput={!isFormSubmitted || isValidGuestNickName}
+              isSubCommentInput={isSubCommentInput}
               data-testid="comment-input-guest-name"
             />
             <GuestInfo
@@ -114,11 +114,12 @@ const CommentInput = ({ className, innerRef, user, parentCommentId, onClose }: P
               value={guestPassword}
               onChange={onChangeGuestPassword}
               isValidInput={!isFormSubmitted || isValidGuestPassword}
+              isSubCommentInput={isSubCommentInput}
               data-testid="comment-input-guest-password"
             />
           </div>
         )}
-        <ButtonWrapper>
+        <ButtonWrapper isSubCommentInput={isSubCommentInput}>
           {isSubCommentInput && <CancelButton onClick={onClose}>취소</CancelButton>}
           <SubmitButton>등록</SubmitButton>
         </ButtonWrapper>

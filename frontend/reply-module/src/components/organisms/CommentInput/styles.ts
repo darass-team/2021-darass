@@ -1,6 +1,7 @@
 import { PALETTE } from "./../../../styles/palette";
 import styled, { css } from "styled-components";
 import { InputCSS } from "../../../styles/css";
+import DeleteButton from "../../atoms/Buttons/DeleteButton";
 
 export const Form = styled.form`
   display: flex;
@@ -8,7 +9,7 @@ export const Form = styled.form`
   margin-bottom: 1rem;
 `;
 
-export const TextBox = styled.div<{ isValidInput: Boolean }>`
+export const TextBox = styled.div<{ isValidInput: boolean }>`
   ${InputCSS};
   ${props =>
     !props.isValidInput &&
@@ -41,8 +42,14 @@ export const Wrapper = styled.div`
   align-items: center;
 `;
 
-export const GuestInfo = styled.input<{ isValidInput: Boolean }>`
+export const GuestInfo = styled.input<{ isValidInput: boolean; isSubCommentInput: boolean }>`
   ${InputCSS};
+  padding: 1rem 0.8rem;
+  width: 8rem;
+  :first-child {
+    margin-right: 1.2rem;
+  }
+
   ${props =>
     !props.isValidInput &&
     css`
@@ -52,16 +59,39 @@ export const GuestInfo = styled.input<{ isValidInput: Boolean }>`
         box-shadow: 0 0 0 1px ${PALETTE.RED_600};
       }
     `}
-  padding: 1rem 0.8rem;
-  width: 8rem;
 
-  :first-child {
-    margin-right: 1.2rem;
-  }
+  ${props =>
+    props.isSubCommentInput &&
+    css`
+      font-size: 1rem;
+      line-height: 1.5rem;
+      padding: 0.3rem 1rem;
+      height: 4rem;
+
+      :first-child {
+        margin-right: 0.6rem;
+      }
+
+      @media all and (max-width: 780px) {
+        width: 6rem;
+      }
+    `}
 `;
 
-export const ButtonWrapper = styled.div`
+export const ButtonWrapper = styled.div<{ isSubCommentInput: boolean }>`
   display: flex;
   gap: 0.5rem;
   margin-left: auto;
+
+  & > button {
+    ${props =>
+      props.isSubCommentInput &&
+      css`
+        padding: 0.3rem 1.2rem;
+        line-height: 1.65rem;
+        font-size: 1.1rem;
+      `}
+  }
 `;
+
+export const CancelButton = styled(DeleteButton)``;
