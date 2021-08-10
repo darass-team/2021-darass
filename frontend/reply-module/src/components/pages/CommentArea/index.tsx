@@ -4,11 +4,20 @@ import { INITIAL_PAGE_PARAM } from "../../../constants/comment";
 import { ORDER_BUTTON } from "../../../constants/orderButton";
 import { useGetAllComments, useGetProject, useUser } from "../../../hooks";
 import { AlertError } from "../../../utils/Error";
+import { getManagePageURLWithToken } from "../../../utils/getManagePageURLWithToken";
 import { postScrollHeightToParentWindow } from "../../../utils/postMessage";
 import Avatar from "../../atoms/Avatar";
 import CommentInput from "../../organisms/CommentInput";
 import Footer from "../../organisms/Footer";
-import { CommentList, Container, LoginMethod, LoginMethodWrapper, LogOut, UserAvatarOption } from "./styles";
+import {
+  CommentList,
+  Container,
+  LoginMethod,
+  LoginMethodWrapper,
+  UserAvatarOption,
+  UserAvatarOptionButton,
+  UserAvatarOptionLink
+} from "./styles";
 
 const CommentArea = () => {
   const urlParams = new URLSearchParams(window.location.search);
@@ -88,9 +97,14 @@ const CommentArea = () => {
       />
       <UserAvatarOption user={user}>
         {user ? (
-          <LogOut type="button" onClick={logout}>
-            로그아웃
-          </LogOut>
+          <>
+            <UserAvatarOptionLink href={getManagePageURLWithToken("/user")} target="_blank" rel="noopener noreferrer">
+              내 정보
+            </UserAvatarOptionLink>
+            <UserAvatarOptionButton type="button" onClick={logout}>
+              로그아웃
+            </UserAvatarOptionButton>
+          </>
         ) : (
           <>
             <LoginMethodWrapper onClick={onLogin}>

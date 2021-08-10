@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Redirect, Route, Switch } from "react-router-dom";
+import { Redirect, Route, Switch, useHistory, useLocation } from "react-router-dom";
 import { ConditionalRoute } from "./components/HOC/ConditionalRoute";
 import Nav from "./components/organisms/Nav";
 import Home from "./components/pages/Home";
@@ -10,14 +10,25 @@ import ProjectDetail from "./components/pages/ProjectDetail";
 import ScriptPublishingPage from "./components/pages/ScriptPublishing";
 import Statistics from "./components/pages/Statistics";
 import UserProfile from "./components/pages/UserProfile";
-import { ROUTE } from "./constants";
+import { COOKIE_KEY, ROUTE } from "./constants";
 import { useUser } from "./hooks";
+import { setCookie } from "./utils/cookie";
 
 const App = () => {
+  const location = useLocation();
+  const history = useHistory();
+  const path = location.pathname;
+  const urlSearchParam = new URLSearchParams(location.search);
+  const accessToken = urlSearchParam.get(COOKIE_KEY.ATK);
   const { user, isLoading, logout } = useUser();
 
+  if (accessToken) {
+    setCookie(COOKIE_KEY.ATK, accessToken);
+    history.push(path);
+  }
+
   return (
-    <Router>
+    <>
       <Nav user={user} logout={logout} />
       <Switch>
         <Route exact path={ROUTE.HOME} component={Home} />
@@ -35,7 +46,7 @@ const App = () => {
         <ConditionalRoute path={ROUTE.MY_PROJECT} component={MyProject} condition={!!user || isLoading} />
         <Redirect to={ROUTE.HOME} />
       </Switch>
-    </Router>
+    </>
   );
 };
 export default App;
