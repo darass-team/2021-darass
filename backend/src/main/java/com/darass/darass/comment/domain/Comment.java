@@ -109,4 +109,8 @@ public class Comment extends BaseTimeEntity {
     public boolean isSubComment() {
         return !Objects.isNull(this.parent);
     }
+
+    public int getSubCommentSize() {
+        return subComments.size();
+    }
 }
