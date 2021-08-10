@@ -16,8 +16,9 @@ import org.springframework.stereotype.Component;
 public class CommentCountStrategyByDaily implements CommentCountStrategy {
 
     private static final String DATE = "DAILY";
-    private static final Integer BEGIN_INDEX = 1;
-    private static final Integer LENGTH = 10;
+    private static final int BEGIN_INDEX = 1;
+    private static final int LENGTH = 10;
+    private static final long DEFAULT_COMMENT_COUNT = 0L;
 
     private final CommentRepository commentRepository;
 
@@ -49,11 +50,11 @@ public class CommentCountStrategyByDaily implements CommentCountStrategy {
             if (isExistDailyStat(commentStats, localDate)) {
                 continue;
             }
-            noneMonthCommentStats.add(new CommentStat(localDate.toString(), 0L));
+            noneMonthCommentStats.add(new CommentStat(localDate.toString(), DEFAULT_COMMENT_COUNT));
             localDate = localDate.plusDays(1L);
 
             if (localDate.equals(end) && !isExistDailyStat(commentStats, localDate)) {
-                noneMonthCommentStats.add(new CommentStat(localDate.toString(), 0L));
+                noneMonthCommentStats.add(new CommentStat(localDate.toString(), DEFAULT_COMMENT_COUNT));
             }
         }
         return noneMonthCommentStats;

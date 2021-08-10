@@ -16,8 +16,9 @@ import org.springframework.stereotype.Component;
 public class CommentCountStrategyByMonthly implements CommentCountStrategy {
 
     private static final String DATE = "MONTHLY";
-    private static final Integer BEGIN_INDEX = 1;
-    private static final Integer LENGTH = 7;
+    private static final int BEGIN_INDEX = 1;
+    private static final int LENGTH = 7;
+    private static final long DEFAULT_COMMENT_COUNT = 0L;
 
     private final CommentRepository commentRepository;
 
@@ -49,11 +50,11 @@ public class CommentCountStrategyByMonthly implements CommentCountStrategy {
             if (isExistMonthStat(commentStats, yearMonth)) {
                 continue;
             }
-            noneMonthCommentStats.add(new CommentStat(yearMonth.toString(), 0L));
+            noneMonthCommentStats.add(new CommentStat(yearMonth.toString(), DEFAULT_COMMENT_COUNT));
             yearMonth = yearMonth.plusMonths(1L);
 
             if (yearMonth.equals(endYearMonth) && !isExistMonthStat(commentStats, yearMonth)) {
-                noneMonthCommentStats.add(new CommentStat(yearMonth.toString(), 0L));
+                noneMonthCommentStats.add(new CommentStat(yearMonth.toString(), DEFAULT_COMMENT_COUNT));
             }
         }
 

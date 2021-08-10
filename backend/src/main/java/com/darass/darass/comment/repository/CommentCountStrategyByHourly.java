@@ -16,8 +16,9 @@ import org.springframework.stereotype.Component;
 public class CommentCountStrategyByHourly implements CommentCountStrategy {
 
     private static final String DATE = "HOURLY";
-    private static final Integer BEGIN_INDEX = 12;
-    private static final Integer LENGTH = 2;
+    private static final int BEGIN_INDEX = 12;
+    private static final int LENGTH = 2;
+    private static final long DEFAULT_COMMENT_COUNT = 0L;
 
     private final CommentRepository commentRepository;
 
@@ -48,7 +49,7 @@ public class CommentCountStrategyByHourly implements CommentCountStrategy {
             if (isExistHourlyStat(commentStats, localTime)) {
                 continue;
             }
-            noneHourlyCommentStats.add(new CommentStat(String.valueOf(localTime), 0L));
+            noneHourlyCommentStats.add(new CommentStat(String.valueOf(localTime), DEFAULT_COMMENT_COUNT));
         }
         return noneHourlyCommentStats;
     }
