@@ -4,12 +4,13 @@ import static javax.persistence.CascadeType.ALL;
 import static javax.persistence.FetchType.LAZY;
 
 import com.darass.darass.common.domain.BaseTimeEntity;
+import com.darass.darass.exception.ExceptionWithMessageAndCode;
 import com.darass.darass.project.domain.Project;
 import com.darass.darass.user.domain.User;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -30,6 +31,7 @@ import org.hibernate.annotations.OnDeleteAction;
 @Entity
 public class Comment extends BaseTimeEntity {
 
+    public static final int CONTENT_LENGTH_LIMIT = 3000;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -56,6 +58,7 @@ public class Comment extends BaseTimeEntity {
 
     private String url;
 
+    @Column(length = 3000)
     private String content;
 
     @Formula("(select count(*) from comment_like where comment_like.comment_id=id)")
@@ -63,6 +66,7 @@ public class Comment extends BaseTimeEntity {
 
     @Builder
     public Comment(Long id, User user, Project project, String url, String content, Comment parent) {
+        validateContentLength(content);
         this.id = id;
         this.user = user;
         this.project = project;
@@ -112,5 +116,11 @@ public class Comment extends BaseTimeEntity {
 
     public int getSubCommentSize() {
         return subComments.size();
+    }
+
+    private void validateContentLength(String content) {
+        if (content.isEmpty() || content.length() > CONTENT_LENGTH_LIMIT) {
+            throw ExceptionWithMessageAndCode.INVALID_INPUT_LENGTH.getException();
+        }
     }
 }

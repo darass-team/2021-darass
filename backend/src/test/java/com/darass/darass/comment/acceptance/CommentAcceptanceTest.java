@@ -26,6 +26,7 @@ import com.darass.darass.comment.dto.CommentCreateRequest;
 import com.darass.darass.comment.dto.CommentResponse;
 import com.darass.darass.comment.dto.CommentResponses;
 import com.darass.darass.comment.dto.CommentUpdateRequest;
+import com.darass.darass.exception.ExceptionWithMessageAndCode;
 import com.darass.darass.project.domain.Project;
 import com.darass.darass.project.repository.ProjectRepository;
 import com.darass.darass.user.domain.SocialLoginUser;
@@ -33,6 +34,7 @@ import com.darass.darass.user.dto.UserResponse;
 import com.darass.darass.user.repository.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.time.LocalDate;
+import java.util.stream.IntStream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -172,6 +174,29 @@ public class CommentAcceptanceTest extends AcceptanceTest {
             .andExpect(jsonPath("$.code").value(700))
             .andDo(
                 document("api/v1/comments/post/fail-missing-project-key",
+                    responseFields(
+                        fieldWithPath("message").type(JsonFieldType.STRING).description("에러 메시지"),
+                        fieldWithPath("code").type(JsonFieldType.NUMBER).description("에러 코드")
+                    ))
+            );
+    }
+
+    @DisplayName("제한 길이를 초과하는 댓글을 등록할 수 없다.")
+    @Test
+    void saveWithInvalidContentLength() throws Exception {
+        StringBuilder stringBuilder = new StringBuilder();
+        IntStream.rangeClosed(0, 1000)
+            .forEach(it -> stringBuilder.append("str"));
+
+        mockMvc.perform(post("/api/v1/comments")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(asJsonString(
+                new CommentCreateRequest("guest", "password", null, secretKey,
+                    stringBuilder.toString(), "url"))))
+            .andExpect(status().isBadRequest())
+            .andExpect(jsonPath("$.code").value(ExceptionWithMessageAndCode.INVALID_INPUT_LENGTH.findCode()))
+            .andDo(
+                document("api/v1/comments/post/fail-invalid-content-length",
                     responseFields(
                         fieldWithPath("message").type(JsonFieldType.STRING).description("에러 메시지"),
                         fieldWithPath("code").type(JsonFieldType.NUMBER).description("에러 코드")
