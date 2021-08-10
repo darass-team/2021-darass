@@ -3,7 +3,7 @@ import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { comments as _comments } from "../fixture/comments";
 import { socialLoginUser } from "../fixture/user";
 import CommentList from "../../components/organisms/CommentList";
-import { useCreateComment, useDeleteComment, useEditComment, useLikeComment, useShowMoreComments } from "../../hooks";
+import { useCreateComment, useDeleteComment, useEditComment, useLikeComment } from "../../hooks";
 import CommentInput from "../../components/organisms/CommentInput";
 import { getPasswordConfirmResult } from "../../api/getPasswordConfirmResult";
 
@@ -14,7 +14,6 @@ jest.mock("../../hooks/useCreateComment");
 jest.mock("../../hooks/useLikeComment");
 jest.mock("../../utils/focusContentEditableTextToEnd");
 jest.mock("../../api/getPasswordConfirmResult");
-jest.mock("../../hooks/useShowMoreComments");
 
 window.alert = function (str) {
   console.log(str);
@@ -52,13 +51,6 @@ describe("로그인 유저의 댓글 CRUD 테스트 코드를 작성한다.", ()
     (getPasswordConfirmResult as jest.Mock).mockImplementation(() => {
       return true;
     });
-    (useShowMoreComments as jest.Mock).mockImplementation(() => {
-      return {
-        showMoreComments: () => {},
-        isLoading: false,
-        error: false
-      };
-    });
     (useLikeComment as jest.Mock).mockImplementation(() => {
       return {
         likeComment: () => {},
@@ -75,6 +67,7 @@ describe("로그인 유저의 댓글 CRUD 테스트 코드를 작성한다.", ()
       const commentList = render(
         <CommentList
           totalCommentsCount={_comments.length}
+          isLoading={false}
           user={user}
           comments={comments}
           project={undefined}
@@ -92,7 +85,7 @@ describe("로그인 유저의 댓글 CRUD 테스트 코드를 작성한다.", ()
     test("로그인 유저는 비밀번호와 이름을 입력하지 않고, 댓글을 생성할 수 있다.", async () => {
       const user = socialLoginUser;
 
-      const commentInput = render(<CommentInput user={user} url="" projectSecretKey="" />);
+      const commentInput = render(<CommentInput user={user} />);
 
       const commentInputTextArea = commentInput.getByTestId("comment-input-text-box");
       expect(commentInput.queryByTestId("comment-input-guest-name")).toBeFalsy();
@@ -117,6 +110,7 @@ describe("로그인 유저의 댓글 CRUD 테스트 코드를 작성한다.", ()
       const commentList = render(
         <CommentList
           totalCommentsCount={_comments.length}
+          isLoading={false}
           user={user}
           project={undefined}
           notice={""}
@@ -155,6 +149,7 @@ describe("로그인 유저의 댓글 CRUD 테스트 코드를 작성한다.", ()
       const commentList = render(
         <CommentList
           totalCommentsCount={_comments.length}
+          isLoading={false}
           user={user}
           project={undefined}
           notice={""}
@@ -177,6 +172,7 @@ describe("로그인 유저의 댓글 CRUD 테스트 코드를 작성한다.", ()
       const commentList = render(
         <CommentList
           totalCommentsCount={_comments.length}
+          isLoading={false}
           user={user}
           project={undefined}
           notice={""}
@@ -207,6 +203,7 @@ describe("로그인 유저의 댓글 CRUD 테스트 코드를 작성한다.", ()
       const commentList = render(
         <CommentList
           totalCommentsCount={_comments.length}
+          isLoading={false}
           user={user}
           project={undefined}
           notice={""}
@@ -238,6 +235,7 @@ describe("로그인 유저의 댓글 CRUD 테스트 코드를 작성한다.", ()
       const { rerender } = render(
         <CommentList
           totalCommentsCount={_comments.length}
+          isLoading={false}
           user={user}
           project={undefined}
           comments={comments}
@@ -255,6 +253,7 @@ describe("로그인 유저의 댓글 CRUD 테스트 코드를 작성한다.", ()
       rerender(
         <CommentList
           totalCommentsCount={_comments.length}
+          isLoading={false}
           user={user}
           project={undefined}
           comments={comments}
@@ -290,6 +289,7 @@ describe("로그인 유저의 댓글 CRUD 테스트 코드를 작성한다.", ()
     const { rerender } = render(
       <CommentList
         totalCommentsCount={_comments.length}
+        isLoading={false}
         user={user}
         project={undefined}
         comments={comments}
@@ -307,6 +307,7 @@ describe("로그인 유저의 댓글 CRUD 테스트 코드를 작성한다.", ()
     rerender(
       <CommentList
         totalCommentsCount={_comments.length}
+        isLoading={false}
         user={user}
         project={undefined}
         comments={comments}

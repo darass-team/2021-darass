@@ -46,7 +46,7 @@ export const GuestInfo = styled.input<{ isValidInput: boolean; isSubCommentInput
   ${InputCSS};
   padding: 1rem 0.8rem;
   width: 8rem;
-  :first-child {
+  &:first-child {
     margin-right: 1.2rem;
   }
 
@@ -68,7 +68,7 @@ export const GuestInfo = styled.input<{ isValidInput: boolean; isSubCommentInput
       padding: 0.3rem 1rem;
       height: 4rem;
 
-      :first-child {
+      &:first-child {
         margin-right: 0.6rem;
       }
 
