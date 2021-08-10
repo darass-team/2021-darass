@@ -66,8 +66,6 @@ public class CommentController {
         return ResponseEntity.status(HttpStatus.OK).body(commentResponses);
     }
 
-    // 요청: 옵션(시간별, 일별, 월별), 시작 날짜, 종료 날짜, 프로젝트 키
-    // 응답: {날짜: 카운팅} 리스트
     @GetMapping("/comments/stat")
     public ResponseEntity<CommentStatResponse> giveStat(@ModelAttribute CommentStatRequest commentStatRequest) {
         return ResponseEntity.status(HttpStatus.OK).body(commentService.giveStat(commentStatRequest));
