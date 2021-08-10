@@ -1,13 +1,22 @@
 plugins {
     id 'org.springframework.boot' version '2.5.2'
+
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+
     id 'java'
+
     // RestDocs 관련
     id 'org.asciidoctor.jvm.convert' version '3.1.0'
+
     // jacoco
     id 'jacoco'
+
     // flyway
     id "org.flywaydb.flyway" version "7.9.1"
+
+    // sonarQube
+    id "org.sonarqube" version "2.7"
+
 }
 
 group = 'com.darass'
@@ -70,6 +79,7 @@ dependencies {
 
     // 슬랙 알람
     implementation 'com.github.maricn:logback-slack-appender:1.4.0'
+
 }
 
 test {
@@ -97,13 +107,13 @@ build {
 }
 
 bootJar {
-    from ('build/html5') {
+    from('build/html5') {
         into 'BOOT-INF/classes/static/docs'
     }
 }
 
 jacoco {
-// jaCoCo 버전
+    // jaCoCo 버전
     toolVersion = '0.8.7'
 
     // 테스트 결과 리포트 파일 저장 경로
