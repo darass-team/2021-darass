@@ -48,6 +48,8 @@ export const DateRange = styled.span`
 `;
 
 export const SortButtonsWrapper = styled.div`
+  display: flex;
+  align-items: center;
   margin: 0 0 0 auto;
 `;
 
@@ -62,6 +64,13 @@ export const SortButton = styled.button.attrs({ type: "button" })<{ isSelected: 
 
   &:hover {
     background-color: ${PALETTE.GRAY_500};
+  }
+`;
+
+export const Tooltip = styled(TooltipComponent)`
+  margin-left: 1rem;
+  & > span {
+    transform: translate(-95%, 50%);
   }
 `;
 

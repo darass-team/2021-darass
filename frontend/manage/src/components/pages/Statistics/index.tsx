@@ -6,7 +6,6 @@ import { PERIODICITY } from "../../../constants/statistics";
 import { useCalendar, useCommentStatisticsData, useGetProject } from "../../../hooks";
 import ScreenContainer from "../../../styles/ScreenContainer";
 import Modal from "../../atoms/Modal";
-import Tooltip from "../../atoms/Tooltip";
 
 import Calendar from "../../molecules/Calendar";
 import CommentStatisticsChart from "../../organisms/CommentStatisticsChart";
@@ -22,6 +21,7 @@ import {
   SortButton,
   SortButtonsWrapper,
   Title,
+  Tooltip,
   Wrapper
 } from "./styles";
 
@@ -110,8 +110,9 @@ const Statistics = () => {
                     {option.display}
                   </SortButton>
                 ))}
-
-                <Tooltip text="'시간별'은 설정된 기간내의 0시~23시의 댓글 통계를 보여줍니다. " />
+                <Tooltip
+                  text={`'시간별': 설정된 기간 내 시간별 댓글 개수\n'일별': 설정된 기간 내 일별 댓글 개수\n'월별': 설정된 기간 내 월별 댓글 개수`}
+                />
               </SortButtonsWrapper>
             </Wrapper>
 
