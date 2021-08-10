@@ -1,4 +1,4 @@
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 import { useDeleteComment, useEditComment, useLikeComment, useInput } from "../../../hooks";
 import { Comment as CommentType } from "../../../types";
 import { DeleteCommentRequestParameter } from "../../../types/comment";
@@ -66,6 +66,8 @@ const Comment = ({
   const [isSubCommentInputOpen, setSubCommentInputOpen] = useState(false);
   const [shouldShowPasswordInput, setShouldShowPasswordInput] = useState(false);
   const [submitType, setSubmitType] = useState<SubmitType | null>();
+  const $passwordInput = useRef<HTMLInputElement | null>(null);
+  const $subCommentInput = useRef<HTMLDivElement | null>(null);
   const { value: password, setValue: setPassword, onChange: onChangePassword } = useInput("");
   const { editComment } = useEditComment();
   const { deleteComment } = useDeleteComment();
@@ -208,7 +210,6 @@ const Comment = ({
   };
 
   const onCloseSubCommentInput = () => {
-    console.log("hi");
     setSubCommentInputOpen(false);
   };
 
@@ -221,6 +222,18 @@ const Comment = ({
   useEffect(() => {
     clear();
   }, [user]);
+
+  useEffect(() => {
+    if (!$passwordInput.current) return;
+
+    $passwordInput.current.focus();
+  }, [shouldShowPasswordInput]);
+
+  useEffect(() => {
+    if (!$subCommentInput.current) return;
+
+    $subCommentInput.current.focus();
+  }, [isSubCommentInputOpen]);
 
   return (
     <>
@@ -272,6 +285,7 @@ const Comment = ({
             }}
           >
             <PasswordInput
+              ref={$passwordInput}
               type="password"
               value={password}
               onChange={onChangePassword}
@@ -287,7 +301,12 @@ const Comment = ({
         )}
       </Container>
       {!hasSubComments && isSubCommentInputOpen && (
-        <CommentInput user={user} parentCommentId={comment.id} onClose={onCloseSubCommentInput} />
+        <CommentInput
+          innerRef={$subCommentInput}
+          user={user}
+          parentCommentId={comment.id}
+          onClose={onCloseSubCommentInput}
+        />
       )}
       {hasSubComments &&
         comment.subComments.map((subComment, index) => {
@@ -300,6 +319,7 @@ const Comment = ({
           const thisCommentIsWrittenByAdmin = subComment.user.id === project?.userId;
           const thisCommentIsWrittenByGuest = subComment.user.type === "GuestUser";
           const shouldShowOption = iAmAdmin || thisCommentIsMine || (iAmGuestUser && thisCommentIsWrittenByGuest);
+          const shouldShowSubCommentInput = isSubCommentInputOpen && index === comment.subComments.length - 1;
 
           return (
             <div key={subComment.id}>
@@ -313,8 +333,13 @@ const Comment = ({
                 isSubComment={true}
               />
 
-              {!isSubComment && isSubCommentInputOpen && index === comment.subComments.length - 1 && (
-                <CommentInput user={user} parentCommentId={comment.id} onClose={onCloseSubCommentInput} />
+              {shouldShowSubCommentInput && (
+                <CommentInput
+                  innerRef={$subCommentInput}
+                  user={user}
+                  parentCommentId={comment.id}
+                  onClose={onCloseSubCommentInput}
+                />
               )}
             </div>
           );

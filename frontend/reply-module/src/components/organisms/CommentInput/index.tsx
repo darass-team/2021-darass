@@ -1,4 +1,4 @@
-import { FormEvent, useState } from "react";
+import { FormEvent, MutableRefObject, RefObject, useState } from "react";
 import {
   GUEST_NICKNAME_MAX_LENGTH,
   GUEST_NICKNAME_MIN_LENGTH,
@@ -19,12 +19,13 @@ import { ButtonWrapper, Form, GuestInfo, TextBox, Wrapper } from "./styles";
 
 export interface Props {
   className?: string;
+  innerRef?: MutableRefObject<HTMLDivElement | null>;
   user: User | undefined;
   parentCommentId?: Comment["id"];
   onClose?: () => void;
 }
 
-const CommentInput = ({ className, user, parentCommentId, onClose }: Props) => {
+const CommentInput = ({ className, innerRef, user, parentCommentId, onClose }: Props) => {
   const urlParams = new URLSearchParams(window.location.search);
   const url = urlParams.get("url");
   const projectSecretKey = urlParams.get("projectKey");
@@ -85,7 +86,11 @@ const CommentInput = ({ className, user, parentCommentId, onClose }: Props) => {
   return (
     <Form onSubmit={onSubmit} className={className}>
       <TextBox
-        ref={$contentEditable}
+        ref={(element: HTMLDivElement) => {
+          $contentEditable.current = element;
+          if (!innerRef) return;
+          innerRef.current = element;
+        }}
         contentEditable={true}
         onInput={onInput}
         isValidInput={!isFormSubmitted || isValidCommentInput}
