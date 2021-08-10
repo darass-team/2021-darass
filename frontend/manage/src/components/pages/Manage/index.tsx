@@ -1,4 +1,4 @@
-import moment from "moment";
+import dayjs from "dayjs";
 import { FormEvent, useEffect } from "react";
 import { useLocation, useRouteMatch } from "react-router-dom";
 import { PROJECT_MENU } from "../../../constants";
@@ -40,12 +40,12 @@ const Manage = () => {
 
   const { showCalendar, setShowCalendar, currentDate, setCurrentDate, startDate, setStartDate, endDate, setEndDate } =
     useCalendar({
-      initialStartDate: moment().subtract(1, "year"),
-      initialEndDate: moment()
+      initialStartDate: dayjs().subtract(1, "year"),
+      initialEndDate: dayjs()
     });
 
-  const startDateAsString = startDate?.format("YYYY-MM-DD") || moment().format("YYYY-MM-DD");
-  const endDateAsString = endDate?.format("YYYY-MM-DD") || moment().format("YYYY-MM-DD");
+  const startDateAsString = startDate?.format("YYYY-MM-DD") || dayjs().format("YYYY-MM-DD");
+  const endDateAsString = endDate?.format("YYYY-MM-DD") || dayjs().format("YYYY-MM-DD");
 
   const { project } = useGetProject(projectId);
   const projectSecretKey = project?.secretKey;

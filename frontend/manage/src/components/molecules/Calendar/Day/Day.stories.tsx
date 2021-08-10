@@ -1,4 +1,4 @@
-import moment from "moment";
+import dayjs from "dayjs";
 import { Story } from "@storybook/react";
 import Day, { Props } from ".";
 
@@ -13,5 +13,5 @@ const Template: Story<Props> = args => <Day {...args} />;
 export const Default = Template.bind({});
 
 Default.args = {
-  date: moment()
+  date: dayjs()
 };

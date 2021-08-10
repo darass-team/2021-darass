@@ -1,4 +1,4 @@
-import moment from "moment";
+import dayjs from "dayjs";
 import { ChangeEvent, FormEvent } from "react";
 import { MAX_COMMENT_SEARCH_TERM_LENGTH } from "../../../constants/validation";
 import Modal from "../../atoms/Modal";
@@ -18,12 +18,12 @@ export interface Props {
   onSubmit: (event: FormEvent) => void;
   showCalendar: boolean;
   setShowCalendar: (state: boolean) => void;
-  currentDate: moment.Moment;
-  startDate: moment.Moment;
-  endDate: moment.Moment;
-  setCurrentDate: (state: moment.Moment) => void;
-  setStartDate: (state: moment.Moment) => void;
-  setEndDate: (state: moment.Moment) => void;
+  currentDate: dayjs.Dayjs;
+  startDate: dayjs.Dayjs;
+  endDate: dayjs.Dayjs;
+  setCurrentDate: (state: dayjs.Dayjs) => void;
+  setStartDate: (state: dayjs.Dayjs) => void;
+  setEndDate: (state: dayjs.Dayjs) => void;
   onChangeKeyword: (event: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>) => void;
   keyword: string;
 }
@@ -47,9 +47,9 @@ const CommentSearchConditionForm = ({
         <Wrapper>
           <Meta>기간 선택</Meta>
           <DateRange>
-            <DateInputText onClick={() => setShowCalendar(true)}>{startDate?.format("YY-MM-DD")}</DateInputText>
+            <DateInputText onClick={() => setShowCalendar(true)}>{startDate?.format("YY/MM/DD")}</DateInputText>
             <span>{" ~ "}</span>
-            <DateInputText onClick={() => setShowCalendar(true)}>{endDate?.format("YY-MM-DD")}</DateInputText>
+            <DateInputText onClick={() => setShowCalendar(true)}>{endDate?.format("YY/MM/DD")}</DateInputText>
           </DateRange>
 
           <Modal isOpen={showCalendar} closeModal={() => setShowCalendar(false)} dimmedOpacity={0}>

@@ -1,11 +1,13 @@
-import moment from "moment";
+import dayjs from "dayjs";
+import isBetween from "dayjs/plugin/isBetween";
 import { Container } from "./styles";
+dayjs.extend(isBetween);
 
 export interface Props {
-  date: moment.Moment;
-  startDate: moment.Moment | null;
-  endDate: moment.Moment | null;
-  changeDate: (date: moment.Moment) => void;
+  date: dayjs.Dayjs;
+  startDate: dayjs.Dayjs | null;
+  endDate: dayjs.Dayjs | null;
+  changeDate: (date: dayjs.Dayjs) => void;
 }
 
 export interface DayInfo {
@@ -17,13 +19,13 @@ export interface DayInfo {
 
 const Day = ({ date, startDate, endDate, changeDate }: Props) => {
   const dayInfo: DayInfo = {
-    isToday: moment().isSame(date, "day"),
+    isToday: dayjs().isSame(date, "day"),
     isStartDate: date.isSame(startDate, "day"),
     isEndDate: date.isSame(endDate, "day"),
     isWithInPeriod: date.isBetween(startDate, endDate, "day")
   };
 
-  const isWithIn1Year = date.isBetween(moment().subtract(1, "year"), moment());
+  const isWithIn1Year = date.isBetween(dayjs().subtract(1, "year"), dayjs());
 
   return (
     <Container onClick={() => changeDate(date)} dayInfo={dayInfo} disabled={!isWithIn1Year}>

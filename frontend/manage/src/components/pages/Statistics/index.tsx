@@ -1,4 +1,4 @@
-import moment from "moment";
+import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 import { useRouteMatch } from "react-router-dom";
 import { PROJECT_MENU } from "../../../constants";
@@ -37,14 +37,14 @@ const Statistics = () => {
 
   const { showCalendar, setShowCalendar, currentDate, setCurrentDate, startDate, setStartDate, endDate, setEndDate } =
     useCalendar({
-      initialStartDate: moment().subtract(1, "week"),
-      initialEndDate: moment()
+      initialStartDate: dayjs().subtract(1, "week"),
+      initialEndDate: dayjs()
     });
 
   const [isDateEdited, setIsDateEdited] = useState(false);
 
-  const startDateAsString = startDate?.format("YYYY-MM-DD") || moment().format("YYYY-MM-DD");
-  const endDateAsString = endDate?.format("YYYY-MM-DD") || moment().format("YYYY-MM-DD");
+  const startDateAsString = startDate?.format("YYYY-MM-DD") || dayjs().format("YYYY-MM-DD");
+  const endDateAsString = endDate?.format("YYYY-MM-DD") || dayjs().format("YYYY-MM-DD");
 
   const { stats, refetch: getCommentStatisticsData } = useCommentStatisticsData({
     periodicity: selectedPeriodicity,
@@ -72,11 +72,11 @@ const Statistics = () => {
 
   useEffect(() => {
     if (!isDateEdited) {
-      if (selectedPeriodicity.key === "hourly") setStartDate(moment());
-      if (selectedPeriodicity.key === "daily") setStartDate(moment().subtract(1, "week"));
-      if (selectedPeriodicity.key === "monthly") setStartDate(moment().subtract(6, "month"));
+      if (selectedPeriodicity.key === "hourly") setStartDate(dayjs());
+      if (selectedPeriodicity.key === "daily") setStartDate(dayjs().subtract(1, "week"));
+      if (selectedPeriodicity.key === "monthly") setStartDate(dayjs().subtract(6, "month"));
 
-      setEndDate(moment());
+      setEndDate(dayjs());
     } else {
       getCommentStatisticsData();
     }
@@ -93,9 +93,9 @@ const Statistics = () => {
               <DataInputWrapper>
                 <Meta>기간 선택</Meta>
                 <DateRange>
-                  <DateInputText onClick={onClickDateInput}>{startDate?.format("YY-MM-DD")}</DateInputText>
+                  <DateInputText onClick={onClickDateInput}>{startDate?.format("YY/MM/DD")}</DateInputText>
                   <span>{" ~ "}</span>
-                  <DateInputText onClick={onClickDateInput}>{endDate?.format("YY-MM-DD")}</DateInputText>
+                  <DateInputText onClick={onClickDateInput}>{endDate?.format("YY/MM/DD")}</DateInputText>
                 </DateRange>
 
                 <Modal isOpen={showCalendar} closeModal={() => setShowCalendar(false)} dimmedOpacity={0}>

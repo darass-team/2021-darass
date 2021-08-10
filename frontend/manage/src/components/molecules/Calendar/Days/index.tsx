@@ -1,12 +1,12 @@
-import moment from "moment";
+import dayjs from "dayjs";
 import Day from "../Day";
 import { Container } from "./styles";
 
 export interface Props {
-  date: moment.Moment;
-  startDate: moment.Moment | null;
-  endDate: moment.Moment | null;
-  changeDate: (date: moment.Moment) => void;
+  date: dayjs.Dayjs;
+  startDate: dayjs.Dayjs | null;
+  endDate: dayjs.Dayjs | null;
+  changeDate: (date: dayjs.Dayjs) => void;
 }
 
 const Days = ({ date, startDate, endDate, changeDate }: Props) => {

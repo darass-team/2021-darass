@@ -1,4 +1,4 @@
-import moment from "moment";
+import dayjs from "dayjs";
 import { Comment as CommentType } from "../../../types/comment";
 import { User } from "../../../types/user";
 import Avatar from "../../atoms/Avatar";
@@ -33,7 +33,7 @@ const Comment = ({
       <ContentWrapper>
         <ContentMeta>
           <Name isMyComment={isMyComment}>{authorNickName}</Name>
-          <Date>{moment(createdDate).format("YYYY-MM-DD")}</Date>
+          <Date>{dayjs(createdDate).format("YYYY-MM-DD")}</Date>
         </ContentMeta>
         <Content>{content}</Content>
         <Url href={url} target="_blank" rel="noopener noreferrer nofollow">
