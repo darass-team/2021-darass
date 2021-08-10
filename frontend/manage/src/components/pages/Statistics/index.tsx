@@ -9,7 +9,6 @@ import Modal from "../../atoms/Modal";
 import Calendar from "../../molecules/Calendar";
 import CommentStatisticsChart from "../../organisms/CommentStatisticsChart";
 import ContainerWithSideBar from "../../organisms/ContainerWithSideBar";
-import ErrorNotice from "../../organisms/ErrorNotice";
 import {
   ChartArea,
   Container,
@@ -101,16 +100,12 @@ const Statistics = () => {
               </tr>
             </thead>
             <tbody>
-              {stats.length === 0 ? (
-                <></>
-              ) : (
-                [...stats].reverse().map(_data => (
-                  <tr key={_data.date}>
-                    <th>{_data.date}</th>
-                    <th>{_data.count}</th>
-                  </tr>
-                ))
-              )}
+              {[...stats].map(_data => (
+                <tr key={_data.date}>
+                  <th>{_data.date}</th>
+                  <th>{_data.count}</th>
+                </tr>
+              ))}
             </tbody>
           </DataTable>
         </Container>

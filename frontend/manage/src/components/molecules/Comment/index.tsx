@@ -6,6 +6,7 @@ import CheckBox from "../../atoms/CheckBox";
 import { Content, ContentMeta, ContentWrapper, Date, Name, Url } from "./styles";
 
 export interface Props {
+  isMyComment: boolean;
   isChecked: boolean;
   onChangeCheckBox: () => void;
   authorProfileImageUrl: User["profileImageUrl"];
@@ -16,6 +17,7 @@ export interface Props {
 }
 
 const Comment = ({
+  isMyComment,
   isChecked,
   onChangeCheckBox,
   authorProfileImageUrl,
@@ -30,7 +32,7 @@ const Comment = ({
       <Avatar imageURL={authorProfileImageUrl} />
       <ContentWrapper>
         <ContentMeta>
-          <Name>{authorNickName}</Name>
+          <Name isMyComment={isMyComment}>{authorNickName}</Name>
           <Date>{moment(createdDate).format("YYYY-MM-DD")}</Date>
         </ContentMeta>
         <Content>{content}</Content>

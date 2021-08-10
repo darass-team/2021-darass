@@ -10,14 +10,14 @@ import {
   useDeleteComment,
   useGetCommentsOfProjectPerPage,
   useGetProject,
-  useInput
+  useInput,
+  useUser
 } from "../../../hooks";
 import ScreenContainer from "../../../styles/ScreenContainer";
 import { AlertError } from "../../../utils/error";
 import { getPagesOfLength5 } from "../../../utils/pagination";
 import CheckBox from "../../atoms/CheckBox";
 import PaginationBar from "../../atoms/PaginationBar";
-
 import Comment from "../../molecules/Comment";
 import CommentSearchConditionForm from "../../organisms/CommentSearchConditionForm";
 import ContainerWithSideBar from "../../organisms/ContainerWithSideBar";
@@ -28,11 +28,13 @@ const Manage = () => {
   const match = useRouteMatch<{ id: string }>();
   const location = useLocation();
 
+  const { user: me } = useUser();
+
   const projectId = Number(match.params.id);
   const urlSearchParams = new URLSearchParams(location.search);
   const pageIndex = urlSearchParams.get("pageIndex") || 1;
 
-  const { value: keyword, setValue: setKeyword, onChange: onChangeKeyword } = useInput("");
+  const { value: keyword, onChange: onChangeKeyword } = useInput("");
 
   const { showCalendar, setShowCalendar, currentDate, setCurrentDate, startDate, setStartDate, endDate, setEndDate } =
     useCalendar();
@@ -165,6 +167,7 @@ const Manage = () => {
                 comments.map(({ id, content, user, createdDate, url }) => (
                   <Row key={id}>
                     <Comment
+                      isMyComment={me?.id === user.id}
                       isChecked={checkedCommentIds.some(_id => _id === id)}
                       onChangeCheckBox={() => updateCheckedCommentId(id)}
                       authorProfileImageUrl={user.profileImageUrl}
