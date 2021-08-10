@@ -1,6 +1,6 @@
 package com.darass.darass.comment.repository;
 
-import com.darass.darass.comment.domain.Stat;
+import com.darass.darass.comment.domain.CommentStat;
 import java.time.LocalDateTime;
 import java.time.YearMonth;
 import java.util.ArrayList;
@@ -16,8 +16,9 @@ import org.springframework.stereotype.Component;
 public class CommentCountStrategyByMonthly implements CommentCountStrategy {
 
     private static final String DATE = "MONTHLY";
-    private static final Integer BEGIN_INDEX = 1;
-    private static final Integer LENGTH = 7;
+    private static final int BEGIN_INDEX = 1;
+    private static final int LENGTH = 7;
+    private static final long DEFAULT_COMMENT_COUNT = 0L;
 
     private final CommentRepository commentRepository;
 
@@ -27,31 +28,41 @@ public class CommentCountStrategyByMonthly implements CommentCountStrategy {
     }
 
     @Override
-    public List<Stat> calculateCount(String projectKey, LocalDateTime startDate, LocalDateTime endDate) {
-        List<Stat> stats = commentRepository.findDateCount(projectKey, startDate, endDate, BEGIN_INDEX, LENGTH).stream()
-            .map(objects -> new Stat((String) objects[0], (Long) objects[1]))
+    public List<CommentStat> calculateCount(String projectKey, LocalDateTime startDate, LocalDateTime endDate) {
+        List<CommentStat> commentStats = commentRepository
+            .findDateCount(projectKey, startDate, endDate, BEGIN_INDEX, LENGTH).stream()
+            .map(objects -> new CommentStat((String) objects[0], (Long) objects[1]))
             .collect(Collectors.toList());
 
-        List<Stat> noneMonthStats = getStatByNoneMonth(startDate, endDate, stats);
-        stats.addAll(noneMonthStats);
-        stats.sort(Comparator.comparing(Stat::getDate));
-        return stats;
+        List<CommentStat> noneMonthCommentStats = getStatByNoneMonth(startDate, endDate, commentStats);
+        commentStats.addAll(noneMonthCommentStats);
+        commentStats.sort(Comparator.comparing(CommentStat::getDate));
+        return commentStats;
     }
 
-    private List<Stat> getStatByNoneMonth(LocalDateTime startDate, LocalDateTime endDate, List<Stat> stats) {
-        List<Stat> noneMonthStats = new ArrayList<>();
-        YearMonth startYearMonth = YearMonth.from(startDate);
+    private List<CommentStat> getStatByNoneMonth(LocalDateTime startDate, LocalDateTime endDate,
+        List<CommentStat> commentStats) {
+        List<CommentStat> noneMonthCommentStats = new ArrayList<>();
+        YearMonth yearMonth = YearMonth.from(startDate);
         YearMonth endYearMonth = YearMonth.from(endDate);
 
-        outer:
-        for (YearMonth yearMonth = startYearMonth; !yearMonth.equals(endYearMonth); yearMonth = yearMonth.plusMonths(1L)) {
-            for (Stat stat : stats) {
-                if (yearMonth.toString().equals(stat.getDate())) {
-                    continue outer;
-                }
+        while (!yearMonth.equals(endYearMonth)) {
+            if (isExistMonthStat(commentStats, yearMonth)) {
+                continue;
             }
-            noneMonthStats.add(new Stat(yearMonth.toString(), 0L));
+            noneMonthCommentStats.add(new CommentStat(yearMonth.toString(), DEFAULT_COMMENT_COUNT));
+            yearMonth = yearMonth.plusMonths(1L);
+
+            if (yearMonth.equals(endYearMonth) && !isExistMonthStat(commentStats, yearMonth)) {
+                noneMonthCommentStats.add(new CommentStat(yearMonth.toString(), DEFAULT_COMMENT_COUNT));
+            }
         }
-        return noneMonthStats;
+
+        return noneMonthCommentStats;
+    }
+
+    private boolean isExistMonthStat(List<CommentStat> commentStats, YearMonth yearMonth) {
+        return commentStats.stream()
+            .anyMatch(commentStatistic -> yearMonth.toString().equals(commentStatistic.getDate()));
     }
 }

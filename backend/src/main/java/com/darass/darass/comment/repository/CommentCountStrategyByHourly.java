@@ -1,6 +1,6 @@
 package com.darass.darass.comment.repository;
 
-import com.darass.darass.comment.domain.Stat;
+import com.darass.darass.comment.domain.CommentStat;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -16,8 +16,9 @@ import org.springframework.stereotype.Component;
 public class CommentCountStrategyByHourly implements CommentCountStrategy {
 
     private static final String DATE = "HOURLY";
-    private static final Integer BEGIN_INDEX = 12;
-    private static final Integer LENGTH = 2;
+    private static final int BEGIN_INDEX = 12;
+    private static final int LENGTH = 2;
+    private static final long DEFAULT_COMMENT_COUNT = 0L;
 
     private final CommentRepository commentRepository;
 
@@ -27,29 +28,34 @@ public class CommentCountStrategyByHourly implements CommentCountStrategy {
     }
 
     @Override
-    public List<Stat> calculateCount(String projectKey, LocalDateTime startDate, LocalDateTime endDate) {
-        List<Stat> stats = commentRepository.findDateCount(projectKey, startDate, endDate, BEGIN_INDEX, LENGTH).stream()
-            .map(objects -> new Stat(String.valueOf(Integer.parseInt(String.valueOf(objects[0]))), (Long) objects[1]))
+    public List<CommentStat> calculateCount(String projectKey, LocalDateTime startDate, LocalDateTime endDate) {
+        List<CommentStat> commentStats = commentRepository
+            .findDateCount(projectKey, startDate, endDate, BEGIN_INDEX, LENGTH).stream()
+            .map(objects -> new CommentStat(String.valueOf(Integer.parseInt(String.valueOf(objects[0]))),
+                (Long) objects[1]))
             .collect(Collectors.toList());
 
-        List<Stat> noneHourlyStats = getStatByNoneHourly(startDate, endDate, stats);
-        stats.addAll(noneHourlyStats);
-        stats.sort(Comparator.comparingInt(s -> Integer.parseInt(s.getDate())));
-        return stats;
+        List<CommentStat> noneHourlyCommentStats = getStatByNoneHourly(startDate, endDate, commentStats);
+        commentStats.addAll(noneHourlyCommentStats);
+        commentStats.sort(Comparator.comparingInt(s -> Integer.parseInt(s.getDate())));
+        return commentStats;
     }
 
-    private List<Stat> getStatByNoneHourly(LocalDateTime startDate, LocalDateTime endDate, List<Stat> stats) {
-        List<Stat> noneHourlyStats = new ArrayList<>();
+    private List<CommentStat> getStatByNoneHourly(LocalDateTime startDate, LocalDateTime endDate,
+        List<CommentStat> commentStats) {
+        List<CommentStat> noneHourlyCommentStats = new ArrayList<>();
 
-        outer:
         for (int localTime = LocalTime.MIN.getHour(); localTime <= LocalTime.MAX.getHour(); localTime++) {
-            for (Stat stat : stats) {
-                if (localTime == Integer.parseInt(stat.getDate())) {
-                    continue outer;
-                }
+            if (isExistHourlyStat(commentStats, localTime)) {
+                continue;
             }
-            noneHourlyStats.add(new Stat(String.valueOf(localTime), 0L));
+            noneHourlyCommentStats.add(new CommentStat(String.valueOf(localTime), DEFAULT_COMMENT_COUNT));
         }
-        return noneHourlyStats;
+        return noneHourlyCommentStats;
+    }
+
+    private boolean isExistHourlyStat(List<CommentStat> commentStats, int localTime) {
+        return commentStats.stream()
+            .anyMatch(commentStatistic -> localTime == Integer.parseInt(commentStatistic.getDate()));
     }
 }

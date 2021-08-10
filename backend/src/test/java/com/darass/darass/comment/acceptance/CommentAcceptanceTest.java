@@ -1053,8 +1053,8 @@ public class CommentAcceptanceTest extends AcceptanceTest {
                     parameterWithName("endDate").description("종료 날짜")
                 ),
                 responseFields(
-                    fieldWithPath("stats.[].date").type(JsonFieldType.STRING).description("시"),
-                    fieldWithPath("stats.[].count").type(JsonFieldType.NUMBER).description("댓글의 총 개수")
+                    fieldWithPath("commentStats.[].date").type(JsonFieldType.STRING).description("시"),
+                    fieldWithPath("commentStats.[].count").type(JsonFieldType.NUMBER).description("댓글의 총 개수")
                 )
             ));
     }
@@ -1088,8 +1088,8 @@ public class CommentAcceptanceTest extends AcceptanceTest {
                     parameterWithName("endDate").description("종료 날짜")
                 ),
                 responseFields(
-                    fieldWithPath("stats.[].date").type(JsonFieldType.STRING).description("연월일"),
-                    fieldWithPath("stats.[].count").type(JsonFieldType.NUMBER).description("댓글의 총 개수")
+                    fieldWithPath("commentStats.[].date").type(JsonFieldType.STRING).description("연월일"),
+                    fieldWithPath("commentStats.[].count").type(JsonFieldType.NUMBER).description("댓글의 총 개수")
                 )
             ));
     }
@@ -1123,8 +1123,8 @@ public class CommentAcceptanceTest extends AcceptanceTest {
                     parameterWithName("endDate").description("종료 날짜")
                 ),
                 responseFields(
-                    fieldWithPath("stats.[].date").type(JsonFieldType.STRING).description("연월"),
-                    fieldWithPath("stats.[].count").type(JsonFieldType.NUMBER).description("댓글의 총 개수")
+                    fieldWithPath("commentStats.[].date").type(JsonFieldType.STRING).description("연월"),
+                    fieldWithPath("commentStats.[].count").type(JsonFieldType.NUMBER).description("댓글의 총 개수")
                 )
             ));
     }

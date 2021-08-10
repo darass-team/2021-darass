@@ -1,6 +1,6 @@
 package com.darass.darass.comment.repository;
 
-import com.darass.darass.comment.domain.Stat;
+import com.darass.darass.comment.domain.CommentStat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -16,8 +16,9 @@ import org.springframework.stereotype.Component;
 public class CommentCountStrategyByDaily implements CommentCountStrategy {
 
     private static final String DATE = "DAILY";
-    private static final Integer BEGIN_INDEX = 1;
-    private static final Integer LENGTH = 10;
+    private static final int BEGIN_INDEX = 1;
+    private static final int LENGTH = 10;
+    private static final long DEFAULT_COMMENT_COUNT = 0L;
 
     private final CommentRepository commentRepository;
 
@@ -27,31 +28,40 @@ public class CommentCountStrategyByDaily implements CommentCountStrategy {
     }
 
     @Override
-    public List<Stat> calculateCount(String projectKey, LocalDateTime startDate, LocalDateTime endDate) {
-        List<Stat> stats = commentRepository.findDateCount(projectKey, startDate, endDate, BEGIN_INDEX, LENGTH).stream()
-            .map(objects -> new Stat((String) objects[0], (Long) objects[1]))
+    public List<CommentStat> calculateCount(String projectKey, LocalDateTime startDate, LocalDateTime endDate) {
+        List<CommentStat> commentStats = commentRepository
+            .findDateCount(projectKey, startDate, endDate, BEGIN_INDEX, LENGTH).stream()
+            .map(objects -> new CommentStat((String) objects[0], (Long) objects[1]))
             .collect(Collectors.toList());
 
-        List<Stat> noneDailyStats = getStatByNoneDaily(startDate, endDate, stats);
-        stats.addAll(noneDailyStats);
-        stats.sort(Comparator.comparing(Stat::getDate));
-        return stats;
+        List<CommentStat> noneDailyCommentStats = getStatByNoneDaily(startDate, endDate, commentStats);
+        commentStats.addAll(noneDailyCommentStats);
+        commentStats.sort(Comparator.comparing(CommentStat::getDate));
+        return commentStats;
     }
 
-    private List<Stat> getStatByNoneDaily(LocalDateTime startDate, LocalDateTime endDate, List<Stat> stats) {
-        List<Stat> noneMonthStats = new ArrayList<>();
-        LocalDate start = LocalDate.from(startDate);
+    private List<CommentStat> getStatByNoneDaily(LocalDateTime startDate, LocalDateTime endDate,
+        List<CommentStat> commentStats) {
+        List<CommentStat> noneMonthCommentStats = new ArrayList<>();
+        LocalDate localDate = LocalDate.from(startDate);
         LocalDate end = LocalDate.from(endDate);
 
-        outer:
-        for (LocalDate localDate = start; !localDate.equals(end); localDate = localDate.plusDays(1L)) {
-            for (Stat stat : stats) {
-                if (localDate.toString().equals(stat.getDate())) {
-                    continue outer;
-                }
+        while (!localDate.equals(end)) {
+            if (isExistDailyStat(commentStats, localDate)) {
+                continue;
             }
-            noneMonthStats.add(new Stat(localDate.toString(), 0L));
+            noneMonthCommentStats.add(new CommentStat(localDate.toString(), DEFAULT_COMMENT_COUNT));
+            localDate = localDate.plusDays(1L);
+
+            if (localDate.equals(end) && !isExistDailyStat(commentStats, localDate)) {
+                noneMonthCommentStats.add(new CommentStat(localDate.toString(), DEFAULT_COMMENT_COUNT));
+            }
         }
-        return noneMonthStats;
+        return noneMonthCommentStats;
+    }
+
+    private boolean isExistDailyStat(List<CommentStat> commentStats, LocalDate localDate) {
+        return commentStats.stream()
+            .anyMatch(commentStatistic -> localDate.toString().equals(commentStatistic.getDate()));
     }
 }

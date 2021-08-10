@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public class Stat {
+public class CommentStat {
 
     private final String date;
 
