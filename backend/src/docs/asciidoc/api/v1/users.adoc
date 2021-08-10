@@ -33,6 +33,11 @@ include::{snippets}/api/v1/users/patch/success/response-fields.adoc[]
 include::{snippets}/api/v1/users/patch/fail/http-response.adoc[]
 include::{snippets}/api/v1/users/patch/fail/response-fields.adoc[]
 
+==== Response (실패 - 닉네임의 길이가 적적하지 않은 경우)
+
+include::{snippets}/api/v1/users/patch/fail-invalid-nickname/http-response.adoc[]
+include::{snippets}/api/v1/users/patch/fail-invalid-nickname/response-fields.adoc[]
+
 === 유저 삭제 (DELETE /api/v1/users)
 
 ==== Request

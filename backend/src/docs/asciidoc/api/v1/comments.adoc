@@ -32,6 +32,13 @@ include::{snippets}/api/v1/comments/post/success-guest-user/response-fields.adoc
 include::{snippets}/api/v1/comments/post/fail-missing-project-key/http-response.adoc[]
 include::{snippets}/api/v1/comments/post/fail-missing-project-key/response-fields.adoc[]
 
+==== (실패) 댓글 작성 시 비로그인 유저 닉네임, 비밀번호 길이 적절하지 않은 경우
+
+==== Response
+
+include::{snippets}/api/v1/comments/post/fail-invalid-content-length/http-response.adoc[]
+include::{snippets}/api/v1/comments/post/fail-invalid-content-length/response-fields.adoc[]
+
 ==== (성공) 대댓글 작성
 
 ==== Request
