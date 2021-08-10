@@ -315,6 +315,17 @@ class CommentServiceTest extends SpringContainerTest {
             .hasSize((int) ChronoUnit.DAYS.between(startDate, endDate) + 1);
     }
 
+    @DisplayName("특정 프로젝트의 일별 댓글 통계를 구한다. (시작 날짜 = 종료 날짜)")
+    @Test
+    void stat_daily_same_date() {
+        LocalDate localDate = LocalDate.now().minusYears(10L);
+        CommentStatRequest request = new CommentStatRequest("DAILY", project.getSecretKey(),
+            localDate, localDate);
+        CommentStatResponse commentStatResponse = commentService.giveStat(request);
+        assertThat(commentStatResponse.getCommentStats())
+            .hasSize(1);
+    }
+
     @DisplayName("특정 프로젝트의 월별 댓글 통계를 구한다.")
     @Test
     void stat_monthly() {
@@ -323,8 +334,17 @@ class CommentServiceTest extends SpringContainerTest {
         CommentStatRequest request = new CommentStatRequest("MONTHLY", project.getSecretKey(),
             startDate, endDate);
         CommentStatResponse commentStatResponse = commentService.giveStat(request);
-        assertThat(commentStatResponse.getCommentStats())
-            .hasSize((int) ChronoUnit.MONTHS.between(startDate, endDate) + 1);
+        assertThat(commentStatResponse.getCommentStats()).hasSize((int) ChronoUnit.MONTHS.between(startDate, endDate) + 1);
+    }
+
+    @DisplayName("특정 프로젝트의 월별 댓글 통계를 구한다. (시작 날짜 = 종료 날짜)")
+    @Test
+    void stat_monthly_same_date() {
+        LocalDate localDate = LocalDate.now().minusYears(10L);
+        CommentStatRequest request = new CommentStatRequest("MONTHLY", project.getSecretKey(),
+            localDate, localDate);
+        CommentStatResponse commentStatResponse = commentService.giveStat(request);
+        assertThat(commentStatResponse.getCommentStats()).hasSize(1);
     }
 
     @DisplayName("소셜 로그인 유저가 댓글을 수정한다.")

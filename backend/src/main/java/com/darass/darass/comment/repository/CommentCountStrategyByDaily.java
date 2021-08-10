@@ -52,10 +52,9 @@ public class CommentCountStrategyByDaily implements CommentCountStrategy {
             }
             noneMonthCommentStats.add(new CommentStat(localDate.toString(), DEFAULT_COMMENT_COUNT));
             localDate = localDate.plusDays(1L);
-
-            if (localDate.equals(end) && !isExistDailyStat(commentStats, localDate)) {
-                noneMonthCommentStats.add(new CommentStat(localDate.toString(), DEFAULT_COMMENT_COUNT));
-            }
+        }
+        if (!isExistDailyStat(commentStats, localDate)) {
+            noneMonthCommentStats.add(new CommentStat(localDate.toString(), DEFAULT_COMMENT_COUNT));
         }
         return noneMonthCommentStats;
     }
