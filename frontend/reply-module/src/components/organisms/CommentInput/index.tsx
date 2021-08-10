@@ -7,21 +7,29 @@ import {
   MAX_COMMENT_INPUT_LENGTH
 } from "../../../constants/comment";
 import { useContentEditable, useCreateComment, useInput } from "../../../hooks";
+import { Comment } from "../../../types";
 import { User } from "../../../types/user";
 import { AlertError } from "../../../utils/Error";
 import { getErrorMessage } from "../../../utils/errorMessage";
 import { isEmptyString } from "../../../utils/isEmptyString";
 import { postAlertMessage } from "../../../utils/postMessage";
 import SubmitButton from "../../atoms/Buttons/SubmitButton";
-import { Form, GuestInfo, TextBox, Wrapper } from "./styles";
+import { CancelButton } from "../../atoms/CommentTextBox/styles";
+import { ButtonWrapper, Form, GuestInfo, TextBox, Wrapper } from "./styles";
 
 export interface Props {
+  className?: string;
   user: User | undefined;
-  url: string | null;
-  projectSecretKey: string | null;
+  parentCommentId?: Comment["id"];
+  onClose?: () => void;
 }
 
-const CommentInput = ({ user, url, projectSecretKey }: Props) => {
+const CommentInput = ({ className, user, parentCommentId, onClose }: Props) => {
+  const urlParams = new URLSearchParams(window.location.search);
+  const url = urlParams.get("url");
+  const projectSecretKey = urlParams.get("projectKey");
+  const isSubCommentInput = parentCommentId ? true : false;
+
   const { content, setContent, onInput, $contentEditable } = useContentEditable("");
   const { value: guestNickName, onChange: onChangeGuestNickName, setValue: setGuestNickName } = useInput("");
   const { value: guestPassword, onChange: onChangeGuestPassword, setValue: setGuestPassword } = useInput("");
@@ -60,10 +68,11 @@ const CommentInput = ({ user, url, projectSecretKey }: Props) => {
         guestPassword: guestPassword || undefined
       };
 
-      await createComment({ content, url, projectSecretKey, ...guestInfo });
+      await createComment({ content, url, projectSecretKey, ...guestInfo, parentId: parentCommentId });
       setContent("");
       setGuestNickName("");
       setGuestPassword("");
+      if (onClose) onClose();
     } catch (error) {
       if (error instanceof AlertError) {
         postAlertMessage(error.message);
@@ -74,7 +83,7 @@ const CommentInput = ({ user, url, projectSecretKey }: Props) => {
   };
 
   return (
-    <Form onSubmit={onSubmit}>
+    <Form onSubmit={onSubmit} className={className}>
       <TextBox
         ref={$contentEditable}
         contentEditable={true}
@@ -104,7 +113,10 @@ const CommentInput = ({ user, url, projectSecretKey }: Props) => {
             />
           </div>
         )}
-        <SubmitButton>등록</SubmitButton>
+        <ButtonWrapper>
+          {isSubCommentInput && <CancelButton onClick={onClose}>취소</CancelButton>}
+          <SubmitButton>등록</SubmitButton>
+        </ButtonWrapper>
       </Wrapper>
     </Form>
   );

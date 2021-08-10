@@ -22,34 +22,11 @@ const _likeComment = async (id: Comment["id"]) => {
 export const useLikeComment = () => {
   const queryClient = useQueryClient();
 
-  const likeMutation = useMutation<void, Error, LikeCommentParameter>(
-    ({ user, commentId }) => _likeComment(commentId),
-    {
-      onSuccess: (_, { user, commentId }) => {
-        queryClient.setQueryData<GetCommentsResponse | undefined>(REACT_QUERY_KEY.COMMENT, oldData => {
-          if (!oldData) return;
-          const newComments =
-            oldData?.comments?.map(comment => {
-              if (!user) return comment;
-
-              if (comment.id === commentId) {
-                if (comment.likingUsers.some(likingUser => likingUser.id === user.id)) {
-                  return {
-                    ...comment,
-                    likingUsers: comment.likingUsers.filter(likingUser => likingUser.id !== user.id)
-                  };
-                }
-                return { ...comment, likingUsers: comment.likingUsers.concat(user) };
-              }
-
-              return comment;
-            }) || [];
-
-          return { ...oldData, comments: newComments };
-        });
-      }
+  const likeMutation = useMutation<void, Error, LikeCommentParameter>(({ commentId }) => _likeComment(commentId), {
+    onSuccess: () => {
+      queryClient.invalidateQueries(REACT_QUERY_KEY.COMMENT);
     }
-  );
+  });
 
   const isLoading = likeMutation.isLoading;
   const error = likeMutation.error;

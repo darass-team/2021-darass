@@ -5,13 +5,13 @@ import DeleteButton from "../../atoms/Buttons/DeleteButton";
 import LikingUsersButtonComponent from "../../atoms/Buttons/LikingUsersButton";
 import SubmitButton from "../../atoms/Buttons/SubmitButton";
 import CommentOptionComponent from "../../atoms/CommentOption";
+import CommentInputComponent from "../../organisms/CommentInput";
 
-export const Container = styled.div<{ isNestedComment?: boolean }>`
+export const Container = styled.div<{ isSubComment?: boolean }>`
   display: flex;
   flex-direction: column;
-  margin-left: ${props => props.isNestedComment && "3rem"};
+  margin-left: ${props => props.isSubComment && "3rem"};
   margin-bottom: 1.5rem;
-  //margin-bottom: ${props => (props.isNestedComment ? "5rem" : "1.5rem")};
 `;
 
 export const CommentWrapper = styled.div`
@@ -60,6 +60,17 @@ export const LikeButton = styled.button<{ isLiked: boolean }>`
   }
 `;
 
+export const AddSubCommentButton = styled.button`
+  background-color: transparent;
+  color: ${PALETTE.BLACK_700};
+
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      color: ${PALETTE.BLUE_700};
+    }
+  }
+`;
+
 export const Time = styled.span`
   font-size: 0.8rem;
   line-height: 1.2rem;
@@ -71,8 +82,8 @@ export const CommentOption = styled(CommentOptionComponent)`
   top: 0.75rem;
 `;
 
-export const PasswordForm = styled.form<{ isNestedComment: boolean }>`
-  margin-left: ${props => props.isNestedComment && "2.1rem"};
+export const PasswordForm = styled.form<{ isSubComment: boolean }>`
+  margin-left: ${props => props.isSubComment && "2.1rem"};
 `;
 
 export const PasswordInput = styled.input<{ isValidInput: Boolean }>`
@@ -105,4 +116,8 @@ export const CancelButton = styled(DeleteButton)`
   font-size: 1rem;
   line-height: 1.5rem;
   margin-right: 0.5rem;
+`;
+
+export const CommentInput = styled(CommentInputComponent)`
+  margin-left: 3rem;
 `;

@@ -26,7 +26,9 @@ import {
   PasswordInput,
   LikingUsersButton,
   Time,
-  DownRightArrow
+  DownRightArrow,
+  AddSubCommentButton,
+  CommentInput
 } from "./styles";
 import { POST_MESSAGE_TYPE } from "../../../constants/postMessageType";
 import { getPasswordConfirmResult } from "../../../api/getPasswordConfirmResult";
@@ -34,32 +36,34 @@ import { AlertError } from "../../../utils/Error";
 import { MAX_COMMENT_INPUT_LENGTH } from "../../../constants/comment";
 import { getErrorMessage } from "../../../utils/errorMessage";
 import downRightArrowSVG from "../../../assets/svg/down-right-arrow.svg";
+import { Project } from "../../../types/project";
 
 export interface Props {
-  user: User | undefined;
+  user?: User;
+  project?: Project;
   comment: CommentType;
   shouldShowOption?: boolean;
   iAmAdmin: boolean;
   thisCommentIsWrittenByAdmin: boolean;
   thisCommentIsMine: boolean;
-  hasNestedComment: boolean;
-  isNestedComment: boolean;
+  isSubComment: boolean;
 }
 
 type SubmitType = "Edit" | "Delete";
 
 const Comment = ({
   user,
+  project,
   comment,
   shouldShowOption,
   iAmAdmin,
   thisCommentIsWrittenByAdmin,
   thisCommentIsMine,
-  hasNestedComment,
-  isNestedComment
+  isSubComment
 }: Props) => {
   const [isEditing, setEditing] = useState(false);
   const [isPasswordSubmitted, setPasswordSubmitted] = useState(false);
+  const [isSubCommentInputOpen, setSubCommentInputOpen] = useState(false);
   const [shouldShowPasswordInput, setShouldShowPasswordInput] = useState(false);
   const [submitType, setSubmitType] = useState<SubmitType | null>();
   const { value: password, setValue: setPassword, onChange: onChangePassword } = useInput("");
@@ -187,7 +191,7 @@ const Comment = ({
 
   const onClickLikeButton = async () => {
     try {
-      await likeComment({ user, commentId: comment.id });
+      await likeComment({ commentId: comment.id });
     } catch (error) {
       if (error instanceof AlertError) {
         postAlertMessage(error.message);
@@ -199,72 +203,123 @@ const Comment = ({
     postOpenLikingUsersModal(comment.likingUsers);
   };
 
+  const onOpenSubCommentInput = () => {
+    setSubCommentInputOpen(true);
+  };
+
+  const onCloseSubCommentInput = () => {
+    console.log("hi");
+    setSubCommentInputOpen(false);
+  };
+
+  const hasSubComments = comment?.subComments ? comment.subComments.length > 0 : false;
+
   useEffect(() => {
     postScrollHeightToParentWindow();
-  }, [shouldShowPasswordInput, submitType]);
+  }, [shouldShowPasswordInput, submitType, isSubCommentInputOpen]);
 
   useEffect(() => {
     clear();
   }, [user]);
 
   return (
-    <Container data-testid="comment" isNestedComment={isNestedComment}>
-      <CommentWrapper>
-        {isNestedComment && <DownRightArrow src={downRightArrowSVG} />}
-        <Avatar imageURL={comment.user.profileImageUrl} />
-        <CommentTextBoxWrapper>
-          <CommentTextBox
-            name={comment.user.nickName}
-            thisCommentIsWrittenByAdmin={thisCommentIsWrittenByAdmin}
-            isNestedComment={isNestedComment}
-            contentEditable={isEditing}
-            clear={clear}
-            onSubmitEditedComment={onSubmitEditedComment}
-          >
-            {comment.content}
-          </CommentTextBox>
-          <CommentBottomWrapper>
-            <LikeButton isLiked={isLiked} onClick={onClickLikeButton} data-testid="comment-like-button">
-              좋아요
-            </LikeButton>
-            <Time>{getTimeDifference(comment.createdDate)}</Time>
+    <>
+      <Container data-testid="comment" isSubComment={isSubComment}>
+        <CommentWrapper>
+          {isSubComment && <DownRightArrow src={downRightArrowSVG} />}
+          <Avatar imageURL={comment.user.profileImageUrl} />
+          <CommentTextBoxWrapper>
+            <CommentTextBox
+              name={comment.user.nickName}
+              thisCommentIsWrittenByAdmin={thisCommentIsWrittenByAdmin}
+              isSubComment={isSubComment}
+              contentEditable={isEditing}
+              clear={clear}
+              onSubmitEditedComment={onSubmitEditedComment}
+            >
+              {comment.content}
+            </CommentTextBox>
             {shouldShowOption && !submitType && (
               <CommentOption startEditing={canIEdit ? startEditing : undefined} startDeleting={startDeleting} />
             )}
-          </CommentBottomWrapper>
-          {comment.likingUsers.length > 0 && (
-            <LikingUsersButton
-              numOfLikes={comment.likingUsers.length}
-              isLiked={isLiked}
-              onClick={onLikingUsersModalOpen}
-            />
-          )}
-        </CommentTextBoxWrapper>
-      </CommentWrapper>
-      {shouldShowPasswordInput && shouldShowOption && (
-        <PasswordForm
-          isNestedComment={isNestedComment}
-          onSubmit={event => {
-            const submitPasswordCallback = submitType === "Edit" ? () => setEditing(true) : confirmDelete;
+            <CommentBottomWrapper>
+              <LikeButton isLiked={isLiked} onClick={onClickLikeButton} type="button" data-testid="comment-like-button">
+                좋아요
+              </LikeButton>
+              {!isSubComment && (
+                <AddSubCommentButton onClick={onOpenSubCommentInput} type="button">
+                  대댓글 달기
+                </AddSubCommentButton>
+              )}
+              <Time>{getTimeDifference(comment.createdDate)}</Time>
+            </CommentBottomWrapper>
+            {comment.likingUsers.length > 0 && (
+              <LikingUsersButton
+                numOfLikes={comment.likingUsers.length}
+                isLiked={isLiked}
+                onClick={onLikingUsersModalOpen}
+              />
+            )}
+          </CommentTextBoxWrapper>
+        </CommentWrapper>
+        {shouldShowPasswordInput && shouldShowOption && (
+          <PasswordForm
+            isSubComment={isSubComment}
+            onSubmit={event => {
+              const submitPasswordCallback = submitType === "Edit" ? () => setEditing(true) : confirmDelete;
 
-            onSubmitPassword(event, submitPasswordCallback);
-          }}
-        >
-          <PasswordInput
-            type="password"
-            value={password}
-            onChange={onChangePassword}
-            placeholder="댓글 작성 시 입력한 비밀번호 입력"
-            isValidInput={!isPasswordSubmitted}
-            data-testid="comment-guest-password-input"
-          />
-          <CancelButton onClick={() => clear()} data-testid="comment-guest-password-cancel-button">
-            취소
-          </CancelButton>
-          <Button data-testid="comment-guest-password-submit-button">입력</Button>
-        </PasswordForm>
+              onSubmitPassword(event, submitPasswordCallback);
+            }}
+          >
+            <PasswordInput
+              type="password"
+              value={password}
+              onChange={onChangePassword}
+              placeholder="댓글 작성 시 입력한 비밀번호 입력"
+              isValidInput={!isPasswordSubmitted}
+              data-testid="comment-guest-password-input"
+            />
+            <CancelButton onClick={clear} data-testid="comment-guest-password-cancel-button">
+              취소
+            </CancelButton>
+            <Button data-testid="comment-guest-password-submit-button">입력</Button>
+          </PasswordForm>
+        )}
+      </Container>
+      {!hasSubComments && isSubCommentInputOpen && (
+        <CommentInput user={user} parentCommentId={comment.id} onClose={onCloseSubCommentInput} />
       )}
-    </Container>
+      {hasSubComments &&
+        comment.subComments.map((subComment, index) => {
+          const authorId = subComment.user.id;
+
+          const iAmGuestUser = !user;
+          const iAmAdmin = user !== undefined && project?.userId === user.id;
+
+          const thisCommentIsMine = authorId !== undefined && authorId === user?.id;
+          const thisCommentIsWrittenByAdmin = subComment.user.id === project?.userId;
+          const thisCommentIsWrittenByGuest = subComment.user.type === "GuestUser";
+          const shouldShowOption = iAmAdmin || thisCommentIsMine || (iAmGuestUser && thisCommentIsWrittenByGuest);
+
+          return (
+            <div key={subComment.id}>
+              <Comment
+                user={user}
+                comment={subComment}
+                thisCommentIsWrittenByAdmin={thisCommentIsWrittenByAdmin}
+                shouldShowOption={shouldShowOption}
+                iAmAdmin={iAmAdmin}
+                thisCommentIsMine={thisCommentIsMine}
+                isSubComment={true}
+              />
+
+              {!isSubComment && isSubCommentInputOpen && index === comment.subComments.length - 1 && (
+                <CommentInput user={user} parentCommentId={comment.id} onClose={onCloseSubCommentInput} />
+              )}
+            </div>
+          );
+        })}
+    </>
   );
 };
 

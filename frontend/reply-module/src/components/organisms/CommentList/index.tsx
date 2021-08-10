@@ -67,7 +67,7 @@ const CommentList = ({
       <CommentContainer>
         {notice && <Notice>{notice}</Notice>}
         {isLoading && <CommentSkeleton />}
-        {comments.map((comment, index) => {
+        {comments.map(comment => {
           const authorId = comment.user.id;
 
           const iAmGuestUser = !user;
@@ -81,14 +81,14 @@ const CommentList = ({
           return (
             <Comment
               user={user}
+              project={project}
               comment={comment}
               key={comment.id}
               thisCommentIsWrittenByAdmin={thisCommentIsWrittenByAdmin}
               shouldShowOption={shouldShowOption}
               iAmAdmin={iAmAdmin}
               thisCommentIsMine={thisCommentIsMine}
-              hasNestedComment={false}
-              isNestedComment={index === 1 || index === 2 || index === 3}
+              isSubComment={false}
             />
           );
         })}

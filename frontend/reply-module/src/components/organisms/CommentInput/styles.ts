@@ -3,9 +3,9 @@ import styled, { css } from "styled-components";
 import { InputCSS } from "../../../styles/css";
 
 export const Form = styled.form`
-  width: 100%;
   display: flex;
   flex-direction: column;
+  margin-bottom: 1rem;
 `;
 
 export const TextBox = styled.div<{ isValidInput: Boolean }>`
@@ -39,10 +39,6 @@ export const Wrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-
-  & > button {
-    margin-left: auto;
-  }
 `;
 
 export const GuestInfo = styled.input<{ isValidInput: Boolean }>`
@@ -62,4 +58,10 @@ export const GuestInfo = styled.input<{ isValidInput: Boolean }>`
   :first-child {
     margin-right: 1.2rem;
   }
+`;
+
+export const ButtonWrapper = styled.div`
+  display: flex;
+  gap: 0.5rem;
+  margin-left: auto;
 `;

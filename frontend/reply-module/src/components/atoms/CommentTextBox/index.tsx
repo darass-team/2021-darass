@@ -10,7 +10,7 @@ export interface Props {
   children: Comment["content"];
   contentEditable?: boolean;
   thisCommentIsWrittenByAdmin: boolean;
-  isNestedComment: boolean;
+  isSubComment: boolean;
   clear: () => void;
   onSubmitEditedComment: (content: Comment["content"]) => void;
 }
@@ -20,7 +20,7 @@ const CommentTextBox = ({
   children,
   contentEditable = false,
   thisCommentIsWrittenByAdmin,
-  isNestedComment,
+  isSubComment,
   clear,
   onSubmitEditedComment
 }: Props) => {
@@ -38,12 +38,12 @@ const CommentTextBox = ({
   }, [contentEditable]);
 
   return (
-    <Container isNestedComment={isNestedComment}>
+    <Container isSubComment={isSubComment}>
       <Name thisCommentIsWrittenByAdmin={thisCommentIsWrittenByAdmin}>{name}</Name>
       <Text
         ref={$contentEditable}
         contentEditable={contentEditable}
-        isNestedComment={isNestedComment}
+        isSubComment={isSubComment}
         suppressContentEditableWarning={true}
         onInput={onInput}
         data-testid="comment-text-box-contenteditable-input"

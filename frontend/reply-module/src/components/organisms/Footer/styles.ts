@@ -4,8 +4,8 @@ import styled from "styled-components";
 export const Container = styled.footer`
   display: flex;
   align-items: center;
-  margin-top: 2rem;
   padding: 1rem 0;
+  margin-top: 1rem;
   border-top: 1px solid ${PALETTE.GRAY_400};
 `;
 

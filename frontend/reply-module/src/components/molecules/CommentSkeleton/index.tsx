@@ -8,10 +8,10 @@ const CommentSkeleton = () => {
       <CommentWrapper>
         <Avatar />
         <CommentTextBoxWrapper>
-          <CommentTextBoxContainer isNestedComment={false}>
+          <CommentTextBoxContainer isSubComment={false}>
             <Name thisCommentIsWrittenByAdmin={false} />
-            <Text isNestedComment={false} contentEditable={false} />
-            <Text isNestedComment={false} contentEditable={false} />
+            <Text isSubComment={false} contentEditable={false} />
+            <Text isSubComment={false} contentEditable={false} />
           </CommentTextBoxContainer>
           <CommentBottomWrapper>
             <Buttons />

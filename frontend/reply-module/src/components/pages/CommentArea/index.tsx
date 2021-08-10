@@ -100,7 +100,7 @@ const CommentArea = () => {
           </>
         )}
       </UserAvatarOption>
-      <CommentInput url={url} projectSecretKey={projectSecretKey} user={user} />
+      <CommentInput user={user} />
       <Footer />
     </Container>
   );

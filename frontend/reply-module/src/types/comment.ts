@@ -5,6 +5,7 @@ export interface Comment {
   content: string;
   user: User;
   likingUsers: User[];
+  subComments: Comment[];
   createdDate: string;
   modifiedDate: string;
 }
@@ -24,6 +25,7 @@ export interface ScriptInfo {
 
 export interface CreateCommentRequestData extends Omit<GuestUserInfo, "guestUserId">, ScriptInfo {
   content: string;
+  parentId?: Comment["id"];
 }
 
 export interface GetCommentsRequestParams extends ScriptInfo {
@@ -44,4 +46,4 @@ export type EditCommentParameter = Pick<Comment, "id" | "content"> & Omit<GuestU
 
 export type DeleteCommentRequestParameter = Pick<Comment, "id"> & Omit<GuestUserInfo, "guestNickName">;
 
-export type LikeCommentParameter = { user: User | undefined; commentId: Comment["id"] };
+export type LikeCommentParameter = { commentId: Comment["id"] };
