@@ -6,6 +6,8 @@ import { PERIODICITY } from "../../../constants/statistics";
 import { useCalendar, useCommentStatisticsData, useGetProject } from "../../../hooks";
 import ScreenContainer from "../../../styles/ScreenContainer";
 import Modal from "../../atoms/Modal";
+import Tooltip from "../../atoms/Tooltip";
+
 import Calendar from "../../molecules/Calendar";
 import CommentStatisticsChart from "../../organisms/CommentStatisticsChart";
 import ContainerWithSideBar from "../../organisms/ContainerWithSideBar";
@@ -35,7 +37,10 @@ const Statistics = () => {
   const projectSecretKey = project?.secretKey;
 
   const { showCalendar, setShowCalendar, currentDate, setCurrentDate, startDate, setStartDate, endDate, setEndDate } =
-    useCalendar();
+    useCalendar({
+      initialStartDate: moment().subtract(1, "week"),
+      initialEndDate: moment()
+    });
 
   const [isDateEdited, setIsDateEdited] = useState(false);
 
@@ -60,7 +65,11 @@ const Statistics = () => {
 
   useEffect(() => {
     getCommentStatisticsData();
-  }, [projectSecretKey, startDate, endDate]);
+  }, [projectSecretKey]);
+
+  useEffect(() => {
+    getCommentStatisticsData();
+  }, [startDate, endDate]);
 
   useEffect(() => {
     if (!isDateEdited) {
@@ -101,6 +110,8 @@ const Statistics = () => {
                     {option.display}
                   </SortButton>
                 ))}
+
+                <Tooltip text="'시간별'은 설정된 기간내의 0시~23시의 댓글 통계를 보여줍니다. " />
               </SortButtonsWrapper>
             </Wrapper>
 
@@ -115,7 +126,7 @@ const Statistics = () => {
               </tr>
             </thead>
             <tbody>
-              {[...stats].map(_data => (
+              {stats.map(_data => (
                 <tr key={_data.date}>
                   <th>{_data.date}</th>
                   <th>{_data.count}</th>

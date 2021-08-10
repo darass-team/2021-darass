@@ -1,4 +1,6 @@
+import { useHistory } from "react-router";
 import Kakao from "../../../assets/svg/kakao.svg";
+import { ROUTE } from "../../../constants";
 import { useUser } from "../../../hooks";
 import { PALETTE } from "../../../styles/palette";
 import ScreenContainer from "../../../styles/ScreenContainer";
@@ -8,10 +10,13 @@ import { Button, Container, Introduction } from "./styles";
 
 const Login = () => {
   const { login } = useUser();
+  const history = useHistory();
 
   const onLogin = async () => {
     try {
       await login();
+
+      history.push(ROUTE.MY_PROJECT);
     } catch (error) {
       if (error instanceof AlertError) {
         alert(error.message);

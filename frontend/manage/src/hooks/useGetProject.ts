@@ -26,7 +26,7 @@ const getProject = async (id: Project["id"]) => {
       throw new AlertError("존재하지 않는 프로젝트입니다.");
     }
 
-    throw new AlertError("프로젝트 생성에 실패하였습니다.\n잠시 후 다시 시도해주세요.");
+    throw new AlertError("프로젝트 조회에 실패하였습니다.\n잠시 후 다시 시도해주세요.");
   }
 };
 

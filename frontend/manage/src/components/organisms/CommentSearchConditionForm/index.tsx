@@ -19,11 +19,11 @@ export interface Props {
   showCalendar: boolean;
   setShowCalendar: (state: boolean) => void;
   currentDate: moment.Moment;
-  startDate: moment.Moment | null;
-  endDate: moment.Moment | null;
+  startDate: moment.Moment;
+  endDate: moment.Moment;
   setCurrentDate: (state: moment.Moment) => void;
-  setStartDate: (state: moment.Moment | null) => void;
-  setEndDate: (state: moment.Moment | null) => void;
+  setStartDate: (state: moment.Moment) => void;
+  setEndDate: (state: moment.Moment) => void;
   onChangeKeyword: (event: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>) => void;
   keyword: string;
 }

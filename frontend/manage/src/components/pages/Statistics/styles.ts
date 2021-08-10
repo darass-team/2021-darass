@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { contentBoxCSS, titleCSS } from "../../../styles/css";
 import { PALETTE } from "../../../styles/palette";
+import TooltipComponent from "../../atoms/Tooltip";
 
 export const Container = styled.div`
   ${contentBoxCSS}

@@ -38,7 +38,10 @@ const Manage = () => {
   const { value: keyword, onChangeWithMaxLength: onChangeKeyword } = useInput("", MAX_COMMENT_SEARCH_TERM_LENGTH);
 
   const { showCalendar, setShowCalendar, currentDate, setCurrentDate, startDate, setStartDate, endDate, setEndDate } =
-    useCalendar();
+    useCalendar({
+      initialStartDate: moment().subtract(1, "year"),
+      initialEndDate: moment()
+    });
 
   const startDateAsString = startDate?.format("YYYY-MM-DD") || moment().format("YYYY-MM-DD");
   const endDateAsString = endDate?.format("YYYY-MM-DD") || moment().format("YYYY-MM-DD");

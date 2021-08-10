@@ -19,7 +19,8 @@ customAxios.interceptors.request.use(config => {
 
 const request = {
   get: async (query: string) => await customAxios.get(query),
-  post: async <T>(query: string, data: T) => await customAxios.post(query, data),
+  post: async <T>(query: string, data: T, headers?: AxiosResponse["headers"]) =>
+    await customAxios.post(query, data, headers),
   patch: async <T>(query: string, data: T, headers?: AxiosResponse["headers"]) =>
     await customAxios.patch(query, data, {
       headers
