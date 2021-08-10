@@ -3,7 +3,7 @@ package com.darass.darass.comment.service;
 import com.darass.darass.comment.domain.Comment;
 import com.darass.darass.comment.domain.CommentLike;
 import com.darass.darass.comment.domain.SortOption;
-import com.darass.darass.comment.domain.Stat;
+import com.darass.darass.comment.domain.CommentStat;
 import com.darass.darass.comment.dto.CommentCreateRequest;
 import com.darass.darass.comment.dto.CommentDeleteRequest;
 import com.darass.darass.comment.dto.CommentReadRequest;
@@ -241,9 +241,9 @@ public class CommentService {
     }
 
     public CommentStatResponse giveStat(CommentStatRequest request) {
-        List<Stat> stats = commentCountStrategyFactory.findStrategy(request.getPeriodicity())
+        List<CommentStat> commentStats = commentCountStrategyFactory.findStrategy(request.getPeriodicity())
             .calculateCount(request.getProjectKey(), request.getStartDate().atTime(LocalTime.MIN),
                 request.getEndDate().atTime(LocalTime.MAX));
-        return new CommentStatResponse(stats);
+        return new CommentStatResponse(commentStats);
     }
 }
