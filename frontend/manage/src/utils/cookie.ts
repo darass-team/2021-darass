@@ -1,4 +1,6 @@
-export const setCookie = (key: string, value: string, keepAliveMinutes = 60) => {
+const TOKEN_EXPIRY_MINUTES = 60 * 24 * 30 * 2;
+
+export const setCookie = (key: string, value: string, keepAliveMinutes = TOKEN_EXPIRY_MINUTES) => {
   const expiryDate = new Date();
   expiryDate.setMinutes(expiryDate.getMinutes() + keepAliveMinutes);
 

@@ -6,6 +6,7 @@ import { GUIDE_FILE, PROJECT_MENU, ROUTE } from "../../../constants";
 import { REPLY_MODULE_BASE_URL } from "../../../constants/domain";
 import { useCopyButton, useGetProject } from "../../../hooks";
 import ScreenContainer from "../../../styles/ScreenContainer";
+import { AlertError } from "../../../utils/error";
 import BlogLogoButton from "../../atoms/Buttons/BlogLogoButton";
 import GuideStep from "../../molecules/GuideStep";
 import ContainerWithSideBar from "../../organisms/ContainerWithSideBar";
@@ -41,6 +42,10 @@ const ScriptPublishing = () => {
   const script = scriptCode(projectSecretKey || "코드를 불러오는 중입니다...");
 
   if (error) {
+    if (error instanceof AlertError) {
+      alert(error.message);
+    }
+
     return <Redirect to={ROUTE.MY_PROJECT} />;
   }
 

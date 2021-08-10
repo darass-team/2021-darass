@@ -1,4 +1,3 @@
-const ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const path = require("path");
@@ -34,7 +33,6 @@ const config = {
               ],
               plugins: [
                 "@babel/transform-runtime",
-                require.resolve("react-refresh/babel"),
                 ["babel-plugin-remove-react-jsx-attribute", { attributes: ["data-testid"] }]
               ]
             }
@@ -66,7 +64,6 @@ const config = {
     }),
 
     new CleanWebpackPlugin(),
-    new ReactRefreshWebpackPlugin(),
     new webpack.HotModuleReplacementPlugin()
   ],
   resolve: {

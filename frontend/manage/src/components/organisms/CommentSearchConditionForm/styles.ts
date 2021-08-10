@@ -24,7 +24,6 @@ export const SearchTermInput = styled.input.attrs({ type: "text" })`
   padding: 0.3rem 1rem;
   border: 1px solid ${PALETTE.GRAY_400};
   margin-left: 1rem;
-  cursor: not-allowed;
 `;
 
 export const SearchButton = styled(SubmitButton)`

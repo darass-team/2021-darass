@@ -23,8 +23,10 @@ const Day = ({ date, startDate, endDate, changeDate }: Props) => {
     isWithInPeriod: date.isBetween(startDate, endDate, "day")
   };
 
+  const isWithIn1Year = date.isBetween(moment().subtract(1, "year"), moment());
+
   return (
-    <Container onClick={() => changeDate(date)} dayInfo={dayInfo}>
+    <Container onClick={() => changeDate(date)} dayInfo={dayInfo} disabled={!isWithIn1Year}>
       {date.date()}
     </Container>
   );

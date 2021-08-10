@@ -9,12 +9,15 @@ import {
   useCommentPageIndex,
   useDeleteComment,
   useGetCommentsOfProjectPerPage,
-  useGetProject
+  useGetProject,
+  useInput
 } from "../../../hooks";
 import ScreenContainer from "../../../styles/ScreenContainer";
+import { AlertError } from "../../../utils/error";
 import { getPagesOfLength5 } from "../../../utils/pagination";
 import CheckBox from "../../atoms/CheckBox";
 import PaginationBar from "../../atoms/PaginationBar";
+
 import Comment from "../../molecules/Comment";
 import CommentSearchConditionForm from "../../organisms/CommentSearchConditionForm";
 import ContainerWithSideBar from "../../organisms/ContainerWithSideBar";
@@ -28,6 +31,8 @@ const Manage = () => {
   const projectId = Number(match.params.id);
   const urlSearchParams = new URLSearchParams(location.search);
   const pageIndex = urlSearchParams.get("pageIndex") || 1;
+
+  const { value: keyword, setValue: setKeyword, onChange: onChangeKeyword } = useInput("");
 
   const { showCalendar, setShowCalendar, currentDate, setCurrentDate, startDate, setStartDate, endDate, setEndDate } =
     useCalendar();
@@ -50,13 +55,15 @@ const Manage = () => {
     totalComment,
     totalPage,
     refetch: getCommentsOfProjectPerPage,
-    prefetch: preGetCommentsOfProjectPerPage
+    prefetch: preGetCommentsOfProjectPerPage,
+    error: errorGetCommentsOfProjectPerPage
   } = useGetCommentsOfProjectPerPage({
     projectKey: projectSecretKey,
     startDate: startDateAsString,
     endDate: endDateAsString,
     page: currentPageIndex,
-    size: COMMENT_COUNT_PER_PAGE
+    size: COMMENT_COUNT_PER_PAGE,
+    keyword
   });
 
   const {
@@ -70,10 +77,11 @@ const Manage = () => {
 
   const paginationNumbers = getPagesOfLength5(currentPageIndex, totalPage);
 
-  const onSubmit = (event: FormEvent) => {
+  const onSubmit = async (event: FormEvent) => {
     event.preventDefault();
 
     getCommentsOfProjectPerPage();
+
     setCurrentPageIndex(1);
   };
 
@@ -92,11 +100,14 @@ const Manage = () => {
       await Promise.all(deleteAllComments);
 
       getCommentsOfProjectPerPage();
+
       setIsCheckingAllCommentsInCurrentPage(false);
       setCheckedCommentIds([]);
       alert("댓글이 정상적으로 삭제되었습니다.");
     } catch (error) {
-      console.error(error.message);
+      if (error instanceof AlertError) {
+        alert(error.message);
+      }
     }
   };
 
@@ -105,9 +116,11 @@ const Manage = () => {
 
     getCommentsOfProjectPerPage();
 
-    Promise.all(paginationNumbers.map(num => preGetCommentsOfProjectPerPage(num))).catch(error =>
-      console.error(error.message)
-    );
+    Promise.all(paginationNumbers.map(num => preGetCommentsOfProjectPerPage(num))).catch(error => {
+      if (error instanceof AlertError) {
+        alert(error.message);
+      }
+    });
   }, [currentPageIndex, projectSecretKey, totalPage]);
 
   return (
@@ -125,6 +138,8 @@ const Manage = () => {
             setStartDate={setStartDate}
             endDate={endDate}
             setEndDate={setEndDate}
+            onChangeKeyword={onChangeKeyword}
+            keyword={keyword}
           />
 
           <CommentsViewer>

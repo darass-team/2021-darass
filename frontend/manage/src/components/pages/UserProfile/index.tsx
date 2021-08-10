@@ -1,7 +1,9 @@
 import { ChangeEvent, FormEventHandler, useEffect, useState } from "react";
 import cameraIcon from "../../../assets/svg/camera.svg";
+import { MAX_USER_NAME_LENGTH } from "../../../constants/validation";
 import { useDeleteUser, useEditUser, useInput, useUser } from "../../../hooks";
 import ScreenContainer from "../../../styles/ScreenContainer";
+import { AlertError } from "../../../utils/error";
 import DeleteSection from "../../molecules/DeleteSection";
 import {
   CameraIcon,
@@ -13,16 +15,25 @@ import {
   Label,
   Title,
   UserProfileImage,
-  SubmitButton
+  SubmitButton,
+  UserNameCounter
 } from "./styles";
 
 const UserProfile = () => {
   const { user, logout } = useUser();
   const { editUser } = useEditUser();
   const { deleteUser } = useDeleteUser();
-  const { value: userName, setValue: setUserName, onChange: onChangeUserName } = useInput("");
+  const { value: userName, setValue: setUserName, onChange: _onChangeUserName } = useInput("");
   const [profileImageAsUrl, setProfileImageAsUrl] = useState<string>();
   const [profileImageAsFile, setProfileImageAsFile] = useState<Blob | string>();
+
+  const onChangeUserName = (event: ChangeEvent<HTMLInputElement>) => {
+    if (event.target.value.length > MAX_USER_NAME_LENGTH) {
+      return;
+    }
+
+    _onChangeUserName(event);
+  };
 
   const onChangeFile = (event: ChangeEvent<HTMLInputElement>) => {
     const target = event.target;
@@ -47,8 +58,9 @@ const UserProfile = () => {
       alert("회원탈퇴에 성공하셨습니다.");
       logout();
     } catch (error) {
-      alert("회원탈퇴에 실패하였습니다.");
-      console.error(error.message);
+      if (error instanceof AlertError) {
+        alert(error.message);
+      }
     }
   };
 
@@ -64,8 +76,9 @@ const UserProfile = () => {
 
       alert("회원정보 수정에 성공하셨습니다.");
     } catch (error) {
-      alert(error.response.data.message);
-      console.error(error.response.data.message);
+      if (error instanceof AlertError) {
+        alert(error.message);
+      }
     }
   };
 
@@ -93,6 +106,9 @@ const UserProfile = () => {
           <InfoWrapper>
             <Label>별명</Label>
             <Input value={userName} onChange={onChangeUserName} />
+            <UserNameCounter>
+              {userName.length} / {MAX_USER_NAME_LENGTH}
+            </UserNameCounter>
           </InfoWrapper>
 
           <SubmitButton>수정</SubmitButton>

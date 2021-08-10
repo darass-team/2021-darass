@@ -8,7 +8,8 @@ export const comments: Comment[] = [
     user: socialLoginUser,
     likingUsers: [],
     createdDate: new Date().toDateString(),
-    modifiedDate: new Date().toDateString()
+    modifiedDate: new Date().toDateString(),
+    url: "wooteco.com"
   },
   {
     id: 2,
@@ -16,7 +17,8 @@ export const comments: Comment[] = [
     user: socialLoginUser,
     likingUsers: [],
     createdDate: new Date().toDateString(),
-    modifiedDate: new Date().toDateString()
+    modifiedDate: new Date().toDateString(),
+    url: "wooteco.com"
   },
   {
     id: 3,
@@ -24,7 +26,8 @@ export const comments: Comment[] = [
     user: socialLoginUser,
     likingUsers: [],
     createdDate: new Date().toDateString(),
-    modifiedDate: new Date().toDateString()
+    modifiedDate: new Date().toDateString(),
+    url: "wooteco.com"
   },
   {
     id: 4,
@@ -32,7 +35,8 @@ export const comments: Comment[] = [
     user: socialLoginUser,
     likingUsers: [],
     createdDate: new Date().toDateString(),
-    modifiedDate: new Date().toDateString()
+    modifiedDate: new Date().toDateString(),
+    url: "wooteco.com"
   },
   {
     id: 5,
@@ -40,7 +44,8 @@ export const comments: Comment[] = [
     user: socialLoginUser,
     likingUsers: [],
     createdDate: new Date().toDateString(),
-    modifiedDate: new Date().toDateString()
+    modifiedDate: new Date().toDateString(),
+    url: "wooteco.com"
   },
   {
     id: 6,
@@ -48,7 +53,8 @@ export const comments: Comment[] = [
     user: guestUser,
     likingUsers: [],
     createdDate: new Date().toDateString(),
-    modifiedDate: new Date().toDateString()
+    modifiedDate: new Date().toDateString(),
+    url: "wooteco.com"
   },
   {
     id: 7,
@@ -56,7 +62,8 @@ export const comments: Comment[] = [
     user: guestUser,
     likingUsers: [],
     createdDate: new Date().toDateString(),
-    modifiedDate: new Date().toDateString()
+    modifiedDate: new Date().toDateString(),
+    url: "wooteco.com"
   },
   {
     id: 8,
@@ -64,7 +71,8 @@ export const comments: Comment[] = [
     user: guestUser,
     likingUsers: [],
     createdDate: new Date().toDateString(),
-    modifiedDate: new Date().toDateString()
+    modifiedDate: new Date().toDateString(),
+    url: "wooteco.com"
   },
   {
     id: 9,
@@ -72,7 +80,8 @@ export const comments: Comment[] = [
     user: guestUser,
     likingUsers: [],
     createdDate: new Date().toDateString(),
-    modifiedDate: new Date().toDateString()
+    modifiedDate: new Date().toDateString(),
+    url: "wooteco.com"
   },
   {
     id: 10,
@@ -80,7 +89,8 @@ export const comments: Comment[] = [
     user: guestUser,
     likingUsers: [],
     createdDate: new Date().toDateString(),
-    modifiedDate: new Date().toDateString()
+    modifiedDate: new Date().toDateString(),
+    url: "wooteco.com"
   },
   {
     id: 11,
@@ -88,6 +98,7 @@ export const comments: Comment[] = [
     user: socialLoginUser2,
     likingUsers: [],
     createdDate: new Date().toDateString(),
-    modifiedDate: new Date().toDateString()
+    modifiedDate: new Date().toDateString(),
+    url: "wooteco.com"
   }
 ].sort(() => Math.random() - 0.5);

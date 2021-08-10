@@ -8,6 +8,7 @@ import { isEmptyString } from "../../../utils/validation";
 import ContainerWithSideBar from "../../organisms/ContainerWithSideBar";
 import DeleteSection from "../../molecules/DeleteSection";
 import { Container, Form, InfoWrapper, Input, Label, SubmitButton, Title } from "./styles";
+import { AlertError } from "../../../utils/error";
 
 const ProjectDetail = () => {
   const match = useRouteMatch<{ id?: string }>();
@@ -40,8 +41,9 @@ const ProjectDetail = () => {
 
       history.push(ROUTE.MY_PROJECT);
     } catch (error) {
-      alert(error.message);
-      console.error(error.message);
+      if (error instanceof AlertError) {
+        alert(error.message);
+      }
     }
   };
 
@@ -54,8 +56,9 @@ const ProjectDetail = () => {
 
       history.replace(ROUTE.MY_PROJECT);
     } catch (error) {
-      alert(error.message);
-      console.error(error.message);
+      if (error instanceof AlertError) {
+        alert(error.message);
+      }
     }
   };
 

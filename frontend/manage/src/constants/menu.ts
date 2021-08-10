@@ -7,7 +7,7 @@ export const PROJECT_MENU = {
       { name: "프로젝트 정보", route: ROUTE.GET_PROJECT_DETAIL(projectId) },
       {
         name: "통계",
-        subMenus: [{ name: "전체", route: ROUTE.GET_SCRIPT_PUBLISHING(projectId) }]
+        route: ROUTE.GET_STATISTICS(projectId)
       },
       { name: "댓글 관리", route: ROUTE.GET_PROJECT_MANAGE(projectId) },
       { name: "설치 가이드", route: ROUTE.GET_SCRIPT_PUBLISHING(projectId) }

@@ -36,4 +36,9 @@ export const Container = styled.button.attrs({ type: "button" })<{ dayInfo: DayI
   ${({ dayInfo: { isWithInPeriod } }) => isWithInPeriod && withIndPeriodCSS};
 
   transition: background-color 0.3s, border-radius 0.1s;
+
+  &:disabled {
+    cursor: not-allowed;
+    color: ${PALETTE.GRAY_400};
+  }
 `;

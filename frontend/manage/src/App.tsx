@@ -8,6 +8,7 @@ import MyProject from "./components/pages/MyProject";
 import NewProject from "./components/pages/NewProject";
 import ProjectDetail from "./components/pages/ProjectDetail";
 import ScriptPublishingPage from "./components/pages/ScriptPublishing";
+import Statistics from "./components/pages/Statistics";
 import UserProfile from "./components/pages/UserProfile";
 import { ROUTE } from "./constants";
 import { useUser } from "./hooks";
@@ -29,6 +30,7 @@ const App = () => {
         />
         <ConditionalRoute path={ROUTE.NEW_PROJECT} component={NewProject} condition={!!user || isLoading} />
         <ConditionalRoute path={ROUTE.PROJECT_MANAGE} component={Manage} condition={!!user || isLoading} />
+        <ConditionalRoute path={ROUTE.STATISTICS} component={Statistics} condition={!!user || isLoading} />
         <ConditionalRoute path={ROUTE.PROJECT_DETAIL} component={ProjectDetail} condition={!!user || isLoading} />
         <ConditionalRoute path={ROUTE.MY_PROJECT} component={MyProject} condition={!!user || isLoading} />
         <Redirect to={ROUTE.HOME} />

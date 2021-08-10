@@ -20,10 +20,4 @@ const Template: Story<Props> = args => (
 
 export const Default = Template.bind({});
 
-Default.args = {
-  title: "통계",
-  menu: [
-    { title: "전체", onClick: () => {} },
-    { title: "페이지 별", onClick: () => {} }
-  ]
-};
+Default.args = {};
