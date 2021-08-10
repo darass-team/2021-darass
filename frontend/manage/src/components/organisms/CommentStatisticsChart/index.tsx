@@ -43,7 +43,6 @@ const CommentStatisticsChart = ({ data }: Props) => {
           hover: {
             intersect: false
           }
-          // animation: false
         }}
       />
     </Container>

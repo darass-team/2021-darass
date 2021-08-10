@@ -37,14 +37,12 @@ const Statistics = () => {
   const { showCalendar, setShowCalendar, currentDate, setCurrentDate, startDate, setStartDate, endDate, setEndDate } =
     useCalendar();
 
+  const [isDateEdited, setIsDateEdited] = useState(false);
+
   const startDateAsString = startDate?.format("YYYY-MM-DD") || moment().format("YYYY-MM-DD");
   const endDateAsString = endDate?.format("YYYY-MM-DD") || moment().format("YYYY-MM-DD");
 
-  const {
-    stats,
-    error: errorCommentStatistics,
-    refetch: getCommentStatisticsData
-  } = useCommentStatisticsData({
+  const { stats, refetch: getCommentStatisticsData } = useCommentStatisticsData({
     periodicity: selectedPeriodicity,
     projectKey: projectSecretKey,
     startDate: startDateAsString,
@@ -55,9 +53,26 @@ const Statistics = () => {
     setSelectedPeriodicity(option);
   };
 
+  const onClickDateInput = () => {
+    setShowCalendar(true);
+    setIsDateEdited(true);
+  };
+
   useEffect(() => {
     getCommentStatisticsData();
-  }, [projectSecretKey, startDate, endDate, selectedPeriodicity]);
+  }, [projectSecretKey, startDate, endDate]);
+
+  useEffect(() => {
+    if (!isDateEdited) {
+      if (selectedPeriodicity.key === "hourly") setStartDate(moment());
+      if (selectedPeriodicity.key === "daily") setStartDate(moment().subtract(1, "week"));
+      if (selectedPeriodicity.key === "monthly") setStartDate(moment().subtract(6, "month"));
+
+      setEndDate(moment());
+    } else {
+      getCommentStatisticsData();
+    }
+  }, [selectedPeriodicity]);
 
   return (
     <ScreenContainer>
@@ -70,9 +85,9 @@ const Statistics = () => {
               <DataInputWrapper>
                 <Meta>기간 선택</Meta>
                 <DateRange>
-                  <DateInputText onClick={() => setShowCalendar(true)}>{startDate?.format("YY-MM-DD")}</DateInputText>
+                  <DateInputText onClick={onClickDateInput}>{startDate?.format("YY-MM-DD")}</DateInputText>
                   <span>{" ~ "}</span>
-                  <DateInputText onClick={() => setShowCalendar(true)}>{endDate?.format("YY-MM-DD")}</DateInputText>
+                  <DateInputText onClick={onClickDateInput}>{endDate?.format("YY-MM-DD")}</DateInputText>
                 </DateRange>
               </DataInputWrapper>
 
