@@ -41,15 +41,21 @@ public class CommentCountStrategyByHourly implements CommentCountStrategy {
     private List<Stat> getStatByNoneHourly(LocalDateTime startDate, LocalDateTime endDate, List<Stat> stats) {
         List<Stat> noneHourlyStats = new ArrayList<>();
 
-        outer:
         for (int localTime = LocalTime.MIN.getHour(); localTime <= LocalTime.MAX.getHour(); localTime++) {
-            for (Stat stat : stats) {
-                if (localTime == Integer.parseInt(stat.getDate())) {
-                    continue outer;
-                }
+            if (isExistHourlyStat(stats, localTime)) {
+                continue;
             }
             noneHourlyStats.add(new Stat(String.valueOf(localTime), 0L));
         }
         return noneHourlyStats;
+    }
+
+    private boolean isExistHourlyStat(List<Stat> stats, int localTime) {
+        for (Stat stat : stats) {
+            if (localTime == Integer.parseInt(stat.getDate())) {
+                return true;
+            }
+        }
+        return false;
     }
 }

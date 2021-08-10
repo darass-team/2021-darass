@@ -40,18 +40,30 @@ public class CommentCountStrategyByMonthly implements CommentCountStrategy {
 
     private List<Stat> getStatByNoneMonth(LocalDateTime startDate, LocalDateTime endDate, List<Stat> stats) {
         List<Stat> noneMonthStats = new ArrayList<>();
-        YearMonth startYearMonth = YearMonth.from(startDate);
+        YearMonth yearMonth = YearMonth.from(startDate);
         YearMonth endYearMonth = YearMonth.from(endDate);
 
-        outer:
-        for (YearMonth yearMonth = startYearMonth; !yearMonth.equals(endYearMonth); yearMonth = yearMonth.plusMonths(1L)) {
-            for (Stat stat : stats) {
-                if (yearMonth.toString().equals(stat.getDate())) {
-                    continue outer;
-                }
+        while (!yearMonth.equals(endYearMonth)) {
+            if (isExistMonthStat(stats, yearMonth)) {
+                continue;
             }
             noneMonthStats.add(new Stat(yearMonth.toString(), 0L));
+            yearMonth = yearMonth.plusMonths(1L);
+
+            if (yearMonth.equals(endYearMonth) && !isExistMonthStat(stats, yearMonth)) {
+                noneMonthStats.add(new Stat(yearMonth.toString(), 0L));
+            }
         }
+
         return noneMonthStats;
+    }
+
+    private boolean isExistMonthStat(List<Stat> stats, YearMonth yearMonth) {
+        for (Stat stat : stats) {
+            if (yearMonth.toString().equals(stat.getDate())) {
+                return true;
+            }
+        }
+        return false;
     }
 }

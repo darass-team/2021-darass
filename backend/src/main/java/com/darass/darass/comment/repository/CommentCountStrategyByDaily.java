@@ -40,18 +40,29 @@ public class CommentCountStrategyByDaily implements CommentCountStrategy {
 
     private List<Stat> getStatByNoneDaily(LocalDateTime startDate, LocalDateTime endDate, List<Stat> stats) {
         List<Stat> noneMonthStats = new ArrayList<>();
-        LocalDate start = LocalDate.from(startDate);
+        LocalDate localDate = LocalDate.from(startDate);
         LocalDate end = LocalDate.from(endDate);
 
-        outer:
-        for (LocalDate localDate = start; !localDate.equals(end); localDate = localDate.plusDays(1L)) {
-            for (Stat stat : stats) {
-                if (localDate.toString().equals(stat.getDate())) {
-                    continue outer;
-                }
+        while (!localDate.equals(end)) {
+            if (isExistDailyStat(stats, localDate)) {
+                continue;
             }
             noneMonthStats.add(new Stat(localDate.toString(), 0L));
+            localDate = localDate.plusDays(1L);
+
+            if (localDate.equals(end) && !isExistDailyStat(stats, localDate)) {
+                noneMonthStats.add(new Stat(localDate.toString(), 0L));
+            }
         }
         return noneMonthStats;
+    }
+
+    private boolean isExistDailyStat(List<Stat> stats, LocalDate localDate) {
+        for (Stat stat : stats) {
+            if (localDate.toString().equals(stat.getDate())) {
+                return true;
+            }
+        }
+        return false;
     }
 }
