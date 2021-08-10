@@ -1,6 +1,6 @@
 {
   "name": "reply-module",
-  "version": "^0.3.0",
+  "version": "^0.4.0",
   "description": "댓글 모듈",
   "main": "index.js",
   "author": "도비, 곤이",
@@ -57,6 +57,7 @@
   },
   "scripts": {
     "start": "cross-env BUILD_MODE=development webpack serve",
+    "start:production": "cross-env BUILD_MODE=production webpack serve",
     "build": "cross-env BUILD_MODE=development webpack",
     "build:production": "cross-env BUILD_MODE=production webpack",
     "watch": "cross-env BUILD_MODE=development webpack watch",

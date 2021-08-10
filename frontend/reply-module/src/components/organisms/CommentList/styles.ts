@@ -7,13 +7,31 @@ export const Container = styled.section`
   flex-direction: column;
 `;
 
+export const Header = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  border-bottom: 1px solid ${PALETTE.GRAY_400};
+  padding-bottom: 0.8rem;
+`;
+
+export const CommentCountWrapper = styled.div`
+  display: flex;
+  font-size: 1.4rem;
+  line-height: 2.1rem;
+  word-break: keep-all;
+`;
+
+export const CommentCount = styled.span`
+  color: ${PALETTE.SECONDARY};
+  font-weight: 700;
+  margin-left: 0.5rem;
+`;
+
 export const OrderButtonContainer = styled.div`
   width: 100%;
   display: flex;
   justify-content: flex-end;
-  align-items: flex-start;
-  border-bottom: 1px solid ${PALETTE.GRAY_400};
-  padding-bottom: 1.6rem;
 `;
 
 export const OrderButtonWrapper = styled.div`
@@ -26,8 +44,8 @@ export const OrderButtonWrapper = styled.div`
 
 export const OrderButton = styled.button<{ isSelected: boolean }>`
   color: ${props => (props.isSelected ? PALETTE.BLACK_700 : PALETTE.GRAY_500)};
-  font-size: 1.6rem;
-  line-height: 2.4rem;
+  font-size: 1.2rem;
+  line-height: 1.8rem;
   font-weight: 700;
   background-color: transparent;
   transition: color 0.1s;
@@ -42,11 +60,9 @@ export const OrderButton = styled.button<{ isSelected: boolean }>`
 export const CommentContainer = styled.div`
   display: flex;
   flex-direction: column;
-  margin: 3rem 0;
+  margin: 3rem 2rem 3rem 0;
 
   & > * {
-    margin-bottom: 1.5rem;
-
     &:last-child {
       margin-bottom: 0;
     }
@@ -63,33 +79,5 @@ export const Notice = styled.span`
   font-size: 1.4rem;
   line-height: 2.1rem;
   color: ${PALETTE.GRAY_600};
-  white-space: pre-wrap;
-`;
-
-export const ShowMoreButton = styled.button`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 0.3rem 1rem;
-  gap: 0.1rem;
-  margin: 0 auto;
-  background-color: transparent;
-  font-weight: 500;
-  font-size: 1.2rem;
-  line-height: 1.8rem;
-  color: ${PALETTE.GRAY_600};
-
-  & > svg > path {
-    stroke: ${PALETTE.GRAY_600};
-  }
-
-  @media (hover: hover) and (pointer: fine) {
-    &:hover {
-      color: ${PALETTE.BLACK_700};
-
-      & > svg > path {
-        stroke: ${PALETTE.BLACK_700};
-      }
-    }
-  }
+  white-space: break-spaces;
 `;

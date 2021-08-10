@@ -1,35 +1,56 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { PALETTE } from "../../../styles/palette";
 import DeleteButton from "../Buttons/DeleteButton";
 import SubmitButtonComponent from "../Buttons/SubmitButton";
 
-export const Container = styled.div`
+export const Container = styled.div<{ isSubComment: boolean }>`
   width: 100%;
-  background-color: ${PALETTE.GRAY_200};
+  background-color: ${props => (props.isSubComment ? PALETTE.GRAY_300 : PALETTE.GRAY_100)};
   border-radius: 10px;
-  padding: 0.8rem 1rem 1.2rem 1rem;
+  padding: 0.8rem 1rem 0.8rem 1rem;
   display: flex;
   flex-direction: column;
 `;
 
-export const Name = styled.span`
+export const Name = styled.span<{ thisCommentIsWrittenByAdmin: boolean }>`
   font-weight: 700;
-  font-size: 1.3rem;
-  line-height: 1.8rem;
-  margin-bottom: 0.4rem;
+  font-size: 1.1rem;
+  line-height: 1.65rem;
+  margin-bottom: 0.2rem;
+  margin-right: 2rem;
+
+  ${props =>
+    props.thisCommentIsWrittenByAdmin &&
+    css`
+      &:after {
+        content: "작성자";
+        font-size: 0.9rem;
+        line-height: 1.35rem;
+        margin-left: 0.3rem;
+        color: ${PALETTE.INDIGO_600};
+      }
+    `}
 `;
 
-export const Text = styled.div`
+export const Text = styled.div<{ isSubComment: boolean; contentEditable: boolean }>`
   outline-color: ${PALETTE.BLACK_700};
-  background-color: ${props => (props.contentEditable ? PALETTE.WHITE : PALETTE.GRAY_200)};
-  padding: 0.2rem 0.3rem;
-  min-width: 10rem;
-  max-width: 20rem;
+  background-color: ${props => {
+    if (props.contentEditable) {
+      return PALETTE.WHITE;
+    }
+    if (props.isSubComment) {
+      return PALETTE.GRAY_300;
+    }
+
+    return PALETTE.GRAY_100;
+  }};
+  padding: 0.2rem 0.3rem 0.2rem 0.1rem;
+  min-width: 15rem;
   border-radius: 0.3rem;
-  word-break: break-word;
+  word-break: break-all;
   white-space: break-spaces;
   font-size: 1.2rem;
-  line-height: 2.1rem;
+  line-height: 1.8rem;
 `;
 
 export const ButtonWrapper = styled.div`

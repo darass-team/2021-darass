@@ -3,7 +3,7 @@ import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { getPasswordConfirmResult } from "../../api/getPasswordConfirmResult";
 import CommentInput from "../../components/organisms/CommentInput/index";
 import CommentList from "../../components/organisms/CommentList";
-import { useCreateComment, useDeleteComment, useEditComment, useShowMoreComments } from "../../hooks";
+import { useCreateComment, useDeleteComment, useEditComment } from "../../hooks";
 import { useLikeComment } from "../../hooks/useLikeComment";
 import { Comment } from "../../types";
 import { comments as _comments } from "../fixture/comments";
@@ -15,7 +15,6 @@ jest.mock("../../hooks/useLikeComment");
 jest.mock("../../utils/request");
 jest.mock("../../utils/focusContentEditableTextToEnd");
 jest.mock("../../api/getPasswordConfirmResult");
-jest.mock("../../hooks/useShowMoreComments");
 
 window.alert = function (str) {
   console.log(str);
@@ -53,13 +52,6 @@ describe("비로그인 유저 댓글 CRUD 테스트 코드를 작성한다.", ()
     (getPasswordConfirmResult as jest.Mock).mockImplementation(() => {
       return true;
     });
-    (useShowMoreComments as jest.Mock).mockImplementation(() => {
-      return {
-        showMoreComments: () => {},
-        isLoading: false,
-        error: false
-      };
-    });
     (useLikeComment as jest.Mock).mockImplementation(() => {
       return {
         likeComment: () => {},
@@ -75,6 +67,7 @@ describe("비로그인 유저 댓글 CRUD 테스트 코드를 작성한다.", ()
       const commentList = render(
         <CommentList
           totalCommentsCount={_comments.length}
+          isLoading={false}
           comments={comments}
           project={undefined}
           notice={""}
@@ -91,35 +84,10 @@ describe("비로그인 유저 댓글 CRUD 테스트 코드를 작성한다.", ()
         }
       });
     });
-
-    test("비로그인 유저인 경우, 모든 댓글들이 왼쪽에 정렬된다", async () => {
-      const comments: Comment[] = JSON.parse(JSON.stringify(_comments));
-      const commentList = render(
-        <CommentList
-          totalCommentsCount={_comments.length}
-          comments={comments}
-          project={undefined}
-          notice={""}
-          onShowMoreComment={() => {}}
-          sortOption={"oldest"}
-          onSelectSortOption={() => {}}
-        />
-      );
-
-      await waitFor(() => {
-        const $$comments = commentList.container.querySelectorAll("section > div:nth-child(2) > div > div");
-
-        $$comments.forEach(($comment, index) => {
-          if (comments[index].user.type === "GuestUser") {
-            expect($comment).toHaveStyle("flex-direction: row");
-          }
-        });
-      });
-    });
   });
   describe("비로그인 유저 댓글 생성", () => {
     test("비로그인 유저인 경우, 댓글 입력에 게스트 비밀번호/이름 입력란이 노출된다.", () => {
-      const commentInput = render(<CommentInput user={undefined} url={null} projectSecretKey={null} />);
+      const commentInput = render(<CommentInput user={undefined} />);
       const $commentInputArea = commentInput.container.querySelector("form > div:nth-child(1)");
       const [$guestNickName, $guestPassword] = Array.from(commentInput.container.querySelectorAll("form  input"));
 
@@ -129,7 +97,7 @@ describe("비로그인 유저 댓글 CRUD 테스트 코드를 작성한다.", ()
     });
 
     test("비로그인 유저인 경우, 댓글 생성 시 댓글 내용/작성자 이름/비밀번호를 모두 입력해야 댓글을 작성할 수 있다.", async () => {
-      const commentInput = render(<CommentInput user={undefined} url={null} projectSecretKey={null} />);
+      const commentInput = render(<CommentInput user={undefined} />);
       const $commentInputTextArea = commentInput.getByTestId("comment-input-text-box") as HTMLElement;
       const $guestNickName = commentInput.getByPlaceholderText(/이름/i);
       const $guestPassword = commentInput.getByPlaceholderText(/비밀번호/i);
@@ -158,6 +126,7 @@ describe("비로그인 유저 댓글 CRUD 테스트 코드를 작성한다.", ()
       const commentList = render(
         <CommentList
           totalCommentsCount={_comments.length}
+          isLoading={false}
           user={undefined}
           comments={guestUserComments}
           project={undefined}
@@ -191,6 +160,7 @@ describe("비로그인 유저 댓글 CRUD 테스트 코드를 작성한다.", ()
       const commentList = render(
         <CommentList
           totalCommentsCount={_comments.length}
+          isLoading={false}
           user={undefined}
           comments={guestUserComments}
           project={undefined}
@@ -232,6 +202,7 @@ describe("비로그인 유저 댓글 CRUD 테스트 코드를 작성한다.", ()
       const { rerender } = render(
         <CommentList
           totalCommentsCount={_comments.length}
+          isLoading={false}
           user={undefined}
           project={undefined}
           comments={comments}
@@ -249,6 +220,7 @@ describe("비로그인 유저 댓글 CRUD 테스트 코드를 작성한다.", ()
       rerender(
         <CommentList
           totalCommentsCount={_comments.length}
+          isLoading={false}
           user={undefined}
           project={undefined}
           comments={comments}

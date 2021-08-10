@@ -1,29 +1,11 @@
 import styled from "styled-components";
-import { PALETTE } from "../../../styles/palette";
+import UserAvatarOptionComponent from "../../molecules/UserAvatarOption";
 import CommentListComponent from "../../organisms/CommentList";
 
 export const Container = styled.section`
   width: 100%;
   display: flex;
   flex-direction: column;
-`;
-
-export const Header = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1.6rem;
-`;
-
-export const CommentCountWrapper = styled.span`
-  font-size: 1.6rem;
-  line-height: 2.4rem;
-`;
-
-export const CommentCount = styled.span`
-  color: ${PALETTE.SECONDARY};
-  font-weight: 700;
-  margin-left: 0.5rem;
 `;
 
 export const CommentList = styled(CommentListComponent)`
@@ -45,4 +27,9 @@ export const LoginMethod = styled.button`
 export const LogOut = styled.button`
   font-weight: 700;
   background-color: transparent;
+`;
+
+export const UserAvatarOption = styled(UserAvatarOptionComponent)`
+  margin-left: auto;
+  margin-bottom: 1.5rem;
 `;

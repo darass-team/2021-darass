@@ -2,7 +2,7 @@ import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { postScrollHeightToParentWindow } from "../utils/postMessage";
 
 export const useContentEditable = (initialContent: string) => {
-  const $contentEditable = useRef<HTMLDivElement>(null);
+  const $contentEditable = useRef<HTMLDivElement | null>(null);
   const [content, _setContent] = useState(initialContent);
 
   const onInput = (event: ChangeEvent<HTMLDivElement>) => {

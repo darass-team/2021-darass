@@ -8,7 +8,8 @@ export const comments: Comment[] = [
     user: socialLoginUser,
     likingUsers: [],
     createdDate: new Date().toDateString(),
-    modifiedDate: new Date().toDateString()
+    modifiedDate: new Date().toDateString(),
+    subComments: []
   },
   {
     id: 2,
@@ -16,7 +17,8 @@ export const comments: Comment[] = [
     user: socialLoginUser,
     likingUsers: [],
     createdDate: new Date().toDateString(),
-    modifiedDate: new Date().toDateString()
+    modifiedDate: new Date().toDateString(),
+    subComments: []
   },
   {
     id: 3,
@@ -24,7 +26,8 @@ export const comments: Comment[] = [
     user: socialLoginUser,
     likingUsers: [],
     createdDate: new Date().toDateString(),
-    modifiedDate: new Date().toDateString()
+    modifiedDate: new Date().toDateString(),
+    subComments: []
   },
   {
     id: 4,
@@ -32,7 +35,8 @@ export const comments: Comment[] = [
     user: socialLoginUser,
     likingUsers: [],
     createdDate: new Date().toDateString(),
-    modifiedDate: new Date().toDateString()
+    modifiedDate: new Date().toDateString(),
+    subComments: []
   },
   {
     id: 5,
@@ -40,7 +44,8 @@ export const comments: Comment[] = [
     user: socialLoginUser,
     likingUsers: [],
     createdDate: new Date().toDateString(),
-    modifiedDate: new Date().toDateString()
+    modifiedDate: new Date().toDateString(),
+    subComments: []
   },
   {
     id: 6,
@@ -48,7 +53,8 @@ export const comments: Comment[] = [
     user: guestUser,
     likingUsers: [],
     createdDate: new Date().toDateString(),
-    modifiedDate: new Date().toDateString()
+    modifiedDate: new Date().toDateString(),
+    subComments: []
   },
   {
     id: 7,
@@ -56,7 +62,8 @@ export const comments: Comment[] = [
     user: guestUser,
     likingUsers: [],
     createdDate: new Date().toDateString(),
-    modifiedDate: new Date().toDateString()
+    modifiedDate: new Date().toDateString(),
+    subComments: []
   },
   {
     id: 8,
@@ -64,7 +71,8 @@ export const comments: Comment[] = [
     user: guestUser,
     likingUsers: [],
     createdDate: new Date().toDateString(),
-    modifiedDate: new Date().toDateString()
+    modifiedDate: new Date().toDateString(),
+    subComments: []
   },
   {
     id: 9,
@@ -72,7 +80,8 @@ export const comments: Comment[] = [
     user: guestUser,
     likingUsers: [],
     createdDate: new Date().toDateString(),
-    modifiedDate: new Date().toDateString()
+    modifiedDate: new Date().toDateString(),
+    subComments: []
   },
   {
     id: 10,
@@ -80,7 +89,8 @@ export const comments: Comment[] = [
     user: guestUser,
     likingUsers: [],
     createdDate: new Date().toDateString(),
-    modifiedDate: new Date().toDateString()
+    modifiedDate: new Date().toDateString(),
+    subComments: []
   },
   {
     id: 11,
@@ -88,6 +98,7 @@ export const comments: Comment[] = [
     user: socialLoginUser2,
     likingUsers: [],
     createdDate: new Date().toDateString(),
-    modifiedDate: new Date().toDateString()
+    modifiedDate: new Date().toDateString(),
+    subComments: []
   }
 ].sort(() => Math.random() - 0.5);

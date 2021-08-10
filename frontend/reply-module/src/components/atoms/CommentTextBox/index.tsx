@@ -9,11 +9,21 @@ export interface Props {
   name: User["nickName"];
   children: Comment["content"];
   contentEditable?: boolean;
+  thisCommentIsWrittenByAdmin: boolean;
+  isSubComment: boolean;
   clear: () => void;
   onSubmitEditedComment: (content: Comment["content"]) => void;
 }
 
-const CommentTextBox = ({ name, children, contentEditable = false, clear, onSubmitEditedComment }: Props) => {
+const CommentTextBox = ({
+  name,
+  children,
+  contentEditable = false,
+  thisCommentIsWrittenByAdmin,
+  isSubComment,
+  clear,
+  onSubmitEditedComment
+}: Props) => {
   const { content, setContent, onInput, $contentEditable } = useContentEditable(children);
 
   const cancelEdit = () => {
@@ -28,11 +38,12 @@ const CommentTextBox = ({ name, children, contentEditable = false, clear, onSubm
   }, [contentEditable]);
 
   return (
-    <Container>
-      <Name>{name}</Name>
+    <Container isSubComment={isSubComment}>
+      <Name thisCommentIsWrittenByAdmin={thisCommentIsWrittenByAdmin}>{name}</Name>
       <Text
         ref={$contentEditable}
         contentEditable={contentEditable}
+        isSubComment={isSubComment}
         suppressContentEditableWarning={true}
         onInput={onInput}
         data-testid="comment-text-box-contenteditable-input"

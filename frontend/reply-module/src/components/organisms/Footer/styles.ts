@@ -4,8 +4,8 @@ import styled from "styled-components";
 export const Container = styled.footer`
   display: flex;
   align-items: center;
-  margin-top: 2rem;
   padding: 1rem 0;
+  margin-top: 1rem;
   border-top: 1px solid ${PALETTE.GRAY_400};
 `;
 
@@ -32,4 +32,5 @@ export const ServiceName = styled.span`
   font-size: 1.5rem;
   line-height: 2.25rem;
   font-weight: 700;
+  color: ${PALETTE.GRAY_600};
 `;

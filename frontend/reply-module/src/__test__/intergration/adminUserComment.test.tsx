@@ -2,7 +2,7 @@ import "@testing-library/jest-dom/extend-expect";
 import { fireEvent, render, waitFor } from "@testing-library/react";
 import { getPasswordConfirmResult } from "../../api/getPasswordConfirmResult";
 import CommentList from "../../components/organisms/CommentList";
-import { useDeleteComment, useEditComment, useShowMoreComments } from "../../hooks";
+import { useDeleteComment, useEditComment } from "../../hooks";
 import { useLikeComment } from "../../hooks/useLikeComment";
 import { Comment } from "../../types";
 import { comments as _comments } from "../fixture/comments";
@@ -14,7 +14,6 @@ jest.mock("../../hooks/useDeleteComment");
 jest.mock("../../hooks/useCreateComment");
 jest.mock("../../hooks/useLikeComment");
 jest.mock("../../api/getPasswordConfirmResult");
-jest.mock("../../hooks/useShowMoreComments");
 
 window.alert = function (str) {
   console.log(str);
@@ -53,13 +52,6 @@ describe("관리자 유저일 때의 동작 테스트", () => {
         error: false
       };
     });
-    (useShowMoreComments as jest.Mock).mockImplementation(() => {
-      return {
-        showMoreComments: () => {},
-        isLoading: false,
-        error: false
-      };
-    });
   });
   test("관리자 유저인 경우, 비회원 유저의 댓글을 삭제할 수 있다.", async () => {
     const user = socialLoginUser;
@@ -71,6 +63,7 @@ describe("관리자 유저일 때의 동작 테스트", () => {
     const commentList = render(
       <CommentList
         totalCommentsCount={_comments.length}
+        isLoading={false}
         user={user}
         project={project}
         comments={guestComments}
@@ -102,6 +95,7 @@ describe("관리자 유저일 때의 동작 테스트", () => {
     const commentList = render(
       <CommentList
         totalCommentsCount={_comments.length}
+        isLoading={false}
         user={user}
         project={project}
         comments={socialLoginedComments}
@@ -134,6 +128,7 @@ describe("관리자 유저일 때의 동작 테스트", () => {
     const commentList = render(
       <CommentList
         totalCommentsCount={_comments.length}
+        isLoading={false}
         user={user}
         project={project}
         comments={guestComments}
@@ -164,6 +159,7 @@ describe("관리자 유저일 때의 동작 테스트", () => {
     const commentList = render(
       <CommentList
         totalCommentsCount={_comments.length}
+        isLoading={false}
         user={user}
         project={project}
         comments={socialLoginedCommentsWrittenByOther}
@@ -193,6 +189,7 @@ describe("관리자 유저일 때의 동작 테스트", () => {
     const commentList = render(
       <CommentList
         totalCommentsCount={_comments.length}
+        isLoading={false}
         user={user}
         project={project}
         comments={socialLoginedCommentsWrittenByMe}
@@ -209,33 +206,5 @@ describe("관리자 유저일 때의 동작 테스트", () => {
     fireEvent.click(firstCommentOption);
 
     expect(commentList.queryByTestId("comment-option-edit-button")).toBeTruthy();
-  });
-  test("관리자 유저의 댓글은 오른쪽에 정렬된다.", async () => {
-    const user = socialLoginUser;
-    const project = myProject;
-    const comments: Comment[] = JSON.parse(JSON.stringify(_comments));
-
-    const commentList = render(
-      <CommentList
-        totalCommentsCount={_comments.length}
-        user={user}
-        project={project}
-        comments={comments}
-        notice={""}
-        onShowMoreComment={() => {}}
-        sortOption={"oldest"}
-        onSelectSortOption={() => {}}
-      />
-    );
-
-    await waitFor(() => {
-      const $$comments = commentList.container.querySelectorAll("section > div:nth-child(2) > div > div");
-
-      $$comments.forEach(($comment, index) => {
-        if (comments[index].user.id === project.userId) {
-          expect($comment).toHaveStyle("flex-direction: row-reverse");
-        }
-      });
-    });
   });
 });

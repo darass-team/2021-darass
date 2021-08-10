@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "react-query";
 import { QUERY } from "../constants/api";
 import { request } from "../utils/request";
-import { Comment, EditCommentRequestData, LikeCommentParameter } from "../types/comment";
+import { Comment, EditCommentRequestData, GetCommentsResponse, LikeCommentParameter } from "../types/comment";
 import { REACT_QUERY_KEY } from "../constants/reactQueryKey";
 import { AlertError } from "../utils/Error";
 
@@ -22,30 +22,11 @@ const _likeComment = async (id: Comment["id"]) => {
 export const useLikeComment = () => {
   const queryClient = useQueryClient();
 
-  const likeMutation = useMutation<void, Error, LikeCommentParameter>(
-    ({ user, commentId }) => _likeComment(commentId),
-    {
-      onSuccess: (_, { user, commentId }) => {
-        queryClient.setQueryData<Comment[] | undefined>(REACT_QUERY_KEY.COMMENT, comments => {
-          return comments?.map(comment => {
-            if (!user) return comment;
-
-            if (comment.id === commentId) {
-              if (comment.likingUsers.some(likingUser => likingUser.id === user.id)) {
-                return {
-                  ...comment,
-                  likingUsers: comment.likingUsers.filter(likingUser => likingUser.id !== user.id)
-                };
-              }
-              return { ...comment, likingUsers: comment.likingUsers.concat(user) };
-            }
-
-            return comment;
-          });
-        });
-      }
+  const likeMutation = useMutation<void, Error, LikeCommentParameter>(({ commentId }) => _likeComment(commentId), {
+    onSuccess: () => {
+      queryClient.invalidateQueries(REACT_QUERY_KEY.COMMENT);
     }
-  );
+  });
 
   const isLoading = likeMutation.isLoading;
   const error = likeMutation.error;

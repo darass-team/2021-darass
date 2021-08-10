@@ -2,25 +2,13 @@ import { useEffect, useState } from "react";
 import kakaoTalkIcon from "../../../assets/png/kakaotalk.png";
 import { INITIAL_PAGE_PARAM } from "../../../constants/comment";
 import { ORDER_BUTTON } from "../../../constants/orderButton";
-import { useCommentsByPage, useGetProject, useUser } from "../../../hooks";
-import { useShowMoreComments } from "../../../hooks/useShowMoreComments";
-import useTotalCommentsCount from "../../../hooks/useTotalCommentsCount";
+import { useGetAllComments, useGetProject, useUser } from "../../../hooks";
 import { AlertError } from "../../../utils/Error";
 import { postScrollHeightToParentWindow } from "../../../utils/postMessage";
 import Avatar from "../../atoms/Avatar";
-import UserAvatarOption from "../../molecules/UserAvatarOption";
 import CommentInput from "../../organisms/CommentInput";
 import Footer from "../../organisms/Footer";
-import {
-  CommentCount,
-  CommentCountWrapper,
-  CommentList,
-  Container,
-  Header,
-  LoginMethod,
-  LoginMethodWrapper,
-  LogOut
-} from "./styles";
+import { CommentList, Container, LoginMethod, LoginMethodWrapper, LogOut, UserAvatarOption } from "./styles";
 
 const CommentArea = () => {
   const urlParams = new URLSearchParams(window.location.search);
@@ -30,22 +18,17 @@ const CommentArea = () => {
 
   const [sortOption, setSortOption] = useState<keyof typeof ORDER_BUTTON>("oldest");
   const [pageParam, setPageParam] = useState(INITIAL_PAGE_PARAM);
-  const [notice, setNotice] = useState("로딩 중...");
+  const [notice, setNotice] = useState("");
 
   const { user, login, logout } = useUser();
   const {
     totalCommentsCount,
-    isLoading: totalCommentsCountLoading,
-    error: totalCommentsCountError
-  } = useTotalCommentsCount({ url, projectSecretKey });
-  const {
     comments,
     refetch: refetchCommentsByPage,
     isLoading: commentsByPageLoading,
     error: commentsByPageError
-  } = useCommentsByPage({ url, projectSecretKey, sortOption, pageParam });
+  } = useGetAllComments({ url, projectSecretKey, sortOption });
   const { project, isLoading: projectLoading, error: projectError } = useGetProject({ projectSecretKey });
-  const { showMoreComment } = useShowMoreComments();
 
   useEffect(() => {
     postScrollHeightToParentWindow();
@@ -56,26 +39,12 @@ const CommentArea = () => {
   }, [sortOption]);
 
   useEffect(() => {
-    if (pageParam === INITIAL_PAGE_PARAM) return;
-    showMoreComment({ url, projectSecretKey, sortOption, pageParam });
-  }, [pageParam]);
+    if (projectLoading || commentsByPageLoading) return;
 
-  useEffect(() => {
-    if (projectLoading || totalCommentsCountLoading || commentsByPageLoading) {
-      setNotice("로딩 중...");
-
-      return;
-    }
-
-    setNotice("");
-  }, [projectLoading, commentsByPageLoading, totalCommentsCountLoading]);
-
-  useEffect(() => {
     if (projectError) setNotice(projectError.message);
-    if (totalCommentsCountError) setNotice(totalCommentsCountError.message);
     if (commentsByPageError) setNotice(commentsByPageError.message);
 
-    if (!(projectError || totalCommentsCountError || commentsByPageError)) {
+    if (!(projectError || commentsByPageError)) {
       if (totalCommentsCount === 0) {
         setNotice("작성된 댓글이 없습니다.");
         return;
@@ -83,15 +52,15 @@ const CommentArea = () => {
 
       setNotice("");
     }
-  }, [projectError, totalCommentsCountError, commentsByPageError, totalCommentsCount]);
+  }, [projectLoading, commentsByPageLoading, projectError, commentsByPageError, totalCommentsCount]);
 
   const onShowMoreComment = () => {
     setPageParam(currentPageParam => currentPageParam + 1);
   };
 
-  const onLogin = () => {
+  const onLogin = async () => {
     try {
-      login();
+      await login();
     } catch (error) {
       if (error instanceof AlertError) {
         alert(error.message);
@@ -106,28 +75,9 @@ const CommentArea = () => {
 
   return (
     <Container>
-      <Header>
-        <CommentCountWrapper>
-          댓글 <CommentCount>{totalCommentsCount || 0}</CommentCount>
-        </CommentCountWrapper>
-        <UserAvatarOption user={user}>
-          {user ? (
-            <LogOut type="button" onClick={logout}>
-              로그아웃
-            </LogOut>
-          ) : (
-            <>
-              <LoginMethodWrapper onClick={onLogin}>
-                <Avatar size="SM" imageURL={kakaoTalkIcon} alt="카카오톡 로그인 이미지" />
-                <LoginMethod>카카오</LoginMethod>
-              </LoginMethodWrapper>
-            </>
-          )}
-        </UserAvatarOption>
-      </Header>
-      <CommentInput url={url} projectSecretKey={projectSecretKey} user={user} />
       <CommentList
         user={user}
+        isLoading={projectLoading || commentsByPageLoading}
         totalCommentsCount={totalCommentsCount || 0}
         comments={comments || []}
         project={project}
@@ -136,6 +86,21 @@ const CommentArea = () => {
         notice={notice}
         onShowMoreComment={onShowMoreComment}
       />
+      <UserAvatarOption user={user}>
+        {user ? (
+          <LogOut type="button" onClick={logout}>
+            로그아웃
+          </LogOut>
+        ) : (
+          <>
+            <LoginMethodWrapper onClick={onLogin}>
+              <Avatar size="SM" imageURL={kakaoTalkIcon} alt="카카오톡 로그인 이미지" />
+              <LoginMethod>카카오</LoginMethod>
+            </LoginMethodWrapper>
+          </>
+        )}
+      </UserAvatarOption>
+      <CommentInput user={user} />
       <Footer />
     </Container>
   );
