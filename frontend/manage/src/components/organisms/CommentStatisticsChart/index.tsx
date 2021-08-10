@@ -35,6 +35,11 @@ const CommentStatisticsChart = ({ data }: Props) => {
                   stepSize: 100
                 }
               }
+            ],
+            xAxes: [
+              {
+                offset: true
+              }
             ]
           },
           maintainAspectRatio: false,
@@ -43,7 +48,6 @@ const CommentStatisticsChart = ({ data }: Props) => {
           hover: {
             intersect: false
           }
-          // animation: false
         }}
       />
     </Container>

@@ -6,10 +6,8 @@ import { PERIODICITY } from "../../../constants/statistics";
 import { useCalendar, useCommentStatisticsData, useGetProject } from "../../../hooks";
 import ScreenContainer from "../../../styles/ScreenContainer";
 import Modal from "../../atoms/Modal";
-import Calendar from "../../molecules/Calendar";
 import CommentStatisticsChart from "../../organisms/CommentStatisticsChart";
 import ContainerWithSideBar from "../../organisms/ContainerWithSideBar";
-import ErrorNotice from "../../organisms/ErrorNotice";
 import {
   ChartArea,
   Container,
@@ -21,7 +19,9 @@ import {
   SortButton,
   SortButtonsWrapper,
   Title,
-  Wrapper
+  Tooltip,
+  Wrapper,
+  Calendar
 } from "./styles";
 
 const Statistics = () => {
@@ -36,16 +36,17 @@ const Statistics = () => {
   const projectSecretKey = project?.secretKey;
 
   const { showCalendar, setShowCalendar, currentDate, setCurrentDate, startDate, setStartDate, endDate, setEndDate } =
-    useCalendar();
+    useCalendar({
+      initialStartDate: moment().subtract(1, "week"),
+      initialEndDate: moment()
+    });
+
+  const [isDateEdited, setIsDateEdited] = useState(false);
 
   const startDateAsString = startDate?.format("YYYY-MM-DD") || moment().format("YYYY-MM-DD");
   const endDateAsString = endDate?.format("YYYY-MM-DD") || moment().format("YYYY-MM-DD");
 
-  const {
-    stats,
-    error: errorCommentStatistics,
-    refetch: getCommentStatisticsData
-  } = useCommentStatisticsData({
+  const { stats, refetch: getCommentStatisticsData } = useCommentStatisticsData({
     periodicity: selectedPeriodicity,
     projectKey: projectSecretKey,
     startDate: startDateAsString,
@@ -56,9 +57,30 @@ const Statistics = () => {
     setSelectedPeriodicity(option);
   };
 
+  const onClickDateInput = () => {
+    setShowCalendar(true);
+    setIsDateEdited(true);
+  };
+
   useEffect(() => {
     getCommentStatisticsData();
-  }, [projectSecretKey, startDate, endDate, selectedPeriodicity]);
+  }, [projectSecretKey]);
+
+  useEffect(() => {
+    getCommentStatisticsData();
+  }, [startDate, endDate]);
+
+  useEffect(() => {
+    if (!isDateEdited) {
+      if (selectedPeriodicity.key === "hourly") setStartDate(moment());
+      if (selectedPeriodicity.key === "daily") setStartDate(moment().subtract(1, "week"));
+      if (selectedPeriodicity.key === "monthly") setStartDate(moment().subtract(6, "month"));
+
+      setEndDate(moment());
+    } else {
+      getCommentStatisticsData();
+    }
+  }, [selectedPeriodicity]);
 
   return (
     <ScreenContainer>
@@ -71,10 +93,21 @@ const Statistics = () => {
               <DataInputWrapper>
                 <Meta>기간 선택</Meta>
                 <DateRange>
-                  <DateInputText onClick={() => setShowCalendar(true)}>{startDate?.format("YY-MM-DD")}</DateInputText>
+                  <DateInputText onClick={onClickDateInput}>{startDate?.format("YY-MM-DD")}</DateInputText>
                   <span>{" ~ "}</span>
-                  <DateInputText onClick={() => setShowCalendar(true)}>{endDate?.format("YY-MM-DD")}</DateInputText>
+                  <DateInputText onClick={onClickDateInput}>{endDate?.format("YY-MM-DD")}</DateInputText>
                 </DateRange>
+
+                <Modal isOpen={showCalendar} closeModal={() => setShowCalendar(false)} dimmedOpacity={0}>
+                  <Calendar
+                    date={currentDate}
+                    setDate={setCurrentDate}
+                    startDate={startDate}
+                    setStartDate={setStartDate}
+                    endDate={endDate}
+                    setEndDate={setEndDate}
+                  />
+                </Modal>
               </DataInputWrapper>
 
               <SortButtonsWrapper>
@@ -87,6 +120,9 @@ const Statistics = () => {
                     {option.display}
                   </SortButton>
                 ))}
+                <Tooltip
+                  text={`'시간별': 설정된 기간 내 시간별 댓글 개수\n'일별': 설정된 기간 내 일별 댓글 개수\n'월별': 설정된 기간 내 월별 댓글 개수`}
+                />
               </SortButtonsWrapper>
             </Wrapper>
 
@@ -101,30 +137,15 @@ const Statistics = () => {
               </tr>
             </thead>
             <tbody>
-              {stats.length === 0 ? (
-                <></>
-              ) : (
-                [...stats].reverse().map(_data => (
-                  <tr key={_data.date}>
-                    <th>{_data.date}</th>
-                    <th>{_data.count}</th>
-                  </tr>
-                ))
-              )}
+              {stats.map(_data => (
+                <tr key={_data.date}>
+                  <th>{_data.date}</th>
+                  <th>{_data.count}</th>
+                </tr>
+              ))}
             </tbody>
           </DataTable>
         </Container>
-
-        <Modal isOpen={showCalendar} closeModal={() => setShowCalendar(false)} dimmedOpacity={0}>
-          <Calendar
-            date={currentDate}
-            setDate={setCurrentDate}
-            startDate={startDate}
-            setStartDate={setStartDate}
-            endDate={endDate}
-            setEndDate={setEndDate}
-          />
-        </Modal>
       </ContainerWithSideBar>
     </ScreenContainer>
   );

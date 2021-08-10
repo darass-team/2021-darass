@@ -1,18 +1,22 @@
 import { FormEvent } from "react";
-import { Redirect, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { ROUTE } from "../../../constants";
+import { MAX_PROJECT_DESCRIPTION_LENGTH, MAX_PROJECT_NAME_LENGTH } from "../../../constants/validation";
 import { useCreateProject, useGetAllProjects, useInput } from "../../../hooks";
 import ScreenContainer from "../../../styles/ScreenContainer";
 import { AlertError } from "../../../utils/error";
 import { isEmptyString } from "../../../utils/validation";
-import { Container, Form, Input, Label, SubmitButton, Title, InputWrapper } from "./styles";
+import { Container, Form, Input, Label, SubmitButton, Title, InputWrapper, ProjectInputCounter } from "./styles";
 
 const NewProject = () => {
   const history = useHistory();
   const { createProject } = useCreateProject();
 
-  const { value: projectName, onChange: onChangeProjectName } = useInput("");
-  const { value: projectDescription, onChange: onChangeProjectDescription } = useInput("");
+  const { value: projectName, onChangeWithMaxLength: onChangeProjectName } = useInput("", MAX_PROJECT_NAME_LENGTH);
+  const { value: projectDescription, onChangeWithMaxLength: onChangeProjectDescription } = useInput(
+    "",
+    MAX_PROJECT_DESCRIPTION_LENGTH
+  );
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -40,6 +44,7 @@ const NewProject = () => {
         <Form onSubmit={onSubmit}>
           <InputWrapper>
             <Label htmlFor="project-name">프로젝트 이름</Label>
+
             <Input
               id="project-name"
               value={projectName}
@@ -47,16 +52,25 @@ const NewProject = () => {
               placeholder="프로젝트 이름을 입력해주세요."
               autoFocus
             />
+
+            <ProjectInputCounter>
+              {projectName.length} / {MAX_PROJECT_NAME_LENGTH}
+            </ProjectInputCounter>
           </InputWrapper>
 
           <InputWrapper>
             <Label htmlFor="project-desciption">프로젝트 설명</Label>
+
             <Input
               id="project-desciption"
               value={projectDescription}
               onChange={onChangeProjectDescription}
               placeholder="프로젝트 설명을 입력해주세요."
             />
+
+            <ProjectInputCounter>
+              {projectDescription.length} / {MAX_PROJECT_DESCRIPTION_LENGTH}
+            </ProjectInputCounter>
           </InputWrapper>
           <SubmitButton>등록</SubmitButton>
         </Form>

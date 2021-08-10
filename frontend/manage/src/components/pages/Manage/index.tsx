@@ -3,6 +3,7 @@ import { FormEvent, useEffect } from "react";
 import { useLocation, useRouteMatch } from "react-router-dom";
 import { PROJECT_MENU } from "../../../constants";
 import { COMMENT_COUNT_PER_PAGE } from "../../../constants/pagination";
+import { MAX_COMMENT_SEARCH_TERM_LENGTH } from "../../../constants/validation";
 import {
   useCalendar,
   useCommentList,
@@ -10,7 +11,8 @@ import {
   useDeleteComment,
   useGetCommentsOfProjectPerPage,
   useGetProject,
-  useInput
+  useInput,
+  useUser
 } from "../../../hooks";
 import ScreenContainer from "../../../styles/ScreenContainer";
 import { AlertError } from "../../../utils/error";
@@ -28,14 +30,19 @@ const Manage = () => {
   const match = useRouteMatch<{ id: string }>();
   const location = useLocation();
 
+  const { user: me } = useUser();
+
   const projectId = Number(match.params.id);
   const urlSearchParams = new URLSearchParams(location.search);
   const pageIndex = urlSearchParams.get("pageIndex") || 1;
 
-  const { value: keyword, setValue: setKeyword, onChange: onChangeKeyword } = useInput("");
+  const { value: keyword, onChangeWithMaxLength: onChangeKeyword } = useInput("", MAX_COMMENT_SEARCH_TERM_LENGTH);
 
   const { showCalendar, setShowCalendar, currentDate, setCurrentDate, startDate, setStartDate, endDate, setEndDate } =
-    useCalendar();
+    useCalendar({
+      initialStartDate: moment().subtract(1, "year"),
+      initialEndDate: moment()
+    });
 
   const startDateAsString = startDate?.format("YYYY-MM-DD") || moment().format("YYYY-MM-DD");
   const endDateAsString = endDate?.format("YYYY-MM-DD") || moment().format("YYYY-MM-DD");
@@ -113,14 +120,15 @@ const Manage = () => {
 
   useEffect(() => {
     if (!currentPageIndex || !projectSecretKey) return;
+    (async () => {
+      await getCommentsOfProjectPerPage();
 
-    getCommentsOfProjectPerPage();
-
-    Promise.all(paginationNumbers.map(num => preGetCommentsOfProjectPerPage(num))).catch(error => {
-      if (error instanceof AlertError) {
-        alert(error.message);
-      }
-    });
+      Promise.all(paginationNumbers.map(num => preGetCommentsOfProjectPerPage(num))).catch(error => {
+        if (error instanceof AlertError) {
+          alert(error.message);
+        }
+      });
+    })();
   }, [currentPageIndex, projectSecretKey, totalPage]);
 
   return (
@@ -159,12 +167,13 @@ const Manage = () => {
             <CommentList>
               {comments.length === 0 ? (
                 <Row>
-                  <ErrorNotice>{"해당하는 댓글을 찾을 수 없습니다"}</ErrorNotice>
+                  <ErrorNotice>{"조건에 맞는 댓글을 찾을 수 없습니다"}</ErrorNotice>
                 </Row>
               ) : (
                 comments.map(({ id, content, user, createdDate, url }) => (
                   <Row key={id}>
                     <Comment
+                      isMyComment={me?.id === user.id}
                       isChecked={checkedCommentIds.some(_id => _id === id)}
                       onChangeCheckBox={() => updateCheckedCommentId(id)}
                       authorProfileImageUrl={user.profileImageUrl}
@@ -178,12 +187,14 @@ const Manage = () => {
               )}
             </CommentList>
 
-            <PaginationBar
-              currentPageIndex={currentPageIndex}
-              setCurrentPageIndex={setCurrentPageIndex}
-              paginationNumbers={paginationNumbers}
-              totalPageLength={totalPage}
-            />
+            {comments.length > 0 && (
+              <PaginationBar
+                currentPageIndex={currentPageIndex}
+                setCurrentPageIndex={setCurrentPageIndex}
+                paginationNumbers={paginationNumbers}
+                totalPageLength={totalPage}
+              />
+            )}
           </CommentsViewer>
         </Container>
       </ContainerWithSideBar>

@@ -13,12 +13,18 @@ export const ContentMeta = styled.div`
   align-items: center;
 `;
 
-export const Name = styled.span`
+export const Name = styled.span<{ isMyComment: boolean }>`
   font-size: 1.2rem;
   line-height: ${1.2 * LINE_HEIGHT_SCALE}rem;
   font-weight: 600;
   margin-right: 1rem;
   color: ${PALETTE.SECONDARY};
+
+  &::after {
+    content: "*";
+    color: ${PALETTE.TEAL_700};
+    display: ${({ isMyComment }) => (isMyComment ? "" : "none")};
+  }
 `;
 
 export const Date = styled.span``;

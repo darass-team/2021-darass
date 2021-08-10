@@ -1,11 +1,15 @@
 import moment from "moment";
 import { useState } from "react";
+interface Props {
+  initialStartDate: moment.Moment;
+  initialEndDate: moment.Moment;
+}
 
-export const useCalendar = () => {
+export const useCalendar = ({ initialStartDate, initialEndDate }: Props) => {
   const [showCalendar, setShowCalendar] = useState(false);
-  const [currentDate, setCurrentDate] = useState<moment.Moment>(() => moment());
-  const [startDate, setStartDate] = useState<moment.Moment | null>(currentDate.clone().subtract(1, "year"));
-  const [endDate, setEndDate] = useState<moment.Moment | null>(currentDate);
+  const [startDate, setStartDate] = useState<moment.Moment>(initialStartDate);
+  const [endDate, setEndDate] = useState<moment.Moment>(initialEndDate);
+  const [currentDate, setCurrentDate] = useState<moment.Moment>(endDate);
 
   return {
     showCalendar,

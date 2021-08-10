@@ -4,14 +4,15 @@ import { Container, Header, Month, MoveMonthButton, Year } from "./styles";
 
 export interface Props {
   date: moment.Moment;
-  startDate: moment.Moment | null;
-  endDate: moment.Moment | null;
+  startDate: moment.Moment;
+  endDate: moment.Moment;
   setDate: (date: moment.Moment) => void;
-  setStartDate: (date: moment.Moment | null) => void;
-  setEndDate: (date: moment.Moment | null) => void;
+  setStartDate: (date: moment.Moment) => void;
+  setEndDate: (date: moment.Moment) => void;
+  className?: string;
 }
 
-const Calendar = ({ date, startDate, endDate, setDate, setStartDate, setEndDate }: Props) => {
+const Calendar = ({ date, startDate, endDate, setDate, setStartDate, setEndDate, className }: Props) => {
   const resetDate = () => {
     setDate(moment());
     setStartDate(moment());
@@ -42,7 +43,7 @@ const Calendar = ({ date, startDate, endDate, setDate, setStartDate, setEndDate 
   };
 
   return (
-    <Container>
+    <Container className={className}>
       <Header>
         <MoveMonthButton onClick={setPrevMonth}>&#8249;</MoveMonthButton>
 

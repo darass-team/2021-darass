@@ -45,7 +45,7 @@ export const useCommentStatisticsData = ({
   startDate,
   endDate
 }: GetCommentStatisticsRequest) => {
-  const { data, isLoading, error, refetch } = useQuery<{ stats: COMMENT_STATISTICS[] }, Error>(
+  const { data, isLoading, error, refetch } = useQuery<{ commentStats: COMMENT_STATISTICS[] }, Error>(
     [REACT_QUERY_KEY.STATISTICS],
     () =>
       getCommentStatistics({
@@ -59,7 +59,7 @@ export const useCommentStatisticsData = ({
     }
   );
 
-  const stats = data ? preprocessing(data.stats, periodicity.key) : [];
+  const stats = data ? preprocessing(data.commentStats, periodicity.key) : [];
 
   return { stats, isLoading, error, refetch };
 };
