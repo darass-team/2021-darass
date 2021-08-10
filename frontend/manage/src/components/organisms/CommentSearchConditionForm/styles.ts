@@ -1,7 +1,9 @@
 import styled from "styled-components";
+import { Z_INDEX } from "../../../styles/constants";
 import { inputCSS } from "../../../styles/css";
 import { PALETTE } from "../../../styles/palette";
 import SubmitButton from "../../atoms/Buttons/SubmitButton";
+import CalendarComponent from "../../molecules/Calendar";
 
 export const Container = styled.form`
   display: flex;
@@ -11,6 +13,7 @@ export const Container = styled.form`
   padding: 2rem 1rem;
   border: 1px solid ${PALETTE.GRAY_400};
   margin-bottom: 1rem;
+  position: relative;
 `;
 
 export const SearchTermInput = styled.input.attrs({ type: "text" })`
@@ -58,4 +61,11 @@ export const DateInputText = styled.span`
 
 export const DateRange = styled.span`
   margin-left: 1rem;
+`;
+
+export const Calendar = styled(CalendarComponent)`
+  position: absolute;
+  top: 5rem;
+  left: 6.5rem;
+  z-index: ${Z_INDEX.MODAL + 1};
 `;

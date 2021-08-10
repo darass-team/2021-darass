@@ -1,7 +1,9 @@
 import styled from "styled-components";
+import { Z_INDEX } from "../../../styles/constants";
 import { contentBoxCSS, titleCSS } from "../../../styles/css";
 import { PALETTE } from "../../../styles/palette";
 import TooltipComponent from "../../atoms/Tooltip";
+import CalendarComponent from "../../molecules/Calendar";
 
 export const Container = styled.div`
   ${contentBoxCSS}
@@ -24,11 +26,19 @@ export const Wrapper = styled.div`
   margin-bottom: 1rem;
 `;
 
+export const Calendar = styled(CalendarComponent)`
+  position: absolute;
+  top: 4rem;
+  left: 5.5rem;
+  z-index: ${Z_INDEX.MODAL + 1};
+`;
+
 export const Meta = styled.span`
   min-width: 4.5rem;
 `;
 
 export const DataInputWrapper = styled.div`
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: flex-start;

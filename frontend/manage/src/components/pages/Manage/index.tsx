@@ -61,8 +61,7 @@ const Manage = () => {
     totalComment,
     totalPage,
     refetch: getCommentsOfProjectPerPage,
-    prefetch: preGetCommentsOfProjectPerPage,
-    error: errorGetCommentsOfProjectPerPage
+    prefetch: preGetCommentsOfProjectPerPage
   } = useGetCommentsOfProjectPerPage({
     projectKey: projectSecretKey,
     startDate: startDateAsString,
@@ -119,14 +118,15 @@ const Manage = () => {
 
   useEffect(() => {
     if (!currentPageIndex || !projectSecretKey) return;
+    (async () => {
+      await getCommentsOfProjectPerPage();
 
-    getCommentsOfProjectPerPage();
-
-    Promise.all(paginationNumbers.map(num => preGetCommentsOfProjectPerPage(num))).catch(error => {
-      if (error instanceof AlertError) {
-        alert(error.message);
-      }
-    });
+      Promise.all(paginationNumbers.map(num => preGetCommentsOfProjectPerPage(num))).catch(error => {
+        if (error instanceof AlertError) {
+          alert(error.message);
+        }
+      });
+    })();
   }, [currentPageIndex, projectSecretKey, totalPage]);
 
   return (
@@ -165,7 +165,7 @@ const Manage = () => {
             <CommentList>
               {comments.length === 0 ? (
                 <Row>
-                  <ErrorNotice>{"해당하는 댓글을 찾을 수 없습니다"}</ErrorNotice>
+                  <ErrorNotice>{"조건에 맞는 댓글을 찾을 수 없습니다"}</ErrorNotice>
                 </Row>
               ) : (
                 comments.map(({ id, content, user, createdDate, url }) => (
@@ -185,12 +185,14 @@ const Manage = () => {
               )}
             </CommentList>
 
-            <PaginationBar
-              currentPageIndex={currentPageIndex}
-              setCurrentPageIndex={setCurrentPageIndex}
-              paginationNumbers={paginationNumbers}
-              totalPageLength={totalPage}
-            />
+            {comments.length > 0 && (
+              <PaginationBar
+                currentPageIndex={currentPageIndex}
+                setCurrentPageIndex={setCurrentPageIndex}
+                paginationNumbers={paginationNumbers}
+                totalPageLength={totalPage}
+              />
+            )}
           </CommentsViewer>
         </Container>
       </ContainerWithSideBar>

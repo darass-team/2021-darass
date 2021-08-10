@@ -14,8 +14,4 @@ export const Dimmed = styled.div<{ isOpen: boolean; opacity: number }>`
   z-index: ${({ isOpen }) => (isOpen ? Z_INDEX.MODAL : -1)};
   opacity: ${({ isOpen }) => (isOpen ? 1 : 0)};
   transition: z-index 1s, opacity 0.5s;
-
-  & > * {
-    z-index: ${Z_INDEX.MODAL + 1};
-  }
 `;

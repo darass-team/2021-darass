@@ -2,7 +2,6 @@ import moment from "moment";
 import { ChangeEvent, FormEvent } from "react";
 import { MAX_COMMENT_SEARCH_TERM_LENGTH } from "../../../constants/validation";
 import Modal from "../../atoms/Modal";
-import Calendar from "../../molecules/Calendar";
 import {
   Container,
   DateInputText,
@@ -11,7 +10,8 @@ import {
   SearchButton,
   SearchTermInput,
   Wrapper,
-  SearchTermInputCounter
+  SearchTermInputCounter,
+  Calendar
 } from "./styles";
 
 export interface Props {
@@ -51,6 +51,17 @@ const CommentSearchConditionForm = ({
             <span>{" ~ "}</span>
             <DateInputText onClick={() => setShowCalendar(true)}>{endDate?.format("YY-MM-DD")}</DateInputText>
           </DateRange>
+
+          <Modal isOpen={showCalendar} closeModal={() => setShowCalendar(false)} dimmedOpacity={0}>
+            <Calendar
+              date={currentDate}
+              setDate={setCurrentDate}
+              startDate={startDate}
+              setStartDate={setStartDate}
+              endDate={endDate}
+              setEndDate={setEndDate}
+            />
+          </Modal>
         </Wrapper>
 
         <Wrapper>
@@ -64,17 +75,6 @@ const CommentSearchConditionForm = ({
 
         <SearchButton>조회</SearchButton>
       </Container>
-
-      <Modal isOpen={showCalendar} closeModal={() => setShowCalendar(false)} dimmedOpacity={0}>
-        <Calendar
-          date={currentDate}
-          setDate={setCurrentDate}
-          startDate={startDate}
-          setStartDate={setStartDate}
-          endDate={endDate}
-          setEndDate={setEndDate}
-        />
-      </Modal>
     </>
   );
 };

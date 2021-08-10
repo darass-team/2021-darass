@@ -6,8 +6,6 @@ import { PERIODICITY } from "../../../constants/statistics";
 import { useCalendar, useCommentStatisticsData, useGetProject } from "../../../hooks";
 import ScreenContainer from "../../../styles/ScreenContainer";
 import Modal from "../../atoms/Modal";
-
-import Calendar from "../../molecules/Calendar";
 import CommentStatisticsChart from "../../organisms/CommentStatisticsChart";
 import ContainerWithSideBar from "../../organisms/ContainerWithSideBar";
 import {
@@ -22,7 +20,8 @@ import {
   SortButtonsWrapper,
   Title,
   Tooltip,
-  Wrapper
+  Wrapper,
+  Calendar
 } from "./styles";
 
 const Statistics = () => {
@@ -98,6 +97,17 @@ const Statistics = () => {
                   <span>{" ~ "}</span>
                   <DateInputText onClick={onClickDateInput}>{endDate?.format("YY-MM-DD")}</DateInputText>
                 </DateRange>
+
+                <Modal isOpen={showCalendar} closeModal={() => setShowCalendar(false)} dimmedOpacity={0}>
+                  <Calendar
+                    date={currentDate}
+                    setDate={setCurrentDate}
+                    startDate={startDate}
+                    setStartDate={setStartDate}
+                    endDate={endDate}
+                    setEndDate={setEndDate}
+                  />
+                </Modal>
               </DataInputWrapper>
 
               <SortButtonsWrapper>
@@ -136,17 +146,6 @@ const Statistics = () => {
             </tbody>
           </DataTable>
         </Container>
-
-        <Modal isOpen={showCalendar} closeModal={() => setShowCalendar(false)} dimmedOpacity={0}>
-          <Calendar
-            date={currentDate}
-            setDate={setCurrentDate}
-            startDate={startDate}
-            setStartDate={setStartDate}
-            endDate={endDate}
-            setEndDate={setEndDate}
-          />
-        </Modal>
       </ContainerWithSideBar>
     </ScreenContainer>
   );

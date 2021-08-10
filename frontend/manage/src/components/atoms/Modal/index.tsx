@@ -30,11 +30,10 @@ const Modal = ({ isOpen, closeModal, children, dimmedOpacity = 0.6 }: Props) => 
   }, [isOpen]);
 
   return (
-    <ModalPortal>
-      <Dimmed ref={dimmedRef} onClick={onCloseModal} isOpen={isOpen} opacity={dimmedOpacity}>
-        {children}
-      </Dimmed>
-    </ModalPortal>
+    <>
+      <Dimmed ref={dimmedRef} onClick={onCloseModal} isOpen={isOpen} opacity={dimmedOpacity} />
+      {isOpen && children}
+    </>
   );
 };
 
