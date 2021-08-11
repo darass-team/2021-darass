@@ -71,7 +71,6 @@ describe("비로그인 유저 댓글 CRUD 테스트 코드를 작성한다.", ()
           comments={comments}
           project={undefined}
           notice={""}
-          onShowMoreComment={() => {}}
           sortOption={"oldest"}
           onSelectSortOption={() => {}}
         />
@@ -131,7 +130,6 @@ describe("비로그인 유저 댓글 CRUD 테스트 코드를 작성한다.", ()
           comments={guestUserComments}
           project={undefined}
           notice={""}
-          onShowMoreComment={() => {}}
           sortOption={"oldest"}
           onSelectSortOption={() => {}}
         />
@@ -165,7 +163,6 @@ describe("비로그인 유저 댓글 CRUD 테스트 코드를 작성한다.", ()
           comments={guestUserComments}
           project={undefined}
           notice={""}
-          onShowMoreComment={() => {}}
           sortOption={"oldest"}
           onSelectSortOption={() => {}}
         />
@@ -207,7 +204,6 @@ describe("비로그인 유저 댓글 CRUD 테스트 코드를 작성한다.", ()
           project={undefined}
           comments={comments}
           notice={""}
-          onShowMoreComment={() => {}}
           sortOption={"oldest"}
           onSelectSortOption={() => {}}
         />
@@ -225,7 +221,6 @@ describe("비로그인 유저 댓글 CRUD 테스트 코드를 작성한다.", ()
           project={undefined}
           comments={comments}
           notice={""}
-          onShowMoreComment={() => {}}
           sortOption={"oldest"}
           onSelectSortOption={() => {}}
         />

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { LINE_HEIGHT_SCALE, Z_INDEX } from "../../../styles/constants";
+import { Z_INDEX } from "../../../styles/constants";
 
 export const Container = styled.div`
   margin: 4rem 0;
@@ -20,11 +20,10 @@ export const TextArea = styled.div`
   display: table;
   text-align: center;
   font-size: 1.2rem;
-  line-height: ${1.2 * LINE_HEIGHT_SCALE}rem;
-
+  line-height: 1.8rem;
   > h2 {
     font-size: 2rem;
-    line-height: ${2 * LINE_HEIGHT_SCALE}rem;
+    line-height: 3rem;
     font-weight: 700;
     margin-bottom: 1rem;
   }
@@ -42,7 +41,6 @@ export const Img = styled.img`
       transform: rotate(210deg);
     }
   }
-
   @keyframes swing {
     from {
       transform: rotate(210deg);
@@ -51,7 +49,6 @@ export const Img = styled.img`
       transform: rotate(150deg);
     }
   }
-
   @keyframes sway {
     0% {
       transform: rotate(150deg);
@@ -63,12 +60,9 @@ export const Img = styled.img`
       transform: rotate(150deg);
     }
   }
-
   z-index: ${Z_INDEX.ERROR_NOTICE};
   width: 6rem;
   height: 6rem;
-
   transform-origin: 50% 200%;
-
   animation: fall 1s 1s ease-in-out, swing 1s 2s ease-in-out, sway 3s 3s infinite alternate ease-in-out;
 `;

@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import kakaoTalkIcon from "../../../assets/png/kakaotalk.png";
-import { INITIAL_PAGE_PARAM } from "../../../constants/comment";
 import { ORDER_BUTTON } from "../../../constants/orderButton";
 import { useGetAllComments, useGetProject, useUser } from "../../../hooks";
 import { AlertError } from "../../../utils/Error";
@@ -26,16 +25,15 @@ const CommentArea = () => {
   const projectSecretKey = urlParams.get("projectKey");
 
   const [sortOption, setSortOption] = useState<keyof typeof ORDER_BUTTON>("oldest");
-  const [pageParam, setPageParam] = useState(INITIAL_PAGE_PARAM);
   const [notice, setNotice] = useState("");
 
   const { user, login, logout } = useUser();
   const {
     totalCommentsCount,
     comments,
-    refetch: refetchCommentsByPage,
-    isLoading: commentsByPageLoading,
-    error: commentsByPageError
+    refetch: refetchAllComments,
+    isLoading: commentsLoading,
+    error: commentsError
   } = useGetAllComments({ url, projectSecretKey, sortOption });
   const { project, isLoading: projectLoading, error: projectError } = useGetProject({ projectSecretKey });
 
@@ -44,16 +42,16 @@ const CommentArea = () => {
   }, [comments]);
 
   useEffect(() => {
-    refetchCommentsByPage();
+    refetchAllComments();
   }, [sortOption]);
 
   useEffect(() => {
-    if (projectLoading || commentsByPageLoading) return;
+    if (projectLoading || commentsLoading) return;
 
     if (projectError) setNotice(projectError.message);
-    if (commentsByPageError) setNotice(commentsByPageError.message);
+    if (commentsError) setNotice(commentsError.message);
 
-    if (!(projectError || commentsByPageError)) {
+    if (!(projectError || commentsError)) {
       if (totalCommentsCount === 0) {
         setNotice("작성된 댓글이 없습니다.");
         return;
@@ -61,11 +59,7 @@ const CommentArea = () => {
 
       setNotice("");
     }
-  }, [projectLoading, commentsByPageLoading, projectError, commentsByPageError, totalCommentsCount]);
-
-  const onShowMoreComment = () => {
-    setPageParam(currentPageParam => currentPageParam + 1);
-  };
+  }, [projectLoading, commentsLoading, projectError, commentsError, totalCommentsCount]);
 
   const onLogin = async () => {
     try {
@@ -78,7 +72,6 @@ const CommentArea = () => {
   };
 
   const onSelectSortOption = (sortOption: keyof typeof ORDER_BUTTON) => {
-    setPageParam(INITIAL_PAGE_PARAM);
     setSortOption(sortOption);
   };
 
@@ -86,14 +79,13 @@ const CommentArea = () => {
     <Container>
       <CommentList
         user={user}
-        isLoading={projectLoading || commentsByPageLoading}
+        isLoading={projectLoading || commentsLoading}
         totalCommentsCount={totalCommentsCount || 0}
         comments={comments || []}
         project={project}
         sortOption={sortOption}
         onSelectSortOption={onSelectSortOption}
         notice={notice}
-        onShowMoreComment={onShowMoreComment}
       />
       <UserAvatarOption user={user}>
         {user ? (

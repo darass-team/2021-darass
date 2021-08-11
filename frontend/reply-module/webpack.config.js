@@ -53,6 +53,8 @@ const config = {
     new DefinePlugin({
       "process.env.KAKAO_REST_API_KEY": JSON.stringify(process.env.KAKAO_REST_API_KEY),
       "process.env.KAKAO_JAVASCRIPT_API_KEY": JSON.stringify(process.env.KAKAO_JAVASCRIPT_API_KEY),
+      "process.env.SENTRY_REPLY_MODULE_DSN": JSON.stringify(process.env.SENTRY_REPLY_MODULE_DSN),
+      "process.env.SENTRY_AUTH_TOKEN": JSON.stringify(process.env.SENTRY_AUTH_TOKEN),
       "process.env.BUILD_MODE": JSON.stringify(process.env.BUILD_MODE)
     }),
     new CleanWebpackPlugin()
@@ -60,7 +62,7 @@ const config = {
   resolve: {
     extensions: [".tsx", ".ts", ".jsx", ".js"]
   },
-  devtool: "inline-source-map",
+  devtool: "source-map",
   mode: process.env.BUILD_MODE,
   devServer: {
     host: "localhost",

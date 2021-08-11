@@ -15,6 +15,10 @@ const _createComment = async (_data: CreateCommentRequestData) => {
       throw new AlertError("관리자가 프로젝트를 삭제하여 더 이상 댓글을 작성할 수 없습니다.");
     }
 
+    if (error.response.data.code === 900) {
+      throw new AlertError("해당 댓글이 삭제되어 답글을 작성할 수 없습니다.");
+    }
+
     throw new AlertError("댓글 생성에 실패하였습니다.\n잠시 후 다시 시도해주세요.");
   }
 };

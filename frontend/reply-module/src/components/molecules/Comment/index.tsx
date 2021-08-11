@@ -262,7 +262,7 @@ const Comment = ({
               </LikeButton>
               {!isSubComment && (
                 <AddSubCommentButton onClick={onOpenSubCommentInput} type="button">
-                  대댓글 달기
+                  답글 달기
                 </AddSubCommentButton>
               )}
               <Time>{getTimeDifference(comment.createdDate)}</Time>
