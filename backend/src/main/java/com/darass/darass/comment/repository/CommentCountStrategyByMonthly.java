@@ -52,12 +52,10 @@ public class CommentCountStrategyByMonthly implements CommentCountStrategy {
             }
             noneMonthCommentStats.add(new CommentStat(yearMonth.toString(), DEFAULT_COMMENT_COUNT));
             yearMonth = yearMonth.plusMonths(1L);
-
-            if (yearMonth.equals(endYearMonth) && !isExistMonthStat(commentStats, yearMonth)) {
-                noneMonthCommentStats.add(new CommentStat(yearMonth.toString(), DEFAULT_COMMENT_COUNT));
-            }
         }
-
+        if (!isExistMonthStat(commentStats, yearMonth)) {
+            noneMonthCommentStats.add(new CommentStat(yearMonth.toString(), DEFAULT_COMMENT_COUNT));
+        }
         return noneMonthCommentStats;
     }
 
