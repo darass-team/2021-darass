@@ -61,7 +61,7 @@ jobs:
           docker pull www.darass-docker-image.p-e.kr/darass/springboot-prod-server:latest
           docker stop springboot-prod-server
           docker rm springboot-prod-server
-          docker run -d --name springboot-prod-server -p 8080:8080 www.darass-docker-image.p-e.kr/darass/springboot-prod-server
+          docker run --name springboot-prod-server -v /logs:/var/log/application-logs -d -p 8080:8080 www.darass-docker-image.p-e.kr/darass/springboot-prod-server
           
     - name: build result to slack
       uses: 8398a7/action-slack@v3
