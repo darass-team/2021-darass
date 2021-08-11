@@ -1,14 +1,18 @@
 import ScreenContainer from "../../../styles/ScreenContainer";
 import { Container, ErrorNotice } from "./styles";
 
-const Preparing = () => {
+interface Props {
+  notice: string;
+}
+
+const ErrorPage = ({ notice }: Props) => {
   return (
     <ScreenContainer>
       <Container>
-        <ErrorNotice>개발중인 페이지입니다.</ErrorNotice>
+        <ErrorNotice>{notice}</ErrorNotice>
       </Container>
     </ScreenContainer>
   );
 };
 
-export default Preparing;
+export default ErrorPage;

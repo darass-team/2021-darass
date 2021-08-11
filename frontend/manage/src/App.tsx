@@ -6,7 +6,7 @@ import Login from "./components/pages/Login";
 import Manage from "./components/pages/Manage";
 import MyProject from "./components/pages/MyProject";
 import NewProject from "./components/pages/NewProject";
-import Preparing from "./components/pages/Preparing";
+import ErrorPage from "./components/pages/ErrorPage";
 import ProjectDetail from "./components/pages/ProjectDetail";
 import ScriptPublishingPage from "./components/pages/ScriptPublishing";
 import Statistics from "./components/pages/Statistics";
@@ -14,6 +14,7 @@ import UserProfile from "./components/pages/UserProfile";
 import { COOKIE_KEY, ROUTE } from "./constants";
 import { useUser } from "./hooks";
 import { setCookie } from "./utils/cookie";
+import * as Sentry from "@sentry/react";
 
 const App = () => {
   const location = useLocation();
@@ -31,24 +32,26 @@ const App = () => {
   return (
     <>
       <Nav user={user} logout={logout} />
-      <Switch>
-        <Route exact path={ROUTE.HOME} component={Home} />
-        <Route exact path={ROUTE.ABOUT} component={Preparing} />
-        <Route exact path={ROUTE.NOTICE} component={Preparing} />
-        <ConditionalRoute path={ROUTE.LOGIN} component={Login} condition={!user} redirectPath={ROUTE.MY_PROJECT} />
-        <ConditionalRoute path={ROUTE.USER_PROFILE} component={UserProfile} condition={!!user || isLoading} />
-        <ConditionalRoute
-          path={ROUTE.SCRIPT_PUBLISHING}
-          component={ScriptPublishingPage}
-          condition={!!user || isLoading}
-        />
-        <ConditionalRoute path={ROUTE.NEW_PROJECT} component={NewProject} condition={!!user || isLoading} />
-        <ConditionalRoute path={ROUTE.PROJECT_MANAGE} component={Manage} condition={!!user || isLoading} />
-        <ConditionalRoute path={ROUTE.STATISTICS} component={Statistics} condition={!!user || isLoading} />
-        <ConditionalRoute path={ROUTE.PROJECT_DETAIL} component={ProjectDetail} condition={!!user || isLoading} />
-        <ConditionalRoute path={ROUTE.MY_PROJECT} component={MyProject} condition={!!user || isLoading} />
-        <Redirect to={ROUTE.HOME} />
-      </Switch>
+      <Sentry.ErrorBoundary fallback={<ErrorPage notice="에러가 발생했습니다." />}>
+        <Switch>
+          <Route exact path={ROUTE.HOME} component={Home} />
+          <Route exact path={ROUTE.ABOUT} render={() => <ErrorPage notice="개발중인 페이지 입니다." />} />
+          <Route exact path={ROUTE.NOTICE} render={() => <ErrorPage notice="개발중인 페이지 입니다." />} />
+          <ConditionalRoute path={ROUTE.LOGIN} component={Login} condition={!user} redirectPath={ROUTE.MY_PROJECT} />
+          <ConditionalRoute path={ROUTE.USER_PROFILE} component={UserProfile} condition={!!user || isLoading} />
+          <ConditionalRoute
+            path={ROUTE.SCRIPT_PUBLISHING}
+            component={ScriptPublishingPage}
+            condition={!!user || isLoading}
+          />
+          <ConditionalRoute path={ROUTE.NEW_PROJECT} component={NewProject} condition={!!user || isLoading} />
+          <ConditionalRoute path={ROUTE.PROJECT_MANAGE} component={Manage} condition={!!user || isLoading} />
+          <ConditionalRoute path={ROUTE.STATISTICS} component={Statistics} condition={!!user || isLoading} />
+          <ConditionalRoute path={ROUTE.PROJECT_DETAIL} component={ProjectDetail} condition={!!user || isLoading} />
+          <ConditionalRoute path={ROUTE.MY_PROJECT} component={MyProject} condition={!!user || isLoading} />
+          <Redirect to={ROUTE.HOME} />
+        </Switch>
+      </Sentry.ErrorBoundary>
     </>
   );
 };

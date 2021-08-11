@@ -5,6 +5,7 @@ const webpack = require("webpack");
 const { DefinePlugin } = require("webpack");
 const { DotEnv } = require("webpack-dotenv");
 const Package = require("./package.json");
+const SentryWebpackPlugin = require("@sentry/webpack-plugin");
 
 const config = {
   entry: "./src/index.tsx",
@@ -60,16 +61,25 @@ const config = {
     new DefinePlugin({
       "process.env.KAKAO_REST_API_KEY": JSON.stringify(process.env.KAKAO_REST_API_KEY),
       "process.env.KAKAO_JAVASCRIPT_API_KEY": JSON.stringify(process.env.KAKAO_JAVASCRIPT_API_KEY),
-      "process.env.BUILD_MODE": JSON.stringify(process.env.BUILD_MODE)
+      "process.env.BUILD_MODE": JSON.stringify(process.env.BUILD_MODE),
+      "process.env.SENTRY_AUTH_TOKEN": JSON.stringify(process.env.SENTRY_AUTH_TOKEN),
+      "process.env.SENTRY_REPLY_MODULE_DSN": JSON.stringify(process.env.SENTRY_REPLY_MODULE_DSN)
     }),
 
     new CleanWebpackPlugin(),
-    new webpack.HotModuleReplacementPlugin()
+    new webpack.HotModuleReplacementPlugin(),
+    new SentryWebpackPlugin({
+      authToken: process.env.SENTRY_AUTH_TOKEN,
+      org: "darass",
+      project: "manage-page",
+      include: "./dist",
+      ignore: ["node_modules", "webpack.config.js"]
+    })
   ],
   resolve: {
     extensions: [".tsx", ".ts", ".jsx", ".js"]
   },
-  devtool: "inline-source-map",
+  devtool: "source-map",
   mode: process.env.BUILD_MODE,
   devServer: {
     host: "localhost",
