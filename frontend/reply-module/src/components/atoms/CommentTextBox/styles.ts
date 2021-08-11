@@ -23,7 +23,7 @@ export const Name = styled.span<{ thisCommentIsWrittenByAdmin: boolean }>`
     props.thisCommentIsWrittenByAdmin &&
     css`
       &:after {
-        content: "작성자";
+        content: "운영자";
         font-size: 0.9rem;
         line-height: 1.35rem;
         margin-left: 0.3rem;
