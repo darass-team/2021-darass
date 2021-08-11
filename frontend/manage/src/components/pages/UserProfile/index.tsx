@@ -36,7 +36,7 @@ const UserProfile = () => {
     const files = target?.files || [];
 
     if (files[0].size > MAX_PROFILE_IMAGE_SIZE) {
-      alert("프로필 사진의 용량은 1MB를 초과할 수 없습니다.");
+      alert("프로필 사진의 용량은 5MB를 초과할 수 없습니다.");
 
       return;
     }
