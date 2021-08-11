@@ -11,7 +11,6 @@ import { Comment } from "../../../types";
 import { User } from "../../../types/user";
 import { AlertError } from "../../../utils/Error";
 import { getErrorMessage } from "../../../utils/errorMessage";
-import { focusContentEditableTextToEnd } from "../../../utils/focusContentEditableTextToEnd";
 import { isEmptyString } from "../../../utils/isEmptyString";
 import { postAlertMessage } from "../../../utils/postMessage";
 import SubmitButton from "../../atoms/Buttons/SubmitButton";
