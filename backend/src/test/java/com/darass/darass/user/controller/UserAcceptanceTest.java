@@ -38,7 +38,6 @@ import com.darass.darass.user.repository.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Objects;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -123,7 +122,7 @@ public class UserAcceptanceTest extends AcceptanceTest {
         ResultActions resultActions = 유저_닉네임_수정_요청(userUpdateRequest, accessToken);
 
         //then
-        유저_수정됨(resultActions, userUpdateRequest);
+        유저_닉네임_수정됨(resultActions, userUpdateRequest);
     }
 
     @Test
@@ -141,7 +140,7 @@ public class UserAcceptanceTest extends AcceptanceTest {
         ResultActions resultActions = 유저_프로필_사진_수정_요청(userUpdateRequest, accessToken);
 
         //then
-        유저_수정됨(resultActions, userUpdateRequest);
+        유저_프로필_사진_수정됨(resultActions, userUpdateRequest);
     }
 
     @Test
@@ -372,24 +371,51 @@ public class UserAcceptanceTest extends AcceptanceTest {
             .header("Authorization", "Bearer " + accessToken));
     }
 
-    private void 유저_수정됨(ResultActions resultActions, UserUpdateRequest userUpdateRequest) throws Exception {
+    private void 유저_닉네임_수정됨(ResultActions resultActions, UserUpdateRequest userUpdateRequest) throws Exception {
         resultActions.andExpect(status().isOk());
         String jsonResponse = resultActions.andReturn().getResponse().getContentAsString();
         UserResponse userResponse = new ObjectMapper().readValue(jsonResponse, UserResponse.class);
 
-        if (!Objects.isNull(userUpdateRequest.getNickName())) {
-            assertThat(userResponse.getNickName()).isEqualTo(userUpdateRequest.getNickName());
-        }
-        if (!Objects.isNull(userUpdateRequest.getProfileImageFile())) {
-            assertThat(userResponse.getProfileImageUrl()).isEqualTo(userUpdateRequest.getProfileImageFile().getOriginalFilename());
-        }
+        assertThat(userResponse.getNickName()).isEqualTo(userUpdateRequest.getNickName());
 
         유저_닉네임_수정_rest_doc_작성(resultActions);
     }
 
+    private void 유저_프로필_사진_수정됨(ResultActions resultActions, UserUpdateRequest userUpdateRequest) throws Exception {
+        resultActions.andExpect(status().isOk());
+        String jsonResponse = resultActions.andReturn().getResponse().getContentAsString();
+        UserResponse userResponse = new ObjectMapper().readValue(jsonResponse, UserResponse.class);
+
+        assertThat(userResponse.getProfileImageUrl())
+            .isEqualTo(userUpdateRequest.getProfileImageFile().getOriginalFilename());
+
+        유저_프로필_사진_수정_rest_doc_작성(resultActions);
+    }
+
     private void 유저_닉네임_수정_rest_doc_작성(ResultActions resultActions) throws Exception {
         resultActions.andDo(
-            document("api/v1/users/patch/success",
+            document("api/v1/users/patch/success-nickname",
+                requestHeaders(
+                    headerWithName("Authorization").description("JWT - Bearer 토큰")
+                ),
+                requestParts(
+                    partWithName("profileImageFile").description("프로필 이미지 파일").optional(),
+                    partWithName("nickName").description("새로운 유저 닉네임").optional()
+                ),
+                responseFields(
+                    fieldWithPath("id").type(JsonFieldType.NUMBER).description("유저 아이디"),
+                    fieldWithPath("nickName").type(JsonFieldType.STRING).description("유저 닉네임"),
+                    fieldWithPath("type").type(JsonFieldType.STRING).description("유저 타입"),
+                    fieldWithPath("createdDate").type(JsonFieldType.STRING).description("유저 생성일"),
+                    fieldWithPath("modifiedDate").type(JsonFieldType.STRING).description("유저 수정일"),
+                    fieldWithPath("profileImageUrl").type(JsonFieldType.STRING).description("유저 프로필 이미지")
+                ))
+        );
+    }
+
+    private void 유저_프로필_사진_수정_rest_doc_작성(ResultActions resultActions) throws Exception {
+        resultActions.andDo(
+            document("api/v1/users/patch/success-image",
                 requestHeaders(
                     headerWithName("Authorization").description("JWT - Bearer 토큰")
                 ),
@@ -472,7 +498,6 @@ public class UserAcceptanceTest extends AcceptanceTest {
         assertThat(exceptionResponse.getMessage()).isEqualTo(ExceptionWithMessageAndCode.INVALID_JWT_TOKEN.findMessage());
         assertThat(exceptionResponse.getCode()).isEqualTo(ExceptionWithMessageAndCode.INVALID_JWT_TOKEN.findCode());
     }
-
 
 
     private void 잘못된_닉네임으로_변경_실패됨(ResultActions resultActions) throws Exception {
