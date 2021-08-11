@@ -40,7 +40,10 @@ public enum ExceptionWithMessageAndCode {
     PAGE_NOT_POSITIVE_EXCEPTION(new BadRequestException("페이지의 값은 1 이상이어야 합니다.", 1100)),
 
     // 통계 관련 : 12xx
-    NOT_FOUND_PERIODICITY(new NotFoundException("해당하는 주기가 없습니다.", 1200));
+    NOT_FOUND_PERIODICITY(new NotFoundException("해당하는 주기가 없습니다.", 1200)),
+
+    // 제한 관련 : 13xx
+    INVALID_INPUT_LENGTH(new BadRequestException("입력값의 길이기 적절하지 않습니다.", 1300));
 
     private final CustomException exception;
 

@@ -8,6 +8,8 @@ import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.ForeignKey;
+import javax.persistence.PrimaryKeyJoinColumn;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Getter
 @NoArgsConstructor
+@PrimaryKeyJoinColumn(foreignKey = @ForeignKey(name = "social_login_user_fk_user"))
 @Entity
 public class SocialLoginUser extends User {
 

@@ -155,6 +155,7 @@ class OAuthServiceTest extends SpringContainerTest {
         HttpServletResponse response = mock(HttpServletResponse.class);
         SocialLoginUser socialLoginUser = SocialLoginUser
             .builder()
+            .nickName("nickName")
             .build();
         socialLoginUser.createRefreshToken(jwtTokenProvider);
         String refreshToken = socialLoginUser.getRefreshToken();
