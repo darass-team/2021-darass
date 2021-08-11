@@ -11,6 +11,7 @@ import { Comment } from "../../../types";
 import { User } from "../../../types/user";
 import { AlertError } from "../../../utils/Error";
 import { getErrorMessage } from "../../../utils/errorMessage";
+import { focusContentEditableTextToEnd } from "../../../utils/focusContentEditableTextToEnd";
 import { isEmptyString } from "../../../utils/isEmptyString";
 import { postAlertMessage } from "../../../utils/postMessage";
 import SubmitButton from "../../atoms/Buttons/SubmitButton";
@@ -88,6 +89,9 @@ const CommentInput = ({ className, innerRef, user, parentCommentId, onClose }: P
     if (currentText.length > MAX_COMMENT_INPUT_LENGTH) {
       postAlertMessage(getErrorMessage.commentInput(currentText));
       setContent(currentText.substr(0, MAX_COMMENT_INPUT_LENGTH));
+
+      if (!$contentEditable.current) return;
+      focusContentEditableTextToEnd($contentEditable.current);
 
       return;
     }

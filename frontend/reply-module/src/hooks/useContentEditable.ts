@@ -1,4 +1,3 @@
-import { focusContentEditableTextToEnd } from "./../utils/focusContentEditableTextToEnd";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { postScrollHeightToParentWindow } from "../utils/postMessage";
 
@@ -14,7 +13,6 @@ export const useContentEditable = (initialContent: string) => {
   const setContent = (newContent: string) => {
     if ($contentEditable.current) {
       $contentEditable.current.innerText = newContent;
-      focusContentEditableTextToEnd($contentEditable.current);
       _setContent(newContent);
     }
   };

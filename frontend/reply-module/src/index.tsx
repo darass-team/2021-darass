@@ -12,8 +12,8 @@ const init = () => {
   Sentry.init({
     dsn: process.env.SENTRY_REPLY_MODULE_DSN,
     integrations: [new Integrations.BrowserTracing()],
-    tracesSampleRate: 1
-    //enabled: process.env.BUILD_MODE === "production"
+    tracesSampleRate: 1,
+    enabled: process.env.BUILD_MODE === "production"
   });
 
   const onResize = () => {
