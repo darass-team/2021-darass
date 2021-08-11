@@ -54,7 +54,6 @@ const config = {
       "process.env.KAKAO_REST_API_KEY": JSON.stringify(process.env.KAKAO_REST_API_KEY),
       "process.env.KAKAO_JAVASCRIPT_API_KEY": JSON.stringify(process.env.KAKAO_JAVASCRIPT_API_KEY),
       "process.env.SENTRY_REPLY_MODULE_DSN": JSON.stringify(process.env.SENTRY_REPLY_MODULE_DSN),
-      "process.env.SENTRY_AUTH_TOKEN": JSON.stringify(process.env.SENTRY_AUTH_TOKEN),
       "process.env.BUILD_MODE": JSON.stringify(process.env.BUILD_MODE)
     }),
     new CleanWebpackPlugin()

@@ -7,7 +7,7 @@ import * as Sentry from "@sentry/react";
 import { Integrations } from "@sentry/tracing";
 
 Sentry.init({
-  dsn: process.env.SENTRY_REPLY_MODULE_DSN,
+  dsn: process.env.SENTRY_MANAGE_PAGE_DSN,
   integrations: [new Integrations.BrowserTracing()],
   enabled: process.env.BUILD_MODE === "production",
   tracesSampleRate: 1.0
