@@ -72,7 +72,6 @@ describe("로그인 유저의 댓글 CRUD 테스트 코드를 작성한다.", ()
           comments={comments}
           project={undefined}
           notice={""}
-          onShowMoreComment={() => {}}
           sortOption={"oldest"}
           onSelectSortOption={() => {}}
         />
@@ -114,7 +113,6 @@ describe("로그인 유저의 댓글 CRUD 테스트 코드를 작성한다.", ()
           user={user}
           project={undefined}
           notice={""}
-          onShowMoreComment={() => {}}
           comments={myComments}
           sortOption={"oldest"}
           onSelectSortOption={() => {}}
@@ -153,7 +151,6 @@ describe("로그인 유저의 댓글 CRUD 테스트 코드를 작성한다.", ()
           user={user}
           project={undefined}
           notice={""}
-          onShowMoreComment={() => {}}
           comments={commentsWrittenByOthers}
           sortOption={"oldest"}
           onSelectSortOption={() => {}}
@@ -176,7 +173,6 @@ describe("로그인 유저의 댓글 CRUD 테스트 코드를 작성한다.", ()
           user={user}
           project={undefined}
           notice={""}
-          onShowMoreComment={() => {}}
           comments={commentsWrittenByOthers}
           sortOption={"oldest"}
           onSelectSortOption={() => {}}
@@ -207,7 +203,6 @@ describe("로그인 유저의 댓글 CRUD 테스트 코드를 작성한다.", ()
           user={user}
           project={undefined}
           notice={""}
-          onShowMoreComment={() => {}}
           comments={commentsWrittenByOthers}
           sortOption={"oldest"}
           onSelectSortOption={() => {}}
@@ -240,7 +235,6 @@ describe("로그인 유저의 댓글 CRUD 테스트 코드를 작성한다.", ()
           project={undefined}
           comments={comments}
           notice={""}
-          onShowMoreComment={() => {}}
           sortOption={"oldest"}
           onSelectSortOption={() => {}}
         />
@@ -258,7 +252,6 @@ describe("로그인 유저의 댓글 CRUD 테스트 코드를 작성한다.", ()
           project={undefined}
           comments={comments}
           notice={""}
-          onShowMoreComment={() => {}}
           sortOption={"oldest"}
           onSelectSortOption={() => {}}
         />
@@ -294,7 +287,6 @@ describe("로그인 유저의 댓글 CRUD 테스트 코드를 작성한다.", ()
         project={undefined}
         comments={comments}
         notice={""}
-        onShowMoreComment={() => {}}
         sortOption={"oldest"}
         onSelectSortOption={() => {}}
       />
@@ -312,7 +304,6 @@ describe("로그인 유저의 댓글 CRUD 테스트 코드를 작성한다.", ()
         project={undefined}
         comments={comments}
         notice={""}
-        onShowMoreComment={() => {}}
         sortOption={"oldest"}
         onSelectSortOption={() => {}}
       />
