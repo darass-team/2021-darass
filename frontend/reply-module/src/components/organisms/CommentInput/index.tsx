@@ -1,4 +1,4 @@
-import { FormEvent, MutableRefObject, RefObject, useState } from "react";
+import { ChangeEvent, FormEvent, MutableRefObject, RefObject, useState } from "react";
 import {
   GUEST_NICKNAME_MAX_LENGTH,
   GUEST_NICKNAME_MIN_LENGTH,
@@ -11,10 +11,11 @@ import { Comment } from "../../../types";
 import { User } from "../../../types/user";
 import { AlertError } from "../../../utils/Error";
 import { getErrorMessage } from "../../../utils/errorMessage";
+import { focusContentEditableTextToEnd } from "../../../utils/focusContentEditableTextToEnd";
 import { isEmptyString } from "../../../utils/isEmptyString";
 import { postAlertMessage } from "../../../utils/postMessage";
 import SubmitButton from "../../atoms/Buttons/SubmitButton";
-import { ButtonWrapper, CancelButton, Form, GuestInfo, TextBox, Wrapper } from "./styles";
+import { ButtonWrapper, CancelButton, Form, GuestInfo, TextBox, TextBoxWrapper, TextCount, Wrapper } from "./styles";
 
 export interface Props {
   className?: string;
@@ -30,7 +31,7 @@ const CommentInput = ({ className, innerRef, user, parentCommentId, onClose }: P
   const projectSecretKey = urlParams.get("projectKey");
   const isSubCommentInput = parentCommentId ? true : false;
 
-  const { content, setContent, onInput, $contentEditable } = useContentEditable("");
+  const { content, setContent, onInput: onInputContentEditable, $contentEditable } = useContentEditable("");
   const { value: guestNickName, onChange: onChangeGuestNickName, setValue: setGuestNickName } = useInput("");
   const { value: guestPassword, onChange: onChangeGuestPassword, setValue: setGuestPassword } = useInput("");
   const { createComment } = useCreateComment();
@@ -82,19 +83,35 @@ const CommentInput = ({ className, innerRef, user, parentCommentId, onClose }: P
     }
   };
 
+  const onInput = (event: ChangeEvent<HTMLDivElement>) => {
+    const currentText = event.target.innerText;
+
+    if (currentText.length > MAX_COMMENT_INPUT_LENGTH) {
+      postAlertMessage(getErrorMessage.commentInput(currentText));
+      setContent(currentText.substr(0, MAX_COMMENT_INPUT_LENGTH));
+
+      return;
+    }
+
+    onInputContentEditable(event);
+  };
+
   return (
     <Form onSubmit={onSubmit} className={className}>
-      <TextBox
-        ref={(element: HTMLDivElement) => {
-          $contentEditable.current = element;
-          if (!innerRef) return;
-          innerRef.current = element;
-        }}
-        contentEditable={true}
-        onInput={onInput}
-        isValidInput={!isFormSubmitted || isValidCommentInput}
-        data-testid="comment-input-text-box"
-      />
+      <TextBoxWrapper>
+        <TextBox
+          ref={(element: HTMLDivElement) => {
+            $contentEditable.current = element;
+            if (!innerRef) return;
+            innerRef.current = element;
+          }}
+          contentEditable={true}
+          onInput={onInput}
+          isValidInput={!isFormSubmitted || isValidCommentInput}
+          data-testid="comment-input-text-box"
+        />
+        <TextCount>{`${content.length} / ${MAX_COMMENT_INPUT_LENGTH}`}</TextCount>
+      </TextBoxWrapper>
 
       <Wrapper>
         {!user && (
