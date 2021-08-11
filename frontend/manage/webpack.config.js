@@ -5,7 +5,6 @@ const webpack = require("webpack");
 const { DefinePlugin } = require("webpack");
 const { DotEnv } = require("webpack-dotenv");
 const Package = require("./package.json");
-const SentryWebpackPlugin = require("@sentry/webpack-plugin");
 
 const config = {
   entry: "./src/index.tsx",
@@ -67,14 +66,7 @@ const config = {
     }),
 
     new CleanWebpackPlugin(),
-    new webpack.HotModuleReplacementPlugin(),
-    new SentryWebpackPlugin({
-      authToken: process.env.SENTRY_AUTH_TOKEN,
-      org: "darass",
-      project: "manage-page",
-      include: "./dist",
-      ignore: ["node_modules", "webpack.config.js"]
-    })
+    new webpack.HotModuleReplacementPlugin()
   ],
   resolve: {
     extensions: [".tsx", ".ts", ".jsx", ".js"]

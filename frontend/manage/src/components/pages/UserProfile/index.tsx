@@ -1,6 +1,6 @@
 import { ChangeEvent, FormEventHandler, useEffect, useState } from "react";
 import cameraIcon from "../../../assets/svg/camera.svg";
-import { MAX_USER_NAME_LENGTH } from "../../../constants/validation";
+import { MAX_PROFILE_IMAGE_SIZE, MAX_USER_NAME_LENGTH } from "../../../constants/validation";
 import { useDeleteUser, useEditUser, useInput, useUser } from "../../../hooks";
 import ScreenContainer from "../../../styles/ScreenContainer";
 import { AlertError } from "../../../utils/error";
@@ -34,6 +34,12 @@ const UserProfile = () => {
   const onChangeFile = (event: ChangeEvent<HTMLInputElement>) => {
     const target = event.target;
     const files = target?.files || [];
+
+    if (files[0].size > MAX_PROFILE_IMAGE_SIZE) {
+      alert("프로필 사진의 용량은 1MB를 초과할 수 없습니다.");
+
+      return;
+    }
 
     setProfileImageAsUrl(state => {
       URL.revokeObjectURL(state || "");
