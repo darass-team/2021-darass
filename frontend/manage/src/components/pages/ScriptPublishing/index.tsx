@@ -20,7 +20,7 @@ const scriptCode = (projectSecretKey: string) => `
         var $document = document;
 
         var $script = $document.createElement("script");
-        $script.src = "${REPLY_MODULE_BASE_URL}.js";
+        $script.src = "${REPLY_MODULE_BASE_URL}/embed.js";
         $script.defer = true;
 
         $document.head.appendChild($script);

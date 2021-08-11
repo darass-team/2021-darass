@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useQuery, useQueryClient } from "react-query";
 import { COOKIE_KEY, QUERY, REACT_QUERY_KEY } from "../constants";
 import { User } from "../types/user";
 import { deleteCookie, setCookie } from "../utils/cookie";

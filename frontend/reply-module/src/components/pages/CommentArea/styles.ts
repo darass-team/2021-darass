@@ -18,18 +18,18 @@ export const LoginMethodWrapper = styled.div`
   align-items: center;
 `;
 
-export const LoginMethod = styled.button`
-  margin-left: 0.5rem;
-  font-weight: 700;
-  background-color: transparent;
-`;
-
-export const LogOut = styled.button`
-  font-weight: 700;
-  background-color: transparent;
-`;
-
 export const UserAvatarOption = styled(UserAvatarOptionComponent)`
   margin-left: auto;
   margin-bottom: 1.5rem;
 `;
+
+export const UserAvatarOptionButton = styled.button`
+  font-weight: 700;
+  background-color: transparent;
+`;
+
+export const LoginMethod = styled(UserAvatarOptionButton)`
+  margin-left: 0.5rem;
+`;
+
+export const UserAvatarOptionLink = styled(UserAvatarOptionButton.withComponent("a"))``;
