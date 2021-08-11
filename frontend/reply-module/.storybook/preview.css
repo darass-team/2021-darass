@@ -1,0 +1,7 @@
+#root {
+  width: 100%;
+  max-width: 1080px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

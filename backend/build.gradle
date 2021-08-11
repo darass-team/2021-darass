@@ -1,0 +1,200 @@
+plugins {
+    id 'org.springframework.boot' version '2.5.2'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'java'
+    // RestDocs 관련
+    id 'org.asciidoctor.jvm.convert' version '3.1.0'
+    // jacoco
+    id 'jacoco'
+    // flyway
+    id "org.flywaydb.flyway" version "7.9.1"
+}
+
+group = 'com.darass'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+targetCompatibility = '11'
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+    // DB
+    runtimeOnly 'com.h2database:h2'
+    implementation 'org.mariadb.jdbc:mariadb-java-client'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation "org.flywaydb:flyway-core"
+
+    // 스프링 부트
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    implementation group: 'javax.xml.bind', name: 'jaxb-api', version: '2.2.4'
+
+    // jwt
+    implementation 'io.jsonwebtoken:jjwt:0.9.1'
+
+    // 롬복(lombok)
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+
+    // RestDocs 관련
+    testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
+
+    // mockito
+    testImplementation 'org.mockito:mockito-inline:2.13.0'
+
+    // jackson 관련
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.12.3'
+
+    // google guava
+    implementation group: 'com.google.guava', name: 'guava', version: '30.1.1-jre'
+
+    // 로깅
+    implementation 'net.rakugakibox.spring.boot:logback-access-spring-boot-starter:2.7.1'
+
+    // aws s3 sdk
+    implementation platform('software.amazon.awssdk:bom:2.15.0')
+    implementation 'software.amazon.awssdk:s3:2.17.5'
+
+    // logstash
+    implementation 'net.logstash.logback:logstash-logback-encoder:6.3'
+
+    // 슬랙 알람
+    implementation 'com.github.maricn:logback-slack-appender:1.4.0'
+}
+
+test {
+    useJUnitPlatform()
+    jacoco {
+        destinationFile = file("$buildDir/jacoco/jacoco.exec")
+    }
+    finalizedBy 'jacocoTestReport'
+}
+
+ext {
+    snippetsDir = file('build/generated-snippets')
+}
+
+asciidoctor {
+    sourceDir file('src/docs/asciidoc')
+    outputDir file('build/html5')
+    attributes 'snippets': snippetsDir
+    mustRunAfter test
+    dependsOn test
+}
+
+build {
+    dependsOn asciidoctor
+}
+
+bootJar {
+    from ('build/html5') {
+        into 'BOOT-INF/classes/static/docs'
+    }
+}
+
+jacoco {
+// jaCoCo 버전
+    toolVersion = '0.8.7'
+
+    // 테스트 결과 리포트 파일 저장 경로
+    reportsDir = file("$buildDir/customJacocoReportDir")
+}
+
+jacocoTestReport {
+    reports {
+        // 원하는 리포트를 켜고 끌 수 있다.
+        html.enabled true
+        xml.enabled false
+        csv.enabled false
+
+        //  각 리포트 타입 마다 리포트 저장 경로를 설정할 수 있다.
+        html.destination file("$buildDir/jacocoHtml")
+        //  xml.destination file("$buildDir/jacoco.xml")
+    }
+    finalizedBy 'jacocoTestCoverageVerification'
+}
+
+jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            // 'element'가 없으면 프로젝트의 전체 파일을 합친 값을 기준으로 한다.
+            // 위의 리포트에서 'Total'로 표시된 부분이다.
+            limit {
+                // 'counter'를 지정하지 않으면 default는 'INSTRUCTION'
+                // 'value'를 지정하지 않으면 default는 'COVEREDRATIO'
+                minimum = 0.15
+            }
+        }
+
+        // 여러 룰을 생성할 수 있다.
+        rule {
+            // 룰을 간단히 켜고 끌 수 있다.
+            enabled = true
+
+            // 룰을 체크할 단위는 클래스 단위
+            element = 'CLASS'
+
+            // 브랜치 커버리지를 최소한 70% 만족시켜야 한다.
+            limit {
+                counter = 'BRANCH'
+                value = 'COVEREDRATIO'
+                minimum = 0.70
+            }
+
+            // 라인 커버리지를 최소한 80% 만족시켜야 한다.
+            limit {
+                counter = 'LINE'
+                value = 'COVEREDRATIO'
+                minimum = 0.90
+            }
+
+            // 빈 줄을 제외한 코드의 라인수를 최대 500라인으로 제한한다.
+            limit {
+                counter = 'LINE'
+                value = 'TOTALCOUNT'
+                maximum = 500
+            }
+            // 커버리지 체크를 제외할 클래스들
+            excludes = [
+                    // '*.test.*',
+                    '*.Kotlin*',
+                    'com.darass.darass.DarassApplication'
+            ]
+
+        }
+    }
+}
+
+task testCoverage(type: Test) {
+    group 'verification'
+    description 'Runs the unit tests with coverage'
+
+    dependsOn(':test',
+            ':jacocoTestReport',
+            ':jacocoTestCoverageVerification')
+
+    tasks['jacocoTestReport'].mustRunAfter(tasks['test'])
+    tasks['jacocoTestCoverageVerification'].mustRunAfter(tasks['jacocoTestReport'])
+}
+
+flyway {
+    url = 'jdbc:mariadb://localhost:3306/darass-local'
+    user = 'darass'
+    password = 'local'
+}
+
+
+// 빌드 시 jar 파일이 2개 생성되는 것을 방지
+jar {
+    enabled = false
+}

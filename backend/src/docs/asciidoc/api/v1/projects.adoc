@@ -1,0 +1,109 @@
+=== 생성 (POST /api/v1/projects)
+
+==== Request
+
+include::{snippets}/api/v1/projects/post/success-save/http-request.adoc[]
+include::{snippets}/api/v1/projects/post/success-save/request-headers.adoc[]
+include::{snippets}/api/v1/projects/post/success-save/request-fields.adoc[]
+
+==== Response (성공)
+
+include::{snippets}/api/v1/projects/post/success-save/http-response.adoc[]
+include::{snippets}/api/v1/projects/post/success-save/response-fields.adoc[]
+
+==== Response (실패 - Header의 Authorization에 값을 안 넣은 경우)
+
+include::{snippets}/api/v1/projects/post/fail-jwt/http-response.adoc[]
+
+==== Response (실패 - Project의 이름이 중복된 경우)
+
+include::{snippets}/api/v1/projects/post/fail-duplicate-name/http-response.adoc[]
+
+==== Response (실패 - Project의 이름 또는 설명의 길이가 적절하지 않은 경우)
+
+include::{snippets}/api/v1/projects/post/fail-invalid-length/http-response.adoc[]
+
+=== 전체 조회 (GET /api/v1/projects)
+
+==== Request
+
+include::{snippets}/api/v1/projects/get/success-findall/http-request.adoc[]
+include::{snippets}/api/v1/projects/get/success-findall/request-headers.adoc[]
+
+==== Response
+
+include::{snippets}/api/v1/projects/get/success-findall/http-response.adoc[]
+include::{snippets}/api/v1/projects/get/success-findall/response-fields.adoc[]
+
+==== Header의 Authorization에 값을 안 넣은 경우
+
+include::{snippets}/api/v1/projects/get/fail-jwt/http-response.adoc[]
+
+=== 단일 조회 (GET /api/v1/projects/{id})
+
+==== Request
+
+include::{snippets}/api/v1/projects/{id}/get/success-findone/http-request.adoc[]
+include::{snippets}/api/v1/projects/{id}/get/success-findone/request-headers.adoc[]
+
+==== Response
+
+include::{snippets}/api/v1/projects/{id}/get/success-findone/http-response.adoc[]
+include::{snippets}/api/v1/projects/{id}/get/success-findone/response-fields.adoc[]
+
+==== Header의 Authorization에 값을 안 넣은 경우
+
+include::{snippets}/api/v1/projects/{id}/get/fail-jwt/http-response.adoc[]
+
+==== 존재하지 않는 프로젝트 id인 경우
+
+include::{snippets}/api/v1/projects/{id}/get/fail-projectId/http-response.adoc[]
+
+=== 프로젝트 키로 유저 아이디 조회 (GET /api/v1/projects/user-id)
+
+==== Request
+
+include::{snippets}/api/v1/projects/user-id/get/success/http-request.adoc[]
+
+==== Response (성공)
+
+include::{snippets}/api/v1/projects/user-id/get/success/http-response.adoc[]
+include::{snippets}/api/v1/projects/user-id/get/success/response-fields.adoc[]
+
+==== Response (실패)
+
+include::{snippets}/api/v1/projects/user-id/get/fail/http-response.adoc[]
+include::{snippets}/api/v1/projects/user-id/get/fail/response-fields.adoc[]
+
+=== 프로젝트 아이디와 토큰으로 프로젝트 단건 수정 (PATCH /api/v1/projects/{projectId})
+
+==== Request
+
+include::{snippets}/api/v1/projects/patch/success/http-request.adoc[]
+
+==== Response (성공)
+
+include::{snippets}/api/v1/projects/patch/success/http-response.adoc[]
+
+==== Response (실패 - 존재하지 않는 프로젝트 id인 경우)
+
+include::{snippets}/api/v1/projects/patch/fail/http-response.adoc[]
+
+==== Response (실패 - 수정하려는 이름 또는 설명의 길이가 적절하지 않은 경우)
+
+include::{snippets}/api/v1/projects/patch/fail-invalid-length/http-response.adoc[]
+
+=== 프로젝트 아이디와 토큰으로 프로젝트 단건 삭제 (DELETE /api/v1/projects/{projectId})
+
+==== Request
+
+include::{snippets}/api/v1/projects/{projectId}/delete-success/http-request.adoc[]
+
+==== Response (성공)
+
+include::{snippets}/api/v1/projects/{projectId}/delete-success/http-response.adoc[]
+
+==== Response (실패 - 존재하지 않는 프로젝트 id인 경우)
+
+include::{snippets}/api/v1/projects/{projectId}/delete-fail/http-response.adoc[]
+include::{snippets}/api/v1/projects/{projectId}/delete-fail/response-fields.adoc[]
