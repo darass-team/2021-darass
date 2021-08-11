@@ -14,6 +14,10 @@ const _editComment = async (editedComment: EditCommentParameter) => {
     });
     return response.data;
   } catch (error) {
+    if (error.response.data.code === 900) {
+      throw new AlertError("이미 삭제된 댓글입니다.");
+    }
+
     if (error.response.data.code === 903) {
       throw new AlertError("해당 댓글을 수정할 권한이 없습니다.");
     }
