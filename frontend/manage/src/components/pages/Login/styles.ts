@@ -14,7 +14,7 @@ export const Introduction = styled.h2`
   font-size: 3rem;
   line-height: ${3 * LINE_HEIGHT_SCALE}rem;
   color: ${PALETTE.WHITE};
-  font-weight: 800;
+  font-weight: 700;
   text-align: center;
   margin-bottom: 20px;
 `;

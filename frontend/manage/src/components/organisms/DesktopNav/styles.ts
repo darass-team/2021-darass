@@ -58,7 +58,7 @@ export const Title = styled.span`
   margin-left: 10px;
   font-size: 1.25rem;
   line-height: ${1.25 * LINE_HEIGHT_SCALE}rem;
-  font-weight: 800;
+  font-weight: 700;
   color: ${PALETTE.BLACK_700};
 `;
 
@@ -71,5 +71,5 @@ export const LoginLink = styled(Link)`
   margin-left: 1.5rem;
   font-size: 1.25rem;
   line-height: ${1.25 * LINE_HEIGHT_SCALE}rem;
-  font-weight: 800;
+  font-weight: 700;
 `;
