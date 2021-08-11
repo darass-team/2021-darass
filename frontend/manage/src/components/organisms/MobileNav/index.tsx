@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { ROUTE } from "../../../constants";
+import { useUser } from "../../../hooks";
 import { PALETTE } from "../../../styles/palette";
 import { MenuType } from "../../../types/menu";
 import { User } from "../../../types/user";
@@ -9,12 +10,12 @@ import Modal from "../../atoms/Modal";
 import { Container, Menu, MenuAvatar, MenuWrapper, Name, AuthLink } from "./styles";
 
 export interface Props {
-  user?: User;
-  logout: () => void;
   menuList: MenuType[];
 }
 
-const MobileNav = ({ user, logout, menuList }: Props) => {
+const MobileNav = ({ menuList }: Props) => {
+  const { user, logout } = useUser();
+
   const [isOpen, setOpen] = useState(false);
 
   const onToggleNav = () => {

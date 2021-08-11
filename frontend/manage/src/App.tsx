@@ -22,7 +22,7 @@ const App = () => {
   const path = location.pathname;
   const urlSearchParam = new URLSearchParams(location.search);
   const accessToken = urlSearchParam.get(COOKIE_KEY.ATK);
-  const { user, isLoading, logout } = useUser();
+  const { user, isLoading } = useUser();
 
   if (accessToken) {
     setCookie(COOKIE_KEY.ATK, accessToken);
@@ -31,7 +31,7 @@ const App = () => {
 
   return (
     <>
-      <Nav user={user} logout={logout} />
+      <Nav />
       <Sentry.ErrorBoundary fallback={<ErrorPage notice="에러가 발생했습니다." />}>
         <Switch>
           <Route exact path={ROUTE.HOME} component={Home} />
