@@ -36,7 +36,7 @@ export const Name = styled.p`
   line-height: ${2 * LINE_HEIGHT_SCALE}rem;
   padding: 2rem;
   text-align: center;
-  font-weight: 800;
+  font-weight: 700;
 `;
 
 export const AuthLink = styled(Link)`
@@ -61,7 +61,7 @@ export const Menu = styled(NavLink)`
   text-transform: uppercase;
   padding: 2rem;
   border-radius: 10px;
-  font-weight: 800;
+  font-weight: 700;
   letter-spacing: 0.5rem;
   color: ${PALETTE.WHITE};
   text-decoration: none;

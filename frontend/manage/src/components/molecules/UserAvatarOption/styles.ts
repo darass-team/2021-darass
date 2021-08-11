@@ -17,7 +17,7 @@ export const UserNickName = styled.button`
   margin-left: 0.5rem;
   font-size: 1.25rem;
   line-height: ${1.25 * LINE_HEIGHT_SCALE}rem;
-  font-weight: 800;
+  font-weight: 700;
 `;
 
 export const UserOption = styled(UserOptionComponent)`

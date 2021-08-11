@@ -44,7 +44,7 @@ export const speechBubbleCSS = css`
 export const titleCSS = css`
   font-size: 2rem;
   line-height: ${2 * LINE_HEIGHT_SCALE}rem;
-  font-weight: 800;
+  font-weight: 700;
   margin-bottom: 2rem;
 `;
 

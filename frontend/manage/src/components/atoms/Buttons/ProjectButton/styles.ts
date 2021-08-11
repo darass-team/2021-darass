@@ -23,7 +23,7 @@ export const Button = styled.button`
 export const Title = styled.span`
   font-size: 1.6rem;
   line-height: ${1.6 * LINE_HEIGHT_SCALE}rem;
-  font-weight: 800;
+  font-weight: 700;
   margin-bottom: 8px;
 `;
 
