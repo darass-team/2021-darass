@@ -1,0 +1,10 @@
+{
+  "preset": "ts-jest",
+  "moduleDirectories": ["node_modules", "src"],
+  "transform": {
+    "node_modules/variables/.+\\.(j|t)sx?$": "ts-jest",
+    ".+\\.(svg|css|styl|less|sass|scss|png|jpg|ttf|woff|woff2)$": "jest-transform-stub"
+  },
+  "coveragePathIgnorePatterns": ["/node_modules/", "/jest"],
+  "testEnvironment": "jsdom"
+}
