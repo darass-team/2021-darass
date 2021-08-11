@@ -18,6 +18,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import lombok.Builder;
@@ -61,7 +62,7 @@ public class Comment extends BaseTimeEntity {
 
     private String url;
 
-    @Column(length = CONTENT_LENGTH_LIMIT)
+    @Lob
     private String content;
 
     @Formula("(select count(*) from comment_like where comment_like.comment_id=id)")

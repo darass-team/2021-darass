@@ -1,1 +1,1 @@
-alter table comment alter column content varchar(3000);
+alter table comment alter column content longtext;
