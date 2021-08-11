@@ -1,5 +1,5 @@
 import { Story } from "@storybook/react";
-import Nav, { Props } from ".";
+import Nav from ".";
 import { socialLoginUser } from "../../../__test__/fixture/user";
 
 export default {
@@ -8,7 +8,7 @@ export default {
   argTypes: { children: { control: "text" } }
 };
 
-const Template: Story<Props> = args => <Nav {...args} />;
+const Template: Story = args => <Nav {...args} />;
 
 export const Default = Template.bind({});
 

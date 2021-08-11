@@ -67,9 +67,14 @@ export const UserAvatarOptionWrapper = styled.div`
   z-index: ${Z_INDEX.NAV.DESKTOP.USER_AVATAR_WRAPPER};
 `;
 
-export const LoginLink = styled(Link)`
-  margin-left: 1.5rem;
-  font-size: 1.25rem;
-  line-height: ${1.25 * LINE_HEIGHT_SCALE}rem;
+export const LoginMethodWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-content: center;
+`;
+
+export const LoginMethod = styled.button.attrs({ type: "button" })`
+  margin-left: 0.5rem;
   font-weight: 700;
+  background-color: transparent;
 `;
