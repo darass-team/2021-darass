@@ -46,7 +46,7 @@ public class S3Uploader {
         try {
             s3.putObject(objectRequest, RequestBody.fromFile(uploadFile));
         } catch (SdkClientException e) {
-            throw ExceptionWithMessageAndCode.INTERNAL_SERVER.getException();
+            throw e;
         } finally {
             removeNewFile(uploadFile);
         }

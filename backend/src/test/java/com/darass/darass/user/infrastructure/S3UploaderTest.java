@@ -68,6 +68,6 @@ public class S3UploaderTest extends SpringContainerTest {
         S3Uploader s3Uploader = new S3Uploader(s3);
         // when, then
         assertThatThrownBy(() -> s3Uploader.upload(multipartFile))
-            .isInstanceOf(InternalServerException.class);
+            .isInstanceOf(SdkClientException.class);
     }
 }
