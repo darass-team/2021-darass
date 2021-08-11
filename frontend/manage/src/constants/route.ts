@@ -1,6 +1,8 @@
 const ROUTE = {
   HOME: "/",
   LOGIN: "/login",
+  ABOUT: "/about",
+  NOTICE: "/notice",
   USER_PROFILE: "/user",
   MY_PROJECT: "/projects",
   PROJECT_DETAIL: "/projects/:id",

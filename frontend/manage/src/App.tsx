@@ -6,6 +6,7 @@ import Login from "./components/pages/Login";
 import Manage from "./components/pages/Manage";
 import MyProject from "./components/pages/MyProject";
 import NewProject from "./components/pages/NewProject";
+import Preparing from "./components/pages/Preparing";
 import ProjectDetail from "./components/pages/ProjectDetail";
 import ScriptPublishingPage from "./components/pages/ScriptPublishing";
 import Statistics from "./components/pages/Statistics";
@@ -21,6 +22,8 @@ const App = () => {
       <Nav user={user} logout={logout} />
       <Switch>
         <Route exact path={ROUTE.HOME} component={Home} />
+        <Route exact path={ROUTE.ABOUT} component={Preparing} />
+        <Route exact path={ROUTE.NOTICE} component={Preparing} />
         <ConditionalRoute path={ROUTE.LOGIN} component={Login} condition={!user} redirectPath={ROUTE.MY_PROJECT} />
         <ConditionalRoute path={ROUTE.USER_PROFILE} component={UserProfile} condition={!!user || isLoading} />
         <ConditionalRoute

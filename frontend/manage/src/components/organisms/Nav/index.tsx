@@ -11,7 +11,7 @@ export interface Props {
 
 const menuList: MenuType[] = [
   { route: ROUTE.MY_PROJECT, name: "내 프로젝트" },
-  { route: "/공지사항", name: "공지사항" },
+  { route: "/notice", name: "공지사항" },
   { route: "/about", name: "ABOUT" }
 ];
 

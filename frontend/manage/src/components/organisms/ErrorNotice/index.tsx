@@ -3,11 +3,12 @@ import logo from "../../../assets/svg/logo.svg";
 
 export interface Props {
   children: string;
+  className?: string;
 }
 
-const ErrorNotice = ({ children }: Props) => {
+const ErrorNotice = ({ className, children }: Props) => {
   return (
-    <Container>
+    <Container className={className}>
       <Img src={logo} />
       <TextArea>
         <h2>Oops...</h2>
