@@ -2,8 +2,8 @@ import { LINE_HEIGHT_SCALE } from "./../../../../styles/constants";
 import styled from "styled-components";
 import { PALETTE } from "../../../../styles/palette";
 
-export const Button = styled.button`
-  width: fit-content;
+export const Button = styled.button.attrs({ type: "button" })`
+  min-width: fit-content;
   height: 3.6rem;
   background-color: ${PALETTE.GRAY_200};
   border: 1px solid ${PALETTE.GRAY_500};
