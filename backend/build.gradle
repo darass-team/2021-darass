@@ -14,9 +14,7 @@ plugins {
     // flyway
     id "org.flywaydb.flyway" version "7.9.1"
 
-    // sonarQube
-    // id "org.sonarqube" version "2.7"
-
+   
 }
 
 group = 'com.darass'
