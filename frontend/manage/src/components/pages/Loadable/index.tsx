@@ -1,12 +1,12 @@
 import Loadable from "react-loadable";
-import ErrorPage from "../ErrorPage";
+import LoadingPage from "../LoadingPage";
 
 export const LoadableScriptPublishing = Loadable({
   loader: () => import("../ScriptPublishing"),
-  loading: () => <ErrorPage notice="로딩 중"></ErrorPage>
+  loading: () => <LoadingPage />
 });
 
 export const LoadableStatistics = Loadable({
   loader: () => import("../Statistics"),
-  loading: () => <ErrorPage notice="로딩 중"></ErrorPage>
+  loading: () => <LoadingPage />
 });
