@@ -35,7 +35,7 @@ jobs:
       working-directory: ./frontend/reply-module
     
     - name: Build - comment
-      run: yarn build
+      run: yarn build:production
       working-directory: ./frontend/reply-module
       env:
         KAKAO_REST_API_KEY: ${{ secrets.KAKAO_REST_API_KEY }}
@@ -51,7 +51,7 @@ jobs:
       working-directory: ./frontend/manage
     
     - name: Build - project
-      run: yarn build
+      run: yarn build:production
       working-directory: ./frontend/manage
       env:
         KAKAO_REST_API_KEY: ${{ secrets.KAKAO_REST_API_KEY }}
@@ -63,7 +63,7 @@ jobs:
       working-directory: ./frontend/deploy-script
     
     - name: Build - deploy script
-      run: yarn build
+      run: yarn build:production
       working-directory: ./frontend/deploy-script
   
     - name: build result to slack
