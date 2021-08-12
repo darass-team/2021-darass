@@ -8,13 +8,12 @@ import MyProject from "./components/pages/MyProject";
 import NewProject from "./components/pages/NewProject";
 import ErrorPage from "./components/pages/ErrorPage";
 import ProjectDetail from "./components/pages/ProjectDetail";
-import ScriptPublishingPage from "./components/pages/ScriptPublishing";
-import Statistics from "./components/pages/Statistics";
 import UserProfile from "./components/pages/UserProfile";
 import { COOKIE_KEY, ROUTE } from "./constants";
 import { useUser } from "./hooks";
 import { setCookie } from "./utils/cookie";
 import * as Sentry from "@sentry/react";
+import { LoadableScriptPublishing, LoadableStatistics } from "./components/pages/Loadable";
 
 const App = () => {
   const location = useLocation();
@@ -41,12 +40,12 @@ const App = () => {
           <ConditionalRoute path={ROUTE.USER_PROFILE} component={UserProfile} condition={!!user || isLoading} />
           <ConditionalRoute
             path={ROUTE.SCRIPT_PUBLISHING}
-            component={ScriptPublishingPage}
+            component={LoadableScriptPublishing}
             condition={!!user || isLoading}
           />
           <ConditionalRoute path={ROUTE.NEW_PROJECT} component={NewProject} condition={!!user || isLoading} />
           <ConditionalRoute path={ROUTE.PROJECT_MANAGE} component={Manage} condition={!!user || isLoading} />
-          <ConditionalRoute path={ROUTE.STATISTICS} component={Statistics} condition={!!user || isLoading} />
+          <ConditionalRoute path={ROUTE.STATISTICS} component={LoadableStatistics} condition={!!user || isLoading} />
           <ConditionalRoute path={ROUTE.PROJECT_DETAIL} component={ProjectDetail} condition={!!user || isLoading} />
           <ConditionalRoute path={ROUTE.MY_PROJECT} component={MyProject} condition={!!user || isLoading} />
           <Redirect to={ROUTE.HOME} />

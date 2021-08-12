@@ -4,6 +4,7 @@ const path = require("path");
 const webpack = require("webpack");
 const { DefinePlugin } = require("webpack");
 const { DotEnv } = require("webpack-dotenv");
+const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 const Package = require("./package.json");
 
 const config = {
@@ -65,7 +66,7 @@ const config = {
     }),
 
     new CleanWebpackPlugin(),
-    new webpack.HotModuleReplacementPlugin()
+    new BundleAnalyzerPlugin()
   ],
   resolve: {
     extensions: [".tsx", ".ts", ".jsx", ".js"]
