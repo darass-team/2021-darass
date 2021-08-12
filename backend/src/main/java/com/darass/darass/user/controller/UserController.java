@@ -30,7 +30,7 @@ public class UserController {
     }
 
     @PatchMapping
-    public ResponseEntity<UserResponse> updateNickname(@RequiredLogin User user,
+    public ResponseEntity<UserResponse> update(@RequiredLogin User user,
         @ModelAttribute UserUpdateRequest userUpdateRequest
     ) {
         UserResponse userResponse = userService.update(user.getId(), userUpdateRequest);

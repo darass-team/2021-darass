@@ -35,6 +35,7 @@ public enum ExceptionWithMessageAndCode {
 
     // 파일 관련 : 10xx
     IO_EXCEPTION(new BadRequestException("업로드할 파일이 잘못되었습니다.", 1000)),
+    OVER_MAX_FILE_SIZE(new BadRequestException("업로드 가능한 파일 크기를 초과하였습니다.", 1400)),
 
     // 페이지네이션 관련 : 11xx
     PAGE_NOT_POSITIVE_EXCEPTION(new BadRequestException("페이지의 값은 1 이상이어야 합니다.", 1100)),
