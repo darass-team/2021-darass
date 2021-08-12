@@ -39,9 +39,7 @@ export const CopyButton = styled.button`
 export const BlogLogoWrapper = styled.div`
   margin-top: 3em;
   display: flex;
-  & > * {
-    margin: 0 2rem;
-  }
+  gap: 2rem;
 `;
 
 export const Ol = styled.ol`
