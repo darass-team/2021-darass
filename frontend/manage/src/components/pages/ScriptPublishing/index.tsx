@@ -1,7 +1,5 @@
 import { useState } from "react";
 import { Redirect, useRouteMatch } from "react-router-dom";
-import SyntaxHighlighter from "react-syntax-highlighter";
-import { atomOneDark } from "react-syntax-highlighter/dist/cjs/styles/hljs";
 import { GUIDE_FILE, PROJECT_MENU, ROUTE } from "../../../constants";
 import { REPLY_MODULE_BASE_URL } from "../../../constants/domain";
 import { useCopyButton, useGetProject } from "../../../hooks";
@@ -11,6 +9,11 @@ import BlogLogoButton from "../../atoms/Buttons/BlogLogoButton";
 import GuideStep from "../../molecules/GuideStep";
 import ContainerWithSideBar from "../../organisms/ContainerWithSideBar";
 import { BlogLogoWrapper, CodeBlockWrapper, Container, CopyButton, Ol, Title } from "./styles";
+import { PrismLight as SyntaxHighlighter } from "react-syntax-highlighter";
+import js from "react-syntax-highlighter/dist/cjs/languages/prism/javascript";
+import prism from "react-syntax-highlighter/dist/cjs/styles/prism/darcula";
+
+SyntaxHighlighter.registerLanguage("javascript", js);
 
 const scriptCode = (projectSecretKey: string) => `
 <!-- 다라쓰 설치 코드 -->
@@ -108,7 +111,7 @@ const ScriptPublishing = () => {
                       }
                     }}
                     language="javascript"
-                    style={atomOneDark}
+                    style={prism}
                   >
                     {script}
                   </SyntaxHighlighter>
