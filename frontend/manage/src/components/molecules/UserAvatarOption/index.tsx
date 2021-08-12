@@ -36,7 +36,7 @@ const UserAvatarOption = ({ user, children }: Props) => {
 
   return (
     <Container>
-      <Avatar imageURL={user?.profileImageUrl} onClick={onShowOptionBox} />
+      <Avatar imageURL={user?.profileImageUrl} onClick={onShowOptionBox} alt="유저 프로필 이미지" />
       <UserNickName onClick={onShowOptionBox}>{user?.nickName ?? "로그인"}</UserNickName>
       <DownArrow
         src={arrowDown}

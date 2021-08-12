@@ -62,8 +62,7 @@ const Manage = () => {
     totalComment,
     totalPage,
     refetch: getCommentsOfProjectPerPage,
-    prefetch: preGetCommentsOfProjectPerPage,
-    error: errorGetCommentsOfProjectPerPage
+    prefetch: preGetCommentsOfProjectPerPage
   } = useGetCommentsOfProjectPerPage({
     projectKey: projectSecretKey,
     startDate: startDateAsString,
