@@ -105,15 +105,15 @@ const UserProfile = () => {
 
           <InfoWrapper>
             <FileLabel>
-              <CameraIcon src={cameraIcon} />
-              <UserProfileImage imageURL={profileImageAsUrl} size="LG" />
+              <CameraIcon src={cameraIcon} alt="이미지 업로드 버튼" />
+              <UserProfileImage imageURL={profileImageAsUrl} size="LG" alt="유저 프로필 이미지" />
               <Input type="file" accept="image/*" onChange={onChangeFile} />
             </FileLabel>
           </InfoWrapper>
 
           <InfoWrapper>
-            <Label>별명</Label>
-            <Input value={userName} onChange={onChangeUserName} />
+            <Label htmlFor="user-name-input">별명</Label>
+            <Input id="user-name-input" value={userName} onChange={onChangeUserName} />
             <UserNameCounter>
               {userName.length} / {MAX_USER_NAME_LENGTH}
             </UserNameCounter>
