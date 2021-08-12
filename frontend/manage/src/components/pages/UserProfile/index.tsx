@@ -21,7 +21,7 @@ import {
 
 const UserProfile = () => {
   const { user, logout } = useUser();
-  const { editUser } = useEditUser();
+  const { editUser, isLoading: isEditLoading } = useEditUser();
   const { deleteUser } = useDeleteUser();
   const {
     value: userName,
@@ -119,7 +119,7 @@ const UserProfile = () => {
             </UserNameCounter>
           </InfoWrapper>
 
-          <SubmitButton>수정</SubmitButton>
+          <SubmitButton disabled={isEditLoading}>수정</SubmitButton>
         </Form>
 
         <DeleteSection
