@@ -48,8 +48,22 @@ const CommentArea = () => {
   useEffect(() => {
     if (projectLoading || commentsLoading) return;
 
-    if (projectError) setNotice(projectError.message);
-    if (commentsError) setNotice(commentsError.message);
+    if (!url) {
+      setNotice("URL을 확인해주세요.");
+      return;
+    }
+    if (!projectSecretKey) {
+      setNotice("project secret key를 확인해주세요.");
+      return;
+    }
+    if (projectError) {
+      setNotice(projectError.message);
+      return;
+    }
+    if (commentsError) {
+      setNotice(commentsError.message);
+      return;
+    }
 
     if (!(projectError || commentsError)) {
       if (totalCommentsCount === 0) {
