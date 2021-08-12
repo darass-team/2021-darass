@@ -26,7 +26,6 @@ export interface Props {
   sortOption: keyof typeof ORDER_BUTTON;
   notice: string;
   onSelectSortOption: (value: keyof typeof ORDER_BUTTON) => void;
-  onShowMoreComment: () => void;
 }
 
 const CommentList = ({
@@ -66,32 +65,35 @@ const CommentList = ({
       </Header>
       <CommentContainer>
         {notice && <Notice>{notice}</Notice>}
-        {isLoading && <CommentSkeleton />}
-        {comments.map(comment => {
-          const authorId = comment.user.id;
+        {isLoading ? (
+          <CommentSkeleton />
+        ) : (
+          comments.map(comment => {
+            const authorId = comment.user.id;
 
-          const iAmGuestUser = !user;
-          const iAmAdmin = user !== undefined && project?.userId === user.id;
+            const iAmGuestUser = !user;
+            const iAmAdmin = user !== undefined && project?.userId === user.id;
 
-          const thisCommentIsMine = authorId !== undefined && authorId === user?.id;
-          const thisCommentIsWrittenByAdmin = comment.user.id === project?.userId;
-          const thisCommentIsWrittenByGuest = comment.user.type === "GuestUser";
-          const shouldShowOption = iAmAdmin || thisCommentIsMine || (iAmGuestUser && thisCommentIsWrittenByGuest);
+            const thisCommentIsMine = authorId !== undefined && authorId === user?.id;
+            const thisCommentIsWrittenByAdmin = comment.user.id === project?.userId;
+            const thisCommentIsWrittenByGuest = comment.user.type === "GuestUser";
+            const shouldShowOption = iAmAdmin || thisCommentIsMine || (iAmGuestUser && thisCommentIsWrittenByGuest);
 
-          return (
-            <Comment
-              user={user}
-              project={project}
-              comment={comment}
-              key={comment.id}
-              thisCommentIsWrittenByAdmin={thisCommentIsWrittenByAdmin}
-              shouldShowOption={shouldShowOption}
-              iAmAdmin={iAmAdmin}
-              thisCommentIsMine={thisCommentIsMine}
-              isSubComment={false}
-            />
-          );
-        })}
+            return (
+              <Comment
+                user={user}
+                project={project}
+                comment={comment}
+                key={comment.id}
+                thisCommentIsWrittenByAdmin={thisCommentIsWrittenByAdmin}
+                shouldShowOption={shouldShowOption}
+                iAmAdmin={iAmAdmin}
+                thisCommentIsMine={thisCommentIsMine}
+                isSubComment={false}
+              />
+            );
+          })
+        )}
       </CommentContainer>
     </Container>
   );

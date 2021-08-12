@@ -12,7 +12,7 @@ export const Title = styled.h2`
   ${titleCSS};
 `;
 
-export const CommentsViewer = styled.ul`
+export const CommentsViewer = styled.div`
   width: 100%;
   min-height: 50vh;
   padding: 1rem 0;

@@ -9,8 +9,16 @@ export const Form = styled.form`
   margin-bottom: 1rem;
 `;
 
+export const TextBoxWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 1.6rem;
+`;
+
 export const TextBox = styled.div<{ isValidInput: boolean }>`
   ${InputCSS};
+  width: 100%;
   ${props =>
     !props.isValidInput &&
     css`
@@ -23,7 +31,7 @@ export const TextBox = styled.div<{ isValidInput: boolean }>`
   padding: 1rem 0.8rem;
   min-height: 6rem;
   max-height: 12rem;
-  margin-bottom: 1.6rem;
+  margin-bottom: 0.2rem;
   overflow: auto;
 
   &:empty:before {
@@ -34,6 +42,13 @@ export const TextBox = styled.div<{ isValidInput: boolean }>`
   &:empty:focus:before {
     content: "";
   }
+`;
+
+export const TextCount = styled.span`
+  font-size: 1.1rem;
+  line-height: 1.65rem;
+  margin-left: auto;
+  margin-right: 0.6rem;
 `;
 
 export const Wrapper = styled.div`

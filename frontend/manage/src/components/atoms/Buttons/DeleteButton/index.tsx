@@ -8,7 +8,7 @@ export interface Props {
 
 const DeleteButton = ({ className, children, onClick }: Props) => {
   return (
-    <Button className={className} type="button" onClick={onClick}>
+    <Button className={className} onClick={onClick}>
       {children}
     </Button>
   );

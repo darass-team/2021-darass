@@ -23,7 +23,7 @@ export const Name = styled.span<{ thisCommentIsWrittenByAdmin: boolean }>`
     props.thisCommentIsWrittenByAdmin &&
     css`
       &:after {
-        content: "작성자";
+        content: "운영자";
         font-size: 0.9rem;
         line-height: 1.35rem;
         margin-left: 0.3rem;
@@ -45,7 +45,7 @@ export const Text = styled.div<{ isSubComment: boolean; contentEditable: boolean
     return PALETTE.GRAY_100;
   }};
   padding: 0.2rem 0.3rem 0.2rem 0.1rem;
-  min-width: 15rem;
+  min-width: 14rem;
   border-radius: 0.3rem;
   word-break: break-all;
   white-space: break-spaces;

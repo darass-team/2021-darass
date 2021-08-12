@@ -1,6 +1,6 @@
 import { ChangeEvent, FormEventHandler, useEffect, useState } from "react";
 import cameraIcon from "../../../assets/svg/camera.svg";
-import { MAX_USER_NAME_LENGTH } from "../../../constants/validation";
+import { MAX_PROFILE_IMAGE_SIZE, MAX_USER_NAME_LENGTH } from "../../../constants/validation";
 import { useDeleteUser, useEditUser, useInput, useUser } from "../../../hooks";
 import ScreenContainer from "../../../styles/ScreenContainer";
 import { AlertError } from "../../../utils/error";
@@ -21,7 +21,7 @@ import {
 
 const UserProfile = () => {
   const { user, logout } = useUser();
-  const { editUser } = useEditUser();
+  const { editUser, isLoading: isEditLoading } = useEditUser();
   const { deleteUser } = useDeleteUser();
   const {
     value: userName,
@@ -34,6 +34,12 @@ const UserProfile = () => {
   const onChangeFile = (event: ChangeEvent<HTMLInputElement>) => {
     const target = event.target;
     const files = target?.files || [];
+
+    if (files[0].size > MAX_PROFILE_IMAGE_SIZE) {
+      alert("프로필 사진의 용량은 5MB를 초과할 수 없습니다.");
+
+      return;
+    }
 
     setProfileImageAsUrl(state => {
       URL.revokeObjectURL(state || "");
@@ -99,21 +105,21 @@ const UserProfile = () => {
 
           <InfoWrapper>
             <FileLabel>
-              <CameraIcon src={cameraIcon} />
-              <UserProfileImage imageURL={profileImageAsUrl} size="LG" />
+              <CameraIcon src={cameraIcon} alt="이미지 업로드 버튼" />
+              <UserProfileImage imageURL={profileImageAsUrl} size="LG" alt="유저 프로필 이미지" />
               <Input type="file" accept="image/*" onChange={onChangeFile} />
             </FileLabel>
           </InfoWrapper>
 
           <InfoWrapper>
-            <Label>별명</Label>
-            <Input value={userName} onChange={onChangeUserName} />
+            <Label htmlFor="user-name-input">별명</Label>
+            <Input id="user-name-input" value={userName} onChange={onChangeUserName} />
             <UserNameCounter>
               {userName.length} / {MAX_USER_NAME_LENGTH}
             </UserNameCounter>
           </InfoWrapper>
 
-          <SubmitButton>수정</SubmitButton>
+          <SubmitButton disabled={isEditLoading}>수정</SubmitButton>
         </Form>
 
         <DeleteSection

@@ -9,7 +9,7 @@ export interface Props {
 const ErrorNotice = ({ className, children }: Props) => {
   return (
     <Container className={className}>
-      <Img src={logo} />
+      <Img src={logo} alt="다라쓰 로고" />
       <TextArea>
         <h2>Oops...</h2>
         <p>{children}</p>

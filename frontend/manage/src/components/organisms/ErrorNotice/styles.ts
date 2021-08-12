@@ -70,5 +70,5 @@ export const Img = styled.img`
 
   transform-origin: 50% 200%;
 
-  animation: fall 1s 2s ease-in-out, swing 1s 3s ease-in-out, sway 3s 4s infinite alternate ease-in-out;
+  animation: fall 1s 1s ease-in-out, swing 1s 2s ease-in-out, sway 3s 3s infinite alternate ease-in-out;
 `;

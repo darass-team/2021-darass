@@ -69,7 +69,6 @@ describe("관리자 유저일 때의 동작 테스트", () => {
         comments={guestComments}
         sortOption={"oldest"}
         notice={""}
-        onShowMoreComment={() => {}}
         onSelectSortOption={() => {}}
       />
     );
@@ -100,7 +99,6 @@ describe("관리자 유저일 때의 동작 테스트", () => {
         project={project}
         comments={socialLoginedComments}
         notice={""}
-        onShowMoreComment={() => {}}
         sortOption={"oldest"}
         onSelectSortOption={() => {}}
       />
@@ -133,7 +131,6 @@ describe("관리자 유저일 때의 동작 테스트", () => {
         project={project}
         comments={guestComments}
         notice={""}
-        onShowMoreComment={() => {}}
         sortOption={"oldest"}
         onSelectSortOption={() => {}}
       />
@@ -164,7 +161,6 @@ describe("관리자 유저일 때의 동작 테스트", () => {
         project={project}
         comments={socialLoginedCommentsWrittenByOther}
         notice={""}
-        onShowMoreComment={() => {}}
         sortOption={"oldest"}
         onSelectSortOption={() => {}}
       />
@@ -194,7 +190,6 @@ describe("관리자 유저일 때의 동작 테스트", () => {
         project={project}
         comments={socialLoginedCommentsWrittenByMe}
         notice={""}
-        onShowMoreComment={() => {}}
         sortOption={"oldest"}
         onSelectSortOption={() => {}}
       />

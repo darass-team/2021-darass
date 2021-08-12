@@ -12,7 +12,7 @@ const CommentStatisticsChart = ({ data }: Props) => {
   const yValue = data.map(_data => _data.count);
 
   return (
-    <Container style={{ maxWidth: "100%", height: "50vh", overflowX: "scroll" }}>
+    <Container>
       <Line
         type="line"
         data={{

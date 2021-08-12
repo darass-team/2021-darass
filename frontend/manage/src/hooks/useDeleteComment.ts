@@ -18,6 +18,10 @@ const _deleteComment = async ({ id }: DeleteCommentRequestParameter) => {
       throw new Error("알 수 없는 에러입니다.");
     }
 
+    if (error.response?.data.code === 900) {
+      throw new AlertError("존재하지 않는 댓글입니다.");
+    }
+
     if (error.response?.data.code === 903) {
       throw new AlertError("해당 댓글에 대한 권한이 없습니다.");
     }

@@ -15,6 +15,10 @@ const _likeComment = async (id: Comment["id"]) => {
       throw new AlertError("'좋아요'를 누르려면 로그인을 해주세요.");
     }
 
+    if (error.response.data.code === 900) {
+      throw new AlertError("이미 삭제된 댓글입니다.");
+    }
+
     throw new AlertError("잠시 후 다시 시도해주세요.");
   }
 };

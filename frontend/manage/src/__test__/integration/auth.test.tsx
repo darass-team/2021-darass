@@ -2,8 +2,9 @@ import "@testing-library/jest-dom/extend-expect";
 import { fireEvent, render } from "@testing-library/react";
 import { createMemoryHistory } from "history";
 import { Router } from "react-router-dom";
-import Nav from "../../components/organisms/Nav";
+import DesktopNav from "../../components/organisms/DesktopNav";
 import Login from "../../components/pages/Login";
+import { PROJECT_MENU } from "../../constants";
 import { useUser } from "../../hooks";
 import { User } from "../../types/user";
 import { socialLoginUser2 } from "../fixture/user";
@@ -37,20 +38,28 @@ describe("login/logout test", () => {
   test("로그아웃버튼을 누르면, 유저상태가 undefined로 바뀐다.", () => {
     let user: User | undefined = socialLoginUser2;
 
+    (useUser as jest.Mock).mockImplementation(() => {
+      return {
+        user,
+        login: () => {
+          user = { ...socialLoginUser2 };
+        },
+        logout: () => {
+          user = undefined;
+        }
+      };
+    });
+
     const history = createMemoryHistory();
 
     const nav = render(
       <Router history={history}>
-        <Nav
-          user={user}
-          logout={() => {
-            user = undefined;
-          }}
-        />
+        <DesktopNav menuList={PROJECT_MENU.get(1)} />
       </Router>
     );
-    const avatarImg = nav.getAllByAltText("프로필 사진")[0];
-    fireEvent.click(avatarImg);
+
+    const DropDownButton = nav.getByAltText("유저 옵션 드롭다운 버튼");
+    fireEvent.click(DropDownButton);
 
     const logoutButton = nav.getByRole("link", {
       name: /로그아웃/i

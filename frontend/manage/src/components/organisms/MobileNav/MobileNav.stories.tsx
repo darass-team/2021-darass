@@ -12,6 +12,4 @@ const Template: Story<Props> = args => <MobileNav {...args} />;
 
 export const Default = Template.bind({});
 
-Default.args = {
-  user: socialLoginUser
-};
+Default.args = {};

@@ -8,7 +8,7 @@ export interface Props {
 }
 
 const Logo = ({ size = "MD" }: Props) => {
-  return <Container src={logo} size={size} />;
+  return <Container src={logo} size={size} alt="다라쓰 로고" />;
 };
 
 export default Logo;

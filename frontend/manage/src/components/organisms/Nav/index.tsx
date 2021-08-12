@@ -1,13 +1,7 @@
 import { ROUTE } from "../../../constants";
 import { MenuType } from "../../../types/menu";
-import { User } from "../../../types/user";
 import DesktopNav from "../DesktopNav";
 import MobileNav from "../MobileNav";
-
-export interface Props {
-  user?: User;
-  logout: () => void;
-}
 
 const menuList: MenuType[] = [
   { route: ROUTE.MY_PROJECT, name: "내 프로젝트" },
@@ -15,11 +9,11 @@ const menuList: MenuType[] = [
   { route: "/about", name: "ABOUT" }
 ];
 
-const Nav = ({ user, logout }: Props) => {
+const Nav = () => {
   return (
     <>
-      <MobileNav user={user} logout={logout} menuList={menuList} />
-      <DesktopNav user={user} logout={logout} menuList={menuList} />
+      <MobileNav menuList={menuList} />
+      <DesktopNav menuList={menuList} />
     </>
   );
 };
