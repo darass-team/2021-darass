@@ -3,7 +3,6 @@ import { fireEvent, render } from "@testing-library/react";
 import { createMemoryHistory } from "history";
 import { Router } from "react-router-dom";
 import DesktopNav from "../../components/organisms/DesktopNav";
-import Nav from "../../components/organisms/Nav";
 import Login from "../../components/pages/Login";
 import { PROJECT_MENU } from "../../constants";
 import { useUser } from "../../hooks";

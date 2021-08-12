@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Redirect, useRouteMatch } from "react-router-dom";
 import SyntaxHighlighter from "react-syntax-highlighter";
-import { atomOneDark } from "react-syntax-highlighter/dist/esm/styles/hljs";
+import { atomOneDark } from "react-syntax-highlighter/dist/cjs/styles/hljs";
 import { GUIDE_FILE, PROJECT_MENU, ROUTE } from "../../../constants";
 import { REPLY_MODULE_BASE_URL } from "../../../constants/domain";
 import { useCopyButton, useGetProject } from "../../../hooks";

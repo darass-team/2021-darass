@@ -6,6 +6,9 @@ import { myProject3 } from "../fixture/project";
 import { socialLoginUser2 } from "../fixture/user";
 import { createMemoryHistory } from "history";
 import ScriptPublishing from "../../components/pages/ScriptPublishing";
+import Loadable from "react-loadable";
+
+Loadable.preloadAll();
 
 jest.mock("react-router-dom", () => {
   return {
@@ -20,11 +23,6 @@ jest.mock("react-router-dom", () => {
   };
 });
 jest.mock("../../hooks/useGetProject");
-jest.mock("react-syntax-highlighter/dist/esm/styles/hljs", () => {
-  return {
-    atomOneDark: true
-  };
-});
 
 describe("스크립트 코드 페이지 테스트", () => {
   beforeEach(() => {
