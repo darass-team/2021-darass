@@ -1,10 +1,8 @@
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const path = require("path");
-const webpack = require("webpack");
 const { DefinePlugin } = require("webpack");
 const { DotEnv } = require("webpack-dotenv");
-const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 const Package = require("./package.json");
 
 const config = {
@@ -65,8 +63,7 @@ const config = {
       "process.env.SENTRY_MANAGE_PAGE_DSN": JSON.stringify(process.env.SENTRY_MANAGE_PAGE_DSN)
     }),
 
-    new CleanWebpackPlugin(),
-    new BundleAnalyzerPlugin()
+    new CleanWebpackPlugin()
   ],
   resolve: {
     extensions: [".tsx", ".ts", ".jsx", ".js"]
