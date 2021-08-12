@@ -35,6 +35,9 @@ export const Calendar = styled(CalendarComponent)`
 
 export const Meta = styled.span`
   min-width: 4.5rem;
+  @media all and (max-width: 450px) {
+    display: none;
+  }
 `;
 
 export const DataInputWrapper = styled.div`
@@ -74,6 +77,10 @@ export const SortButton = styled.button.attrs({ type: "button" })<{ isSelected: 
 
   &:hover {
     background-color: ${PALETTE.GRAY_500};
+  }
+
+  @media all and (max-width: 450px) {
+    padding: 0.5rem;
   }
 `;
 
