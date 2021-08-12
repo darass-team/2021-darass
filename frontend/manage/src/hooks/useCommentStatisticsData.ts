@@ -5,6 +5,7 @@ import { PERIODICITY } from "./../constants/statistics";
 import { QUERY, REACT_QUERY_KEY } from "../constants";
 import axios from "axios";
 import { request } from "../utils/request";
+import { useMemo } from "react";
 
 const getCommentStatistics = async ({ periodicity, projectKey, startDate, endDate }: GetCommentStatisticsRequest) => {
   try {
@@ -59,7 +60,7 @@ export const useCommentStatisticsData = ({
     }
   );
 
-  const stats = data ? preprocessing(data.commentStats, periodicity.key) : [];
+  const stats = useMemo(() => (data ? preprocessing(data.commentStats, periodicity.key) : []), [data]);
 
   return { stats, isLoading, error, refetch };
 };
