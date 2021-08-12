@@ -39,8 +39,9 @@ jobs:
       working-directory: ./frontend/reply-module
       env:
         KAKAO_REST_API_KEY: ${{ secrets.KAKAO_REST_API_KEY }}
-        KAKAO_JAVASCRIPT_API_KEY: ${{ secrets.KAKAO_JAVASCRIPT_API_KEY}}
-      
+        KAKAO_JAVASCRIPT_API_KEY: ${{ secrets.KAKAO_JAVASCRIPT_API_KEY }}
+        SENTRY_REPLY_MODULE_DSN: ${{ secrets.SENTRY_REPLY_MODULE_DSN }}
+
     - name: Install Dependencies - project
       run: yarn install
       working-directory: ./frontend/manage
@@ -54,7 +55,8 @@ jobs:
       working-directory: ./frontend/manage
       env:
         KAKAO_REST_API_KEY: ${{ secrets.KAKAO_REST_API_KEY }}
-        KAKAO_JAVASCRIPT_API_KEY: ${{ secrets.KAKAO_JAVASCRIPT_API_KEY}}
+        KAKAO_JAVASCRIPT_API_KEY: ${{ secrets.KAKAO_JAVASCRIPT_API_KEY }}
+        SENTRY_MANAGE_PAGE_DSN: ${{ secrets.SENTRY_MANAGE_PAGE_DSN }}
     
     - name: Install Dependencies - deploy script
       run: yarn install
