@@ -1,11 +1,4 @@
-import {
-  disableScroll,
-  enableScroll,
-  hideElement,
-  postParentClickEventToIframe,
-  resizeElementHeight,
-  showElement
-} from "./common.js";
+import { hideElement, postParentClickEventToIframe, resizeElementHeight, showElement } from "./common.js";
 import { POST_MESSAGE_TYPE } from "./constants.js";
 import { createIframe } from "./createIframe.js";
 import { getModalURL, getReplyModuleURL } from "./getURL.js";
@@ -30,14 +23,12 @@ import { IFRAME_STYLE } from "./style.js";
     if (type === POST_MESSAGE_TYPE.OPEN_LIKING_USERS_MODAL) {
       $modalIframe.contentWindow.postMessage({ type: POST_MESSAGE_TYPE.OPEN_LIKING_USERS_MODAL, data }, "*");
       showElement($modalIframe);
-      disableScroll();
       return;
     }
 
     if (type === POST_MESSAGE_TYPE.CLOSE_MODAL) {
       $replyModuleIframe.contentWindow.postMessage({ type: POST_MESSAGE_TYPE.CLOSE_MODAL }, "*");
       hideElement($modalIframe);
-      enableScroll();
       return;
     }
 
@@ -50,21 +41,18 @@ import { IFRAME_STYLE } from "./style.js";
     if (type === POST_MESSAGE_TYPE.OPEN_CONFIRM) {
       $modalIframe.contentWindow.postMessage({ type: POST_MESSAGE_TYPE.OPEN_CONFIRM, data }, "*");
       showElement($modalIframe);
-      disableScroll();
       return;
     }
 
     if (type === POST_MESSAGE_TYPE.CLOSE_CONFIRM) {
       $replyModuleIframe.contentWindow.postMessage({ type: POST_MESSAGE_TYPE.CLOSE_CONFIRM }, "*");
       hideElement($modalIframe);
-      enableScroll();
       return;
     }
 
     if (type === POST_MESSAGE_TYPE.CONFIRM_OK) {
       $replyModuleIframe.contentWindow.postMessage({ type: POST_MESSAGE_TYPE.CONFIRM_OK, data }, "*");
       hideElement($modalIframe);
-      enableScroll();
       return;
     }
   });
