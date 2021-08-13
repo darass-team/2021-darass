@@ -1,0 +1,55 @@
+HELP.md
+.gradle
+build/
+!gradle/wrapper/gradle-wrapper.jar
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+bin/
+!**/src/main/**/bin/
+!**/src/test/**/bin/
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+out/
+!**/src/main/**/out/
+!**/src/test/**/out/
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+### VS Code ###
+.vscode/
+
+### 설정 관련 파일
+/src/main/resources/*.yml
+/src/main/resources/*.properties
+!/src/main/resources/db/migration/
+
+## RestDocs 파일
+/src/main/resources/static/docs/
+
+## BOOT-INF
+/BOOT-INF
+BOOT-INF/
+
+## 로그 파일
+data/
+
+## 기타
+/2021-darass/

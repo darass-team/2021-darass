@@ -1,0 +1,84 @@
+=== 유저 조회 (GET /api/v1/users)
+
+==== Request
+
+include::{snippets}/api/v1/users/get/success/http-request.adoc[]
+include::{snippets}/api/v1/users/get/success/request-headers.adoc[]
+
+==== Response (성공 - 소셜 로그인 유저 조회)
+
+include::{snippets}/api/v1/users/get/success/http-response.adoc[]
+include::{snippets}/api/v1/users/get/success/response-fields.adoc[]
+
+==== Response (실패 - 토큰 인증이 실패하는 경우)
+
+include::{snippets}/api/v1/users/get/fail/http-response.adoc[]
+include::{snippets}/api/v1/users/get/fail/response-fields.adoc[]
+
+=== 유저 수정 (PATCH /api/v1/users)
+
+==== Request (소셜 로그인 유저 닉네임 수정)
+
+include::{snippets}/api/v1/users/patch/success-nickname/http-request.adoc[]
+include::{snippets}/api/v1/users/patch/success-nickname/request-headers.adoc[]
+include::{snippets}/api/v1/users/patch/success-nickname/request-parts.adoc[]
+
+==== Request (소셜 로그인 유저 프로필 사진 수정)
+
+include::{snippets}/api/v1/users/patch/success-image/http-request.adoc[]
+include::{snippets}/api/v1/users/patch/success-image/request-headers.adoc[]
+include::{snippets}/api/v1/users/patch/success-image/request-parts.adoc[]
+
+==== Response (성공 - 소셜 로그인 유저 닉네임 수정)
+
+include::{snippets}/api/v1/users/patch/success-nickname/http-response.adoc[]
+include::{snippets}/api/v1/users/patch/success-nickname/response-fields.adoc[]
+
+==== Response (성공 - 소셜 로그인 유저 프로필 사진 수정)
+
+include::{snippets}/api/v1/users/patch/success-image/http-response.adoc[]
+include::{snippets}/api/v1/users/patch/success-image/response-body.adoc[]
+include::{snippets}/api/v1/users/patch/success-image/response-fields.adoc[]
+
+==== Response (실패 - 토큰 인증이 실패하는 경우)
+
+include::{snippets}/api/v1/users/patch/fail/http-response.adoc[]
+include::{snippets}/api/v1/users/patch/fail/response-fields.adoc[]
+
+==== Response (실패 - 닉네임의 길이가 적적하지 않은 경우)
+
+include::{snippets}/api/v1/users/patch/fail-invalid-nickname/http-response.adoc[]
+include::{snippets}/api/v1/users/patch/fail-invalid-nickname/response-fields.adoc[]
+
+=== 유저 삭제 (DELETE /api/v1/users)
+
+==== Request
+
+include::{snippets}/api/v1/users/delete/success/http-request.adoc[]
+include::{snippets}/api/v1/users/delete/success/request-headers.adoc[]
+
+==== Response (성공 - 소셜 로그인 유저 삭제)
+
+include::{snippets}/api/v1/users/delete/success/http-response.adoc[]
+
+==== Response (실패 - 토큰 인증이 실패하는 경우)
+
+include::{snippets}/api/v1/users/delete/fail/http-response.adoc[]
+include::{snippets}/api/v1/users/delete/fail/response-fields.adoc[]
+
+=== 비로그인 유저 비밀번호 일치여부 조회 (GET /api/v1/users/check-password)
+
+==== Request
+
+include::{snippets}/api/v1/users/get/password-check-correct/http-request.adoc[]
+include::{snippets}/api/v1/users/get/password-check-correct/request-parameters.adoc[]
+
+==== Response (성공 - 비밀번호 일치하는 경우)
+
+include::{snippets}/api/v1/users/get/password-check-correct/http-response.adoc[]
+include::{snippets}/api/v1/users/get/password-check-correct/response-fields.adoc[]
+
+==== Response (성공 - 비밀번호 일치하지 않는 경우)
+
+include::{snippets}/api/v1/users/get/password-check-incorrect/http-response.adoc[]
+include::{snippets}/api/v1/users/get/password-check-incorrect/response-fields.adoc[]

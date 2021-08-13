@@ -1,0 +1,18 @@
+<configuration>
+  <springProfile name="prod">
+    <appender class="ch.qos.logback.core.rolling.RollingFileAppender" name="fileAppender">
+      <encoder>
+        <pattern>[%date{yyyy-MM-dd HH:mm:ss}] %requestURL - %statusCode - %header{x-real-ip}:%header{x-real-port} -
+          %header{Referer} - %header{User-Agent}
+        </pattern>
+      </encoder>
+
+      <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+        <fileNamePattern>/var/log/application-logs/%d{yyyyMM, aux}/%d{yyyy-MM-dd_HH, Asia/Seoul}.access.log</fileNamePattern>
+        <maxHistory>6</maxHistory>
+        <totalSizeCap>5GB</totalSizeCap>
+      </rollingPolicy>
+    </appender>
+    <appender-ref ref="fileAppender"/>
+  </springProfile>
+</configuration>
