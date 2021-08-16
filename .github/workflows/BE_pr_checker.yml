@@ -13,6 +13,19 @@ jobs:
     runs-on: [ self-hosted, backend ]
 
     steps:
+      # Just add this  => 
+    - name: Inject slug/short variables
+      uses: rlespinasse/github-slug-action@v3.x
+
+    # And you get this  => 
+    - name: Print slug/short variables
+      run: |
+        echo "Slug variables"
+        echo " - ${{ env.GITHUB_REF_SLUG }}"    
+        echo " - ${{ env.GITHUB_HEAD_REF_SLUG }}"
+        echo " - ${{ env.GITHUB_BASE_REF_SLUG }}"
+        echo " - ${{ env.GITHUB_REPOSITORY_SLUG }}"
+    
     - name: Checkout code 
       uses: actions/checkout@v2
       with:
