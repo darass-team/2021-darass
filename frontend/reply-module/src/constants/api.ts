@@ -1,12 +1,12 @@
 import { GetCommentsRequestParams, GuestUserConfirmInfo } from "../types/comment";
 
 const MANAGE_PAGE_BASE_URL_DEVELOPMENT = "https://d3oy1fczrkrons.cloudfront.net";
-const MANAGE_PAGE_BASE_URL_PRODUCTION = "https://darass.o-r.kr";
+const MANAGE_PAGE_BASE_URL_PRODUCTION = "https://darass.co.kr";
 export const MANAGE_PAGE_BASE_URL =
   process.env.BUILD_MODE === "development" ? MANAGE_PAGE_BASE_URL_DEVELOPMENT : MANAGE_PAGE_BASE_URL_PRODUCTION;
 
 const DEVELOPMENT_BASE_URL = "https://www.darass-develop.o-r.kr";
-const PRODUCTION_BASE_URL = "https://api.darass.o-r.kr";
+const PRODUCTION_BASE_URL = "https://api.darass.co.kr";
 export const BASE_URL = process.env.BUILD_MODE === "development" ? DEVELOPMENT_BASE_URL : PRODUCTION_BASE_URL;
 
 export const QUERY = {

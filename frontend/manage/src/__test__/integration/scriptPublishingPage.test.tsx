@@ -6,9 +6,6 @@ import { myProject3 } from "../fixture/project";
 import { socialLoginUser2 } from "../fixture/user";
 import { createMemoryHistory } from "history";
 import ScriptPublishing from "../../components/pages/ScriptPublishing";
-import Loadable from "react-loadable";
-
-Loadable.preloadAll();
 
 jest.mock("react-router-dom", () => {
   return {

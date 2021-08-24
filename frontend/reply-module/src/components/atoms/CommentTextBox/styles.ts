@@ -55,6 +55,7 @@ export const Text = styled.div<{ isSubComment: boolean; contentEditable: boolean
 
 export const ButtonWrapper = styled.div`
   display: flex;
+  margin-bottom: 0.5rem;
   margin-left: auto;
 
   & > button {

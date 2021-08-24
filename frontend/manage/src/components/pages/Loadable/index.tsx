@@ -1,12 +1,6 @@
-import Loadable from "react-loadable";
+import loadable from "@loadable/component";
 import LoadingPage from "../LoadingPage";
 
-export const LoadableScriptPublishing = Loadable({
-  loader: () => import("../ScriptPublishing"),
-  loading: () => <LoadingPage />
-});
+export const LoadableScriptPublishing = loadable(() => import("../ScriptPublishing"), { fallback: <LoadingPage /> });
 
-export const LoadableStatistics = Loadable({
-  loader: () => import("../Statistics"),
-  loading: () => <LoadingPage />
-});
+export const LoadableStatistics = loadable(() => import("../Statistics"), { fallback: <LoadingPage /> });
