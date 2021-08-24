@@ -4,6 +4,7 @@ import com.darass.darass.common.domain.BaseTimeEntity;
 import com.darass.darass.user.domain.User;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -26,11 +27,12 @@ public class CommentLike extends BaseTimeEntity {
 
     @OnDelete(action = OnDeleteAction.CASCADE)
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn
+    @JoinColumn(foreignKey = @ForeignKey(name = "comment_like_fk_user"))
     private User user;
 
     @OnDelete(action = OnDeleteAction.CASCADE)
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(foreignKey = @ForeignKey(name = "comment_like_fk_comment"))
     private Comment comment;
 
     @Builder

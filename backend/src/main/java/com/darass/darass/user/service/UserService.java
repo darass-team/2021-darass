@@ -9,6 +9,7 @@ import com.darass.darass.user.dto.UserResponse;
 import com.darass.darass.user.dto.UserUpdateRequest;
 import com.darass.darass.user.infrastructure.S3Uploader;
 import com.darass.darass.user.repository.UserRepository;
+import java.util.Objects;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,7 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Transactional
 @Service
 public class UserService {
-
+    private static final int MAX_FILE_SIZE = 5000000; // 5MB
     private final UserRepository userRepository;
     private final S3Uploader s3Uploader;
 
@@ -35,6 +36,9 @@ public class UserService {
             .orElseThrow(ExceptionWithMessageAndCode.NOT_FOUND_USER::getException);
         String nickName = userUpdateRequest.getNickName();
         MultipartFile profileImageFile = userUpdateRequest.getProfileImageFile();
+        if (!Objects.isNull(profileImageFile) && profileImageFile.getSize() >= MAX_FILE_SIZE) {
+            throw ExceptionWithMessageAndCode.OVER_MAX_FILE_SIZE.getException();
+        }
         user.changeNickNameOrProfileImageIfExists(s3Uploader, nickName, profileImageFile);
         return UserResponse.of(user);
     }
