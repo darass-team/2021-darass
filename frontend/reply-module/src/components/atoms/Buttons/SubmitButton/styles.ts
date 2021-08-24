@@ -3,7 +3,6 @@ import styled from "styled-components";
 
 export const Button = styled.button`
   width: fit-content;
-  min-height: 3.6rem;
   background-color: ${PALETTE.SECONDARY};
   color: ${PALETTE.WHITE};
   font-size: 1.4rem;

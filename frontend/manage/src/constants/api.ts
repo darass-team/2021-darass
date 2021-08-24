@@ -1,4 +1,4 @@
-const PRODUCTION_BASE_URL = "https://api.darass.o-r.kr";
+const PRODUCTION_BASE_URL = "https://api.darass.co.kr";
 const DEVELOPMENT_BASE_URL = "https://www.darass-develop.o-r.kr";
 const BASE_URL = process.env.BUILD_MODE === "development" ? DEVELOPMENT_BASE_URL : PRODUCTION_BASE_URL;
 const QUERY = {

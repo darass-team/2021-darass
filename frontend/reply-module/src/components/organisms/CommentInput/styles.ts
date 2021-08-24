@@ -3,17 +3,17 @@ import styled, { css } from "styled-components";
 import { InputCSS } from "../../../styles/css";
 import DeleteButton from "../../atoms/Buttons/DeleteButton";
 
-export const Form = styled.form`
+export const Form = styled.form<{ isSubCommentInput: boolean }>`
   display: flex;
   flex-direction: column;
-  margin-bottom: 1rem;
+  margin-bottom: ${props => (props.isSubCommentInput ? "2rem" : "1rem")};
 `;
 
 export const TextBoxWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 1.6rem;
+  margin-bottom: 1rem;
 `;
 
 export const TextBox = styled.div<{ isValidInput: boolean }>`
@@ -78,8 +78,6 @@ export const GuestInfo = styled.input<{ isValidInput: boolean; isSubCommentInput
   ${props =>
     props.isSubCommentInput &&
     css`
-      font-size: 1rem;
-      line-height: 1.5rem;
       padding: 0.3rem 1rem;
       height: 4rem;
 
@@ -99,6 +97,7 @@ export const ButtonWrapper = styled.div<{ isSubCommentInput: boolean }>`
   margin-left: auto;
 
   & > button {
+    height: 3.6rem;
     ${props =>
       props.isSubCommentInput &&
       css`

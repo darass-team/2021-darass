@@ -3,7 +3,6 @@ import { PALETTE } from "../../../../styles/palette";
 
 export const Button = styled.button`
   width: fit-content;
-  min-height: 3.6rem;
   background-color: ${PALETTE.GRAY_200};
   border: 1px solid ${PALETTE.GRAY_500};
   color: ${PALETTE.RED_800};

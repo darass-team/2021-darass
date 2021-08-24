@@ -21,9 +21,9 @@
     "@testing-library/react": "^12.0.0",
     "@types/chart.js": "^2.9.34",
     "@types/jest": "^26.0.24",
+    "@types/loadable__component": "^5.13.4",
     "@types/react": "^17.0.13",
     "@types/react-dom": "^17.0.8",
-    "@types/react-loadable": "^5.5.6",
     "@types/react-router-dom": "^5.1.7",
     "@types/styled-components": "^5.1.11",
     "babel-loader": "^8.2.2",
@@ -50,6 +50,7 @@
     "webpack-dotenv": "^0.0.2"
   },
   "dependencies": {
+    "@loadable/component": "^5.15.0",
     "@sentry/react": "^6.11.0",
     "@sentry/tracing": "^6.11.0",
     "axios": "^0.21.1",
@@ -58,7 +59,6 @@
     "react": "^17.0.2",
     "react-chartjs-2": "^2.9.4",
     "react-dom": "^17.0.2",
-    "react-loadable": "^5.5.0",
     "react-query": "^3.18.1",
     "react-router-dom": "^5.2.0",
     "react-syntax-highlighter": "^15.4.3",

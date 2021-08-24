@@ -100,7 +100,7 @@ const CommentInput = ({ className, innerRef, user, parentCommentId, onClose }: P
   };
 
   return (
-    <Form onSubmit={onSubmit} className={className}>
+    <Form onSubmit={onSubmit} className={className} isSubCommentInput={isSubCommentInput}>
       <TextBoxWrapper>
         <TextBox
           ref={(element: HTMLDivElement) => {
