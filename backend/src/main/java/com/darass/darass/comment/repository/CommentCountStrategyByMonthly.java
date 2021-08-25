@@ -46,12 +46,18 @@ public class CommentCountStrategyByMonthly implements CommentCountStrategy {
         YearMonth yearMonth = YearMonth.from(startDate);
         YearMonth endYearMonth = YearMonth.from(endDate);
 
+        int count = 0;
         while (!yearMonth.equals(endYearMonth)) {
+            count++;
             if (isExistMonthStat(commentStats, yearMonth)) {
+                yearMonth = yearMonth.plusMonths(1L);
                 continue;
             }
             noneMonthCommentStats.add(new CommentStat(yearMonth.toString(), DEFAULT_COMMENT_COUNT));
             yearMonth = yearMonth.plusMonths(1L);
+            if (count > 100000) {
+                throw new RuntimeException("while문 무한 반복이 의심됩니다.");
+            }
         }
         if (!isExistMonthStat(commentStats, yearMonth)) {
             noneMonthCommentStats.add(new CommentStat(yearMonth.toString(), DEFAULT_COMMENT_COUNT));
