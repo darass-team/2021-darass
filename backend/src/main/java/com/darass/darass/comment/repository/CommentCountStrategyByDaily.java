@@ -46,12 +46,18 @@ public class CommentCountStrategyByDaily implements CommentCountStrategy {
         LocalDate localDate = LocalDate.from(startDate);
         LocalDate end = LocalDate.from(endDate);
 
+        int count = 0;
         while (!localDate.equals(end)) {
+            count++;
             if (isExistDailyStat(commentStats, localDate)) {
+                localDate = localDate.plusDays(1L);
                 continue;
             }
             noneMonthCommentStats.add(new CommentStat(localDate.toString(), DEFAULT_COMMENT_COUNT));
             localDate = localDate.plusDays(1L);
+            if (count > 100000) {
+                throw new RuntimeException("while문 무한 반복이 의심됩니다.");
+            }
         }
         if (!isExistDailyStat(commentStats, localDate)) {
             noneMonthCommentStats.add(new CommentStat(localDate.toString(), DEFAULT_COMMENT_COUNT));
