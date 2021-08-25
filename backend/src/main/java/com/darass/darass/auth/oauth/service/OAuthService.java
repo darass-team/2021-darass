@@ -2,6 +2,7 @@ package com.darass.darass.auth.oauth.service;
 
 import com.darass.darass.auth.oauth.api.domain.OAuthProvider;
 import com.darass.darass.auth.oauth.api.domain.OAuthProviderFactory;
+import com.darass.darass.auth.oauth.dto.TokenRequest;
 import com.darass.darass.auth.oauth.dto.TokenResponse;
 import com.darass.darass.auth.oauth.infrastructure.JwtTokenProvider;
 import com.darass.darass.exception.ExceptionWithMessageAndCode;
@@ -23,28 +24,28 @@ public class OAuthService {
 
     private final OAuthProviderFactory oAuthProviderFactory;
 
-    public TokenResponse oauthLogin(String oauthProviderName, String authorizationCode) {
-        OAuthProvider oAuthProvider = oAuthProviderFactory.getOAuthProvider(oauthProviderName);
-        SocialLoginUser socialLoginUser = oAuthProvider.findSocialLoginUser(authorizationCode);
+    public TokenResponse oauthLogin(TokenRequest tokenRequest) {
+        OAuthProvider oAuthProvider = oAuthProviderFactory.getOAuthProvider(tokenRequest.getOauthProviderName());
+        SocialLoginUser responseSocialLoginUser = oAuthProvider.requestSocialLoginUser(tokenRequest.getAuthorizationCode());
 
-        Optional<SocialLoginUser> possibleSocialLoginUser =
-            socialLoginUserRepository.findByOauthId(socialLoginUser.getOauthId());
+        Optional<SocialLoginUser> possibleSocialLoginUser = socialLoginUserRepository
+            .findByOauthId(responseSocialLoginUser.getOauthId());
 
-        if (possibleSocialLoginUser.isEmpty()) {
-            socialLoginUserRepository.save(socialLoginUser);
-            return TokenResponse.of(jwtTokenProvider.createAccessToken(socialLoginUser.getId().toString()));
-        }
+        SocialLoginUser socialLoginUser = possibleSocialLoginUser.orElseGet(
+            () -> socialLoginUserRepository.save(responseSocialLoginUser)
+        );
 
-        SocialLoginUser foundSocialLoginUser = possibleSocialLoginUser.get();
-        return TokenResponse.of(jwtTokenProvider.createAccessToken(foundSocialLoginUser.getId().toString()));
+        return TokenResponse.of(jwtTokenProvider.createAccessToken(socialLoginUser),
+            jwtTokenProvider.createRefreshToken(socialLoginUser));
     }
 
     public SocialLoginUser findSocialLoginUserByAccessToken(String accessToken) {
         jwtTokenProvider.validateAccessToken(accessToken);
-        String userId = jwtTokenProvider.getPayload(accessToken);
+        String userId = jwtTokenProvider.getAccessTokenPayload(accessToken);
 
         return socialLoginUserRepository.findById(Long.parseLong(userId))
             .orElseThrow(ExceptionWithMessageAndCode.INVALID_JWT_NOT_FOUND_USER_TOKEN::getException);
     }
+
 
 }
