@@ -14,7 +14,7 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
 
     List<Comment> findByUrlAndProjectSecretKeyAndParentId(String url, String projectSecretKey, Long parentId, Sort sort);
 
-    Page<Comment> findByUrlAndProjectSecretKey(String url, String projectSecretKey, Pageable pageable);
+    Page<Comment> findByUrlAndProjectSecretKeyAndParentId(String url, String projectSecretKey, Long parentId, Pageable pageable);
 
     Page<Comment> findByProjectSecretKeyAndCreatedDateBetween(String projectSecretKey, LocalDateTime startDate,
         LocalDateTime endDate, Pageable pageable);
