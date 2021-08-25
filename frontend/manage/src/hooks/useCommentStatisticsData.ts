@@ -9,8 +9,10 @@ import { useMemo } from "react";
 
 const getCommentStatistics = async ({ periodicity, projectKey, startDate, endDate }: GetCommentStatisticsRequest) => {
   try {
+    if (!projectKey) return;
+
     const urlSearchParams = new URLSearchParams(QUERY.STATISTICS_OF_PROJECT + "?");
-    projectKey && urlSearchParams.set("projectKey", projectKey);
+    urlSearchParams.set("projectKey", projectKey);
     urlSearchParams.set("periodicity", periodicity.key);
     urlSearchParams.set("startDate", startDate);
     urlSearchParams.set("endDate", endDate);
