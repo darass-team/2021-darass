@@ -1,6 +1,7 @@
 package com.darass.darass.auth.oauth.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
@@ -10,6 +11,7 @@ import com.darass.darass.auth.oauth.api.domain.OAuthProviderFactory;
 import com.darass.darass.auth.oauth.dto.TokenRequest;
 import com.darass.darass.auth.oauth.dto.TokenResponse;
 import com.darass.darass.auth.oauth.infrastructure.JwtTokenProvider;
+import com.darass.darass.exception.ExceptionWithMessageAndCode;
 import com.darass.darass.user.domain.SocialLoginUser;
 import com.darass.darass.user.repository.SocialLoginUserRepository;
 import java.util.Optional;
@@ -114,6 +116,34 @@ class OAuthServiceTest extends SpringContainerTest {
         assertThat(result.getProfileImageUrl()).isEqualTo(socialLoginUser.getProfileImageUrl());
         assertThat(result.getOauthProvider()).isEqualTo(socialLoginUser.getOauthProvider());
         assertThat(result.getEmail()).isEqualTo(socialLoginUser.getEmail());
+    }
+
+    @DisplayName("refreshAccessTokenWithRefreshToken 메서드는 유효한 refreshToken이 주어지면, 새로운 refreshToken과 accessToken을 발급해준다.")
+    @Test
+    void refreshAccessTokenWithRefreshToken() throws InterruptedException {
+        //given
+        TokenRequest tokenRequest = new TokenRequest(KaKaoOAuthProvider.NAME, AUTHORIZATION_CODE);
+        TokenResponse tokenResponse = oAuthService.oauthLogin(tokenRequest);
+
+        Thread.sleep(1000);
+
+        //when
+        TokenResponse refreshedTokenResponse = oAuthService.refreshAccessTokenWithRefreshToken(tokenResponse.getRefreshToken());
+
+        //then
+        assertThat(tokenResponse.getAccessToken()).isNotEqualTo(refreshedTokenResponse.getAccessToken());
+        assertThat(tokenResponse.getRefreshToken()).isNotEqualTo(refreshedTokenResponse.getRefreshToken());
+    }
+
+    @DisplayName("refreshAccessTokenWithRefreshToken 메서드는 refreshToken이 db에 존재하지 않는다면, 예외를 던진다.")
+    @Test
+    void refreshAccessTokenWithRefreshToken_exception() {
+        TokenRequest tokenRequest = new TokenRequest(KaKaoOAuthProvider.NAME, AUTHORIZATION_CODE);
+        TokenResponse tokenResponse = oAuthService.oauthLogin(tokenRequest);
+        socialLoginUserRepository.deleteAll();
+
+        assertThatThrownBy(() -> oAuthService.refreshAccessTokenWithRefreshToken(tokenResponse.getRefreshToken()))
+            .isInstanceOf(ExceptionWithMessageAndCode.SHOULD_LOGIN.getException().getClass());
     }
 
 }

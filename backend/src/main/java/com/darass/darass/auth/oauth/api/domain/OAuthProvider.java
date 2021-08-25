@@ -24,7 +24,7 @@ public abstract class OAuthProvider {
     protected String authorizationServerUrl;
     protected String apiServerUrl;
 
-    public SocialLoginUser findSocialLoginUser(String authorizationCode) {
+    public SocialLoginUser requestSocialLoginUser(String authorizationCode) {
         String accessToken = requestAccessToken(authorizationCode);
         return requestUserInformation(accessToken);
     }

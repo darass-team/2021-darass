@@ -47,5 +47,16 @@ public class OAuthService {
             .orElseThrow(ExceptionWithMessageAndCode.INVALID_JWT_NOT_FOUND_USER_TOKEN::getException);
     }
 
+    public TokenResponse refreshAccessTokenWithRefreshToken(String refreshToken) {
+        jwtTokenProvider.validateRefreshToken(refreshToken);
+
+        SocialLoginUser socialLoginUser = socialLoginUserRepository.findByRefreshToken(refreshToken)
+            .orElseThrow(() -> {
+                throw ExceptionWithMessageAndCode.SHOULD_LOGIN.getException();
+            });
+
+        return TokenResponse.of(jwtTokenProvider.createAccessToken(socialLoginUser),
+            jwtTokenProvider.createRefreshToken(socialLoginUser));
+    }
 
 }

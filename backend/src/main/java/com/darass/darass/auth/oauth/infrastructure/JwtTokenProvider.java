@@ -69,7 +69,7 @@ public class JwtTokenProvider {
             .compact();
     }
 
-    private void validateToken(String token, String secretKey){
+    private void validateToken(String token, String secretKey) {
         try {
             Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
         } catch (JwtException | IllegalArgumentException e) {

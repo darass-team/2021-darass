@@ -8,4 +8,5 @@ public interface SocialLoginUserRepository extends JpaRepository<SocialLoginUser
 
     Optional<SocialLoginUser> findByOauthId(String oauthId);
 
+    Optional<SocialLoginUser> findByRefreshToken(String refreshToken);
 }
