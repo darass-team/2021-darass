@@ -40,6 +40,15 @@ export const BlogLogoWrapper = styled.div`
   margin-top: 3em;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
+  @media (max-width: 780px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  @media (max-width: 480px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @media (max-width: 320px) {
+    grid-template-columns: repeat(1, 1fr);
+  }
   row-gap: 2rem;
 `;
 
