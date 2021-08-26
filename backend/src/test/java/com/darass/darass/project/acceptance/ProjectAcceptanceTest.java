@@ -26,6 +26,7 @@ import com.darass.darass.user.domain.SocialLoginUser;
 import com.darass.darass.user.repository.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
+import java.util.stream.IntStream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -113,6 +114,26 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
 
         //then
         중복되는_프로젝트_이름으로_인해_프로젝트_생성_실패됨(resultActions);
+    }
+
+    @Test
+    @DisplayName("프로젝트 이름 또는 설명의 길이가 적절하지 않으면, 프로젝트를 생성을 실패한다.")
+    public void save_invalid_length_project_fail() throws Exception {
+        //given
+        StringBuilder stringBuilder = new StringBuilder();
+        IntStream.rangeClosed(0, 100)
+            .forEach(it -> stringBuilder.append("invalid"));
+
+        String invalidInput = stringBuilder.toString();
+        String accessToken = tokenProvider.createAccessToken(socialLoginUser);
+        ProjectCreateRequest projectCreateRequest = new ProjectCreateRequest(invalidInput,
+            invalidInput);
+
+        //when
+        ResultActions resultActions = 프로젝트_생성_요청(accessToken, projectCreateRequest);
+
+        //then
+        입력값_길이_위반으로_인해_프로젝트_생성_실패됨(resultActions);
     }
 
     @DisplayName("엑세스 토큰으로 프로젝트 다건 조회")
@@ -309,6 +330,28 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
         프로젝트_단건_수정_실패됨(resultActions);
     }
 
+    @Test
+    @DisplayName("잘못된 프로젝트 입력값 길이로인해 프로젝트를 단건 수정을 실패한다.")
+    public void updateById_fail_invalid_length() throws Exception {
+        // given
+        StringBuilder stringBuilder = new StringBuilder();
+        IntStream.rangeClosed(0, 100)
+            .forEach(it -> stringBuilder.append("invalid"));
+
+        String invalidInput = stringBuilder.toString();
+        String accessToken = tokenProvider.createAccessToken(socialLoginUser);
+        Project project = makeProject(JEKYLL_PROJECT_NAME, JEKYLL_PROJECT_DESCRIPTION);
+        projectRepository.save(project);
+        ProjectUpdateRequest projectUpdateRequest = new ProjectUpdateRequest(invalidInput,
+            invalidInput);
+
+        //when
+        ResultActions resultActions = 프로젝트_단건_수정_요청(project.getId(), accessToken, projectUpdateRequest);
+
+        //then
+        잘못된_입력값_길이로_인해_프로젝트_단건_수정_실패됨(resultActions);
+    }
+
     private ResultActions 프로젝트_단건_수정_요청(Long projectId, String accessToken, ProjectUpdateRequest projectUpdateRequest)
         throws Exception {
         return this.mockMvc.perform(patch("/api/v1/projects/{projectId}", projectId)
@@ -319,7 +362,12 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
 
     private void 프로젝트_단건_수정_실패됨(ResultActions resultActions) throws Exception {
         resultActions.andExpect(status().isNotFound());
-        프로젝트_단건_수정_실패됨_rest_doc_작성(resultActions);
+        예외_발생_rest_doc_작성(resultActions, "api/v1/projects/patch/fail");
+    }
+
+    private void 잘못된_입력값_길이로_인해_프로젝트_단건_수정_실패됨(ResultActions resultActions) throws Exception {
+        resultActions.andExpect(status().isBadRequest());
+        예외_발생_rest_doc_작성(resultActions, "api/v1/projects/patch/fail-invalid-length");
     }
 
     private void 프로젝트_단건_수정됨(ResultActions resultActions, ProjectUpdateRequest projectUpdateRequest) throws Exception {
@@ -349,16 +397,6 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
                     fieldWithPath("secretKey").type(JsonFieldType.STRING).description("프로젝트 Secret Key"),
                     fieldWithPath("description").type(JsonFieldType.STRING).description("프로젝트 설명"),
                     fieldWithPath("userId").type(JsonFieldType.NUMBER).optional().description("유저 아이디")
-                ))
-        );
-    }
-
-    private void 프로젝트_단건_수정_실패됨_rest_doc_작성(ResultActions resultActions) throws Exception {
-        resultActions.andDo(
-            document("api/v1/projects/patch/fail",
-                responseFields(
-                    fieldWithPath("message").type(JsonFieldType.STRING).description("에러 메시지"),
-                    fieldWithPath("code").type(JsonFieldType.NUMBER).description("에러 코드")
                 ))
         );
     }
@@ -411,27 +449,22 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
 
     private void 유효하지_않은_토큰으로_인해_프로젝트_생성_실패됨(ResultActions resultActions) throws Exception {
         resultActions.andExpect(status().isUnauthorized());
-        유효하지_않은_토큰으로_인해_프로젝트_생성_실패_rest_doc_작성(resultActions);
-    }
-
-    private void 유효하지_않은_토큰으로_인해_프로젝트_생성_실패_rest_doc_작성(ResultActions resultActions) throws Exception {
-        resultActions.andDo(
-            document("api/v1/projects/post/fail-jwt",
-                responseFields(
-                    fieldWithPath("message").type(JsonFieldType.STRING).description("에러 메시지"),
-                    fieldWithPath("code").type(JsonFieldType.NUMBER).description("에러 코드")
-                ))
-        );
+        예외_발생_rest_doc_작성(resultActions, "api/v1/projects/post/fail-jwt");
     }
 
     private void 중복되는_프로젝트_이름으로_인해_프로젝트_생성_실패됨(ResultActions resultActions) throws Exception {
         resultActions.andExpect(status().isConflict());
-        중복되는_프로젝트_이름으로_인해_프로젝트_생성_실패_rest_doc_작성(resultActions);
+        예외_발생_rest_doc_작성(resultActions, "api/v1/projects/post/fail-duplicate-name");
     }
 
-    private void 중복되는_프로젝트_이름으로_인해_프로젝트_생성_실패_rest_doc_작성(ResultActions resultActions) throws Exception {
+    private void 입력값_길이_위반으로_인해_프로젝트_생성_실패됨(ResultActions resultActions) throws Exception {
+        resultActions.andExpect(status().isBadRequest());
+        예외_발생_rest_doc_작성(resultActions, "api/v1/projects/post/fail-invalid-length");
+    }
+
+    private void 예외_발생_rest_doc_작성(ResultActions resultActions, String documentPath) throws Exception {
         resultActions.andDo(
-            document("api/v1/projects/post/fail-duplicate-name",
+            document(documentPath,
                 responseFields(
                     fieldWithPath("message").type(JsonFieldType.STRING).description("에러 메시지"),
                     fieldWithPath("code").type(JsonFieldType.NUMBER).description("에러 코드")

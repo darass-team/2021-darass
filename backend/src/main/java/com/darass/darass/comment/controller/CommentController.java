@@ -4,11 +4,14 @@ import com.darass.darass.auth.oauth.domain.AuthenticationPrincipal;
 import com.darass.darass.auth.oauth.domain.RequiredLogin;
 import com.darass.darass.comment.dto.CommentCreateRequest;
 import com.darass.darass.comment.dto.CommentDeleteRequest;
+import com.darass.darass.comment.dto.CommentReadRequest;
 import com.darass.darass.comment.dto.CommentReadRequestByPagination;
 import com.darass.darass.comment.dto.CommentReadRequestBySearch;
 import com.darass.darass.comment.dto.CommentReadRequestInProject;
 import com.darass.darass.comment.dto.CommentResponse;
 import com.darass.darass.comment.dto.CommentResponses;
+import com.darass.darass.comment.dto.CommentStatRequest;
+import com.darass.darass.comment.dto.CommentStatResponse;
 import com.darass.darass.comment.dto.CommentUpdateRequest;
 import com.darass.darass.comment.service.CommentService;
 import com.darass.darass.user.domain.User;
@@ -33,6 +36,12 @@ public class CommentController {
 
     private final CommentService commentService;
 
+    @GetMapping("/comments")
+    public ResponseEntity<CommentResponses> read(@ModelAttribute CommentReadRequest commentReadRequest) {
+        CommentResponses commentResponses = commentService.findAllCommentsByUrlAndProjectKey(commentReadRequest);
+        return ResponseEntity.status(HttpStatus.OK).body(commentResponses);
+    }
+
     @GetMapping("/comments/paging")
     public ResponseEntity<CommentResponses> readByPageRequest(
         @ModelAttribute CommentReadRequestByPagination commentReadRequestByPagination) {
@@ -55,6 +64,11 @@ public class CommentController {
         CommentResponses commentResponses = commentService
             .findAllCommentsInProject(commentReadRequestInProject);
         return ResponseEntity.status(HttpStatus.OK).body(commentResponses);
+    }
+
+    @GetMapping("/comments/stat")
+    public ResponseEntity<CommentStatResponse> giveStat(@ModelAttribute CommentStatRequest commentStatRequest) {
+        return ResponseEntity.status(HttpStatus.OK).body(commentService.giveStat(commentStatRequest));
     }
 
     @PostMapping("/comments")

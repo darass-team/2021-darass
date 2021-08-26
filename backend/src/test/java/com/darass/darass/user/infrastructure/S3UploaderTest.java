@@ -36,7 +36,7 @@ public class S3UploaderTest extends SpringContainerTest {
         given(s3Client.putObject(any(PutObjectRequest.class), any(RequestBody.class)))
             .willReturn(null);
         MultipartFile multipartFile = mock(MultipartFile.class);
-        when(multipartFile.getOriginalFilename()).thenReturn("파일이름");
+        when(multipartFile.getOriginalFilename()).thenReturn("fileName");
         byte[] byteArray = {};
         when(multipartFile.getBytes()).thenReturn(byteArray);
 
@@ -68,6 +68,6 @@ public class S3UploaderTest extends SpringContainerTest {
         S3Uploader s3Uploader = new S3Uploader(s3);
         // when, then
         assertThatThrownBy(() -> s3Uploader.upload(multipartFile))
-            .isInstanceOf(InternalServerException.class);
+            .isInstanceOf(SdkClientException.class);
     }
 }

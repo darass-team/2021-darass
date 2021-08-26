@@ -1,13 +1,16 @@
 package com.darass.darass.project.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.darass.darass.auth.oauth.api.domain.KaKaoOAuthProvider;
 import com.darass.darass.comment.domain.Comment;
 import com.darass.darass.comment.repository.CommentRepository;
+import com.darass.darass.exception.ExceptionWithMessageAndCode;
 import com.darass.darass.project.repository.ProjectRepository;
 import com.darass.darass.user.domain.SocialLoginUser;
 import com.darass.darass.user.repository.UserRepository;
+import java.util.stream.IntStream;
 import javax.transaction.Transactional;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -24,6 +27,8 @@ class ProjectTest {
 
     private Project project;
 
+    private SocialLoginUser socialLoginUser;
+
     @Autowired
     private UserRepository userRepository;
 
@@ -36,7 +41,7 @@ class ProjectTest {
     @Transactional
     @BeforeEach
     void setUp() {
-        SocialLoginUser socialLoginUser = SocialLoginUser.builder()
+        socialLoginUser = SocialLoginUser.builder()
             .nickName("우기")
             .profileImageUrl("http://프로필이미지-url")
             .userType("socialLoginUser")
@@ -46,11 +51,7 @@ class ProjectTest {
             .build();
         userRepository.save(socialLoginUser);
 
-        project = Project.builder()
-            .user(socialLoginUser)
-            .name("깃헙 지킬 블로그")
-            .description("개발 공부 기록용")
-            .build();
+        project = createProject(socialLoginUser, "깃헙 지킬 블로그", "개발 공부 기록용");
         projectRepository.save(project);
 
         Comment comment = Comment.builder()
@@ -90,5 +91,42 @@ class ProjectTest {
         assertThat(projectRepository.findAll().size()).isEqualTo(0);
     }
 
+    @DisplayName("잘못된 길이의 이름, 설명으로 생성하는 경우 예외가 발생한다.")
+    @Test
+    void invalidLengthCreate() {
+        StringBuilder stringBuilder = new StringBuilder();
+        IntStream.rangeClosed(0, 100)
+            .forEach(it -> stringBuilder.append("invalid"));
+        String invalidInput = stringBuilder.toString();
+
+        assertThatThrownBy(() -> createProject(socialLoginUser, invalidInput, "validInput"))
+            .isInstanceOf(ExceptionWithMessageAndCode.INVALID_INPUT_LENGTH.getException().getClass());
+
+        assertThatThrownBy(() -> createProject(socialLoginUser, "validInput", invalidInput))
+            .isInstanceOf(ExceptionWithMessageAndCode.INVALID_INPUT_LENGTH.getException().getClass());
+    }
+
+    @DisplayName("잘못된 길이의 이름, 설명으로 수정하는 경우 예외가 발생한다.")
+    @Test
+    void invalidLengthUpdate() {
+        StringBuilder stringBuilder = new StringBuilder();
+        IntStream.rangeClosed(0, 100)
+            .forEach(it -> stringBuilder.append("invalid"));
+        String invalidInput = stringBuilder.toString();
+
+        assertThatThrownBy(() -> project.update(invalidInput, "validInput"))
+            .isInstanceOf(ExceptionWithMessageAndCode.INVALID_INPUT_LENGTH.getException().getClass());
+
+        assertThatThrownBy(() -> project.update("validInput", invalidInput))
+            .isInstanceOf(ExceptionWithMessageAndCode.INVALID_INPUT_LENGTH.getException().getClass());
+    }
+
+    private Project createProject(SocialLoginUser socialLoginUser, String name, String description) {
+        return Project.builder()
+            .user(socialLoginUser)
+            .name(name)
+            .description(description)
+            .build();
+    }
 }
 

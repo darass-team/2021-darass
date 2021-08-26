@@ -9,8 +9,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.darass.darass.SpringContainerTest;
-import com.darass.darass.auth.oauth.controller.AuthenticationPrincipalArgumentResolver;
 import com.darass.darass.auth.oauth.controller.OAuthController;
+import com.darass.darass.auth.oauth.controller.argumentresolver.AuthenticationPrincipalArgumentResolver;
 import com.darass.darass.auth.oauth.dto.TokenRequest;
 import com.darass.darass.auth.oauth.service.OAuthService;
 import com.darass.darass.comment.controller.CommentController;

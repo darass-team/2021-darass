@@ -10,10 +10,13 @@ import com.darass.darass.comment.domain.CommentLike;
 import com.darass.darass.comment.domain.SortOption;
 import com.darass.darass.comment.dto.CommentCreateRequest;
 import com.darass.darass.comment.dto.CommentDeleteRequest;
+import com.darass.darass.comment.dto.CommentReadRequest;
 import com.darass.darass.comment.dto.CommentReadRequestByPagination;
 import com.darass.darass.comment.dto.CommentReadRequestBySearch;
 import com.darass.darass.comment.dto.CommentReadRequestInProject;
 import com.darass.darass.comment.dto.CommentResponse;
+import com.darass.darass.comment.dto.CommentStatRequest;
+import com.darass.darass.comment.dto.CommentStatResponse;
 import com.darass.darass.comment.dto.CommentUpdateRequest;
 import com.darass.darass.comment.repository.CommentLikeRepository;
 import com.darass.darass.comment.repository.CommentRepository;
@@ -27,6 +30,7 @@ import com.darass.darass.user.domain.SocialLoginUser;
 import com.darass.darass.user.domain.User;
 import com.darass.darass.user.repository.UserRepository;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -131,14 +135,14 @@ class CommentServiceTest extends SpringContainerTest {
     @DisplayName("소셜 로그인 유저가 댓글을 등록한다.")
     @Test
     void save() {
-        CommentCreateRequest request = new CommentCreateRequest(null, null, project.getSecretKey(), "content", "url");
+        CommentCreateRequest request = new CommentCreateRequest(null, null, null, project.getSecretKey(), "content", "url");
         assertThat(commentService.save(socialLoginUser, request).getContent()).isEqualTo("content");
     }
 
     @DisplayName("비로그인 유저가 댓글을 등록한다.")
     @Test
     void save_guest() {
-        CommentCreateRequest request = new CommentCreateRequest(guestUser.getNickName(), guestUser.getPassword(),
+        CommentCreateRequest request = new CommentCreateRequest(guestUser.getNickName(), guestUser.getPassword(), null,
             project.getSecretKey(), "content", "url");
         assertThat(commentService.save(guestUser, request).getContent()).isEqualTo("content");
     }
@@ -146,10 +150,34 @@ class CommentServiceTest extends SpringContainerTest {
     @DisplayName("존재하지 않는 프로젝트에 댓글을 등록하면 에러를 던진다.")
     @Test
     void save_exception() {
-        CommentCreateRequest request = new CommentCreateRequest(null, null, "secret", "content", "url");
+        CommentCreateRequest request = new CommentCreateRequest(null, null, null, "secret", "content", "url");
         assertThatThrownBy(() -> commentService.save(socialLoginUser, request))
             .isInstanceOf(NotFoundException.class)
             .hasMessage("해당하는 프로젝트가 없습니다.");
+    }
+
+    @DisplayName("특정 URL의 댓글을 최신순으로 조회한다.")
+    @Test
+    void findAllCommentsByUrlAndProjectKey_latest() {
+        CommentReadRequest request = new CommentReadRequest(SortOption.LATEST.name(), "url", project.getSecretKey());
+        List<CommentResponse> responses = commentService.findAllCommentsByUrlAndProjectKey(request).getComments();
+        assertThat(responses).extracting("content").isEqualTo(Arrays.asList("content3", "content2", "content1"));
+    }
+
+    @DisplayName("특정 URL의 댓글을 좋아요순으로 조회한다.")
+    @Test
+    void findAllCommentsByUrlAndProjectKey_like() {
+        CommentReadRequest request = new CommentReadRequest(SortOption.LIKE.name(), "url", project.getSecretKey());
+        List<CommentResponse> responses = commentService.findAllCommentsByUrlAndProjectKey(request).getComments();
+        assertThat(responses).extracting("content").isEqualTo(Arrays.asList("content2", "content1", "content3"));
+    }
+
+    @DisplayName("특정 URL의 댓글을 과거순으로 조회한다.")
+    @Test
+    void findAllCommentsByUrlAndProjectKey_oldest() {
+        CommentReadRequest request = new CommentReadRequest(SortOption.OTHER.name(), "url", project.getSecretKey());
+        List<CommentResponse> responses = commentService.findAllCommentsByUrlAndProjectKey(request).getComments();
+        assertThat(responses).extracting("content").isEqualTo(Arrays.asList("content1", "content2", "content3"));
     }
 
     @DisplayName("특정 페이지의 댓글을 최신순으로 조회한다.")
@@ -222,7 +250,8 @@ class CommentServiceTest extends SpringContainerTest {
     @Test
     void findAllCommentsByProjectKeyUsingPaginationAndDateBetweenAndLike_latest() {
         CommentReadRequestBySearch request =
-            new CommentReadRequestBySearch("LATEST", project.getSecretKey(), "content", 1, 5);
+            new CommentReadRequestBySearch("LATEST", project.getSecretKey(), LocalDate.EPOCH, LocalDate.now(),
+                "content", 1, 5);
         List<CommentResponse> responses = commentService.findAllCommentsInProjectUsingSearch(request)
             .getComments();
         assertThat(responses).extracting("content")
@@ -233,7 +262,8 @@ class CommentServiceTest extends SpringContainerTest {
     @Test
     void findAllCommentsByProjectKeyUsingPaginationAndDateBetweenAndLike_like() {
         CommentReadRequestBySearch request =
-            new CommentReadRequestBySearch("LIKE", project.getSecretKey(), "content", 1, 5);
+            new CommentReadRequestBySearch("LIKE", project.getSecretKey(), LocalDate.EPOCH, LocalDate.now(),
+                "content", 1, 5);
         List<CommentResponse> responses = commentService.findAllCommentsInProjectUsingSearch(request)
             .getComments();
         assertThat(responses).extracting("content")
@@ -244,7 +274,8 @@ class CommentServiceTest extends SpringContainerTest {
     @Test
     void findAllCommentsByProjectKeyUsingPaginationAndDateBetweenAndLike_oldest() {
         CommentReadRequestBySearch request =
-            new CommentReadRequestBySearch("OLDEST", project.getSecretKey(), "content", 1, 5);
+            new CommentReadRequestBySearch("OLDEST", project.getSecretKey(), LocalDate.EPOCH, LocalDate.now(),
+                "content", 1, 5);
         List<CommentResponse> responses = commentService.findAllCommentsInProjectUsingSearch(request)
             .getComments();
         assertThat(responses).extracting("content")
@@ -259,6 +290,61 @@ class CommentServiceTest extends SpringContainerTest {
         assertThatThrownBy(() -> commentService.findAllCommentsInProject(request))
             .isInstanceOf(BadRequestException.class)
             .hasMessage("페이지의 값은 1 이상이어야 합니다.");
+    }
+
+    @DisplayName("특정 프로젝트의 시간별 댓글 통계를 구한다.")
+    @Test
+    void stat_hourly() {
+        LocalDate endDate = LocalDate.now();
+        LocalDate startDate = LocalDate.of(endDate.getYear(), endDate.getMonthValue() - 1, endDate.getDayOfMonth());
+        CommentStatRequest request = new CommentStatRequest("HOURLY", project.getSecretKey(),
+            startDate, endDate);
+        CommentStatResponse commentStatResponse = commentService.giveStat(request);
+        assertThat(commentStatResponse.getCommentStats()).hasSize(24);
+    }
+
+    @DisplayName("특정 프로젝트의 일별 댓글 통계를 구한다.")
+    @Test
+    void stat_daily() {
+        LocalDate endDate = LocalDate.now();
+        LocalDate startDate = LocalDate.of(endDate.getYear(), endDate.getMonthValue() - 1, endDate.getDayOfMonth());
+        CommentStatRequest request = new CommentStatRequest("DAILY", project.getSecretKey(),
+            startDate, endDate);
+        CommentStatResponse commentStatResponse = commentService.giveStat(request);
+        assertThat(commentStatResponse.getCommentStats())
+            .hasSize((int) ChronoUnit.DAYS.between(startDate, endDate) + 1);
+    }
+
+    @DisplayName("특정 프로젝트의 일별 댓글 통계를 구한다. (시작 날짜 = 종료 날짜)")
+    @Test
+    void stat_daily_same_date() {
+        LocalDate localDate = LocalDate.now().minusYears(10L);
+        CommentStatRequest request = new CommentStatRequest("DAILY", project.getSecretKey(),
+            localDate, localDate);
+        CommentStatResponse commentStatResponse = commentService.giveStat(request);
+        assertThat(commentStatResponse.getCommentStats())
+            .hasSize(1);
+    }
+
+    @DisplayName("특정 프로젝트의 월별 댓글 통계를 구한다.")
+    @Test
+    void stat_monthly() {
+        LocalDate endDate = LocalDate.now();
+        LocalDate startDate = LocalDate.of(endDate.getYear(), endDate.getMonthValue() - 4, 1);
+        CommentStatRequest request = new CommentStatRequest("MONTHLY", project.getSecretKey(),
+            startDate, endDate);
+        CommentStatResponse commentStatResponse = commentService.giveStat(request);
+        assertThat(commentStatResponse.getCommentStats()).hasSize((int) ChronoUnit.MONTHS.between(startDate, endDate) + 1);
+    }
+
+    @DisplayName("특정 프로젝트의 월별 댓글 통계를 구한다. (시작 날짜 = 종료 날짜)")
+    @Test
+    void stat_monthly_same_date() {
+        LocalDate localDate = LocalDate.now().minusYears(10L);
+        CommentStatRequest request = new CommentStatRequest("MONTHLY", project.getSecretKey(),
+            localDate, localDate);
+        CommentStatResponse commentStatResponse = commentService.giveStat(request);
+        assertThat(commentStatResponse.getCommentStats()).hasSize(1);
     }
 
     @DisplayName("소셜 로그인 유저가 댓글을 수정한다.")

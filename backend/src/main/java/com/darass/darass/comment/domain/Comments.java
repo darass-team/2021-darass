@@ -14,4 +14,18 @@ public class Comments {
             .filter(it -> it.match(url, projectKey))
             .collect(Collectors.toList());
     }
+
+    public long totalComment() {
+        return comments.size() + totalSubComment();
+    }
+
+    public long totalComment(long totalElements) {
+        return totalElements + totalSubComment();
+    }
+
+    public long totalSubComment() {
+        return comments.stream()
+            .mapToInt(Comment::getSubCommentSize)
+            .sum();
+    }
 }

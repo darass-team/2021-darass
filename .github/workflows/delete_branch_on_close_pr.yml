@@ -1,8 +1,8 @@
 name: Delete branch on close pr
 on: 
   pull_request:
-    types: [closed]
-    branches: [develop/be]
+    types: [ closed ]
+    branches: [ main, develop/be, develop/fe ]
   
 jobs:
   delete-branch:

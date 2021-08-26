@@ -1,10 +1,13 @@
 package com.darass.darass.comment.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import com.darass.darass.exception.ExceptionWithMessageAndCode;
 import com.darass.darass.project.domain.Project;
 import com.darass.darass.user.domain.GuestUser;
 import com.darass.darass.user.domain.SocialLoginUser;
+import java.util.stream.IntStream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -39,13 +42,7 @@ class CommentTest {
             .name("깃헙 지킬 블로그")
             .build();
 
-        comment = Comment.builder()
-            .id(1L)
-            .user(guestUser)
-            .project(project)
-            .url(url)
-            .content(content)
-            .build();
+        comment = createComment(content);
     }
 
     @DisplayName("changeContent 메서드는 content가 주어지면, content를 바꾸고 아무것도 반환하지 않는다.")
@@ -105,10 +102,31 @@ class CommentTest {
         assertThat(comment.getCommentLikes()).hasSize(0);
     }
 
+    @DisplayName("제한길이를 초과하는 댓글을 생성하는 경우 예외가 발생한다.")
+    @Test
+    void createWithInvalidLength() {
+        StringBuilder stringBuilder = new StringBuilder();
+        IntStream.rangeClosed(0, 1000)
+            .forEach(it -> stringBuilder.append("str"));
+
+        assertThatThrownBy(() -> createComment(stringBuilder.toString()))
+            .isInstanceOf(ExceptionWithMessageAndCode.INVALID_INPUT_LENGTH.getException().getClass());
+    }
+
     private CommentLike buildCommentLike() {
         return CommentLike.builder()
             .comment(comment)
             .user(socialLoginUser)
+            .build();
+    }
+
+    private Comment createComment(String content) {
+        return Comment.builder()
+            .id(1L)
+            .user(guestUser)
+            .project(project)
+            .url(url)
+            .content(content)
             .build();
     }
 }

@@ -35,12 +35,20 @@ public enum ExceptionWithMessageAndCode {
     INVALID_GUEST_PASSWORD(new UnauthorizedException("Guest 사용자의 비밀번호가 일치하지 않습니다.", 901)),
     NOT_GUEST_USER(new UnauthorizedException("Guest 사용자가 아닙니다.", 902)),
     UNAUTHORIZED_FOR_COMMENT(new UnauthorizedException("해당 댓글을 관리할 권한이 없습니다.", 903)),
+    INVALID_SUB_COMMENT_INDEX(new BadRequestException("대댓글에는 대댓글을 작성할 수 없습니다.", 904)),
 
     // 파일 관련 : 10xx
     IO_EXCEPTION(new BadRequestException("업로드할 파일이 잘못되었습니다.", 1000)),
+    OVER_MAX_FILE_SIZE(new BadRequestException("업로드 가능한 파일 크기를 초과하였습니다.", 1400)),
 
     // 페이지네이션 관련 : 11xx
-    PAGE_NOT_POSITIVE_EXCEPTION(new BadRequestException("페이지의 값은 1 이상이어야 합니다.", 1100));
+    PAGE_NOT_POSITIVE_EXCEPTION(new BadRequestException("페이지의 값은 1 이상이어야 합니다.", 1100)),
+
+    // 통계 관련 : 12xx
+    NOT_FOUND_PERIODICITY(new NotFoundException("해당하는 주기가 없습니다.", 1200)),
+
+    // 제한 관련 : 13xx
+    INVALID_INPUT_LENGTH(new BadRequestException("입력값의 길이기 적절하지 않습니다.", 1300));
 
     private final CustomException exception;
 

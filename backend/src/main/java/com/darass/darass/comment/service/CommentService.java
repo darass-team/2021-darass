@@ -2,15 +2,21 @@ package com.darass.darass.comment.service;
 
 import com.darass.darass.comment.domain.Comment;
 import com.darass.darass.comment.domain.CommentLike;
+import com.darass.darass.comment.domain.Comments;
 import com.darass.darass.comment.domain.SortOption;
+import com.darass.darass.comment.domain.CommentStat;
 import com.darass.darass.comment.dto.CommentCreateRequest;
 import com.darass.darass.comment.dto.CommentDeleteRequest;
+import com.darass.darass.comment.dto.CommentReadRequest;
 import com.darass.darass.comment.dto.CommentReadRequestByPagination;
 import com.darass.darass.comment.dto.CommentReadRequestBySearch;
 import com.darass.darass.comment.dto.CommentReadRequestInProject;
 import com.darass.darass.comment.dto.CommentResponse;
 import com.darass.darass.comment.dto.CommentResponses;
+import com.darass.darass.comment.dto.CommentStatRequest;
+import com.darass.darass.comment.dto.CommentStatResponse;
 import com.darass.darass.comment.dto.CommentUpdateRequest;
+import com.darass.darass.comment.repository.CommentCountStrategyFactory;
 import com.darass.darass.comment.repository.CommentRepository;
 import com.darass.darass.exception.ExceptionWithMessageAndCode;
 import com.darass.darass.project.domain.Project;
@@ -21,6 +27,7 @@ import com.darass.darass.user.dto.UserResponse;
 import com.darass.darass.user.repository.UserRepository;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -36,16 +43,30 @@ public class CommentService {
     private final CommentRepository commentRepository;
     private final ProjectRepository projectRepository;
     private final UserRepository userRepository;
+    private final CommentCountStrategyFactory commentCountStrategyFactory;
 
     public CommentResponse save(User user, CommentCreateRequest commentRequest) {
         if (!user.isLoginUser()) {
             user = savedGuestUser(commentRequest);
         }
         Project project = getBySecretKey(commentRequest);
-        Comment comment = savedComment(user, commentRequest, project);
         String userType = userRepository.findUserTypeById(user.getId());
-        String profileImageUrl = userRepository.findProfileImageUrlById(user.getId());
-        return CommentResponse.of(comment, UserResponse.of(comment.getUser(), userType, profileImageUrl));
+
+        if (Objects.isNull(commentRequest.getParentId())) {
+            Comment comment = savedComment(user, commentRequest, project);
+            return CommentResponse.of(comment, UserResponse.of(comment.getUser(), userType));
+        }
+
+        Comment subComment = savedSubComment(user, commentRequest, project);
+        return CommentResponse.of(subComment, UserResponse.of(subComment.getUser(), userType));
+    }
+
+    private User savedGuestUser(CommentCreateRequest commentRequest) {
+        User user = GuestUser.builder()
+            .nickName(commentRequest.getGuestNickName())
+            .password(commentRequest.getGuestPassword())
+            .build();
+        return userRepository.save(user);
     }
 
     private Project getBySecretKey(CommentCreateRequest commentRequest) {
@@ -60,16 +81,42 @@ public class CommentService {
             .project(project)
             .url(commentRequest.getUrl())
             .build();
+
         return commentRepository.save(comment);
     }
 
-    private User savedGuestUser(CommentCreateRequest commentRequest) {
-        User user = GuestUser.builder()
-            .nickName(commentRequest.getGuestNickName())
-            .password(commentRequest.getGuestPassword())
+    private Comment savedSubComment(User user, CommentCreateRequest commentRequest, Project project) {
+        Comment parentComment = commentRepository.findById(commentRequest.getParentId())
+            .orElseThrow(ExceptionWithMessageAndCode.NOT_FOUND_COMMENT::getException);
+        validateSubCommentable(parentComment);
+
+        Comment comment = Comment.builder()
+            .user(user)
+            .content(commentRequest.getContent())
+            .project(project)
+            .url(commentRequest.getUrl())
+            .parent(parentComment)
             .build();
-        return userRepository.save(user);
+
+        return commentRepository.save(comment);
     }
+
+    private void validateSubCommentable(Comment parentComment) {
+        if (parentComment.isSubComment()) {
+            throw ExceptionWithMessageAndCode.INVALID_SUB_COMMENT_INDEX.getException();
+        }
+    }
+
+    public CommentResponses findAllCommentsByUrlAndProjectKey(CommentReadRequest request) {
+        List<Comment> comments = commentRepository
+            .findByUrlAndProjectSecretKeyAndParentId(request.getUrl(), request.getProjectKey(), null,
+                SortOption.getMatchedSort(request.getSortOption()));
+
+        return new CommentResponses(new Comments(comments).totalComment(), 1, comments.stream()
+            .map(comment -> CommentResponse.of(comment, UserResponse.of(comment.getUser())))
+            .collect(Collectors.toList()));
+    }
+
 
     public CommentResponses findAllCommentsByUrlAndProjectKeyUsingPagination(CommentReadRequestByPagination request) {
         int pageBasedIndex = request.getPage() - 1;
@@ -77,7 +124,9 @@ public class CommentService {
             Page<Comment> comments = commentRepository
                 .findByUrlAndProjectSecretKey(request.getUrl(), request.getProjectKey(),
                     PageRequest.of(pageBasedIndex, request.getSize(), SortOption.getMatchedSort(request.getSortOption())));
-            return new CommentResponses(comments.getTotalElements(), comments.getTotalPages(), comments.stream()
+
+            return new CommentResponses(new Comments(comments.toList()).totalComment(comments.getTotalElements()),
+                comments.getTotalPages(), comments.stream()
                 .map(comment -> CommentResponse.of(comment, UserResponse.of(comment.getUser())))
                 .collect(Collectors.toList()));
         } catch (IllegalArgumentException e) {
@@ -97,7 +146,8 @@ public class CommentService {
                     PageRequest.of(pageBasedIndex, request.getSize(), SortOption.getMatchedSort(request.getSortOption()))
                 );
 
-            return new CommentResponses(comments.getTotalElements(), comments.getTotalPages(), comments.stream()
+            return new CommentResponses(new Comments(comments.toList()).totalComment(comments.getTotalElements()),
+                comments.getTotalPages(), comments.stream()
                 .map(comment -> CommentResponse.of(comment, UserResponse.of(comment.getUser())))
                 .collect(Collectors.toList()));
         } catch (IllegalArgumentException e) {
@@ -110,13 +160,16 @@ public class CommentService {
         int pageBasedIndex = request.getPage() - 1;
         try {
             Page<Comment> comments = commentRepository
-                .findByProjectSecretKeyAndContentContaining(
+                .findByProjectSecretKeyAndContentContainingAndCreatedDateBetween(
                     request.getProjectKey(),
                     request.getKeyword(),
+                    request.getStartDate().atTime(LocalTime.MIN),
+                    request.getEndDate().atTime(LocalTime.MAX),
                     PageRequest.of(pageBasedIndex, request.getSize(), SortOption.getMatchedSort(request.getSortOption()))
                 );
 
-            return new CommentResponses(comments.getTotalElements(), comments.getTotalPages(), comments.stream()
+            return new CommentResponses(new Comments(comments.toList()).totalComment(comments.getTotalElements()),
+                comments.getTotalPages(), comments.stream()
                 .map(comment -> CommentResponse.of(comment, UserResponse.of(comment.getUser())))
                 .collect(Collectors.toList()));
         } catch (IllegalArgumentException e) {
@@ -191,5 +244,12 @@ public class CommentService {
             .comment(comment)
             .user(user)
             .build());
+    }
+
+    public CommentStatResponse giveStat(CommentStatRequest request) {
+        List<CommentStat> commentStats = commentCountStrategyFactory.findStrategy(request.getPeriodicity())
+            .calculateCount(request.getProjectKey(), request.getStartDate().atTime(LocalTime.MIN),
+                request.getEndDate().atTime(LocalTime.MAX));
+        return new CommentStatResponse(commentStats);
     }
 }
