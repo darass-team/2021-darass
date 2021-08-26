@@ -51,7 +51,7 @@ public class NaverOAuthProviderTest {
         mockServer.expect(requestTo(apiServerUrl)).andRespond(withSuccess(expectedResult, MediaType.APPLICATION_JSON));
 
         //then
-        SocialLoginUser socialLoginUser = naverOAuthProvider.findSocialLoginUser("authorizationCode");
+        SocialLoginUser socialLoginUser = naverOAuthProvider.requestSocialLoginUser("authorizationCode");
 
         //when
         assertThat(socialLoginUser.getNickName()).isEqualTo(naverAccount.getNickname());
@@ -70,7 +70,7 @@ public class NaverOAuthProviderTest {
         mockServer.expect(requestTo(authorizationServerUrl)).andRespond(withUnauthorizedRequest());
         mockServer.expect(requestTo(apiServerUrl)).andRespond(withSuccess(expectedResult, MediaType.APPLICATION_JSON));
 
-        assertThatThrownBy(() -> naverOAuthProvider.findSocialLoginUser("authorizationCode"))
+        assertThatThrownBy(() -> naverOAuthProvider.requestSocialLoginUser("authorizationCode"))
             .isInstanceOf(ExceptionWithMessageAndCode.INVALID_OAUTH_AUTHORIZATION_CODE.getException().getClass());
     }
 
@@ -81,7 +81,7 @@ public class NaverOAuthProviderTest {
             .andRespond(withSuccess("{\"access_token\":\"naverAccessToken\"}", MediaType.APPLICATION_JSON));
         mockServer.expect(requestTo(apiServerUrl)).andRespond(withUnauthorizedRequest());
 
-        assertThatThrownBy(() -> naverOAuthProvider.findSocialLoginUser("authorizationCode"))
+        assertThatThrownBy(() -> naverOAuthProvider.requestSocialLoginUser("authorizationCode"))
             .isInstanceOf(ExceptionWithMessageAndCode.INVALID_OAUTH_ACCESS_TOKEN.getException().getClass());
     }
 }

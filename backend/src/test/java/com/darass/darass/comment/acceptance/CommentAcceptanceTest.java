@@ -50,8 +50,11 @@ public class CommentAcceptanceTest extends AcceptanceTest {
     private ProjectRepository projects;
 
     private SocialLoginUser socialLoginUser;
+
     private Project project;
+
     private String token;
+
     private String secretKey;
 
     private void setUpProject() {
@@ -73,7 +76,7 @@ public class CommentAcceptanceTest extends AcceptanceTest {
             .profileImageUrl("https://imageUrl")
             .build();
         users.save(socialLoginUser);
-        token = jwtTokenProvider.createAccessToken(socialLoginUser.getId().toString());
+        token = jwtTokenProvider.createAccessToken(socialLoginUser);
     }
 
     @BeforeEach

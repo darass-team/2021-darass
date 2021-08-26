@@ -54,7 +54,7 @@ class KaKaoOAuthProviderTest {
         mockServer.expect(requestTo(apiServerUrl)).andRespond(withSuccess(expectedResult, MediaType.APPLICATION_JSON));
 
         //then
-        SocialLoginUser socialLoginUser = kaKaoOAuthProvider.findSocialLoginUser("authorizationCode");
+        SocialLoginUser socialLoginUser = kaKaoOAuthProvider.requestSocialLoginUser("authorizationCode");
 
         //when
         assertThat(socialLoginUser.getNickName()).isEqualTo(profile.getNickname());
@@ -74,7 +74,7 @@ class KaKaoOAuthProviderTest {
         mockServer.expect(requestTo(authorizationServerUrl)).andRespond(withUnauthorizedRequest());
         mockServer.expect(requestTo(apiServerUrl)).andRespond(withSuccess(expectedResult, MediaType.APPLICATION_JSON));
 
-        assertThatThrownBy(() -> kaKaoOAuthProvider.findSocialLoginUser("authorizationCode"))
+        assertThatThrownBy(() -> kaKaoOAuthProvider.requestSocialLoginUser("authorizationCode"))
             .isInstanceOf(ExceptionWithMessageAndCode.INVALID_OAUTH_AUTHORIZATION_CODE.getException().getClass());
     }
 
@@ -85,7 +85,7 @@ class KaKaoOAuthProviderTest {
             .andRespond(withSuccess("{\"access_token\":\"kakaoAccessToken\"}", MediaType.APPLICATION_JSON));
         mockServer.expect(requestTo(apiServerUrl)).andRespond(withUnauthorizedRequest());
 
-        assertThatThrownBy(() -> kaKaoOAuthProvider.findSocialLoginUser("authorizationCode"))
+        assertThatThrownBy(() -> kaKaoOAuthProvider.requestSocialLoginUser("authorizationCode"))
             .isInstanceOf(ExceptionWithMessageAndCode.INVALID_OAUTH_ACCESS_TOKEN.getException().getClass());
     }
 }

@@ -70,8 +70,6 @@ class OAuthServiceTest extends SpringContainerTest {
 
         //when
         String accessTokenPayload = jwtTokenProvider.getAccessTokenPayload(tokenResponse.getAccessToken());
-        assertThat(accessTokenPayload).isEqualTo("1");
-
         Optional<SocialLoginUser> possibleSocialLoginUser = socialLoginUserRepository
             .findById(Long.parseLong(accessTokenPayload));
         assertThat(possibleSocialLoginUser.isPresent()).isTrue();

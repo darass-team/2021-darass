@@ -4,6 +4,7 @@ import com.darass.darass.auth.oauth.dto.AccessTokenResponse;
 import com.darass.darass.auth.oauth.dto.TokenRequest;
 import com.darass.darass.auth.oauth.dto.TokenResponse;
 import com.darass.darass.auth.oauth.service.OAuthService;
+import com.darass.darass.exception.ExceptionWithMessageAndCode;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -35,11 +36,10 @@ public class OAuthController {
     }
 
     @PostMapping("/login/refresh")
-    public ResponseEntity<AccessTokenResponse> refreshToken(@CookieValue(value = REFRESH_TOKEN_NAME, required = false) Cookie cookie, HttpServletResponse response) {
-        assert cookie != null;
+    public ResponseEntity<AccessTokenResponse> refreshToken(@CookieValue(value = REFRESH_TOKEN_NAME) Cookie cookie, HttpServletResponse response) {
         TokenResponse tokenResponse = oAuthService.refreshAccessTokenWithRefreshToken(cookie.getValue());
-
         createCookie(response, tokenResponse.getRefreshToken());
+
         return ResponseEntity.status(HttpStatus.OK).body(new AccessTokenResponse(tokenResponse.getAccessToken()));
     }
 

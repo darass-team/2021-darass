@@ -8,7 +8,6 @@ import static org.springframework.test.web.client.response.MockRestResponseCreat
 
 import com.darass.darass.exception.ExceptionWithMessageAndCode;
 import com.darass.darass.user.domain.SocialLoginUser;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -49,7 +48,7 @@ public class GithubOAuthProviderTest {
         mockServer.expect(requestTo(apiServerUrl)).andRespond(withSuccess(successUserInfoResponse, MediaType.APPLICATION_JSON));
 
         //then
-        SocialLoginUser socialLoginUser = githubOAuthProvider.findSocialLoginUser("authorizationCode");
+        SocialLoginUser socialLoginUser = githubOAuthProvider.requestSocialLoginUser("authorizationCode");
 
         //when
         assertThat(socialLoginUser.getNickName()).isEqualTo("우기");
@@ -63,7 +62,7 @@ public class GithubOAuthProviderTest {
         mockServer.expect(requestTo(authorizationServerUrl)).andRespond(withUnauthorizedRequest());
         mockServer.expect(requestTo(apiServerUrl)).andRespond(withSuccess(successUserInfoResponse, MediaType.APPLICATION_JSON));
 
-        assertThatThrownBy(() -> githubOAuthProvider.findSocialLoginUser("authorizationCode"))
+        assertThatThrownBy(() -> githubOAuthProvider.requestSocialLoginUser("authorizationCode"))
             .isInstanceOf(ExceptionWithMessageAndCode.INVALID_OAUTH_AUTHORIZATION_CODE.getException().getClass());
     }
 
@@ -73,7 +72,7 @@ public class GithubOAuthProviderTest {
         mockServer.expect(requestTo(authorizationServerUrl)).andRespond(withSuccess(successAccessTokenResponse, MediaType.APPLICATION_JSON));
         mockServer.expect(requestTo(apiServerUrl)).andRespond(withUnauthorizedRequest());
 
-        assertThatThrownBy(() -> githubOAuthProvider.findSocialLoginUser("authorizationCode"))
+        assertThatThrownBy(() -> githubOAuthProvider.requestSocialLoginUser("authorizationCode"))
             .isInstanceOf(ExceptionWithMessageAndCode.INVALID_OAUTH_ACCESS_TOKEN.getException().getClass());
     }
 

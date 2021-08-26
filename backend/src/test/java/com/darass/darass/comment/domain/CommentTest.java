@@ -11,7 +11,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 @DisplayName("Comment 클래스")
-@DataJpaTest
 class CommentTest {
 
     private final String content = "댓글 내용";

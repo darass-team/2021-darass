@@ -74,7 +74,7 @@ public class UserAcceptanceTest extends AcceptanceTest {
     @DisplayName("엑세스 토큰으로 유저를 조회한다.")
     public void findUser_success() throws Exception {
         //given
-        String accessToken = tokenProvider.createAccessToken(socialLoginUser.getId().toString());
+        String accessToken = tokenProvider.createAccessToken(socialLoginUser);
 
         //when
         ResultActions resultActions = 유저_조회_요청(accessToken);
@@ -100,7 +100,7 @@ public class UserAcceptanceTest extends AcceptanceTest {
     @DisplayName("엑세스 토큰으로 유저 닉네임을 수정한다.")
     public void updateUserNickname_success() throws Exception {
         //given
-        String accessToken = tokenProvider.createAccessToken(socialLoginUser.getId().toString());
+        String accessToken = tokenProvider.createAccessToken(socialLoginUser);
         UserUpdateRequest userUpdateRequest = new UserUpdateRequest("병욱", null);
 
         //when
@@ -128,7 +128,7 @@ public class UserAcceptanceTest extends AcceptanceTest {
     @DisplayName("엑세스 토큰으로 유저를 삭제한다.")
     public void deleteUser_success() throws Exception {
         //given
-        String accessToken = tokenProvider.createAccessToken(socialLoginUser.getId().toString());
+        String accessToken = tokenProvider.createAccessToken(socialLoginUser);
 
         //when
         ResultActions resultActions = 유저_삭제_요청(accessToken);
