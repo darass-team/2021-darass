@@ -38,8 +38,9 @@ export const CopyButton = styled.button`
 
 export const BlogLogoWrapper = styled.div`
   margin-top: 3em;
-  display: flex;
-  gap: 2rem;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  row-gap: 2rem;
 `;
 
 export const Ol = styled.ol`
