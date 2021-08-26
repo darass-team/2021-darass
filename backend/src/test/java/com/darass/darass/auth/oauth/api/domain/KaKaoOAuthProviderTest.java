@@ -6,13 +6,8 @@ import static org.springframework.test.web.client.match.MockRestRequestMatchers.
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withUnauthorizedRequest;
 
-import com.darass.darass.auth.oauth.api.domain.dto.KakaoLoginResponse;
-import com.darass.darass.auth.oauth.api.domain.vo.KaKaoAccount;
-import com.darass.darass.auth.oauth.api.domain.vo.Profile;
 import com.darass.darass.exception.ExceptionWithMessageAndCode;
 import com.darass.darass.user.domain.SocialLoginUser;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,48 +26,45 @@ class KaKaoOAuthProviderTest {
     @Autowired
     private MockRestServiceServer mockServer;
 
-    @Autowired
-    private ObjectMapper objectMapper;
-
     @Value("${oauth.kakao.authorization-server-url}")
     private String authorizationServerUrl;
 
     @Value("${oauth.kakao.api-server-url}")
     private String apiServerUrl;
 
+    String successUserInfoResponse =
+        "{\"id\":1791380911,\"connected_at\":\"2021-07-02T10:42:36Z\",\"properties\":{\"nickname\":\"병욱\"},"
+            + "\"kakao_account\":{\"profile_nickname_needs_agreement\":false,\"profile_image_needs_agreement\":false,\""
+            + "profile\":{\"nickname\":\"병욱\",\"thumbnail_image_url\":\"http://k.kakaocdn.net/dn/cQc7At/btq9Zq3eBJb/DDAc7l5Iv7rOJfF7DZZkfK/img_110x110.jpg\","
+            + "\"profile_image_url\":\"http://k.kakaocdn.net/dn/cQc7At/btq9Zq3eBJb/DDAc7l5Iv7rOJfF7DZZkfK/img_640x640.jpg\",\"is_default_image\":false},\"has_email\":true,"
+            + "\"email_needs_agreement\":false,\"is_email_valid\":true,\"is_email_verified\":true,\"email\":\"jujubebat@kakao.com\",\"has_age_range\":true,"
+            + "\"age_range_needs_agreement\":false,\"age_range\":\"20~29\",\"has_birthday\":true,\"birthday_needs_agreement\":false,\"birthday\":\"1114\",\"birthday_type\":\"SOLAR\","
+            + "\"has_gender\":true,\"gender_needs_agreement\":false,\"gender\":\"male\"}}";
+
     @DisplayName("findSocialLoginUser 메서드는 카카오 인증서버에 인가 코드를 전송해서 엑세스 토큰을 얻어와 카카오 api 서버에 보낸후 SocialLoginUser 객체를 받아온다.")
     @Test
-    void findSocialLoginUser() throws JsonProcessingException {
-        //given
-        Profile profile = new Profile("우기", "https://kakao.com/image");
-        KaKaoAccount kaKaoAccount = new KaKaoAccount("jujubat@kakao.com", profile);
-        KakaoLoginResponse kakaoLoginResponse = new KakaoLoginResponse("1", kaKaoAccount);
-        String expectedResult = objectMapper.writeValueAsString(kakaoLoginResponse);
-
+    void findSocialLoginUser() {
         mockServer.expect(requestTo(authorizationServerUrl))
             .andRespond(withSuccess("{\"access_token\":\"kakaoAccessToken\"}", MediaType.APPLICATION_JSON));
-        mockServer.expect(requestTo(apiServerUrl)).andRespond(withSuccess(expectedResult, MediaType.APPLICATION_JSON));
+        mockServer.expect(requestTo(apiServerUrl))
+            .andRespond(withSuccess(successUserInfoResponse, MediaType.APPLICATION_JSON));
 
         //then
         SocialLoginUser socialLoginUser = kaKaoOAuthProvider.requestSocialLoginUser("authorizationCode");
 
         //when
-        assertThat(socialLoginUser.getNickName()).isEqualTo(profile.getNickname());
-        assertThat(socialLoginUser.getEmail()).isEqualTo(kaKaoAccount.getEmail());
-        assertThat(socialLoginUser.getProfileImageUrl()).isEqualTo(profile.getThumbnailImageUrl());
+        assertThat(socialLoginUser.getNickName()).isEqualTo("병욱");
+        assertThat(socialLoginUser.getEmail()).isEqualTo("jujubebat@kakao.com");
+        assertThat(socialLoginUser.getProfileImageUrl())
+            .isEqualTo("http://k.kakaocdn.net/dn/cQc7At/btq9Zq3eBJb/DDAc7l5Iv7rOJfF7DZZkfK/img_110x110.jpg");
     }
 
     @DisplayName("findSocialLoginUser 메서드는 유효하지 않는 인가 코드로 요청을 보낼 경우 예외를 던진다.")
     @Test
-    void findSocialLoginResponse_fail() throws JsonProcessingException {
-        //given
-        Profile profile = new Profile("우기", "https://kakao.com/image");
-        KaKaoAccount kaKaoAccount = new KaKaoAccount("jujubat@kakao.com", profile);
-        KakaoLoginResponse socialLoginResponse = new KakaoLoginResponse("1", kaKaoAccount);
-        String expectedResult = objectMapper.writeValueAsString(socialLoginResponse);
-
+    void findSocialLoginResponse_fail() {
         mockServer.expect(requestTo(authorizationServerUrl)).andRespond(withUnauthorizedRequest());
-        mockServer.expect(requestTo(apiServerUrl)).andRespond(withSuccess(expectedResult, MediaType.APPLICATION_JSON));
+        mockServer.expect(requestTo(apiServerUrl))
+            .andRespond(withSuccess(successUserInfoResponse, MediaType.APPLICATION_JSON));
 
         assertThatThrownBy(() -> kaKaoOAuthProvider.requestSocialLoginUser("authorizationCode"))
             .isInstanceOf(ExceptionWithMessageAndCode.INVALID_OAUTH_AUTHORIZATION_CODE.getException().getClass());
