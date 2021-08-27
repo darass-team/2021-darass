@@ -4,10 +4,9 @@ import { ROUTE } from "../../../constants";
 import { useUser } from "../../../hooks";
 import { PALETTE } from "../../../styles/palette";
 import { MenuType } from "../../../types/menu";
-import { User } from "../../../types/user";
 import HamburgerButton from "../../atoms/Buttons/HamburgerButton";
 import Modal from "../../atoms/Modal";
-import { Container, Menu, MenuAvatar, MenuWrapper, Name, AuthLink } from "./styles";
+import { AuthLink, Container, Menu, MenuAvatar, MenuWrapper, Name } from "./styles";
 
 export interface Props {
   menuList: MenuType[];
