@@ -15,7 +15,7 @@ import prism from "react-syntax-highlighter/dist/cjs/styles/prism/darcula";
 
 SyntaxHighlighter.registerLanguage("javascript", js);
 
-const scriptCode = (projectSecretKey: string) => `
+const htmlScriptCode = (projectSecretKey: string) => `
 <!-- 다라쓰 설치 코드 -->
 <div id="darass" data-project-key="${projectSecretKey}">
     <script type="text/javascript" defer>
@@ -34,15 +34,22 @@ const scriptCode = (projectSecretKey: string) => `
 <!-- 다라쓰 설치 코드 끝 -->
 `;
 
+const JsxScriptCode = (projectSecretKey: string) => `
+import Darass from "darass-react";
+
+<Darass projectKey="${projectSecretKey}" />;
+`;
+
 const ScriptPublishing = () => {
   const [selectedBlogInfo, setSelectedBlogInfo] = useState<ObjectValueType<typeof GUIDE_FILE>>();
   const match = useRouteMatch<{ id: string }>();
 
   const projectId = Number(match.params.id);
   const { project, error } = useGetProject(projectId);
-  const projectSecretKey = project?.secretKey;
+  const projectSecretKey = project?.secretKey || "스크립트 정보를 불러오는 중입니다...";
   const { isCopyButtonClicked, onCopy } = useCopyButton();
-  const script = scriptCode(projectSecretKey || "코드를 불러오는 중입니다...");
+  const script =
+    selectedBlogInfo?.scriptType === "HTML" ? htmlScriptCode(projectSecretKey) : JsxScriptCode(projectSecretKey);
 
   if (error) {
     if (error instanceof AlertError) {
