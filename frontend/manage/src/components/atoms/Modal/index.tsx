@@ -5,10 +5,11 @@ export interface Props {
   isOpen: boolean;
   children: ReactNode;
   dimmedOpacity?: number;
+  blockScroll?: boolean;
   closeModal: () => void;
 }
 
-const Modal = ({ isOpen, closeModal, children, dimmedOpacity = 0.6 }: Props) => {
+const Modal = ({ isOpen, closeModal, children, dimmedOpacity = 0.6, blockScroll = true }: Props) => {
   const dimmedRef = useRef(null);
   const onCloseModal = (event: MouseEvent) => {
     if (event.target !== dimmedRef.current) return;
@@ -17,13 +18,13 @@ const Modal = ({ isOpen, closeModal, children, dimmedOpacity = 0.6 }: Props) => 
   };
 
   useEffect(() => {
-    document.body.style.setProperty("overflow", isOpen ? "hidden" : "revert");
+    if (blockScroll) document.body.style.setProperty("overflow", isOpen ? "hidden" : "revert");
   }, [isOpen]);
 
   return (
     <>
       <Dimmed ref={dimmedRef} onClick={onCloseModal} isOpen={isOpen} opacity={dimmedOpacity} />
-      {isOpen && children}
+      {children}
     </>
   );
 };
