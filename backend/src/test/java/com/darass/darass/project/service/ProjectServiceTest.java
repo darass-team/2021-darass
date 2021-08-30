@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
 import com.darass.darass.SpringContainerTest;
-import com.darass.darass.auth.oauth.api.domain.OAuthProviderType;
 import com.darass.darass.exception.ExceptionWithMessageAndCode;
 import com.darass.darass.project.domain.Project;
 import com.darass.darass.project.dto.ProjectCreateRequest;
@@ -46,7 +45,7 @@ public class ProjectServiceTest extends SpringContainerTest {
             .profileImageUrl("http://프로필이미지-url")
             .userType("socialLoginUser")
             .email("bbwwpark@naver.com")
-            .oauthProviderType(OAuthProviderType.KAKAO)
+            .oauthProvider("kakao")
             .oauthId("1234")
             .build();
         userRepository.save(socialLoginUser);

@@ -1,0 +1,1 @@
+alter table social_login_user change oauth_provider_type oauth_provider varchar(255);

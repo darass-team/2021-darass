@@ -9,14 +9,15 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.darass.darass.SpringContainerTest;
-import com.darass.darass.auth.oauth.controller.argumentresolver.AuthenticationPrincipalArgumentResolver;
 import com.darass.darass.auth.oauth.controller.OAuthController;
+import com.darass.darass.auth.oauth.controller.argumentresolver.AuthenticationPrincipalArgumentResolver;
 import com.darass.darass.auth.oauth.dto.TokenRequest;
 import com.darass.darass.auth.oauth.service.OAuthService;
 import com.darass.darass.comment.controller.CommentController;
 import com.darass.darass.comment.dto.CommentCreateRequest;
 import com.darass.darass.exception.ExceptionWithMessageAndCode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import javax.servlet.http.Cookie;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,7 +71,7 @@ class ControllerAdviceTest extends SpringContainerTest {
 
         mockMvc.perform(post("/api/v1/login/oauth")
             .contentType(MediaType.APPLICATION_JSON)
-            .content(new ObjectMapper().writeValueAsString(new TokenRequest("kakao", "invalid"))))
+            .content(new ObjectMapper().writeValueAsString(new TokenRequest("oauthProviderName", "authorizationCode"))))
             .andExpect(status().isBadRequest());
     }
 
@@ -84,7 +85,7 @@ class ControllerAdviceTest extends SpringContainerTest {
 
         mockMvc.perform(post("/api/v1/login/oauth")
             .contentType(MediaType.APPLICATION_JSON)
-            .content(new ObjectMapper().writeValueAsString(new TokenRequest("kakao", "invalid"))))
+            .content(new ObjectMapper().writeValueAsString(new TokenRequest("oauthProviderName", "authorizationCode"))))
             .andExpect(status().isUnauthorized());
     }
 

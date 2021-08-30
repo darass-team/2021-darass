@@ -1,4 +1,4 @@
-package com.darass.darass.auth.oauth.api.domain.dto;
+package com.darass.darass.auth.oauth.api.domain.vo;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;

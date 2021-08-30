@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.darass.darass.SpringContainerTest;
-import com.darass.darass.auth.oauth.api.domain.OAuthProviderType;
+import com.darass.darass.auth.oauth.api.domain.KaKaoOAuthProvider;
 import com.darass.darass.comment.domain.Comment;
 import com.darass.darass.comment.domain.CommentLike;
 import com.darass.darass.comment.domain.SortOption;
@@ -74,7 +74,7 @@ class CommentServiceTest extends SpringContainerTest {
             .profileImageUrl("http://프로필이미지-url")
             .userType("socialLoginUser")
             .email("bbwwpark@naver.com")
-            .oauthProviderType(OAuthProviderType.KAKAO)
+            .oauthProvider(KaKaoOAuthProvider.NAME)
             .oauthId("1234")
             .build();
         userRepository.save(socialLoginUser);

@@ -21,7 +21,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.darass.darass.AcceptanceTest;
-import com.darass.darass.auth.oauth.api.domain.OAuthProviderType;
 import com.darass.darass.auth.oauth.infrastructure.JwtTokenProvider;
 import com.darass.darass.comment.dto.CommentCreateRequest;
 import com.darass.darass.comment.dto.CommentResponse;
@@ -78,7 +77,7 @@ public class UserAcceptanceTest extends AcceptanceTest {
             .builder()
             .nickName("우기")
             .oauthId("2312312312")
-            .oauthProviderType(OAuthProviderType.KAKAO)
+            .oauthProvider("kakao")
             .email("bbwwpark@naver.com")
             .profileImageUrl("https://imageUrl")
             .build();
@@ -89,7 +88,7 @@ public class UserAcceptanceTest extends AcceptanceTest {
     @DisplayName("엑세스 토큰으로 유저를 조회한다.")
     public void findUser_success() throws Exception {
         //given
-        String accessToken = tokenProvider.createAccessToken(socialLoginUser.getId().toString());
+        String accessToken = tokenProvider.createAccessToken(socialLoginUser);
 
         //when
         ResultActions resultActions = 유저_조회_요청(accessToken);
@@ -115,7 +114,7 @@ public class UserAcceptanceTest extends AcceptanceTest {
     @DisplayName("엑세스 토큰으로 유저 닉네임을 수정한다.")
     public void updateUserNickname_success() throws Exception {
         //given
-        String accessToken = tokenProvider.createAccessToken(socialLoginUser.getId().toString());
+        String accessToken = tokenProvider.createAccessToken(socialLoginUser);
         UserUpdateRequest userUpdateRequest = new UserUpdateRequest("병욱", null);
 
         //when
@@ -129,7 +128,7 @@ public class UserAcceptanceTest extends AcceptanceTest {
     @DisplayName("액세스 토큰으로 유저 프로필 사진을 수정한다.")
     public void updateProfileImage_success() throws Exception {
         //given
-        String accessToken = tokenProvider.createAccessToken(socialLoginUser.getId().toString());
+        String accessToken = tokenProvider.createAccessToken(socialLoginUser);
         byte[] bytes = Files.readAllBytes(Paths.get("./src/test/resources/static/testImg.jpg"));
         String originalFilename = "testImg.jpg";
         MultipartFile multipartFile = new MockMultipartFile("profileImageFile", originalFilename, "image/jpeg", bytes);
@@ -147,7 +146,7 @@ public class UserAcceptanceTest extends AcceptanceTest {
     @DisplayName("유효하지 않은 닉네일 길이로 인해 유저 닉네임 수정을 실패한다.")
     public void updateUserNickname_length_fail() throws Exception {
         //given
-        String accessToken = tokenProvider.createAccessToken(socialLoginUser.getId().toString());
+        String accessToken = tokenProvider.createAccessToken(socialLoginUser);
         String invalidNickName = "invalid_nickName_invalid_nickName_invalid_nickName_invalid_nickName";
         UserUpdateRequest userUpdateRequest = new UserUpdateRequest(invalidNickName, null);
 
@@ -176,7 +175,7 @@ public class UserAcceptanceTest extends AcceptanceTest {
     @DisplayName("5MB보다 큰 용량의 큰 파일 경우, 유저 프로필 이미지 수정을 실패한다.")
     public void updateProfileImage_fail() throws Exception {
         //given
-        String accessToken = tokenProvider.createAccessToken(socialLoginUser.getId().toString());
+        String accessToken = tokenProvider.createAccessToken(socialLoginUser);
         byte[] bytes = Files.readAllBytes(Paths.get("./src/test/resources/static/overSizeImage.jpg"));
         String originalFilename = "overSizeImage.jpg";
         MultipartFile multipartFile = new MockMultipartFile("profileImageFile", originalFilename, "image/jpeg", bytes);
@@ -195,7 +194,7 @@ public class UserAcceptanceTest extends AcceptanceTest {
     @DisplayName("엑세스 토큰으로 유저를 삭제한다.")
     public void deleteUser_success() throws Exception {
         //given
-        String accessToken = tokenProvider.createAccessToken(socialLoginUser.getId().toString());
+        String accessToken = tokenProvider.createAccessToken(socialLoginUser);
 
         //when
         ResultActions resultActions = 유저_삭제_요청(accessToken);
