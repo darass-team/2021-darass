@@ -13,3 +13,4 @@ export { useCalendar } from "./useCalendar";
 export { useCommentPageIndex } from "./useCommentPageIndex";
 export { useDeleteComment } from "./useDeleteComment";
 export { useCommentStatisticsData } from "./useCommentStatisticsData";
+export { useDeleteProject } from "./useDeleteProject";
