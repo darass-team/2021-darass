@@ -1,6 +1,7 @@
 package com.darass.darass.auth.oauth.infrastructure;
 
 import com.darass.darass.exception.ExceptionWithMessageAndCode;
+import com.darass.darass.user.domain.SocialLoginUser;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
@@ -25,31 +26,33 @@ public class JwtTokenProvider {
     @Value("${security.jwt.refresh-token.expire-length}")
     private long validityInMillisecondsOfRefreshToken;
 
-    public String createAccessToken(String payload) {
+    public String createAccessToken(SocialLoginUser socialLoginUser) {
+        Claims claims = Jwts.claims().setSubject(socialLoginUser.getId().toString());
         Date now = new Date();
-        Date expiration = new Date(now.getTime() + validityInMillisecondsOfAccessToken);
-        return createToken(payload, expiration, secretKeyOfAccessToken);
+        Date validity = new Date(now.getTime() + validityInMillisecondsOfAccessToken);
+
+        return createJwtToken(claims, now, validity, secretKeyOfAccessToken);
     }
 
-    public String createRefreshToken(String payload) {
+    public String createRefreshToken(SocialLoginUser socialLoginUser) {
+        Claims claims = Jwts.claims().setSubject(socialLoginUser.getId().toString());
         Date now = new Date();
-        Date expiration = new Date(now.getTime() + validityInMillisecondsOfRefreshToken);
-        return createToken(payload, expiration, secretKeyOfRefreshToken);
+        Date validity = new Date(now.getTime() + validityInMillisecondsOfRefreshToken);
+
+        String refreshToken = createJwtToken(claims, now, validity, secretKeyOfRefreshToken);
+        socialLoginUser.updateRefreshToken(refreshToken);
+        return refreshToken;
     }
 
-    private String createToken(String payload, Date expiration, String secretKey) {
-        Claims claims = Jwts.claims().setSubject(payload);
-        Date now = new Date();
-
-        return Jwts.builder()
-            .setClaims(claims)
-            .setIssuedAt(now)
-            .setExpiration(expiration)
-            .signWith(SignatureAlgorithm.HS256, secretKey)
-            .compact();
+    public void validateAccessToken(String accessToken) {
+        validateToken(accessToken, secretKeyOfAccessToken);
     }
 
-    public String getPayloadOfAccessToken(String accessToken) {
+    public void validateRefreshToken(String refreshToken) {
+        validateToken(refreshToken, secretKeyOfRefreshToken);
+    }
+
+    public String getAccessTokenPayload(String accessToken) {
         try {
             return Jwts.parser().setSigningKey(secretKeyOfAccessToken).parseClaimsJws(accessToken).getBody().getSubject();
         } catch (MalformedJwtException e) {
@@ -57,19 +60,20 @@ public class JwtTokenProvider {
         }
     }
 
-    public void validateAccessToken(String accessToken) {
-        try {
-            Jwts.parser().setSigningKey(secretKeyOfAccessToken).parseClaimsJws(accessToken);
-        } catch (JwtException | IllegalArgumentException e) {
-            throw ExceptionWithMessageAndCode.INVALID_JWT_TOKEN.getException();
-        }
+    private String createJwtToken(Claims claims, Date now, Date validity, String secretKey) {
+        return Jwts.builder()
+            .setClaims(claims)
+            .setIssuedAt(now)
+            .setExpiration(validity)
+            .signWith(SignatureAlgorithm.HS256, secretKey)
+            .compact();
     }
 
-    public void validateRefreshToken(String refreshToken) {
+    private void validateToken(String token, String secretKey) {
         try {
-            Jwts.parser().setSigningKey(secretKeyOfRefreshToken).parseClaimsJws(refreshToken);
+            Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
         } catch (JwtException | IllegalArgumentException e) {
-            throw ExceptionWithMessageAndCode.SHOULD_LOGIN.getException();
+            throw ExceptionWithMessageAndCode.INVALID_JWT_TOKEN.getException();
         }
     }
 }

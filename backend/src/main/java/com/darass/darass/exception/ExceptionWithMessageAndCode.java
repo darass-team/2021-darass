@@ -12,6 +12,7 @@ import lombok.Getter;
 public enum ExceptionWithMessageAndCode {
     // 서버 관련 : 5xx
     INTERNAL_SERVER(new InternalServerException("서버 에러입니다. 서버 관리자에게 문의주세요.", 500)),
+    JSON_PROCESSING_EXCEPTION(new InternalServerException("json 파싱 오류",501)),
 
     // 유저 관련 : 6xx
     NOT_FOUND_USER(new NotFoundException("해당하는 유저가 없습니다.", 600)),
@@ -25,6 +26,9 @@ public enum ExceptionWithMessageAndCode {
     SHOULD_LOGIN(new UnauthorizedException("로그인을 해야 합니다.", 800)),
     INVALID_JWT_TOKEN(new UnauthorizedException("유효하지 않은 토큰입니다.", 801)),
     INVALID_JWT_NOT_FOUND_USER_TOKEN(new UnauthorizedException("존재하지 않는 사용자의 토큰입니다.", 802)),
+    INVALID_OAUTH_PROVIDER(new UnauthorizedException("존재하지 않는 oauth provider 입니다.", 803)),
+    INVALID_OAUTH_AUTHORIZATION_CODE(new UnauthorizedException("유효하지 않은 oauth 인가 코드 입니다.", 804)),
+    INVALID_OAUTH_ACCESS_TOKEN(new UnauthorizedException("유효하지 않은 oauth 엑세스 토큰입니다.", 805)),
 
     // 댓글 관련 : 9xx
     NOT_FOUND_COMMENT(new NotFoundException("해당하는 댓글이 없습니다.", 900)),

@@ -48,6 +48,7 @@ public class CommentCountStrategyByDaily implements CommentCountStrategy {
 
         while (!localDate.equals(end)) {
             if (isExistDailyStat(commentStats, localDate)) {
+                localDate = localDate.plusDays(1L);
                 continue;
             }
             noneMonthCommentStats.add(new CommentStat(localDate.toString(), DEFAULT_COMMENT_COUNT));

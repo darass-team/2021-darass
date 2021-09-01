@@ -16,11 +16,11 @@ public class Comments {
     }
 
     public long totalComment() {
-        return comments.size() + totalSubComment();
+        return comments.size();
     }
 
-    public long totalComment(long totalElements) {
-        return totalElements + totalSubComment();
+    public long totalCommentWithSubComment() {
+        return comments.size() + totalSubComment();
     }
 
     public long totalSubComment() {

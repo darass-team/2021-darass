@@ -63,9 +63,9 @@ export const DateRange = styled.span`
   margin-left: 1rem;
 `;
 
-export const Calendar = styled(CalendarComponent)`
+export const Calendar = styled(CalendarComponent)<{ isOpen: boolean }>`
   position: absolute;
   top: 5rem;
   left: 6.5rem;
-  z-index: ${Z_INDEX.MODAL + 1};
+  z-index: ${({ isOpen }) => (isOpen ? Z_INDEX.MODAL + 1 : -1)};
 `;

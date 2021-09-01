@@ -1,5 +1,5 @@
 <configuration>
-  <springProfile name="prod">
+  <springProfile name="prod, develop">
     <appender class="ch.qos.logback.core.rolling.RollingFileAppender" name="fileAppender">
       <encoder>
         <pattern>[%date{yyyy-MM-dd HH:mm:ss}] %requestURL - %statusCode - %header{x-real-ip}:%header{x-real-port} -

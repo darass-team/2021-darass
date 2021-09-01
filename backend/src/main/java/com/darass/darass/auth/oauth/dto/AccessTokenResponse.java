@@ -7,10 +7,8 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class TokenRequest {
+public class AccessTokenResponse {
 
-    private String oauthProviderName;
-
-    private String authorizationCode;
+    String accessToken;
 
 }

@@ -36,7 +36,7 @@
     </root>
   </springProfile>
 
-  <springProfile name="prod">
+  <springProfile name="prod, develop">
     <appender class="ch.qos.logback.core.rolling.RollingFileAppender" name="File">
       <encoder>
         <charset>UTF-8</charset>

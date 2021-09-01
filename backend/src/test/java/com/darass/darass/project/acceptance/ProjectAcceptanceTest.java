@@ -16,7 +16,6 @@ import static org.springframework.restdocs.request.RequestDocumentation.pathPara
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.darass.darass.AcceptanceTest;
-import com.darass.darass.auth.oauth.api.domain.OAuthProviderType;
 import com.darass.darass.auth.oauth.infrastructure.JwtTokenProvider;
 import com.darass.darass.project.domain.Project;
 import com.darass.darass.project.dto.ProjectCreateRequest;
@@ -65,7 +64,7 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
             .profileImageUrl("http://프로필이미지-url")
             .userType("socialLoginUser")
             .email("bbwwpark@naver.com")
-            .oauthProviderType(OAuthProviderType.KAKAO)
+            .oauthProvider("kakao")
             .oauthId("1234")
             .build();
 
@@ -76,7 +75,7 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
     @DisplayName("프로젝트를 생성한다.")
     public void save_success() throws Exception {
         //given
-        String accessToken = tokenProvider.createAccessToken(socialLoginUser.getId().toString());
+        String accessToken = tokenProvider.createAccessToken(socialLoginUser);
         ProjectCreateRequest projectCreateRequest = new ProjectCreateRequest(JEKYLL_PROJECT_NAME,
             JEKYLL_PROJECT_DESCRIPTION);
 
@@ -105,7 +104,7 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
     @DisplayName("프로젝트 이름이 중복되면, 프로젝트를 생성을 실패한다.")
     public void save_duplicated_project_name_fail() throws Exception {
         //given
-        String accessToken = tokenProvider.createAccessToken(socialLoginUser.getId().toString());
+        String accessToken = tokenProvider.createAccessToken(socialLoginUser);
         ProjectCreateRequest projectCreateRequest = new ProjectCreateRequest(JEKYLL_PROJECT_NAME,
             JEKYLL_PROJECT_DESCRIPTION);
 
@@ -126,7 +125,7 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
             .forEach(it -> stringBuilder.append("invalid"));
 
         String invalidInput = stringBuilder.toString();
-        String accessToken = tokenProvider.createAccessToken(socialLoginUser.getId().toString());
+        String accessToken = tokenProvider.createAccessToken(socialLoginUser);
         ProjectCreateRequest projectCreateRequest = new ProjectCreateRequest(invalidInput,
             invalidInput);
 
@@ -141,7 +140,7 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
     @Test
     public void findByUser() throws Exception {
         // given
-        String accessToken = tokenProvider.createAccessToken(socialLoginUser.getId().toString());
+        String accessToken = tokenProvider.createAccessToken(socialLoginUser);
         ProjectCreateRequest projectCreateRequest = new ProjectCreateRequest(JEKYLL_PROJECT_NAME,
             JEKYLL_PROJECT_DESCRIPTION);
 
@@ -163,7 +162,7 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
     @DisplayName("유효하지 않은 엑세스 토큰으로 프로젝트 다건 조회를 실패한다.")
     public void findAll_fail() throws Exception {
         // given
-        String accessToken = tokenProvider.createAccessToken(socialLoginUser.getId().toString());
+        String accessToken = tokenProvider.createAccessToken(socialLoginUser);
         ProjectCreateRequest projectCreateRequest = new ProjectCreateRequest(JEKYLL_PROJECT_NAME,
             JEKYLL_PROJECT_DESCRIPTION);
 
@@ -190,7 +189,7 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
     @DisplayName("엑세스 토큰과 프로젝트 id로 프로젝트 단건 조회한다.")
     public void findOne() throws Exception {
         //given
-        String accessToken = tokenProvider.createAccessToken(socialLoginUser.getId().toString());
+        String accessToken = tokenProvider.createAccessToken(socialLoginUser);
         ProjectCreateRequest projectCreateRequest = new ProjectCreateRequest(JEKYLL_PROJECT_NAME,
             JEKYLL_PROJECT_DESCRIPTION);
         ResultActions projectCreateResultActions = 프로젝트_생성_요청(accessToken, projectCreateRequest);
@@ -209,7 +208,7 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
     @DisplayName("유효하지 않은 엑세스 토큰으로 인해 프로젝트 id로 프로젝트 단건 조회를 실패한다.")
     public void findOne_invalid_accessToken_fail() throws Exception {
         //given
-        String accessToken = tokenProvider.createAccessToken(socialLoginUser.getId().toString());
+        String accessToken = tokenProvider.createAccessToken(socialLoginUser);
         ProjectCreateRequest projectCreateRequest = new ProjectCreateRequest(JEKYLL_PROJECT_NAME,
             JEKYLL_PROJECT_DESCRIPTION);
         ResultActions projectCreateResultActions = 프로젝트_생성_요청(accessToken, projectCreateRequest);
@@ -228,7 +227,7 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
     @DisplayName("유효하지 않은 프로젝트 id로 인해 프로젝트 단건 조회를 실패한다.")
     public void findOne_invalid_projectId_fail() throws Exception {
         //given
-        String accessToken = tokenProvider.createAccessToken(socialLoginUser.getId().toString());
+        String accessToken = tokenProvider.createAccessToken(socialLoginUser);
         ProjectCreateRequest projectCreateRequest = new ProjectCreateRequest(JEKYLL_PROJECT_NAME,
             JEKYLL_PROJECT_DESCRIPTION);
         프로젝트_생성_요청(accessToken, projectCreateRequest);
@@ -272,7 +271,7 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
     @DisplayName("프로젝트 id와 엑세스 토큰으로 프로젝트 단건 삭제한다.")
     public void deleteById_success() throws Exception {
         // given
-        String accessToken = tokenProvider.createAccessToken(socialLoginUser.getId().toString());
+        String accessToken = tokenProvider.createAccessToken(socialLoginUser);
         Project project = projectRepository.save(makeProject(JEKYLL_PROJECT_NAME, JEKYLL_PROJECT_DESCRIPTION));
 
         //when
@@ -286,7 +285,7 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
     @DisplayName("존재하지 않는 프로젝트 id와 엑세스 토큰으로 프로젝트 단건 삭제를 실패한다.")
     public void deleteById_fail() throws Exception {
         // given
-        String accessToken = tokenProvider.createAccessToken(socialLoginUser.getId().toString());
+        String accessToken = tokenProvider.createAccessToken(socialLoginUser);
         Project project = makeProject(JEKYLL_PROJECT_NAME, JEKYLL_PROJECT_DESCRIPTION);
         projectRepository.save(project);
 
@@ -301,7 +300,7 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
     @DisplayName("프로젝트 id와 엑세스 토큰으로 프로젝트를 단건 수정한다.")
     public void updateById_success() throws Exception {
         // given
-        String accessToken = tokenProvider.createAccessToken(socialLoginUser.getId().toString());
+        String accessToken = tokenProvider.createAccessToken(socialLoginUser);
         Project project = makeProject(JEKYLL_PROJECT_NAME, JEKYLL_PROJECT_DESCRIPTION);
         project = projectRepository.save(project);
         ProjectUpdateRequest projectUpdateRequest = new ProjectUpdateRequest(TSTORY_PROJECT_NAME,
@@ -318,7 +317,7 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
     @DisplayName("잘못된 프로젝트 id로인해 프로젝트를 단건 수정을 실패한다.")
     public void updateById_fail() throws Exception {
         // given
-        String accessToken = tokenProvider.createAccessToken(socialLoginUser.getId().toString());
+        String accessToken = tokenProvider.createAccessToken(socialLoginUser);
         Project project = makeProject(JEKYLL_PROJECT_NAME, JEKYLL_PROJECT_DESCRIPTION);
         projectRepository.save(project);
         ProjectUpdateRequest projectUpdateRequest = new ProjectUpdateRequest(TSTORY_PROJECT_NAME,
@@ -340,7 +339,7 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
             .forEach(it -> stringBuilder.append("invalid"));
 
         String invalidInput = stringBuilder.toString();
-        String accessToken = tokenProvider.createAccessToken(socialLoginUser.getId().toString());
+        String accessToken = tokenProvider.createAccessToken(socialLoginUser);
         Project project = makeProject(JEKYLL_PROJECT_NAME, JEKYLL_PROJECT_DESCRIPTION);
         projectRepository.save(project);
         ProjectUpdateRequest projectUpdateRequest = new ProjectUpdateRequest(invalidInput,
