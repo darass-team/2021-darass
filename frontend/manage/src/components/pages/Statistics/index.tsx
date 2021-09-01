@@ -98,8 +98,14 @@ const Statistics = () => {
                   <DateInputText onClick={onClickDateInput}>{endDate?.format("YY-MM-DD")}</DateInputText>
                 </DateRange>
 
-                <Modal isOpen={showCalendar} closeModal={() => setShowCalendar(false)} dimmedOpacity={0}>
+                <Modal
+                  isOpen={showCalendar}
+                  blockScroll={false}
+                  closeModal={() => setShowCalendar(false)}
+                  dimmedOpacity={0}
+                >
                   <Calendar
+                    isOpen={showCalendar}
                     date={currentDate}
                     setDate={setCurrentDate}
                     startDate={startDate}

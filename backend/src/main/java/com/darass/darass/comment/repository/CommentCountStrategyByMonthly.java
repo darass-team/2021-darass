@@ -48,6 +48,7 @@ public class CommentCountStrategyByMonthly implements CommentCountStrategy {
 
         while (!yearMonth.equals(endYearMonth)) {
             if (isExistMonthStat(commentStats, yearMonth)) {
+                yearMonth = yearMonth.plusMonths(1L);
                 continue;
             }
             noneMonthCommentStats.add(new CommentStat(yearMonth.toString(), DEFAULT_COMMENT_COUNT));

@@ -112,20 +112,19 @@ public class CommentService {
             .findByUrlAndProjectSecretKeyAndParentId(request.getUrl(), request.getProjectKey(), null,
                 SortOption.getMatchedSort(request.getSortOption()));
 
-        return new CommentResponses(new Comments(comments).totalComment(), 1, comments.stream()
+        return new CommentResponses(new Comments(comments).totalCommentWithSubComment(), 1, comments.stream()
             .map(comment -> CommentResponse.of(comment, UserResponse.of(comment.getUser())))
             .collect(Collectors.toList()));
     }
-
 
     public CommentResponses findAllCommentsByUrlAndProjectKeyUsingPagination(CommentReadRequestByPagination request) {
         int pageBasedIndex = request.getPage() - 1;
         try {
             Page<Comment> comments = commentRepository
-                .findByUrlAndProjectSecretKey(request.getUrl(), request.getProjectKey(),
+                .findByUrlAndProjectSecretKeyAndParentId(request.getUrl(), request.getProjectKey(), null,
                     PageRequest.of(pageBasedIndex, request.getSize(), SortOption.getMatchedSort(request.getSortOption())));
 
-            return new CommentResponses(new Comments(comments.toList()).totalComment(comments.getTotalElements()),
+            return new CommentResponses(new Comments(comments.toList()).totalCommentWithSubComment(),
                 comments.getTotalPages(), comments.stream()
                 .map(comment -> CommentResponse.of(comment, UserResponse.of(comment.getUser())))
                 .collect(Collectors.toList()));
@@ -146,7 +145,7 @@ public class CommentService {
                     PageRequest.of(pageBasedIndex, request.getSize(), SortOption.getMatchedSort(request.getSortOption()))
                 );
 
-            return new CommentResponses(new Comments(comments.toList()).totalComment(comments.getTotalElements()),
+            return new CommentResponses(new Comments(comments.toList()).totalComment(),
                 comments.getTotalPages(), comments.stream()
                 .map(comment -> CommentResponse.of(comment, UserResponse.of(comment.getUser())))
                 .collect(Collectors.toList()));
@@ -168,7 +167,7 @@ public class CommentService {
                     PageRequest.of(pageBasedIndex, request.getSize(), SortOption.getMatchedSort(request.getSortOption()))
                 );
 
-            return new CommentResponses(new Comments(comments.toList()).totalComment(comments.getTotalElements()),
+            return new CommentResponses(new Comments(comments.toList()).totalComment(),
                 comments.getTotalPages(), comments.stream()
                 .map(comment -> CommentResponse.of(comment, UserResponse.of(comment.getUser())))
                 .collect(Collectors.toList()));

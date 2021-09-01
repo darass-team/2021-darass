@@ -107,19 +107,26 @@ const UserProfile = () => {
             <FileLabel>
               <CameraIcon src={cameraIcon} alt="이미지 업로드 버튼" />
               <UserProfileImage imageURL={profileImageAsUrl} size="LG" alt="유저 프로필 이미지" />
-              <Input type="file" accept="image/*" onChange={onChangeFile} />
+              <Input type="file" accept="image/*" onChange={onChangeFile} data-testid="user-profile-image-input" />
             </FileLabel>
           </InfoWrapper>
 
           <InfoWrapper>
             <Label htmlFor="user-name-input">별명</Label>
-            <Input id="user-name-input" value={userName} onChange={onChangeUserName} />
+            <Input
+              id="user-name-input"
+              value={userName}
+              onChange={onChangeUserName}
+              data-testid="user-profile-name-input"
+            />
             <UserNameCounter>
               {userName.length} / {MAX_USER_NAME_LENGTH}
             </UserNameCounter>
           </InfoWrapper>
 
-          <SubmitButton disabled={isEditLoading}>수정</SubmitButton>
+          <SubmitButton disabled={isEditLoading} data-testid="user-profile-submit-button">
+            수정
+          </SubmitButton>
         </Form>
 
         <DeleteSection

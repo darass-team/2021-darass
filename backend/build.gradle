@@ -35,6 +35,8 @@ repositories {
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-validation'
 
+    implementation 'org.json:json:20190722'
+
     // DB
     runtimeOnly 'com.h2database:h2'
     implementation 'org.mariadb.jdbc:mariadb-java-client'
@@ -163,7 +165,7 @@ jacocoTestCoverageVerification {
             limit {
                 counter = 'LINE'
                 value = 'COVEREDRATIO'
-                minimum = 0.90
+                minimum = 0.80
             }
 
             // 빈 줄을 제외한 코드의 라인수를 최대 500라인으로 제한한다.

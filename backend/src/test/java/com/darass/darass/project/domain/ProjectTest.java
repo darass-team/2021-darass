@@ -3,7 +3,7 @@ package com.darass.darass.project.domain;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import com.darass.darass.auth.oauth.api.domain.OAuthProviderType;
+import com.darass.darass.auth.oauth.api.domain.KaKaoOAuthProvider;
 import com.darass.darass.comment.domain.Comment;
 import com.darass.darass.comment.repository.CommentRepository;
 import com.darass.darass.exception.ExceptionWithMessageAndCode;
@@ -20,9 +20,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
 
+@ActiveProfiles("test")
 @DisplayName("Project 클래스")
 @DataJpaTest
-@ActiveProfiles("test")
 class ProjectTest {
 
     private Project project;
@@ -46,7 +46,7 @@ class ProjectTest {
             .profileImageUrl("http://프로필이미지-url")
             .userType("socialLoginUser")
             .email("bbwwpark@naver.com")
-            .oauthProviderType(OAuthProviderType.KAKAO)
+            .oauthProvider(KaKaoOAuthProvider.NAME)
             .oauthId("1234")
             .build();
         userRepository.save(socialLoginUser);

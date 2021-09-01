@@ -1,14 +1,14 @@
 import { FormEvent, useEffect } from "react";
 import { Redirect, useHistory, useRouteMatch } from "react-router-dom";
 import { PROJECT_MENU, ROUTE } from "../../../constants";
-import { useEditProject, useGetProject, useInput } from "../../../hooks";
-import { useDeleteProject } from "../../../hooks/useDeleteProject";
+import { useEditProject, useGetProject, useInput, useDeleteProject } from "../../../hooks";
 import ScreenContainer from "../../../styles/ScreenContainer";
 import { isEmptyString } from "../../../utils/validation";
 import ContainerWithSideBar from "../../organisms/ContainerWithSideBar";
 import DeleteSection from "../../molecules/DeleteSection";
 import { Container, Form, InfoWrapper, Input, Label, SubmitButton, Title } from "./styles";
 import { AlertError } from "../../../utils/error";
+import { MAX_PROJECT_NAME_LENGTH } from "../../../constants/validation";
 
 const ProjectDetail = () => {
   const match = useRouteMatch<{ id?: string }>();
@@ -28,6 +28,12 @@ const ProjectDetail = () => {
 
     if (isEmptyString(projectName)) {
       alert("프로젝트 이름을 입력해주세요.");
+
+      return;
+    }
+
+    if (projectName.length > MAX_PROJECT_NAME_LENGTH) {
+      alert(`프로젝트 이름은 ${MAX_PROJECT_NAME_LENGTH}자를 넘을 수 없습니다.`);
 
       return;
     }

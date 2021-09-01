@@ -20,7 +20,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.darass.darass.AcceptanceTest;
-import com.darass.darass.auth.oauth.api.domain.OAuthProviderType;
 import com.darass.darass.auth.oauth.infrastructure.JwtTokenProvider;
 import com.darass.darass.comment.dto.CommentCreateRequest;
 import com.darass.darass.comment.dto.CommentResponse;
@@ -56,8 +55,11 @@ public class CommentAcceptanceTest extends AcceptanceTest {
     private ProjectRepository projects;
 
     private SocialLoginUser socialLoginUser;
+
     private Project project;
+
     private String token;
+
     private String secretKey;
 
     private void setUpProject() {
@@ -74,12 +76,12 @@ public class CommentAcceptanceTest extends AcceptanceTest {
             .builder()
             .nickName("nickname")
             .oauthId("abc13gag")
-            .oauthProviderType(OAuthProviderType.KAKAO)
+            .oauthProvider("kakao")
             .email("qkrwotjd1445@naver.com")
             .profileImageUrl("https://imageUrl")
             .build();
         users.save(socialLoginUser);
-        token = jwtTokenProvider.createAccessToken(socialLoginUser.getId().toString());
+        token = jwtTokenProvider.createAccessToken(socialLoginUser);
     }
 
     @BeforeEach

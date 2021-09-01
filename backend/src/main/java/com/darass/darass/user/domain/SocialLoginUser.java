@@ -1,15 +1,9 @@
 package com.darass.darass.user.domain;
 
-import com.darass.darass.auth.oauth.api.domain.OAuthProviderType;
-import com.darass.darass.auth.oauth.infrastructure.JwtTokenProvider;
 import com.darass.darass.exception.ExceptionWithMessageAndCode;
 import com.darass.darass.user.infrastructure.S3Uploader;
 import java.util.Objects;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.ForeignKey;
-import javax.persistence.PrimaryKeyJoinColumn;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,7 +11,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Getter
 @NoArgsConstructor
-@PrimaryKeyJoinColumn(foreignKey = @ForeignKey(name = "social_login_user_fk_user"))
 @Entity
 public class SocialLoginUser extends User {
 
@@ -25,18 +18,17 @@ public class SocialLoginUser extends User {
 
     private String oauthId;
 
-    @Enumerated(EnumType.STRING)
-    private OAuthProviderType oauthProviderType;
+    private String oauthProvider;
 
     private String refreshToken;
 
     @Builder
     public SocialLoginUser(Long id, String nickName, String profileImageUrl, String userType, String oauthId,
-        OAuthProviderType oauthProviderType, String email, String refreshToken) {
+        String oauthProvider, String email, String refreshToken) {
         super(id, nickName, profileImageUrl, userType);
-        this.email = email;
         this.oauthId = oauthId;
-        this.oauthProviderType = oauthProviderType;
+        this.oauthProvider = oauthProvider;
+        this.email = email;
         this.refreshToken = refreshToken;
     }
 
@@ -61,11 +53,7 @@ public class SocialLoginUser extends User {
         }
     }
 
-    public void createRefreshToken(JwtTokenProvider jwtTokenProvider) {
-        String payload = null;
-        if (!Objects.isNull(getId())) {
-            payload = getId().toString();
-        }
-        this.refreshToken = jwtTokenProvider.createRefreshToken(payload);
+    public void updateRefreshToken(String refreshToken) {
+        this.refreshToken = refreshToken;
     }
 }
