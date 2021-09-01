@@ -27,7 +27,7 @@ export const MenuWrapper = styled.nav<{ isOpen: boolean }>`
   top: 0;
   left: 0;
   transform: ${({ isOpen }) => (isOpen ? "translateX(0)" : "translateX(-100%)")};
-  transition: transform 0.3s ease-in-out;
+  transition: transform 0.4s ease-in-out;
 `;
 
 export const Name = styled.p`

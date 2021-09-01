@@ -15,11 +15,13 @@ const _getAllCommentsOfProject = async ({
   keyword
 }: GetCommentsOfProjectPerPageRequest) => {
   try {
+    if (!projectKey || !sortOption) return;
+
     const queryURL = QUERY.KEYWORD_COMMENTS_OF_PROJECT_PER_PAGE;
 
     const urlSearchParam = new URLSearchParams(queryURL + "?");
-    projectKey && urlSearchParam.set("projectKey", projectKey);
-    sortOption && urlSearchParam.set("sortOption", sortOption);
+    urlSearchParam.set("projectKey", projectKey);
+    urlSearchParam.set("sortOption", sortOption);
     urlSearchParam.set("keyword", keyword);
     urlSearchParam.set("startDate", startDate);
     urlSearchParam.set("endDate", endDate);

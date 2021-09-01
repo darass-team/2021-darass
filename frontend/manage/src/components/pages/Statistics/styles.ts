@@ -26,11 +26,11 @@ export const Wrapper = styled.div`
   margin-bottom: 1rem;
 `;
 
-export const Calendar = styled(CalendarComponent)`
+export const Calendar = styled(CalendarComponent)<{ isOpen: boolean }>`
   position: absolute;
   top: 4rem;
   left: 5.5rem;
-  z-index: ${Z_INDEX.MODAL + 1};
+  z-index: ${({ isOpen }) => (isOpen ? Z_INDEX.MODAL + 1 : -1)};
 `;
 
 export const Meta = styled.span`

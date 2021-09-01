@@ -3,7 +3,7 @@ import { END_POINT } from "./constants.js";
 export const getReplyModuleURL = () => {
   const $darass = document.querySelector("#darass");
   const replyModuleURL = END_POINT + "?";
-  const currentURL = window.location.href;
+  const currentURL = window.location.origin + window.location.pathname;
   const projectKey = $darass.dataset.projectKey;
 
   const urlParams = new URLSearchParams(replyModuleURL);
