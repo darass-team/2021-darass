@@ -194,7 +194,7 @@ public class AuthAcceptanceTest extends AcceptanceTest {
 
     private void 토큰_인증_로그인_rest_doc_작성(ResultActions resultActions) throws Exception {
         resultActions.andDo(
-            document("api/v1/auth-login/get/success",
+            document("api/v1/auth-login/post/success",
                 requestFields(
                     fieldWithPath("oauthProviderName").description("oauth 제공자 이름"),
                     fieldWithPath("authorizationCode").description("oauth 제공자가 발급해준 인가 코드")
@@ -222,7 +222,7 @@ public class AuthAcceptanceTest extends AcceptanceTest {
 
     private void 토큰_인증_로그인_실패_rest_doc_작성(ResultActions resultActions) throws Exception {
         resultActions.andDo(
-            document("api/v1/auth-login/get/fail",
+            document("api/v1/auth-login/post/fail",
                 responseFields(
                     fieldWithPath("message").type(JsonFieldType.STRING).description("에러 메시지"),
                     fieldWithPath("code").type(JsonFieldType.NUMBER).description("에러 코드")
