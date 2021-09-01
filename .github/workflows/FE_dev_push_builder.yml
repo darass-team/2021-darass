@@ -1,17 +1,16 @@
 # This workflow will do a clean install of node dependencies, cache/restore them, build the source code and run tests across different versions of node
 # For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
 
-name: Darass PR Checker [FE]
+name: Darass Push Builder - dev [FE]
 
 on:
-  pull_request:
-    types: [ opened, edited ]
+  push:
     branches: [ dev ]
 
 jobs:
-  build:
+  deploy:
 
-    runs-on: [self-hosted, front]
+    runs-on: [ self-hosted, front ]
 
     steps:
     - name: Checkout source code
@@ -30,7 +29,7 @@ jobs:
     - name: Install Dependencies - comment
       run: yarn install
       working-directory: ./frontend/reply-module
-      
+    
     - name: Test - comment
       run: yarn test
       working-directory: ./frontend/reply-module
@@ -40,13 +39,13 @@ jobs:
       working-directory: ./frontend/reply-module
       env:
         KAKAO_REST_API_KEY: ${{ secrets.KAKAO_REST_API_KEY }}
-        KAKAO_JAVASCRIPT_API_KEY: ${{ secrets.KAKAO_JAVASCRIPT_API_KEY }}
+        KAKAO_JAVASCRIPT_API_KEY: ${{ secrets.KAKAO_JAVASCRIPT_API_KEY}}
         SENTRY_REPLY_MODULE_DSN: ${{ secrets.SENTRY_REPLY_MODULE_DSN }}
       
     - name: Install Dependencies - project
       run: yarn install
       working-directory: ./frontend/manage
-      
+    
     - name: Test - project
       run: yarn test
       working-directory: ./frontend/manage
@@ -56,7 +55,7 @@ jobs:
       working-directory: ./frontend/manage
       env:
         KAKAO_REST_API_KEY: ${{ secrets.KAKAO_REST_API_KEY }}
-        KAKAO_JAVASCRIPT_API_KEY: ${{ secrets.KAKAO_JAVASCRIPT_API_KEY }}
+        KAKAO_JAVASCRIPT_API_KEY: ${{ secrets.KAKAO_JAVASCRIPT_API_KEY}}
         SENTRY_MANAGE_PAGE_DSN: ${{ secrets.SENTRY_MANAGE_PAGE_DSN }}
     
     - name: Install Dependencies - deploy script
@@ -66,7 +65,22 @@ jobs:
     - name: Build - deploy script
       run: yarn build
       working-directory: ./frontend/deploy-script
-  
+    
+    - name: Install Aws Cli
+      uses: unfor19/install-aws-cli-action@v1
+      
+    - name: S3 Deploy - comment
+      run: aws s3 sync ./dist s3://darass-reply-module/development/
+      working-directory: ./frontend/reply-module
+      
+    - name: S3 Deploy - project
+      run: aws s3 sync ./dist s3://darass-manage-page/development/
+      working-directory: ./frontend/manage
+    
+    - name: S3 Deploy - deploy script
+      run: aws s3 sync ./dist s3://darass-reply-module/development/
+      working-directory: ./frontend/deploy-script
+      
     - name: build result to slack
       uses: 8398a7/action-slack@v3
       with:

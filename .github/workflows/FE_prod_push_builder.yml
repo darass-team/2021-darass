@@ -1,11 +1,11 @@
 # This workflow will do a clean install of node dependencies, cache/restore them, build the source code and run tests across different versions of node
 # For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
 
-name: Darass Push Builder [FE]
+name: Darass Push Builder - prod [FE]
 
 on:
   push:
-    branches: [ dev ]
+    branches: [ main ]
 
 jobs:
   deploy:
@@ -35,13 +35,13 @@ jobs:
       working-directory: ./frontend/reply-module
     
     - name: Build - comment
-      run: yarn build
+      run: yarn build:production
       working-directory: ./frontend/reply-module
       env:
         KAKAO_REST_API_KEY: ${{ secrets.KAKAO_REST_API_KEY }}
-        KAKAO_JAVASCRIPT_API_KEY: ${{ secrets.KAKAO_JAVASCRIPT_API_KEY}}
+        KAKAO_JAVASCRIPT_API_KEY: ${{ secrets.KAKAO_JAVASCRIPT_API_KEY }}
         SENTRY_REPLY_MODULE_DSN: ${{ secrets.SENTRY_REPLY_MODULE_DSN }}
-      
+
     - name: Install Dependencies - project
       run: yarn install
       working-directory: ./frontend/manage
@@ -51,11 +51,11 @@ jobs:
       working-directory: ./frontend/manage
     
     - name: Build - project
-      run: yarn build
+      run: yarn build:production
       working-directory: ./frontend/manage
       env:
         KAKAO_REST_API_KEY: ${{ secrets.KAKAO_REST_API_KEY }}
-        KAKAO_JAVASCRIPT_API_KEY: ${{ secrets.KAKAO_JAVASCRIPT_API_KEY}}
+        KAKAO_JAVASCRIPT_API_KEY: ${{ secrets.KAKAO_JAVASCRIPT_API_KEY }}
         SENTRY_MANAGE_PAGE_DSN: ${{ secrets.SENTRY_MANAGE_PAGE_DSN }}
     
     - name: Install Dependencies - deploy script
@@ -63,22 +63,22 @@ jobs:
       working-directory: ./frontend/deploy-script
     
     - name: Build - deploy script
-      run: yarn build
+      run: yarn build:production
       working-directory: ./frontend/deploy-script
     
     - name: Install Aws Cli
       uses: unfor19/install-aws-cli-action@v1
       
     - name: S3 Deploy - comment
-      run: aws s3 sync ./dist s3://darass-reply-module/development/
+      run: aws s3 sync ./dist s3://darass-reply-module/production/
       working-directory: ./frontend/reply-module
       
     - name: S3 Deploy - project
-      run: aws s3 sync ./dist s3://darass-manage-page/development/
+      run: aws s3 sync ./dist s3://darass-manage-page/production/
       working-directory: ./frontend/manage
     
     - name: S3 Deploy - deploy script
-      run: aws s3 sync ./dist s3://darass-reply-module/development/
+      run: aws s3 sync ./dist s3://darass-reply-module/production/
       working-directory: ./frontend/deploy-script
       
     - name: build result to slack
@@ -88,5 +88,5 @@ jobs:
         fields: repo, message, commit, author, action, eventName, ref, workflow, job, took
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL_FRONT }}
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
       if: always()
