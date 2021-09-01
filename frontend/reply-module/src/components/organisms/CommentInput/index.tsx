@@ -84,7 +84,7 @@ const CommentInput = ({ className, innerRef, user, parentCommentId, onClose }: P
   };
 
   const onInput = (event: ChangeEvent<HTMLDivElement>) => {
-    const currentText = event.target.innerText;
+    const currentText = event.target.textContent || "";
 
     if (currentText.length > MAX_COMMENT_INPUT_LENGTH) {
       postAlertMessage(getErrorMessage.commentInput(currentText));
