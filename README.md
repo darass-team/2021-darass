@@ -20,9 +20,9 @@
 <br/>
 
 ## ⭐ Main Feature
+- 웹 페이지에 서비스에서 제공하는 스크립트 코드를 추가하면, 댓글 모듈이 추가되는 기능
+- oauth2 로그인 / 로그아웃 기능
 
-- 로그인 / 로그아웃 기능
-- 
 
 
 ## 🔧 Stack
@@ -38,19 +38,20 @@
 
 **Backend, Devops**
 
-- **Language** : Spring
+- **Language** : Java 
 - **Library & Framework** : Spring Boot
 - **Database** : MariaDB
 - **ORM** : JPA
-- **Deploy**: AWS(EC2, S3)Docker, Nginx
-- **CI/CD :** Github Actions
+- **Deploy**: AWS(EC2, S3, ELB), Docker, Nginx, ELK
+- **CI/CD :** Github Actions, Jenkins
 
+## 🔨 Front-End Architecture
 
-## 🔨 Architecture
+## 🔨 Back-End Architecture
 
 ![아키텍처](https://user-images.githubusercontent.com/41244373/131594159-34598568-d2d7-43b8-86a3-ab521bf62e87.png)
 
-## ⚒ CI/CD
+## ⚒ CI/CD (그림 추가) 
 
 - `Github Actions`를 활용해서 지속적 통합 및 배포
 - `master` 브랜치로 `push`를 하면, test(`$ npm run test`)를 진행하고 테스트를 성공한 경우에만 운영 리소스(`AWS EC2`)에 자동 배포된다.
