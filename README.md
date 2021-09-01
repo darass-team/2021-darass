@@ -21,29 +21,28 @@
 
 ## ⭐ Main Feature
 - 웹 페이지에 서비스에서 제공하는 스크립트 코드를 추가하면, 댓글 모듈이 추가되는 기능
+- 관리자 페이지에서 댓글 통계를 확인하고 댓글을 관리할 수 있는 기능
 - oauth2 로그인 / 로그아웃 기능
 
 
 
 ## 🔧 Stack
 
-**Frontend(Mobile)**
-
-- **Language** : Flutter
-
 **Frontend(Web)**
-
-- **Language** : JavaScript
-- **Library & Framework** : Vue.js
+- **Language** : TypeScript
+- **Library & Framework** : React, React Query, Styled-Components, Webpack, Babel
+- **Test** : Jest, RTL, Storybook
+- **Deploy**: AWS(S3, Cloudfront)
+- **CI/CD** : Github Actions
+<br />
 
 **Backend, Devops**
-
 - **Language** : Java 
 - **Library & Framework** : Spring Boot
 - **Database** : MariaDB
 - **ORM** : JPA
 - **Deploy**: AWS(EC2, S3, ELB), Docker, Nginx, ELK
-- **CI/CD :** Github Actions, Jenkins
+- **CI/CD** : Github Actions, Jenkins
 
 ## 🔨 Front-End Architecture
 
