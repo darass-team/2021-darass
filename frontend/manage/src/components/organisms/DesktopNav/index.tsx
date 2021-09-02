@@ -18,6 +18,7 @@ import { PALETTE } from "../../../styles/palette";
 import { MenuType } from "../../../types/menu";
 import Avatar from "../../atoms/Avatar";
 import kakaoTalkIcon from "../../../assets/png/kakaotalk.png";
+import githubIcon from "../../../assets/svg/github.svg";
 import { useUser } from "../../../hooks";
 import { AlertError } from "../../../utils/error";
 
@@ -66,10 +67,16 @@ const DesktopNav = ({ menuList }: Props) => {
                 </Link>
               </>
             ) : (
-              <LoginMethodWrapper onClick={onLogin}>
-                <Avatar size="SM" imageURL={kakaoTalkIcon} alt="카카오톡 로그인 이미지" />
-                <LoginMethod>카카오</LoginMethod>
-              </LoginMethodWrapper>
+              <>
+                <LoginMethodWrapper onClick={onLogin}>
+                  <Avatar size="SM" imageURL={kakaoTalkIcon} alt="카카오톡 로그인 이미지" />
+                  <LoginMethod>카카오</LoginMethod>
+                </LoginMethodWrapper>
+                <LoginMethodWrapper onClick={onLogin}>
+                  <Avatar size="SM" imageURL={githubIcon} alt="깃허브 로그인 이미지" />
+                  <LoginMethod>깃허브</LoginMethod>
+                </LoginMethodWrapper>
+              </>
             )}
           </UserAvatarOption>
         </UserAvatarOptionWrapper>
