@@ -14,6 +14,7 @@ import { useUser } from "./hooks";
 import { setCookie } from "./utils/cookie";
 import * as Sentry from "@sentry/react";
 import { LoadableScriptPublishing, LoadableStatistics } from "./components/pages/Loadable";
+import OAuth from "./components/pages/OAuth";
 
 const App = () => {
   const location = useLocation();
@@ -34,6 +35,7 @@ const App = () => {
       <Sentry.ErrorBoundary fallback={<ErrorPage notice="에러가 발생했습니다." />}>
         <Switch>
           <Route exact path={ROUTE.HOME} component={Home} />
+          <Route exact path={ROUTE.OAUTH} component={OAuth} />
           <Route exact path={ROUTE.ABOUT} render={() => <ErrorPage notice="개발중인 페이지 입니다." />} />
           <Route exact path={ROUTE.NOTICE} render={() => <ErrorPage notice="개발중인 페이지 입니다." />} />
           <ConditionalRoute path={ROUTE.LOGIN} component={Login} condition={!user} redirectPath={ROUTE.MY_PROJECT} />
