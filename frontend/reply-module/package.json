@@ -30,6 +30,7 @@
     "babel-plugin-remove-react-jsx-attribute": "^1.0.1",
     "clean-webpack-plugin": "^4.0.0-alpha.0",
     "cross-env": "^7.0.3",
+    "dotenv-webpack": "^7.0.3",
     "eslint": "^7.29.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^3.4.0",
@@ -44,8 +45,7 @@
     "url-loader": "^4.1.1",
     "webpack": "^5.41.1",
     "webpack-cli": "^4.7.2",
-    "webpack-dev-server": "^3.11.2",
-    "webpack-dotenv": "^0.0.2"
+    "webpack-dev-server": "^3.11.2"
   },
   "dependencies": {
     "@sentry/react": "^6.11.0",

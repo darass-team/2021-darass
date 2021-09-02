@@ -1,8 +1,7 @@
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const path = require("path");
-const { DefinePlugin } = require("webpack");
-const { DotEnv } = require("webpack-dotenv");
+const DotEnv = require("dotenv-webpack");
 const Package = require("./package.json");
 
 const config = {
@@ -56,14 +55,8 @@ const config = {
     new HtmlWebpackPlugin({
       template: "./public/index.html"
     }),
-    new DefinePlugin({
-      "process.env.KAKAO_REST_API_KEY": JSON.stringify(process.env.KAKAO_REST_API_KEY),
-      "process.env.KAKAO_JAVASCRIPT_API_KEY": JSON.stringify(process.env.KAKAO_JAVASCRIPT_API_KEY),
-      "process.env.BUILD_MODE": JSON.stringify(process.env.BUILD_MODE),
-      "process.env.SENTRY_MANAGE_PAGE_DSN": JSON.stringify(process.env.SENTRY_MANAGE_PAGE_DSN)
-    }),
-
-    new CleanWebpackPlugin()
+    new CleanWebpackPlugin(),
+    new DotEnv()
   ],
   resolve: {
     extensions: [".tsx", ".ts", ".jsx", ".js"]
@@ -78,9 +71,5 @@ const config = {
     hot: true
   }
 };
-
-if (!process.env.KAKAO_JAVASCRIPT_API_KEY) {
-  config.plugins.push(new DotEnv());
-}
 
 module.exports = config;
