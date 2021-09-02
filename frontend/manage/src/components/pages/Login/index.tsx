@@ -1,4 +1,5 @@
 import { useHistory } from "react-router";
+import { useLocation } from "react-router-dom";
 import Github from "../../../assets/svg/github.svg";
 import Kakao from "../../../assets/svg/kakao.svg";
 import { ROUTE } from "../../../constants";
@@ -13,6 +14,7 @@ import { Container, GithubLoginButton, Introduction, KakaoLoginButton } from "./
 const Login = () => {
   const { login } = useUser();
   const history = useHistory();
+  const location = useLocation();
 
   const onLogin = async () => {
     try {
@@ -27,11 +29,14 @@ const Login = () => {
   };
 
   const moveGithubOAuthURL = () => {
-    alert(
-      `${OAUTH_ENDPOINT.GITHUB}?client_id=${process.env.GITHUB_CLIENT_ID}&redirect_uri=http://localhost:3001/oauth`
-    );
     window.location.replace(
-      `${OAUTH_ENDPOINT.GITHUB}?client_id=${process.env.GITHUB_CLIENT_ID}&redirect_uri=http://localhost:3001`
+      `${OAUTH_ENDPOINT.GITHUB}?client_id=${process.env.GITHUB_CLIENT_ID}&redirect_uri=http://localhost:3001${ROUTE.OAUTH}/github`
+    );
+  };
+
+  const moveKakaoOAuthURL = () => {
+    window.location.replace(
+      `${OAUTH_ENDPOINT.KAKAO}?response_type=code&client_id=${process.env.KAKAO_REST_API_KEY}&redirect_uri=http://localhost:3001${ROUTE.OAUTH}/kakao`
     );
   };
 
@@ -44,7 +49,7 @@ const Login = () => {
           블로그에 다라쓰
         </Introduction>
         <Logo size="LG" />
-        <KakaoLoginButton onClick={onLogin}>
+        <KakaoLoginButton onClick={moveKakaoOAuthURL}>
           <img src={Kakao} alt="kakao" />
           <span>카카오로 로그인</span>
         </KakaoLoginButton>
