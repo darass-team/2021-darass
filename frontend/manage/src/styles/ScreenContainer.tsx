@@ -3,6 +3,7 @@ import { NAVIGATION_HEIGHT, PAGE_MAX_WIDTH } from "./constants";
 import { PALETTE } from "./palette";
 
 const ScreenContainer = styled.div<{ bgColor?: PALETTE }>`
+  overflow: hidden;
   min-height: ${`calc(100vh - ${NAVIGATION_HEIGHT})`};
   background-color: ${[props => (props.bgColor ? props.bgColor : PALETTE.DEFAULT_BG)]};
   padding: 4rem 2.5rem;

@@ -1,13 +1,11 @@
-import { PAGE_MAX_WIDTH } from "./../../../styles/constants";
-import styled from "styled-components";
 import CSS from "csstype";
+import styled from "styled-components";
 import { LINE_HEIGHT_SCALE } from "../../../styles/constants";
 import { PALETTE } from "../../../styles/palette";
 import ScreenContainer from "../../../styles/ScreenContainer";
 
 export const SectionContainer = styled(ScreenContainer)<{ minHeightVh: number }>`
   min-height: ${props => props.minHeightVh}vh;
-  overflow-x: hidden;
 `;
 
 export const Container = styled.div`

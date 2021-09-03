@@ -24,6 +24,7 @@ import wooteco from "../../../assets/png/wooteco.png";
 
 const Home = () => {
   const history = useHistory();
+
   const animation = {
     section1: {
       introductionText: useScrollFadeInOut({

@@ -21,7 +21,7 @@ export const useScrollFadeInOut = ({
 }: Props) => {
   const dom = useRef(null);
 
-  const activeDirectionMotion = () => {
+  const initTransform = () => {
     switch (direction) {
       case "up":
         return "translate3d(0, 50%, 0)";
@@ -47,7 +47,7 @@ export const useScrollFadeInOut = ({
         current.style.transitionTimingFunction = "cubic-bezier(0, 0, 0.2, 1)";
         current.style.transitionDelay = `${delay}s`;
         current.style.opacity = "0";
-        current.style.transform = activeDirectionMotion();
+        current.style.transform = initTransform();
       }
     } else {
       if (fadeType === "in" || fadeType === "both") {
@@ -76,7 +76,7 @@ export const useScrollFadeInOut = ({
     ref: dom,
     style: {
       opacity: 0,
-      transform: activeDirectionMotion()
+      transform: initTransform()
     }
   };
 };
