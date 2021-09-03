@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     /* Basic Options */
-    "target": "es5",
+    "target": "es2021",
     "module": "esnext",
     "allowJs": true,
     "jsx": "react-jsx",

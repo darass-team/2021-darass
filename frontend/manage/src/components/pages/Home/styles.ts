@@ -29,3 +29,10 @@ export const Button = styled.button`
   color: ${PALETTE.BLACK_700};
   margin-top: 8.8rem;
 `;
+
+export const P = styled.p`
+  margin-top: 5rem;
+  font-size: 3rem;
+  color: ${PALETTE.BLACK_700};
+  font-weight: 700;
+`;
