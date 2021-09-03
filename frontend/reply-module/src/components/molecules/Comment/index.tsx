@@ -238,7 +238,7 @@ const Comment = ({
 
   return (
     <>
-      <Container data-testid="comment" isSubComment={isSubComment}>
+      <Container data-testid={isSubComment ? "subComment" : "comment"} isSubComment={isSubComment}>
         <CommentWrapper>
           {isSubComment && <DownRightArrow src={downRightArrowSVG} />}
           <Avatar imageURL={comment.user.profileImageUrl} />

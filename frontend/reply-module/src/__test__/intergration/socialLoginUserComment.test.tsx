@@ -6,6 +6,7 @@ import CommentList from "../../components/organisms/CommentList";
 import { useCreateComment, useDeleteComment, useEditComment, useLikeComment } from "../../hooks";
 import CommentInput from "../../components/organisms/CommentInput";
 import { getPasswordConfirmResult } from "../../api/getPasswordConfirmResult";
+import { getTotalCommentsCount } from "../util/getTotalCommentsCount";
 
 jest.mock("../../hooks/useCreateComment");
 jest.mock("../../hooks/useEditComment");
@@ -64,6 +65,7 @@ describe("로그인 유저의 댓글 CRUD 테스트 코드를 작성한다.", ()
     test("로그인 유저는 모든 댓글을 조회할 수 있다.", () => {
       const user = socialLoginUser;
       const comments = JSON.parse(JSON.stringify(_comments));
+      const totalCommentsCount = getTotalCommentsCount(comments);
       const commentList = render(
         <CommentList
           totalCommentsCount={_comments.length}
@@ -77,7 +79,9 @@ describe("로그인 유저의 댓글 CRUD 테스트 코드를 작성한다.", ()
         />
       );
 
-      expect(commentList.getAllByTestId("comment").length).toEqual(comments.length);
+      const totalElementCommentsCount =
+        commentList.getAllByTestId("comment").length + commentList.getAllByTestId("subComment").length;
+      expect(totalElementCommentsCount).toEqual(totalCommentsCount);
     });
   });
   describe("로그인 유저 댓글 생성", () => {
@@ -311,6 +315,13 @@ describe("로그인 유저의 댓글 CRUD 테스트 코드를 작성한다.", ()
 
     await waitFor(() => {
       expect(screen.queryByTestId("liking-users-button-num-of-likes")).toBeFalsy();
+    });
+  });
+
+  describe("로그인 유저는 대댓글 기능을 사용할 수 있다.", () => {
+    test("대댓글을 확인할 수 있다.", () => {
+      const user = socialLoginUser;
+      const comments = JSON.parse(JSON.stringify(_comments));
     });
   });
 });

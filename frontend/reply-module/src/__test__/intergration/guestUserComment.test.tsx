@@ -66,7 +66,7 @@ describe("비로그인 유저 댓글 CRUD 테스트 코드를 작성한다.", ()
       const comments: Comment[] = JSON.parse(JSON.stringify(_comments));
       const commentList = render(
         <CommentList
-          totalCommentsCount={_comments.length}
+          totalCommentsCount={comments.length}
           isLoading={false}
           comments={comments}
           project={undefined}
@@ -75,10 +75,10 @@ describe("비로그인 유저 댓글 CRUD 테스트 코드를 작성한다.", ()
           onSelectSortOption={() => {}}
         />
       );
-      const $$comments = commentList.container.querySelectorAll("section > div:nth-child(2) > div");
+      const $$comments = commentList.getAllByTestId("comment");
 
-      $$comments.forEach(($comment, index) => {
-        if (comments[index].user.type === "GuestUser") {
+      $$comments.forEach(($comment, commentIndex) => {
+        if (comments[commentIndex]?.user.type === "GuestUser") {
           expect($comment.querySelectorAll("img")[1]).toBeVisible();
         }
       });
