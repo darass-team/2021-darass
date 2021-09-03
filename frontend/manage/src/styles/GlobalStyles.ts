@@ -15,6 +15,7 @@ const GlobalStyles = createGlobalStyle`
           font-family: 'Noto Sans KR', sans-serif;
       }
       html, body {
+        scroll-behavior: smooth;
         padding: 0;
         height: 100vh;
         width: 100%;
