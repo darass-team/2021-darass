@@ -6,13 +6,13 @@ export const useContentEditable = (initialContent: string) => {
   const [content, _setContent] = useState(initialContent);
 
   const onInput = (event: ChangeEvent<HTMLDivElement>) => {
-    _setContent(event.target.innerText);
+    _setContent(event.target.textContent || "");
     postScrollHeightToParentWindow();
   };
 
   const setContent = (newContent: string) => {
     if ($contentEditable.current) {
-      $contentEditable.current.innerText = newContent;
+      $contentEditable.current.textContent = newContent;
       _setContent(newContent);
     }
   };

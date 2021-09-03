@@ -104,14 +104,14 @@ describe("비로그인 유저 댓글 CRUD 테스트 코드를 작성한다.", ()
         name: /등록/i
       }) as HTMLButtonElement;
 
-      fireEvent.input($commentInputTextArea, { target: { innerText: "댓글 내용" } });
+      fireEvent.input($commentInputTextArea, { target: { textContent: "댓글 내용" } });
       fireEvent.change($guestNickName, { target: { value: "게스트 이름" } });
       fireEvent.change($guestPassword, { target: { value: "게스트 비밀번호" } });
 
       fireEvent.click($submitButton);
 
       await waitFor(() => {
-        expect(($commentInputTextArea as HTMLTextAreaElement).innerText).toBe("");
+        expect(($commentInputTextArea as HTMLTextAreaElement).textContent).toBe("");
         expect(($guestNickName as HTMLInputElement).value).toBe("");
         expect(($guestPassword as HTMLInputElement).value).toBe("");
       });
