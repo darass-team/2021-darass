@@ -14,4 +14,4 @@ export { useCommentPageIndex } from "./useCommentPageIndex";
 export { useDeleteComment } from "./useDeleteComment";
 export { useCommentStatisticsData } from "./useCommentStatisticsData";
 export { useDeleteProject } from "./useDeleteProject";
-export { useScrollFadeIn } from "./useScrollFadeIn";
+export { useScrollFadeInOut } from "./useScrollFadeInOut";

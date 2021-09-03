@@ -1,11 +1,13 @@
+import { PAGE_MAX_WIDTH } from "./../../../styles/constants";
 import styled from "styled-components";
+import CSS from "csstype";
 import { LINE_HEIGHT_SCALE } from "../../../styles/constants";
 import { PALETTE } from "../../../styles/palette";
 import ScreenContainer from "../../../styles/ScreenContainer";
 
-export const SectionContainer = styled(ScreenContainer)`
-  width: 100%;
-  min-height: 100vh;
+export const SectionContainer = styled(ScreenContainer)<{ minHeightVh: number }>`
+  min-height: ${props => props.minHeightVh}vh;
+  overflow-x: hidden;
 `;
 
 export const Container = styled.div`
@@ -37,10 +39,8 @@ export const Button = styled.button`
 `;
 
 export const ScrollDownTrigger = styled.a`
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
+  position: relative;
+  bottom: -7rem;
 
   & > img {
     @keyframes upDown {
@@ -59,10 +59,44 @@ export const ScrollDownTrigger = styled.a`
   }
 `;
 
-export const Text = styled.p<{ color: PALETTE; fontSize: number }>`
+export const Text = styled.p<{ color: PALETTE; fontSize: number; textAlign?: CSS.Property.TextAlign }>`
   font-size: ${props => props.fontSize}rem;
   line-height: ${props => props.fontSize * LINE_HEIGHT_SCALE}rem;
   color: ${props => props.color};
   font-weight: 700;
-  text-align: center;
+  text-align: ${props => props.textAlign || "center"};
+  word-break: break-all;
+`;
+
+export const HighlightText = styled.span<{ color: PALETTE }>`
+  color: ${props => props.color};
+`;
+
+export const Letter = styled.div`
+  display: inline-block;
+`;
+
+export const PhoneImage = styled.img`
+  width: 80rem;
+`;
+
+export const TextContentContainer = styled.div`
+  margin-top: 5rem;
+  & > p {
+    &:not(:last-child) {
+      margin-bottom: 2rem;
+    }
+  }
+`;
+
+export const Companies = styled.div`
+  margin-top: 3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+`;
+
+export const CompanyLogo = styled.img`
+  width: 20rem;
 `;
