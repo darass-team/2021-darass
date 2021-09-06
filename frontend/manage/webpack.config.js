@@ -59,7 +59,8 @@ const config = {
     new DotEnv()
   ],
   resolve: {
-    extensions: [".tsx", ".ts", ".jsx", ".js"]
+    extensions: [".tsx", ".ts", ".jsx", ".js"],
+    alias: { "@": path.resolve(__dirname, "src") }
   },
   devtool: process.env.BUILD_MODE === "development" ? "source-map" : false,
   mode: process.env.BUILD_MODE,

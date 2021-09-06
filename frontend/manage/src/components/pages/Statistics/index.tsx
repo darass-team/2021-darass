@@ -1,13 +1,13 @@
 import moment from "moment";
 import { useEffect, useState } from "react";
 import { useRouteMatch } from "react-router-dom";
-import { PROJECT_MENU } from "../../../constants";
-import { PERIODICITY } from "../../../constants/statistics";
-import { useCalendar, useCommentStatisticsData, useGetProject } from "../../../hooks";
-import ScreenContainer from "../../../styles/ScreenContainer";
-import Modal from "../../atoms/Modal";
-import CommentStatisticsChart from "../../organisms/CommentStatisticsChart";
-import ContainerWithSideBar from "../../organisms/ContainerWithSideBar";
+import { PROJECT_MENU } from "@/constants";
+import { PERIODICITY } from "@/constants/statistics";
+import { useCalendar, useCommentStatisticsData, useGetProject } from "@/hooks";
+import ScreenContainer from "@/styles/ScreenContainer";
+import Modal from "@/components/atoms/Modal";
+import CommentStatisticsChart from "@/components/organisms/CommentStatisticsChart";
+import ContainerWithSideBar from "@/components/organisms/ContainerWithSideBar";
 import {
   ChartArea,
   Container,

@@ -1,10 +1,10 @@
 import axios from "axios";
 import { useMutation, useQueryClient } from "react-query";
-import { REACT_QUERY_KEY } from "../constants";
-import { QUERY } from "../constants/api";
-import { CreateProjectRequest, Project } from "../types/project";
-import { AlertError } from "../utils/error";
-import { request } from "../utils/request";
+import { REACT_QUERY_KEY } from "@/constants";
+import { QUERY } from "@/constants/api";
+import { CreateProjectRequest, Project } from "@/types/project";
+import { AlertError } from "@/utils/error";
+import { request } from "@/utils/request";
 
 const _createProject = async ({ name, description }: CreateProjectRequest) => {
   try {

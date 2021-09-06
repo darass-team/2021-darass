@@ -1,11 +1,11 @@
 import { useHistory } from "react-router";
-import Kakao from "../../../assets/svg/kakao.svg";
-import { ROUTE } from "../../../constants";
-import { useUser } from "../../../hooks";
-import { PALETTE } from "../../../styles/palette";
-import ScreenContainer from "../../../styles/ScreenContainer";
-import { AlertError } from "../../../utils/error";
-import Logo from "../../atoms/Logo";
+import Kakao from "@/assets/svg/kakao.svg";
+import { ROUTE } from "@/constants";
+import { useUser } from "@/hooks";
+import { PALETTE } from "@/styles/palette";
+import ScreenContainer from "@/styles/ScreenContainer";
+import { AlertError } from "@/utils/error";
+import Logo from "@/components/atoms/Logo";
 import { Button, Container, Introduction } from "./styles";
 
 const Login = () => {

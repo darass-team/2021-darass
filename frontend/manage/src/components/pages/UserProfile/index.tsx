@@ -1,10 +1,10 @@
 import { ChangeEvent, FormEventHandler, useEffect, useState } from "react";
-import cameraIcon from "../../../assets/svg/camera.svg";
-import { MAX_PROFILE_IMAGE_SIZE, MAX_USER_NAME_LENGTH } from "../../../constants/validation";
-import { useDeleteUser, useEditUser, useInput, useUser } from "../../../hooks";
-import ScreenContainer from "../../../styles/ScreenContainer";
-import { AlertError } from "../../../utils/error";
-import DeleteSection from "../../molecules/DeleteSection";
+import cameraIcon from "@/assets/svg/camera.svg";
+import { MAX_PROFILE_IMAGE_SIZE, MAX_USER_NAME_LENGTH } from "@/constants/validation";
+import { useDeleteUser, useEditUser, useInput, useUser } from "@/hooks";
+import ScreenContainer from "@/styles/ScreenContainer";
+import { AlertError } from "@/utils/error";
+import DeleteSection from "@/components/molecules/DeleteSection";
 import {
   CameraIcon,
   Container,

@@ -2,14 +2,14 @@ import "@testing-library/jest-dom/extend-expect";
 import { fireEvent, render, waitFor } from "@testing-library/react";
 import { Router } from "react-router-dom";
 import { createMemoryHistory } from "history";
-import { useCreateProject, useGetAllProjects } from "../../hooks";
+import { useCreateProject, useGetAllProjects } from "@/hooks";
 import { myProject, otherProject } from "../fixture/project";
-import { Project } from "../../types/project";
-import { ROUTE } from "../../constants";
-import NewProject from "../../components/pages/NewProject";
+import { Project } from "@/types/project";
+import { ROUTE } from "@/constants";
+import NewProject from "@/components/pages/NewProject";
 
-jest.mock("../../hooks/useCreateProject");
-jest.mock("../../hooks/useGetAllProjects");
+jest.mock("@/hooks/useCreateProject");
+jest.mock("@/hooks/useGetAllProjects");
 
 window.alert = function (str) {
   console.log(str);

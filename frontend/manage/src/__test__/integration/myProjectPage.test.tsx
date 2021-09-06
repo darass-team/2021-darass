@@ -1,13 +1,13 @@
 import "@testing-library/jest-dom/extend-expect";
 import { fireEvent, render, waitFor } from "@testing-library/react";
 import { createMemoryHistory } from "history";
-import { useGetAllProjects, useUser } from "../../hooks";
+import { useGetAllProjects, useUser } from "@/hooks";
 import { myProject, myProject2, myProject3 } from "../fixture/project";
-import { ROUTE } from "../../constants";
+import { ROUTE } from "@/constants";
 import { Router } from "react-router-dom";
-import MyProject from "../../components/pages/MyProject";
+import MyProject from "@/components/pages/MyProject";
 
-jest.mock("../../hooks");
+jest.mock("@/hooks");
 
 describe("myProject 페이지 테스트", () => {
   beforeEach(() => {

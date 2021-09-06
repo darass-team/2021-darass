@@ -1,7 +1,7 @@
 import styled from "styled-components";
-import { LINE_HEIGHT_SCALE } from "../../../styles/constants";
-import { PALETTE } from "../../../styles/palette";
-import { contentBoxCSS, orderedListCSS, titleCSS } from "./../../../styles/css";
+import { LINE_HEIGHT_SCALE } from "@/styles/constants";
+import { PALETTE } from "@/styles/palette";
+import { contentBoxCSS, orderedListCSS, titleCSS } from "@/styles/css";
 
 export const Container = styled.div`
   ${contentBoxCSS}

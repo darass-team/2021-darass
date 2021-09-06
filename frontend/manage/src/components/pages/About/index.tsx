@@ -1,6 +1,6 @@
-import { useScrollFadeInOut } from "../../../hooks";
-import ScreenContainer from "../../../styles/ScreenContainer";
-import Avatar from "../../atoms/Avatar";
+import { useScrollFadeInOut } from "@/hooks";
+import ScreenContainer from "@/styles/ScreenContainer";
+import Avatar from "@/components/atoms/Avatar";
 import {
   Container,
   Detail,

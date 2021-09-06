@@ -1,20 +1,20 @@
+import * as Sentry from "@sentry/react";
 import { Redirect, Route, Switch, useHistory, useLocation } from "react-router-dom";
 import { ConditionalRoute } from "./components/HOC/ConditionalRoute";
 import Nav from "./components/organisms/Nav";
+import About from "./components/pages/About";
+import ErrorPage from "./components/pages/ErrorPage";
 import Home from "./components/pages/Home";
+import { LoadableScriptPublishing, LoadableStatistics } from "./components/pages/Loadable";
 import Login from "./components/pages/Login";
 import Manage from "./components/pages/Manage";
 import MyProject from "./components/pages/MyProject";
 import NewProject from "./components/pages/NewProject";
-import ErrorPage from "./components/pages/ErrorPage";
 import ProjectDetail from "./components/pages/ProjectDetail";
 import UserProfile from "./components/pages/UserProfile";
 import { COOKIE_KEY, ROUTE } from "./constants";
 import { useUser } from "./hooks";
 import { setCookie } from "./utils/cookie";
-import * as Sentry from "@sentry/react";
-import { LoadableScriptPublishing, LoadableStatistics } from "./components/pages/Loadable";
-import About from "./components/pages/About";
 
 const App = () => {
   const location = useLocation();

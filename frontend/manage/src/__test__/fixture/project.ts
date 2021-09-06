@@ -1,4 +1,4 @@
-import { Project } from "../../types/project";
+import { Project } from "@/types/project";
 import { socialLoginUser, socialLoginUser2 } from "./user";
 
 export const myProject: Project = {

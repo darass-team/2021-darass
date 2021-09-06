@@ -1,4 +1,4 @@
-import backButton from "../../../../assets//svg/back-button.svg";
+import backButton from "@/assets/svg/back-button.svg";
 import { Img } from "./styles";
 
 export interface Props {

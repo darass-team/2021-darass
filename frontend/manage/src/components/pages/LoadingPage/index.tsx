@@ -1,5 +1,5 @@
 import { Container, LoadingImg } from "./styles";
-import loadingSVG from "../../../assets/svg/loading.svg";
+import loadingSVG from "@/assets/svg/loading.svg";
 
 const LoadingPage = () => {
   return (

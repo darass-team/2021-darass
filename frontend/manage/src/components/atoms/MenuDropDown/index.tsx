@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
-import arrowDown from "../../../assets/svg/arrow-down.svg";
-import { ROUTE } from "../../../constants";
-import { MenuType } from "../../../types/menu";
+import arrowDown from "@/assets/svg/arrow-down.svg";
+import { ROUTE } from "@/constants";
+import { MenuType } from "@/types/menu";
 import { Container, MainTitle } from "./styles";
 
 export interface Props extends MenuType {

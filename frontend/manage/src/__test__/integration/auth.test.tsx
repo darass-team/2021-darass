@@ -2,14 +2,14 @@ import "@testing-library/jest-dom/extend-expect";
 import { fireEvent, render } from "@testing-library/react";
 import { createMemoryHistory } from "history";
 import { Router } from "react-router-dom";
-import DesktopNav from "../../components/organisms/DesktopNav";
-import Login from "../../components/pages/Login";
-import { PROJECT_MENU } from "../../constants";
-import { useUser } from "../../hooks";
-import { User } from "../../types/user";
+import DesktopNav from "@/components/organisms/Nav/DesktopNav";
+import Login from "@/components/pages/Login";
+import { PROJECT_MENU } from "@/constants";
+import { useUser } from "@/hooks";
+import { User } from "@/types/user";
 import { socialLoginUser2 } from "../fixture/user";
 
-jest.mock("../../hooks/useUser");
+jest.mock("@/hooks/useUser");
 
 describe("login/logout test", () => {
   test("카카오 로그인 버튼을 누르면, 유저 상태가 undefined가 아니다.", () => {

@@ -1,7 +1,7 @@
 import { Link, NavLink } from "react-router-dom";
 import styled from "styled-components";
-import { LINE_HEIGHT_SCALE, NAVIGATION_HEIGHT, PAGE_MAX_WIDTH, Z_INDEX } from "../../../styles/constants";
-import { PALETTE } from "../../../styles/palette";
+import { LINE_HEIGHT_SCALE, NAVIGATION_HEIGHT, PAGE_MAX_WIDTH, Z_INDEX } from "@/styles/constants";
+import { PALETTE } from "@/styles/palette";
 
 export const Container = styled.nav`
   position: relative;

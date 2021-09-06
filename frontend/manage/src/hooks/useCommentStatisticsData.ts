@@ -1,10 +1,10 @@
-import { AlertError } from "./../utils/error";
-import { COMMENT_STATISTICS, GetCommentStatisticsRequest } from "./../types/statistics";
+import { AlertError } from "@/utils/error";
+import { COMMENT_STATISTICS, GetCommentStatisticsRequest } from "@/types/statistics";
 import { useQuery } from "react-query";
-import { PERIODICITY } from "./../constants/statistics";
-import { QUERY, REACT_QUERY_KEY } from "../constants";
+import { PERIODICITY } from "@/constants/statistics";
+import { QUERY, REACT_QUERY_KEY } from "@/constants";
 import axios from "axios";
-import { request } from "../utils/request";
+import { request } from "@/utils/request";
 import { useMemo } from "react";
 
 const getCommentStatistics = async ({ periodicity, projectKey, startDate, endDate }: GetCommentStatisticsRequest) => {

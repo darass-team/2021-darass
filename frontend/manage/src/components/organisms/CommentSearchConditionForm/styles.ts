@@ -1,9 +1,9 @@
 import styled from "styled-components";
-import { Z_INDEX } from "../../../styles/constants";
-import { inputCSS } from "../../../styles/css";
-import { PALETTE } from "../../../styles/palette";
-import SubmitButton from "../../atoms/Buttons/SubmitButton";
-import CalendarComponent from "../../molecules/Calendar";
+import { Z_INDEX } from "@/styles/constants";
+import { inputCSS } from "@/styles/css";
+import { PALETTE } from "@/styles/palette";
+import SubmitButton from "@/components/atoms/Buttons/SubmitButton";
+import CalendarComponent from "@/components/molecules/Calendar";
 
 export const Container = styled.form`
   display: flex;

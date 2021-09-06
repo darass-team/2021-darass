@@ -1,25 +1,24 @@
+import { Link } from "react-router-dom";
+import { ROUTE } from "@/constants";
+import { useUser } from "@/hooks";
+import { PALETTE } from "@/styles/palette";
+import { MenuType } from "@/types/menu";
+import { AlertError } from "@/utils/error";
+import kakaoTalkIcon from "@/assets/png/kakaotalk.png";
+import Avatar from "@/components/atoms/Avatar";
+import Logo from "@/components/atoms/Logo";
+import UserAvatarOption from "@/components/molecules/UserAvatarOption";
 import {
   Container,
-  Wrapper,
+  LoginMethod,
+  LoginMethodWrapper,
+  LogoLink,
+  Menu,
   MenuLink,
   Title,
-  Menu,
-  LogoLink,
   UserAvatarOptionWrapper,
-  LoginMethodWrapper,
-  LoginMethod
+  Wrapper
 } from "./styles";
-import { User } from "../../../types/user";
-import { ROUTE } from "../../../constants";
-import Logo from "../../atoms/Logo";
-import UserAvatarOption from "../../molecules/UserAvatarOption";
-import { Link } from "react-router-dom";
-import { PALETTE } from "../../../styles/palette";
-import { MenuType } from "../../../types/menu";
-import Avatar from "../../atoms/Avatar";
-import kakaoTalkIcon from "../../../assets/png/kakaotalk.png";
-import { useUser } from "../../../hooks";
-import { AlertError } from "../../../utils/error";
 
 export interface Props {
   menuList: MenuType[];

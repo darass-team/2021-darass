@@ -1,10 +1,10 @@
+import { REACT_QUERY_KEY } from "@/constants";
+import { QUERY } from "@/constants/api";
+import { Project } from "@/types/project";
+import { AlertError } from "@/utils/error";
+import { request } from "@/utils/request";
 import axios from "axios";
 import { useQuery } from "react-query";
-import { REACT_QUERY_KEY, ROUTE } from "../constants";
-import { QUERY } from "../constants/api";
-import { Project } from "../types/project";
-import { AlertError } from "../utils/error";
-import { request } from "../utils/request";
 
 const getAllProjects = async () => {
   try {

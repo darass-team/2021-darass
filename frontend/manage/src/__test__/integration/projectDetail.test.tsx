@@ -2,15 +2,15 @@ import "@testing-library/jest-dom/extend-expect";
 import { fireEvent, render, waitFor } from "@testing-library/react";
 import { createMemoryHistory } from "history";
 import { Router } from "react-router-dom";
-import ProjectDetail from "../../components/pages/ProjectDetail";
-import { ROUTE } from "../../constants";
-import { useDeleteProject, useEditProject, useGetProject } from "../../hooks";
-import { EditProjectRequest } from "../../types/project";
+import ProjectDetail from "@/components/pages/ProjectDetail";
+import { ROUTE } from "@/constants";
+import { useDeleteProject, useEditProject, useGetProject } from "@/hooks";
+import { EditProjectRequest } from "@/types/project";
 import { myProject } from "../fixture/project";
 
-jest.mock("../../hooks/useEditProject");
-jest.mock("../../hooks/useGetProject");
-jest.mock("../../hooks/useDeleteProject");
+jest.mock("@/hooks/useEditProject");
+jest.mock("@/hooks/useGetProject");
+jest.mock("@/hooks/useDeleteProject");
 
 window.alert = function (str) {
   console.log(str);

@@ -1,9 +1,9 @@
 import { useHistory } from "react-router-dom";
-import { ROUTE } from "../../../constants";
-import { useScrollFadeInOut } from "../../../hooks";
-import { PALETTE } from "../../../styles/palette";
-import ScreenContainer from "../../../styles/ScreenContainer";
-import Logo from "../../atoms/Logo";
+import { ROUTE } from "@/constants";
+import { useScrollFadeInOut } from "@/hooks";
+import { PALETTE } from "@/styles/palette";
+import ScreenContainer from "@/styles/ScreenContainer";
+import Logo from "@/components/atoms/Logo";
 import {
   Button,
   Container,
@@ -18,9 +18,9 @@ import {
   CompanyLogo,
   TextContentContainer
 } from "./styles";
-import scrollDownButton from "../../../assets/svg/scroll-down.svg";
-import phoneImage from "../../../assets/png/phone.png";
-import wooteco from "../../../assets/png/wooteco.png";
+import scrollDownButton from "@/assets/svg/scroll-down.svg";
+import phoneImage from "@/assets/png/phone.png";
+import wooteco from "@/assets/png/wooteco.png";
 
 const Home = () => {
   const history = useHistory();

@@ -1,11 +1,11 @@
 import "@testing-library/jest-dom/extend-expect";
 import { fireEvent, render } from "@testing-library/react";
 import { Router } from "react-router-dom";
-import { useGetProject } from "../../hooks";
+import { useGetProject } from "@/hooks";
 import { myProject3 } from "../fixture/project";
 import { socialLoginUser2 } from "../fixture/user";
 import { createMemoryHistory } from "history";
-import ScriptPublishing from "../../components/pages/ScriptPublishing";
+import ScriptPublishing from "@/components/pages/ScriptPublishing";
 
 jest.mock("react-router-dom", () => {
   return {
@@ -19,7 +19,7 @@ jest.mock("react-router-dom", () => {
     }
   };
 });
-jest.mock("../../hooks/useGetProject");
+jest.mock("@/hooks/useGetProject");
 
 describe("스크립트 코드 페이지 테스트", () => {
   beforeEach(() => {

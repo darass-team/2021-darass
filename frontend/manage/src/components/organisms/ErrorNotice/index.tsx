@@ -1,5 +1,5 @@
 import { Container, TextArea, Img } from "./styles";
-import logo from "../../../assets/svg/logo.svg";
+import logo from "@/assets/svg/logo.svg";
 
 export interface Props {
   children: string;

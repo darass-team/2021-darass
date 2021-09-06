@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { contentBoxCSS, inputCSS, labelCSS, titleCSS } from "../../../styles/css";
-import SubmitButtonComponent from "../../atoms/Buttons/SubmitButton";
+import SubmitButtonComponent from "@/components/atoms/Buttons/SubmitButton";
 
 export const Container = styled.div`
   ${contentBoxCSS}

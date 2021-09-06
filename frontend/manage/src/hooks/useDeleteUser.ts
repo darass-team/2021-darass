@@ -1,9 +1,9 @@
+import { QUERY, REACT_QUERY_KEY } from "@/constants";
+import { User } from "@/types/user";
+import { AlertError } from "@/utils/error";
+import { request } from "@/utils/request";
 import axios from "axios";
 import { useMutation, useQueryClient } from "react-query";
-import { QUERY, REACT_QUERY_KEY } from "../constants";
-import { User } from "../types/user";
-import { AlertError } from "../utils/error";
-import { request } from "../utils/request";
 
 const _deleteUser = async () => {
   try {

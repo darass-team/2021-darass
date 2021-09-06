@@ -1,6 +1,6 @@
+import { BASE_URL } from "@/constants/api";
+import { COOKIE_KEY } from "@/constants/cookie";
 import axios, { AxiosResponse } from "axios";
-import { BASE_URL } from "../constants/api";
-import { COOKIE_KEY } from "../constants/cookie";
 import { getCookie } from "./cookie";
 
 const customAxios = axios.create({

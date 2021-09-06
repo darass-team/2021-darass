@@ -1,9 +1,9 @@
 import styled from "styled-components";
-import { Z_INDEX } from "../../../styles/constants";
-import { contentBoxCSS, titleCSS } from "../../../styles/css";
-import { PALETTE } from "../../../styles/palette";
-import TooltipComponent from "../../atoms/Tooltip";
-import CalendarComponent from "../../molecules/Calendar";
+import { Z_INDEX } from "@/styles/constants";
+import { contentBoxCSS, titleCSS } from "@/styles/css";
+import { PALETTE } from "@/styles/palette";
+import TooltipComponent from "@/components/atoms/Tooltip";
+import CalendarComponent from "@/components/molecules/Calendar";
 
 export const Container = styled.div`
   ${contentBoxCSS}

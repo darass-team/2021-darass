@@ -1,4 +1,4 @@
-import { Comment } from "../../types/comment";
+import { Comment } from "@/types/comment";
 import { guestUser, socialLoginUser, socialLoginUser2 } from "./user";
 
 export const comments: Comment[] = [

@@ -1,10 +1,10 @@
 import { useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import { ROUTE } from "../../../constants";
-import { useGetAllProjects, useUser } from "../../../hooks";
-import ScreenContainer from "../../../styles/ScreenContainer";
-import { AlertError } from "../../../utils/error";
-import ProjectButton from "../../atoms/Buttons/ProjectButton";
+import { ROUTE } from "@/constants";
+import { useGetAllProjects, useUser } from "@/hooks";
+import ScreenContainer from "@/styles/ScreenContainer";
+import { AlertError } from "@/utils/error";
+import ProjectButton from "@/components/atoms/Buttons/ProjectButton";
 import { LoadableScriptPublishing, LoadableStatistics } from "../Loadable";
 import { AddProjectButton, ButtonWrapper, Container, Message } from "./styles";
 

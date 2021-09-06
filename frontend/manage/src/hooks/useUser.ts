@@ -1,11 +1,11 @@
+import { COOKIE_KEY, QUERY, REACT_QUERY_KEY } from "@/constants";
+import { User } from "@/types/user";
+import { deleteCookie, setCookie } from "@/utils/cookie";
+import { AlertError } from "@/utils/error";
+import { getKakaoAccessToken } from "@/utils/kakaoAPI";
+import { request } from "@/utils/request";
 import axios from "axios";
 import { useQuery, useQueryClient } from "react-query";
-import { COOKIE_KEY, QUERY, REACT_QUERY_KEY } from "../constants";
-import { User } from "../types/user";
-import { deleteCookie, setCookie } from "../utils/cookie";
-import { AlertError } from "../utils/error";
-import { getKakaoAccessToken } from "../utils/kakaoAPI";
-import { request } from "../utils/request";
 
 const getUser = async () => {
   try {

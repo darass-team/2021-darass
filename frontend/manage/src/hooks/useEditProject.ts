@@ -1,10 +1,10 @@
+import { QUERY } from "@/constants";
+import { REACT_QUERY_KEY } from "@/constants/reactQueryKey";
+import { EditProjectRequest, Project } from "@/types/project";
+import { AlertError } from "@/utils/error";
+import { request } from "@/utils/request";
 import axios from "axios";
 import { useMutation, useQueryClient } from "react-query";
-import { QUERY } from "../constants";
-import { REACT_QUERY_KEY } from "../constants/reactQueryKey";
-import { EditProjectRequest, Project } from "../types/project";
-import { AlertError } from "../utils/error";
-import { request } from "../utils/request";
 
 const _editProject = async ({ id, name, description }: EditProjectRequest) => {
   try {
