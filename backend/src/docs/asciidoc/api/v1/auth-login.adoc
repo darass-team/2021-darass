@@ -25,7 +25,7 @@ include::{snippets}/api/v1/login-refresh/post/success/http-request.adoc[]
 include::{snippets}/api/v1/login-refresh/post/success/http-response.adoc[]
 include::{snippets}/api/v1/login-refresh/post/success/response-fields.adoc[]
 
-==== Response (실패 - 리프레시 토큰의 인증이 실패하는 경우)
-
-include::{snippets}/api/v1/login-refresh/post/fail/http-response.adoc[]
-include::{snippets}/api/v1/login-refresh/post/fail/response-fields.adoc[]
+//==== Response (실패 - 리프레시 토큰의 인증이 실패하는 경우)
+//
+//include::{snippets}/api/v1/login-refresh/post/fail/http-response.adoc[]
+//include::{snippets}/api/v1/login-refresh/post/fail/response-fields.adoc[]

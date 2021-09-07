@@ -178,9 +178,9 @@ jacocoTestCoverageVerification {
             excludes = [
                     // '*.test.*',
                     '*.Kotlin*',
-                    'com.darass.darass.DarassApplication'
+                    'com.darass.darass.DarassApplication',
+                    'com.darass.darass.common.LoggingAspect'
             ]
-
         }
     }
 }
