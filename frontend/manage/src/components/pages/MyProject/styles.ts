@@ -22,8 +22,10 @@ export const AddProjectButton = styled.button`
   align-self: flex-end;
   transition: background-color 0.3s;
 
-  &:hover {
-    background-color: ${PALETTE.SECONDARY_HOVER};
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      background-color: ${PALETTE.SECONDARY_HOVER};
+    }
   }
 `;
 

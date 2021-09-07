@@ -30,9 +30,11 @@ export const MoveMonthButton = styled.button.attrs({ type: "button" })`
   width: 2rem;
   user-select: none;
 
-  &:hover {
-    color: ${PALETTE.BLACK_900};
-    font-size: 2.1rem;
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      color: ${PALETTE.BLACK_900};
+      font-size: 2.1rem;
+    }
   }
 
   &:last-child {

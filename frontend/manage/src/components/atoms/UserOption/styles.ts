@@ -38,7 +38,11 @@ export const OptionContainer = styled.div`
     transition: background-color 0.1s;
   }
 
-  & > *:hover {
-    background-color: ${PALETTE.GRAY_400};
+  & > * {
+    @media (hover: hover) and (pointer: fine) {
+      &:hover {
+        background-color: ${PALETTE.GRAY_400};
+      }
+    }
   }
 `;

@@ -74,9 +74,10 @@ export const SortButton = styled.button.attrs({ type: "button" })<{ isSelected: 
   &:not(:first-child) {
     border-left: none;
   }
-
-  &:hover {
-    background-color: ${PALETTE.GRAY_500};
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      background-color: ${PALETTE.GRAY_500};
+    }
   }
 
   @media all and (max-width: 450px) {

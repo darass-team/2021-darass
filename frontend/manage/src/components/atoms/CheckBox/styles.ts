@@ -22,8 +22,10 @@ export const Input = styled.input<{ hasLabelText: boolean }>`
   margin-right: ${({ hasLabelText }) => (hasLabelText ? 1 : 0)}rem;
   border-radius: 0.5rem;
 
-  &:hover {
-    background-color: ${PALETTE.GRAY_500};
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      background-color: ${PALETTE.GRAY_500};
+    }
   }
 
   &:checked {

@@ -49,8 +49,10 @@ export const MenuLink = styled(NavLink)`
   font-weight: 600;
   transition: border 0.1s;
 
-  &:hover {
-    border-bottom: 5px solid ${PALETTE.PRIMARY};
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      border-bottom: 5px solid ${PALETTE.PRIMARY};
+    }
   }
 `;
 

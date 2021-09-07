@@ -68,8 +68,10 @@ export const Menu = styled(NavLink)`
   transition: all 0.1s;
   width: 100%;
 
-  &:hover {
-    background-color: ${PALETTE.SECONDARY};
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      background-color: ${PALETTE.SECONDARY};
+    }
   }
 
   & + & {

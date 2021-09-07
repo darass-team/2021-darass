@@ -15,8 +15,10 @@ export const Button = styled.button`
   word-break: break-all;
   text-align: left;
 
-  &:hover {
-    background-color: ${PALETTE.WHITE_HOVER};
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      background-color: ${PALETTE.WHITE_HOVER};
+    }
   }
 `;
 
