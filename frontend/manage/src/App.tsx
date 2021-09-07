@@ -1,33 +1,24 @@
-import { Redirect, Route, Switch, useHistory, useLocation } from "react-router-dom";
+import * as Sentry from "@sentry/react";
+import { Redirect, Route, Switch } from "react-router-dom";
 import { ConditionalRoute } from "./components/HOC/ConditionalRoute";
 import Nav from "./components/organisms/Nav";
+import ErrorPage from "./components/pages/ErrorPage";
 import Home from "./components/pages/Home";
+import { LoadableScriptPublishing, LoadableStatistics } from "./components/pages/Loadable";
 import Login from "./components/pages/Login";
 import Manage from "./components/pages/Manage";
 import MyProject from "./components/pages/MyProject";
 import NewProject from "./components/pages/NewProject";
-import ErrorPage from "./components/pages/ErrorPage";
+import OAuth from "./components/pages/OAuth";
 import ProjectDetail from "./components/pages/ProjectDetail";
 import UserProfile from "./components/pages/UserProfile";
-import { COOKIE_KEY, ROUTE } from "./constants";
+import { ROUTE } from "./constants";
 import { useUser } from "./hooks";
-import { setCookie } from "./utils/cookie";
-import * as Sentry from "@sentry/react";
-import { LoadableScriptPublishing, LoadableStatistics } from "./components/pages/Loadable";
-import OAuth from "./components/pages/OAuth";
 
 const App = () => {
-  const location = useLocation();
-  const history = useHistory();
-  const path = location.pathname;
-  const urlSearchParam = new URLSearchParams(location.search);
-  const accessToken = urlSearchParam.get(COOKIE_KEY.ATK);
   const { user, isLoading } = useUser();
 
-  if (accessToken) {
-    setCookie(COOKIE_KEY.ATK, accessToken);
-    history.push(path);
-  }
+  console.log(user);
 
   return (
     <>

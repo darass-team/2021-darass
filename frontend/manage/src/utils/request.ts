@@ -1,21 +1,21 @@
 import axios, { AxiosResponse } from "axios";
 import { BASE_URL } from "../constants/api";
-import { COOKIE_KEY } from "../constants/cookie";
-import { getCookie } from "./cookie";
+// import { COOKIE_KEY } from "../constants/cookie";
+// import { getCookie } from "./cookie";
 
-const customAxios = axios.create({
+export const customAxios = axios.create({
   baseURL: BASE_URL
 });
 
-customAxios.interceptors.request.use(config => {
-  const accessToken = getCookie(COOKIE_KEY.ATK);
+// customAxios.interceptors.request.use(config => {
+//   const accessToken = getCookie(COOKIE_KEY.ATK);
 
-  if (accessToken) {
-    config.headers.Authorization = `Bearer ${accessToken}`;
-  }
+//   if (accessToken) {
+//     config.headers.Authorization = `Bearer ${accessToken}`;
+//   }
 
-  return config;
-});
+//   return config;
+// });
 
 const request = {
   get: async (query: string) => await customAxios.get(query),

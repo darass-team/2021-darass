@@ -1,10 +1,11 @@
+import * as Sentry from "@sentry/react";
+import { Integrations } from "@sentry/tracing";
 import ReactDOM from "react-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { BrowserRouter } from "react-router-dom";
 import App from "./App";
 import GlobalStyles from "./styles/GlobalStyles";
-import * as Sentry from "@sentry/react";
-import { Integrations } from "@sentry/tracing";
+import AccessTokenProvider from "./contexts/AccessTokenProvider";
 
 Sentry.init({
   dsn: process.env.SENTRY_MANAGE_PAGE_DSN,
@@ -23,10 +24,12 @@ const queryClient = new QueryClient({
 
 ReactDOM.render(
   <QueryClientProvider client={queryClient}>
-    <GlobalStyles />
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
+    <AccessTokenProvider>
+      <GlobalStyles />
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </AccessTokenProvider>
   </QueryClientProvider>,
   document.getElementById("root")
 );

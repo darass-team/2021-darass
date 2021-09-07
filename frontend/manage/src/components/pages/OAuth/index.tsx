@@ -1,14 +1,22 @@
+import { useContext, useEffect } from "react";
+import { useQueryClient } from "react-query";
 import { useLocation, useParams } from "react-router";
-import { QUERY } from "../../../constants";
+import { QUERY, REACT_QUERY_KEY } from "../../../constants";
+import { accessTokenContext } from "../../../contexts/AccessTokenProvider";
+import { useUser } from "../../../hooks";
 import { request } from "../../../utils/request";
 
 const OAuth = () => {
   const location = useLocation();
+  const { login } = useUser();
   const { provider } = useParams<{ provider: string }>();
   const urlSearchParams = new URLSearchParams(location.search);
   const code = urlSearchParams.get("code");
+  const { accessToken, setAccessToken } = useContext(accessTokenContext);
 
-  if (code) {
+  useEffect(() => {
+    if (!code) return;
+
     (async () => {
       try {
         const response = await request.post(QUERY.LOGIN, {
@@ -17,14 +25,17 @@ const OAuth = () => {
         });
 
         const accessToken = response.data.accessToken;
-        console.log(accessToken);
 
-        // Context API 저장
+        setAccessToken(accessToken);
       } catch (error) {
-        console.error("실패", error);
+        setAccessToken(null);
       }
     })();
-  }
+  }, [code]);
+
+  useEffect(() => {
+    login();
+  }, [accessToken]);
 
   return null;
 };

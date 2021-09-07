@@ -1,10 +1,11 @@
 import axios from "axios";
+import { useContext } from "react";
 import { useQuery, useQueryClient } from "react-query";
-import { COOKIE_KEY, QUERY, REACT_QUERY_KEY } from "../constants";
+import { useHistory } from "react-router-dom";
+import { QUERY, REACT_QUERY_KEY, ROUTE } from "../constants";
+import { accessTokenContext } from "../contexts/AccessTokenProvider";
 import { User } from "../types/user";
-import { deleteCookie, setCookie } from "../utils/cookie";
 import { AlertError } from "../utils/error";
-import { getKakaoAccessToken } from "../utils/kakaoAPI";
 import { request } from "../utils/request";
 
 const getUser = async () => {
@@ -32,11 +33,14 @@ const getUser = async () => {
 
 export const useUser = () => {
   const queryClient = useQueryClient();
+  const history = useHistory();
+  const { setAccessToken } = useContext(accessTokenContext);
 
   const {
     data: user,
     isLoading,
-    error
+    error,
+    refetch
   } = useQuery<User, Error>(REACT_QUERY_KEY.USER, getUser, {
     retry: false,
     refetchOnWindowFocus: false
@@ -44,17 +48,10 @@ export const useUser = () => {
 
   const login = async () => {
     try {
-      const kakaoAccessToken = await getKakaoAccessToken();
-      const response = await request.post(QUERY.LOGIN, {
-        oauthProviderName: "kakao",
-        oauthAccessToken: kakaoAccessToken
-      });
+      await queryClient.invalidateQueries(REACT_QUERY_KEY.USER);
+      await refetch();
 
-      const { accessToken: serverAccessToken } = response.data;
-
-      setCookie(COOKIE_KEY.ATK, serverAccessToken);
-
-      queryClient.invalidateQueries(REACT_QUERY_KEY.USER);
+      history.push(ROUTE.MY_PROJECT);
     } catch (error) {
       if (!axios.isAxiosError(error)) {
         throw new Error("알 수 없는 에러입니다.");
@@ -64,8 +61,9 @@ export const useUser = () => {
     }
   };
 
+  // TODO: Logout api 필요
   const logout = () => {
-    deleteCookie(COOKIE_KEY.ATK);
+    setAccessToken(null);
 
     queryClient.setQueryData<User | undefined>(REACT_QUERY_KEY.USER, () => {
       return undefined;
