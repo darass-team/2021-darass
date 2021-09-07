@@ -30,13 +30,13 @@ const Login = () => {
 
   const moveGithubOAuthURL = () => {
     window.location.replace(
-      `${OAUTH_ENDPOINT.GITHUB}?client_id=${process.env.GITHUB_CLIENT_ID}&redirect_uri=http://localhost:3001${ROUTE.OAUTH}/github`
+      `${OAUTH_ENDPOINT.GITHUB}?client_id=${process.env.GITHUB_CLIENT_ID}&redirect_uri=http://localhost:3001/oauth/github`
     );
   };
 
   const moveKakaoOAuthURL = () => {
     window.location.replace(
-      `${OAUTH_ENDPOINT.KAKAO}?response_type=code&client_id=${process.env.KAKAO_REST_API_KEY}&redirect_uri=http://localhost:3001${ROUTE.OAUTH}/kakao`
+      `${OAUTH_ENDPOINT.KAKAO}?response_type=code&client_id=${process.env.KAKAO_REST_API_KEY}&redirect_uri=http://localhost:3001/oauth/kakao`
     );
   };
 

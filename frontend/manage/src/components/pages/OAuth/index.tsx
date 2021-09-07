@@ -1,20 +1,18 @@
-import { useLocation } from "react-router";
+import { useLocation, useParams } from "react-router";
 import { QUERY } from "../../../constants";
 import { request } from "../../../utils/request";
 
 const OAuth = () => {
   const location = useLocation();
+  const { provider } = useParams<{ provider: string }>();
   const urlSearchParams = new URLSearchParams(location.search);
   const code = urlSearchParams.get("code");
-  const oauthProviderName = location.pathname; // => /auth/github
-
-  console.log(oauthProviderName);
 
   if (code) {
     (async () => {
       try {
         const response = await request.post(QUERY.LOGIN, {
-          oauthProviderName,
+          oauthProviderName: provider,
           authorizationCode: code
         });
 

@@ -1,6 +1,6 @@
 const ROUTE = {
   HOME: "/",
-  OAUTH: "/oauth",
+  OAUTH: "/oauth/:provider",
   LOGIN: "/login",
   ABOUT: "/about",
   NOTICE: "/notice",
