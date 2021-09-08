@@ -23,6 +23,7 @@ import phoneSmall from "@/assets/png/phone_small.png";
 import homeBackgroundImage from "@/assets/png/home_background_image.png";
 import homeBackgroundImage2 from "@/assets/png/home_background_image2.png";
 import wooteco from "@/assets/png/wooteco.png";
+import TypingText from "@/components/atoms/TypingText";
 
 const Home = () => {
   const history = useHistory();
@@ -45,8 +46,8 @@ const Home = () => {
       phoneSmall: useScrollFadeInOut({ direction: "left", duration: 1, delay: 0, threshold: 0.1, fadeType: "both" }),
       letter: {
         다: useScrollFadeInOut({ direction: "right", duration: 1, delay: 0, threshold: 0.1, fadeType: "both" }),
-        라: useScrollFadeInOut({ direction: "up", duration: 1, delay: 0, threshold: 0.1, fadeType: "both" }),
-        쓰: useScrollFadeInOut({ direction: "left", duration: 1, delay: 0, threshold: 0.1, fadeType: "both" })
+        라: useScrollFadeInOut({ direction: "up", duration: 1, delay: 0.2, threshold: 0.1, fadeType: "both" }),
+        쓰: useScrollFadeInOut({ direction: "left", duration: 1, delay: 0.4, threshold: 0.1, fadeType: "both" })
       },
       texts: {
         check1: useScrollFadeInOut({ direction: "right", duration: 1, delay: 0, threshold: 0.1 }),
@@ -59,7 +60,12 @@ const Home = () => {
     },
     section3: {
       text: useScrollFadeInOut({ direction: "up", duration: 1, delay: 0, threshold: 0.1 }),
-      companies: useScrollFadeInOut({ direction: "up", duration: 1, delay: 0.5, threshold: 0.1 })
+      companies: useScrollFadeInOut({ direction: "up", duration: 1, delay: 0.5, threshold: 0.1 }),
+      startButton: useScrollFadeInOut({
+        direction: "up",
+        duration: 1,
+        delay: 0.6
+      })
     }
   };
 
@@ -81,7 +87,16 @@ const Home = () => {
           <MainText {...animation.section1.introductionText}>
             댓글의 모든것,
             <br />
-            다라쓰에서 쉽고 간편하게
+            <HighlightText color={PALETTE.PRIMARY}>다라쓰</HighlightText>에서 쉽고 간편하게
+            <br />
+            <br />
+            <>
+              <TypingText texts={["내 블로그에", "회사 홈페이지에", "내 쇼핑몰에"]} />
+              <>
+                {" "}
+                댓글을 <HighlightText color={PALETTE.PRIMARY}>다라쓰</HighlightText>
+              </>
+            </>
           </MainText>
 
           <Button type="button" onClick={moveLoginPage} {...animation.section1.startButton}>
@@ -140,9 +155,9 @@ const Home = () => {
         </Container>
       </SectionContainer>
 
-      <SectionContainer id="section4" minHeightVh={50} bgColor={PALETTE.PRIMARY}>
+      <SectionContainer id="section4" minHeightVh={50} bgColor={PALETTE.WHITE}>
         <Container>
-          <Text color={PALETTE.WHITE} fontSize={3} textAlign="center" {...animation.section3.text}>
+          <Text color={PALETTE.BLACK_700} fontSize={3} textAlign="center" {...animation.section3.text}>
             현재 사용중인 기업들
           </Text>
 
@@ -151,6 +166,10 @@ const Home = () => {
               return <CompanyLogo key={alt} src={src} alt={alt} />;
             })}
           </Companies>
+
+          <Button type="button" onClick={moveLoginPage} {...animation.section3.startButton}>
+            Get Started
+          </Button>
         </Container>
       </SectionContainer>
     </>
