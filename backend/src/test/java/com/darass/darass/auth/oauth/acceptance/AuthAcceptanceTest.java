@@ -265,6 +265,8 @@ class AuthAcceptanceTest extends AcceptanceTest {
     }
 
     private void 로그아웃_rest_doc_작성(ResultActions resultActions) throws Exception {
-        // TODO:
+        resultActions.andDo(
+            document("api/v1/log-out/post/success")
+        );
     }
 }
