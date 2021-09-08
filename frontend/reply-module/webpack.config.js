@@ -2,6 +2,7 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const path = require("path");
 const DotEnv = require("dotenv-webpack");
+const { DefinePlugin } = require("webpack");
 const Package = require("./package.json");
 
 const config = {

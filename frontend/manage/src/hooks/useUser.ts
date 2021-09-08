@@ -22,6 +22,11 @@ const getUser = async () => {
     }
 
     if (error.response?.data.code === 800) {
+      try {
+        const response = await request.post(QUERY.LOGIN_REFRESH, {});
+
+        console.log(response.data);
+      } catch (error) {}
       throw new Error("로그인이 필요합니다.");
     }
 
