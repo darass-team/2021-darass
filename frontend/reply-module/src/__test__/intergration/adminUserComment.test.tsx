@@ -8,6 +8,7 @@ import { Comment } from "../../types";
 import { comments as _comments } from "../fixture/comments";
 import { myProject } from "../fixture/project";
 import { socialLoginUser } from "../fixture/user";
+import { getTotalCommentsCount } from "../util/getTotalCommentsCount";
 
 jest.mock("../../hooks/useEditComment");
 jest.mock("../../hooks/useDeleteComment");
@@ -84,10 +85,11 @@ describe("관리자 유저일 때의 동작 테스트", () => {
       expect(commentList.getAllByAltText("댓글 옵션").length).toEqual(allCommentOptions.length - 1);
     });
   });
-  test("관리자 유저인 경우, 회원 유저의 댓글을 삭제할 수 있다.", async () => {
+  test("관리자 유저인 경우, 모든 유저의 댓글을 삭제할 수 있다.", async () => {
     const user = socialLoginUser;
     const project = myProject;
-    const socialLoginedComments = _comments.filter(comment => comment.user.type === "SocialLoginUser");
+    const comments = JSON.parse(JSON.stringify(_comments));
+    const totalCommentsCount = getTotalCommentsCount(comments);
     const iAmAdmin = user.id === project.userId;
     expect(iAmAdmin).toBeTruthy();
 
@@ -97,14 +99,14 @@ describe("관리자 유저일 때의 동작 테스트", () => {
         isLoading={false}
         user={user}
         project={project}
-        comments={socialLoginedComments}
+        comments={comments}
         notice={""}
         sortOption={"oldest"}
         onSelectSortOption={() => {}}
       />
     );
     const allCommentOptions = commentList.getAllByAltText("댓글 옵션");
-    expect(allCommentOptions.length).toEqual(socialLoginedComments.length);
+    expect(allCommentOptions.length).toEqual(totalCommentsCount);
 
     const firstCommentOption = allCommentOptions[0];
     fireEvent.click(firstCommentOption);
@@ -173,33 +175,40 @@ describe("관리자 유저일 때의 동작 테스트", () => {
 
     expect(commentList.queryByTestId("comment-option-edit-button")).toBeFalsy();
   });
-  test("관라자 유저인 경우, 관리자가 작성한 댓글 수정할 수 있다.", () => {
+  test("관라자 유저인 경우, 관리자가 작성한 댓글만 수정할 수 있다.", () => {
     const user = socialLoginUser;
     const project = myProject;
-    const socialLoginedCommentsWrittenByMe = _comments.filter(
-      comment => comment.user.type === "SocialLoginUser" && comment.user.id === user.id
+    const comments = JSON.parse(JSON.stringify(_comments)) as Comment[];
+    const indexOfFirstsocialLoginedCommentWrittenByMe = comments.findIndex(
+      comment => comment.user.nickName === user.nickName
     );
+    const indexOfFirstCommentNotWrittenByMe = comments.findIndex(comment => comment.user.nickName !== user.nickName);
+
     const iAmAdmin = user.id === project.userId;
     expect(iAmAdmin).toBeTruthy();
 
     const commentList = render(
       <CommentList
-        totalCommentsCount={_comments.length}
+        totalCommentsCount={comments.length}
         isLoading={false}
         user={user}
         project={project}
-        comments={socialLoginedCommentsWrittenByMe}
+        comments={comments}
         notice={""}
         sortOption={"oldest"}
         onSelectSortOption={() => {}}
       />
     );
     const allCommentOptions = commentList.getAllByAltText("댓글 옵션");
-    expect(allCommentOptions.length).toEqual(socialLoginedCommentsWrittenByMe.length);
 
-    const firstCommentOption = allCommentOptions[0];
-    fireEvent.click(firstCommentOption);
+    const firstCommentWrittenByMeOption = allCommentOptions[indexOfFirstsocialLoginedCommentWrittenByMe];
+    fireEvent.click(firstCommentWrittenByMeOption);
 
     expect(commentList.queryByTestId("comment-option-edit-button")).toBeTruthy();
+
+    const firstCommentNotWrittenByMeOption = allCommentOptions[indexOfFirstCommentNotWrittenByMe];
+    fireEvent.click(firstCommentNotWrittenByMeOption);
+
+    expect(commentList.queryByTestId("comment-option-edit-button")).toBeFalsy();
   });
 });

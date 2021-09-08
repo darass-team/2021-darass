@@ -9,7 +9,17 @@ export const comments: Comment[] = [
     likingUsers: [],
     createdDate: new Date().toDateString(),
     modifiedDate: new Date().toDateString(),
-    subComments: []
+    subComments: [
+      {
+        id: 12,
+        content: "첫번째 대댓글",
+        user: guestUser,
+        likingUsers: [],
+        createdDate: new Date().toDateString(),
+        modifiedDate: new Date().toDateString(),
+        subComments: []
+      }
+    ]
   },
   {
     id: 2,
