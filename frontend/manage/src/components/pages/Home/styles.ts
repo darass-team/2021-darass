@@ -24,12 +24,17 @@ export const MainText = styled.h2`
   line-height: ${3 * LINE_HEIGHT_SCALE}rem;
   color: ${PALETTE.WHITE};
   font-weight: 700;
+  word-break: break-all;
   text-align: center;
 `;
 
 export const Button = styled.button`
   min-width: 15rem;
   padding: 0.5rem 2rem;
+  @media all and (max-width: 780px) {
+    padding: 1rem 2rem;
+  }
+
   background-color: ${PALETTE.PRIMARY};
   border: none;
   border-radius: 10px;
@@ -43,6 +48,10 @@ export const Button = styled.button`
 export const ScrollDownTrigger = styled.a`
   position: relative;
   bottom: -7rem;
+
+  @media all and (max-width: 780px) {
+    bottom: -20rem;
+  }
 
   & > img {
     @keyframes upDown {
@@ -61,7 +70,13 @@ export const ScrollDownTrigger = styled.a`
   }
 `;
 
-export const Text = styled.p<{ color: PALETTE; fontSize: number; textAlign?: CSS.Property.TextAlign }>`
+export const ScrollToTopButton = styled.button`
+  position: fix;
+  right: 0;
+  bottom: 0;
+`;
+
+export const Text = styled.span<{ color: PALETTE; fontSize: number; textAlign?: CSS.Property.TextAlign }>`
   font-size: ${props => props.fontSize}rem;
   line-height: ${props => props.fontSize * LINE_HEIGHT_SCALE}rem;
   color: ${props => props.color};
@@ -83,8 +98,10 @@ export const PhoneImage = styled.img`
 `;
 
 export const TextContentContainer = styled.div`
+  display: flex;
+  flex-direction: column;
   margin-top: 5rem;
-  & > p {
+  & > span {
     &:not(:last-child) {
       margin-bottom: 2rem;
     }

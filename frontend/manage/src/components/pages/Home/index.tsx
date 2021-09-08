@@ -1,29 +1,28 @@
-import { useHistory } from "react-router-dom";
+import homeBackgroundImage from "@/assets/png/home_background_image.png";
+import homeBackgroundImage2 from "@/assets/png/home_background_image2.png";
+import phoneSmall from "@/assets/png/phone_small.png";
+import wooteco from "@/assets/png/wooteco.png";
+import scrollDownButton from "@/assets/svg/scroll-down.svg";
+import TypingText from "@/components/atoms/TypingText";
 import { ROUTE } from "@/constants";
 import { useScrollFadeInOut } from "@/hooks";
 import { PALETTE } from "@/styles/palette";
 import ScreenContainer from "@/styles/ScreenContainer";
-import Logo from "@/components/atoms/Logo";
+import { useHistory } from "react-router-dom";
 import {
   Button,
-  Container,
-  MainText,
-  Text,
-  ScrollDownTrigger,
-  SectionContainer,
-  PhoneImage,
-  HighlightText,
-  Letter,
   Companies,
   CompanyLogo,
+  Container,
+  HighlightText,
+  Letter,
+  MainText,
+  PhoneImage,
+  ScrollDownTrigger,
+  SectionContainer,
+  Text,
   TextContentContainer
 } from "./styles";
-import scrollDownButton from "@/assets/svg/scroll-down.svg";
-import phoneSmall from "@/assets/png/phone_small.png";
-import homeBackgroundImage from "@/assets/png/home_background_image.png";
-import homeBackgroundImage2 from "@/assets/png/home_background_image2.png";
-import wooteco from "@/assets/png/wooteco.png";
-import TypingText from "@/components/atoms/TypingText";
 
 const Home = () => {
   const history = useHistory();
@@ -59,12 +58,13 @@ const Home = () => {
       }
     },
     section3: {
-      text: useScrollFadeInOut({ direction: "up", duration: 1, delay: 0, threshold: 0.1 }),
-      companies: useScrollFadeInOut({ direction: "up", duration: 1, delay: 0.5, threshold: 0.1 }),
+      text: useScrollFadeInOut({ direction: "up", duration: 1, delay: 0 }),
+      companies: useScrollFadeInOut({ direction: "up", duration: 1, delay: 0.3 }),
       startButton: useScrollFadeInOut({
         direction: "up",
         duration: 1,
-        delay: 0.6
+        delay: 0.4,
+        fadeType: "both"
       })
     }
   };
@@ -90,21 +90,19 @@ const Home = () => {
             <HighlightText color={PALETTE.PRIMARY}>다라쓰</HighlightText>에서 쉽고 간편하게
             <br />
             <br />
+            <TypingText texts={["내 블로그에", "내 홈페이지에", "내 쇼핑몰에"]} />
             <>
-              <TypingText texts={["내 블로그에", "회사 홈페이지에", "내 쇼핑몰에"]} />
-              <>
-                {" "}
-                댓글을 <HighlightText color={PALETTE.PRIMARY}>다라쓰</HighlightText>
-              </>
+              {" "}
+              댓글을 <HighlightText color={PALETTE.PRIMARY}>다라쓰</HighlightText>
             </>
           </MainText>
 
           <Button type="button" onClick={moveLoginPage} {...animation.section1.startButton}>
-            Get Started
+            시작하기
           </Button>
 
           <ScrollDownTrigger href="#section2">
-            <img src={scrollDownButton} width="100px" height="100px" />
+            <img src={scrollDownButton} width="100px" height="100px" alt="아래로 이동" />
           </ScrollDownTrigger>
         </Container>
       </ScreenContainer>
@@ -124,8 +122,8 @@ const Home = () => {
 
       <SectionContainer id="section3" minHeightVh={50} bgImage={homeBackgroundImage2}>
         <Container>
-          <Text color={PALETTE.WHITE} fontSize={4} textAlign="left">
-            내 블로그의 첫걸음,
+          <Text color={PALETTE.WHITE} fontSize={4}>
+            내 홈페이지 댓글 관리,
             <br />
             <HighlightText color={PALETTE.PRIMARY}>
               <Letter {...animation.section2.letter.다}>다</Letter>
@@ -168,7 +166,7 @@ const Home = () => {
           </Companies>
 
           <Button type="button" onClick={moveLoginPage} {...animation.section3.startButton}>
-            Get Started
+            시작하기
           </Button>
         </Container>
       </SectionContainer>

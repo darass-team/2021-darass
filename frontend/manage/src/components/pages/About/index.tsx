@@ -29,31 +29,31 @@ const employees: Employee[] = [
     name: "Jerry",
     imageURL: "https://avatars1.githubusercontent.com/u/41244373?v=4",
     githubUrl: "https://github.com/jaeseongDev",
-    email: "1@1.com",
+    email: "qkrwotjd1445@naver.com",
     role: "Back-end Engineer",
-    description: "킹 너네 나 못이겨"
+    description: "남들에게 긍정적인 영향을 끼치고 싶은 백엔드 개발자, Devops 엔지니어입니다!"
   },
   {
     name: "Woogie",
     imageURL: "https://avatars1.githubusercontent.com/u/37281119?v=4",
     githubUrl: "https://github.com/jujubebat",
-    email: "2@2.com",
+    email: "bbwwpark@naver.com",
     role: "Back-end Engineer",
-    description: "랕타타"
+    description: "안녕하세요. 백엔드 개발자 박병욱입니다."
   },
   {
     name: "Aron",
     imageURL: "https://avatars1.githubusercontent.com/u/68985748?v=4",
     githubUrl: "https://github.com/Sehwan-Jang",
-    email: "3@3.com",
+    email: "whilter08@gmail.com",
     role: "Back-end Engineer",
-    description: "슉슉슉슉슈슈슉"
+    description: "안녕하세요. 백엔드 개발자 장세환입니다."
   },
   {
     name: "JayOn",
     imageURL: "https://avatars1.githubusercontent.com/u/56083021?v=4",
     githubUrl: "https://github.com/pjy1368",
-    email: "5@5.com",
+    email: "basejin0810@naver.com",
     role: "Back-end Engineer",
     description: "충생!"
   },
@@ -61,7 +61,7 @@ const employees: Employee[] = [
     name: "Goni",
     imageURL: "https://avatars1.githubusercontent.com/u/59409762?v=4",
     githubUrl: "https://github.com/yungo1846",
-    email: "4@4.com",
+    email: "yungo1468@naver.com",
     role: "Front-end Engineer",
     description: "좋아하는 연설가: 지그지글러"
   },
@@ -71,7 +71,7 @@ const employees: Employee[] = [
     githubUrl: "https://github.com/zereight",
     email: "fullstackmachinelearning@gmail.com",
     role: "Front-end Engineer",
-    description: "코드를 통해 비즈니스적인 가치를 창출하는것에 관심이 많습니다."
+    description: "코드를 통해 기술적인 문제를 해결하는것에 관심이 많습니다."
   }
 ];
 
