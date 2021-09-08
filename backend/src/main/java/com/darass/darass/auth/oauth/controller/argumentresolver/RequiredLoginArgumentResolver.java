@@ -54,7 +54,7 @@ public class RequiredLoginArgumentResolver implements HandlerMethodArgumentResol
     }
 
     private String findRefreshToken(NativeWebRequest webRequest) {
-        List<HttpCookie> cookies = HttpCookie.parse(Objects.requireNonNull(webRequest.getHeader("Set-Cookie")));
+        List<HttpCookie> cookies = HttpCookie.parse(Objects.requireNonNull(webRequest.getHeader("Cookie")));
         HttpCookie httpCookie = cookies.stream()
             .filter(it -> it.getName().equals("refreshToken") && !it.getValue().isEmpty())
             .findAny()

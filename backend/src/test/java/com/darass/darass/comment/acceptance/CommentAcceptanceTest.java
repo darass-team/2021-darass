@@ -170,7 +170,7 @@ class CommentAcceptanceTest extends AcceptanceTest {
     @Test
     void saveWithInvalidSecretKey() throws Exception {
         mockMvc.perform(post("/api/v1/comments")
-            .header("Set-Cookie", "refreshToken=refreshToken")
+            .header("Cookie", "refreshToken=refreshToken")
             .contentType(MediaType.APPLICATION_JSON)
             .content(asJsonString(
                 new CommentCreateRequest("guest", "password", null, "invalidKey", "content", "url"))))
@@ -193,7 +193,7 @@ class CommentAcceptanceTest extends AcceptanceTest {
             .forEach(it -> stringBuilder.append("str"));
 
         mockMvc.perform(post("/api/v1/comments")
-            .header("Set-Cookie", "refreshToken=refreshToken")
+            .header("Cookie", "refreshToken=refreshToken")
             .contentType(MediaType.APPLICATION_JSON)
             .content(asJsonString(
                 new CommentCreateRequest("guest", "password", null, secretKey,
@@ -216,7 +216,7 @@ class CommentAcceptanceTest extends AcceptanceTest {
         String invalidPassword = "invalid_password_invalid_password_invalid_password_invalid_password";
 
         mockMvc.perform(post("/api/v1/comments")
-            .header("Set-Cookie", "refreshToken=refreshToken")
+            .header("Cookie", "refreshToken=refreshToken")
             .contentType(MediaType.APPLICATION_JSON)
             .content(asJsonString(
                 new CommentCreateRequest(invalidNickName, invalidPassword, null, secretKey,
@@ -237,13 +237,13 @@ class CommentAcceptanceTest extends AcceptanceTest {
         ResultActions subCommentPostResult = mockMvc.perform(post("/api/v1/comments")
             .contentType(MediaType.APPLICATION_JSON)
             .header("Authorization", "Bearer " + token)
-            .header("Set-Cookie", "refreshToken=refreshToken")
+            .header("Cookie", "refreshToken=refreshToken")
             .content(asJsonString(new CommentCreateRequest(null, null, parentId, secretKey, content, url))))
             .andExpect(status().isCreated())
             .andExpect(jsonPath("$.user..type").value("SocialLoginUser"));
 
         String contentAsString = mockMvc.perform(get("/api/v1/comments")
-            .header("Set-Cookie", "refreshToken=refreshToken")
+            .header("Cookie", "refreshToken=refreshToken")
             .contentType(MediaType.APPLICATION_JSON)
             .param("url", url)
             .param("projectKey", secretKey))
@@ -341,7 +341,7 @@ class CommentAcceptanceTest extends AcceptanceTest {
         소셜_로그인_댓글_등록됨("content10", "url");
 
         mockMvc.perform(get("/api/v1/comments")
-            .header("Set-Cookie", "refreshToken=refreshToken")
+            .header("Cookie", "refreshToken=refreshToken")
             .contentType(MediaType.APPLICATION_JSON)
             .param("sortOption", "LATEST")
             .param("url", "url")
@@ -381,7 +381,7 @@ class CommentAcceptanceTest extends AcceptanceTest {
         소셜_로그인_대댓글_등록됨("subContent", "url", commentResponse.getId());
 
         mockMvc.perform(get("/api/v1/comments")
-            .header("Set-Cookie", "refreshToken=refreshToken")
+            .header("Cookie", "refreshToken=refreshToken")
             .contentType(MediaType.APPLICATION_JSON)
             .param("sortOption", "LATEST")
             .param("url", "url")
@@ -453,7 +453,7 @@ class CommentAcceptanceTest extends AcceptanceTest {
         소셜_로그인_댓글_좋아요_누름("content5", "url", commentResponse10.getId());
 
         mockMvc.perform(get("/api/v1/comments")
-            .header("Set-Cookie", "refreshToken=refreshToken")
+            .header("Cookie", "refreshToken=refreshToken")
             .contentType(MediaType.APPLICATION_JSON)
             .param("sortOption", "LIKE")
             .param("url", "url")
@@ -507,7 +507,7 @@ class CommentAcceptanceTest extends AcceptanceTest {
         소셜_로그인_댓글_등록됨("content10", "url");
 
         mockMvc.perform(get("/api/v1/comments")
-            .header("Set-Cookie", "refreshToken=refreshToken")
+            .header("Cookie", "refreshToken=refreshToken")
             .contentType(MediaType.APPLICATION_JSON)
             .param("sortOption", "OLDEST")
             .param("url", "url")
@@ -555,7 +555,7 @@ class CommentAcceptanceTest extends AcceptanceTest {
         소셜_로그인_댓글_등록됨("content10", "url");
 
         mockMvc.perform(get("/api/v1/comments/paging")
-            .header("Set-Cookie", "refreshToken=refreshToken")
+            .header("Cookie", "refreshToken=refreshToken")
             .contentType(MediaType.APPLICATION_JSON)
             .param("sortOption", "LATEST")
             .param("url", "url")
@@ -619,7 +619,7 @@ class CommentAcceptanceTest extends AcceptanceTest {
         소셜_로그인_댓글_좋아요_누름("content5", "url", commentResponse10.getId());
 
         mockMvc.perform(get("/api/v1/comments/paging")
-            .header("Set-Cookie", "refreshToken=refreshToken")
+            .header("Cookie", "refreshToken=refreshToken")
             .contentType(MediaType.APPLICATION_JSON)
             .param("sortOption", "LIKE")
             .param("url", "url")
@@ -681,7 +681,7 @@ class CommentAcceptanceTest extends AcceptanceTest {
         소셜_로그인_댓글_등록됨("content10", "url");
 
         mockMvc.perform(get("/api/v1/comments/paging")
-            .header("Set-Cookie", "refreshToken=refreshToken")
+            .header("Cookie", "refreshToken=refreshToken")
             .contentType(MediaType.APPLICATION_JSON)
             .param("sortOption", "OLDEST")
             .param("url", "url")
@@ -733,7 +733,7 @@ class CommentAcceptanceTest extends AcceptanceTest {
         소셜_로그인_댓글_등록됨("content10", "url");
 
         mockMvc.perform(get("/api/v1/projects/comments/paging")
-            .header("Set-Cookie", "refreshToken=refreshToken")
+            .header("Cookie", "refreshToken=refreshToken")
             .contentType(MediaType.APPLICATION_JSON)
             .param("sortOption", "latest")
             .param("projectKey", secretKey)
@@ -799,7 +799,7 @@ class CommentAcceptanceTest extends AcceptanceTest {
         소셜_로그인_댓글_좋아요_누름("content5", "url", commentResponse10.getId());
 
         mockMvc.perform(get("/api/v1/projects/comments/paging")
-            .header("Set-Cookie", "refreshToken=refreshToken")
+            .header("Cookie", "refreshToken=refreshToken")
             .contentType(MediaType.APPLICATION_JSON)
             .param("sortOption", "like")
             .param("projectKey", secretKey)
@@ -863,7 +863,7 @@ class CommentAcceptanceTest extends AcceptanceTest {
         소셜_로그인_댓글_등록됨("content10", "url");
 
         mockMvc.perform(get("/api/v1/projects/comments/paging")
-            .header("Set-Cookie", "refreshToken=refreshToken")
+            .header("Cookie", "refreshToken=refreshToken")
             .contentType(MediaType.APPLICATION_JSON)
             .param("sortOption", "oldest")
             .param("projectKey", secretKey)
@@ -917,7 +917,7 @@ class CommentAcceptanceTest extends AcceptanceTest {
         소셜_로그인_댓글_등록됨("hello10", "url");
 
         mockMvc.perform(get("/api/v1/projects/comments/search/paging")
-            .header("Set-Cookie", "refreshToken=refreshToken")
+            .header("Cookie", "refreshToken=refreshToken")
             .contentType(MediaType.APPLICATION_JSON)
             .param("sortOption", "latest")
             .param("projectKey", secretKey)
@@ -985,7 +985,7 @@ class CommentAcceptanceTest extends AcceptanceTest {
         소셜_로그인_댓글_좋아요_누름("content5", "url", commentResponse10.getId());
 
         mockMvc.perform(get("/api/v1/projects/comments/search/paging")
-            .header("Set-Cookie", "refreshToken=refreshToken")
+            .header("Cookie", "refreshToken=refreshToken")
             .contentType(MediaType.APPLICATION_JSON)
             .param("sortOption", "like")
             .param("projectKey", secretKey)
@@ -1051,7 +1051,7 @@ class CommentAcceptanceTest extends AcceptanceTest {
         소셜_로그인_댓글_등록됨("hello10", "url");
 
         mockMvc.perform(get("/api/v1/projects/comments/search/paging")
-            .header("Set-Cookie", "refreshToken=refreshToken")
+            .header("Cookie", "refreshToken=refreshToken")
             .contentType(MediaType.APPLICATION_JSON)
             .param("sortOption", "oldest")
             .param("projectKey", secretKey)
@@ -1108,7 +1108,7 @@ class CommentAcceptanceTest extends AcceptanceTest {
 
         mockMvc.perform(get("/api/v1/comments/stat")
             .contentType(MediaType.APPLICATION_JSON)
-            .header("Set-Cookie", "refreshToken=refreshToken")
+            .header("Cookie", "refreshToken=refreshToken")
             .param("periodicity", "hourly")
             .param("projectKey", secretKey)
             .param("startDate", LocalDate.now().minusYears(1L).toString())
@@ -1143,7 +1143,7 @@ class CommentAcceptanceTest extends AcceptanceTest {
         소셜_로그인_댓글_등록됨("hello10", "url");
 
         mockMvc.perform(get("/api/v1/comments/stat")
-            .header("Set-Cookie", "refreshToken=refreshToken")
+            .header("Cookie", "refreshToken=refreshToken")
             .contentType(MediaType.APPLICATION_JSON)
             .param("periodicity", "daily")
             .param("projectKey", secretKey)
@@ -1179,7 +1179,7 @@ class CommentAcceptanceTest extends AcceptanceTest {
         소셜_로그인_댓글_등록됨("hello10", "url");
 
         mockMvc.perform(get("/api/v1/comments/stat")
-            .header("Set-Cookie", "refreshToken=refreshToken")
+            .header("Cookie", "refreshToken=refreshToken")
             .contentType(MediaType.APPLICATION_JSON)
             .param("periodicity", "monthly")
             .param("projectKey", secretKey)
@@ -1207,7 +1207,7 @@ class CommentAcceptanceTest extends AcceptanceTest {
         Long commentId = commentResponse.getId();
 
         mockMvc.perform(patch("/api/v1/comments/{id}", commentId)
-            .header("Set-Cookie", "refreshToken=refreshToken")
+            .header("Cookie", "refreshToken=refreshToken")
             .contentType(MediaType.APPLICATION_JSON)
             .header("Authorization", "Bearer " + token)
             .content(asJsonString(new CommentUpdateRequest("updateContent")))
@@ -1234,7 +1234,7 @@ class CommentAcceptanceTest extends AcceptanceTest {
         Long commentId = commentResponse.getId();
 
         mockMvc.perform(patch("/api/v1/comments/{id}", commentId)
-            .header("Set-Cookie", "refreshToken=refreshToken")
+            .header("Cookie", "refreshToken=refreshToken")
             .contentType(MediaType.APPLICATION_JSON)
             .content(asJsonString(
                 new CommentUpdateRequest(userResponse.getId(), "password", "updateContent"))))
@@ -1262,7 +1262,7 @@ class CommentAcceptanceTest extends AcceptanceTest {
 
         mockMvc.perform(patch("/api/v1/comments/{id}", commentId2)
             .contentType(MediaType.APPLICATION_JSON)
-            .header("Set-Cookie", "refreshToken=refreshToken")
+            .header("Cookie", "refreshToken=refreshToken")
             .header("Authorization", "Bearer " + token)
             .content(asJsonString(new CommentUpdateRequest("updateContent"))))
             .andExpect(status().isUnauthorized())
@@ -1303,7 +1303,7 @@ class CommentAcceptanceTest extends AcceptanceTest {
         Long commentId = commentResponse.getId();
 
         mockMvc.perform(delete("/api/v1/comments/{id}", commentId)
-            .header("Set-Cookie", "refreshToken=refreshToken")
+            .header("Cookie", "refreshToken=refreshToken")
             .header("Authorization", "Bearer " + token)
             .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isNoContent())
@@ -1325,7 +1325,7 @@ class CommentAcceptanceTest extends AcceptanceTest {
         UserResponse user = commentResponse.getUser();
 
         mockMvc.perform(delete("/api/v1/comments/{id}", commentId)
-            .header("Set-Cookie", "refreshToken=refreshToken")
+            .header("Cookie", "refreshToken=refreshToken")
             .contentType(MediaType.APPLICATION_JSON)
             .param("guestUserId", user.getId().toString())
             .param("guestUserPassword", "password"))
@@ -1350,7 +1350,7 @@ class CommentAcceptanceTest extends AcceptanceTest {
         mockMvc.perform(delete("/api/v1/comments/{id}", commentId)
             .contentType(MediaType.APPLICATION_JSON)
             .header("Authorization", "Bearer " + token)
-            .header("Set-Cookie", "refreshToken=refreshToken"))
+            .header("Cookie", "refreshToken=refreshToken"))
             .andExpect(status().isNoContent())
             .andDo(document("api/v1/comments/delete/success-admin-user",
                 requestHeaders(
@@ -1369,7 +1369,7 @@ class CommentAcceptanceTest extends AcceptanceTest {
 
         mockMvc.perform(delete("/api/v1/comments/{id}", commentId1)
             .contentType(MediaType.APPLICATION_JSON)
-            .header("Set-Cookie", "refreshToken=refreshToken")
+            .header("Cookie", "refreshToken=refreshToken")
             .param("guestUserId", unauthorizedUser.getId().toString())
             .param("guestUserPassword", "password"))
             .andExpect(status().isUnauthorized())
@@ -1389,7 +1389,7 @@ class CommentAcceptanceTest extends AcceptanceTest {
 
         mockMvc.perform(post("/api/v1/comments/{id}/like", commentResponse.getId())
             .header("Authorization", "Bearer " + token)
-            .header("Set-Cookie", "refreshToken=refreshToken"))
+            .header("Cookie", "refreshToken=refreshToken"))
             .andExpect(status().isNoContent())
             .andDo(document("api/v1/comments/post/like-success",
                 requestHeaders(
@@ -1421,7 +1421,7 @@ class CommentAcceptanceTest extends AcceptanceTest {
         return mockMvc.perform(post("/api/v1/comments")
             .contentType(MediaType.APPLICATION_JSON)
             .header("Authorization", "Bearer " + token)
-            .header("Set-Cookie", "refreshToken=refreshToken")
+            .header("Cookie", "refreshToken=refreshToken")
             .content(asJsonString(new CommentCreateRequest(null, null, null, secretKey, content, url))))
             .andExpect(status().isCreated())
             .andExpect(jsonPath("$.user..type").value("SocialLoginUser"));
@@ -1431,7 +1431,7 @@ class CommentAcceptanceTest extends AcceptanceTest {
         return mockMvc.perform(post("/api/v1/comments/{id}/like", id)
             .contentType(MediaType.APPLICATION_JSON)
             .header("Authorization", "Bearer " + token)
-            .header("Set-Cookie", "refreshToken=refreshToken")
+            .header("Cookie", "refreshToken=refreshToken")
             .content(asJsonString(new CommentCreateRequest(null, null, null, secretKey, content, url))))
             .andExpect(status().isNoContent());
     }
@@ -1444,7 +1444,7 @@ class CommentAcceptanceTest extends AcceptanceTest {
 
     private ResultActions 비로그인_댓글_등록됨(String content, String url) throws Exception {
         return mockMvc.perform(post("/api/v1/comments")
-            .header("Set-Cookie", "refreshToken=refreshToken")
+            .header("Cookie", "refreshToken=refreshToken")
             .contentType(MediaType.APPLICATION_JSON)
             .content(asJsonString(
                 new CommentCreateRequest("guest", "password", null, secretKey, content, url))))

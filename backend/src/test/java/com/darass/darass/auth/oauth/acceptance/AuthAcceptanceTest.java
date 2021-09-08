@@ -281,7 +281,7 @@ class AuthAcceptanceTest extends AcceptanceTest {
     private ResultActions 로그아웃_요청(Map<String, String> tokens) throws Exception {
         return this.mockMvc.perform(RestDocumentationRequestBuilders.delete("/api/v1/log-out")
             .header("Authorization", "Bearer " + tokens.get("accessToken"))
-            .header("Set-Cookie", "refreshToken=" + tokens.get("refreshToken")));
+            .header("Cookie", "refreshToken=" + tokens.get("refreshToken")));
     }
 
     private void 로그아웃_됨(ResultActions resultActions) throws Exception {

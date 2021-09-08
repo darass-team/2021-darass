@@ -357,7 +357,7 @@ class ProjectAcceptanceTest extends AcceptanceTest {
         return this.mockMvc.perform(patch("/api/v1/projects/{projectId}", projectId)
             .contentType(MediaType.APPLICATION_JSON)
             .header("Authorization", "Bearer " + accessToken)
-            .header("Set-Cookie", "refreshToken=refreshToken")
+            .header("Cookie", "refreshToken=refreshToken")
             .content(asJsonString(projectUpdateRequest)));
     }
 
@@ -414,7 +414,7 @@ class ProjectAcceptanceTest extends AcceptanceTest {
         return this.mockMvc.perform(post("/api/v1/projects")
             .contentType(MediaType.APPLICATION_JSON)
             .header("Authorization", "Bearer " + accessToken)
-            .header("Set-Cookie", "refreshToken=refreshToken")
+            .header("Cookie", "refreshToken=refreshToken")
             .content(asJsonString(projectCreateRequest)));
     }
 
@@ -478,7 +478,7 @@ class ProjectAcceptanceTest extends AcceptanceTest {
         return this.mockMvc.perform(get("/api/v1/projects")
             .contentType(MediaType.APPLICATION_JSON)
             .header("Authorization", "Bearer " + accessToken)
-            .header("Set-Cookie", "refreshToken=refreshToken"));
+            .header("Cookie", "refreshToken=refreshToken"));
     }
 
     private void 엑세스_토큰으로_프로젝트_다건_조회됨(ResultActions resultActions) throws Exception {
@@ -528,7 +528,7 @@ class ProjectAcceptanceTest extends AcceptanceTest {
         return this.mockMvc.perform(get("/api/v1/projects/{projectId}", projectId)
             .contentType(MediaType.APPLICATION_JSON)
             .header("Authorization", "Bearer " + accessToken)
-            .header("Set-Cookie", "refreshToken=refreshToken")
+            .header("Cookie", "refreshToken=refreshToken")
             .param("userId", socialLoginUser.getId().toString()));
     }
 
@@ -641,7 +641,7 @@ class ProjectAcceptanceTest extends AcceptanceTest {
         return this.mockMvc.perform(delete("/api/v1/projects/{projectId}", projectId)
             .contentType(MediaType.APPLICATION_JSON)
             .header("Authorization", "Bearer " + accessToken)
-            .header("Set-Cookie", "refreshToken=refreshToken"));
+            .header("Cookie", "refreshToken=refreshToken"));
     }
 
     private void 프로젝트_단건_삭제됨(ResultActions resultActions) throws Exception {

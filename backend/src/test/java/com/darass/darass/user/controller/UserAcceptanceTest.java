@@ -332,7 +332,7 @@ class UserAcceptanceTest extends AcceptanceTest { //TODO: 로그이웃 기능 �
         return this.mockMvc.perform(get(API_URL)
             .contentType(MediaType.APPLICATION_JSON)
             .header("Authorization", "Bearer " + accessToken)
-            .header("Set-Cookie", "refreshToken=" + refreshToken));
+            .header("Cookie", "refreshToken=" + refreshToken));
     }
 
     private void 유저_조회됨(ResultActions resultActions) throws Exception {
@@ -378,7 +378,7 @@ class UserAcceptanceTest extends AcceptanceTest { //TODO: 로그이웃 기능 �
         return this.mockMvc.perform(patch(API_URL)
             .contentType(MediaType.MULTIPART_FORM_DATA)
             .header("Authorization", "Bearer " + accessToken)
-            .header("Set-Cookie", "refreshToken=refreshToken")
+            .header("Cookie", "refreshToken=refreshToken")
             .param("nickName", userUpdateRequest.getNickName())
             .content(asJsonString(userUpdateRequest)));
     }
@@ -394,7 +394,7 @@ class UserAcceptanceTest extends AcceptanceTest { //TODO: 로그이웃 기능 �
             .file((MockMultipartFile) userUpdateRequest.getProfileImageFile())
             .param("nickName", userUpdateRequest.getNickName())
             .header("Authorization", "Bearer " + accessToken)
-            .header("Set-Cookie", "refreshToken=refreshToken"));
+            .header("Cookie", "refreshToken=refreshToken"));
     }
 
     private void 유저_닉네임_수정됨(ResultActions resultActions, UserUpdateRequest userUpdateRequest) throws Exception {
@@ -484,7 +484,7 @@ class UserAcceptanceTest extends AcceptanceTest { //TODO: 로그이웃 기능 �
         return this.mockMvc.perform(delete(API_URL)
             .contentType(MediaType.APPLICATION_JSON)
             .header("Authorization", "Bearer " + accessToken)
-            .header("Set-Cookie", "refreshToken=refreshToken"));
+            .header("Cookie", "refreshToken=refreshToken"));
     }
 
     private void 유저_정보_삭제됨(ResultActions resultActions) throws Exception {
