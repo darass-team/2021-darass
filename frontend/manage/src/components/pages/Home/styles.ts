@@ -75,7 +75,7 @@ export const Letter = styled.div`
 `;
 
 export const PhoneImage = styled.img`
-  width: 80rem;
+  width: 25rem;
 `;
 
 export const TextContentContainer = styled.div`

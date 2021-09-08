@@ -19,7 +19,7 @@ import {
   TextContentContainer
 } from "./styles";
 import scrollDownButton from "@/assets/svg/scroll-down.svg";
-import phoneImage from "@/assets/png/phone.png";
+import phoneSmall from "@/assets/png/phone_small.png";
 import wooteco from "@/assets/png/wooteco.png";
 
 const Home = () => {
@@ -40,7 +40,7 @@ const Home = () => {
     },
     section2: {
       questionText: useScrollFadeInOut({ direction: "up", duration: 1, delay: 0, threshold: 0.1 }),
-      phoneImage: useScrollFadeInOut({ direction: "left", duration: 1, delay: 0, threshold: 0.1, fadeType: "both" }),
+      phoneSmall: useScrollFadeInOut({ direction: "left", duration: 1, delay: 0, threshold: 0.1, fadeType: "both" }),
       letter: {
         다: useScrollFadeInOut({ direction: "right", duration: 1, delay: 0, threshold: 0.1, fadeType: "both" }),
         라: useScrollFadeInOut({ direction: "up", duration: 1, delay: 0, threshold: 0.1, fadeType: "both" }),
@@ -105,7 +105,7 @@ const Home = () => {
             <br />
             <HighlightText color={PALETTE.SECONDARY}>다라쓰</HighlightText>와 함께라면 당신의 블로그가 새로워질 거예요.
           </Text>
-          <PhoneImage src={phoneImage} {...animation.section2.phoneImage} />
+          <PhoneImage src={phoneSmall} {...animation.section2.phoneSmall} />
         </Container>
       </SectionContainer>
 
