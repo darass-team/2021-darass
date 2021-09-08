@@ -19,20 +19,18 @@ interface Props {
 
 const AccessTokenProvider = ({ children }: Props) => {
   const [accessToken, setAccessToken] = useState<string | null | undefined>();
-  const interceptor = useRef<number>();
+  const interceptorRef = useRef<number>();
 
   useMemo(() => {
     if (accessToken) {
-      console.log("accessToken이 생김");
-      interceptor.current = customAxios.interceptors.request.use(config => {
+      interceptorRef.current = customAxios.interceptors.request.use(config => {
         config.headers.Authorization = `Bearer ${accessToken}`;
 
         return config;
       });
     } else {
-      console.log("accessToken이 없어짐");
-
-      interceptor.current && customAxios.interceptors.request.eject(interceptor.current);
+      if (interceptorRef.current === undefined) return;
+      customAxios.interceptors.request.eject(interceptorRef.current);
     }
   }, [accessToken]);
 
