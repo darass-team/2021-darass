@@ -9,6 +9,7 @@ export const SectionContainer = styled(ScreenContainer)<{ minHeightVh: number }>
 `;
 
 export const Container = styled.div`
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -16,6 +17,9 @@ export const Container = styled.div`
 `;
 
 export const MainText = styled.h2`
+  @media all and (max-width: 780px) {
+    margin-top: 8rem;
+  }
   font-size: 3rem;
   line-height: ${3 * LINE_HEIGHT_SCALE}rem;
   color: ${PALETTE.WHITE};
@@ -24,15 +28,15 @@ export const MainText = styled.h2`
 `;
 
 export const Button = styled.button`
-  min-width: 18rem;
-  height: 6rem;
-  background: ${PALETTE.TERTIARY};
+  min-width: 15rem;
+  padding: 0.5rem 2rem;
+  background-color: ${PALETTE.PRIMARY};
   border: none;
-  border-radius: 4rem;
+  border-radius: 10px;
   font-weight: 700;
-  font-size: 2.5rem;
+  font-size: 2rem;
   line-height: ${2.5 * LINE_HEIGHT_SCALE}rem;
-  color: ${PALETTE.BLACK_700};
+  color: ${PALETTE.WHITE};
   margin-top: 8.8rem;
 `;
 

@@ -20,6 +20,8 @@ import {
 } from "./styles";
 import scrollDownButton from "@/assets/svg/scroll-down.svg";
 import phoneSmall from "@/assets/png/phone_small.png";
+import homeBackgroundImage from "@/assets/png/home_background_image.png";
+import homeBackgroundImage2 from "@/assets/png/home_background_image2.png";
 import wooteco from "@/assets/png/wooteco.png";
 
 const Home = () => {
@@ -74,12 +76,8 @@ const Home = () => {
 
   return (
     <>
-      <ScreenContainer bgColor={PALETTE.PRIMARY}>
+      <ScreenContainer bgImage={homeBackgroundImage}>
         <Container>
-          <h1>
-            <Logo size="LG" />
-          </h1>
-
           <MainText {...animation.section1.introductionText}>
             댓글의 모든것,
             <br />
@@ -109,12 +107,12 @@ const Home = () => {
         </Container>
       </SectionContainer>
 
-      <SectionContainer id="section3" minHeightVh={100} bgColor={PALETTE.DEFAULT_BG}>
+      <SectionContainer id="section3" minHeightVh={50} bgImage={homeBackgroundImage2}>
         <Container>
-          <Text color={PALETTE.BLACK_700} fontSize={4} textAlign="left">
+          <Text color={PALETTE.WHITE} fontSize={4} textAlign="left">
             내 블로그의 첫걸음,
             <br />
-            <HighlightText color={PALETTE.SECONDARY}>
+            <HighlightText color={PALETTE.PRIMARY}>
               <Letter {...animation.section2.letter.다}>다</Letter>
               <Letter {...animation.section2.letter.라}>라</Letter>
               <Letter {...animation.section2.letter.쓰}>쓰</Letter>
@@ -123,17 +121,17 @@ const Home = () => {
           </Text>
 
           <TextContentContainer>
-            <Text color={PALETTE.BLACK_700} fontSize={2} textAlign="left">
+            <Text color={PALETTE.WHITE} fontSize={2} textAlign="left">
               <Letter {...animation.section2.texts.check1}>✅</Letter>
               {"   "}
               <Letter {...animation.section2.texts.text1}>손쉬운 설치</Letter>
             </Text>
-            <Text color={PALETTE.BLACK_700} fontSize={2} textAlign="left">
+            <Text color={PALETTE.WHITE} fontSize={2} textAlign="left">
               <Letter {...animation.section2.texts.check2}>✅</Letter>
               {"   "}
               <Letter {...animation.section2.texts.text2}>심플한 UI</Letter>
             </Text>
-            <Text color={PALETTE.BLACK_700} fontSize={2} textAlign="left">
+            <Text color={PALETTE.WHITE} fontSize={2} textAlign="left">
               <Letter {...animation.section2.texts.check3}>✅</Letter>
               {"   "}
               <Letter {...animation.section2.texts.text3}>무료</Letter>
@@ -142,7 +140,7 @@ const Home = () => {
         </Container>
       </SectionContainer>
 
-      <SectionContainer id="section4" minHeightVh={80} bgColor={PALETTE.PRIMARY}>
+      <SectionContainer id="section4" minHeightVh={50} bgColor={PALETTE.PRIMARY}>
         <Container>
           <Text color={PALETTE.WHITE} fontSize={3} textAlign="center" {...animation.section3.text}>
             현재 사용중인 기업들

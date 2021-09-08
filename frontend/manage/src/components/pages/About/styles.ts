@@ -2,6 +2,7 @@ import { contentBoxCSS } from "@/styles/css";
 import styled from "styled-components";
 import { LINE_HEIGHT_SCALE } from "@/styles/constants";
 import { PALETTE } from "@/styles/palette";
+import AvatarComponent from "@/components/atoms/Avatar";
 
 export const Container = styled.div`
   display: flex;
@@ -28,6 +29,15 @@ export const EmployeeInfoContainer = styled.div`
     &:not(:last-child) {
       margin-bottom: 3rem;
     }
+  }
+`;
+
+export const Avatar = styled(AvatarComponent)`
+  width: 5rem;
+  height: 5rem;
+  @media all and (max-width: 780px) {
+    width: 4rem;
+    height: 4rem;
   }
 `;
 
