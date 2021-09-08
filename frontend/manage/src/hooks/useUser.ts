@@ -1,7 +1,8 @@
-import axios from "axios";
-import { useContext } from "react";
-import { useQuery, useQueryClient } from "react-query";
 import { useHistory } from "react-router-dom";
+import axios from "axios";
+import { useContext, useEffect, useMemo } from "react";
+import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useDeleteUser } from ".";
 import { QUERY, REACT_QUERY_KEY, ROUTE } from "../constants";
 import { accessTokenContext } from "../contexts/AccessTokenProvider";
 import { User } from "../types/user";
@@ -33,14 +34,14 @@ const getUser = async () => {
 
 export const useUser = () => {
   const queryClient = useQueryClient();
+  const { deleteUser } = useDeleteUser();
   const history = useHistory();
-  const { setAccessToken } = useContext(accessTokenContext);
+  const { accessToken, setAccessToken } = useContext(accessTokenContext);
 
   const {
     data: user,
     isLoading,
-    error,
-    refetch
+    error
   } = useQuery<User, Error>(REACT_QUERY_KEY.USER, getUser, {
     retry: false,
     refetchOnWindowFocus: false
@@ -49,9 +50,6 @@ export const useUser = () => {
   const login = async () => {
     try {
       await queryClient.invalidateQueries(REACT_QUERY_KEY.USER);
-      await refetch();
-
-      history.push(ROUTE.MY_PROJECT);
     } catch (error) {
       if (!axios.isAxiosError(error)) {
         throw new Error("알 수 없는 에러입니다.");
@@ -64,11 +62,22 @@ export const useUser = () => {
   // TODO: Logout api 필요
   const logout = () => {
     setAccessToken(null);
+    // deleteUser();
 
-    queryClient.setQueryData<User | undefined>(REACT_QUERY_KEY.USER, () => {
-      return undefined;
-    });
+    // queryClient.invalidateQueries(REACT_QUERY_KEY.USER);
+
+    // queryClient.setQueryData<User | undefined>(REACT_QUERY_KEY.USER, user => {
+    //   return undefined;
+    // });
   };
+
+  // const user = accessToken ? _user : undefined;
+
+  if (user) {
+    console.log("user가 있음");
+  } else {
+    console.log("user가 없음");
+  }
 
   return { user, login, logout, isLoading, error };
 };

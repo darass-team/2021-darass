@@ -16,17 +16,17 @@ const Login = () => {
   const history = useHistory();
   const location = useLocation();
 
-  const onLogin = async () => {
-    try {
-      await login();
+  // const onLogin = async () => {
+  //   try {
+  //     await login();
 
-      history.push(ROUTE.MY_PROJECT);
-    } catch (error) {
-      if (error instanceof AlertError) {
-        alert(error.message);
-      }
-    }
-  };
+  //     history.push(ROUTE.MY_PROJECT);
+  //   } catch (error) {
+  //     if (error instanceof AlertError) {
+  //       alert(error.message);
+  //     }
+  //   }
+  // };
 
   const moveGithubOAuthURL = () => {
     window.location.replace(

@@ -18,8 +18,6 @@ import { useUser } from "./hooks";
 const App = () => {
   const { user, isLoading } = useUser();
 
-  console.log(user);
-
   return (
     <>
       <Nav />

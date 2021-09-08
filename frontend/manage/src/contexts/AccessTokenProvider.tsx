@@ -1,4 +1,4 @@
-import { createContext, Dispatch, ReactNode, SetStateAction, useMemo, useState } from "react";
+import { createContext, Dispatch, ReactNode, SetStateAction, useMemo, useRef, useState } from "react";
 import { customAxios } from "../utils/request";
 
 interface InitialState {
@@ -19,15 +19,21 @@ interface Props {
 
 const AccessTokenProvider = ({ children }: Props) => {
   const [accessToken, setAccessToken] = useState<string | null | undefined>();
+  const interceptor = useRef<number>();
 
   useMemo(() => {
-    customAxios.interceptors.request.use(config => {
-      if (accessToken) {
+    if (accessToken) {
+      console.log("accessToken이 생김");
+      interceptor.current = customAxios.interceptors.request.use(config => {
         config.headers.Authorization = `Bearer ${accessToken}`;
-      }
 
-      return config;
-    });
+        return config;
+      });
+    } else {
+      console.log("accessToken이 없어짐");
+
+      interceptor.current && customAxios.interceptors.request.eject(interceptor.current);
+    }
   }, [accessToken]);
 
   return (
