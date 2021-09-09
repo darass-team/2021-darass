@@ -52,6 +52,7 @@ public class OAuthController {
             .sameSite("Lax")
             .maxAge(SECONDS_OF_TWO_MONTHS)
             .path("/")
+            .secure(true)
             .httpOnly(true)
             .build();
         response.addHeader("Set-Cookie", cookie.toString());
