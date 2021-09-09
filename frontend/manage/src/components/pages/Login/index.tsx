@@ -1,5 +1,5 @@
 import Kakao from "../../../assets/svg/kakao.svg";
-import { MANAGE_PAGE_BASE_URL } from "../../../constants/domain";
+import { MANAGE_PAGE_DOMAIN } from "../../../constants/domain";
 import { OAUTH_ENDPOINT } from "../../../constants/oauth";
 import { PALETTE } from "../../../styles/palette";
 import ScreenContainer from "../../../styles/ScreenContainer";
@@ -9,7 +9,7 @@ import { Container, Introduction, KakaoLoginButton } from "./styles";
 const Login = () => {
   const moveKakaoOAuthURL = () => {
     window.location.replace(
-      `${OAUTH_ENDPOINT.KAKAO}?response_type=code&client_id=${process.env.KAKAO_REST_API_KEY}&redirect_uri=${MANAGE_PAGE_BASE_URL}/oauth/kakao`
+      `${OAUTH_ENDPOINT.KAKAO}?response_type=code&client_id=${process.env.KAKAO_REST_API_KEY}&redirect_uri=${MANAGE_PAGE_DOMAIN}/oauth/kakao`
     );
   };
 

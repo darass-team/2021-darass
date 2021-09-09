@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import kakaoTalkIcon from "../../../assets/png/kakaotalk.png";
 import githubIcon from "../../../assets/svg/github.svg";
+import { REPLY_MODULE_DOMAIN } from "../../../constants/domain";
 import { OAUTH_ENDPOINT } from "../../../constants/oauth";
 import { ORDER_BUTTON } from "../../../constants/orderButton";
 import { useGetAllComments, useGetProject, useUser } from "../../../hooks";
@@ -80,7 +81,7 @@ const CommentArea = () => {
   const onLogin = async () => {
     try {
       const popUp = window.open(
-        `${OAUTH_ENDPOINT.KAKAO}?response_type=code&client_id=${process.env.KAKAO_REST_API_KEY}&redirect_uri=http://localhost:3000/oauth/kakao`,
+        `${OAUTH_ENDPOINT.KAKAO}?response_type=code&client_id=${process.env.KAKAO_REST_API_KEY}&redirect_uri=${REPLY_MODULE_DOMAIN}/oauth/kakao`,
         "Authentication",
         "width=972,height=660,modal=yes,alwaysRaised=yes"
       );
@@ -129,10 +130,6 @@ const CommentArea = () => {
             <LoginMethodWrapper onClick={onLogin}>
               <Avatar size="SM" imageURL={kakaoTalkIcon} alt="카카오톡 로그인 이미지" />
               <LoginMethod>카카오</LoginMethod>
-            </LoginMethodWrapper>
-            <LoginMethodWrapper onClick={onLogin}>
-              <Avatar size="SM" imageURL={githubIcon} alt="깃허브 로그인 이미지" />
-              <LoginMethod>깃허브</LoginMethod>
             </LoginMethodWrapper>
           </>
         )}

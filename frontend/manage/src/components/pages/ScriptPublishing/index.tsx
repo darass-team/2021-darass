@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Redirect, useRouteMatch } from "react-router-dom";
 import { GUIDE_FILE, PROJECT_MENU, ROUTE } from "../../../constants";
-import { REPLY_MODULE_BASE_URL } from "../../../constants/domain";
+import { REPLY_MODULE_DOMAIN } from "../../../constants/domain";
 import { useCopyButton, useGetProject } from "../../../hooks";
 import ScreenContainer from "../../../styles/ScreenContainer";
 import { AlertError } from "../../../utils/error";
@@ -23,7 +23,7 @@ const htmlScriptCode = (projectSecretKey: string) => `
         var $document = document;
 
         var $script = $document.createElement("script");
-        $script.src = "${REPLY_MODULE_BASE_URL}/embed.js";
+        $script.src = "${REPLY_MODULE_DOMAIN}/embed.js";
         $script.defer = true;
 
         $document.head.appendChild($script);

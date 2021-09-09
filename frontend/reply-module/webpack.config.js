@@ -68,7 +68,7 @@ const config = {
     extensions: [".tsx", ".ts", ".jsx", ".js"]
   },
   devtool: process.env.BUILD_MODE === "development" ? "source-map" : false,
-  mode: process.env.BUILD_MODE,
+  mode: process.env.BUILD_MODE === "localhost" ? "development" : process.env.BUILD_MODE,
   devServer: {
     host: "localhost",
     port: 3000,

@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import kakaoTalkIcon from "../../../assets/png/kakaotalk.png";
 import { ROUTE } from "../../../constants";
-import { MANAGE_PAGE_BASE_URL } from "../../../constants/domain";
+import { MANAGE_PAGE_DOMAIN } from "../../../constants/domain";
 import { OAUTH_ENDPOINT } from "../../../constants/oauth";
 import { useUser } from "../../../hooks";
 import { PALETTE } from "../../../styles/palette";
@@ -30,7 +30,7 @@ const DesktopNav = ({ menuList }: Props) => {
 
   const moveKakaoOAuthURL = () => {
     window.location.replace(
-      `${OAUTH_ENDPOINT.KAKAO}?response_type=code&client_id=${process.env.KAKAO_REST_API_KEY}&redirect_uri=${MANAGE_PAGE_BASE_URL}/oauth/kakao`
+      `${OAUTH_ENDPOINT.KAKAO}?response_type=code&client_id=${process.env.KAKAO_REST_API_KEY}&redirect_uri=${MANAGE_PAGE_DOMAIN}/oauth/kakao`
     );
   };
 
