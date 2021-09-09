@@ -9,6 +9,7 @@ import com.darass.darass.user.domain.SocialLoginUser;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +29,9 @@ public class OAuthController {
     private static final String REFRESH_TOKEN_NAME = "refreshToken";
 
     private final OAuthService oAuthService;
+
+    @Value("${cookie.same-site}")
+    private String sameSite;
 
     @PostMapping("/login/oauth")
     public ResponseEntity<AccessTokenResponse> oauthLogin(@RequestBody TokenRequest tokenRequest,
@@ -49,7 +53,7 @@ public class OAuthController {
 
     private void createCookie(HttpServletResponse response, String refreshToken) {
         ResponseCookie cookie = ResponseCookie.from(REFRESH_TOKEN_NAME, refreshToken)
-            .sameSite("Lax")
+            .sameSite(sameSite)
             .maxAge(SECONDS_OF_TWO_MONTHS)
             .path("/")
             .secure(true)
