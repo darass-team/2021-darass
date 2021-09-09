@@ -25,7 +25,16 @@ include::{snippets}/api/v1/login-refresh/post/success/http-request.adoc[]
 include::{snippets}/api/v1/login-refresh/post/success/http-response.adoc[]
 include::{snippets}/api/v1/login-refresh/post/success/response-fields.adoc[]
 
+<<<<<<< HEAD
 //==== Response (실패 - 리프레시 토큰의 인증이 실패하는 경우)
 //
 //include::{snippets}/api/v1/login-refresh/post/fail/http-response.adoc[]
 //include::{snippets}/api/v1/login-refresh/post/fail/response-fields.adoc[]
+=======
+=== 로그 아웃 (POST /api/v1/log-out)
+
+==== Response (성공 - 리프레시 토큰의 인증이 실패하는 경우)
+
+include::{snippets}/api/v1/log-out/post/success/http-request.adoc[]
+include::{snippets}/api/v1/log-out/post/success/http-response.adoc[]
+>>>>>>> 39fdfe8 (refactor: restDoc 추가)
