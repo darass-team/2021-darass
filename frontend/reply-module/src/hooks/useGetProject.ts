@@ -4,6 +4,8 @@ import { Project } from "../types/project";
 import { GetProjectRequestParams } from "../types/comment";
 import { request } from "../utils/request";
 import { QUERY } from "../constants/api";
+import axios from "axios";
+import { AlertError } from "../utils/Error";
 
 const getProject = async (projectSecretKey: GetProjectRequestParams["projectSecretKey"]) => {
   if (!projectSecretKey) return undefined;
@@ -13,7 +15,11 @@ const getProject = async (projectSecretKey: GetProjectRequestParams["projectSecr
 
     return response.data;
   } catch (error) {
-    if (error.response.data.code === 700) {
+    if (!axios.isAxiosError(error)) {
+      throw new AlertError("알 수 없는 에러입니다.");
+    }
+
+    if (error.response?.data.code === 700) {
       throw new Error("해당하는 프로젝트가 존재하지 않습니다.\n관리자에게 문의하시기 바랍니다.");
     }
 

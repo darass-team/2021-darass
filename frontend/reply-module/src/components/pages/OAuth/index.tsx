@@ -1,6 +1,7 @@
 import { useContext, useEffect } from "react";
 import { useHistory, useLocation, useParams } from "react-router";
 import { QUERY } from "../../../constants/api";
+
 import { accessTokenContext } from "../../../contexts/AccessTokenProvider";
 import { useUser } from "../../../hooks";
 import { request } from "../../../utils/request";
@@ -19,12 +20,17 @@ const OAuth = () => {
 
     const setAccessTokenAsync = async () => {
       try {
-        const response = await request.post(QUERY.LOGIN, {
-          oauthProviderName: provider,
-          authorizationCode: code
-        });
+        const response = await request.post(
+          QUERY.LOGIN,
+          {
+            oauthProviderName: provider,
+            authorizationCode: code
+          },
+          { withCredentials: true }
+        );
 
         const accessToken = response.data.accessToken;
+        console.log(accessToken);
 
         setAccessToken(accessToken);
       } catch (error) {
@@ -39,11 +45,11 @@ const OAuth = () => {
     login();
   }, [accessToken]);
 
-  useEffect(() => {
-    if (user) {
-      history.push("/");
-    }
-  }, [user]);
+  // useEffect(() => {
+  //   if (user) {
+  //     history.push(ROUTE.MY_PROJECT);
+  //   }
+  // }, [user]);
 
   return <>로딩중입니다.</>;
 };
