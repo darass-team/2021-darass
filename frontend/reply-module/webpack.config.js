@@ -9,7 +9,8 @@ const config = {
   entry: { replyModule: "./src/index.tsx", modal: "./src/Modal.tsx" },
   output: {
     path: path.resolve(__dirname, "dist"),
-    filename: `[name]-${Package.version.replace("^", "")}.js`
+    filename: `[name]-${Package.version.replace("^", "")}.js`,
+    publicPath: "/"
   },
   module: {
     rules: [
@@ -72,6 +73,7 @@ const config = {
     host: "localhost",
     port: 3000,
     historyApiFallback: true,
+    https: true,
     open: true
   }
 };

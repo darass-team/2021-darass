@@ -1,6 +1,9 @@
 const PRODUCTION_BASE_URL = "https://api.darass.co.kr";
-const DEVELOPMENT_BASE_URL = "https://www.darass-develop.o-r.kr";
-const BASE_URL = process.env.BUILD_MODE === "development" ? DEVELOPMENT_BASE_URL : PRODUCTION_BASE_URL;
+const DEVELOPMENT_BASE_URL = "https://dev-api.darass.co.kr";
+const BASE_URL =
+  process.env.BUILD_MODE === "development" || process.env.BUILD_MODE === "localhost"
+    ? DEVELOPMENT_BASE_URL
+    : PRODUCTION_BASE_URL;
 const QUERY = {
   LOGIN: "/api/v1/login/oauth",
   LOGIN_REFRESH: "/api/v1/login/refresh",
