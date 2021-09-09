@@ -1,26 +1,12 @@
 import axios from "axios";
-import { useContext, useEffect } from "react";
-import { useQuery } from "react-query";
+import { useEffect } from "react";
+import { useQuery, useQueryClient } from "react-query";
+import { useUser } from ".";
 import { REACT_QUERY_KEY } from "../constants";
 import { QUERY } from "../constants/api";
-import { accessTokenContext } from "../contexts/AccessTokenProvider";
 import { Project } from "../types/project";
 import { AlertError } from "../utils/error";
 import { request } from "../utils/request";
-
-const refreshAccessToken = async () => {
-  try {
-    const response = await request.post(QUERY.LOGIN_REFRESH, {}, { withCredentials: true });
-
-    return response.data.accessToken;
-  } catch (error) {
-    if (!axios.isAxiosError(error)) {
-      throw new AlertError("알 수 없는 에러입니다.");
-    }
-
-    throw new Error("액세스 토큰 재발급에 실패하셨습니다.");
-  }
-};
 
 const getProject = async (id: Project["id"]) => {
   try {
@@ -52,7 +38,8 @@ const getProject = async (id: Project["id"]) => {
 };
 
 export const useGetProject = (id: Project["id"]) => {
-  const { setAccessToken } = useContext(accessTokenContext);
+  const queryClient = useQueryClient();
+  const { user } = useUser();
 
   const {
     data: project,
@@ -63,12 +50,8 @@ export const useGetProject = (id: Project["id"]) => {
   });
 
   useEffect(() => {
-    if (error?.name === "noAccessToken") {
-      refreshAccessToken().then(accessToken => {
-        setAccessToken(accessToken);
-      });
-    }
-  }, [error?.name]);
+    queryClient.invalidateQueries([REACT_QUERY_KEY.PROJECT, id]);
+  }, [user]);
 
   return { project, isLoading, error };
 };

@@ -75,10 +75,6 @@ const ProjectDetail = () => {
     }
   }, [project]);
 
-  if (error) {
-    return <Redirect to={ROUTE.MY_PROJECT} />;
-  }
-
   return (
     <ScreenContainer>
       <ContainerWithSideBar menus={PROJECT_MENU.get(projectId)}>

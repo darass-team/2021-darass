@@ -68,14 +68,14 @@ export const useUser = () => {
     data: user,
     isLoading,
     error
-  } = useQuery<User, Error>(REACT_QUERY_KEY.USER, getUser, {
+  } = useQuery<User, Error>([REACT_QUERY_KEY.USER], getUser, {
     retry: false,
     refetchOnWindowFocus: false
   });
 
   const login = async () => {
     try {
-      await queryClient.invalidateQueries(REACT_QUERY_KEY.USER);
+      await queryClient.invalidateQueries([REACT_QUERY_KEY.USER]);
     } catch (error) {
       if (!axios.isAxiosError(error)) {
         throw new Error("알 수 없는 에러입니다.");
@@ -88,7 +88,7 @@ export const useUser = () => {
   const logout = () => {
     setAccessToken(null);
     deleteRefreshToken().then(() => {
-      queryClient.setQueryData<User | undefined>(REACT_QUERY_KEY.USER, undefined);
+      queryClient.setQueryData<User | undefined>([REACT_QUERY_KEY.USER], undefined);
     });
   };
 
@@ -104,5 +104,7 @@ export const useUser = () => {
     login();
   }, [accessToken]);
 
-  return { user, login, logout, isLoading, error };
+  const isLoggedOut = !user && error?.name !== "noAccessToken";
+
+  return { user, login, logout, isLoading, error, isLoggedOut };
 };

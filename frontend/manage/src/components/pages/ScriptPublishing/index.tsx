@@ -51,14 +51,6 @@ const ScriptPublishing = () => {
   const script =
     selectedBlogInfo?.scriptType === "HTML" ? htmlScriptCode(projectSecretKey) : JsxScriptCode(projectSecretKey);
 
-  if (error) {
-    if (error instanceof AlertError) {
-      alert(error.message);
-    }
-
-    return <Redirect to={ROUTE.MY_PROJECT} />;
-  }
-
   return (
     <ScreenContainer>
       <ContainerWithSideBar menus={PROJECT_MENU.get(projectId)}>

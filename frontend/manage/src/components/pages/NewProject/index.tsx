@@ -32,7 +32,7 @@ const NewProject = () => {
       history.push(ROUTE.GET_SCRIPT_PUBLISHING(project.id));
     } catch (error) {
       if (error instanceof AlertError) {
-        window.alert(error.message);
+        alert(error.message);
       }
     }
   };

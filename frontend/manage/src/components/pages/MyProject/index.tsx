@@ -3,15 +3,13 @@ import { useHistory } from "react-router-dom";
 import { ROUTE } from "../../../constants";
 import { useGetAllProjects, useUser } from "../../../hooks";
 import ScreenContainer from "../../../styles/ScreenContainer";
-import { AlertError } from "../../../utils/error";
 import ProjectButton from "../../atoms/Buttons/ProjectButton";
 import { LoadableScriptPublishing, LoadableStatistics } from "../Loadable";
 import { AddProjectButton, ButtonWrapper, Container, Message } from "./styles";
 
 const MyProject = () => {
   const history = useHistory();
-  const { logout } = useUser();
-  const { projects, error, isLoading } = useGetAllProjects();
+  const { projects } = useGetAllProjects();
 
   useEffect(() => {
     LoadableScriptPublishing.preload();
@@ -25,13 +23,6 @@ const MyProject = () => {
   const moveNewProjectPage = () => {
     history.push(ROUTE.NEW_PROJECT);
   };
-
-  if (error && !isLoading) {
-    if (error instanceof AlertError) {
-      alert(error.message);
-    }
-    logout();
-  }
 
   return (
     <ScreenContainer>

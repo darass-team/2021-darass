@@ -1,5 +1,7 @@
 import axios from "axios";
-import { useQuery } from "react-query";
+import { useEffect } from "react";
+import { useQuery, useQueryClient } from "react-query";
+import { useUser } from ".";
 import { REACT_QUERY_KEY, ROUTE } from "../constants";
 import { QUERY } from "../constants/api";
 import { Project } from "../types/project";
@@ -27,7 +29,13 @@ const getAllProjects = async () => {
 };
 
 export const useGetAllProjects = () => {
-  const { data: projects, isLoading, error } = useQuery<Project[], Error>(REACT_QUERY_KEY.PROJECTS, getAllProjects);
+  const queryClient = useQueryClient();
+  const { user } = useUser();
+  const { data: projects, isLoading, error } = useQuery<Project[], Error>([REACT_QUERY_KEY.PROJECTS], getAllProjects);
+
+  useEffect(() => {
+    queryClient.invalidateQueries([REACT_QUERY_KEY.PROJECTS]);
+  }, [user]);
 
   return { projects, isLoading, error };
 };
