@@ -79,7 +79,11 @@ const config = {
     port: 3001,
     historyApiFallback: true,
     open: true,
-    hot: true
+    hot: true,
+    https: {
+      key: "./localhost+1-key.pem",
+      cert: "./localhost+1.pem"
+    }
   }
 };
 
