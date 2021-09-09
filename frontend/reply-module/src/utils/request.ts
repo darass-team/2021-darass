@@ -1,20 +1,8 @@
 import axios from "axios";
 import { BASE_URL } from "../constants/api";
-import { COOKIE_KEY } from "../constants/cookie";
-import { getCookie } from "./cookie";
 
-const customAxios = axios.create({
+export const customAxios = axios.create({
   baseURL: BASE_URL
-});
-
-customAxios.interceptors.request.use(config => {
-  const accessToken = getCookie(COOKIE_KEY.ATK);
-
-  if (accessToken) {
-    config.headers.Authorization = `Bearer ${accessToken}`;
-  }
-
-  return config;
 });
 
 export const request = {

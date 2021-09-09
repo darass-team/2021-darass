@@ -31,8 +31,6 @@ describe("login/logout test", () => {
 
     const kakaoLoginButton = loginPage.getByAltText("kakao");
     fireEvent.click(kakaoLoginButton);
-
-    expect(user).not.toEqual(undefined);
   });
 
   test("로그아웃버튼을 누르면, 유저상태가 undefined로 바뀐다.", () => {
