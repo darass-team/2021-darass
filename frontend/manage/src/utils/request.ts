@@ -18,7 +18,7 @@ export const customAxios = axios.create({
 // });
 
 const request = {
-  get: async (query: string) => await customAxios.get(query),
+  get: async (query: string, headers?: AxiosResponse["headers"]) => await customAxios.get(query, { headers }),
   post: async <T>(query: string, data: T, headers?: AxiosResponse["headers"]) =>
     await customAxios.post(query, data, headers),
   patch: async <T>(query: string, data: T, headers?: AxiosResponse["headers"]) =>

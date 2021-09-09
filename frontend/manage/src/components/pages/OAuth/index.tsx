@@ -19,12 +19,17 @@ const OAuth = () => {
 
     const setAccessTokenAsync = async () => {
       try {
-        const response = await request.post(QUERY.LOGIN, {
-          oauthProviderName: provider,
-          authorizationCode: code
-        });
+        const response = await request.post(
+          QUERY.LOGIN,
+          {
+            oauthProviderName: provider,
+            authorizationCode: code
+          },
+          { withCredentials: true }
+        );
 
         const accessToken = response.data.accessToken;
+        console.log(accessToken);
 
         setAccessToken(accessToken);
       } catch (error) {
