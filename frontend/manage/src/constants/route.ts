@@ -1,4 +1,4 @@
-const ROUTE = {
+export const ROUTE = {
   HOME: "/",
   OAUTH: "/oauth/:provider",
   LOGIN: "/login",
@@ -16,5 +16,3 @@ const ROUTE = {
   GET_PROJECT_MANAGE: (id: number) => `/projects/${id}/manage`,
   GET_STATISTICS: (id: number) => `/projects/${id}/statistics`
 } as const;
-
-export { ROUTE };

@@ -10,7 +10,7 @@ import { request } from "../utils/request";
 
 const getProject = async (id: Project["id"]) => {
   try {
-    const response = await request.get(`${QUERY.PROJECT}/${id}`, { withCredentials: true });
+    const response = await request.get(`${QUERY.PROJECT}/${id}`);
 
     return response.data;
   } catch (error) {

@@ -12,6 +12,7 @@ export const BASE_URL = BASE_URL_TABLE[process.env.BUILD_MODE as keyof BUILD_MOD
 export const QUERY = {
   LOGIN: "/api/v1/login/oauth",
   LOGIN_REFRESH: "/api/v1/login/refresh",
+  LOGOUT: "/api/v1/log-out",
   COMMENT: "/api/v1/comments",
   GET_ALL_COMMENTS: ({ url, projectSecretKey, sortOption }: GetCommentsRequestParams) =>
     `/api/v1/comments?url=${url}&projectKey=${projectSecretKey}&sortOption=${sortOption}`,

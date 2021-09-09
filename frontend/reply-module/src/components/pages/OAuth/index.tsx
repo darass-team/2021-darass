@@ -30,7 +30,6 @@ const OAuth = () => {
         );
 
         const accessToken = response.data.accessToken;
-        console.log(accessToken);
 
         setAccessToken(accessToken);
       } catch (error) {
@@ -45,11 +44,11 @@ const OAuth = () => {
     login();
   }, [accessToken]);
 
-  // useEffect(() => {
-  //   if (user) {
-  //     history.push(ROUTE.MY_PROJECT);
-  //   }
-  // }, [user]);
+  useEffect(() => {
+    if (user) {
+      window.close();
+    }
+  }, [user]);
 
   return <>로딩중입니다.</>;
 };

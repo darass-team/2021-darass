@@ -1,4 +1,4 @@
-import { useQuery } from "react-query";
+import { useQuery, useQueryClient } from "react-query";
 import { REACT_QUERY_KEY } from "../constants/reactQueryKey";
 import { Project } from "../types/project";
 import { GetProjectRequestParams } from "../types/comment";
@@ -6,6 +6,8 @@ import { request } from "../utils/request";
 import { QUERY } from "../constants/api";
 import axios from "axios";
 import { AlertError } from "../utils/Error";
+import { useUser } from ".";
+import { useEffect } from "react";
 
 const getProject = async (projectSecretKey: GetProjectRequestParams["projectSecretKey"]) => {
   if (!projectSecretKey) return undefined;
@@ -28,11 +30,18 @@ const getProject = async (projectSecretKey: GetProjectRequestParams["projectSecr
 };
 
 export const useGetProject = ({ projectSecretKey }: GetProjectRequestParams) => {
+  const queryClient = useQueryClient();
+  const { user } = useUser();
+
   const {
     data: project,
     isLoading,
     error
   } = useQuery<Project, Error>(REACT_QUERY_KEY.PROJECT, () => getProject(projectSecretKey));
+
+  useEffect(() => {
+    queryClient.invalidateQueries([REACT_QUERY_KEY.COMMENT]);
+  }, [user]);
 
   return { project, isLoading, error };
 };

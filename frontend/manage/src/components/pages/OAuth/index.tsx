@@ -29,7 +29,6 @@ const OAuth = () => {
         );
 
         const accessToken = response.data.accessToken;
-        console.log(accessToken);
 
         setAccessToken(accessToken);
       } catch (error) {
