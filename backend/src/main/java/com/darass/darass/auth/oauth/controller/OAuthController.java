@@ -49,9 +49,10 @@ public class OAuthController {
 
     private void createCookie(HttpServletResponse response, String refreshToken) {
         ResponseCookie cookie = ResponseCookie.from(REFRESH_TOKEN_NAME, refreshToken)
-            .sameSite("Lax")
+            .sameSite("None")
             .maxAge(SECONDS_OF_TWO_MONTHS)
             .path("/")
+            .secure(true)
             .httpOnly(true)
             .build();
         response.addHeader("Set-Cookie", cookie.toString());
