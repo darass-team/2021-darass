@@ -1,27 +1,23 @@
-import { useHistory } from "react-router";
+import Github from "../../../assets/svg/github.svg";
 import Kakao from "../../../assets/svg/kakao.svg";
-import { ROUTE } from "../../../constants";
-import { useUser } from "../../../hooks";
+import { MANAGE_PAGE_BASE_URL } from "../../../constants/domain";
+import { OAUTH_ENDPOINT } from "../../../constants/oauth";
 import { PALETTE } from "../../../styles/palette";
 import ScreenContainer from "../../../styles/ScreenContainer";
-import { AlertError } from "../../../utils/error";
 import Logo from "../../atoms/Logo";
-import { Button, Container, Introduction } from "./styles";
+import { Container, GithubLoginButton, Introduction, KakaoLoginButton } from "./styles";
 
 const Login = () => {
-  const { login } = useUser();
-  const history = useHistory();
+  const moveGithubOAuthURL = () => {
+    window.location.replace(
+      `${OAUTH_ENDPOINT.GITHUB}?client_id=${process.env.GITHUB_CLIENT_ID}&redirect_uri=https://localhost:3001/oauth/github`
+    );
+  };
 
-  const onLogin = async () => {
-    try {
-      await login();
-
-      history.push(ROUTE.MY_PROJECT);
-    } catch (error) {
-      if (error instanceof AlertError) {
-        alert(error.message);
-      }
-    }
+  const moveKakaoOAuthURL = () => {
+    window.location.replace(
+      `${OAUTH_ENDPOINT.KAKAO}?response_type=code&client_id=${process.env.KAKAO_REST_API_KEY}&redirect_uri=${MANAGE_PAGE_BASE_URL}/oauth/kakao`
+    );
   };
 
   return (
@@ -33,10 +29,14 @@ const Login = () => {
           블로그에 다라쓰
         </Introduction>
         <Logo size="LG" />
-        <Button onClick={onLogin}>
+        <KakaoLoginButton onClick={moveKakaoOAuthURL}>
           <img src={Kakao} alt="kakao" />
-          <span>카카오로 1초만에 시작하기</span>
-        </Button>
+          <span>카카오로 로그인</span>
+        </KakaoLoginButton>
+        <GithubLoginButton onClick={moveGithubOAuthURL}>
+          <img src={Github} alt="Github" />
+          <span>깃허브로 로그인</span>
+        </GithubLoginButton>
       </Container>
     </ScreenContainer>
   );

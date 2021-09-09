@@ -2,13 +2,15 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const path = require("path");
 const DotEnv = require("dotenv-webpack");
+const { DefinePlugin } = require("webpack");
 const Package = require("./package.json");
 
 const config = {
   entry: { replyModule: "./src/index.tsx", modal: "./src/Modal.tsx" },
   output: {
     path: path.resolve(__dirname, "dist"),
-    filename: `[name]-${Package.version.replace("^", "")}.js`
+    filename: `[name]-${Package.version.replace("^", "")}.js`,
+    publicPath: "/"
   },
   module: {
     rules: [
@@ -50,7 +52,17 @@ const config = {
       template: "./public/modal.html"
     }),
     new CleanWebpackPlugin(),
-    new DotEnv()
+    new DefinePlugin({
+      "process.env.BUILD_MODE": JSON.stringify(process.env.BUILD_MODE)
+    }),
+    process.env.KAKAO_REST_API_KEY
+      ? new DefinePlugin({
+          "process.env.KAKAO_REST_API_KEY": JSON.stringify(process.env.KAKAO_REST_API_KEY),
+          "process.env.KAKAO_JAVASCRIPT_API_KEY": JSON.stringify(process.env.KAKAO_JAVASCRIPT_API_KEY),
+          "process.env.SENTRY_REPLY_MODULE_DSN": JSON.stringify(process.env.SENTRY_MANAGE_PAGE_DSN),
+          "process.env.GITHUB_CLIENT_ID": JSON.stringify(process.env.GITHUB_CLIENT_ID)
+        })
+      : new DotEnv()
   ],
   resolve: {
     extensions: [".tsx", ".ts", ".jsx", ".js"]
@@ -61,6 +73,7 @@ const config = {
     host: "localhost",
     port: 3000,
     historyApiFallback: true,
+    https: true,
     open: true
   }
 };
