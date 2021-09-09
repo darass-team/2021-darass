@@ -20,6 +20,8 @@ import com.darass.darass.exception.ExceptionWithMessageAndCode;
 import com.darass.darass.exception.dto.ExceptionResponse;
 import com.darass.darass.user.domain.SocialLoginUser;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.HashMap;
+import java.util.Map;
 import javax.servlet.http.Cookie;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -33,7 +35,7 @@ import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.ResultActions;
 
 @DisplayName("Auth 인수 테스트")
-public class AuthAcceptanceTest extends AcceptanceTest {
+class AuthAcceptanceTest extends AcceptanceTest {
 
     @SpyBean(name = "jwtTokenProvider")
     private JwtTokenProvider jwtTokenProvider;
@@ -64,7 +66,7 @@ public class AuthAcceptanceTest extends AcceptanceTest {
 
     @DisplayName("oauth 인가 코드를 통해 회원가입 또는 로그인을 진행하고 refreshToken과 accessToken을 발급 받는다.")
     @Test
-    public void login_success() throws Exception {
+    void login_success() throws Exception {
         //given
         given(oAuthProviderFactory.getOAuthProvider(any())).willReturn(kaKaoOAuthProvider);
         given(kaKaoOAuthProvider.requestSocialLoginUser(any())).willReturn(socialLoginUser);
@@ -74,11 +76,12 @@ public class AuthAcceptanceTest extends AcceptanceTest {
 
         //then
         토큰_발급됨(resultActions);
+        토큰_인증_로그인_rest_doc_작성(resultActions);
     }
 
     @DisplayName("유효하지 않은 인가 코드를 보낼 경우 refreshToken과 accessToken을 발급 받지 못한다.")
     @Test
-    public void login_fail() throws Exception {
+    void login_fail() throws Exception {
         //given
         given(oAuthProviderFactory.getOAuthProvider(any())).willReturn(kaKaoOAuthProvider);
         given(kaKaoOAuthProvider.requestSocialLoginUser(any()))
@@ -93,7 +96,7 @@ public class AuthAcceptanceTest extends AcceptanceTest {
 
     @DisplayName("쿠키에 들어있는 refresh 토큰을 통해 accessToken과 refresh 토큰을 재발급 받는다.")
     @Test
-    public void refreshToken() throws Exception {
+    void refreshToken() throws Exception {
         //given
         given(oAuthProviderFactory.getOAuthProvider(any())).willReturn(kaKaoOAuthProvider);
         given(kaKaoOAuthProvider.requestSocialLoginUser(any())).willReturn(socialLoginUser);
@@ -118,7 +121,7 @@ public class AuthAcceptanceTest extends AcceptanceTest {
 
     @DisplayName("쿠키에 refresh 토큰이 들어있지 않다면, accessToken과 refresh 토큰을 재발급을 실패한다.")
     @Test
-    public void refreshToken_fail() throws Exception {
+    void refreshToken_not_exists_refresh_token_fail() throws Exception {
         //given
         given(oAuthProviderFactory.getOAuthProvider(any())).willReturn(kaKaoOAuthProvider);
         given(kaKaoOAuthProvider.requestSocialLoginUser(any())).willReturn(socialLoginUser);
@@ -130,12 +133,52 @@ public class AuthAcceptanceTest extends AcceptanceTest {
 
         ResultActions tokenRefreshResultActions = 토큰_리프레시_요청(cookie);
 
-        엑세스_토큰과_리프레쉬_토큰_재발급_실패됨(tokenRefreshResultActions);
+        리프레시_토큰이_존재_하지않아_엑세스_토큰과_리프레쉬_토큰_재발급_실패됨(tokenRefreshResultActions);
     }
 
-    private void 엑세스_토큰과_리프레쉬_토큰_재발급_실패됨(ResultActions tokenRefreshResultActions)
+    @DisplayName("쿠키에 유효하지 않는 refresh 않다면, accessToken과 refresh 토큰을 재발급을 실패한다.")
+    @Test
+    void refreshToken_invalid_refresh_token_fail() throws Exception {
+        //given
+        given(oAuthProviderFactory.getOAuthProvider(any())).willReturn(kaKaoOAuthProvider);
+        given(kaKaoOAuthProvider.requestSocialLoginUser(any())).willReturn(socialLoginUser);
+
+        Cookie cookie = new Cookie("refreshToken", "invalidRefreshToken");
+
+        // when
+        Thread.sleep(1000);
+
+        ResultActions tokenRefreshResultActions = 토큰_리프레시_요청(cookie);
+
+        유효하지_않은_리프레쉬_토큰으로_인해_엑세스_토큰과_리프레쉬_토큰_재발급_실패됨(tokenRefreshResultActions);
+    }
+
+    @DisplayName("엑세스 토큰을 보내서 로그아웃을 진행한다.")
+    @Test
+    void logOut() throws Exception {
+        //given
+        given(oAuthProviderFactory.getOAuthProvider(any())).willReturn(kaKaoOAuthProvider);
+        given(kaKaoOAuthProvider.requestSocialLoginUser(any())).willReturn(socialLoginUser);
+
+        ResultActions resultActions = 토큰_발급_요청(KaKaoOAuthProvider.NAME, authorizationCode);
+        Map<String, String> tokens = 토큰_발급됨(resultActions);
+
+        ResultActions logOutResultActions = 로그아웃_요청(tokens);
+
+        로그아웃_됨(logOutResultActions);
+        로그아웃_rest_doc_작성(logOutResultActions);
+    }
+
+    private void 리프레시_토큰이_존재_하지않아_엑세스_토큰과_리프레쉬_토큰_재발급_실패됨(ResultActions tokenRefreshResultActions)
         throws Exception {
         tokenRefreshResultActions.andExpect(status().is5xxServerError());
+
+        토큰_인증_로그인_실패_rest_doc_작성(tokenRefreshResultActions);
+    }
+
+    private void 유효하지_않은_리프레쉬_토큰으로_인해_엑세스_토큰과_리프레쉬_토큰_재발급_실패됨(ResultActions tokenRefreshResultActions)
+        throws Exception {
+        tokenRefreshResultActions.andExpect(status().isUnauthorized());
 
         토큰_인증_로그인_실패_rest_doc_작성(tokenRefreshResultActions);
     }
@@ -178,18 +221,23 @@ public class AuthAcceptanceTest extends AcceptanceTest {
             .content(asJsonString(new TokenRequest(oauthProviderName, authorizationCode))));
     }
 
-    private void 토큰_발급됨(ResultActions resultActions) throws Exception {
+    private Map<String, String> 토큰_발급됨(ResultActions resultActions) throws Exception {
         resultActions.andExpect(status().isOk());
         String jsonResponse = resultActions.andReturn().getResponse().getContentAsString();
         AccessTokenResponse accessTokenResponse = new ObjectMapper().readValue(jsonResponse, AccessTokenResponse.class);
         String accessToken = accessTokenResponse.getAccessToken();
 
         Cookie cookie = resultActions.andReturn().getResponse().getCookie("refreshToken");
+        String refreshToken = cookie.getValue();
 
-        assertThatCode(() -> jwtTokenProvider.validateRefreshToken(cookie.getValue())).doesNotThrowAnyException();
+        assertThatCode(() -> jwtTokenProvider.validateRefreshToken(refreshToken)).doesNotThrowAnyException();
         assertThat(jwtTokenProvider.getAccessTokenPayload(accessToken)).isEqualTo(socialLoginUser.getId().toString());
 
-        토큰_인증_로그인_rest_doc_작성(resultActions);
+        Map<String, String> tokens = new HashMap<>();
+        tokens.put("accessToken", accessToken);
+        tokens.put("refreshToken", refreshToken);
+
+        return tokens;
     }
 
     private void 토큰_인증_로그인_rest_doc_작성(ResultActions resultActions) throws Exception {
@@ -230,4 +278,19 @@ public class AuthAcceptanceTest extends AcceptanceTest {
         );
     }
 
+    private ResultActions 로그아웃_요청(Map<String, String> tokens) throws Exception {
+        return this.mockMvc.perform(RestDocumentationRequestBuilders.delete("/api/v1/log-out")
+            .header("Authorization", "Bearer " + tokens.get("accessToken"))
+            .header("Cookie", "refreshToken=" + tokens.get("refreshToken")));
+    }
+
+    private void 로그아웃_됨(ResultActions resultActions) throws Exception {
+        resultActions.andExpect(status().isNoContent());
+    }
+
+    private void 로그아웃_rest_doc_작성(ResultActions resultActions) throws Exception {
+        resultActions.andDo(
+            document("api/v1/log-out/post/success")
+        );
+    }
 }

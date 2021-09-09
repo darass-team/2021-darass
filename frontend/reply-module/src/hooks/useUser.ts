@@ -10,7 +10,7 @@ import { request } from "../utils/request";
 
 const deleteRefreshToken = async () => {
   try {
-    const response = await request.delete(QUERY.LOGOUT, { withCredentials: true });
+    const response = await request.delete(QUERY.LOGOUT);
 
     return response.data.accessToken;
   } catch (error) {
@@ -24,7 +24,7 @@ const deleteRefreshToken = async () => {
 
 const refreshAccessToken = async () => {
   try {
-    const response = await request.post(QUERY.LOGIN_REFRESH, {}, { withCredentials: true });
+    const response = await request.post(QUERY.LOGIN_REFRESH, {});
 
     return response.data.accessToken;
   } catch (error) {
@@ -38,7 +38,7 @@ const refreshAccessToken = async () => {
 
 const getUser = async () => {
   try {
-    const response = await request.get(QUERY.USER, { withCredentials: true });
+    const response = await request.get(QUERY.USER);
 
     return response.data;
   } catch (error) {
@@ -86,6 +86,7 @@ export const useUser = () => {
     }
   };
 
+  // TODO: Logout api 필요
   const logout = () => {
     setAccessToken(null);
     deleteRefreshToken().then(() => {

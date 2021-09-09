@@ -50,13 +50,17 @@ public class KaKaoOAuthProvider extends OAuthProvider {
         JSONObject kakaoAccount = (JSONObject) jsonObject.get("kakao_account");
         JSONObject profile = (JSONObject) kakaoAccount.get("profile");
 
-        return SocialLoginUser.builder()
+        SocialLoginUser socialLoginUser = SocialLoginUser.builder()
             .nickName(profile.getString("nickname"))
             .oauthId(String.valueOf(jsonObject.getLong("id")))
             .oauthProvider(NAME)
-            .email(kakaoAccount.getString("email"))
             .profileImageUrl(profile.getString("thumbnail_image_url"))
             .build();
+
+        if (kakaoAccount.has("email")) {
+            socialLoginUser.updateEmail(kakaoAccount.getString("email"));
+        }
+        return socialLoginUser;
     }
 
 }

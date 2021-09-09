@@ -36,9 +36,7 @@ import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.ResultActions;
 
 @DisplayName("Project 인수 테스트")
-public class ProjectAcceptanceTest extends AcceptanceTest {
-
-    private static final String PROJECT_NAME = "지킬 블로그 프로젝트";
+class ProjectAcceptanceTest extends AcceptanceTest {
 
     private final static String JEKYLL_PROJECT_NAME = "지킬 블로그 프로젝트";
 
@@ -50,12 +48,14 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
 
     @Autowired
     private UserRepository userRepository;
+
     @Autowired
     private ProjectRepository projectRepository;
+
     @Autowired
     private JwtTokenProvider tokenProvider;
+
     private SocialLoginUser socialLoginUser;
-    private Project project;
 
     @BeforeEach
     public void setUser() {
@@ -66,6 +66,7 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
             .email("bbwwpark@naver.com")
             .oauthProvider("kakao")
             .oauthId("1234")
+            .refreshToken("refreshToken")
             .build();
 
         userRepository.save(socialLoginUser);
@@ -73,7 +74,7 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
 
     @Test
     @DisplayName("프로젝트를 생성한다.")
-    public void save_success() throws Exception {
+    void save_success() throws Exception {
         //given
         String accessToken = tokenProvider.createAccessToken(socialLoginUser);
         ProjectCreateRequest projectCreateRequest = new ProjectCreateRequest(JEKYLL_PROJECT_NAME,
@@ -88,7 +89,7 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
 
     @Test
     @DisplayName("유효하지 않은 토큰을 보낸다면, 프로젝트를 생성을 실패한다.")
-    public void save_fail() throws Exception {
+    void save_fail() throws Exception {
         //given
         ProjectCreateRequest projectCreateRequest = new ProjectCreateRequest(JEKYLL_PROJECT_NAME,
             JEKYLL_PROJECT_DESCRIPTION);
@@ -102,7 +103,7 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
 
     @Test
     @DisplayName("프로젝트 이름이 중복되면, 프로젝트를 생성을 실패한다.")
-    public void save_duplicated_project_name_fail() throws Exception {
+    void save_duplicated_project_name_fail() throws Exception {
         //given
         String accessToken = tokenProvider.createAccessToken(socialLoginUser);
         ProjectCreateRequest projectCreateRequest = new ProjectCreateRequest(JEKYLL_PROJECT_NAME,
@@ -118,7 +119,7 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
 
     @Test
     @DisplayName("프로젝트 이름 또는 설명의 길이가 적절하지 않으면, 프로젝트를 생성을 실패한다.")
-    public void save_invalid_length_project_fail() throws Exception {
+    void save_invalid_length_project_fail() throws Exception {
         //given
         StringBuilder stringBuilder = new StringBuilder();
         IntStream.rangeClosed(0, 100)
@@ -138,7 +139,7 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
 
     @DisplayName("엑세스 토큰으로 프로젝트 다건 조회")
     @Test
-    public void findByUser() throws Exception {
+    void findByUser() throws Exception {
         // given
         String accessToken = tokenProvider.createAccessToken(socialLoginUser);
         ProjectCreateRequest projectCreateRequest = new ProjectCreateRequest(JEKYLL_PROJECT_NAME,
@@ -181,13 +182,12 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
     }
 
     private ResultActions 엑세스_토큰_미포함_프로젝트_다건_조회_요청() throws Exception {
-        return this.mockMvc.perform(get("/api/v1/projects")
-            .contentType(MediaType.APPLICATION_JSON));
+        return this.mockMvc.perform(get("/api/v1/projects").contentType(MediaType.APPLICATION_JSON));
     }
 
     @Test
     @DisplayName("엑세스 토큰과 프로젝트 id로 프로젝트 단건 조회한다.")
-    public void findOne() throws Exception {
+    void findOne() throws Exception {
         //given
         String accessToken = tokenProvider.createAccessToken(socialLoginUser);
         ProjectCreateRequest projectCreateRequest = new ProjectCreateRequest(JEKYLL_PROJECT_NAME,
@@ -206,7 +206,7 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
 
     @Test
     @DisplayName("유효하지 않은 엑세스 토큰으로 인해 프로젝트 id로 프로젝트 단건 조회를 실패한다.")
-    public void findOne_invalid_accessToken_fail() throws Exception {
+    void findOne_invalid_accessToken_fail() throws Exception {
         //given
         String accessToken = tokenProvider.createAccessToken(socialLoginUser);
         ProjectCreateRequest projectCreateRequest = new ProjectCreateRequest(JEKYLL_PROJECT_NAME,
@@ -225,7 +225,7 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
 
     @Test
     @DisplayName("유효하지 않은 프로젝트 id로 인해 프로젝트 단건 조회를 실패한다.")
-    public void findOne_invalid_projectId_fail() throws Exception {
+    void findOne_invalid_projectId_fail() throws Exception {
         //given
         String accessToken = tokenProvider.createAccessToken(socialLoginUser);
         ProjectCreateRequest projectCreateRequest = new ProjectCreateRequest(JEKYLL_PROJECT_NAME,
@@ -241,7 +241,7 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
 
     @Test
     @DisplayName("프로젝트 시크릿 키로 유저 id를 조회한다.(프로젝트 주인의 id를 조회한다.)")
-    public void findByProjectKey_success() throws Exception {
+    void findByProjectKey_success() throws Exception {
         // given
         Project project = makeProject(JEKYLL_PROJECT_NAME, JEKYLL_PROJECT_DESCRIPTION);
         Project savedProject = projectRepository.save(project);
@@ -283,7 +283,7 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
 
     @Test
     @DisplayName("존재하지 않는 프로젝트 id와 엑세스 토큰으로 프로젝트 단건 삭제를 실패한다.")
-    public void deleteById_fail() throws Exception {
+    void deleteById_fail() throws Exception {
         // given
         String accessToken = tokenProvider.createAccessToken(socialLoginUser);
         Project project = makeProject(JEKYLL_PROJECT_NAME, JEKYLL_PROJECT_DESCRIPTION);
@@ -298,7 +298,7 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
 
     @Test
     @DisplayName("프로젝트 id와 엑세스 토큰으로 프로젝트를 단건 수정한다.")
-    public void updateById_success() throws Exception {
+    void updateById_success() throws Exception {
         // given
         String accessToken = tokenProvider.createAccessToken(socialLoginUser);
         Project project = makeProject(JEKYLL_PROJECT_NAME, JEKYLL_PROJECT_DESCRIPTION);
@@ -315,7 +315,7 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
 
     @Test
     @DisplayName("잘못된 프로젝트 id로인해 프로젝트를 단건 수정을 실패한다.")
-    public void updateById_fail() throws Exception {
+    void updateById_fail() throws Exception {
         // given
         String accessToken = tokenProvider.createAccessToken(socialLoginUser);
         Project project = makeProject(JEKYLL_PROJECT_NAME, JEKYLL_PROJECT_DESCRIPTION);
@@ -332,7 +332,7 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
 
     @Test
     @DisplayName("잘못된 프로젝트 입력값 길이로인해 프로젝트를 단건 수정을 실패한다.")
-    public void updateById_fail_invalid_length() throws Exception {
+    void updateById_fail_invalid_length() throws Exception {
         // given
         StringBuilder stringBuilder = new StringBuilder();
         IntStream.rangeClosed(0, 100)
@@ -357,6 +357,7 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
         return this.mockMvc.perform(patch("/api/v1/projects/{projectId}", projectId)
             .contentType(MediaType.APPLICATION_JSON)
             .header("Authorization", "Bearer " + accessToken)
+            .header("Cookie", "refreshToken=refreshToken")
             .content(asJsonString(projectUpdateRequest)));
     }
 
@@ -413,6 +414,7 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
         return this.mockMvc.perform(post("/api/v1/projects")
             .contentType(MediaType.APPLICATION_JSON)
             .header("Authorization", "Bearer " + accessToken)
+            .header("Cookie", "refreshToken=refreshToken")
             .content(asJsonString(projectCreateRequest)));
     }
 
@@ -475,7 +477,8 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
     private ResultActions 엑세스_토큰으로_프로젝트_다건_조회_요청(String accessToken) throws Exception {
         return this.mockMvc.perform(get("/api/v1/projects")
             .contentType(MediaType.APPLICATION_JSON)
-            .header("Authorization", "Bearer " + accessToken));
+            .header("Authorization", "Bearer " + accessToken)
+            .header("Cookie", "refreshToken=refreshToken"));
     }
 
     private void 엑세스_토큰으로_프로젝트_다건_조회됨(ResultActions resultActions) throws Exception {
@@ -525,6 +528,7 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
         return this.mockMvc.perform(get("/api/v1/projects/{projectId}", projectId)
             .contentType(MediaType.APPLICATION_JSON)
             .header("Authorization", "Bearer " + accessToken)
+            .header("Cookie", "refreshToken=refreshToken")
             .param("userId", socialLoginUser.getId().toString()));
     }
 
@@ -636,7 +640,8 @@ public class ProjectAcceptanceTest extends AcceptanceTest {
     private ResultActions 프로젝트_단건_삭제_요청(Long projectId, String accessToken) throws Exception {
         return this.mockMvc.perform(delete("/api/v1/projects/{projectId}", projectId)
             .contentType(MediaType.APPLICATION_JSON)
-            .header("Authorization", "Bearer " + accessToken));
+            .header("Authorization", "Bearer " + accessToken)
+            .header("Cookie", "refreshToken=refreshToken"));
     }
 
     private void 프로젝트_단건_삭제됨(ResultActions resultActions) throws Exception {

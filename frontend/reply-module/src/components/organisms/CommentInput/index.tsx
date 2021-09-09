@@ -84,7 +84,7 @@ const CommentInput = ({ className, innerRef, user, parentCommentId, onClose }: P
   };
 
   const onInput = (event: ChangeEvent<HTMLDivElement>) => {
-    const currentText = event.target.innerText;
+    const currentText = event.target.textContent || "";
 
     if (currentText.length > MAX_COMMENT_INPUT_LENGTH) {
       postAlertMessage(getErrorMessage.commentInput(currentText));
@@ -100,7 +100,12 @@ const CommentInput = ({ className, innerRef, user, parentCommentId, onClose }: P
   };
 
   return (
-    <Form onSubmit={onSubmit} className={className} isSubCommentInput={isSubCommentInput}>
+    <Form
+      onSubmit={onSubmit}
+      className={className}
+      isSubCommentInput={isSubCommentInput}
+      data-testid={isSubCommentInput ? "subCommentInput" : "commentInput"}
+    >
       <TextBoxWrapper>
         <TextBox
           ref={(element: HTMLDivElement) => {
@@ -141,7 +146,7 @@ const CommentInput = ({ className, innerRef, user, parentCommentId, onClose }: P
         )}
         <ButtonWrapper isSubCommentInput={isSubCommentInput}>
           {isSubCommentInput && <CancelButton onClick={onClose}>취소</CancelButton>}
-          <SubmitButton>등록</SubmitButton>
+          <SubmitButton data-testid="comment-input-submit-button">등록</SubmitButton>
         </ButtonWrapper>
       </Wrapper>
     </Form>

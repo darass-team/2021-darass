@@ -37,7 +37,7 @@ const refreshAccessToken = async () => {
 
 const getUser = async () => {
   try {
-    const response = await request.get(QUERY.USER);
+    const response = await request.get(QUERY.USER, { withCredentials: true });
 
     return response.data;
   } catch (error) {
@@ -85,6 +85,7 @@ export const useUser = () => {
     }
   };
 
+  // TODO: Logout api 필요
   const logout = () => {
     setAccessToken(null);
     deleteRefreshToken().then(() => {

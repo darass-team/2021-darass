@@ -13,6 +13,7 @@ const _editComment = async (editedComment: EditCommentParameter) => {
       guestUserId: editedComment.guestUserId,
       guestUserPassword: editedComment.guestUserPassword
     });
+
     return response.data;
   } catch (error) {
     if (!axios.isAxiosError(error)) {

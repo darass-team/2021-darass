@@ -131,6 +131,10 @@ const CommentArea = () => {
               <Avatar size="SM" imageURL={kakaoTalkIcon} alt="카카오톡 로그인 이미지" />
               <LoginMethod>카카오</LoginMethod>
             </LoginMethodWrapper>
+            <LoginMethodWrapper onClick={onLogin}>
+              <Avatar size="SM" imageURL={githubIcon} alt="깃허브 로그인 이미지" />
+              <LoginMethod>깃허브</LoginMethod>
+            </LoginMethodWrapper>
           </>
         )}
       </UserAvatarOption>

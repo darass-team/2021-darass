@@ -13,6 +13,7 @@ const getAllComments = async ({ url, projectSecretKey, sortOption }: GetComments
 
   try {
     const response = await request.get(QUERY.GET_ALL_COMMENTS({ url, projectSecretKey, sortOption }));
+
     return response.data;
   } catch (error) {
     if (!axios.isAxiosError(error)) {

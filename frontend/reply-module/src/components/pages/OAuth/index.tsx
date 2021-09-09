@@ -1,7 +1,6 @@
 import { useContext, useEffect } from "react";
 import { useHistory, useLocation, useParams } from "react-router";
 import { QUERY } from "../../../constants/api";
-
 import { accessTokenContext } from "../../../contexts/AccessTokenProvider";
 import { useUser } from "../../../hooks";
 import { request } from "../../../utils/request";
@@ -20,14 +19,10 @@ const OAuth = () => {
 
     const setAccessTokenAsync = async () => {
       try {
-        const response = await request.post(
-          QUERY.LOGIN,
-          {
-            oauthProviderName: provider,
-            authorizationCode: code
-          },
-          { withCredentials: true }
-        );
+        const response = await request.post(QUERY.LOGIN, {
+          oauthProviderName: provider,
+          authorizationCode: code
+        });
 
         const accessToken = response.data.accessToken;
 
