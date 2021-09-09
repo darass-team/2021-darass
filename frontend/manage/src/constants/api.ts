@@ -7,6 +7,7 @@ const BASE_URL =
 const QUERY = {
   LOGIN: "/api/v1/login/oauth",
   LOGIN_REFRESH: "/api/v1/login/refresh",
+  LOGOUT: "/api/v1/log-out",
   USER: "/api/v1/users",
   COMMENT: "/api/v1/comments",
   PROJECT: "/api/v1/projects",
