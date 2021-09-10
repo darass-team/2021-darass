@@ -67,14 +67,18 @@ const config = {
   resolve: {
     extensions: [".tsx", ".ts", ".jsx", ".js"]
   },
-  devtool: process.env.BUILD_MODE === "development" ? "source-map" : false,
+  devtool: process.env.BUILD_MODE !== "production" ? "source-map" : false,
   mode: process.env.BUILD_MODE === "localhost" ? "development" : process.env.BUILD_MODE,
   devServer: {
     host: "localhost",
     port: 3000,
+    open: true,
+    hot: true,
     historyApiFallback: true,
-    https: true,
-    open: true
+    https: {
+      key: "./localhost-key.pem",
+      cert: "./localhost.pem"
+    }
   }
 };
 

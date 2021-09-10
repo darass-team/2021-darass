@@ -31,7 +31,9 @@ const refreshAccessToken = async () => {
       throw new AlertError("알 수 없는 에러입니다.");
     }
 
-    throw new Error("액세스 토큰 재발급에 실패하셨습니다.");
+    const newError = new Error("액세스 토큰 재발급에 실패하셨습니다.");
+    newError.name = "requestFailAccessToken";
+    throw newError;
   }
 };
 
@@ -85,7 +87,6 @@ export const useUser = () => {
     }
   };
 
-  // TODO: Logout api 필요
   const logout = () => {
     setAccessToken(null);
     deleteRefreshToken().then(() => {
@@ -105,7 +106,8 @@ export const useUser = () => {
     login();
   }, [accessToken]);
 
-  const isLoggedOut = !user && error?.name !== "noAccessToken";
+  const isLoggedOut = (!user && error?.name === "noAccessToken") || error?.name === "requestFailAccessToken";
+  console.log(!user, error?.name);
 
   return { user, login, logout, isLoading, error, isLoggedOut };
 };
