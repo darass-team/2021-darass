@@ -46,7 +46,8 @@ public class OAuthController {
     }
 
     @PostMapping("/login/refresh")
-    public ResponseEntity<AccessTokenResponse> refreshToken(@CookieValue(value = REFRESH_TOKEN_NAME, required = false) Cookie cookie,
+    public ResponseEntity<AccessTokenResponse> refreshToken(
+        @CookieValue(value = REFRESH_TOKEN_NAME, required = false) Cookie cookie,
         HttpServletResponse response) {
         validateRefreshTokenCookie(cookie);
 
@@ -57,7 +58,7 @@ public class OAuthController {
     }
 
     private void validateRefreshTokenCookie(Cookie cookie) {
-        if(Objects.isNull(cookie.getValue())){
+        if (Objects.isNull(cookie)) {
             throw ExceptionWithMessageAndCode.NOT_EXISTS_COOKIE.getException();
         }
     }
