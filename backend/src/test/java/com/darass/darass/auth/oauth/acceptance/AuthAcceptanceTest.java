@@ -22,6 +22,7 @@ import com.darass.darass.user.domain.SocialLoginUser;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import javax.servlet.http.Cookie;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -133,7 +134,19 @@ class AuthAcceptanceTest extends AcceptanceTest {
 
         ResultActions tokenRefreshResultActions = 토큰_리프레시_요청(cookie);
 
-        리프레시_토큰이_존재_하지않아_엑세스_토큰과_리프레쉬_토큰_재발급_실패됨(tokenRefreshResultActions);
+        유효하지_않은_리프레쉬_토큰으로_인해_엑세스_토큰과_리프레쉬_토큰_재발급_실패됨(tokenRefreshResultActions);
+    }
+
+    @DisplayName("쿠키를 보내지 않는다면, 404를 응답한다.")
+    @Test
+    void refreshToken_not_exists_cookie_fail() throws Exception {
+        //given
+        given(oAuthProviderFactory.getOAuthProvider(any())).willReturn(kaKaoOAuthProvider);
+        given(kaKaoOAuthProvider.requestSocialLoginUser(any())).willReturn(socialLoginUser);
+
+        ResultActions tokenRefreshResultActions = 토큰_리프레시_요청(null);
+
+        쿠키가_존재_하지않아_엑세스_토큰과_리프레쉬_토큰_재발급_실패됨(tokenRefreshResultActions);
     }
 
     @DisplayName("쿠키에 유효하지 않는 refresh 않다면, accessToken과 refresh 토큰을 재발급을 실패한다.")
@@ -176,14 +189,23 @@ class AuthAcceptanceTest extends AcceptanceTest {
         토큰_인증_로그인_실패_rest_doc_작성(tokenRefreshResultActions);
     }
 
+    private void 쿠키가_존재_하지않아_엑세스_토큰과_리프레쉬_토큰_재발급_실패됨(ResultActions tokenRefreshResultActions)
+        throws Exception {
+        tokenRefreshResultActions.andExpect(status().isBadRequest());
+    }
+
     private void 유효하지_않은_리프레쉬_토큰으로_인해_엑세스_토큰과_리프레쉬_토큰_재발급_실패됨(ResultActions tokenRefreshResultActions)
         throws Exception {
-        tokenRefreshResultActions.andExpect(status().isUnauthorized());
+        tokenRefreshResultActions.andExpect(status().is4xxClientError());
 
         토큰_인증_로그인_실패_rest_doc_작성(tokenRefreshResultActions);
     }
 
     private ResultActions 토큰_리프레시_요청(Cookie cookie) throws Exception {
+        if (Objects.isNull(cookie)) {
+            return this.mockMvc.perform(RestDocumentationRequestBuilders.post("/api/v1/login/refresh")
+                .contentType(MediaType.APPLICATION_JSON));
+        }
         return this.mockMvc.perform(RestDocumentationRequestBuilders.post("/api/v1/login/refresh")
             .cookie(cookie)
             .contentType(MediaType.APPLICATION_JSON));

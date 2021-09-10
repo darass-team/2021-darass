@@ -5,7 +5,9 @@ import com.darass.darass.auth.oauth.dto.AccessTokenResponse;
 import com.darass.darass.auth.oauth.dto.TokenRequest;
 import com.darass.darass.auth.oauth.dto.TokenResponse;
 import com.darass.darass.auth.oauth.service.OAuthService;
+import com.darass.darass.exception.ExceptionWithMessageAndCode;
 import com.darass.darass.user.domain.SocialLoginUser;
+import java.util.Objects;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -44,12 +46,21 @@ public class OAuthController {
     }
 
     @PostMapping("/login/refresh")
-    public ResponseEntity<AccessTokenResponse> refreshToken(@CookieValue(value = REFRESH_TOKEN_NAME) Cookie cookie,
+    public ResponseEntity<AccessTokenResponse> refreshToken(
+        @CookieValue(value = REFRESH_TOKEN_NAME, required = false) Cookie cookie,
         HttpServletResponse response) {
+        validateRefreshTokenCookie(cookie);
+
         TokenResponse tokenResponse = oAuthService.refreshAccessTokenWithRefreshToken(cookie.getValue());
         createCookie(response, tokenResponse.getRefreshToken());
 
         return ResponseEntity.status(HttpStatus.OK).body(new AccessTokenResponse(tokenResponse.getAccessToken()));
+    }
+
+    private void validateRefreshTokenCookie(Cookie cookie) {
+        if (Objects.isNull(cookie)) {
+            throw ExceptionWithMessageAndCode.NOT_EXISTS_COOKIE.getException();
+        }
     }
 
     private void createCookie(HttpServletResponse response, String refreshToken) {
