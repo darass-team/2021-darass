@@ -4,6 +4,7 @@ import { QUERY } from "../constants/api";
 import { request } from "../utils/request";
 import { DeleteCommentRequestParameter } from "../types/comment";
 import { REACT_QUERY_KEY } from "../constants/reactQueryKey";
+import axios from "axios";
 
 const _deleteComment = async ({ id, guestUserId, guestUserPassword }: DeleteCommentRequestParameter) => {
   try {
@@ -13,11 +14,15 @@ const _deleteComment = async ({ id, guestUserId, guestUserPassword }: DeleteComm
 
     return response.data;
   } catch (error) {
-    if (error.response.data.code === 900) {
+    if (!axios.isAxiosError(error)) {
+      throw new AlertError("알 수 없는 에러입니다.");
+    }
+
+    if (error.response?.data.code === 900) {
       throw new AlertError("이미 삭제된 댓글입니다.");
     }
 
-    if (error.response.data.code === 903) {
+    if (error.response?.data.code === 903) {
       throw new AlertError("해당 댓글을 삭제할 권한이 없습니다.");
     }
 

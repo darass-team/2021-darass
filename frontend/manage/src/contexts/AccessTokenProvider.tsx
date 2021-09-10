@@ -25,7 +25,6 @@ const AccessTokenProvider = ({ children }: Props) => {
     if (accessToken) {
       interceptorRef.current = customAxios.interceptors.request.use(config => {
         config.headers.Authorization = `Bearer ${accessToken}`;
-        config.withCredentials = true;
 
         return config;
       });

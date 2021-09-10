@@ -4,6 +4,8 @@ import { useQuery, useQueryClient } from "react-query";
 import { QUERY, REACT_QUERY_KEY } from "../constants";
 import { Comment, GetCommentsOfProjectPerPageRequest } from "../types/comment";
 import { request } from "../utils/request";
+import { useUser } from ".";
+import { useEffect } from "react";
 
 const _getAllCommentsOfProject = async ({
   sortOption,
@@ -54,6 +56,7 @@ export const useGetCommentsOfProjectPerPage = ({
   keyword
 }: Props) => {
   const queryClient = useQueryClient();
+  const { user } = useUser();
 
   const { data, refetch, isLoading, error } = useQuery<
     {
@@ -90,6 +93,10 @@ export const useGetCommentsOfProjectPerPage = ({
   const comments = !data || data?.comments.length === 0 ? [] : data.comments;
   const totalComment = data?.totalComment ? data?.totalComment : 0;
   const totalPage = data?.totalPage ? data?.totalPage : 0;
+
+  useEffect(() => {
+    queryClient.invalidateQueries([REACT_QUERY_KEY.COMMENT_OF_PROJECT_PER_PAGE, projectKey, page]);
+  }, [user]);
 
   return { comments, totalComment, totalPage, refetch, isLoading, error, prefetch };
 };

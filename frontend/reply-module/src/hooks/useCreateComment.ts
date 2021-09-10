@@ -4,6 +4,7 @@ import { request } from "../utils/request";
 import { Comment, CreateCommentRequestData } from "../types/comment";
 import { REACT_QUERY_KEY } from "../constants/reactQueryKey";
 import { AlertError } from "../utils/Error";
+import axios from "axios";
 
 const _createComment = async (_data: CreateCommentRequestData) => {
   try {
@@ -11,11 +12,15 @@ const _createComment = async (_data: CreateCommentRequestData) => {
 
     return response.data;
   } catch (error) {
-    if (error.response.data.code === 700) {
+    if (!axios.isAxiosError(error)) {
+      throw new AlertError("알 수 없는 에러입니다.");
+    }
+
+    if (error.response?.data.code === 700) {
       throw new AlertError("관리자가 프로젝트를 삭제하여 더 이상 댓글을 작성할 수 없습니다.");
     }
 
-    if (error.response.data.code === 900) {
+    if (error.response?.data.code === 900) {
       throw new AlertError("해당 댓글이 삭제되어 답글을 작성할 수 없습니다.");
     }
 

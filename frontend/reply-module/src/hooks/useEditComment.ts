@@ -4,6 +4,7 @@ import { request } from "../utils/request";
 import { EditCommentParameter, EditCommentRequestData } from "../types/comment";
 import { REACT_QUERY_KEY } from "../constants/reactQueryKey";
 import { AlertError } from "../utils/Error";
+import axios from "axios";
 
 const _editComment = async (editedComment: EditCommentParameter) => {
   try {
@@ -12,13 +13,18 @@ const _editComment = async (editedComment: EditCommentParameter) => {
       guestUserId: editedComment.guestUserId,
       guestUserPassword: editedComment.guestUserPassword
     });
+
     return response.data;
   } catch (error) {
-    if (error.response.data.code === 900) {
+    if (!axios.isAxiosError(error)) {
+      throw new AlertError("알 수 없는 에러입니다.");
+    }
+
+    if (error.response?.data.code === 900) {
       throw new AlertError("이미 삭제된 댓글입니다.");
     }
 
-    if (error.response.data.code === 903) {
+    if (error.response?.data.code === 903) {
       throw new AlertError("해당 댓글을 수정할 권한이 없습니다.");
     }
 

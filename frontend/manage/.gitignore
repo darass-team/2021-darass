@@ -3,5 +3,4 @@ dist
 .env
 build
 .vscode
-localhost+1-key.pem
-localhost+1.pem
+*.pem

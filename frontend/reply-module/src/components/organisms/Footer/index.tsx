@@ -1,12 +1,12 @@
 import { Container, CopyRight, Logo, LogoButton, ServiceName } from "./styles";
 import darassLogoSVG from "../../../assets/svg/darass-logo.svg";
-import { getManagePageURLWithToken } from "../../../utils/getManagePageURLWithToken";
+import { MANAGE_PAGE_DOMAIN } from "../../../constants/domain";
 
 const Footer = () => {
   return (
     <Container>
       <CopyRight>&copy; Emergency Escape</CopyRight>
-      <LogoButton href={getManagePageURLWithToken()} target="_blank" rel="noopener noreferrer">
+      <LogoButton href={MANAGE_PAGE_DOMAIN} target="_blank" rel="noopener noreferrer">
         <Logo src={darassLogoSVG} alt="darass-logo" />
         <ServiceName>Darass</ServiceName>
       </LogoButton>

@@ -41,7 +41,7 @@ const OAuth = () => {
 
   useEffect(() => {
     if (user) {
-      history.push("/");
+      window.close();
     }
   }, [user]);
 

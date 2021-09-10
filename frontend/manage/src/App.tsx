@@ -16,7 +16,7 @@ import { ROUTE } from "./constants";
 import { useUser } from "./hooks";
 
 const App = () => {
-  const { user, isLoading } = useUser();
+  const { user, isLoggedOut, isLoading } = useUser();
 
   return (
     <>
@@ -30,17 +30,25 @@ const App = () => {
           <Route exact path={ROUTE.ABOUT} render={() => <ErrorPage notice="개발중인 페이지 입니다." />} />
           <Route exact path={ROUTE.NOTICE} render={() => <ErrorPage notice="개발중인 페이지 입니다." />} />
           <ConditionalRoute path={ROUTE.LOGIN} component={Login} condition={!user} redirectPath={ROUTE.MY_PROJECT} />
-          <ConditionalRoute path={ROUTE.USER_PROFILE} component={UserProfile} condition={!!user || isLoading} />
+          <ConditionalRoute path={ROUTE.USER_PROFILE} component={UserProfile} condition={!isLoggedOut || isLoading} />
           <ConditionalRoute
             path={ROUTE.SCRIPT_PUBLISHING}
             component={LoadableScriptPublishing}
-            condition={!!user || isLoading}
+            condition={!isLoggedOut || isLoading}
           />
-          <ConditionalRoute path={ROUTE.NEW_PROJECT} component={NewProject} condition={!!user || isLoading} />
-          <ConditionalRoute path={ROUTE.PROJECT_MANAGE} component={Manage} condition={!!user || isLoading} />
-          <ConditionalRoute path={ROUTE.STATISTICS} component={LoadableStatistics} condition={!!user || isLoading} />
-          <ConditionalRoute path={ROUTE.PROJECT_DETAIL} component={ProjectDetail} condition={!!user || isLoading} />
-          <ConditionalRoute path={ROUTE.MY_PROJECT} component={MyProject} condition={!!user || isLoading} />
+          <ConditionalRoute path={ROUTE.NEW_PROJECT} component={NewProject} condition={!isLoggedOut || isLoading} />
+          <ConditionalRoute path={ROUTE.PROJECT_MANAGE} component={Manage} condition={!isLoggedOut || isLoading} />
+          <ConditionalRoute
+            path={ROUTE.STATISTICS}
+            component={LoadableStatistics}
+            condition={!isLoggedOut || isLoading}
+          />
+          <ConditionalRoute
+            path={ROUTE.PROJECT_DETAIL}
+            component={ProjectDetail}
+            condition={!isLoggedOut || isLoading}
+          />
+          <ConditionalRoute path={ROUTE.MY_PROJECT} component={MyProject} condition={!isLoggedOut || isLoading} />
           <Redirect to={ROUTE.HOME} />
         </Switch>
       </Sentry.ErrorBoundary>

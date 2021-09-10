@@ -60,7 +60,8 @@
     "styled-normalize": "^8.0.7"
   },
   "scripts": {
-    "start": "cross-env BUILD_MODE=development webpack serve",
+    "start": "cross-env BUILD_MODE=localhost webpack serve",
+    "start:development": "cross-env BUILD_MODE=development webpack serve",
     "start:production": "cross-env BUILD_MODE=production webpack serve",
     "build": "cross-env BUILD_MODE=development webpack",
     "build:production": "cross-env BUILD_MODE=production webpack",
