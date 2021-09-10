@@ -134,6 +134,18 @@ class AuthAcceptanceTest extends AcceptanceTest {
 
         ResultActions tokenRefreshResultActions = 토큰_리프레시_요청(cookie);
 
+        유효하지_않은_리프레쉬_토큰으로_인해_엑세스_토큰과_리프레쉬_토큰_재발급_실패됨(tokenRefreshResultActions);
+    }
+
+    @DisplayName("쿠키를 보내지 않는다면, 404를 응답한다.")
+    @Test
+    void refreshToken_not_exists_cookie_fail() throws Exception {
+        //given
+        given(oAuthProviderFactory.getOAuthProvider(any())).willReturn(kaKaoOAuthProvider);
+        given(kaKaoOAuthProvider.requestSocialLoginUser(any())).willReturn(socialLoginUser);
+
+        ResultActions tokenRefreshResultActions = 토큰_리프레시_요청(null);
+
         쿠키가_존재_하지않아_엑세스_토큰과_리프레쉬_토큰_재발급_실패됨(tokenRefreshResultActions);
     }
 
@@ -150,18 +162,6 @@ class AuthAcceptanceTest extends AcceptanceTest {
         Thread.sleep(1000);
 
         ResultActions tokenRefreshResultActions = 토큰_리프레시_요청(cookie);
-
-        유효하지_않은_리프레쉬_토큰으로_인해_엑세스_토큰과_리프레쉬_토큰_재발급_실패됨(tokenRefreshResultActions);
-    }
-
-    @DisplayName("쿠키를 보내지 않는다면, 404를 응답한다.")
-    @Test
-    void refreshToken_not_exists_cookie_fail() throws Exception {
-        //given
-        given(oAuthProviderFactory.getOAuthProvider(any())).willReturn(kaKaoOAuthProvider);
-        given(kaKaoOAuthProvider.requestSocialLoginUser(any())).willReturn(socialLoginUser);
-
-        ResultActions tokenRefreshResultActions = 토큰_리프레시_요청(null);
 
         유효하지_않은_리프레쉬_토큰으로_인해_엑세스_토큰과_리프레쉬_토큰_재발급_실패됨(tokenRefreshResultActions);
     }
