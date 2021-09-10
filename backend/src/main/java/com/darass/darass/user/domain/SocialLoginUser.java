@@ -56,4 +56,17 @@ public class SocialLoginUser extends User {
     public void updateRefreshToken(String refreshToken) {
         this.refreshToken = refreshToken;
     }
+
+    public void deleteRefreshToken() {
+        refreshToken = null;
+    }
+
+    public boolean isSameRefreshToken(String refreshToken) {
+        return this.refreshToken.equals(refreshToken);
+    }
+
+    public void updateEmail(String email){
+        this.email = email;
+    }
+
 }

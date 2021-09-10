@@ -1,21 +1,26 @@
+import axios from "axios";
 import { useMutation, useQueryClient } from "react-query";
 import { QUERY } from "../constants/api";
-import { request } from "../utils/request";
-import { Comment, EditCommentRequestData, GetCommentsResponse, LikeCommentParameter } from "../types/comment";
 import { REACT_QUERY_KEY } from "../constants/reactQueryKey";
+import { Comment, LikeCommentParameter } from "../types/comment";
 import { AlertError } from "../utils/Error";
+import { request } from "../utils/request";
 
 const _likeComment = async (id: Comment["id"]) => {
   try {
-    const response = await request.post<EditCommentRequestData>(QUERY.LIKE_COMMENT(id));
+    const response = await request.post(QUERY.LIKE_COMMENT(id), {});
 
     return response.data;
   } catch (error) {
-    if (error.response.data.code === 800) {
+    if (!axios.isAxiosError(error)) {
+      throw new AlertError("알 수 없는 에러입니다.");
+    }
+
+    if (error.response?.data.code === 800) {
       throw new AlertError("'좋아요'를 누르려면 로그인을 해주세요.");
     }
 
-    if (error.response.data.code === 900) {
+    if (error.response?.data.code === 900) {
       throw new AlertError("이미 삭제된 댓글입니다.");
     }
 

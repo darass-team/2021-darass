@@ -29,6 +29,9 @@ public enum ExceptionWithMessageAndCode {
     INVALID_OAUTH_PROVIDER(new UnauthorizedException("존재하지 않는 oauth provider 입니다.", 803)),
     INVALID_OAUTH_AUTHORIZATION_CODE(new UnauthorizedException("유효하지 않은 oauth 인가 코드 입니다.", 804)),
     INVALID_OAUTH_ACCESS_TOKEN(new UnauthorizedException("유효하지 않은 oauth 엑세스 토큰입니다.", 805)),
+    NOT_EXISTS_ACCESS_TOKEN(new UnauthorizedException("엑세스 토큰이 존재하지 않습니다.", 806)),
+    NOT_EXISTS_REFRESH_TOKEN(new UnauthorizedException("리프레쉬 토큰이 존재하지 않습니다.", 806)),
+    INVALID_REFRESH_TOKEN(new UnauthorizedException("리프레쉬 토큰이 유효하지 않습니다.", 807)),
 
     // 댓글 관련 : 9xx
     NOT_FOUND_COMMENT(new NotFoundException("해당하는 댓글이 없습니다.", 900)),

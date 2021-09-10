@@ -4,7 +4,9 @@ import { Project } from "@/types/project";
 import { AlertError } from "@/utils/error";
 import { request } from "@/utils/request";
 import axios from "axios";
-import { useQuery } from "react-query";
+import { useEffect } from "react";
+import { useQuery, useQueryClient } from "react-query";
+import { useUser } from ".";
 
 const getProject = async (id: Project["id"]) => {
   try {
@@ -12,10 +14,15 @@ const getProject = async (id: Project["id"]) => {
 
     return response.data;
   } catch (error) {
-    console.error(error);
-
     if (!axios.isAxiosError(error)) {
-      throw new Error("알 수 없는 에러입니다.");
+      throw new AlertError("알 수 없는 에러입니다.");
+    }
+
+    if (error.response?.data.code === 806) {
+      const newError = new Error("액세스 토큰이 존재하지 않습니다.");
+      newError.name = "noAccessToken";
+
+      throw newError;
     }
 
     if (error.response?.data.code === 801) {
@@ -26,11 +33,14 @@ const getProject = async (id: Project["id"]) => {
       throw new AlertError("존재하지 않는 프로젝트입니다.");
     }
 
-    throw new AlertError("프로젝트 생성에 실패하였습니다.\n잠시 후 다시 시도해주세요.");
+    throw new AlertError("프로젝트 조회에 실패하였습니다.\n잠시 후 다시 시도해주세요.");
   }
 };
 
 export const useGetProject = (id: Project["id"]) => {
+  const queryClient = useQueryClient();
+  const { user } = useUser();
+
   const {
     data: project,
     isLoading,
@@ -38,6 +48,10 @@ export const useGetProject = (id: Project["id"]) => {
   } = useQuery<Project, Error>([REACT_QUERY_KEY.PROJECT, id], () => getProject(id), {
     retry: false
   });
+
+  useEffect(() => {
+    queryClient.invalidateQueries([REACT_QUERY_KEY.PROJECT, id]);
+  }, [user]);
 
   return { project, isLoading, error };
 };

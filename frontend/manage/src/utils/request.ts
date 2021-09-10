@@ -1,31 +1,19 @@
 import { BASE_URL } from "@/constants/api";
-import { COOKIE_KEY } from "@/constants/cookie";
 import axios, { AxiosResponse } from "axios";
-import { getCookie } from "./cookie";
 
-const customAxios = axios.create({
+export const customAxios = axios.create({
   baseURL: BASE_URL
 });
 
-customAxios.interceptors.request.use(config => {
-  const accessToken = getCookie(COOKIE_KEY.ATK);
-
-  if (accessToken) {
-    config.headers.Authorization = `Bearer ${accessToken}`;
-  }
-
-  return config;
-});
-
 const request = {
-  get: async (query: string) => await customAxios.get(query),
+  get: async (query: string, headers?: AxiosResponse["headers"]) =>
+    await customAxios.get(query, { ...headers, withCredentials: true }),
   post: async <T>(query: string, data: T, headers?: AxiosResponse["headers"]) =>
-    await customAxios.post(query, data, headers),
+    await customAxios.post(query, data, { ...headers, withCredentials: true }),
   patch: async <T>(query: string, data: T, headers?: AxiosResponse["headers"]) =>
-    await customAxios.patch(query, data, {
-      headers
-    }),
-  delete: async (query: string) => await customAxios.delete(query)
+    await customAxios.patch(query, data, { ...headers, withCredentials: true }),
+  delete: async (query: string, headers?: AxiosResponse["headers"]) =>
+    await customAxios.delete(query, { ...headers, withCredentials: true })
 };
 
 export { request };

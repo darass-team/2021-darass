@@ -51,9 +51,11 @@ import org.springframework.test.web.servlet.request.MockMultipartHttpServletRequ
 import org.springframework.web.multipart.MultipartFile;
 
 @DisplayName("User 인수테스트")
-public class UserAcceptanceTest extends AcceptanceTest {
+class UserAcceptanceTest extends AcceptanceTest { //TODO: 로그이웃 기능 체크
 
-    private final String apiUrl = "/api/v1/users";
+    private static final String API_URL = "/api/v1/users";
+
+    private static final String REFRESH_TOKEN = "refreshToken";
 
     @Autowired
     private UserRepository userRepository;
@@ -80,18 +82,19 @@ public class UserAcceptanceTest extends AcceptanceTest {
             .oauthProvider("kakao")
             .email("bbwwpark@naver.com")
             .profileImageUrl("https://imageUrl")
+            .refreshToken(REFRESH_TOKEN)
             .build();
         userRepository.save(socialLoginUser);
     }
 
     @Test
     @DisplayName("엑세스 토큰으로 유저를 조회한다.")
-    public void findUser_success() throws Exception {
+    void findUser_success() throws Exception {
         //given
         String accessToken = tokenProvider.createAccessToken(socialLoginUser);
 
         //when
-        ResultActions resultActions = 유저_조회_요청(accessToken);
+        ResultActions resultActions = 유저_조회_요청(accessToken, REFRESH_TOKEN);
 
         //then
         유저_조회됨(resultActions);
@@ -99,20 +102,46 @@ public class UserAcceptanceTest extends AcceptanceTest {
 
     @Test
     @DisplayName("유효하지 않은 엑세스 토큰으로 인해 유저 조회를 실패한다.")
-    public void findUser_fail() throws Exception {
+    void findUser_fail() throws Exception {
         //given
         String incorrectAccessToken = "incorrectAccessToken";
 
         //when
-        ResultActions resultActions = 유저_조회_요청(incorrectAccessToken);
+        ResultActions resultActions = 유저_조회_요청(incorrectAccessToken, REFRESH_TOKEN);
 
         //then
-        유저_조회_실패됨(resultActions);
+        유저_토큰_인증_실패됨(resultActions);
+        유저_조회_실패_rest_doc_작성(resultActions);
+    }
+
+
+    @Test
+    @DisplayName("유효하지 않은 리프레쉬 토큰으로 인해 토큰으로 유저 조회를 실패한다.")
+    void findUser_success2() throws Exception {
+        //given
+        String accessToken = tokenProvider.createAccessToken(socialLoginUser);
+
+        //when
+        ResultActions resultActions = 유저_조회_요청(accessToken,"invalidRefreshToken");
+
+        //then
+        유효하지_않은_리프레쉬_토큰으로_인해_유저_토큰_인증_실패됨(resultActions);
+        유저_조회_실패_rest_doc_작성(resultActions);
+    }
+
+    private void 유효하지_않은_리프레쉬_토큰으로_인해_유저_토큰_인증_실패됨(ResultActions resultActions) throws Exception {
+        resultActions.andExpect(status().isUnauthorized());
+
+        String jsonResponse = resultActions.andReturn().getResponse().getContentAsString();
+        ExceptionResponse exceptionResponse = new ObjectMapper().readValue(jsonResponse, ExceptionResponse.class);
+
+        assertThat(exceptionResponse.getMessage()).isEqualTo(ExceptionWithMessageAndCode.INVALID_REFRESH_TOKEN.findMessage());
+        assertThat(exceptionResponse.getCode()).isEqualTo(ExceptionWithMessageAndCode.INVALID_REFRESH_TOKEN.findCode());
     }
 
     @Test
     @DisplayName("엑세스 토큰으로 유저 닉네임을 수정한다.")
-    public void updateUserNickname_success() throws Exception {
+    void updateUserNickname_success() throws Exception {
         //given
         String accessToken = tokenProvider.createAccessToken(socialLoginUser);
         UserUpdateRequest userUpdateRequest = new UserUpdateRequest("병욱", null);
@@ -126,7 +155,7 @@ public class UserAcceptanceTest extends AcceptanceTest {
 
     @Test
     @DisplayName("액세스 토큰으로 유저 프로필 사진을 수정한다.")
-    public void updateProfileImage_success() throws Exception {
+    void updateProfileImage_success() throws Exception {
         //given
         String accessToken = tokenProvider.createAccessToken(socialLoginUser);
         byte[] bytes = Files.readAllBytes(Paths.get("./src/test/resources/static/testImg.jpg"));
@@ -144,7 +173,7 @@ public class UserAcceptanceTest extends AcceptanceTest {
 
     @Test
     @DisplayName("유효하지 않은 닉네일 길이로 인해 유저 닉네임 수정을 실패한다.")
-    public void updateUserNickname_length_fail() throws Exception {
+    void updateUserNickname_length_fail() throws Exception {
         //given
         String accessToken = tokenProvider.createAccessToken(socialLoginUser);
         String invalidNickName = "invalid_nickName_invalid_nickName_invalid_nickName_invalid_nickName";
@@ -159,7 +188,7 @@ public class UserAcceptanceTest extends AcceptanceTest {
 
     @Test
     @DisplayName("유효하지 않은 엑세스 토큰으로 인해 유저 닉네임 수정을 실패한다.")
-    public void updateUserNickname_fail() throws Exception {
+    void updateUserNickname_fail() throws Exception {
         //given
         String incorrectAccessToken = "incorrectAccessToken";
         UserUpdateRequest userUpdateRequest = new UserUpdateRequest("병욱", null);
@@ -192,7 +221,7 @@ public class UserAcceptanceTest extends AcceptanceTest {
 
     @Test
     @DisplayName("엑세스 토큰으로 유저를 삭제한다.")
-    public void deleteUser_success() throws Exception {
+    void deleteUser_success() throws Exception {
         //given
         String accessToken = tokenProvider.createAccessToken(socialLoginUser);
 
@@ -205,7 +234,7 @@ public class UserAcceptanceTest extends AcceptanceTest {
 
     @Test
     @DisplayName("유효하지 않은 엑세스 토큰으로 인해 유저 삭제를 실패 한다.")
-    public void deleteUser_fail() throws Exception {
+    void deleteUser_fail() throws Exception {
         //given
         String incorrectAccessToken = "incorrectAccessToken";
 
@@ -284,7 +313,7 @@ public class UserAcceptanceTest extends AcceptanceTest {
         String responseJson = 비로그인_댓글_등록됨(expected).andReturn().getResponse().getContentAsString();
         UserResponse userResponse = new ObjectMapper().readValue(responseJson, CommentResponse.class).getUser();
 
-        return this.mockMvc.perform(get(apiUrl + "/check-password")
+        return this.mockMvc.perform(get(API_URL + "/check-password")
             .contentType(MediaType.APPLICATION_JSON)
             .param("guestUserId", userResponse.getId().toString())
             .param("guestUserPassword", actual)
@@ -299,10 +328,11 @@ public class UserAcceptanceTest extends AcceptanceTest {
             .andExpect(jsonPath("$.user..type").value("GuestUser"));
     }
 
-    private ResultActions 유저_조회_요청(String accessToken) throws Exception {
-        return this.mockMvc.perform(get(apiUrl)
+    private ResultActions 유저_조회_요청(String accessToken, String refreshToken) throws Exception {
+        return this.mockMvc.perform(get(API_URL)
             .contentType(MediaType.APPLICATION_JSON)
-            .header("Authorization", "Bearer " + accessToken));
+            .header("Authorization", "Bearer " + accessToken)
+            .header("Cookie", "refreshToken=" + refreshToken));
     }
 
     private void 유저_조회됨(ResultActions resultActions) throws Exception {
@@ -334,11 +364,6 @@ public class UserAcceptanceTest extends AcceptanceTest {
         );
     }
 
-    private void 유저_조회_실패됨(ResultActions resultActions) throws Exception {
-        유저_토큰_인증_실패됨(resultActions);
-        유저_조회_실패_rest_doc_작성(resultActions);
-    }
-
     private void 유저_조회_실패_rest_doc_작성(ResultActions resultActions) throws Exception {
         resultActions.andDo(
             document("api/v1/users/get/fail",
@@ -350,15 +375,16 @@ public class UserAcceptanceTest extends AcceptanceTest {
     }
 
     private ResultActions 유저_닉네임_수정_요청(UserUpdateRequest userUpdateRequest, String accessToken) throws Exception {
-        return this.mockMvc.perform(patch(apiUrl)
+        return this.mockMvc.perform(patch(API_URL)
             .contentType(MediaType.MULTIPART_FORM_DATA)
             .header("Authorization", "Bearer " + accessToken)
+            .header("Cookie", "refreshToken=refreshToken")
             .param("nickName", userUpdateRequest.getNickName())
             .content(asJsonString(userUpdateRequest)));
     }
 
     private ResultActions 유저_프로필_사진_수정_요청(UserUpdateRequest userUpdateRequest, String accessToken) throws Exception {
-        MockMultipartHttpServletRequestBuilder multipart = (MockMultipartHttpServletRequestBuilder) multipart(apiUrl)
+        MockMultipartHttpServletRequestBuilder multipart = (MockMultipartHttpServletRequestBuilder) multipart(API_URL)
             .with(request -> {
                 request.setMethod(HttpMethod.PATCH.toString());
                 return request;
@@ -367,7 +393,8 @@ public class UserAcceptanceTest extends AcceptanceTest {
         return this.mockMvc.perform(multipart
             .file((MockMultipartFile) userUpdateRequest.getProfileImageFile())
             .param("nickName", userUpdateRequest.getNickName())
-            .header("Authorization", "Bearer " + accessToken));
+            .header("Authorization", "Bearer " + accessToken)
+            .header("Cookie", "refreshToken=refreshToken"));
     }
 
     private void 유저_닉네임_수정됨(ResultActions resultActions, UserUpdateRequest userUpdateRequest) throws Exception {
@@ -454,9 +481,10 @@ public class UserAcceptanceTest extends AcceptanceTest {
     }
 
     private ResultActions 유저_삭제_요청(String accessToken) throws Exception {
-        return this.mockMvc.perform(delete(apiUrl)
+        return this.mockMvc.perform(delete(API_URL)
             .contentType(MediaType.APPLICATION_JSON)
-            .header("Authorization", "Bearer " + accessToken));
+            .header("Authorization", "Bearer " + accessToken)
+            .header("Cookie", "refreshToken=refreshToken"));
     }
 
     private void 유저_정보_삭제됨(ResultActions resultActions) throws Exception {

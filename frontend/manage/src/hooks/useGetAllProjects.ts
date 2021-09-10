@@ -4,7 +4,9 @@ import { Project } from "@/types/project";
 import { AlertError } from "@/utils/error";
 import { request } from "@/utils/request";
 import axios from "axios";
-import { useQuery } from "react-query";
+import { useEffect } from "react";
+import { useQuery, useQueryClient } from "react-query";
+import { useUser } from ".";
 
 const getAllProjects = async () => {
   try {
@@ -12,8 +14,6 @@ const getAllProjects = async () => {
 
     return response.data;
   } catch (error) {
-    console.error(error);
-
     if (!axios.isAxiosError(error)) {
       throw new Error("알 수 없는 에러입니다.");
     }
@@ -27,7 +27,13 @@ const getAllProjects = async () => {
 };
 
 export const useGetAllProjects = () => {
-  const { data: projects, isLoading, error } = useQuery<Project[], Error>(REACT_QUERY_KEY.PROJECTS, getAllProjects);
+  const queryClient = useQueryClient();
+  const { user } = useUser();
+  const { data: projects, isLoading, error } = useQuery<Project[], Error>([REACT_QUERY_KEY.PROJECTS], getAllProjects);
+
+  useEffect(() => {
+    queryClient.invalidateQueries([REACT_QUERY_KEY.PROJECTS]);
+  }, [user]);
 
   return { projects, isLoading, error };
 };

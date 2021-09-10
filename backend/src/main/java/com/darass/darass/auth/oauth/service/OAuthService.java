@@ -52,11 +52,14 @@ public class OAuthService {
 
         SocialLoginUser socialLoginUser = socialLoginUserRepository.findByRefreshToken(refreshToken)
             .orElseThrow(() -> {
-                throw ExceptionWithMessageAndCode.SHOULD_LOGIN.getException();
+                throw ExceptionWithMessageAndCode.INVALID_REFRESH_TOKEN.getException();
             });
 
         return TokenResponse.of(jwtTokenProvider.createAccessToken(socialLoginUser),
             jwtTokenProvider.createRefreshToken(socialLoginUser));
     }
 
+    public void logOut(SocialLoginUser socialLoginUser) {
+        socialLoginUser.deleteRefreshToken();
+    }
 }

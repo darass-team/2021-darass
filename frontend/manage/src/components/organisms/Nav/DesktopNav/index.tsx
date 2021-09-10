@@ -1,10 +1,11 @@
 import { Link } from "react-router-dom";
+import kakaoTalkIcon from "@/assets/png/kakaotalk.png";
 import { ROUTE } from "@/constants";
+import { MANAGE_PAGE_DOMAIN } from "@/constants/domain";
+import { OAUTH_ENDPOINT } from "@/constants/oauth";
 import { useUser } from "@/hooks";
 import { PALETTE } from "@/styles/palette";
 import { MenuType } from "@/types/menu";
-import { AlertError } from "@/utils/error";
-import kakaoTalkIcon from "@/assets/png/kakaotalk.png";
 import Avatar from "@/components/atoms/Avatar";
 import Logo from "@/components/atoms/Logo";
 import UserAvatarOption from "@/components/molecules/UserAvatarOption";
@@ -25,16 +26,12 @@ export interface Props {
 }
 
 const DesktopNav = ({ menuList }: Props) => {
-  const { user, login, logout } = useUser();
+  const { user, logout } = useUser();
 
-  const onLogin = async () => {
-    try {
-      await login();
-    } catch (error) {
-      if (error instanceof AlertError) {
-        alert(error.message);
-      }
-    }
+  const moveKakaoOAuthURL = () => {
+    window.location.replace(
+      `${OAUTH_ENDPOINT.KAKAO}?response_type=code&client_id=${process.env.KAKAO_REST_API_KEY}&redirect_uri=${MANAGE_PAGE_DOMAIN}/oauth/kakao`
+    );
   };
 
   return (
@@ -65,10 +62,12 @@ const DesktopNav = ({ menuList }: Props) => {
                 </Link>
               </>
             ) : (
-              <LoginMethodWrapper onClick={onLogin}>
-                <Avatar size="SM" imageURL={kakaoTalkIcon} alt="카카오톡 로그인 이미지" />
-                <LoginMethod>카카오</LoginMethod>
-              </LoginMethodWrapper>
+              <>
+                <LoginMethodWrapper onClick={moveKakaoOAuthURL}>
+                  <Avatar size="SM" imageURL={kakaoTalkIcon} alt="카카오톡 로그인 이미지" />
+                  <LoginMethod>카카오</LoginMethod>
+                </LoginMethodWrapper>
+              </>
             )}
           </UserAvatarOption>
         </UserAvatarOptionWrapper>

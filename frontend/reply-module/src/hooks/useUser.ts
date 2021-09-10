@@ -1,57 +1,113 @@
-import { AlertError } from "./../utils/Error";
+import axios from "axios";
+import { useContext, useEffect } from "react";
 import { useQuery, useQueryClient } from "react-query";
 import { QUERY } from "../constants/api";
-import { COOKIE_KEY } from "../constants/cookie";
 import { REACT_QUERY_KEY } from "../constants/reactQueryKey";
+import { accessTokenContext } from "../contexts/AccessTokenProvider";
 import { User } from "../types/user";
-import { deleteCookie, setCookie } from "../utils/cookie";
-import { getKakaoAccessToken } from "../utils/kakaoAPI";
+import { AlertError } from "../utils/Error";
 import { request } from "../utils/request";
+
+const deleteRefreshToken = async () => {
+  try {
+    const response = await request.delete(QUERY.LOGOUT);
+
+    return response.data.accessToken;
+  } catch (error) {
+    if (!axios.isAxiosError(error)) {
+      throw new AlertError("알 수 없는 에러입니다.");
+    }
+
+    throw new AlertError("로그아웃에 실패하였습니다.");
+  }
+};
+
+const refreshAccessToken = async () => {
+  try {
+    const response = await request.post(QUERY.LOGIN_REFRESH, {});
+
+    return response.data.accessToken;
+  } catch (error) {
+    if (!axios.isAxiosError(error)) {
+      throw new AlertError("알 수 없는 에러입니다.");
+    }
+
+    const newError = new Error("액세스 토큰 재발급에 실패하셨습니다.");
+    newError.name = "requestFailAccessToken";
+    throw newError;
+  }
+};
 
 const getUser = async () => {
   try {
-    const response = await request.get(QUERY.USER);
+    const response = await request.get(QUERY.USER, { withCredentials: true });
 
     return response.data;
   } catch (error) {
-    console.error(error.response.data.message);
+    if (!axios.isAxiosError(error)) {
+      throw new AlertError("알 수 없는 에러입니다.");
+    }
+
+    if (error.response?.data.code === 801) {
+      throw new Error("유효하지 않은 토큰입니다.");
+    }
+
+    if (error.response?.data.code === 806) {
+      const newError = new Error("액세스 토큰이 존재하지 않습니다.");
+      newError.name = "noAccessToken";
+
+      throw newError;
+    }
+
+    throw new AlertError("유저정보 조회에 실패하였습니다.\n잠시 후 다시 시도해주세요.");
   }
 };
 
 export const useUser = () => {
   const queryClient = useQueryClient();
+  const { accessToken, setAccessToken } = useContext(accessTokenContext);
 
   const {
     data: user,
     isLoading,
     error
-  } = useQuery<User, Error>(REACT_QUERY_KEY.USER, getUser, {
+  } = useQuery<User, Error>([REACT_QUERY_KEY.USER], getUser, {
     retry: false,
     refetchOnWindowFocus: false
   });
 
   const login = async () => {
     try {
-      const kakaoAccessToken = await getKakaoAccessToken();
-      const response = await request.post(`${QUERY.LOGIN}`, {
-        oauthProviderName: "kakao",
-        oauthAccessToken: kakaoAccessToken
-      });
-
-      const { accessToken: serverAccessToken } = response.data;
-      setCookie(COOKIE_KEY.ATK, serverAccessToken);
-
-      queryClient.invalidateQueries(REACT_QUERY_KEY.USER);
+      await queryClient.invalidateQueries([REACT_QUERY_KEY.USER]);
     } catch (error) {
+      if (!axios.isAxiosError(error)) {
+        throw new Error("알 수 없는 에러입니다.");
+      }
+
       throw new AlertError("로그인에 실패하였습니다.");
     }
   };
 
   const logout = () => {
-    deleteCookie(COOKIE_KEY.ATK);
-
-    queryClient.setQueryData<User | undefined>(REACT_QUERY_KEY.USER, () => undefined);
+    setAccessToken(null);
+    deleteRefreshToken().then(() => {
+      queryClient.setQueryData<User | undefined>([REACT_QUERY_KEY.USER], undefined);
+    });
   };
 
-  return { user, login, logout, isLoading, error };
+  useEffect(() => {
+    if (error?.name === "noAccessToken") {
+      refreshAccessToken().then(accessToken => {
+        setAccessToken(accessToken);
+      });
+    }
+  }, [error?.name]);
+
+  useEffect(() => {
+    login();
+  }, [accessToken]);
+
+  const isLoggedOut = error?.name === "requestFailAccessToken";
+
+  return { user, login, logout, isLoading, error, isLoggedOut };
 };

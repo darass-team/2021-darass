@@ -1,16 +1,15 @@
 import BlogLogoButton from "@/components/atoms/Buttons/BlogLogoButton";
 import GuideStep from "@/components/molecules/GuideStep";
 import ContainerWithSideBar from "@/components/organisms/ContainerWithSideBar";
-import { GUIDE_FILE, PROJECT_MENU, ROUTE } from "@/constants";
-import { REPLY_MODULE_BASE_URL } from "@/constants/domain";
+import { GUIDE_FILE, PROJECT_MENU } from "@/constants";
 import { useCopyButton, useGetProject } from "@/hooks";
 import ScreenContainer from "@/styles/ScreenContainer";
-import { AlertError } from "@/utils/error";
 import { useState } from "react";
-import { Redirect, useRouteMatch } from "react-router-dom";
+import { useRouteMatch } from "react-router-dom";
 import { PrismLight as SyntaxHighlighter } from "react-syntax-highlighter";
 import js from "react-syntax-highlighter/dist/cjs/languages/prism/javascript";
 import prism from "react-syntax-highlighter/dist/cjs/styles/prism/darcula";
+import { REPLY_MODULE_DOMAIN } from "../../../constants/domain";
 import { BlogLogoWrapper, CodeBlockWrapper, Container, CopyButton, Ol, Title } from "./styles";
 
 SyntaxHighlighter.registerLanguage("javascript", js);
@@ -23,7 +22,7 @@ const htmlScriptCode = (projectSecretKey: string) => `
         var $document = document;
 
         var $script = $document.createElement("script");
-        $script.src = "${REPLY_MODULE_BASE_URL}/embed.js";
+        $script.src = "${REPLY_MODULE_DOMAIN}/embed.js";
         $script.defer = true;
 
         $document.head.appendChild($script);
@@ -50,14 +49,6 @@ const ScriptPublishing = () => {
   const { isCopyButtonClicked, onCopy } = useCopyButton();
   const script =
     selectedBlogInfo?.scriptType === "HTML" ? htmlScriptCode(projectSecretKey) : JsxScriptCode(projectSecretKey);
-
-  if (error) {
-    if (error instanceof AlertError) {
-      alert(error.message);
-    }
-
-    return <Redirect to={ROUTE.MY_PROJECT} />;
-  }
 
   return (
     <ScreenContainer>

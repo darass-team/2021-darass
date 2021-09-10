@@ -7,6 +7,7 @@ import { useCreateComment, useDeleteComment, useEditComment } from "../../hooks"
 import { useLikeComment } from "../../hooks/useLikeComment";
 import { Comment } from "../../types";
 import { comments as _comments } from "../fixture/comments";
+import { guestUser } from "../fixture/user";
 
 jest.mock("../../hooks/useEditComment");
 jest.mock("../../hooks/useDeleteComment");
@@ -66,7 +67,7 @@ describe("비로그인 유저 댓글 CRUD 테스트 코드를 작성한다.", ()
       const comments: Comment[] = JSON.parse(JSON.stringify(_comments));
       const commentList = render(
         <CommentList
-          totalCommentsCount={_comments.length}
+          totalCommentsCount={comments.length}
           isLoading={false}
           comments={comments}
           project={undefined}
@@ -75,10 +76,10 @@ describe("비로그인 유저 댓글 CRUD 테스트 코드를 작성한다.", ()
           onSelectSortOption={() => {}}
         />
       );
-      const $$comments = commentList.container.querySelectorAll("section > div:nth-child(2) > div");
+      const $$comments = commentList.getAllByTestId("comment");
 
-      $$comments.forEach(($comment, index) => {
-        if (comments[index].user.type === "GuestUser") {
+      $$comments.forEach(($comment, commentIndex) => {
+        if (comments[commentIndex]?.user.type === "GuestUser") {
           expect($comment.querySelectorAll("img")[1]).toBeVisible();
         }
       });
@@ -88,7 +89,7 @@ describe("비로그인 유저 댓글 CRUD 테스트 코드를 작성한다.", ()
     test("비로그인 유저인 경우, 댓글 입력에 게스트 비밀번호/이름 입력란이 노출된다.", () => {
       const commentInput = render(<CommentInput user={undefined} />);
       const $commentInputArea = commentInput.container.querySelector("form > div:nth-child(1)");
-      const [$guestNickName, $guestPassword] = Array.from(commentInput.container.querySelectorAll("form  input"));
+      const [$guestNickName, $guestPassword] = Array.from(commentInput.container.querySelectorAll("form input"));
 
       expect($commentInputArea).toBeVisible();
       expect($guestNickName).toBeVisible();
@@ -104,14 +105,14 @@ describe("비로그인 유저 댓글 CRUD 테스트 코드를 작성한다.", ()
         name: /등록/i
       }) as HTMLButtonElement;
 
-      fireEvent.input($commentInputTextArea, { target: { innerText: "댓글 내용" } });
+      fireEvent.input($commentInputTextArea, { target: { textContent: "댓글 내용" } });
       fireEvent.change($guestNickName, { target: { value: "게스트 이름" } });
       fireEvent.change($guestPassword, { target: { value: "게스트 비밀번호" } });
 
       fireEvent.click($submitButton);
 
       await waitFor(() => {
-        expect(($commentInputTextArea as HTMLTextAreaElement).innerText).toBe("");
+        expect(($commentInputTextArea as HTMLTextAreaElement).textContent).toBe("");
         expect(($guestNickName as HTMLInputElement).value).toBe("");
         expect(($guestPassword as HTMLInputElement).value).toBe("");
       });
@@ -228,6 +229,91 @@ describe("비로그인 유저 댓글 CRUD 테스트 코드를 작성한다.", ()
 
       await waitFor(() => {
         expect(screen.queryByTestId("liking-users-button-num-of-likes")).toBeFalsy();
+      });
+    });
+  });
+  describe("로그인 유저는 대댓글 기능을 사용할 수 있다.", () => {
+    const user = undefined;
+    const comments: Comment[] = JSON.parse(JSON.stringify(_comments));
+    test("대댓글을 확인할 수 있다.", () => {
+      const commentList = render(
+        <CommentList
+          totalCommentsCount={_comments.length}
+          isLoading={false}
+          user={user}
+          project={undefined}
+          notice={""}
+          comments={comments}
+          sortOption={"oldest"}
+          onSelectSortOption={() => {}}
+        />
+      );
+
+      const $subComment = commentList.getAllByTestId("subComment")[0];
+
+      expect($subComment).toBeVisible();
+      expect($subComment.querySelector('[data-testid="downRightArrowImage"]')).toBeVisible();
+    });
+
+    test("대댓글을 작성할 수 있다.", async () => {
+      const commentList = render(
+        <CommentList
+          totalCommentsCount={_comments.length}
+          isLoading={false}
+          user={user}
+          project={undefined}
+          notice={""}
+          comments={comments}
+          sortOption={"oldest"}
+          onSelectSortOption={() => {}}
+        />
+      );
+
+      const addSubCommentButton = commentList.getAllByText("답글 달기")[0];
+
+      fireEvent.click(addSubCommentButton);
+
+      const subCommentInput = commentList.getByTestId("subCommentInput");
+      expect(subCommentInput).toBeVisible();
+      expect(commentList.queryByTestId("comment-input-guest-name")).toBeTruthy();
+      expect(commentList.queryByTestId("comment-input-guest-password")).toBeTruthy();
+
+      const $commentInputTextArea = commentList.getAllByTestId("comment-input-text-box")[0];
+      const $guestNickName = commentList.getAllByPlaceholderText(/이름/i)[0];
+      const $guestPassword = commentList.getAllByPlaceholderText(/비밀번호/i)[0];
+      const $commentInputSubmitButton = commentList.getAllByTestId("comment-input-submit-button")[0];
+
+      fireEvent.input($commentInputTextArea, { target: { innerText: "두번째 대댓글" } });
+      fireEvent.change($guestNickName, { target: { value: "게스트 이름" } });
+      fireEvent.change($guestPassword, { target: { value: "게스트 비밀번호" } });
+      fireEvent.input($commentInputSubmitButton);
+
+      const newComments = [...comments];
+      newComments[0].subComments.push({
+        id: 13,
+        content: "두번째 대댓글",
+        user: guestUser,
+        likingUsers: [],
+        createdDate: new Date().toDateString(),
+        modifiedDate: new Date().toDateString(),
+        subComments: []
+      });
+
+      commentList.rerender(
+        <CommentList
+          totalCommentsCount={_comments.length}
+          isLoading={false}
+          user={user}
+          project={undefined}
+          comments={newComments}
+          notice={""}
+          sortOption={"oldest"}
+          onSelectSortOption={() => {}}
+        />
+      );
+
+      await waitFor(() => {
+        expect(screen.getAllByTestId("subComment").length).toEqual(2);
       });
     });
   });

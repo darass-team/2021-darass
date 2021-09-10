@@ -1,27 +1,16 @@
-import { useHistory } from "react-router";
-import Kakao from "@/assets/svg/kakao.svg";
-import { ROUTE } from "@/constants";
-import { useUser } from "@/hooks";
-import { PALETTE } from "@/styles/palette";
-import ScreenContainer from "@/styles/ScreenContainer";
-import { AlertError } from "@/utils/error";
-import Logo from "@/components/atoms/Logo";
-import { Button, Container, Introduction } from "./styles";
+import Kakao from "../../../assets/svg/kakao.svg";
+import { MANAGE_PAGE_DOMAIN } from "../../../constants/domain";
+import { OAUTH_ENDPOINT } from "../../../constants/oauth";
+import { PALETTE } from "../../../styles/palette";
+import ScreenContainer from "../../../styles/ScreenContainer";
+import Logo from "../../atoms/Logo";
+import { Container, Introduction, KakaoLoginButton } from "./styles";
 
 const Login = () => {
-  const { login } = useUser();
-  const history = useHistory();
-
-  const onLogin = async () => {
-    try {
-      await login();
-
-      history.push(ROUTE.MY_PROJECT);
-    } catch (error) {
-      if (error instanceof AlertError) {
-        alert(error.message);
-      }
-    }
+  const moveKakaoOAuthURL = () => {
+    window.location.replace(
+      `${OAUTH_ENDPOINT.KAKAO}?response_type=code&client_id=${process.env.KAKAO_REST_API_KEY}&redirect_uri=${MANAGE_PAGE_DOMAIN}/oauth/kakao`
+    );
   };
 
   return (
@@ -33,10 +22,10 @@ const Login = () => {
           블로그에 다라쓰
         </Introduction>
         <Logo size="LG" />
-        <Button onClick={onLogin}>
+        <KakaoLoginButton onClick={moveKakaoOAuthURL}>
           <img src={Kakao} alt="kakao" />
-          <span>카카오로 1초만에 시작하기</span>
-        </Button>
+          <span>카카오로 로그인</span>
+        </KakaoLoginButton>
       </Container>
     </ScreenContainer>
   );
