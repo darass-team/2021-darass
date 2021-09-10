@@ -1,5 +1,5 @@
 import { Redirect, Route, RouteProps } from "react-router-dom";
-import { ROUTE } from "../../constants";
+import { ROUTE } from "@/constants";
 
 interface ConditionalRouteProp extends RouteProps {
   condition: boolean;

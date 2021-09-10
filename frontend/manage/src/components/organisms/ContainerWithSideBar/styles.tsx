@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { PAGE_MAX_WIDTH } from "../../../styles/constants";
+import { PAGE_MAX_WIDTH } from "@/styles/constants";
 import SideBarComponent from "../SideBar";
 
 export const Container = styled.div`

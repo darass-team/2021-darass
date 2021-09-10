@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import { LINE_HEIGHT_SCALE } from "../../../styles/constants";
-import { PALETTE } from "../../../styles/palette";
+import { LINE_HEIGHT_SCALE } from "@/styles/constants";
+import { PALETTE } from "@/styles/palette";
 
 export const Container = styled.div`
   display: flex;

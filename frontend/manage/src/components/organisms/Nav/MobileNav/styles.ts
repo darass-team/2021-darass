@@ -1,8 +1,8 @@
 import { Link, NavLink } from "react-router-dom";
 import styled from "styled-components";
-import { PALETTE } from "../../../styles/palette";
-import Avatar from "../../atoms/Avatar";
-import { LINE_HEIGHT_SCALE, Z_INDEX } from "../../../styles/constants";
+import { PALETTE } from "@/styles/palette";
+import Avatar from "@/components/atoms/Avatar";
+import { LINE_HEIGHT_SCALE, Z_INDEX } from "@/styles/constants";
 
 export const Container = styled.nav`
   @media (min-width: 780px) {
@@ -68,8 +68,10 @@ export const Menu = styled(NavLink)`
   transition: all 0.1s;
   width: 100%;
 
-  &:hover {
-    background-color: ${PALETTE.SECONDARY};
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      background-color: ${PALETTE.SECONDARY};
+    }
   }
 
   & + & {

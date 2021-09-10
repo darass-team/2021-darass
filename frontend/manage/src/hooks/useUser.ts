@@ -1,11 +1,11 @@
+import { QUERY, REACT_QUERY_KEY } from "@/constants";
+import { User } from "@/types/user";
+import { AlertError } from "@/utils/error";
+import { request } from "@/utils/request";
 import axios from "axios";
 import { useContext, useEffect } from "react";
 import { useQuery, useQueryClient } from "react-query";
-import { QUERY, REACT_QUERY_KEY } from "../constants";
-import { accessTokenContext } from "../contexts/AccessTokenProvider";
-import { User } from "../types/user";
-import { AlertError } from "../utils/error";
-import { request } from "../utils/request";
+import { accessTokenContext } from "@/contexts/AccessTokenProvider";
 
 const deleteRefreshToken = async () => {
   try {

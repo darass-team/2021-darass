@@ -40,7 +40,7 @@ const config = {
         exclude: /node_modules/
       },
       {
-        test: /\.(png|jpg|jpeg|gif|svg)$/i,
+        test: /\.(png|jpg|jpeg|gif|svg|webp)$/i,
         use: [
           {
             loader: "url-loader",
@@ -70,7 +70,8 @@ const config = {
       : new DotEnv()
   ],
   resolve: {
-    extensions: [".tsx", ".ts", ".jsx", ".js"]
+    extensions: [".tsx", ".ts", ".jsx", ".js"],
+    alias: { "@": path.resolve(__dirname, "src") }
   },
   devtool: process.env.BUILD_MODE !== "production" ? "source-map" : false,
   mode: process.env.BUILD_MODE === "localhost" ? "development" : process.env.BUILD_MODE,

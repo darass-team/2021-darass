@@ -1,6 +1,6 @@
-import { PALETTE } from "../../../styles/palette";
+import { PALETTE } from "@/styles/palette";
 import styled from "styled-components";
-import { LINE_HEIGHT_SCALE } from "../../../styles/constants";
+import { LINE_HEIGHT_SCALE } from "@/styles/constants";
 
 export const Container = styled.div`
   display: flex;
@@ -22,8 +22,10 @@ export const AddProjectButton = styled.button`
   align-self: flex-end;
   transition: background-color 0.3s;
 
-  &:hover {
-    background-color: ${PALETTE.SECONDARY_HOVER};
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      background-color: ${PALETTE.SECONDARY_HOVER};
+    }
   }
 `;
 

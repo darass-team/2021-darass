@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Z_INDEX } from "../../../styles/constants";
+import { Z_INDEX } from "@/styles/constants";
 
 export const Dimmed = styled.div<{ isOpen: boolean; opacity: number }>`
   position: fixed;

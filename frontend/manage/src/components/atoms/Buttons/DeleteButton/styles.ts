@@ -1,6 +1,6 @@
-import { LINE_HEIGHT_SCALE } from "./../../../../styles/constants";
+import { LINE_HEIGHT_SCALE } from "@/styles/constants";
 import styled from "styled-components";
-import { PALETTE } from "../../../../styles/palette";
+import { PALETTE } from "@/styles/palette";
 
 export const Button = styled.button.attrs({ type: "button" })`
   min-width: fit-content;
@@ -15,8 +15,10 @@ export const Button = styled.button.attrs({ type: "button" })`
   padding: 0.3rem 1.4rem;
   transition: all 0.3s;
 
-  &:hover {
-    color: ${PALETTE.WHITE};
-    background-color: ${PALETTE.RED_800};
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      color: ${PALETTE.WHITE};
+      background-color: ${PALETTE.RED_800};
+    }
   }
 `;

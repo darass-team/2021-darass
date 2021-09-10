@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
-import { ROUTE } from "../constants";
-import { Project } from "../types/project";
+import { ROUTE } from "@/constants";
+import { Project } from "@/types/project";
 
 interface Props {
   initialPageIndex: number;

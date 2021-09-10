@@ -1,6 +1,6 @@
 import { Story } from "@storybook/react";
 import Nav from ".";
-import { socialLoginUser } from "../../../__test__/fixture/user";
+import { socialLoginUser } from "@/__test__/fixture/user";
 
 export default {
   title: "organisms/Nav",

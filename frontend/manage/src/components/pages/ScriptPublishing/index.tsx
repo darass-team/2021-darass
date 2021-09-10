@@ -1,17 +1,16 @@
+import BlogLogoButton from "@/components/atoms/Buttons/BlogLogoButton";
+import GuideStep from "@/components/molecules/GuideStep";
+import ContainerWithSideBar from "@/components/organisms/ContainerWithSideBar";
+import { GUIDE_FILE, PROJECT_MENU } from "@/constants";
+import { useCopyButton, useGetProject } from "@/hooks";
+import ScreenContainer from "@/styles/ScreenContainer";
 import { useState } from "react";
-import { Redirect, useRouteMatch } from "react-router-dom";
-import { GUIDE_FILE, PROJECT_MENU, ROUTE } from "../../../constants";
-import { REPLY_MODULE_DOMAIN } from "../../../constants/domain";
-import { useCopyButton, useGetProject } from "../../../hooks";
-import ScreenContainer from "../../../styles/ScreenContainer";
-import { AlertError } from "../../../utils/error";
-import BlogLogoButton from "../../atoms/Buttons/BlogLogoButton";
-import GuideStep from "../../molecules/GuideStep";
-import ContainerWithSideBar from "../../organisms/ContainerWithSideBar";
-import { BlogLogoWrapper, CodeBlockWrapper, Container, CopyButton, Ol, Title } from "./styles";
+import { useRouteMatch } from "react-router-dom";
 import { PrismLight as SyntaxHighlighter } from "react-syntax-highlighter";
 import js from "react-syntax-highlighter/dist/cjs/languages/prism/javascript";
 import prism from "react-syntax-highlighter/dist/cjs/styles/prism/darcula";
+import { REPLY_MODULE_DOMAIN } from "../../../constants/domain";
+import { BlogLogoWrapper, CodeBlockWrapper, Container, CopyButton, Ol, Title } from "./styles";
 
 SyntaxHighlighter.registerLanguage("javascript", js);
 

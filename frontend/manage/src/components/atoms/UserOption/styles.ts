@@ -1,7 +1,7 @@
 import styled from "styled-components";
-import { LINE_HEIGHT_SCALE } from "../../../styles/constants";
-import { speechBubbleCSS } from "../../../styles/css";
-import { PALETTE } from "../../../styles/palette";
+import { LINE_HEIGHT_SCALE } from "@/styles/constants";
+import { speechBubbleCSS } from "@/styles/css";
+import { PALETTE } from "@/styles/palette";
 
 export const Container = styled.div`
   ${speechBubbleCSS};
@@ -38,7 +38,11 @@ export const OptionContainer = styled.div`
     transition: background-color 0.1s;
   }
 
-  & > *:hover {
-    background-color: ${PALETTE.GRAY_400};
+  & > * {
+    @media (hover: hover) and (pointer: fine) {
+      &:hover {
+        background-color: ${PALETTE.GRAY_400};
+      }
+    }
   }
 `;

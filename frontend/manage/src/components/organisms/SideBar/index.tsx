@@ -1,5 +1,5 @@
-import { MenuType } from "../../../types/menu";
-import MenuDropDown from "../../atoms/MenuDropDown";
+import { MenuType } from "@/types/menu";
+import MenuDropDown from "@/components/atoms/MenuDropDown";
 import { Container } from "./styles";
 
 export interface Props {

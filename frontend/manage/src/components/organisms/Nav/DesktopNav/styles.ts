@@ -1,7 +1,7 @@
 import { Link, NavLink } from "react-router-dom";
 import styled from "styled-components";
-import { LINE_HEIGHT_SCALE, NAVIGATION_HEIGHT, PAGE_MAX_WIDTH, Z_INDEX } from "../../../styles/constants";
-import { PALETTE } from "../../../styles/palette";
+import { LINE_HEIGHT_SCALE, NAVIGATION_HEIGHT, PAGE_MAX_WIDTH, Z_INDEX } from "@/styles/constants";
+import { PALETTE } from "@/styles/palette";
 
 export const Container = styled.nav`
   position: relative;
@@ -49,8 +49,10 @@ export const MenuLink = styled(NavLink)`
   font-weight: 600;
   transition: border 0.1s;
 
-  &:hover {
-    border-bottom: 5px solid ${PALETTE.PRIMARY};
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      border-bottom: 5px solid ${PALETTE.PRIMARY};
+    }
   }
 `;
 

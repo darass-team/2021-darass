@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import ErrorNoticeComponent from "../../organisms/ErrorNotice";
+import ErrorNoticeComponent from "@/components/organisms/ErrorNotice";
 
 export const Container = styled.div`
   display: flex;

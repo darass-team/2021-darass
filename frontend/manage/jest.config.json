@@ -6,5 +6,8 @@
     ".+\\.(svg|css|styl|less|sass|scss|png|jpg|ttf|woff|woff2)$": "jest-transform-stub"
   },
   "coveragePathIgnorePatterns": ["/node_modules/", "/jest"],
-  "testEnvironment": "jsdom"
+  "testEnvironment": "jsdom",
+  "moduleNameMapper": {
+    "@/(.*)$": "<rootDir>/src/$1"
+  }
 }

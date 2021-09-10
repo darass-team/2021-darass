@@ -1,9 +1,12 @@
-import moment from "moment";
-import { FormEvent, useEffect } from "react";
-import { useLocation, useRouteMatch } from "react-router-dom";
-import { PROJECT_MENU } from "../../../constants";
-import { COMMENT_COUNT_PER_PAGE } from "../../../constants/pagination";
-import { MAX_COMMENT_SEARCH_TERM_LENGTH } from "../../../constants/validation";
+import CheckBox from "@/components/atoms/CheckBox";
+import PaginationBar from "@/components/atoms/PaginationBar";
+import Comment from "@/components/molecules/Comment";
+import CommentSearchConditionForm from "@/components/organisms/CommentSearchConditionForm";
+import ContainerWithSideBar from "@/components/organisms/ContainerWithSideBar";
+import ErrorNotice from "@/components/organisms/ErrorNotice";
+import { PROJECT_MENU } from "@/constants";
+import { COMMENT_COUNT_PER_PAGE } from "@/constants/pagination";
+import { MAX_COMMENT_SEARCH_TERM_LENGTH } from "@/constants/validation";
 import {
   useCalendar,
   useCommentList,
@@ -13,17 +16,13 @@ import {
   useGetProject,
   useInput,
   useUser
-} from "../../../hooks";
-import ScreenContainer from "../../../styles/ScreenContainer";
-import { AlertError } from "../../../utils/error";
-import { getPagesOfLength5 } from "../../../utils/pagination";
-import CheckBox from "../../atoms/CheckBox";
-import PaginationBar from "../../atoms/PaginationBar";
-
-import Comment from "../../molecules/Comment";
-import CommentSearchConditionForm from "../../organisms/CommentSearchConditionForm";
-import ContainerWithSideBar from "../../organisms/ContainerWithSideBar";
-import ErrorNotice from "../../organisms/ErrorNotice";
+} from "@/hooks";
+import ScreenContainer from "@/styles/ScreenContainer";
+import { AlertError } from "@/utils/error";
+import { getPagesOfLength5 } from "@/utils/pagination";
+import moment from "moment";
+import { FormEvent, useEffect } from "react";
+import { useLocation, useRouteMatch } from "react-router-dom";
 import { CommentList, CommentsViewer, Container, DeleteButton, Header, Row, Title, TotalComment } from "./styles";
 
 const Manage = () => {

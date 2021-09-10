@@ -1,7 +1,7 @@
 import moment from "moment";
 import { ChangeEvent, FormEvent } from "react";
-import { MAX_COMMENT_SEARCH_TERM_LENGTH } from "../../../constants/validation";
-import Modal from "../../atoms/Modal";
+import { MAX_COMMENT_SEARCH_TERM_LENGTH } from "@/constants/validation";
+import Modal from "@/components/atoms/Modal";
 import {
   Container,
   DateInputText,

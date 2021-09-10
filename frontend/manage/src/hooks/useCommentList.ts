@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Comment } from "../types/comment";
+import { Comment } from "@/types/comment";
 
 export const useCommentList = (comments: Comment[]) => {
   const [checkedCommentIds, setCheckedCommentIds] = useState<Comment["id"][]>([]);

@@ -1,6 +1,6 @@
 import { ReactNode, useEffect, useState } from "react";
-import { MenuType } from "../../../types/menu";
-import { debounce } from "../../../utils/debounce";
+import { MenuType } from "@/types/menu";
+import { debounce } from "@/utils/debounce";
 import { Container, MainContent, SideBar } from "./styles";
 
 export interface Props {

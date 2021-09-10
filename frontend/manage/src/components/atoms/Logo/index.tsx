@@ -1,4 +1,4 @@
-import logo from "../../../assets/svg/logo.svg";
+import logo from "@/assets/svg/logo.svg";
 import { Container } from "./styles";
 
 export type Size = "SM" | "MD" | "LG";

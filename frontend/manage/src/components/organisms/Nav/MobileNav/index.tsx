@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { ROUTE } from "../../../constants";
-import { useUser } from "../../../hooks";
-import { PALETTE } from "../../../styles/palette";
-import { MenuType } from "../../../types/menu";
-import HamburgerButton from "../../atoms/Buttons/HamburgerButton";
-import Modal from "../../atoms/Modal";
+import { ROUTE } from "@/constants";
+import { useUser } from "@/hooks";
+import { PALETTE } from "@/styles/palette";
+import { MenuType } from "@/types/menu";
+import HamburgerButton from "@/components/atoms/Buttons/HamburgerButton";
+import Modal from "@/components/atoms/Modal";
 import { AuthLink, Container, Menu, MenuAvatar, MenuWrapper, Name } from "./styles";
 
 export interface Props {

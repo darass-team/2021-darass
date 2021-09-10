@@ -1,14 +1,14 @@
 import { Link } from "react-router-dom";
-import kakaoTalkIcon from "../../../assets/png/kakaotalk.png";
-import { ROUTE } from "../../../constants";
-import { MANAGE_PAGE_DOMAIN } from "../../../constants/domain";
-import { OAUTH_ENDPOINT } from "../../../constants/oauth";
-import { useUser } from "../../../hooks";
-import { PALETTE } from "../../../styles/palette";
-import { MenuType } from "../../../types/menu";
-import Avatar from "../../atoms/Avatar";
-import Logo from "../../atoms/Logo";
-import UserAvatarOption from "../../molecules/UserAvatarOption";
+import kakaoTalkIcon from "@/assets/png/kakaotalk.png";
+import { ROUTE } from "@/constants";
+import { MANAGE_PAGE_DOMAIN } from "@/constants/domain";
+import { OAUTH_ENDPOINT } from "@/constants/oauth";
+import { useUser } from "@/hooks";
+import { PALETTE } from "@/styles/palette";
+import { MenuType } from "@/types/menu";
+import Avatar from "@/components/atoms/Avatar";
+import Logo from "@/components/atoms/Logo";
+import UserAvatarOption from "@/components/molecules/UserAvatarOption";
 import {
   Container,
   LoginMethod,

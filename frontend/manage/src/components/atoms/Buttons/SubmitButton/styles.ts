@@ -1,6 +1,6 @@
-import { PALETTE } from "../../../../styles/palette";
+import { PALETTE } from "@/styles/palette";
 import styled from "styled-components";
-import { LINE_HEIGHT_SCALE } from "../../../../styles/constants";
+import { LINE_HEIGHT_SCALE } from "@/styles/constants";
 
 export const Button = styled.button`
   width: fit-content;
@@ -14,7 +14,9 @@ export const Button = styled.button`
   padding: 0.3rem 1.4rem;
   transition: background-color 0.3s;
 
-  &:hover {
-    background-color: ${PALETTE.SECONDARY_HOVER};
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      background-color: ${PALETTE.SECONDARY_HOVER};
+    }
   }
 `;

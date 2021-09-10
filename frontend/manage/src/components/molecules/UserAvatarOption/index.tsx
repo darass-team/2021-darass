@@ -1,7 +1,7 @@
 import { MouseEvent, ReactNode, useEffect, useRef, useState } from "react";
-import { User } from "../../../types/user";
-import Avatar from "../../atoms/Avatar";
-import arrowDown from "../../../assets/svg/arrow-down.svg";
+import { User } from "@/types/user";
+import Avatar from "@/components/atoms/Avatar";
+import arrowDown from "@/assets/svg/arrow-down.svg";
 import { Container, UserNickName, UserOption, DownArrow } from "./styles";
 
 export interface Props {

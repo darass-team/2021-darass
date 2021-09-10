@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import { LINE_HEIGHT_SCALE } from "../../../../styles/constants";
-import { PALETTE } from "../../../../styles/palette";
+import { LINE_HEIGHT_SCALE } from "@/styles/constants";
+import { PALETTE } from "@/styles/palette";
 
 export const Button = styled.button`
   background-color: transparent;
@@ -19,8 +19,10 @@ export const Logo = styled.img<{ isSelected: boolean }>`
   opacity: ${props => props.isSelected && "0.6"};
   transition: opacity 0.3s;
 
-  &:hover {
-    opacity: 0.6;
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      opacity: 0.6;
+    }
   }
 `;
 

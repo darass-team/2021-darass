@@ -1,5 +1,5 @@
-import { HTMLAttributes, MouseEvent } from "react";
-import defaultUserImage from "../../../assets/svg/default-user-image.svg";
+import { MouseEvent } from "react";
+import defaultUserImage from "@/assets/svg/default-user-image.svg";
 import { Container } from "./styles";
 
 export type Size = "SM" | "MD" | "LG";

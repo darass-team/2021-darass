@@ -59,8 +59,10 @@ export const MainTitle = styled.button<{ isDropDown: boolean | null; depth: numb
   z-index: ${props => props.depth};
   transition: "all 0.1s ease-in";
 
-  &:hover {
-    background-color: ${PALETTE.WHITE_HOVER};
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      background-color: ${PALETTE.WHITE_HOVER};
+    }
   }
 
   & > img {

@@ -2,13 +2,13 @@ import "@testing-library/jest-dom/extend-expect";
 import { fireEvent, render, waitFor } from "@testing-library/react";
 import { createMemoryHistory } from "history";
 import { Router } from "react-router";
-import UserProfile from "../../components/pages/UserProfile";
-import { useDeleteUser, useEditUser, useUser } from "../../hooks";
+import UserProfile from "@/components/pages/UserProfile";
+import { useDeleteUser, useEditUser, useUser } from "@/hooks";
 import { socialLoginUser } from "../fixture/user";
 
-jest.mock("../../hooks/useUser");
-jest.mock("../../hooks/useEditUser");
-jest.mock("../../hooks/useDeleteUser");
+jest.mock("@/hooks/useUser");
+jest.mock("@/hooks/useEditUser");
+jest.mock("@/hooks/useDeleteUser");
 
 jest.spyOn(window, "alert").mockImplementation(str => {
   console.log(str);

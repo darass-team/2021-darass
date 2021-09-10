@@ -1,8 +1,8 @@
 import moment from "moment";
-import { Comment as CommentType } from "../../../types/comment";
-import { User } from "../../../types/user";
-import Avatar from "../../atoms/Avatar";
-import CheckBox from "../../atoms/CheckBox";
+import { Comment as CommentType } from "@/types/comment";
+import { User } from "@/types/user";
+import Avatar from "@/components/atoms/Avatar";
+import CheckBox from "@/components/atoms/CheckBox";
 import { Content, ContentMeta, ContentWrapper, Date, Name, Url } from "./styles";
 
 export interface Props {

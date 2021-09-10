@@ -1,6 +1,5 @@
 import { Story } from "@storybook/react";
 import MobileNav, { Props } from ".";
-import { socialLoginUser } from "../../../__test__/fixture/user";
 
 export default {
   title: "organisms/MobileNav",

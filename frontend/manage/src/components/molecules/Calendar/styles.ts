@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import { LINE_HEIGHT_SCALE } from "../../../styles/constants";
-import { PALETTE } from "../../../styles/palette";
+import { LINE_HEIGHT_SCALE } from "@/styles/constants";
+import { PALETTE } from "@/styles/palette";
 
 export const Container = styled.div`
   min-width: 20rem;
@@ -30,9 +30,11 @@ export const MoveMonthButton = styled.button.attrs({ type: "button" })`
   width: 2rem;
   user-select: none;
 
-  &:hover {
-    color: ${PALETTE.BLACK_900};
-    font-size: 2.1rem;
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      color: ${PALETTE.BLACK_900};
+      font-size: 2.1rem;
+    }
   }
 
   &:last-child {

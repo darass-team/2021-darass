@@ -1,4 +1,4 @@
-import { PALETTE } from "./../../../../styles/palette";
+import { PALETTE } from "@/styles/palette";
 import styled, { css } from "styled-components";
 import { DayInfo } from ".";
 

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { paragraphCSS, subTitleCSS } from "../../../styles/css";
+import { paragraphCSS, subTitleCSS } from "@/styles/css";
 
 export const Section = styled.section`
   margin-bottom: 6rem;

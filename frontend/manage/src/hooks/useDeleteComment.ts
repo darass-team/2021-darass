@@ -1,11 +1,11 @@
-import { Project } from "./../types/project";
-import { useMutation, useQueryClient } from "react-query";
-import { QUERY } from "../constants/api";
-import { request } from "../utils/request";
-import { DeleteCommentRequestParameter } from "../types/comment";
-import { REACT_QUERY_KEY } from "../constants/reactQueryKey";
+import { QUERY } from "@/constants/api";
+import { REACT_QUERY_KEY } from "@/constants/reactQueryKey";
+import { DeleteCommentRequestParameter } from "@/types/comment";
+import { Project } from "@/types/project";
+import { AlertError } from "@/utils/error";
+import { request } from "@/utils/request";
 import axios from "axios";
-import { AlertError } from "../utils/error";
+import { useMutation, useQueryClient } from "react-query";
 
 const _deleteComment = async ({ id }: DeleteCommentRequestParameter) => {
   try {
