@@ -31,7 +31,7 @@ const employees: Employee[] = [
     githubUrl: "https://github.com/jaeseongDev",
     email: "qkrwotjd1445@naver.com",
     role: "Back-end Engineer",
-    description: "남들에게 긍정적인 영향을 끼치고 싶은 백엔드 개발자, Devops 엔지니어입니다!"
+    description: "댓글을 통해 관심과 사랑을 먹고 자라나는 다라쓰 개발자입니다."
   },
   {
     name: "Woogie",
@@ -55,7 +55,7 @@ const employees: Employee[] = [
     githubUrl: "https://github.com/pjy1368",
     email: "basejin0810@naver.com",
     role: "Back-end Engineer",
-    description: "충생!"
+    description: "무사히 돌아오겠습니다."
   },
   {
     name: "Goni",
@@ -63,7 +63,7 @@ const employees: Employee[] = [
     githubUrl: "https://github.com/yungo1846",
     email: "yungo1468@naver.com",
     role: "Front-end Engineer",
-    description: "좋아하는 연설가: 지그지글러"
+    description: "강해져서 돌아오겠습니다."
   },
   {
     name: "Doby",

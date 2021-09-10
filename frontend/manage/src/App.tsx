@@ -2,6 +2,7 @@ import * as Sentry from "@sentry/react";
 import { Redirect, Route, Switch } from "react-router-dom";
 import { ConditionalRoute } from "./components/HOC/ConditionalRoute";
 import Nav from "./components/organisms/Nav";
+import About from "./components/pages/About";
 import ErrorPage from "./components/pages/ErrorPage";
 import Home from "./components/pages/Home";
 import { LoadableScriptPublishing, LoadableStatistics } from "./components/pages/Loadable";
@@ -24,10 +25,8 @@ const App = () => {
       <Sentry.ErrorBoundary fallback={<ErrorPage notice="에러가 발생했습니다." />}>
         <Switch>
           <Route exact path={ROUTE.HOME} component={Home} />
-
+          <Route exact path={ROUTE.ABOUT} component={About} />
           <Route exact path={ROUTE.OAUTH} component={OAuth} />
-
-          <Route exact path={ROUTE.ABOUT} render={() => <ErrorPage notice="개발중인 페이지 입니다." />} />
           <Route exact path={ROUTE.NOTICE} render={() => <ErrorPage notice="개발중인 페이지 입니다." />} />
           <ConditionalRoute path={ROUTE.LOGIN} component={Login} condition={!user} redirectPath={ROUTE.MY_PROJECT} />
           <ConditionalRoute path={ROUTE.USER_PROFILE} component={UserProfile} condition={!isLoggedOut || isLoading} />
