@@ -14,8 +14,6 @@ const getAllProjects = async () => {
 
     return response.data;
   } catch (error) {
-    console.error(error);
-
     if (!axios.isAxiosError(error)) {
       throw new Error("알 수 없는 에러입니다.");
     }

@@ -107,8 +107,7 @@ export const useUser = () => {
     login();
   }, [accessToken]);
 
-  const isLoggedOut = (!user && error?.name === "noAccessToken") || error?.name === "requestFailAccessToken";
-  console.log(!user, error?.name);
+  const isLoggedOut = error?.name === "requestFailAccessToken";
 
   return { user, login, logout, isLoading, error, isLoggedOut };
 };
