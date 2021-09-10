@@ -27,6 +27,7 @@ public class OAuthController {
 
     private static final int SECONDS_OF_TWO_MONTHS = 24 * 60 * 60 * 60;
     private static final String REFRESH_TOKEN_NAME = "refreshToken";
+    private static final String DOMAIN = "darass.co.kr";
 
     private final OAuthService oAuthService;
 
@@ -54,6 +55,7 @@ public class OAuthController {
     private void createCookie(HttpServletResponse response, String refreshToken) {
         ResponseCookie cookie = ResponseCookie.from(REFRESH_TOKEN_NAME, refreshToken)
             .sameSite(sameSite)
+            .domain(DOMAIN)
             .maxAge(SECONDS_OF_TWO_MONTHS)
             .path("/")
             .secure(true)
