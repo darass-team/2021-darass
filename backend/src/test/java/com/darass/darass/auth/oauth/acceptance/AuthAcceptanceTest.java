@@ -196,7 +196,7 @@ class AuthAcceptanceTest extends AcceptanceTest {
 
     private void 유효하지_않은_리프레쉬_토큰으로_인해_엑세스_토큰과_리프레쉬_토큰_재발급_실패됨(ResultActions tokenRefreshResultActions)
         throws Exception {
-        tokenRefreshResultActions.andExpect(status().isUnauthorized());
+        tokenRefreshResultActions.andExpect(status().is4xxClientError());
 
         토큰_인증_로그인_실패_rest_doc_작성(tokenRefreshResultActions);
     }
