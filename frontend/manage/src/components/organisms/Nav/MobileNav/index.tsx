@@ -30,14 +30,14 @@ const MobileNav = ({ menuList }: Props) => {
       <HamburgerButton isOpen={isOpen} onClick={onToggleNav} />
       <Modal isOpen={isOpen} closeModal={() => setOpen(false)}>
         <MenuWrapper isOpen={isOpen}>
-          <Link to={ROUTE.USER_PROFILE} onClick={onToggleNav}>
+          <Link to={ROUTE.AUTHORIZED.USER_PROFILE} onClick={onToggleNav}>
             <MenuAvatar imageURL={user?.profileImageUrl} size="LG" />
           </Link>
           {user ? (
             <>
               <Name>{user.nickName}</Name>
               <AuthLink
-                to={ROUTE.HOME}
+                to={ROUTE.COMMON.HOME}
                 onClick={() => {
                   logout();
                   onToggleNav();
@@ -49,7 +49,7 @@ const MobileNav = ({ menuList }: Props) => {
           ) : (
             <>
               <Name>{"로그인이 필요합니다."}</Name>
-              <AuthLink to={ROUTE.LOGIN} onClick={onToggleNav}>
+              <AuthLink to={ROUTE.NON_AUTHORIZED.LOGIN} onClick={onToggleNav}>
                 로그인
               </AuthLink>
             </>
@@ -57,7 +57,7 @@ const MobileNav = ({ menuList }: Props) => {
           {menuList.map(({ name, route }) => (
             <Menu
               key={name}
-              to={route || ROUTE.HOME}
+              to={route || ROUTE.COMMON.HOME}
               activeStyle={{ backgroundColor: `${PALETTE.SECONDARY}` }}
               onClick={onToggleNav}
             >

@@ -17,11 +17,11 @@ const MyProject = () => {
   }, []);
 
   const moveProjectDetailPage = (id: number) => {
-    history.push(ROUTE.GET_SCRIPT_PUBLISHING(id));
+    history.push(`${ROUTE.AUTHORIZED}/projects/${id}/guide`);
   };
 
   const moveNewProjectPage = () => {
-    history.push(ROUTE.NEW_PROJECT);
+    history.push(ROUTE.AUTHORIZED.NEW_PROJECT);
   };
 
   return (

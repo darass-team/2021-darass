@@ -67,7 +67,7 @@ describe("newProject 페이지 테스트", () => {
     fireEvent.click(projectSubmitButton);
 
     await waitFor(() => {
-      expect(history.location.pathname).not.toBe(ROUTE.GET_SCRIPT_PUBLISHING(otherProject.id));
+      expect(history.location.pathname).not.toBe(`${ROUTE.AUTHORIZED}/projects/${otherProject.id}/guide`);
     });
   });
   test("프로젝트 이름에 이미 등록되어있는 프로젝트를 입력하고, 등록버튼을 누르면 해당 프로젝트 배포페이지로 이동하지 않는다.", async () => {
@@ -95,7 +95,7 @@ describe("newProject 페이지 테스트", () => {
     fireEvent.click(projectSubmitButton);
 
     await waitFor(() => {
-      expect(history.location.pathname).not.toBe(ROUTE.GET_SCRIPT_PUBLISHING(otherProject.id));
+      expect(history.location.pathname).not.toBe(`${ROUTE.AUTHORIZED}/projects/${otherProject.id}/guide`);
     });
   });
   test("프로젝트 이름에 유효한 문자열을 입력하고, 등록버튼을 누르면, 프로젝트가 생성된다.", async () => {
@@ -124,7 +124,7 @@ describe("newProject 페이지 테스트", () => {
 
     const push = jest.spyOn(history, "push");
     await waitFor(() => {
-      expect(push).toBeCalledWith(ROUTE.GET_SCRIPT_PUBLISHING(otherProject.id));
+      expect(push).toBeCalledWith(`${ROUTE.AUTHORIZED}/projects/${otherProject.id}/guide`);
     });
   });
 });

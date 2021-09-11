@@ -1,5 +1,6 @@
 import * as Sentry from "@sentry/react";
-import { Redirect, Route, Switch } from "react-router-dom";
+import { useContext, useEffect } from "react";
+import { Redirect, Route, Switch, useHistory } from "react-router-dom";
 import { ConditionalRoute } from "./components/HOC/ConditionalRoute";
 import Nav from "./components/organisms/Nav";
 import About from "./components/pages/About";
@@ -17,38 +18,47 @@ import { ROUTE } from "./constants";
 import { useUser } from "./hooks";
 
 const App = () => {
-  const { user, isLoggedOut, isLoading } = useUser();
+  const { user, isLoading } = useUser();
 
   return (
     <>
       <Nav />
       <Sentry.ErrorBoundary fallback={<ErrorPage notice="에러가 발생했습니다." />}>
         <Switch>
-          <Route exact path={ROUTE.HOME} component={Home} />
-          <Route exact path={ROUTE.ABOUT} component={About} />
-          <Route exact path={ROUTE.OAUTH} component={OAuth} />
-          <Route exact path={ROUTE.NOTICE} render={() => <ErrorPage notice="개발중인 페이지 입니다." />} />
-          <ConditionalRoute path={ROUTE.LOGIN} component={Login} condition={!user} redirectPath={ROUTE.MY_PROJECT} />
-          <ConditionalRoute path={ROUTE.USER_PROFILE} component={UserProfile} condition={!isLoggedOut || isLoading} />
+          <Route exact path={ROUTE.COMMON.HOME} component={Home} />
+          <Route exact path={ROUTE.COMMON.ABOUT} component={About} />
+          <Route exact path={ROUTE.COMMON.NOTICE} render={() => <ErrorPage notice="개발중인 페이지 입니다." />} />
+          <ConditionalRoute exact path={ROUTE.NON_AUTHORIZED.OAUTH} component={OAuth} condition={!user} />
+          <ConditionalRoute path={ROUTE.NON_AUTHORIZED.LOGIN} component={Login} condition={!user} />
           <ConditionalRoute
-            path={ROUTE.SCRIPT_PUBLISHING}
+            path={ROUTE.AUTHORIZED.USER_PROFILE}
+            component={UserProfile}
+            condition={!!user || isLoading}
+          />
+          <ConditionalRoute
+            path={ROUTE.AUTHORIZED.SCRIPT_PUBLISHING}
             component={LoadableScriptPublishing}
-            condition={!isLoggedOut || isLoading}
+            condition={!!user || isLoading}
           />
-          <ConditionalRoute path={ROUTE.NEW_PROJECT} component={NewProject} condition={!isLoggedOut || isLoading} />
-          <ConditionalRoute path={ROUTE.PROJECT_MANAGE} component={Manage} condition={!isLoggedOut || isLoading} />
           <ConditionalRoute
-            path={ROUTE.STATISTICS}
+            path={ROUTE.AUTHORIZED.NEW_PROJECT}
+            component={NewProject}
+            condition={!!user || isLoading}
+          />
+          <ConditionalRoute path={ROUTE.AUTHORIZED.PROJECT_MANAGE} component={Manage} condition={!!user || isLoading} />
+          <ConditionalRoute
+            path={ROUTE.AUTHORIZED.STATISTICS}
             component={LoadableStatistics}
-            condition={!isLoggedOut || isLoading}
+            condition={!!user || isLoading}
           />
           <ConditionalRoute
-            path={ROUTE.PROJECT_DETAIL}
+            path={ROUTE.AUTHORIZED.PROJECT_DETAIL}
             component={ProjectDetail}
-            condition={!isLoggedOut || isLoading}
+            condition={!!user || isLoading}
           />
-          <ConditionalRoute path={ROUTE.MY_PROJECT} component={MyProject} condition={!isLoggedOut || isLoading} />
-          <Redirect to={ROUTE.HOME} />
+          <ConditionalRoute path={ROUTE.AUTHORIZED.MY_PROJECT} component={MyProject} condition={!!user || isLoading} />
+
+          <Redirect to={ROUTE.COMMON.HOME} />
         </Switch>
       </Sentry.ErrorBoundary>
     </>

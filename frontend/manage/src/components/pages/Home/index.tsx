@@ -77,7 +77,7 @@ const Home = () => {
   ];
 
   const moveLoginPage = () => {
-    history.push(ROUTE.LOGIN);
+    history.push(ROUTE.NON_AUTHORIZED.LOGIN);
   };
 
   return (

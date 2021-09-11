@@ -45,7 +45,7 @@ const ProjectDetail = () => {
         description: projectDesc
       });
 
-      history.push(ROUTE.MY_PROJECT);
+      history.push(ROUTE.AUTHORIZED.MY_PROJECT);
     } catch (error) {
       if (error instanceof AlertError) {
         alert(error.message);
@@ -60,7 +60,7 @@ const ProjectDetail = () => {
     try {
       await deleteProject(project.id);
 
-      history.replace(ROUTE.MY_PROJECT);
+      history.replace(ROUTE.AUTHORIZED.MY_PROJECT);
     } catch (error) {
       if (error instanceof AlertError) {
         alert(error.message);

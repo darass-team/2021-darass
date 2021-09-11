@@ -29,7 +29,7 @@ const NewProject = () => {
         description: projectDescription.trim()
       });
 
-      history.push(ROUTE.GET_SCRIPT_PUBLISHING(project.id));
+      history.push(`${ROUTE.AUTHORIZED}/projects/${project.id}/guide`);
     } catch (error) {
       if (error instanceof AlertError) {
         alert(error.message);

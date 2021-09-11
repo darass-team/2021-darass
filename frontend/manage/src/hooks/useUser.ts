@@ -3,7 +3,7 @@ import { User } from "@/types/user";
 import { AlertError } from "@/utils/error";
 import { request } from "@/utils/request";
 import axios from "axios";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useQuery, useQueryClient } from "react-query";
 import { accessTokenContext } from "@/contexts/AccessTokenProvider";
 
@@ -76,15 +76,7 @@ export const useUser = () => {
   });
 
   const login = async () => {
-    try {
-      await queryClient.invalidateQueries([REACT_QUERY_KEY.USER]);
-    } catch (error) {
-      if (!axios.isAxiosError(error)) {
-        throw new Error("알 수 없는 에러입니다.");
-      }
-
-      throw new AlertError("로그인에 실패하였습니다.");
-    }
+    queryClient.invalidateQueries([REACT_QUERY_KEY.USER]);
   };
 
   const logout = () => {
@@ -96,9 +88,15 @@ export const useUser = () => {
 
   useEffect(() => {
     if (error?.name === "noAccessToken") {
-      refreshAccessToken().then(accessToken => {
-        setAccessToken(accessToken);
-      });
+      refreshAccessToken()
+        .then(accessToken => {
+          console.log("액세스토큰 재발급 성공");
+          setAccessToken(accessToken);
+        })
+        .catch(err => {
+          console.log(err);
+          setAccessToken(null);
+        });
     }
   }, [error?.name]);
 
@@ -106,7 +104,5 @@ export const useUser = () => {
     login();
   }, [accessToken]);
 
-  const isLoggedOut = error?.name === "requestFailAccessToken";
-
-  return { user, login, logout, isLoading, error, isLoggedOut };
+  return { user, login, logout, isLoading, error };
 };

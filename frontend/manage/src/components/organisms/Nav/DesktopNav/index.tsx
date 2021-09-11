@@ -44,7 +44,7 @@ const DesktopNav = ({ menuList }: Props) => {
   return (
     <Container>
       <Wrapper>
-        <LogoLink to={ROUTE.HOME}>
+        <LogoLink to={ROUTE.COMMON.HOME}>
           <Logo size="SM" />
           <Title>Darass</Title>
         </LogoLink>
@@ -52,7 +52,7 @@ const DesktopNav = ({ menuList }: Props) => {
           {menuList.map(menu => (
             <MenuLink
               key={menu.name}
-              to={menu.route || ROUTE.HOME}
+              to={menu.route || ROUTE.COMMON.HOME}
               activeStyle={{ borderBottom: `5px solid ${PALETTE.PRIMARY}` }}
             >
               {menu.name}
@@ -63,8 +63,8 @@ const DesktopNav = ({ menuList }: Props) => {
           <UserAvatarOption user={user}>
             {user ? (
               <>
-                <Link to={ROUTE.USER_PROFILE}>내 정보</Link>
-                <Link to={ROUTE.HOME} onClick={logout}>
+                <Link to={ROUTE.AUTHORIZED.USER_PROFILE}>내 정보</Link>
+                <Link to={ROUTE.COMMON.HOME} onClick={logout}>
                   로그아웃
                 </Link>
               </>

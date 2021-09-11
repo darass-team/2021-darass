@@ -74,7 +74,7 @@ describe("myProject 페이지 테스트", () => {
     fireEvent.click(addNewProjectButton);
 
     await waitFor(() => {
-      expect(push).toBeCalledWith(ROUTE.NEW_PROJECT);
+      expect(push).toBeCalledWith(ROUTE.AUTHORIZED.NEW_PROJECT);
     });
   });
 
@@ -101,7 +101,7 @@ describe("myProject 페이지 테스트", () => {
     fireEvent.click(projectButton);
 
     await waitFor(() => {
-      expect(push).toBeCalledWith(ROUTE.GET_SCRIPT_PUBLISHING(projects[0].id));
+      expect(push).toBeCalledWith(`${ROUTE.AUTHORIZED}/projects/${projects[0].id}/guide`);
     });
   });
 });

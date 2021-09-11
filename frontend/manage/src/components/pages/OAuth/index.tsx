@@ -45,7 +45,7 @@ const OAuth = () => {
 
   useEffect(() => {
     if (user) {
-      history.push(ROUTE.MY_PROJECT);
+      history.push(ROUTE.AUTHORIZED.MY_PROJECT);
     }
   }, [user]);
 

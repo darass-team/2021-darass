@@ -13,7 +13,7 @@ export const useCommentPageIndex = ({ initialPageIndex, projectId }: Props) => {
   const [currentPageIndex, setCurrentPageIndex] = useState<number>(initialPageIndex);
 
   useEffect(() => {
-    history.push(`${ROUTE.GET_PROJECT_MANAGE(projectId)}?pageIndex=${currentPageIndex}`);
+    history.push(`${ROUTE.AUTHORIZED}/${projectId}/manage?pageIndex=${currentPageIndex}`);
   }, [currentPageIndex]);
 
   return {
