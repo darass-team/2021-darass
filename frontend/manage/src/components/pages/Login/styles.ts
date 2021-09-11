@@ -39,6 +39,7 @@ export const Button = styled.button`
     width: 1.25rem;
     height: 1.25rem;
     object-fit: fill;
+    margin-top: 0.15rem;
   }
 
   & > span {
@@ -49,6 +50,11 @@ export const Button = styled.button`
 
 export const KakaoLoginButton = styled(Button)`
   background: ${PALETTE.TERTIARY};
+  color: ${PALETTE.BLACK_700};
+`;
+
+export const NaverLoginButton = styled(Button)`
+  background: ${PALETTE.WHITE};
   color: ${PALETTE.BLACK_700};
 `;
 

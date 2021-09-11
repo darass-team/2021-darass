@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import kakaoTalkIcon from "@/assets/png/kakaotalk.png";
+import naverIcon from "@/assets/png/naver.png";
 import { ROUTE } from "@/constants";
 import { MANAGE_PAGE_DOMAIN } from "@/constants/domain";
 import { OAUTH_ENDPOINT } from "@/constants/oauth";
@@ -31,6 +32,12 @@ const DesktopNav = ({ menuList }: Props) => {
   const moveKakaoOAuthURL = () => {
     window.location.replace(
       `${OAUTH_ENDPOINT.KAKAO}?response_type=code&client_id=${process.env.KAKAO_REST_API_KEY}&redirect_uri=${MANAGE_PAGE_DOMAIN}/oauth/kakao`
+    );
+  };
+
+  const moveNaverOAuthURL = () => {
+    window.location.replace(
+      `${OAUTH_ENDPOINT.NAVER}?response_type=code&client_id=${process.env.NAVER_CLIENT_ID}&redirect_uri=${MANAGE_PAGE_DOMAIN}/oauth/naver`
     );
   };
 
@@ -66,6 +73,10 @@ const DesktopNav = ({ menuList }: Props) => {
                 <LoginMethodWrapper onClick={moveKakaoOAuthURL}>
                   <Avatar size="SM" imageURL={kakaoTalkIcon} alt="카카오톡 로그인 이미지" />
                   <LoginMethod>카카오</LoginMethod>
+                </LoginMethodWrapper>
+                <LoginMethodWrapper onClick={moveNaverOAuthURL}>
+                  <Avatar size="SM" imageURL={naverIcon} alt="네이버 로그인 이미지" />
+                  <LoginMethod>네이버</LoginMethod>
                 </LoginMethodWrapper>
               </>
             )}

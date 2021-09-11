@@ -1,16 +1,14 @@
-import Kakao from "@/assets/svg/kakao.svg";
-import { MANAGE_PAGE_DOMAIN } from "@/constants/domain";
-import { OAUTH_ENDPOINT } from "@/constants/oauth";
+import naverLogo from "@/assets/png/naver.png";
+import kakaoLogo from "@/assets/svg/kakao.svg";
+import Logo from "@/components/atoms/Logo";
+import { OAUTH_URL } from "@/constants/oauth";
 import { PALETTE } from "@/styles/palette";
 import ScreenContainer from "@/styles/ScreenContainer";
-import Logo from "@/components/atoms/Logo";
-import { Container, Introduction, KakaoLoginButton } from "./styles";
+import { Container, Introduction, KakaoLoginButton, NaverLoginButton } from "./styles";
 
 const Login = () => {
-  const moveKakaoOAuthURL = () => {
-    window.location.replace(
-      `${OAUTH_ENDPOINT.KAKAO}?response_type=code&client_id=${process.env.KAKAO_REST_API_KEY}&redirect_uri=${MANAGE_PAGE_DOMAIN}/oauth/kakao`
-    );
+  const onLogin = (provider: keyof typeof OAUTH_URL) => {
+    window.location.replace(OAUTH_URL[provider]);
   };
 
   return (
@@ -22,10 +20,14 @@ const Login = () => {
           블로그에 다라쓰
         </Introduction>
         <Logo size="LG" />
-        <KakaoLoginButton onClick={moveKakaoOAuthURL}>
-          <img src={Kakao} alt="kakao" />
+        <KakaoLoginButton onClick={() => onLogin("KAKAO")}>
+          <img src={kakaoLogo} alt="kakao login icon" />
           <span>카카오로 로그인</span>
         </KakaoLoginButton>
+        <NaverLoginButton onClick={() => onLogin("NAVER")}>
+          <img src={naverLogo} alt="naver login icon" />
+          <span>네이버로 로그인</span>
+        </NaverLoginButton>
       </Container>
     </ScreenContainer>
   );
