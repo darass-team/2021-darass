@@ -45,7 +45,15 @@ export const useUser = () => {
     initialData: getSessionStorage("user")
   });
 
-  const invalidate = () => queryClient.invalidateQueries([REACT_QUERY_KEY.USER]);
+  const clear = () => {
+    queryClient.setQueryData<User | undefined>(REACT_QUERY_KEY.USER, user => {
+      return undefined;
+    });
+  };
+
+  const invalidate = () => {
+    queryClient.invalidateQueries([REACT_QUERY_KEY.USER]);
+  };
 
   useEffect(() => {
     if (user) {
@@ -55,5 +63,5 @@ export const useUser = () => {
     }
   }, [user]);
 
-  return { user, isLoading, error, invalidate };
+  return { user, isLoading, error, invalidate, clear };
 };

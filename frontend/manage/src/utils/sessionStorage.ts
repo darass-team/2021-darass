@@ -12,7 +12,7 @@ const getCircularReplacer = () => {
 };
 
 export const getSessionStorage = (key: string) => {
-  const value = localStorage.getItem(key);
+  const value = sessionStorage.getItem(key);
 
   if (typeof value === "string") return JSON.parse(value);
 };
@@ -21,12 +21,12 @@ export const setSessionStorage = (key: string, value: any) => {
   const decycled = JSON.stringify(value, getCircularReplacer());
 
   if (decycled) {
-    localStorage.setItem(key, decycled);
+    sessionStorage.setItem(key, decycled);
   } else {
     console.error("JSON stringify error.");
   }
 };
 
 export const removeSessionStorage = (key: string) => {
-  localStorage.removeItem(key);
+  sessionStorage.removeItem(key);
 };

@@ -5,7 +5,7 @@ import { AlertError } from "@/utils/error";
 import { customAxios, request } from "@/utils/request";
 import { removeSessionStorage } from "@/utils/sessionStorage";
 import axios from "axios";
-import { createContext, Dispatch, memo, ReactNode, SetStateAction, useEffect, useMemo, useRef, useState } from "react";
+import { createContext, Dispatch, ReactNode, SetStateAction, useEffect, useMemo, useState } from "react";
 
 interface InitialState {
   user: User | undefined;
@@ -59,32 +59,41 @@ interface Props {
 
 const AccessTokenProvider = ({ children }: Props) => {
   const [accessToken, setAccessToken] = useState<string | null | undefined>();
-  const { user, error, invalidate } = useUser();
-  const interceptorRef = useRef<number>();
+  const { user, error, invalidate, clear } = useUser();
+  const [interceptorId, setInterceptorId] = useState<number>(-1);
 
-  const logout = () => {
-    deleteRefreshToken().finally(() => {
+  console.log(interceptorId);
+
+  const logout = async () => {
+    try {
+      await deleteRefreshToken();
+    } catch (error) {
+      console.error(error);
+    } finally {
       setAccessToken(null);
-      removeSessionStorage("user");
-    });
+      clear();
+    }
   };
 
   useMemo(() => {
     if (accessToken) {
-      interceptorRef.current = customAxios.interceptors.request.use(config => {
+      const id = customAxios.interceptors.request.use(config => {
         config.headers.Authorization = `Bearer ${accessToken}`;
 
         return config;
       });
+
+      setInterceptorId(id);
     } else {
-      if (interceptorRef.current === undefined) return;
-      customAxios.interceptors.request.eject(interceptorRef.current);
+      removeSessionStorage("user");
+      customAxios.interceptors.request.eject(interceptorId);
+      setInterceptorId(-1);
     }
   }, [accessToken]);
 
   useEffect(() => {
     invalidate();
-  }, [interceptorRef.current]);
+  }, [interceptorId]);
 
   useEffect(() => {
     if (error?.name === "noAccessToken") {
