@@ -32,7 +32,9 @@ export const useGetAllProjects = () => {
   const { data: projects, isLoading, error } = useQuery<Project[], Error>([REACT_QUERY_KEY.PROJECTS], getAllProjects);
 
   useEffect(() => {
-    queryClient.invalidateQueries([REACT_QUERY_KEY.PROJECTS]);
+    if (user) {
+      queryClient.invalidateQueries([REACT_QUERY_KEY.PROJECTS]);
+    }
   }, [user]);
 
   return { projects, isLoading, error };

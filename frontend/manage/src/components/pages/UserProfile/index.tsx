@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEventHandler, useEffect, useState } from "react";
+import { ChangeEvent, FormEventHandler, useContext, useEffect, useState } from "react";
 import cameraIcon from "@/assets/svg/camera.svg";
 import { MAX_PROFILE_IMAGE_SIZE, MAX_USER_NAME_LENGTH } from "@/constants/validation";
 import { useDeleteUser, useEditUser, useInput, useUser } from "@/hooks";
@@ -18,9 +18,10 @@ import {
   SubmitButton,
   UserNameCounter
 } from "./styles";
+import { accessTokenContext } from "@/contexts/AccessTokenProvider";
 
 const UserProfile = () => {
-  const { user, logout } = useUser();
+  const { user, logout } = useContext(accessTokenContext);
   const { editUser, isLoading: isEditLoading } = useEditUser();
   const { deleteUser } = useDeleteUser();
   const {

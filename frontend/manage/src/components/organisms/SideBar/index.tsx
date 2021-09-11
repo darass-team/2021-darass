@@ -1,6 +1,13 @@
 import { MenuType } from "@/types/menu";
 import MenuDropDown from "@/components/atoms/MenuDropDown";
 import { Container } from "./styles";
+import { useEffect } from "react";
+import {
+  LoadableManage,
+  LoadableProjectDetail,
+  LoadableScriptPublishing,
+  LoadableStatistics
+} from "@/components/pages/Loadable";
 
 export interface Props {
   menus: MenuType[];
@@ -8,6 +15,13 @@ export interface Props {
 }
 
 const SideBar = ({ menus, className }: Props) => {
+  useEffect(() => {
+    LoadableScriptPublishing.preload();
+    LoadableStatistics.preload();
+    LoadableManage.preload();
+    LoadableProjectDetail.preload();
+  }, []);
+
   return (
     <Container className={className}>
       {menus.map(({ name, route, subMenus }) => {

@@ -21,13 +21,15 @@ import {
   UserAvatarOptionWrapper,
   Wrapper
 } from "./styles";
+import { useContext } from "react";
+import { accessTokenContext } from "@/contexts/AccessTokenProvider";
 
 export interface Props {
   menuList: MenuType[];
 }
 
 const DesktopNav = ({ menuList }: Props) => {
-  const { user, logout } = useUser();
+  const { user, logout } = useContext(accessTokenContext);
 
   const moveKakaoOAuthURL = () => {
     window.location.replace(

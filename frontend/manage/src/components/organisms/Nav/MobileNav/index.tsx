@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { ROUTE } from "@/constants";
 import { useUser } from "@/hooks";
@@ -7,13 +7,14 @@ import { MenuType } from "@/types/menu";
 import HamburgerButton from "@/components/atoms/Buttons/HamburgerButton";
 import Modal from "@/components/atoms/Modal";
 import { AuthLink, Container, Menu, MenuAvatar, MenuWrapper, Name } from "./styles";
+import { accessTokenContext } from "@/contexts/AccessTokenProvider";
 
 export interface Props {
   menuList: MenuType[];
 }
 
 const MobileNav = ({ menuList }: Props) => {
-  const { user, logout } = useUser();
+  const { user, logout } = useContext(accessTokenContext);
 
   const [isOpen, setOpen] = useState(false);
 

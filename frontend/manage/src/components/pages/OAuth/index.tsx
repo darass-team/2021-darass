@@ -4,6 +4,7 @@ import { useUser } from "@/hooks";
 import { request } from "@/utils/request";
 import { useContext, useEffect } from "react";
 import { useHistory, useLocation, useParams } from "react-router";
+import LoadingPage from "../LoadingPage";
 
 const OAuth = () => {
   const history = useHistory();
@@ -34,7 +35,7 @@ const OAuth = () => {
     setAccessTokenAsync();
   }, [code]);
 
-  return <>로딩중입니다.</>;
+  return <LoadingPage />;
 };
 
 export default OAuth;
