@@ -11,6 +11,7 @@ import js from "react-syntax-highlighter/dist/cjs/languages/prism/javascript";
 import prism from "react-syntax-highlighter/dist/cjs/styles/prism/darcula";
 import { REPLY_MODULE_DOMAIN } from "@/constants/domain";
 import { BlogLogoWrapper, CodeBlockWrapper, Container, CopyButton, Ol, Title } from "./styles";
+import LoadingPage from "../LoadingPage";
 
 SyntaxHighlighter.registerLanguage("javascript", js);
 
@@ -44,11 +45,15 @@ const ScriptPublishing = () => {
   const match = useRouteMatch<{ id: string }>();
 
   const projectId = Number(match.params.id);
-  const { project, error } = useGetProject(projectId);
+  const { project } = useGetProject(projectId);
   const projectSecretKey = project?.secretKey || "스크립트 정보를 불러오는 중입니다...";
   const { isCopyButtonClicked, onCopy } = useCopyButton();
   const script =
     selectedBlogInfo?.scriptType === "HTML" ? htmlScriptCode(projectSecretKey) : JsxScriptCode(projectSecretKey);
+
+  if (!project) {
+    return <LoadingPage />;
+  }
 
   return (
     <ScreenContainer>

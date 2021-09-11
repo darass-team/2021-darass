@@ -8,6 +8,7 @@ import ErrorPage from "./components/pages/ErrorPage";
 import {
   LoadableHome,
   LoadableManage,
+  LoadableMyProject,
   LoadableNewProject,
   LoadableProjectDetail,
   LoadableScriptPublishing,
@@ -15,7 +16,6 @@ import {
   LoadableUserProfile
 } from "./components/pages/Loadable";
 import Login from "./components/pages/Login";
-import MyProject from "./components/pages/MyProject";
 import OAuth from "./components/pages/OAuth";
 import { ROUTE } from "./constants";
 import { useUser } from "./hooks";
@@ -78,7 +78,11 @@ const App = () => {
             component={LoadableProjectDetail}
             condition={!!user || isLoading}
           />
-          <ConditionalRoute path={ROUTE.AUTHORIZED.MY_PROJECT} component={MyProject} condition={!!user || isLoading} />
+          <ConditionalRoute
+            path={ROUTE.AUTHORIZED.MY_PROJECT}
+            component={LoadableMyProject}
+            condition={!!user || isLoading}
+          />
 
           <Redirect to={ROUTE.COMMON.HOME} />
         </Switch>

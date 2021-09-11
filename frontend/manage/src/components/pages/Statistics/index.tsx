@@ -23,6 +23,7 @@ import {
   Wrapper,
   Calendar
 } from "./styles";
+import LoadingPage from "../LoadingPage";
 
 const Statistics = () => {
   const match = useRouteMatch<{ id: string }>();
@@ -81,6 +82,10 @@ const Statistics = () => {
       getCommentStatisticsData();
     }
   }, [selectedPeriodicity]);
+
+  if (!project || !stats) {
+    return <LoadingPage />;
+  }
 
   return (
     <ScreenContainer>

@@ -29,7 +29,11 @@ const getAllProjects = async () => {
 export const useGetAllProjects = () => {
   const queryClient = useQueryClient();
   const { user } = useUser();
-  const { data: projects, isLoading, error } = useQuery<Project[], Error>([REACT_QUERY_KEY.PROJECTS], getAllProjects);
+  const {
+    data: projects,
+
+    error
+  } = useQuery<Project[], Error>([REACT_QUERY_KEY.PROJECTS], getAllProjects);
 
   useEffect(() => {
     if (user) {
@@ -37,5 +41,5 @@ export const useGetAllProjects = () => {
     }
   }, [user]);
 
-  return { projects, isLoading, error };
+  return { projects, error };
 };

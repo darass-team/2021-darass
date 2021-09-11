@@ -9,13 +9,14 @@ import { isEmptyString } from "@/utils/validation";
 import DeleteSection from "@/components/molecules/DeleteSection";
 import ContainerWithSideBar from "@/components/organisms/ContainerWithSideBar";
 import { Container, Form, InfoWrapper, Input, Label, SubmitButton, Title } from "./styles";
+import LoadingPage from "../LoadingPage";
 
 const ProjectDetail = () => {
   const match = useRouteMatch<{ id?: string }>();
   const projectId = Number(match.params.id);
 
   const history = useHistory();
-  const { project, error } = useGetProject(projectId);
+  const { project } = useGetProject(projectId);
   const { editProject } = useEditProject();
   const { deleteProject } = useDeleteProject();
   const { value: projectName, setValue: setProjectName, onChange: onChangeProjectName } = useInput("");
@@ -74,6 +75,10 @@ const ProjectDetail = () => {
       setProjectDesc(project.description);
     }
   }, [project]);
+
+  if (!project) {
+    return <LoadingPage />;
+  }
 
   return (
     <ScreenContainer>

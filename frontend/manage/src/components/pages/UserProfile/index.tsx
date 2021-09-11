@@ -1,10 +1,12 @@
-import { ChangeEvent, FormEventHandler, useContext, useEffect, useState } from "react";
 import cameraIcon from "@/assets/svg/camera.svg";
+import DeleteSection from "@/components/molecules/DeleteSection";
 import { MAX_PROFILE_IMAGE_SIZE, MAX_USER_NAME_LENGTH } from "@/constants/validation";
-import { useDeleteUser, useEditUser, useInput, useUser } from "@/hooks";
+import { accessTokenContext } from "@/contexts/AccessTokenProvider";
+import { useDeleteUser, useEditUser, useInput } from "@/hooks";
 import ScreenContainer from "@/styles/ScreenContainer";
 import { AlertError } from "@/utils/error";
-import DeleteSection from "@/components/molecules/DeleteSection";
+import { ChangeEvent, FormEventHandler, useContext, useEffect, useState } from "react";
+import LoadingPage from "../LoadingPage";
 import {
   CameraIcon,
   Container,
@@ -13,12 +15,11 @@ import {
   InfoWrapper,
   Input,
   Label,
-  Title,
-  UserProfileImage,
   SubmitButton,
-  UserNameCounter
+  Title,
+  UserNameCounter,
+  UserProfileImage
 } from "./styles";
-import { accessTokenContext } from "@/contexts/AccessTokenProvider";
 
 const UserProfile = () => {
   const { user, logout } = useContext(accessTokenContext);
@@ -97,6 +98,10 @@ const UserProfile = () => {
       setProfileImageAsUrl(user.profileImageUrl);
     }
   }, [user]);
+
+  if (!user) {
+    return <LoadingPage />;
+  }
 
   return (
     <ScreenContainer>

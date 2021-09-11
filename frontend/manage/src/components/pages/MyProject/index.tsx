@@ -5,6 +5,7 @@ import ScreenContainer from "@/styles/ScreenContainer";
 import { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { LoadableNewProject } from "../Loadable";
+import LoadingPage from "../LoadingPage";
 import { AddProjectButton, ButtonWrapper, Container, Message } from "./styles";
 
 const MyProject = () => {
@@ -22,6 +23,10 @@ const MyProject = () => {
   useEffect(() => {
     LoadableNewProject.preload();
   }, []);
+
+  if (!projects) {
+    return <LoadingPage />;
+  }
 
   return (
     <ScreenContainer>

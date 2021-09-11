@@ -1,11 +1,11 @@
 import { QUERY } from "@/constants";
 import { useUser } from "@/hooks";
 import { User } from "@/types/user";
-import { getSessionStorage, setSessionStorage } from "@/utils/sessionStorage";
-import { createContext, Dispatch, ReactNode, SetStateAction, useEffect, useMemo, useRef, useState } from "react";
-import { customAxios, request } from "@/utils/request";
-import axios from "axios";
 import { AlertError } from "@/utils/error";
+import { customAxios, request } from "@/utils/request";
+import { removeSessionStorage } from "@/utils/sessionStorage";
+import axios from "axios";
+import { createContext, Dispatch, memo, ReactNode, SetStateAction, useEffect, useMemo, useRef, useState } from "react";
 
 interface InitialState {
   user: User | undefined;
@@ -63,13 +63,10 @@ const AccessTokenProvider = ({ children }: Props) => {
   const interceptorRef = useRef<number>();
 
   const logout = () => {
-    deleteRefreshToken()
-      .then(() => {
-        invalidate();
-      })
-      .finally(() => {
-        setAccessToken(null);
-      });
+    deleteRefreshToken().finally(() => {
+      setAccessToken(null);
+      removeSessionStorage("user");
+    });
   };
 
   useMemo(() => {
@@ -83,18 +80,16 @@ const AccessTokenProvider = ({ children }: Props) => {
       if (interceptorRef.current === undefined) return;
       customAxios.interceptors.request.eject(interceptorRef.current);
     }
-
-    invalidate();
   }, [accessToken]);
+
+  useEffect(() => {
+    invalidate();
+  }, [interceptorRef.current]);
 
   useEffect(() => {
     if (error?.name === "noAccessToken") {
       refreshAccessToken()
         .then(accessToken => {
-          // if (error) {
-          //   error.name = "";
-          // }
-
           setAccessToken(accessToken);
         })
         .catch(() => {
