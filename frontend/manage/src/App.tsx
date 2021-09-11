@@ -1,6 +1,6 @@
 import * as Sentry from "@sentry/react";
-import { useContext, useEffect } from "react";
-import { Redirect, Route, Switch, useHistory } from "react-router-dom";
+import { useContext } from "react";
+import { Redirect, Route, Switch } from "react-router-dom";
 import { ConditionalRoute } from "./components/HOC/ConditionalRoute";
 import Nav from "./components/organisms/Nav";
 import About from "./components/pages/About";
@@ -29,7 +29,12 @@ const App = () => {
           <Route exact path={ROUTE.COMMON.ABOUT} component={About} />
           <Route exact path={ROUTE.COMMON.NOTICE} render={() => <ErrorPage notice="개발중인 페이지 입니다." />} />
           <ConditionalRoute exact path={ROUTE.NON_AUTHORIZED.OAUTH} component={OAuth} condition={!user} />
-          <ConditionalRoute path={ROUTE.NON_AUTHORIZED.LOGIN} component={Login} condition={!user} />
+          <ConditionalRoute
+            path={ROUTE.NON_AUTHORIZED.LOGIN}
+            component={Login}
+            condition={!user}
+            redirectPath={ROUTE.AUTHORIZED.MY_PROJECT}
+          />
           <ConditionalRoute
             path={ROUTE.AUTHORIZED.USER_PROFILE}
             component={UserProfile}

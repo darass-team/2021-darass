@@ -11,10 +11,20 @@ export const ROUTE = {
   AUTHORIZED: {
     USER_PROFILE: "/user",
     MY_PROJECT: "/projects",
-    PROJECT_DETAIL: "/projects/:id",
-    SCRIPT_PUBLISHING: "/projects/:id/guide",
-    PROJECT_MANAGE: "/projects/:id/manage",
-    STATISTICS: "/projects/:id/statistics",
-    NEW_PROJECT: "/projects/new"
+    get NEW_PROJECT() {
+      return `${this.MY_PROJECT}/new`;
+    },
+    get PROJECT_DETAIL() {
+      return `${this.MY_PROJECT}/:id`;
+    },
+    get SCRIPT_PUBLISHING() {
+      return `${this.MY_PROJECT}/:id/guide`;
+    },
+    get PROJECT_MANAGE() {
+      return `${this.MY_PROJECT}/:id/manage`;
+    },
+    get STATISTICS() {
+      return `${this.MY_PROJECT}/:id/statistics`;
+    }
   }
 } as const;

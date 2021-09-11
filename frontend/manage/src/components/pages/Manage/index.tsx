@@ -102,7 +102,7 @@ const Manage = () => {
         return deleteComment({ id });
       });
 
-      await Promise.all(deleteAllComments);
+      await Promise.allSettled(deleteAllComments);
 
       getCommentsOfProjectPerPage();
 
@@ -121,7 +121,7 @@ const Manage = () => {
     (async () => {
       await getCommentsOfProjectPerPage();
 
-      Promise.all(paginationNumbers.map(num => preGetCommentsOfProjectPerPage(num))).catch(error => {
+      Promise.allSettled(paginationNumbers.map(num => preGetCommentsOfProjectPerPage(num))).catch(error => {
         if (error instanceof AlertError) {
           alert(error.message);
         }

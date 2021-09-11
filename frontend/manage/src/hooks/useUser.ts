@@ -1,11 +1,13 @@
-import { QUERY, REACT_QUERY_KEY } from "@/constants";
+import { QUERY, REACT_QUERY_KEY, ROUTE } from "@/constants";
+import { accessTokenContext } from "@/contexts/AccessTokenProvider";
 import { User } from "@/types/user";
 import { AlertError } from "@/utils/error";
 import { request } from "@/utils/request";
+import { getSessionStorage, removeSessionStorage, setSessionStorage } from "@/utils/sessionStorage";
 import axios from "axios";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import { useQuery, useQueryClient } from "react-query";
-import { accessTokenContext } from "@/contexts/AccessTokenProvider";
+import { useHistory } from "react-router";
 
 const deleteRefreshToken = async () => {
   try {
@@ -64,6 +66,7 @@ const getUser = async () => {
 
 export const useUser = () => {
   const queryClient = useQueryClient();
+  const history = useHistory();
   const { accessToken, setAccessToken } = useContext(accessTokenContext);
 
   const {
@@ -72,18 +75,23 @@ export const useUser = () => {
     error
   } = useQuery<User, Error>([REACT_QUERY_KEY.USER], getUser, {
     retry: false,
-    refetchOnWindowFocus: false
+    refetchOnWindowFocus: false,
+    initialData: getSessionStorage("user")
   });
 
-  const login = async () => {
-    queryClient.invalidateQueries([REACT_QUERY_KEY.USER]);
+  const login = () => {
+    // queryClient.invalidateQueries([REACT_QUERY_KEY.USER]);
   };
 
   const logout = () => {
-    setAccessToken(null);
-    deleteRefreshToken().then(() => {
-      queryClient.setQueryData<User | undefined>([REACT_QUERY_KEY.USER], undefined);
-    });
+    deleteRefreshToken()
+      .then(() => {
+        queryClient.setQueryData<User | undefined>([REACT_QUERY_KEY.USER], undefined);
+      })
+      .finally(() => {
+        setAccessToken(null);
+        removeSessionStorage("user");
+      });
   };
 
   useEffect(() => {
@@ -91,8 +99,11 @@ export const useUser = () => {
       refreshAccessToken()
         .then(accessToken => {
           console.log("액세스토큰 재발급 성공");
+          // setSessionStorage("lastPath", ROUTE.AUTHORIZED.MY_PROJECT);
           setAccessToken(accessToken);
+          login();
         })
+
         .catch(err => {
           console.log(err);
           setAccessToken(null);
@@ -101,8 +112,12 @@ export const useUser = () => {
   }, [error?.name]);
 
   useEffect(() => {
-    login();
+    queryClient.invalidateQueries([REACT_QUERY_KEY.USER]);
   }, [accessToken]);
+
+  useEffect(() => {
+    setSessionStorage("user", user);
+  }, [user]);
 
   return { user, login, logout, isLoading, error };
 };

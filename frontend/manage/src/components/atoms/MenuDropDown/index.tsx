@@ -18,7 +18,6 @@ const MenuDropDown = ({ name, route, subMenus = [], depth = 0 }: Props) => {
 
   const onToggleDropDown = () => setDropDown(state => !state);
   const movePage = () => history.push(route || ROUTE.COMMON.HOME);
-
   const onClickMenu = hasSubMenus ? onToggleDropDown : movePage;
 
   return (

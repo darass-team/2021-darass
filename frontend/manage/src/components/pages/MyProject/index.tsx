@@ -17,7 +17,7 @@ const MyProject = () => {
   }, []);
 
   const moveProjectDetailPage = (id: number) => {
-    history.push(`${ROUTE.AUTHORIZED}/projects/${id}/guide`);
+    history.push(`/projects/${id}/guide`);
   };
 
   const moveNewProjectPage = () => {

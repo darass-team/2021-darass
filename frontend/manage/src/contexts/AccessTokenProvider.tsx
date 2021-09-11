@@ -1,4 +1,7 @@
-import { createContext, Dispatch, ReactNode, SetStateAction, useMemo, useRef, useState } from "react";
+import { useUser } from "@/hooks";
+import { User } from "@/types/user";
+import { getSessionStorage, setSessionStorage } from "@/utils/sessionStorage";
+import { createContext, Dispatch, ReactNode, SetStateAction, useEffect, useMemo, useRef, useState } from "react";
 import { customAxios } from "../utils/request";
 
 interface InitialState {
@@ -19,6 +22,7 @@ interface Props {
 
 const AccessTokenProvider = ({ children }: Props) => {
   const [accessToken, setAccessToken] = useState<string | null | undefined>();
+
   const interceptorRef = useRef<number>();
 
   useMemo(() => {

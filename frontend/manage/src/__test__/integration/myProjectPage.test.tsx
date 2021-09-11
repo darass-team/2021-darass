@@ -101,7 +101,7 @@ describe("myProject 페이지 테스트", () => {
     fireEvent.click(projectButton);
 
     await waitFor(() => {
-      expect(push).toBeCalledWith(`${ROUTE.AUTHORIZED}/projects/${projects[0].id}/guide`);
+      expect(push).toBeCalledWith(`/projects/${projects[0].id}/guide`);
     });
   });
 });
