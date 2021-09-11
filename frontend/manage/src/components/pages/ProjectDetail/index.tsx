@@ -1,13 +1,13 @@
 import { FormEvent, useEffect } from "react";
 import { useHistory, useRouteMatch } from "react-router-dom";
-import { PROJECT_MENU, ROUTE } from "../../../constants";
-import { MAX_PROJECT_NAME_LENGTH } from "../../../constants/validation";
-import { useDeleteProject, useEditProject, useGetProject, useInput } from "../../../hooks";
-import ScreenContainer from "../../../styles/ScreenContainer";
-import { AlertError } from "../../../utils/error";
-import { isEmptyString } from "../../../utils/validation";
-import DeleteSection from "../../molecules/DeleteSection";
-import ContainerWithSideBar from "../../organisms/ContainerWithSideBar";
+import { PROJECT_MENU, ROUTE } from "@/constants";
+import { MAX_PROJECT_NAME_LENGTH } from "@/constants/validation";
+import { useDeleteProject, useEditProject, useGetProject, useInput } from "@/hooks";
+import ScreenContainer from "@/styles/ScreenContainer";
+import { AlertError } from "@/utils/error";
+import { isEmptyString } from "@/utils/validation";
+import DeleteSection from "@/components/molecules/DeleteSection";
+import ContainerWithSideBar from "@/components/organisms/ContainerWithSideBar";
 import { Container, Form, InfoWrapper, Input, Label, SubmitButton, Title } from "./styles";
 
 const ProjectDetail = () => {

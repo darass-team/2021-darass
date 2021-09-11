@@ -1,9 +1,9 @@
-import Kakao from "../../../assets/svg/kakao.svg";
-import { MANAGE_PAGE_DOMAIN } from "../../../constants/domain";
-import { OAUTH_ENDPOINT } from "../../../constants/oauth";
-import { PALETTE } from "../../../styles/palette";
-import ScreenContainer from "../../../styles/ScreenContainer";
-import Logo from "../../atoms/Logo";
+import Kakao from "@/assets/svg/kakao.svg";
+import { MANAGE_PAGE_DOMAIN } from "@/constants/domain";
+import { OAUTH_ENDPOINT } from "@/constants/oauth";
+import { PALETTE } from "@/styles/palette";
+import ScreenContainer from "@/styles/ScreenContainer";
+import Logo from "@/components/atoms/Logo";
 import { Container, Introduction, KakaoLoginButton } from "./styles";
 
 const Login = () => {

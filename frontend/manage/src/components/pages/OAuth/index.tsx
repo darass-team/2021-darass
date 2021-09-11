@@ -1,9 +1,9 @@
 import { useContext, useEffect } from "react";
 import { useHistory, useLocation, useParams } from "react-router";
-import { QUERY, ROUTE } from "../../../constants";
-import { accessTokenContext } from "../../../contexts/AccessTokenProvider";
-import { useUser } from "../../../hooks";
-import { request } from "../../../utils/request";
+import { QUERY, ROUTE } from "@/constants";
+import { accessTokenContext } from "@/contexts/AccessTokenProvider";
+import { useUser } from "@/hooks";
+import { request } from "@/utils/request";
 
 const OAuth = () => {
   const location = useLocation();
