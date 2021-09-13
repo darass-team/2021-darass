@@ -3,25 +3,27 @@ import { useUser } from "@/hooks";
 import { User } from "@/types/user";
 import { AlertError } from "@/utils/error";
 import { customAxios, request } from "@/utils/request";
-import { removeSessionStorage } from "@/utils/sessionStorage";
+import { removeLocalStorage } from "@/utils/localStorage";
 import axios from "axios";
 import { createContext, Dispatch, ReactNode, SetStateAction, useEffect, useMemo, useState } from "react";
 
 interface InitialState {
   user: User | undefined;
+  isLoading: boolean;
   logout: () => void;
   accessToken: string | null | undefined;
   setAccessToken: Dispatch<SetStateAction<string | null | undefined>>;
 }
 
-export const accessTokenContext = createContext<InitialState>({
+export const userContext = createContext<InitialState>({
   user: undefined,
+  isLoading: false,
   logout: () => {},
   accessToken: null,
   setAccessToken: () => {}
 });
 
-const { Provider } = accessTokenContext;
+const { Provider } = userContext;
 
 const refreshAccessToken = async () => {
   try {
@@ -57,12 +59,10 @@ interface Props {
   children: ReactNode;
 }
 
-const AccessTokenProvider = ({ children }: Props) => {
+const UserProvider = ({ children }: Props) => {
   const [accessToken, setAccessToken] = useState<string | null | undefined>();
-  const { user, error, invalidate, clear } = useUser();
+  const { user, error, refetch, clear, isLoading } = useUser();
   const [interceptorId, setInterceptorId] = useState<number>(-1);
-
-  console.log(interceptorId);
 
   const logout = async () => {
     try {
@@ -85,14 +85,14 @@ const AccessTokenProvider = ({ children }: Props) => {
 
       setInterceptorId(id);
     } else {
-      removeSessionStorage("user");
+      removeLocalStorage("user");
       customAxios.interceptors.request.eject(interceptorId);
       setInterceptorId(-1);
     }
   }, [accessToken]);
 
   useEffect(() => {
-    invalidate();
+    refetch();
   }, [interceptorId]);
 
   useEffect(() => {
@@ -105,12 +105,13 @@ const AccessTokenProvider = ({ children }: Props) => {
           setAccessToken(null);
         });
     }
-  }, [error?.name]);
+  }, [error]);
 
   return (
     <Provider
       value={{
         user,
+        isLoading,
         logout,
         accessToken,
         setAccessToken
@@ -121,4 +122,4 @@ const AccessTokenProvider = ({ children }: Props) => {
   );
 };
 
-export default AccessTokenProvider;
+export default UserProvider;

@@ -5,7 +5,7 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import { BrowserRouter } from "react-router-dom";
 import App from "./App";
 import GlobalStyles from "./styles/GlobalStyles";
-import AccessTokenProvider from "./contexts/AccessTokenProvider";
+import UserProvider from "./contexts/UserProvider";
 
 Sentry.init({
   dsn: process.env.SENTRY_MANAGE_PAGE_DSN,
@@ -24,12 +24,12 @@ const queryClient = new QueryClient({
 
 ReactDOM.render(
   <QueryClientProvider client={queryClient}>
-    <AccessTokenProvider>
+    <UserProvider>
       <GlobalStyles />
       <BrowserRouter>
         <App />
       </BrowserRouter>
-    </AccessTokenProvider>
+    </UserProvider>
   </QueryClientProvider>,
   document.getElementById("root")
 );

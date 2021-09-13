@@ -1,5 +1,5 @@
 import * as Sentry from "@sentry/react";
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 import { ConditionalRoute } from "./components/HOC/ConditionalRoute";
 import Nav from "./components/organisms/Nav";
@@ -18,10 +18,10 @@ import {
 import Login from "./components/pages/Login";
 import OAuth from "./components/pages/OAuth";
 import { ROUTE } from "./constants";
-import { useUser } from "./hooks";
+import { userContext } from "./contexts/UserProvider";
 
 const App = () => {
-  const { user, isLoading } = useUser();
+  const { user, isLoading } = useContext(userContext);
 
   useEffect(() => {
     LoadableHome.preload();

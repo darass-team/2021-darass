@@ -7,7 +7,7 @@ import ErrorNotice from "@/components/organisms/ErrorNotice";
 import { PROJECT_MENU } from "@/constants";
 import { COMMENT_COUNT_PER_PAGE } from "@/constants/pagination";
 import { MAX_COMMENT_SEARCH_TERM_LENGTH } from "@/constants/validation";
-import { accessTokenContext } from "@/contexts/AccessTokenProvider";
+import { userContext } from "@/contexts/UserProvider";
 import {
   useCalendar,
   useCommentList,
@@ -30,7 +30,7 @@ const Manage = () => {
   const match = useRouteMatch<{ id: string }>();
   const location = useLocation();
 
-  const { user: me } = useContext(accessTokenContext);
+  const { user: me } = useContext(userContext);
 
   const projectId = Number(match.params.id);
   const urlSearchParams = new URLSearchParams(location.search);

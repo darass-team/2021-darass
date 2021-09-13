@@ -1,5 +1,5 @@
 import { QUERY } from "@/constants";
-import { accessTokenContext } from "@/contexts/AccessTokenProvider";
+import { userContext } from "@/contexts/UserProvider";
 import { request } from "@/utils/request";
 import { useContext, useEffect } from "react";
 import { useLocation, useParams } from "react-router";
@@ -10,7 +10,7 @@ const OAuth = () => {
   const { provider } = useParams<{ provider: string }>();
   const urlSearchParams = new URLSearchParams(location.search);
   const code = urlSearchParams.get("code");
-  const { setAccessToken } = useContext(accessTokenContext);
+  const { setAccessToken } = useContext(userContext);
 
   useEffect(() => {
     if (!code) return;

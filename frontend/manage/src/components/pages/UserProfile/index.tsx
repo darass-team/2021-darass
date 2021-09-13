@@ -1,7 +1,7 @@
 import cameraIcon from "@/assets/svg/camera.svg";
 import DeleteSection from "@/components/molecules/DeleteSection";
 import { MAX_PROFILE_IMAGE_SIZE, MAX_USER_NAME_LENGTH } from "@/constants/validation";
-import { accessTokenContext } from "@/contexts/AccessTokenProvider";
+import { userContext } from "@/contexts/UserProvider";
 import { useDeleteUser, useEditUser, useInput } from "@/hooks";
 import ScreenContainer from "@/styles/ScreenContainer";
 import { AlertError } from "@/utils/error";
@@ -22,7 +22,7 @@ import {
 } from "./styles";
 
 const UserProfile = () => {
-  const { user, logout } = useContext(accessTokenContext);
+  const { user, logout } = useContext(userContext);
   const { editUser, isLoading: isEditLoading } = useEditUser();
   const { deleteUser } = useDeleteUser();
   const {

@@ -2,7 +2,7 @@ import { QUERY, REACT_QUERY_KEY } from "@/constants";
 import { User } from "@/types/user";
 import { AlertError } from "@/utils/error";
 import { request } from "@/utils/request";
-import { getSessionStorage, removeSessionStorage, setSessionStorage } from "@/utils/sessionStorage";
+import { getLocalStorage, removeLocalStorage, setLocalStorage } from "@/utils/localStorage";
 import axios from "axios";
 import { useEffect } from "react";
 import { useQuery, useQueryClient } from "react-query";
@@ -38,11 +38,12 @@ export const useUser = () => {
   const {
     data: user,
     isLoading,
-    error
+    error,
+    refetch
   } = useQuery<User, Error>([REACT_QUERY_KEY.USER], getUser, {
     retry: false,
     refetchOnWindowFocus: false,
-    initialData: getSessionStorage("user")
+    initialData: getLocalStorage("user")
   });
 
   const clear = () => {
@@ -51,17 +52,13 @@ export const useUser = () => {
     });
   };
 
-  const invalidate = () => {
-    queryClient.invalidateQueries([REACT_QUERY_KEY.USER]);
-  };
-
   useEffect(() => {
     if (user) {
-      setSessionStorage("user", user);
+      setLocalStorage("user", user);
     } else {
-      removeSessionStorage("user");
+      removeLocalStorage("user");
     }
   }, [user]);
 
-  return { user, isLoading, error, invalidate, clear };
+  return { user, isLoading, error, refetch, clear };
 };

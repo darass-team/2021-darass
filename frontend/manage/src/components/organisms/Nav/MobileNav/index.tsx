@@ -7,14 +7,14 @@ import { MenuType } from "@/types/menu";
 import HamburgerButton from "@/components/atoms/Buttons/HamburgerButton";
 import Modal from "@/components/atoms/Modal";
 import { AuthLink, Container, Menu, MenuAvatar, MenuWrapper, Name } from "./styles";
-import { accessTokenContext } from "@/contexts/AccessTokenProvider";
+import { userContext } from "@/contexts/UserProvider";
 
 export interface Props {
   menuList: MenuType[];
 }
 
 const MobileNav = ({ menuList }: Props) => {
-  const { user, logout } = useContext(accessTokenContext);
+  const { user, logout } = useContext(userContext);
 
   const [isOpen, setOpen] = useState(false);
 
