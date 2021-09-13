@@ -1,11 +1,11 @@
 import { QUERY, REACT_QUERY_KEY } from "@/constants";
+import { userContext } from "@/contexts/UserProvider";
 import { Comment, GetCommentsOfProjectPerPageRequest } from "@/types/comment";
 import { AlertError } from "@/utils/error";
 import { request } from "@/utils/request";
 import axios from "axios";
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { useQuery, useQueryClient } from "react-query";
-import { useUser } from ".";
 
 const _getAllCommentsOfProject = async ({
   sortOption,
@@ -56,7 +56,7 @@ export const useGetCommentsOfProjectPerPage = ({
   keyword
 }: Props) => {
   const queryClient = useQueryClient();
-  const { user } = useUser();
+  const { user } = useContext(userContext);
 
   const { data, refetch, isLoading, error } = useQuery<
     {

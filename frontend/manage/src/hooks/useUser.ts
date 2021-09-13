@@ -39,7 +39,8 @@ export const useUser = () => {
     data: user,
     isLoading,
     error,
-    refetch
+    refetch,
+    isPreviousData: isUserChanged
   } = useQuery<User, Error>([REACT_QUERY_KEY.USER], getUser, {
     retry: false,
     refetchOnWindowFocus: false,

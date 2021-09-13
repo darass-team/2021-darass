@@ -1,12 +1,12 @@
 import { REACT_QUERY_KEY } from "@/constants";
 import { QUERY } from "@/constants/api";
+import { userContext } from "@/contexts/UserProvider";
 import { Project } from "@/types/project";
 import { AlertError } from "@/utils/error";
 import { request } from "@/utils/request";
 import axios from "axios";
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { useQuery, useQueryClient } from "react-query";
-import { useUser } from ".";
 
 const getAllProjects = async () => {
   try {
@@ -28,7 +28,8 @@ const getAllProjects = async () => {
 
 export const useGetAllProjects = () => {
   const queryClient = useQueryClient();
-  const { user } = useUser();
+  const { user } = useContext(userContext);
+
   const {
     data: projects,
 
@@ -36,9 +37,7 @@ export const useGetAllProjects = () => {
   } = useQuery<Project[], Error>([REACT_QUERY_KEY.PROJECTS], getAllProjects);
 
   useEffect(() => {
-    if (user) {
-      queryClient.invalidateQueries([REACT_QUERY_KEY.PROJECTS]);
-    }
+    queryClient.invalidateQueries([REACT_QUERY_KEY.PROJECTS]);
   }, [user]);
 
   return { projects, error };
