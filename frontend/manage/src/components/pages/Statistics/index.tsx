@@ -89,7 +89,7 @@ const Statistics = () => {
 
   return (
     <ScreenContainer>
-      <ContainerWithSideBar menus={PROJECT_MENU.get(projectId)}>
+      <ContainerWithSideBar menus={PROJECT_MENU.getByProjectId(projectId)}>
         <Container>
           <Title>통계</Title>
 

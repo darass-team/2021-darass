@@ -82,7 +82,7 @@ const ProjectDetail = () => {
 
   return (
     <ScreenContainer>
-      <ContainerWithSideBar menus={PROJECT_MENU.get(projectId)}>
+      <ContainerWithSideBar menus={PROJECT_MENU.getByProjectId(projectId)}>
         <Container>
           <Title>프로젝트 정보</Title>
           <Form onSubmit={onEditProject}>

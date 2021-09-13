@@ -18,7 +18,7 @@ const MyProject = () => {
   const history = useHistory();
   const { projects } = useGetAllProjects();
 
-  const moveProjectDetailPage = (id: number) => {
+  const moveScriptPublishingPage = (id: number) => {
     history.push(`/projects/${id}/guide`);
   };
 
@@ -44,7 +44,12 @@ const MyProject = () => {
         <AddProjectButton onClick={moveNewProjectPage}>Add new</AddProjectButton>
         <ButtonWrapper>
           {projects?.map(({ id, name, description }) => (
-            <ProjectButton key={id} title={name} description={description} onClick={() => moveProjectDetailPage(id)} />
+            <ProjectButton
+              key={id}
+              title={name}
+              description={description}
+              onClick={() => moveScriptPublishingPage(id)}
+            />
           ))}
           {projects?.length === 0 && (
             <Message data-testid="myproject-no-project-message">

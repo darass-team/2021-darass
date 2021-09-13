@@ -136,7 +136,7 @@ const Manage = () => {
 
   return (
     <ScreenContainer>
-      <ContainerWithSideBar menus={PROJECT_MENU.get(projectId)}>
+      <ContainerWithSideBar menus={PROJECT_MENU.getByProjectId(projectId)}>
         <Container>
           <Title>댓글 관리</Title>
           <CommentSearchConditionForm

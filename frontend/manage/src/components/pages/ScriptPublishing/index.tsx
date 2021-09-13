@@ -57,7 +57,7 @@ const ScriptPublishing = () => {
 
   return (
     <ScreenContainer>
-      <ContainerWithSideBar menus={PROJECT_MENU.get(projectId)}>
+      <ContainerWithSideBar menus={PROJECT_MENU.getByProjectId(projectId)}>
         <Container>
           <Title>스크립트 적용 가이드</Title>
           <GuideStep title="다라쓰를 적용할 플랫폼을 선택하세요.">
