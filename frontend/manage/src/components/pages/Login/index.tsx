@@ -1,35 +1,53 @@
+import loginPageBackground from "@/assets/png/loginpage_background.png";
 import naverLogo from "@/assets/png/naver.png";
 import kakaoLogo from "@/assets/svg/kakao.svg";
-import Logo from "@/components/atoms/Logo";
 import { OAUTH_URL } from "@/constants/oauth";
-import { PALETTE } from "@/styles/palette";
+import { useScrollFadeInOut } from "@/hooks";
 import ScreenContainer from "@/styles/ScreenContainer";
-import { Container, Introduction, KakaoLoginButton, NaverLoginButton } from "./styles";
+import { Container, SectionContainer, KakaoLoginButton, MainText, NaverLoginButton } from "./styles";
 
 const Login = () => {
+  const animationRefs = {
+    introductionText: useScrollFadeInOut({
+      direction: "up",
+      duration: 1,
+      delay: 0
+    }),
+    kakaoLoginButton: useScrollFadeInOut({
+      direction: "right",
+      duration: 1,
+      delay: 0
+    }),
+    naverLoginButton: useScrollFadeInOut({
+      direction: "left",
+      duration: 1,
+      delay: 0
+    })
+  };
+
   const onLogin = (provider: keyof typeof OAUTH_URL) => {
     window.location.replace(OAUTH_URL[provider]);
   };
 
   return (
-    <ScreenContainer bgColor={PALETTE.PRIMARY}>
+    <SectionContainer bgImage={loginPageBackground}>
       <Container>
-        <Introduction>
-          댓글 다라쓰,
+        <MainText {...animationRefs.introductionText}>
+          반갑습니다
           <br />
-          블로그에 다라쓰
-        </Introduction>
-        <Logo size="LG" />
-        <KakaoLoginButton onClick={() => onLogin("KAKAO")}>
+          로그인 방식을 선택해주세요
+        </MainText>
+
+        <KakaoLoginButton onClick={() => onLogin("KAKAO")} {...animationRefs.kakaoLoginButton}>
           <img src={kakaoLogo} alt="kakao login icon" />
           <span>카카오로 로그인</span>
         </KakaoLoginButton>
-        <NaverLoginButton onClick={() => onLogin("NAVER")}>
+        <NaverLoginButton onClick={() => onLogin("NAVER")} {...animationRefs.naverLoginButton}>
           <img src={naverLogo} alt="naver login icon" />
           <span>네이버로 로그인</span>
         </NaverLoginButton>
       </Container>
-    </ScreenContainer>
+    </SectionContainer>
   );
 };
 
