@@ -40,13 +40,16 @@ const ProjectDetail = () => {
     }
 
     try {
-      await editProject({
+      const newProject = await editProject({
         id: project.id,
         name: projectName,
         description: projectDesc
       });
 
-      history.push(ROUTE.AUTHORIZED.MY_PROJECT);
+      if (newProject) {
+        alert("프로젝트 수정에 성공하셨습니다.");
+        history.push(ROUTE.AUTHORIZED.MY_PROJECT);
+      }
     } catch (error) {
       if (error instanceof AlertError) {
         alert(error.message);
@@ -61,6 +64,7 @@ const ProjectDetail = () => {
     try {
       await deleteProject(project.id);
 
+      alert(`${project.name} 프로젝트가 삭제되었습니다.`);
       history.replace(ROUTE.AUTHORIZED.MY_PROJECT);
     } catch (error) {
       if (error instanceof AlertError) {

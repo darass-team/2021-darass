@@ -1,31 +1,31 @@
 import { QUERY } from "@/constants";
+import { NO_ACCESS_TOKEN } from "@/constants/errorName";
 import { useUser } from "@/hooks";
 import { User } from "@/types/user";
 import { AlertError } from "@/utils/error";
-import { customAxios, request } from "@/utils/request";
 import { removeLocalStorage } from "@/utils/localStorage";
+import { customAxios, request } from "@/utils/request";
 import axios from "axios";
-import { createContext, Dispatch, ReactNode, SetStateAction, useEffect, useMemo, useState } from "react";
+import { createContext, ReactNode, useEffect, useState } from "react";
+import { QueryObserverResult } from "react-query";
 
 interface InitialState {
   user: User | undefined;
   isLoading: boolean;
   logout: () => void;
-  accessToken: string | null | undefined;
-  setAccessToken: Dispatch<SetStateAction<string | null | undefined>>;
+  refreshAccessToken: () => Promise<QueryObserverResult<User, Error>> | Promise<void>;
 }
 
 export const userContext = createContext<InitialState>({
   user: undefined,
   isLoading: false,
   logout: () => {},
-  accessToken: null,
-  setAccessToken: () => {}
+  refreshAccessToken: async () => {}
 });
 
 const { Provider } = userContext;
 
-const refreshAccessToken = async () => {
+const getAccessTokenByRefreshToken = async () => {
   try {
     const response = await request.post(QUERY.LOGIN_REFRESH, {});
 
@@ -60,8 +60,7 @@ interface Props {
 }
 
 const UserProvider = ({ children }: Props) => {
-  const [accessToken, setAccessToken] = useState<string | null | undefined>();
-  const { user, error, refetch, clear, isLoading } = useUser();
+  const { user, error: userError, refetch: refetchUser, clear, isLoading } = useUser();
   const [interceptorId, setInterceptorId] = useState<number>(-1);
 
   const logout = async () => {
@@ -70,13 +69,15 @@ const UserProvider = ({ children }: Props) => {
     } catch (error) {
       console.error(error);
     } finally {
-      setAccessToken(null);
       clear();
     }
   };
 
-  useMemo(() => {
-    if (accessToken) {
+  const refreshAccessToken = async () => {
+    try {
+      const accessToken = await getAccessTokenByRefreshToken();
+
+      customAxios.interceptors.request.eject(interceptorId);
       const id = customAxios.interceptors.request.use(config => {
         config.headers.Authorization = `Bearer ${accessToken}`;
 
@@ -84,28 +85,25 @@ const UserProvider = ({ children }: Props) => {
       });
 
       setInterceptorId(id);
-    } else {
-      removeLocalStorage("user");
+    } catch (error) {
+      console.error(error);
+
       customAxios.interceptors.request.eject(interceptorId);
+      removeLocalStorage("user");
+
       setInterceptorId(-1);
     }
-  }, [accessToken]);
+  };
 
   useEffect(() => {
-    refetch();
+    refetchUser();
   }, [interceptorId]);
 
   useEffect(() => {
-    if (error?.name === "noAccessToken") {
-      refreshAccessToken()
-        .then(accessToken => {
-          setAccessToken(accessToken);
-        })
-        .catch(() => {
-          setAccessToken(null);
-        });
+    if (userError?.name === NO_ACCESS_TOKEN) {
+      refreshAccessToken();
     }
-  }, [error]);
+  }, [userError]);
 
   return (
     <Provider
@@ -113,8 +111,7 @@ const UserProvider = ({ children }: Props) => {
         user,
         isLoading,
         logout,
-        accessToken,
-        setAccessToken
+        refreshAccessToken
       }}
     >
       {children}

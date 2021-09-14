@@ -16,9 +16,6 @@ const WithContext = ({ children, logined = false, history = createMemoryHistory(
   const [user, setUser] = useState<User | undefined>(() => {
     return logined ? socialLoginUser : undefined;
   });
-  const [accessToken, setAccessToken] = useState<string | undefined>(() => {
-    return logined ? "accessToken" : undefined;
-  });
 
   const { Provider } = userContext;
 
@@ -29,12 +26,9 @@ const WithContext = ({ children, logined = false, history = createMemoryHistory(
         isLoading: false,
         logout: () => {
           setUser(undefined);
-          setAccessToken(undefined);
         },
-        accessToken,
-        setAccessToken: () => {
+        refreshAccessToken: async () => {
           setUser(socialLoginUser);
-          setAccessToken("accessToken");
         }
       }}
     >

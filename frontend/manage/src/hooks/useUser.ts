@@ -1,8 +1,9 @@
 import { QUERY, REACT_QUERY_KEY } from "@/constants";
+import { NO_ACCESS_TOKEN } from "@/constants/errorName";
 import { User } from "@/types/user";
 import { AlertError } from "@/utils/error";
-import { request } from "@/utils/request";
 import { getLocalStorage, removeLocalStorage, setLocalStorage } from "@/utils/localStorage";
+import { request } from "@/utils/request";
 import axios from "axios";
 import { useEffect } from "react";
 import { useQuery, useQueryClient } from "react-query";
@@ -17,13 +18,9 @@ const getUser = async () => {
       throw new AlertError("알 수 없는 에러입니다.");
     }
 
-    if (error.response?.data.code === 801) {
-      throw new Error("유효하지 않은 토큰입니다.");
-    }
-
-    if (error.response?.data.code === 806) {
+    if (error.response?.data.code === 806 || error.response?.data.code === 801) {
       const newError = new Error("액세스 토큰이 존재하지 않습니다.");
-      newError.name = "noAccessToken";
+      newError.name = NO_ACCESS_TOKEN;
 
       throw newError;
     }

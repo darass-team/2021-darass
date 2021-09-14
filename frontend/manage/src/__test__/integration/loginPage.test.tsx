@@ -14,6 +14,11 @@ describe("login/logout test", () => {
         writable: true,
         value: { replace: jest.fn() }
       });
+
+      const intersectionObserverMock = () => ({
+        observe: () => null
+      });
+      window.IntersectionObserver = jest.fn().mockImplementation(intersectionObserverMock);
     });
     test("DesktopNav - Kakao", () => {
       const Nav = render(

@@ -1,10 +1,13 @@
 import { QUERY } from "@/constants/api";
+import { NO_ACCESS_TOKEN } from "@/constants/errorName";
 import { REACT_QUERY_KEY } from "@/constants/reactQueryKey";
+import { userContext } from "@/contexts/UserProvider";
 import { DeleteCommentRequestParameter } from "@/types/comment";
 import { Project } from "@/types/project";
 import { AlertError } from "@/utils/error";
 import { request } from "@/utils/request";
 import axios from "axios";
+import { useContext } from "react";
 import { useMutation, useQueryClient } from "react-query";
 
 const _deleteComment = async ({ id }: DeleteCommentRequestParameter) => {
@@ -16,6 +19,13 @@ const _deleteComment = async ({ id }: DeleteCommentRequestParameter) => {
     console.error(error);
     if (!axios.isAxiosError(error)) {
       throw new Error("알 수 없는 에러입니다.");
+    }
+
+    if (error.response?.data.code === 801 || error.response?.data.code === 806) {
+      const newError = new AlertError("로그인이 필요합니다.");
+      newError.name = NO_ACCESS_TOKEN;
+
+      throw newError;
     }
 
     if (error.response?.data.code === 900) {
@@ -37,6 +47,7 @@ interface Props {
 
 export const useDeleteComment = ({ projectKey, page }: Props) => {
   const queryClient = useQueryClient();
+  const { refreshAccessToken } = useContext(userContext);
 
   const deleteMutation = useMutation<void, Error, DeleteCommentRequestParameter>(({ id }) => _deleteComment({ id }), {
     onSuccess: () => {
@@ -45,7 +56,29 @@ export const useDeleteComment = ({ projectKey, page }: Props) => {
   });
 
   const deleteComment = async ({ id }: DeleteCommentRequestParameter) => {
-    return await deleteMutation.mutateAsync({ id });
+    try {
+      return await deleteMutation.mutateAsync({ id });
+    } catch (error) {
+      if ((error as Error)?.name === NO_ACCESS_TOKEN) {
+        return await refetch({ id });
+      } else {
+        throw error;
+      }
+    }
+  };
+
+  const refetch = async ({ id }: DeleteCommentRequestParameter) => {
+    try {
+      await refreshAccessToken();
+
+      return await deleteMutation.mutateAsync({ id });
+    } catch (error) {
+      if ((error as Error)?.name === NO_ACCESS_TOKEN) {
+        return null;
+      }
+
+      throw error;
+    }
   };
 
   return { deleteComment };

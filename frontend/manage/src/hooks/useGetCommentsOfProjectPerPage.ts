@@ -90,13 +90,13 @@ export const useGetCommentsOfProjectPerPage = ({
     });
   };
 
-  const comments = !data || data?.comments.length === 0 ? [] : data.comments;
-  const totalComment = data?.totalComment ? data?.totalComment : 0;
-  const totalPage = data?.totalPage ? data?.totalPage : 0;
-
   useEffect(() => {
     queryClient.invalidateQueries([REACT_QUERY_KEY.COMMENT_OF_PROJECT_PER_PAGE, projectKey, page]);
   }, [user]);
+
+  const comments = !data || data?.comments.length === 0 ? [] : data.comments;
+  const totalComment = data?.totalComment ? data?.totalComment : 0;
+  const totalPage = data?.totalPage ? data?.totalPage : 0;
 
   return { comments, totalComment, totalPage, refetch, isLoading, error, prefetch };
 };

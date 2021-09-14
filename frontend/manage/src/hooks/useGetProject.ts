@@ -1,5 +1,6 @@
 import { REACT_QUERY_KEY } from "@/constants";
 import { QUERY } from "@/constants/api";
+import { NO_ACCESS_TOKEN } from "@/constants/errorName";
 import { userContext } from "@/contexts/UserProvider";
 import { Project } from "@/types/project";
 import { AlertError } from "@/utils/error";
@@ -18,15 +19,11 @@ const getProject = async (id: Project["id"]) => {
       throw new AlertError("알 수 없는 에러입니다.");
     }
 
-    if (error.response?.data.code === 806) {
+    if (error.response?.data.code === 806 || error.response?.data.code === 801) {
       const newError = new Error("액세스 토큰이 존재하지 않습니다.");
-      newError.name = "noAccessToken";
+      newError.name = NO_ACCESS_TOKEN;
 
       throw newError;
-    }
-
-    if (error.response?.data.code === 801) {
-      throw new AlertError("로그인이 필요합니다.");
     }
 
     if (error.response?.data.code === 700) {
