@@ -7,7 +7,6 @@ import ErrorNotice from "@/components/organisms/ErrorNotice";
 import { PROJECT_MENU } from "@/constants";
 import { COMMENT_COUNT_PER_PAGE } from "@/constants/pagination";
 import { MAX_COMMENT_SEARCH_TERM_LENGTH } from "@/constants/validation";
-import { userContext } from "@/contexts/UserProvider";
 import {
   useCalendar,
   useCommentList,
@@ -15,13 +14,14 @@ import {
   useDeleteComment,
   useGetCommentsOfProjectPerPage,
   useGetProject,
-  useInput
+  useInput,
+  useUser
 } from "@/hooks";
 import ScreenContainer from "@/styles/ScreenContainer";
 import { AlertError } from "@/utils/error";
 import { getPagesOfLength5 } from "@/utils/pagination";
 import moment from "moment";
-import { FormEvent, useContext, useEffect } from "react";
+import { FormEvent, useEffect } from "react";
 import { useLocation, useRouteMatch } from "react-router-dom";
 import LoadingPage from "../LoadingPage";
 import { CommentList, CommentsViewer, Container, DeleteButton, Header, Row, Title, TotalComment } from "./styles";
@@ -30,7 +30,7 @@ const Manage = () => {
   const match = useRouteMatch<{ id: string }>();
   const location = useLocation();
 
-  const { user: me } = useContext(userContext);
+  const { user: me } = useUser();
 
   const projectId = Number(match.params.id);
   const urlSearchParams = new URLSearchParams(location.search);

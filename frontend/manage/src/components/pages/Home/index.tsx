@@ -7,7 +7,6 @@ import TypingText from "@/components/atoms/TypingText";
 import { ROUTE } from "@/constants";
 import { useScrollFadeInOut } from "@/hooks";
 import { PALETTE } from "@/styles/palette";
-import ScreenContainer from "@/styles/ScreenContainer";
 import { useHistory } from "react-router-dom";
 import {
   Button,

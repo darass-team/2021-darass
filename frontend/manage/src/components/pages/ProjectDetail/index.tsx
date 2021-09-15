@@ -40,16 +40,14 @@ const ProjectDetail = () => {
     }
 
     try {
-      const newProject = await editProject({
+      await editProject({
         id: project.id,
         name: projectName,
         description: projectDesc
       });
 
-      if (newProject) {
-        alert("프로젝트 수정에 성공하셨습니다.");
-        history.push(ROUTE.AUTHORIZED.MY_PROJECT);
-      }
+      alert("프로젝트 수정에 성공하셨습니다.");
+      history.push(ROUTE.AUTHORIZED.MY_PROJECT);
     } catch (error) {
       if (error instanceof AlertError) {
         alert(error.message);

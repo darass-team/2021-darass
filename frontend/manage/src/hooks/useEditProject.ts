@@ -1,4 +1,3 @@
-import { useContext } from "react";
 import { QUERY } from "@/constants";
 import { NO_ACCESS_TOKEN } from "@/constants/errorName";
 import { REACT_QUERY_KEY } from "@/constants/reactQueryKey";
@@ -7,7 +6,6 @@ import { AlertError } from "@/utils/error";
 import { request } from "@/utils/request";
 import axios from "axios";
 import { useMutation, useQueryClient } from "react-query";
-import { userContext } from "@/contexts/UserProvider";
 
 const _editProject = async ({ id, name, description }: EditProjectRequest) => {
   try {
@@ -41,7 +39,6 @@ const _editProject = async ({ id, name, description }: EditProjectRequest) => {
 
 export const useEditProject = () => {
   const queryClient = useQueryClient();
-  const { refreshAccessToken } = useContext(userContext);
 
   const editMutation = useMutation<void, Error, EditProjectRequest>(data => _editProject(data), {
     onSuccess: (_, editedProject) => {
@@ -61,29 +58,7 @@ export const useEditProject = () => {
   const error = editMutation.error;
 
   const editProject = async (data: EditProjectRequest) => {
-    try {
-      return await editMutation.mutateAsync(data);
-    } catch (error) {
-      if ((error as Error)?.name === NO_ACCESS_TOKEN) {
-        return await refetch(data);
-      } else {
-        throw error;
-      }
-    }
-  };
-
-  const refetch = async (data: EditProjectRequest) => {
-    try {
-      await refreshAccessToken();
-
-      return await editMutation.mutateAsync(data);
-    } catch (error) {
-      if ((error as Error)?.name === NO_ACCESS_TOKEN) {
-        return null;
-      }
-
-      throw error;
-    }
+    return await editMutation.mutateAsync(data);
   };
 
   return { editProject, isLoading, error };

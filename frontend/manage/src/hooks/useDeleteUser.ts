@@ -1,11 +1,9 @@
 import { QUERY, REACT_QUERY_KEY } from "@/constants";
 import { NO_ACCESS_TOKEN } from "@/constants/errorName";
-import { userContext } from "@/contexts/UserProvider";
 import { User } from "@/types/user";
 import { AlertError } from "@/utils/error";
 import { request } from "@/utils/request";
 import axios from "axios";
-import { useContext, useEffect } from "react";
 import { useMutation, useQueryClient } from "react-query";
 
 const _deleteUser = async () => {
@@ -33,7 +31,6 @@ const _deleteUser = async () => {
 
 export const useDeleteUser = () => {
   const queryClient = useQueryClient();
-  const { refreshAccessToken } = useContext(userContext);
 
   const deleteMutation = useMutation<User, Error>(() => _deleteUser(), {
     onSuccess: () => {
@@ -47,29 +44,7 @@ export const useDeleteUser = () => {
   const error = deleteMutation.error;
 
   const deleteUser = async () => {
-    try {
-      return await deleteMutation.mutateAsync();
-    } catch (error) {
-      if ((error as Error)?.name === NO_ACCESS_TOKEN) {
-        return await refetch();
-      } else {
-        throw error;
-      }
-    }
-  };
-
-  const refetch = async () => {
-    try {
-      await refreshAccessToken();
-
-      return await deleteMutation.mutateAsync();
-    } catch (error) {
-      if ((error as Error)?.name === NO_ACCESS_TOKEN) {
-        return null;
-      }
-
-      throw error;
-    }
+    return await deleteMutation.mutateAsync();
   };
 
   return { deleteUser, isLoading, error };

@@ -1,13 +1,13 @@
 import { REACT_QUERY_KEY } from "@/constants";
 import { QUERY } from "@/constants/api";
 import { NO_ACCESS_TOKEN } from "@/constants/errorName";
-import { userContext } from "@/contexts/UserProvider";
 import { Project } from "@/types/project";
 import { AlertError } from "@/utils/error";
 import { request } from "@/utils/request";
 import axios from "axios";
-import { useContext, useEffect } from "react";
+import { useEffect } from "react";
 import { useQuery, useQueryClient } from "react-query";
+import { useUser } from ".";
 
 const getProject = async (id: Project["id"]) => {
   try {
@@ -36,12 +36,13 @@ const getProject = async (id: Project["id"]) => {
 
 export const useGetProject = (id: Project["id"]) => {
   const queryClient = useQueryClient();
-  const { user } = useContext(userContext);
+  const { user } = useUser();
 
   const {
     data: project,
     isLoading,
-    error
+    error,
+    refetch
   } = useQuery<Project, Error>([REACT_QUERY_KEY.PROJECT, id], () => getProject(id), {
     retry: false
   });

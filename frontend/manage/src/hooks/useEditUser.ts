@@ -1,11 +1,9 @@
 import { QUERY, REACT_QUERY_KEY } from "@/constants";
 import { NO_ACCESS_TOKEN } from "@/constants/errorName";
-import { userContext } from "@/contexts/UserProvider";
 import { User } from "@/types/user";
 import { AlertError } from "@/utils/error";
 import { request } from "@/utils/request";
 import axios from "axios";
-import { useContext } from "react";
 import { useMutation, useQueryClient } from "react-query";
 
 const _editUser = async (data: FormData) => {
@@ -37,7 +35,6 @@ const _editUser = async (data: FormData) => {
 
 export const useEditUser = () => {
   const queryClient = useQueryClient();
-  const { refreshAccessToken } = useContext(userContext);
 
   const editMutation = useMutation<User, Error, FormData>(data => _editUser(data), {
     onSuccess: () => {
@@ -49,31 +46,9 @@ export const useEditUser = () => {
   const error = editMutation.error;
 
   const editUser = async (data: FormData) => {
-    try {
-      const user = await editMutation.mutateAsync(data);
+    const user = await editMutation.mutateAsync(data);
 
-      return user;
-    } catch (error) {
-      if ((error as Error)?.name === NO_ACCESS_TOKEN) {
-        return await refetch(data);
-      } else {
-        throw error;
-      }
-    }
-  };
-
-  const refetch = async (data: FormData) => {
-    try {
-      await refreshAccessToken();
-
-      return await editMutation.mutateAsync(data);
-    } catch (error) {
-      if ((error as Error)?.name === NO_ACCESS_TOKEN) {
-        return null;
-      }
-
-      throw error;
-    }
+    return user;
   };
 
   return { editUser, isLoading, error };

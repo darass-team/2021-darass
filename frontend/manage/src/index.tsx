@@ -17,19 +17,18 @@ Sentry.init({
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      retry: false
+      retry: false,
+      refetchOnWindowFocus: false
     }
   }
 });
 
 ReactDOM.render(
   <QueryClientProvider client={queryClient}>
-    <UserProvider>
-      <GlobalStyles />
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </UserProvider>
+    <GlobalStyles />
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
   </QueryClientProvider>,
   document.getElementById("root")
 );

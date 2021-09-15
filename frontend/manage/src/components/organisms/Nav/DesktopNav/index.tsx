@@ -5,10 +5,9 @@ import Logo from "@/components/atoms/Logo";
 import UserAvatarOption from "@/components/molecules/UserAvatarOption";
 import { ROUTE } from "@/constants";
 import { OAUTH_URL } from "@/constants/oauth";
-import { userContext } from "@/contexts/UserProvider";
+import { useUser } from "@/hooks";
 import { PALETTE } from "@/styles/palette";
 import { MenuType } from "@/types/menu";
-import { useContext } from "react";
 import { Link } from "react-router-dom";
 import {
   Container,
@@ -27,7 +26,7 @@ export interface Props {
 }
 
 const DesktopNav = ({ menuList }: Props) => {
-  const { user, logout } = useContext(userContext);
+  const { user, logout } = useUser();
 
   const onLogin = (provider: keyof typeof OAUTH_URL) => {
     window.location.replace(OAUTH_URL[provider]);

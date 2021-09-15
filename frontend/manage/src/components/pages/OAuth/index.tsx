@@ -1,7 +1,7 @@
 import { QUERY } from "@/constants";
-import { userContext } from "@/contexts/UserProvider";
+import { useToken } from "@/hooks";
 import { request } from "@/utils/request";
-import { useContext, useEffect } from "react";
+import { useEffect } from "react";
 import { useLocation, useParams } from "react-router";
 import LoadingPage from "../LoadingPage";
 
@@ -10,7 +10,7 @@ const OAuth = () => {
   const { provider } = useParams<{ provider: string }>();
   const urlSearchParams = new URLSearchParams(location.search);
   const code = urlSearchParams.get("code");
-  const { refreshAccessToken } = useContext(userContext);
+  const { refetchAccessToken } = useToken();
 
   useEffect(() => {
     if (!code) return;
@@ -22,7 +22,7 @@ const OAuth = () => {
           authorizationCode: code
         });
 
-        refreshAccessToken();
+        refetchAccessToken();
       } catch (error) {
         console.error(error);
       }

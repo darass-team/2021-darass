@@ -7,6 +7,7 @@ import { request } from "@/utils/request";
 import axios from "axios";
 import { useEffect } from "react";
 import { useQuery, useQueryClient } from "react-query";
+import { useToken } from ".";
 
 const getUser = async () => {
   try {
@@ -31,6 +32,7 @@ const getUser = async () => {
 
 export const useUser = () => {
   const queryClient = useQueryClient();
+  const { accessToken, deleteMutation } = useToken();
 
   const {
     data: user,
@@ -39,15 +41,22 @@ export const useUser = () => {
     refetch
   } = useQuery<User, Error>([REACT_QUERY_KEY.USER], getUser, {
     retry: false,
-    refetchOnWindowFocus: false,
     initialData: getLocalStorage("user")
   });
 
-  const clear = () => {
+  const logout = () => {
+    deleteMutation.mutateAsync();
     queryClient.setQueryData<User | undefined>(REACT_QUERY_KEY.USER, user => {
       return undefined;
     });
   };
+
+  useEffect(() => {
+    console.log(accessToken);
+    if (accessToken) {
+      refetch();
+    }
+  }, [accessToken]);
 
   useEffect(() => {
     if (user) {
@@ -57,5 +66,5 @@ export const useUser = () => {
     }
   }, [user]);
 
-  return { user, isLoading, error, refetch, clear };
+  return { user, isLoading, error, refetch, logout };
 };

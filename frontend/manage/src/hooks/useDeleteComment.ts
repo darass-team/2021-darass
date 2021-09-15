@@ -1,13 +1,11 @@
 import { QUERY } from "@/constants/api";
 import { NO_ACCESS_TOKEN } from "@/constants/errorName";
 import { REACT_QUERY_KEY } from "@/constants/reactQueryKey";
-import { userContext } from "@/contexts/UserProvider";
 import { DeleteCommentRequestParameter } from "@/types/comment";
 import { Project } from "@/types/project";
 import { AlertError } from "@/utils/error";
 import { request } from "@/utils/request";
 import axios from "axios";
-import { useContext } from "react";
 import { useMutation, useQueryClient } from "react-query";
 
 const _deleteComment = async ({ id }: DeleteCommentRequestParameter) => {
@@ -47,7 +45,6 @@ interface Props {
 
 export const useDeleteComment = ({ projectKey, page }: Props) => {
   const queryClient = useQueryClient();
-  const { refreshAccessToken } = useContext(userContext);
 
   const deleteMutation = useMutation<void, Error, DeleteCommentRequestParameter>(({ id }) => _deleteComment({ id }), {
     onSuccess: () => {
@@ -56,29 +53,7 @@ export const useDeleteComment = ({ projectKey, page }: Props) => {
   });
 
   const deleteComment = async ({ id }: DeleteCommentRequestParameter) => {
-    try {
-      return await deleteMutation.mutateAsync({ id });
-    } catch (error) {
-      if ((error as Error)?.name === NO_ACCESS_TOKEN) {
-        return await refetch({ id });
-      } else {
-        throw error;
-      }
-    }
-  };
-
-  const refetch = async ({ id }: DeleteCommentRequestParameter) => {
-    try {
-      await refreshAccessToken();
-
-      return await deleteMutation.mutateAsync({ id });
-    } catch (error) {
-      if ((error as Error)?.name === NO_ACCESS_TOKEN) {
-        return null;
-      }
-
-      throw error;
-    }
+    return await deleteMutation.mutateAsync({ id });
   };
 
   return { deleteComment };

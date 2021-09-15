@@ -2,8 +2,7 @@ import cameraIcon from "@/assets/svg/camera.svg";
 import DeleteSection from "@/components/molecules/DeleteSection";
 import { ROUTE } from "@/constants";
 import { MAX_PROFILE_IMAGE_SIZE, MAX_USER_NAME_LENGTH } from "@/constants/validation";
-import { userContext } from "@/contexts/UserProvider";
-import { useDeleteUser, useEditUser, useInput } from "@/hooks";
+import { useDeleteUser, useEditUser, useInput, useUser } from "@/hooks";
 import ScreenContainer from "@/styles/ScreenContainer";
 import { AlertError } from "@/utils/error";
 import { ChangeEvent, FormEventHandler, useContext, useEffect, useState } from "react";
@@ -25,7 +24,7 @@ import {
 
 const UserProfile = () => {
   const history = useHistory();
-  const { user, logout } = useContext(userContext);
+  const { user, logout } = useUser();
   const { editUser, isLoading: isEditLoading } = useEditUser();
   const { deleteUser } = useDeleteUser();
   const {
