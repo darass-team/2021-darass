@@ -37,7 +37,7 @@ public class RequiredLoginArgumentResolver implements HandlerMethodArgumentResol
 
     private SocialLoginUser findSocialLoginUserByAccessToken(String accessToken, String refreshToken) {
         SocialLoginUser socialLoginUser = oAuthService.findSocialLoginUserByAccessToken(accessToken);
-        if (socialLoginUser.isSameRefreshToken(refreshToken)) {
+        if (socialLoginUser.isValidateRefreshToken(refreshToken)) {
             return socialLoginUser;
         }
         throw ExceptionWithMessageAndCode.INVALID_REFRESH_TOKEN.getException();
