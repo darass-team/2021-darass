@@ -5,9 +5,8 @@ import { Project } from "@/types/project";
 import { AlertError } from "@/utils/error";
 import { request } from "@/utils/request";
 import axios from "axios";
-import { useEffect } from "react";
-import { useQuery, useQueryClient } from "react-query";
-import { useUser } from ".";
+import { useQuery } from "react-query";
+import { useToken } from ".";
 
 const getAllProjects = async () => {
   try {
@@ -31,14 +30,10 @@ const getAllProjects = async () => {
 };
 
 export const useGetAllProjects = () => {
-  const queryClient = useQueryClient();
-  const { user } = useUser();
-
-  const { data: projects, refetch, error } = useQuery<Project[], Error>([REACT_QUERY_KEY.PROJECTS], getAllProjects);
-
-  useEffect(() => {
-    queryClient.invalidateQueries([REACT_QUERY_KEY.PROJECTS]);
-  }, [user]);
+  const { accessToken } = useToken();
+  const { data: projects, error } = useQuery<Project[], Error>([REACT_QUERY_KEY.PROJECTS], getAllProjects, {
+    enabled: !!accessToken
+  });
 
   return { projects, error };
 };

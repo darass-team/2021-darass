@@ -1,4 +1,5 @@
 import { QUERY, REACT_QUERY_KEY } from "@/constants";
+import { TOKEN_REFETCH_TIMER } from "@/constants/timer";
 import { AlertError } from "@/utils/error";
 import { customAxios, request } from "@/utils/request";
 import axios from "axios";
@@ -20,16 +21,16 @@ const axiosBearerOption = {
 };
 
 const getAccessTokenByRefreshToken = async () => {
-  axiosBearerOption.clear();
-
   try {
     const response = await request.post(QUERY.LOGIN_REFRESH, {});
     const { accessToken } = response.data;
 
+    axiosBearerOption.clear();
     axiosBearerOption.setAccessToken(accessToken);
 
     return accessToken;
   } catch (error) {
+    axiosBearerOption.clear();
     if (!axios.isAxiosError(error)) {
       throw new AlertError("알 수 없는 에러입니다.");
     }
@@ -59,15 +60,16 @@ export const useToken = () => {
     [REACT_QUERY_KEY.ACCESS_TOKEN],
     getAccessTokenByRefreshToken,
     {
-      retry: false,
+      retry: 2,
       refetchIntervalInBackground: true,
-      refetchInterval: 5 * 1000
+      refetchInterval: TOKEN_REFETCH_TIMER,
+      enabled: true
     }
   );
 
   const deleteMutation = useMutation<string, Error>(deleteRefreshToken, {
     onSuccess: () => {
-      queryClient.setQueryData<string | undefined>(REACT_QUERY_KEY.ACCESS_TOKEN, user => {
+      queryClient.setQueryData<string | undefined>([REACT_QUERY_KEY.ACCESS_TOKEN], () => {
         return undefined;
       });
     }

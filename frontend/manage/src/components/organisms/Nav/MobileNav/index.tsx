@@ -1,12 +1,12 @@
-import { useContext, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { ROUTE } from "@/constants";
-import { PALETTE } from "@/styles/palette";
-import { MenuType } from "@/types/menu";
 import HamburgerButton from "@/components/atoms/Buttons/HamburgerButton";
 import Modal from "@/components/atoms/Modal";
-import { AuthLink, Container, Menu, MenuAvatar, MenuWrapper, Name } from "./styles";
+import { ROUTE } from "@/constants";
 import { useUser } from "@/hooks";
+import { PALETTE } from "@/styles/palette";
+import { MenuType } from "@/types/menu";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { AuthLink, Container, Menu, MenuAvatar, MenuWrapper, Name } from "./styles";
 
 export interface Props {
   menuList: MenuType[];
@@ -14,7 +14,6 @@ export interface Props {
 
 const MobileNav = ({ menuList }: Props) => {
   const { user, logout } = useUser();
-
   const [isOpen, setOpen] = useState(false);
 
   const onToggleNav = () => {

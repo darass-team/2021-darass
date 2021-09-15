@@ -22,10 +22,8 @@ import { useToken, useUser } from "./hooks";
 
 const App = () => {
   const { user, isLoading } = useUser();
-  const { refetchAccessToken } = useToken();
 
   useEffect(() => {
-    refetchAccessToken();
     LoadableHome.preload();
   }, []);
 

@@ -33,7 +33,6 @@ const getUser = async () => {
 export const useUser = () => {
   const queryClient = useQueryClient();
   const { accessToken, deleteMutation } = useToken();
-
   const {
     data: user,
     isLoading,
@@ -41,22 +40,16 @@ export const useUser = () => {
     refetch
   } = useQuery<User, Error>([REACT_QUERY_KEY.USER], getUser, {
     retry: false,
-    initialData: getLocalStorage("user")
+    initialData: getLocalStorage("user"),
+    enabled: !!accessToken
   });
 
   const logout = () => {
-    deleteMutation.mutateAsync();
-    queryClient.setQueryData<User | undefined>(REACT_QUERY_KEY.USER, user => {
+    deleteMutation.mutate();
+    queryClient.setQueryData<User | undefined>(REACT_QUERY_KEY.USER, () => {
       return undefined;
     });
   };
-
-  useEffect(() => {
-    console.log(accessToken);
-    if (accessToken) {
-      refetch();
-    }
-  }, [accessToken]);
 
   useEffect(() => {
     if (user) {
