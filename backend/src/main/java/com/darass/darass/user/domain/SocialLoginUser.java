@@ -61,7 +61,9 @@ public class SocialLoginUser extends User {
         refreshToken = null;
     }
 
-    public boolean isSameRefreshToken(String refreshToken) {
+    public boolean isValidateRefreshToken(String refreshToken) {
+        if(refreshToken == null)
+            return false;
         return this.refreshToken.equals(refreshToken);
     }
 
