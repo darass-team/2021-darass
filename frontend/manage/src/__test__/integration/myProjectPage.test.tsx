@@ -5,7 +5,7 @@ import "@testing-library/jest-dom/extend-expect";
 import { fireEvent, render, waitFor } from "@testing-library/react";
 import { createMemoryHistory } from "history";
 import { myProject, myProject2, myProject3 } from "../fixture/project";
-import WithContext from "../util/WithContext";
+import { Router } from "react-router";
 
 jest.mock("@/hooks/useGetAllProjects");
 
@@ -18,11 +18,11 @@ describe("myProject 페이지 테스트", () => {
         error: false
       };
     });
-
+    const history = createMemoryHistory();
     const myProjectPage = render(
-      <WithContext logined>
+      <Router history={history}>
         <MyProject />
-      </WithContext>
+      </Router>
     );
     const message = myProjectPage.getByTestId("myproject-no-project-message");
 
@@ -40,10 +40,11 @@ describe("myProject 페이지 테스트", () => {
       };
     });
 
+    const history = createMemoryHistory();
     const myProjectPage = render(
-      <WithContext logined>
+      <Router history={history}>
         <MyProject />
-      </WithContext>
+      </Router>
     );
     const projectButtons = myProjectPage.getAllByTestId("project-button");
 
@@ -63,9 +64,9 @@ describe("myProject 페이지 테스트", () => {
 
     const history = createMemoryHistory();
     const myProjectPage = render(
-      <WithContext logined history={history}>
+      <Router history={history}>
         <MyProject />
-      </WithContext>
+      </Router>
     );
 
     const addNewProjectButton = myProjectPage.getByRole("button", {
@@ -92,9 +93,9 @@ describe("myProject 페이지 테스트", () => {
 
     const history = createMemoryHistory();
     const myProjectPage = render(
-      <WithContext logined history={history}>
+      <Router history={history}>
         <MyProject />
-      </WithContext>
+      </Router>
     );
 
     const projectButton = myProjectPage.getAllByTestId("project-button")[0];

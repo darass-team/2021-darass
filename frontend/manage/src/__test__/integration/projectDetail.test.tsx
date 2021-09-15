@@ -7,7 +7,6 @@ import { ROUTE } from "@/constants";
 import { useDeleteProject, useEditProject, useGetProject } from "@/hooks";
 import { EditProjectRequest } from "@/types/project";
 import { myProject } from "../fixture/project";
-import WithContext from "../util/WithContext";
 
 jest.mock("@/hooks/useEditProject");
 jest.mock("@/hooks/useGetProject");
@@ -61,9 +60,9 @@ describe("project Detail 페이지 테스트", () => {
   it("프로젝트 이름 입력란에 길이 20글자 이하의 문자열을 입력하고, 수정 버튼을 누르면 프로젝트 이름이 수정할 수 있다.", async () => {
     const history = createMemoryHistory();
     const projectDetail = render(
-      <WithContext logined history={history}>
+      <Router history={history}>
         <ProjectDetail />
-      </WithContext>
+      </Router>
     );
 
     const $projectNameInput = projectDetail.getByRole("textbox", {
@@ -87,9 +86,9 @@ describe("project Detail 페이지 테스트", () => {
   it("프로젝트 이름 입력란에 길이 20글자 초과의 문자열을 입력하고, 수정 버튼을 누르면 프로젝트 이름이 수정할 수 없다.", async () => {
     const history = createMemoryHistory();
     const projectDetail = render(
-      <WithContext logined history={history}>
+      <Router history={history}>
         <ProjectDetail />
-      </WithContext>
+      </Router>
     );
 
     const $projectNameInput = projectDetail.getByRole("textbox", {
@@ -113,9 +112,9 @@ describe("project Detail 페이지 테스트", () => {
   it("프로젝트 설명에 문자열을 입력하고, 수정 버튼을 누르면 프로젝트 설명을 수정할 수 있다.", async () => {
     const history = createMemoryHistory();
     const projectDetail = render(
-      <WithContext logined history={history}>
+      <Router history={history}>
         <ProjectDetail />
-      </WithContext>
+      </Router>
     );
 
     const $projectDescInput = projectDetail.getByRole("textbox", {
@@ -140,9 +139,9 @@ describe("project Detail 페이지 테스트", () => {
     const replace = jest.spyOn(history, "replace");
 
     const projectDetail = render(
-      <WithContext logined history={history}>
+      <Router history={history}>
         <ProjectDetail />
-      </WithContext>
+      </Router>
     );
 
     const $deleteButton = projectDetail.getByRole("button", {

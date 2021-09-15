@@ -3,9 +3,9 @@ import { useGetProject } from "@/hooks";
 import "@testing-library/jest-dom/extend-expect";
 import { fireEvent, render } from "@testing-library/react";
 import { createMemoryHistory } from "history";
+import { Router } from "react-router";
 import { myProject3 } from "../fixture/project";
 import { socialLoginUser2 } from "../fixture/user";
-import WithContext from "../util/WithContext";
 
 jest.mock("react-router-dom", () => {
   return {
@@ -35,9 +35,9 @@ describe("스크립트 코드 페이지 테스트", () => {
     const history = createMemoryHistory();
 
     const scriptPublishingPage = render(
-      <WithContext logined history={history}>
+      <Router history={history}>
         <ScriptPublishing />
-      </WithContext>
+      </Router>
     );
 
     expect(
@@ -68,9 +68,9 @@ describe("스크립트 코드 페이지 테스트", () => {
     const history = createMemoryHistory();
 
     const scriptPublishingPage = render(
-      <WithContext logined history={history}>
+      <Router history={history}>
         <ScriptPublishing />
-      </WithContext>
+      </Router>
     );
 
     const tistoryLogo = scriptPublishingPage.getByRole("img", {
@@ -113,9 +113,9 @@ describe("스크립트 코드 페이지 테스트", () => {
     const history = createMemoryHistory();
 
     const scriptPublishingPage = render(
-      <WithContext logined history={history}>
+      <Router history={history}>
         <ScriptPublishing />
-      </WithContext>
+      </Router>
     );
 
     const tistoryLogo = scriptPublishingPage.getByRole("img", {
@@ -147,9 +147,9 @@ describe("스크립트 코드 페이지 테스트", () => {
     const history = createMemoryHistory();
 
     const scriptPublishingPage = render(
-      <WithContext logined history={history}>
+      <Router history={history}>
         <ScriptPublishing />
-      </WithContext>
+      </Router>
     );
 
     const tistoryLogo = scriptPublishingPage.getByRole("img", {
@@ -180,9 +180,9 @@ describe("스크립트 코드 페이지 테스트", () => {
     const history = createMemoryHistory();
 
     const scriptPublishingPage = render(
-      <WithContext logined history={history}>
+      <Router history={history}>
         <ScriptPublishing />
-      </WithContext>
+      </Router>
     );
 
     const tistoryLogo = scriptPublishingPage.getByRole("img", {

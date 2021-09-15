@@ -5,7 +5,7 @@ import "@testing-library/jest-dom/extend-expect";
 import { fireEvent, render, waitFor } from "@testing-library/react";
 import { createMemoryHistory } from "history";
 import { myProject, otherProject } from "../fixture/project";
-import WithContext from "../util/WithContext";
+import { Router } from "react-router";
 
 jest.mock("@/hooks/useCreateProject");
 jest.mock("@/hooks/useGetAllProjects");
@@ -49,9 +49,9 @@ describe("newProject 페이지 테스트", () => {
     const inputValue = "           \n \n \n \n \n ";
     const history = createMemoryHistory();
     const newProject = render(
-      <WithContext logined history={history}>
+      <Router history={history}>
         <NewProject />
-      </WithContext>
+      </Router>
     );
 
     const projectNameInput = newProject.getByRole("textbox", {
@@ -77,9 +77,9 @@ describe("newProject 페이지 테스트", () => {
     const inputValue = myProject.name;
     const history = createMemoryHistory();
     const newProject = render(
-      <WithContext logined history={history}>
+      <Router history={history}>
         <NewProject />
-      </WithContext>
+      </Router>
     );
 
     const projectNameInput = newProject.getByRole("textbox", {
@@ -105,9 +105,9 @@ describe("newProject 페이지 테스트", () => {
     const inputValue = "유효한 프로젝트";
     const history = createMemoryHistory();
     const newProject = render(
-      <WithContext logined history={history}>
+      <Router history={history}>
         <NewProject />
-      </WithContext>
+      </Router>
     );
 
     const projectNameInput = newProject.getByRole("textbox", {

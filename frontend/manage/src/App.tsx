@@ -18,7 +18,7 @@ import {
 import Login from "./components/pages/Login";
 import OAuth from "./components/pages/OAuth";
 import { ROUTE } from "./constants";
-import { useToken, useUser } from "./hooks";
+import { useUser } from "./hooks";
 
 const App = () => {
   const { user, isLoading } = useUser();
