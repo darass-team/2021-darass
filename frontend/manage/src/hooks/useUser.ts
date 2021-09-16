@@ -32,7 +32,7 @@ const getUser = async () => {
 
 export const useUser = () => {
   const queryClient = useQueryClient();
-  const { accessToken, deleteMutation, error: refreshError } = useToken(true);
+  const { accessToken, deleteMutation } = useToken();
   const {
     data: user,
     isLoading,
@@ -50,12 +50,6 @@ export const useUser = () => {
       return undefined;
     });
   };
-
-  useEffect(() => {
-    if (refreshError) {
-      logout();
-    }
-  }, [refreshError]);
 
   useEffect(() => {
     if (user) {
