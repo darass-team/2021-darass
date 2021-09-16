@@ -6,7 +6,6 @@ import { NO_ACCESS_TOKEN } from "../constants/errorName";
 import { REACT_QUERY_KEY } from "../constants/reactQueryKey";
 import { User } from "../types/user";
 import { AlertError } from "../utils/Error";
-import { getLocalStorage, removeLocalStorage, setLocalStorage } from "../utils/localStorage";
 import { request } from "../utils/request";
 import { useToken } from "./useToken";
 
@@ -41,7 +40,6 @@ export const useUser = () => {
     refetch
   } = useQuery<User, Error>([REACT_QUERY_KEY.USER], getUser, {
     retry: false,
-    initialData: getLocalStorage("user"),
     enabled: !!accessToken
   });
 
@@ -57,14 +55,6 @@ export const useUser = () => {
       logout();
     }
   }, [refreshError]);
-
-  useEffect(() => {
-    if (user) {
-      setLocalStorage("user", user);
-    } else {
-      removeLocalStorage("user");
-    }
-  }, [user]);
 
   return { user, isLoading, error, refetch, logout };
 };
