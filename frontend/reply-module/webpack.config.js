@@ -60,7 +60,8 @@ const config = {
           "process.env.KAKAO_REST_API_KEY": JSON.stringify(process.env.KAKAO_REST_API_KEY),
           "process.env.KAKAO_JAVASCRIPT_API_KEY": JSON.stringify(process.env.KAKAO_JAVASCRIPT_API_KEY),
           "process.env.SENTRY_REPLY_MODULE_DSN": JSON.stringify(process.env.SENTRY_MANAGE_PAGE_DSN),
-          "process.env.GITHUB_CLIENT_ID": JSON.stringify(process.env.GITHUB_CLIENT_ID)
+          "process.env.GITHUB_CLIENT_ID": JSON.stringify(process.env.GITHUB_CLIENT_ID),
+          "process.env.NAVER_CLIENT_ID": JSON.stringify(process.env.NAVER_CLIENT_ID)
         })
       : new DotEnv()
   ],
