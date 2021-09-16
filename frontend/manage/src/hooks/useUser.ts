@@ -32,7 +32,7 @@ const getUser = async () => {
 
 export const useUser = () => {
   const queryClient = useQueryClient();
-  const { accessToken, deleteMutation } = useToken();
+  const { accessToken, deleteMutation } = useToken(true);
   const {
     data: user,
     isLoading,
@@ -50,6 +50,14 @@ export const useUser = () => {
       return undefined;
     });
   };
+
+  useEffect(() => {
+    if (!accessToken) {
+      queryClient.setQueryData<User | undefined>(REACT_QUERY_KEY.USER, () => {
+        return undefined;
+      });
+    }
+  }, [accessToken]);
 
   useEffect(() => {
     if (user) {
