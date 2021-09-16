@@ -3,9 +3,7 @@ import { Comment, GetCommentsOfProjectPerPageRequest } from "@/types/comment";
 import { AlertError } from "@/utils/error";
 import { request } from "@/utils/request";
 import axios from "axios";
-import { useEffect } from "react";
 import { useQuery, useQueryClient } from "react-query";
-import { useToken, useUser } from ".";
 
 const _getAllCommentsOfProject = async ({
   sortOption,

@@ -53,9 +53,7 @@ export const useUser = () => {
 
   useEffect(() => {
     if (!accessToken) {
-      queryClient.setQueryData<User | undefined>(REACT_QUERY_KEY.USER, () => {
-        return undefined;
-      });
+      logout();
     }
   }, [accessToken]);
 
