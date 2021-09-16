@@ -5,6 +5,7 @@ import { Comment, CreateCommentRequestData } from "../types/comment";
 import { REACT_QUERY_KEY } from "../constants/reactQueryKey";
 import { AlertError } from "../utils/Error";
 import axios from "axios";
+import { useToken } from "./useToken";
 
 const _createComment = async (_data: CreateCommentRequestData) => {
   try {
