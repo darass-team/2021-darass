@@ -9,6 +9,7 @@ import com.darass.darass.exception.ExceptionWithMessageAndCode;
 import com.darass.darass.user.domain.SocialLoginUser;
 import java.util.Objects;
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -76,8 +77,18 @@ public class OAuthController {
     }
 
     @DeleteMapping("/log-out")
-    public ResponseEntity<AccessTokenResponse> logOut(@RequiredLogin SocialLoginUser socialLoginUser) {
+    public ResponseEntity<AccessTokenResponse> logOut(HttpServletResponse response, @RequiredLogin SocialLoginUser socialLoginUser) {
         oAuthService.logOut(socialLoginUser);
+
+        ResponseCookie cookie = ResponseCookie.from(REFRESH_TOKEN_NAME, "")
+            .sameSite(sameSite)
+            .domain(DOMAIN)
+            .maxAge(0)
+            .path("/")
+            .secure(true)
+            .httpOnly(true)
+            .build();
+        response.addHeader("Set-Cookie", cookie.toString());
 
         return ResponseEntity.noContent().build();
     }
