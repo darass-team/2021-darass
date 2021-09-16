@@ -29,7 +29,8 @@ const NewProject = () => {
         description: projectDescription.trim()
       });
 
-      history.push(ROUTE.GET_SCRIPT_PUBLISHING(project.id));
+      alert("프로젝트 생성에 성공하셨습니다.");
+      history.push(`/projects/${project.id}/guide`);
     } catch (error) {
       if (error instanceof AlertError) {
         alert(error.message);

@@ -4,8 +4,12 @@ import { LINE_HEIGHT_SCALE } from "@/styles/constants";
 import { PALETTE } from "@/styles/palette";
 import ScreenContainer from "@/styles/ScreenContainer";
 
-export const SectionContainer = styled(ScreenContainer)<{ minHeightVh: number }>`
-  min-height: ${props => props.minHeightVh}vh;
+export const SectionContainer = styled(ScreenContainer)<{ subtractMinHeight?: string }>`
+  ${props => props.subtractMinHeight && `min-height: calc(100vh - ${props.subtractMinHeight});`};
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 `;
 
 export const Container = styled.div`
@@ -17,10 +21,7 @@ export const Container = styled.div`
 `;
 
 export const MainText = styled.h2`
-  @media all and (max-width: 780px) {
-    margin-top: 8rem;
-  }
-  font-size: 3rem;
+  font-size: 2.5rem;
   line-height: ${3 * LINE_HEIGHT_SCALE}rem;
   color: ${PALETTE.WHITE};
   font-weight: 700;
@@ -46,28 +47,22 @@ export const Button = styled.button`
 `;
 
 export const ScrollDownTrigger = styled.a`
-  position: relative;
-  bottom: -7rem;
+  position: absolute;
+  bottom: 0;
 
-  @media all and (max-width: 780px) {
-    bottom: -20rem;
-  }
-
-  & > img {
-    @keyframes upDown {
-      0% {
-        transform: translateY(0);
-      }
-      50% {
-        transform: translateY(-0.75rem);
-      }
-      100% {
-        transform: translateY(0);
-      }
+  @keyframes upDown {
+    0% {
+      transform: translateY(0);
     }
-
-    animation: upDown 2s 0s linear infinite;
+    50% {
+      transform: translateY(-0.75rem);
+    }
+    100% {
+      transform: translateY(0);
+    }
   }
+
+  animation: upDown 2s 0s linear infinite;
 `;
 
 export const ScrollToTopButton = styled.button`

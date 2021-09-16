@@ -4,9 +4,9 @@ import DesktopNav from "./DesktopNav";
 import MobileNav from "./MobileNav";
 
 const menuList: MenuType[] = [
-  { route: ROUTE.MY_PROJECT, name: "내 프로젝트" },
-  { route: ROUTE.NOTICE, name: "공지사항" },
-  { route: ROUTE.ABOUT, name: "ABOUT" }
+  { route: ROUTE.AUTHORIZED.MY_PROJECT, name: "내 프로젝트" },
+  { route: ROUTE.COMMON.NOTICE, name: "공지사항" },
+  { route: ROUTE.COMMON.ABOUT, name: "ABOUT" }
 ];
 
 const Nav = () => {

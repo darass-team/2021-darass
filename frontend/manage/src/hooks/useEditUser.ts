@@ -1,4 +1,5 @@
 import { QUERY, REACT_QUERY_KEY } from "@/constants";
+import { NO_ACCESS_TOKEN } from "@/constants/errorName";
 import { User } from "@/types/user";
 import { AlertError } from "@/utils/error";
 import { request } from "@/utils/request";
@@ -21,8 +22,11 @@ const _editUser = async (data: FormData) => {
       throw new Error("알 수 없는 에러입니다.");
     }
 
-    if (error.response?.data.code === 801) {
-      throw new AlertError("로그인이 필요합니다.");
+    if (error.response?.data.code === 801 || error.response?.data.code === 806) {
+      const newError = new AlertError("로그인이 필요합니다.");
+      newError.name = NO_ACCESS_TOKEN;
+
+      throw newError;
     }
 
     throw new AlertError("유저정보 수정에 실패하였습니다.\n잠시 후 다시 시도해주세요.");

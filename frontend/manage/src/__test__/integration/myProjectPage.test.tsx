@@ -1,22 +1,15 @@
+import MyProject from "@/components/pages/MyProject";
+import { ROUTE } from "@/constants";
+import { useGetAllProjects } from "@/hooks";
 import "@testing-library/jest-dom/extend-expect";
 import { fireEvent, render, waitFor } from "@testing-library/react";
 import { createMemoryHistory } from "history";
-import { useGetAllProjects, useUser } from "@/hooks";
 import { myProject, myProject2, myProject3 } from "../fixture/project";
-import { ROUTE } from "@/constants";
-import { Router } from "react-router-dom";
-import MyProject from "@/components/pages/MyProject";
+import { Router } from "react-router";
 
-jest.mock("@/hooks");
+jest.mock("@/hooks/useGetAllProjects");
 
 describe("myProject 페이지 테스트", () => {
-  beforeEach(() => {
-    (useUser as jest.Mock).mockImplementation(() => {
-      return {
-        logout: jest.fn()
-      };
-    });
-  });
   test("프로젝트가 하나도 없는 경우 프로젝트 추가 안내 메시지를 보여준다.", () => {
     (useGetAllProjects as jest.Mock).mockImplementation(() => {
       return {
@@ -25,8 +18,12 @@ describe("myProject 페이지 테스트", () => {
         error: false
       };
     });
-
-    const myProjectPage = render(<MyProject />);
+    const history = createMemoryHistory();
+    const myProjectPage = render(
+      <Router history={history}>
+        <MyProject />
+      </Router>
+    );
     const message = myProjectPage.getByTestId("myproject-no-project-message");
 
     expect(message).toHaveTextContent("“Add new” 버튼을 눌러 프로젝트를 추가해주세요.");
@@ -43,7 +40,12 @@ describe("myProject 페이지 테스트", () => {
       };
     });
 
-    const myProjectPage = render(<MyProject />);
+    const history = createMemoryHistory();
+    const myProjectPage = render(
+      <Router history={history}>
+        <MyProject />
+      </Router>
+    );
     const projectButtons = myProjectPage.getAllByTestId("project-button");
 
     projectButtons.forEach((projectButton, index) => {
@@ -74,7 +76,7 @@ describe("myProject 페이지 테스트", () => {
     fireEvent.click(addNewProjectButton);
 
     await waitFor(() => {
-      expect(push).toBeCalledWith(ROUTE.NEW_PROJECT);
+      expect(push).toBeCalledWith(ROUTE.AUTHORIZED.NEW_PROJECT);
     });
   });
 
@@ -101,7 +103,7 @@ describe("myProject 페이지 테스트", () => {
     fireEvent.click(projectButton);
 
     await waitFor(() => {
-      expect(push).toBeCalledWith(ROUTE.GET_SCRIPT_PUBLISHING(projects[0].id));
+      expect(push).toBeCalledWith(`/projects/${projects[0].id}/guide`);
     });
   });
 });

@@ -1,9 +1,9 @@
+import UserProfile from "@/components/pages/UserProfile";
+import { useDeleteUser, useEditUser, useUser } from "@/hooks";
 import "@testing-library/jest-dom/extend-expect";
 import { fireEvent, render, waitFor } from "@testing-library/react";
 import { createMemoryHistory } from "history";
 import { Router } from "react-router";
-import UserProfile from "@/components/pages/UserProfile";
-import { useDeleteUser, useEditUser, useUser } from "@/hooks";
 import { socialLoginUser } from "../fixture/user";
 
 jest.mock("@/hooks/useUser");
@@ -25,16 +25,14 @@ describe("유저 프로필 페이지 테스트", () => {
   beforeEach(() => {
     (useUser as jest.Mock).mockImplementation(() => {
       return {
-        user: socialLoginUser,
-        logout: () => {}
+        user: socialLoginUser
       };
     });
     (useEditUser as jest.Mock).mockImplementation(() => {
       return {
-        editUser: jest.fn().mockImplementation(() => {
-          socialLoginUser.nickName = "테스트이름";
-        }),
-        isLoading: false
+        editUser: () => {
+          return socialLoginUser;
+        }
       };
     });
     (useDeleteUser as jest.Mock).mockImplementation(() => {
@@ -44,8 +42,9 @@ describe("유저 프로필 페이지 테스트", () => {
     });
   });
   it("별명에 텍스트를 입력하고, 수정 버튼을 누르면 수정 성공얼럿이 뜬다.", async () => {
+    const history = createMemoryHistory();
     const userProfile = render(
-      <Router history={createMemoryHistory()}>
+      <Router history={history}>
         <UserProfile />
       </Router>
     );
@@ -61,13 +60,14 @@ describe("유저 프로필 페이지 테스트", () => {
 
     await waitFor(() => {
       expect((userProfileNameInput as HTMLInputElement).value).toBe("테스트이름");
-      expect(window.alert).toHaveBeenCalledWith("회원정보 수정에 성공하셨습니다.");
+      expect(alert).toHaveBeenCalledWith("회원정보 수정에 성공하셨습니다.");
     });
   });
 
   it("프로필 사진을 수정하고, 수정 버튼을 누르면 수정 성공얼럿이 뜬다.", async () => {
+    const history = createMemoryHistory();
     const userProfile = render(
-      <Router history={createMemoryHistory()}>
+      <Router history={history}>
         <UserProfile />
       </Router>
     );
@@ -85,8 +85,9 @@ describe("유저 프로필 페이지 테스트", () => {
   });
 
   it("회원탈퇴 버튼을 누르면, 회원탈퇴에 성공한다.", async () => {
+    const history = createMemoryHistory();
     const userProfile = render(
-      <Router history={createMemoryHistory()}>
+      <Router history={history}>
         <UserProfile />
       </Router>
     );

@@ -23,6 +23,7 @@ import { getPagesOfLength5 } from "@/utils/pagination";
 import moment from "moment";
 import { FormEvent, useEffect } from "react";
 import { useLocation, useRouteMatch } from "react-router-dom";
+import LoadingPage from "../LoadingPage";
 import { CommentList, CommentsViewer, Container, DeleteButton, Header, Row, Title, TotalComment } from "./styles";
 
 const Manage = () => {
@@ -102,7 +103,7 @@ const Manage = () => {
         return deleteComment({ id });
       });
 
-      await Promise.all(deleteAllComments);
+      await Promise.allSettled(deleteAllComments);
 
       getCommentsOfProjectPerPage();
 
@@ -121,7 +122,7 @@ const Manage = () => {
     (async () => {
       await getCommentsOfProjectPerPage();
 
-      Promise.all(paginationNumbers.map(num => preGetCommentsOfProjectPerPage(num))).catch(error => {
+      Promise.allSettled(paginationNumbers.map(num => preGetCommentsOfProjectPerPage(num))).catch(error => {
         if (error instanceof AlertError) {
           alert(error.message);
         }
@@ -129,9 +130,13 @@ const Manage = () => {
     })();
   }, [currentPageIndex, projectSecretKey, totalPage]);
 
+  if (!project || !me || !comments) {
+    return <LoadingPage />;
+  }
+
   return (
     <ScreenContainer>
-      <ContainerWithSideBar menus={PROJECT_MENU.get(projectId)}>
+      <ContainerWithSideBar menus={PROJECT_MENU.getByProjectId(projectId)}>
         <Container>
           <Title>댓글 관리</Title>
           <CommentSearchConditionForm

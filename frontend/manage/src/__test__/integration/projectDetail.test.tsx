@@ -152,7 +152,7 @@ describe("project Detail 페이지 테스트", () => {
 
     await waitFor(() => {
       expect(testProject).toBeFalsy();
-      expect(replace).toBeCalledWith(ROUTE.MY_PROJECT);
+      expect(replace).toBeCalledWith(ROUTE.AUTHORIZED.MY_PROJECT);
     });
   });
 });
