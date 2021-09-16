@@ -53,19 +53,8 @@ const deleteRefreshToken = async () => {
   }
 };
 
-export const useToken = () => {
+export const useToken = (enabled = false) => {
   const queryClient = useQueryClient();
-
-  const { data: accessToken, refetch: refetchAccessToken } = useQuery<string, Error>(
-    [REACT_QUERY_KEY.ACCESS_TOKEN],
-    getAccessTokenByRefreshToken,
-    {
-      retry: 2,
-      refetchIntervalInBackground: true,
-      refetchInterval: TOKEN_REFETCH_TIMER,
-      enabled: true
-    }
-  );
 
   const deleteMutation = useMutation<string, Error>(deleteRefreshToken, {
     onSuccess: () => {
@@ -74,6 +63,22 @@ export const useToken = () => {
       });
     }
   });
+
+  const { data: accessToken, refetch: refetchAccessToken } = useQuery<string, Error>(
+    [REACT_QUERY_KEY.ACCESS_TOKEN],
+    getAccessTokenByRefreshToken,
+    {
+      retry: 2,
+      refetchIntervalInBackground: true,
+      refetchInterval: TOKEN_REFETCH_TIMER,
+      enabled,
+      onError: () => {
+        queryClient.setQueryData<string | undefined>([REACT_QUERY_KEY.ACCESS_TOKEN], () => {
+          return undefined;
+        });
+      }
+    }
+  );
 
   return { accessToken, refetchAccessToken, deleteMutation };
 };
