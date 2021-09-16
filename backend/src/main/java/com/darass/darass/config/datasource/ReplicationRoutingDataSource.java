@@ -12,7 +12,6 @@ public class ReplicationRoutingDataSource extends AbstractRoutingDataSource {
     public void setTargetDataSources(Map<Object, Object> targetDataSources) {
         super.setTargetDataSources(targetDataSources);
 
-        // slave db 정보를 CircularList로 관리
         slaveDataSourceNameList = new CircularList<>(
             targetDataSources.keySet()
                 .stream()
@@ -22,9 +21,6 @@ public class ReplicationRoutingDataSource extends AbstractRoutingDataSource {
         );
     }
 
-    /**
-     * 현재 요청에서 사용할 DataSource 결정할 key값 반환
-     */
     @Override
     protected Object determineCurrentLookupKey() {
         boolean isReadOnly = TransactionSynchronizationManager.isCurrentTransactionReadOnly();
