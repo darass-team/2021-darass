@@ -6,6 +6,7 @@ import { OAUTH_URL } from "../../../constants/oauth";
 import { ORDER_BUTTON } from "../../../constants/orderButton";
 import { useGetAllComments, useGetProject, useUser } from "../../../hooks";
 import { AlertError } from "../../../utils/Error";
+import { popUpCenter } from "../../../utils/popUpCenter";
 import { postScrollHeightToParentWindow } from "../../../utils/postMessage";
 import Avatar from "../../atoms/Avatar";
 import CommentInput from "../../organisms/CommentInput";
@@ -79,18 +80,15 @@ const CommentArea = () => {
 
   const onLogin = async (provider: keyof typeof OAUTH_URL) => {
     try {
-      const popUp = window.open(
-        OAUTH_URL[provider],
-        "Authentication",
-        "width=972,height=660,modal=yes,alwaysRaised=yes"
-      );
+      const popUp = popUpCenter(OAUTH_URL[provider], "Authentication", 600, 900, "modal=yes,alwaysRaised=yes");
 
       const popUpcheckIntervalId = setInterval(() => {
         if (!popUp || !popUp.closed) return;
 
         clearInterval(popUpcheckIntervalId);
+
         window.location.reload();
-      }, 100);
+      }, 300);
     } catch (error) {
       if (error instanceof AlertError) {
         alert(error.message);

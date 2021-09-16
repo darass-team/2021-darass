@@ -16,7 +16,7 @@ const _likeComment = async (id: Comment["id"]) => {
       throw new AlertError("알 수 없는 에러입니다.");
     }
 
-    if (error.response?.data.code === 800) {
+    if (error.response?.data.code === 800 || error.response?.data.code === 806) {
       throw new AlertError("'좋아요'를 누르려면 로그인을 해주세요.");
     }
 

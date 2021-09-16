@@ -1,51 +1,41 @@
-import { useContext, useEffect } from "react";
-import { useHistory, useLocation, useParams } from "react-router";
+import { useEffect } from "react";
+import { useLocation, useParams } from "react-router";
 import { QUERY } from "../../../constants/api";
-import { accessTokenContext } from "../../../contexts/AccessTokenProvider";
-import { useUser } from "../../../hooks";
+import { useToken } from "../../../hooks/useToken";
 import { request } from "../../../utils/request";
+import LoadingPage from "../LoadingPage";
 
 const OAuth = () => {
   const location = useLocation();
-  const history = useHistory();
-  const { user, login } = useUser();
   const { provider } = useParams<{ provider: string }>();
   const urlSearchParams = new URLSearchParams(location.search);
   const code = urlSearchParams.get("code");
-  const { accessToken, setAccessToken } = useContext(accessTokenContext);
+  const { refetchAccessToken, accessToken } = useToken();
 
   useEffect(() => {
     if (!code) return;
 
     const setAccessTokenAsync = async () => {
       try {
-        const response = await request.post(QUERY.LOGIN, {
+        await request.post(QUERY.LOGIN, {
           oauthProviderName: provider,
           authorizationCode: code
         });
 
-        const accessToken = response.data.accessToken;
-
-        setAccessToken(accessToken);
+        refetchAccessToken();
       } catch (error) {
-        setAccessToken(null);
+        console.error(error);
       }
     };
 
     setAccessTokenAsync();
   }, [code]);
 
-  useEffect(() => {
-    login();
-  }, [accessToken]);
+  if (accessToken) {
+    window.close();
+  }
 
-  useEffect(() => {
-    if (user) {
-      window.close();
-    }
-  }, [user]);
-
-  return <>로딩중입니다.</>;
+  return <LoadingPage />;
 };
 
 export default OAuth;
