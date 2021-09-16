@@ -179,7 +179,8 @@ jacocoTestCoverageVerification {
                     // '*.test.*',
                     '*.Kotlin*',
                     'com.darass.darass.DarassApplication',
-                    'com.darass.darass.common.LoggingAspect'
+                    'com.darass.darass.common.LoggingAspect',
+                    'com.darass.darass.config.*'
             ]
         }
     }
