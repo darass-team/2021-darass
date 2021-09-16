@@ -1,6 +1,15 @@
 import styled from "styled-components";
 import { LINE_HEIGHT_SCALE } from "@/styles/constants";
 import { PALETTE } from "@/styles/palette";
+import ScreenContainer from "@/styles/ScreenContainer";
+
+export const SectionContainer = styled(ScreenContainer)<{ subtractMinHeight?: string }>`
+  ${props => props.subtractMinHeight && `min-height: calc(100vh - ${props.subtractMinHeight});`};
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
 
 export const Container = styled.div`
   display: flex;
@@ -10,12 +19,17 @@ export const Container = styled.div`
   position: relative;
 `;
 
-export const Introduction = styled.h2`
-  font-size: 3rem;
+export const MainText = styled.h2`
+  font-size: 2.5rem;
   line-height: ${3 * LINE_HEIGHT_SCALE}rem;
   color: ${PALETTE.WHITE};
   font-weight: 700;
+  word-break: break-all;
   text-align: center;
+`;
+
+export const HighlightText = styled.span<{ color: PALETTE }>`
+  color: ${props => props.color};
 `;
 
 export const Button = styled.button`
@@ -34,11 +48,18 @@ export const Button = styled.button`
     margin-top: 8.8rem;
   }
 
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      transform: scale(1.1);
+    }
+  }
+
   & > img {
     margin-right: 0.5rem;
     width: 1.25rem;
     height: 1.25rem;
     object-fit: fill;
+    margin-top: 0.15rem;
   }
 
   & > span {
@@ -49,6 +70,11 @@ export const Button = styled.button`
 
 export const KakaoLoginButton = styled(Button)`
   background: ${PALETTE.TERTIARY};
+  color: ${PALETTE.BLACK_700};
+`;
+
+export const NaverLoginButton = styled(Button)`
+  background: ${PALETTE.WHITE};
   color: ${PALETTE.BLACK_700};
 `;
 

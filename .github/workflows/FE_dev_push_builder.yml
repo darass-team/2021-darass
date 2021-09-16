@@ -41,6 +41,7 @@ jobs:
         KAKAO_REST_API_KEY: ${{ secrets.KAKAO_REST_API_KEY }}
         KAKAO_JAVASCRIPT_API_KEY: ${{ secrets.KAKAO_JAVASCRIPT_API_KEY}}
         SENTRY_REPLY_MODULE_DSN: ${{ secrets.SENTRY_REPLY_MODULE_DSN }}
+        NAVER_CLIENT_ID: ${{ secrets.NAVER_CLIENT_ID }}
       
     - name: Install Dependencies - project
       run: yarn install
@@ -57,6 +58,7 @@ jobs:
         KAKAO_REST_API_KEY: ${{ secrets.KAKAO_REST_API_KEY }}
         KAKAO_JAVASCRIPT_API_KEY: ${{ secrets.KAKAO_JAVASCRIPT_API_KEY}}
         SENTRY_MANAGE_PAGE_DSN: ${{ secrets.SENTRY_MANAGE_PAGE_DSN }}
+        NAVER_CLIENT_ID: ${{ secrets.NAVER_CLIENT_ID }}
     
     - name: Install Dependencies - deploy script
       run: yarn install

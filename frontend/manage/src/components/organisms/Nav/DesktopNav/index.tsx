@@ -1,14 +1,14 @@
-import { Link } from "react-router-dom";
 import kakaoTalkIcon from "@/assets/png/kakaotalk.png";
-import { ROUTE } from "@/constants";
-import { MANAGE_PAGE_DOMAIN } from "@/constants/domain";
-import { OAUTH_ENDPOINT } from "@/constants/oauth";
-import { useUser } from "@/hooks";
-import { PALETTE } from "@/styles/palette";
-import { MenuType } from "@/types/menu";
+import naverIcon from "@/assets/png/naver.png";
 import Avatar from "@/components/atoms/Avatar";
 import Logo from "@/components/atoms/Logo";
 import UserAvatarOption from "@/components/molecules/UserAvatarOption";
+import { ROUTE } from "@/constants";
+import { OAUTH_URL } from "@/constants/oauth";
+import { useUser } from "@/hooks";
+import { PALETTE } from "@/styles/palette";
+import { MenuType } from "@/types/menu";
+import { Link } from "react-router-dom";
 import {
   Container,
   LoginMethod,
@@ -28,16 +28,14 @@ export interface Props {
 const DesktopNav = ({ menuList }: Props) => {
   const { user, logout } = useUser();
 
-  const moveKakaoOAuthURL = () => {
-    window.location.replace(
-      `${OAUTH_ENDPOINT.KAKAO}?response_type=code&client_id=${process.env.KAKAO_REST_API_KEY}&redirect_uri=${MANAGE_PAGE_DOMAIN}/oauth/kakao`
-    );
+  const onLogin = (provider: keyof typeof OAUTH_URL) => {
+    window.location.replace(OAUTH_URL[provider]);
   };
 
   return (
     <Container>
       <Wrapper>
-        <LogoLink to={ROUTE.HOME}>
+        <LogoLink to={ROUTE.COMMON.HOME}>
           <Logo size="SM" />
           <Title>Darass</Title>
         </LogoLink>
@@ -45,7 +43,7 @@ const DesktopNav = ({ menuList }: Props) => {
           {menuList.map(menu => (
             <MenuLink
               key={menu.name}
-              to={menu.route || ROUTE.HOME}
+              to={menu.route || ROUTE.COMMON.HOME}
               activeStyle={{ borderBottom: `5px solid ${PALETTE.PRIMARY}` }}
             >
               {menu.name}
@@ -56,16 +54,20 @@ const DesktopNav = ({ menuList }: Props) => {
           <UserAvatarOption user={user}>
             {user ? (
               <>
-                <Link to={ROUTE.USER_PROFILE}>내 정보</Link>
-                <Link to={ROUTE.HOME} onClick={logout}>
+                <Link to={ROUTE.AUTHORIZED.USER_PROFILE}>내 정보</Link>
+                <Link to={ROUTE.COMMON.HOME} onClick={logout}>
                   로그아웃
                 </Link>
               </>
             ) : (
               <>
-                <LoginMethodWrapper onClick={moveKakaoOAuthURL}>
+                <LoginMethodWrapper onClick={() => onLogin("KAKAO")}>
                   <Avatar size="SM" imageURL={kakaoTalkIcon} alt="카카오톡 로그인 이미지" />
                   <LoginMethod>카카오</LoginMethod>
+                </LoginMethodWrapper>
+                <LoginMethodWrapper onClick={() => onLogin("NAVER")}>
+                  <Avatar size="SM" imageURL={naverIcon} alt="네이버 로그인 이미지" />
+                  <LoginMethod>네이버</LoginMethod>
                 </LoginMethodWrapper>
               </>
             )}

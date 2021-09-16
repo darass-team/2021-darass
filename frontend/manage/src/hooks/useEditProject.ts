@@ -1,4 +1,5 @@
 import { QUERY } from "@/constants";
+import { NO_ACCESS_TOKEN } from "@/constants/errorName";
 import { REACT_QUERY_KEY } from "@/constants/reactQueryKey";
 import { EditProjectRequest, Project } from "@/types/project";
 import { AlertError } from "@/utils/error";
@@ -23,6 +24,13 @@ const _editProject = async ({ id, name, description }: EditProjectRequest) => {
 
     if (error.response?.data.code === 700) {
       throw new AlertError("존재하지 않는 프로젝트입니다.");
+    }
+
+    if (error.response?.data.code === 801 || error.response?.data.code === 806) {
+      const newError = new AlertError("로그인이 필요합니다.");
+      newError.name = NO_ACCESS_TOKEN;
+
+      throw newError;
     }
 
     throw new AlertError("프로젝트 수정에 실패하였습니다.\n잠시 후 다시 시도해주세요.");

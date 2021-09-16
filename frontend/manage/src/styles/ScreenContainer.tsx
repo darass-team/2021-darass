@@ -4,6 +4,7 @@ import { PALETTE } from "./palette";
 
 const ScreenContainer = styled.div<{ bgColor?: PALETTE; bgImage?: string }>`
   overflow: hidden;
+
   min-height: ${`calc(100vh - ${NAVIGATION_HEIGHT})`};
   background-color: ${props => (props.bgColor ? props.bgColor : PALETTE.DEFAULT_BG)};
   background-image: ${props =>

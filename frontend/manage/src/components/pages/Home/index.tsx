@@ -7,7 +7,6 @@ import TypingText from "@/components/atoms/TypingText";
 import { ROUTE } from "@/constants";
 import { useScrollFadeInOut } from "@/hooks";
 import { PALETTE } from "@/styles/palette";
-import ScreenContainer from "@/styles/ScreenContainer";
 import { useHistory } from "react-router-dom";
 import {
   Button,
@@ -77,12 +76,12 @@ const Home = () => {
   ];
 
   const moveLoginPage = () => {
-    history.push(ROUTE.LOGIN);
+    history.push(ROUTE.NON_AUTHORIZED.LOGIN);
   };
 
   return (
     <>
-      <ScreenContainer bgImage={homeBackgroundImage}>
+      <SectionContainer bgImage={homeBackgroundImage}>
         <Container>
           <MainText {...animation.section1.introductionText}>
             댓글의 모든것,
@@ -100,14 +99,14 @@ const Home = () => {
           <Button type="button" onClick={moveLoginPage} {...animation.section1.startButton}>
             시작하기
           </Button>
-
-          <ScrollDownTrigger href="#section2">
-            <img src={scrollDownButton} width="100px" height="100px" alt="아래로 이동" />
-          </ScrollDownTrigger>
         </Container>
-      </ScreenContainer>
 
-      <SectionContainer id="section2" minHeightVh={100} bgColor={PALETTE.WHITE}>
+        <ScrollDownTrigger href="#section2">
+          <img src={scrollDownButton} width="100px" height="100px" alt="아래로 이동" />
+        </ScrollDownTrigger>
+      </SectionContainer>
+
+      <SectionContainer id="section2" bgColor={PALETTE.WHITE}>
         <Container {...animation.section2.questionText}>
           <Text color={PALETTE.BLACK_700} fontSize={2}>
             내 모든 댓글 내역을 한눈에 조회하고 한 곳에서 관리하세요.
@@ -120,7 +119,7 @@ const Home = () => {
         </Container>
       </SectionContainer>
 
-      <SectionContainer id="section3" minHeightVh={50} bgImage={homeBackgroundImage2}>
+      <SectionContainer id="section3" subtractMinHeight="50vh" bgImage={homeBackgroundImage2}>
         <Container>
           <Text color={PALETTE.WHITE} fontSize={4}>
             내 홈페이지 댓글 관리,
@@ -153,7 +152,7 @@ const Home = () => {
         </Container>
       </SectionContainer>
 
-      <SectionContainer id="section4" minHeightVh={50} bgColor={PALETTE.WHITE}>
+      <SectionContainer id="section4" subtractMinHeight="50vh" bgColor={PALETTE.WHITE}>
         <Container>
           <Text color={PALETTE.BLACK_700} fontSize={3} textAlign="center" {...animation.section3.text}>
             현재 사용중인 기업들

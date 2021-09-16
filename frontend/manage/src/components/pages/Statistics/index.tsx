@@ -23,6 +23,7 @@ import {
   Wrapper,
   Calendar
 } from "./styles";
+import LoadingPage from "../LoadingPage";
 
 const Statistics = () => {
   const match = useRouteMatch<{ id: string }>();
@@ -82,9 +83,13 @@ const Statistics = () => {
     }
   }, [selectedPeriodicity]);
 
+  if (!project || !stats) {
+    return <LoadingPage />;
+  }
+
   return (
     <ScreenContainer>
-      <ContainerWithSideBar menus={PROJECT_MENU.get(projectId)}>
+      <ContainerWithSideBar menus={PROJECT_MENU.getByProjectId(projectId)}>
         <Container>
           <Title>통계</Title>
 

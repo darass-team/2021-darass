@@ -1,33 +1,53 @@
-import Kakao from "../../../assets/svg/kakao.svg";
-import { MANAGE_PAGE_DOMAIN } from "../../../constants/domain";
-import { OAUTH_ENDPOINT } from "../../../constants/oauth";
-import { PALETTE } from "../../../styles/palette";
-import ScreenContainer from "../../../styles/ScreenContainer";
-import Logo from "../../atoms/Logo";
-import { Container, Introduction, KakaoLoginButton } from "./styles";
+import loginPageBackground from "@/assets/png/loginpage_background.png";
+import naverLogo from "@/assets/png/naver.png";
+import kakaoLogo from "@/assets/svg/kakao.svg";
+import { OAUTH_URL } from "@/constants/oauth";
+import { useScrollFadeInOut } from "@/hooks";
+import ScreenContainer from "@/styles/ScreenContainer";
+import { Container, SectionContainer, KakaoLoginButton, MainText, NaverLoginButton } from "./styles";
 
 const Login = () => {
-  const moveKakaoOAuthURL = () => {
-    window.location.replace(
-      `${OAUTH_ENDPOINT.KAKAO}?response_type=code&client_id=${process.env.KAKAO_REST_API_KEY}&redirect_uri=${MANAGE_PAGE_DOMAIN}/oauth/kakao`
-    );
+  const animationRefs = {
+    introductionText: useScrollFadeInOut({
+      direction: "up",
+      duration: 1,
+      delay: 0
+    }),
+    kakaoLoginButton: useScrollFadeInOut({
+      direction: "right",
+      duration: 1,
+      delay: 0
+    }),
+    naverLoginButton: useScrollFadeInOut({
+      direction: "left",
+      duration: 1,
+      delay: 0
+    })
+  };
+
+  const onLogin = (provider: keyof typeof OAUTH_URL) => {
+    window.location.replace(OAUTH_URL[provider]);
   };
 
   return (
-    <ScreenContainer bgColor={PALETTE.PRIMARY}>
+    <SectionContainer bgImage={loginPageBackground}>
       <Container>
-        <Introduction>
-          댓글 다라쓰,
+        <MainText {...animationRefs.introductionText}>
+          반갑습니다
           <br />
-          블로그에 다라쓰
-        </Introduction>
-        <Logo size="LG" />
-        <KakaoLoginButton onClick={moveKakaoOAuthURL}>
-          <img src={Kakao} alt="kakao" />
+          로그인 방식을 선택해주세요
+        </MainText>
+
+        <KakaoLoginButton onClick={() => onLogin("KAKAO")} {...animationRefs.kakaoLoginButton}>
+          <img src={kakaoLogo} alt="kakao login icon" />
           <span>카카오로 로그인</span>
         </KakaoLoginButton>
+        <NaverLoginButton onClick={() => onLogin("NAVER")} {...animationRefs.naverLoginButton}>
+          <img src={naverLogo} alt="naver login icon" />
+          <span>네이버로 로그인</span>
+        </NaverLoginButton>
       </Container>
-    </ScreenContainer>
+    </SectionContainer>
   );
 };
 

@@ -9,8 +9,9 @@ import { useRouteMatch } from "react-router-dom";
 import { PrismLight as SyntaxHighlighter } from "react-syntax-highlighter";
 import js from "react-syntax-highlighter/dist/cjs/languages/prism/javascript";
 import prism from "react-syntax-highlighter/dist/cjs/styles/prism/darcula";
-import { REPLY_MODULE_DOMAIN } from "../../../constants/domain";
+import { REPLY_MODULE_DOMAIN } from "@/constants/domain";
 import { BlogLogoWrapper, CodeBlockWrapper, Container, CopyButton, Ol, Title } from "./styles";
+import LoadingPage from "../LoadingPage";
 
 SyntaxHighlighter.registerLanguage("javascript", js);
 
@@ -44,15 +45,19 @@ const ScriptPublishing = () => {
   const match = useRouteMatch<{ id: string }>();
 
   const projectId = Number(match.params.id);
-  const { project, error } = useGetProject(projectId);
+  const { project } = useGetProject(projectId);
   const projectSecretKey = project?.secretKey || "스크립트 정보를 불러오는 중입니다...";
   const { isCopyButtonClicked, onCopy } = useCopyButton();
   const script =
     selectedBlogInfo?.scriptType === "HTML" ? htmlScriptCode(projectSecretKey) : JsxScriptCode(projectSecretKey);
 
+  if (!project) {
+    return <LoadingPage />;
+  }
+
   return (
     <ScreenContainer>
-      <ContainerWithSideBar menus={PROJECT_MENU.get(projectId)}>
+      <ContainerWithSideBar menus={PROJECT_MENU.getByProjectId(projectId)}>
         <Container>
           <Title>스크립트 적용 가이드</Title>
           <GuideStep title="다라쓰를 적용할 플랫폼을 선택하세요.">

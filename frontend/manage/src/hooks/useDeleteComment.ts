@@ -1,4 +1,5 @@
 import { QUERY } from "@/constants/api";
+import { NO_ACCESS_TOKEN } from "@/constants/errorName";
 import { REACT_QUERY_KEY } from "@/constants/reactQueryKey";
 import { DeleteCommentRequestParameter } from "@/types/comment";
 import { Project } from "@/types/project";
@@ -16,6 +17,13 @@ const _deleteComment = async ({ id }: DeleteCommentRequestParameter) => {
     console.error(error);
     if (!axios.isAxiosError(error)) {
       throw new Error("알 수 없는 에러입니다.");
+    }
+
+    if (error.response?.data.code === 801 || error.response?.data.code === 806) {
+      const newError = new AlertError("로그인이 필요합니다.");
+      newError.name = NO_ACCESS_TOKEN;
+
+      throw newError;
     }
 
     if (error.response?.data.code === 900) {

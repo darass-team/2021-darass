@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-import { useIsFetching } from "react-query";
 import { CursorWrapper } from "./styles";
 
 export interface Props {
@@ -32,14 +31,10 @@ const TypingText = ({ texts, typingSpeedMs = 100, changeTextSpeedMs = 2000 }: Pr
     if (textIndex === texts[textsIndex].length) {
       pause.current = true;
 
-      new Promise(resolve => {
-        setTimeout(() => {
-          pause.current = false;
-          reverse.current = true;
-
-          resolve(0);
-        }, changeTextSpeedMs);
-      });
+      setTimeout(() => {
+        pause.current = false;
+        reverse.current = true;
+      }, changeTextSpeedMs);
     }
 
     if (textIndex === 0) {

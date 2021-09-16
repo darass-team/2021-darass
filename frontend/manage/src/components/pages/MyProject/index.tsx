@@ -1,28 +1,42 @@
+import ProjectButton from "@/components/atoms/Buttons/ProjectButton";
+import { ROUTE } from "@/constants";
+import { useGetAllProjects } from "@/hooks";
+import ScreenContainer from "@/styles/ScreenContainer";
 import { useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import { ROUTE } from "../../../constants";
-import { useGetAllProjects, useUser } from "../../../hooks";
-import ScreenContainer from "../../../styles/ScreenContainer";
-import ProjectButton from "../../atoms/Buttons/ProjectButton";
-import { LoadableScriptPublishing, LoadableStatistics } from "../Loadable";
+import {
+  LoadableManage,
+  LoadableNewProject,
+  LoadableProjectDetail,
+  LoadableScriptPublishing,
+  LoadableStatistics
+} from "../Loadable";
+import LoadingPage from "../LoadingPage";
 import { AddProjectButton, ButtonWrapper, Container, Message } from "./styles";
 
 const MyProject = () => {
   const history = useHistory();
   const { projects } = useGetAllProjects();
 
-  useEffect(() => {
-    LoadableScriptPublishing.preload();
-    LoadableStatistics.preload();
-  }, []);
-
-  const moveProjectDetailPage = (id: number) => {
-    history.push(ROUTE.GET_SCRIPT_PUBLISHING(id));
+  const moveScriptPublishingPage = (id: number) => {
+    history.push(`/projects/${id}/guide`);
   };
 
   const moveNewProjectPage = () => {
-    history.push(ROUTE.NEW_PROJECT);
+    history.push(ROUTE.AUTHORIZED.NEW_PROJECT);
   };
+
+  useEffect(() => {
+    LoadableNewProject.preload();
+    LoadableScriptPublishing.preload();
+    LoadableStatistics.preload();
+    LoadableManage.preload();
+    LoadableProjectDetail.preload();
+  }, []);
+
+  if (!projects) {
+    return <LoadingPage />;
+  }
 
   return (
     <ScreenContainer>
@@ -30,7 +44,12 @@ const MyProject = () => {
         <AddProjectButton onClick={moveNewProjectPage}>Add new</AddProjectButton>
         <ButtonWrapper>
           {projects?.map(({ id, name, description }) => (
-            <ProjectButton key={id} title={name} description={description} onClick={() => moveProjectDetailPage(id)} />
+            <ProjectButton
+              key={id}
+              title={name}
+              description={description}
+              onClick={() => moveScriptPublishingPage(id)}
+            />
           ))}
           {projects?.length === 0 && (
             <Message data-testid="myproject-no-project-message">

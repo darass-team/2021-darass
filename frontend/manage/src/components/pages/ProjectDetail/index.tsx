@@ -1,21 +1,22 @@
 import { FormEvent, useEffect } from "react";
 import { useHistory, useRouteMatch } from "react-router-dom";
-import { PROJECT_MENU, ROUTE } from "../../../constants";
-import { MAX_PROJECT_NAME_LENGTH } from "../../../constants/validation";
-import { useDeleteProject, useEditProject, useGetProject, useInput } from "../../../hooks";
-import ScreenContainer from "../../../styles/ScreenContainer";
-import { AlertError } from "../../../utils/error";
-import { isEmptyString } from "../../../utils/validation";
-import DeleteSection from "../../molecules/DeleteSection";
-import ContainerWithSideBar from "../../organisms/ContainerWithSideBar";
+import { PROJECT_MENU, ROUTE } from "@/constants";
+import { MAX_PROJECT_NAME_LENGTH } from "@/constants/validation";
+import { useDeleteProject, useEditProject, useGetProject, useInput } from "@/hooks";
+import ScreenContainer from "@/styles/ScreenContainer";
+import { AlertError } from "@/utils/error";
+import { isEmptyString } from "@/utils/validation";
+import DeleteSection from "@/components/molecules/DeleteSection";
+import ContainerWithSideBar from "@/components/organisms/ContainerWithSideBar";
 import { Container, Form, InfoWrapper, Input, Label, SubmitButton, Title } from "./styles";
+import LoadingPage from "../LoadingPage";
 
 const ProjectDetail = () => {
   const match = useRouteMatch<{ id?: string }>();
   const projectId = Number(match.params.id);
 
   const history = useHistory();
-  const { project, error } = useGetProject(projectId);
+  const { project } = useGetProject(projectId);
   const { editProject } = useEditProject();
   const { deleteProject } = useDeleteProject();
   const { value: projectName, setValue: setProjectName, onChange: onChangeProjectName } = useInput("");
@@ -45,7 +46,8 @@ const ProjectDetail = () => {
         description: projectDesc
       });
 
-      history.push(ROUTE.MY_PROJECT);
+      alert("프로젝트 수정에 성공하셨습니다.");
+      history.push(ROUTE.AUTHORIZED.MY_PROJECT);
     } catch (error) {
       if (error instanceof AlertError) {
         alert(error.message);
@@ -60,7 +62,8 @@ const ProjectDetail = () => {
     try {
       await deleteProject(project.id);
 
-      history.replace(ROUTE.MY_PROJECT);
+      alert(`${project.name} 프로젝트가 삭제되었습니다.`);
+      history.replace(ROUTE.AUTHORIZED.MY_PROJECT);
     } catch (error) {
       if (error instanceof AlertError) {
         alert(error.message);
@@ -75,9 +78,13 @@ const ProjectDetail = () => {
     }
   }, [project]);
 
+  if (!project) {
+    return <LoadingPage />;
+  }
+
   return (
     <ScreenContainer>
-      <ContainerWithSideBar menus={PROJECT_MENU.get(projectId)}>
+      <ContainerWithSideBar menus={PROJECT_MENU.getByProjectId(projectId)}>
         <Container>
           <Title>프로젝트 정보</Title>
           <Form onSubmit={onEditProject}>

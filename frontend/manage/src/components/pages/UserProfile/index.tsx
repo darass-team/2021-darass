@@ -1,10 +1,13 @@
-import { ChangeEvent, FormEventHandler, useEffect, useState } from "react";
 import cameraIcon from "@/assets/svg/camera.svg";
+import DeleteSection from "@/components/molecules/DeleteSection";
+import { ROUTE } from "@/constants";
 import { MAX_PROFILE_IMAGE_SIZE, MAX_USER_NAME_LENGTH } from "@/constants/validation";
-import { useDeleteUser, useEditUser, useInput, useUser } from "@/hooks";
+import { useUser, useDeleteUser, useEditUser, useInput } from "@/hooks";
 import ScreenContainer from "@/styles/ScreenContainer";
 import { AlertError } from "@/utils/error";
-import DeleteSection from "@/components/molecules/DeleteSection";
+import { ChangeEvent, FormEventHandler, useContext, useEffect, useState } from "react";
+import { useHistory } from "react-router";
+import LoadingPage from "../LoadingPage";
 import {
   CameraIcon,
   Container,
@@ -13,13 +16,14 @@ import {
   InfoWrapper,
   Input,
   Label,
-  Title,
-  UserProfileImage,
   SubmitButton,
-  UserNameCounter
+  Title,
+  UserNameCounter,
+  UserProfileImage
 } from "./styles";
 
 const UserProfile = () => {
+  const history = useHistory();
   const { user, logout } = useUser();
   const { editUser, isLoading: isEditLoading } = useEditUser();
   const { deleteUser } = useDeleteUser();
@@ -29,7 +33,7 @@ const UserProfile = () => {
     onChangeWithMaxLength: onChangeUserName
   } = useInput("", MAX_USER_NAME_LENGTH);
   const [profileImageAsUrl, setProfileImageAsUrl] = useState<string>();
-  const [profileImageAsFile, setProfileImageAsFile] = useState<Blob | string>();
+  const [profileImageAsFile, setProfileImageAsFile] = useState<Blob | string>("");
 
   const onChangeFile = (event: ChangeEvent<HTMLInputElement>) => {
     const target = event.target;
@@ -80,9 +84,11 @@ const UserProfile = () => {
       userName && formData.append("nickName", userName);
       profileImageAsFile && formData.append("profileImageFile", profileImageAsFile);
 
-      await editUser(formData);
+      const user = await editUser(formData);
 
-      alert("회원정보 수정에 성공하셨습니다.");
+      if (user) {
+        alert("회원정보 수정에 성공하셨습니다.");
+      }
     } catch (error) {
       if (error instanceof AlertError) {
         alert(error.message);
@@ -95,7 +101,15 @@ const UserProfile = () => {
       setUserName(user.nickName);
       setProfileImageAsUrl(user.profileImageUrl);
     }
+
+    if (!user) {
+      history.replace(ROUTE.COMMON.HOME);
+    }
   }, [user]);
+
+  if (!user) {
+    return <LoadingPage />;
+  }
 
   return (
     <ScreenContainer>

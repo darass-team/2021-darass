@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import kakaoTalkIcon from "../../../assets/png/kakaotalk.png";
-import { MANAGE_PAGE_DOMAIN, REPLY_MODULE_DOMAIN } from "../../../constants/domain";
-import { OAUTH_ENDPOINT } from "../../../constants/oauth";
+import naverIcon from "../../../assets/png/naver.png";
+import { MANAGE_PAGE_DOMAIN } from "../../../constants/domain";
+import { OAUTH_URL } from "../../../constants/oauth";
 import { ORDER_BUTTON } from "../../../constants/orderButton";
 import { useGetAllComments, useGetProject, useUser } from "../../../hooks";
 import { AlertError } from "../../../utils/Error";
@@ -28,7 +29,7 @@ const CommentArea = () => {
   const [sortOption, setSortOption] = useState<keyof typeof ORDER_BUTTON>("oldest");
   const [notice, setNotice] = useState("");
 
-  const { user, login, logout } = useUser();
+  const { user, logout } = useUser();
   const {
     totalCommentsCount,
     comments,
@@ -76,10 +77,10 @@ const CommentArea = () => {
     }
   }, [projectLoading, commentsLoading, projectError, commentsError, totalCommentsCount]);
 
-  const onLogin = async () => {
+  const onLogin = async (provider: keyof typeof OAUTH_URL) => {
     try {
       const popUp = window.open(
-        `${OAUTH_ENDPOINT.KAKAO}?response_type=code&client_id=${process.env.KAKAO_REST_API_KEY}&redirect_uri=${REPLY_MODULE_DOMAIN}/oauth/kakao`,
+        OAUTH_URL[provider],
         "Authentication",
         "width=972,height=660,modal=yes,alwaysRaised=yes"
       );
@@ -125,9 +126,13 @@ const CommentArea = () => {
           </>
         ) : (
           <>
-            <LoginMethodWrapper onClick={onLogin}>
+            <LoginMethodWrapper onClick={() => onLogin("KAKAO")}>
               <Avatar size="SM" imageURL={kakaoTalkIcon} alt="카카오톡 로그인 이미지" />
               <LoginMethod>카카오</LoginMethod>
+            </LoginMethodWrapper>
+            <LoginMethodWrapper onClick={() => onLogin("NAVER")}>
+              <Avatar size="SM" imageURL={naverIcon} alt="네아버 로그인 이미지" />
+              <LoginMethod>네이버</LoginMethod>
             </LoginMethodWrapper>
           </>
         )}
