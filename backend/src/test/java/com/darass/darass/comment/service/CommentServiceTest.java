@@ -419,14 +419,14 @@ class CommentServiceTest extends SpringContainerTest {
     @Test
     @Transactional
     void click_like() {
-        commentService.toggleLikeStatus(comments.get(0).getId(), socialLoginUser);
+        commentService.toggleLike(comments.get(0).getId(), socialLoginUser);
         assertThat(comments.get(0).getCommentLikes()).hasSize(1);
     }
 
     @DisplayName("이미 좋아요가 되어 있으면 토글한다.")
     @Test
     void toggle_like() {
-        commentService.toggleLikeStatus(comments.get(1).getId(), socialLoginUser);
+        commentService.toggleLike(comments.get(1).getId(), socialLoginUser);
         assertThat(comments.get(1).getCommentLikes()).hasSize(0);
     }
 }

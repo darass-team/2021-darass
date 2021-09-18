@@ -78,6 +78,16 @@ dependencies {
     // 슬랙 알람
     implementation 'com.github.maricn:logback-slack-appender:1.4.0'
 
+<<<<<<< HEAD
+=======
+    // redis cache
+    implementation('org.springframework.boot:spring-boot-starter-data-redis')
+
+    // 웹 소켓 관련
+    implementation "org.springframework.boot:spring-boot-starter-websocket"
+    implementation 'org.springframework.boot:spring-boot-starter-amqp'
+    implementation 'org.springframework.boot:spring-boot-starter-reactor-netty'
+>>>>>>> 4345492 (feat: 댓글 작성, 좋아요시 실시간 알람 보내는 기능 구현)
 }
 
 test {
