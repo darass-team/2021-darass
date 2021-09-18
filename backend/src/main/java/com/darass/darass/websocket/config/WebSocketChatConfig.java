@@ -21,8 +21,8 @@ public class WebSocketChatConfig implements WebSocketMessageBrokerConfigurer {
         messageBrokerRegistry.setApplicationDestinationPrefixes("/app");
 
         messageBrokerRegistry.enableStompBrokerRelay("/queue")
-            .setRelayHost("localhost")
-            .setRelayPort(61613)
+            .setRelayHost("52.78.66.216")
+            .setRelayPort(8000)
             .setSystemLogin("username")
             .setSystemPasscode("password")
             .setClientLogin("username")
