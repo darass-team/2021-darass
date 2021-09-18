@@ -25,6 +25,9 @@ import com.darass.darass.user.domain.GuestUser;
 import com.darass.darass.user.domain.User;
 import com.darass.darass.user.dto.UserResponse;
 import com.darass.darass.user.repository.UserRepository;
+import com.darass.darass.websocket.domain.AlarmMessageType;
+import com.darass.darass.websocket.domain.CommentAlarmMessage;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Objects;
@@ -34,6 +37,7 @@ import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -46,6 +50,7 @@ public class CommentService {
     private final ProjectRepository projectRepository;
     private final UserRepository userRepository;
     private final CommentCountStrategyFactory commentCountStrategyFactory;
+    private final SimpMessageSendingOperations messagingTemplate;
 
     public CommentResponse save(User user, CommentCreateRequest commentRequest) {
         if (!user.isLoginUser()) {
@@ -55,11 +60,11 @@ public class CommentService {
         String userType = userRepository.findUserTypeById(user.getId());
 
         if (Objects.isNull(commentRequest.getParentId())) {
-            Comment comment = savedComment(user, commentRequest, project);
+            Comment comment = saveComment(user, commentRequest, project);
             return CommentResponse.of(comment, UserResponse.of(comment.getUser(), userType));
         }
 
-        Comment subComment = savedSubComment(user, commentRequest, project);
+        Comment subComment = saveSubComment(user, commentRequest, project);
         return CommentResponse.of(subComment, UserResponse.of(subComment.getUser(), userType));
     }
 
@@ -76,7 +81,11 @@ public class CommentService {
             .orElseThrow(ExceptionWithMessageAndCode.NOT_FOUND_PROJECT::getException);
     }
 
-    private Comment savedComment(User user, CommentCreateRequest commentRequest, Project project) {
+    private Comment saveComment(User user, CommentCreateRequest commentRequest, Project project) {
+        User projectMaster = project.getUser();
+
+        createCommentAlarmMessage(projectMaster, user, commentRequest, AlarmMessageType.CREATE_COMMENT);
+
         Comment comment = Comment.builder()
             .user(user)
             .content(commentRequest.getContent())
@@ -87,10 +96,12 @@ public class CommentService {
         return commentRepository.save(comment);
     }
 
-    private Comment savedSubComment(User user, CommentCreateRequest commentRequest, Project project) {
+    private Comment saveSubComment(User user, CommentCreateRequest commentRequest, Project project) {
         Comment parentComment = commentRepository.findById(commentRequest.getParentId())
             .orElseThrow(ExceptionWithMessageAndCode.NOT_FOUND_COMMENT::getException);
         validateSubCommentable(parentComment);
+
+        createCommentAlarmMessage(parentComment.getUser(), user, commentRequest, AlarmMessageType.CREATE_SUB_COMMENT);
 
         Comment comment = Comment.builder()
             .user(user)
@@ -235,7 +246,7 @@ public class CommentService {
         }
     }
 
-    public void toggleLikeStatus(Long id, User user) {
+    public void toggleLike(Long id, User user) {
         Comment comment = commentRepository.findById(id)
             .orElseThrow(ExceptionWithMessageAndCode.NOT_FOUND_COMMENT::getException);
 
@@ -243,6 +254,13 @@ public class CommentService {
             comment.deleteCommentLikeByUser(user);
             return;
         }
+
+        CommentCreateRequest commentCreateRequest = CommentCreateRequest.builder()
+            .url(comment.getUrl())
+            .content(comment.getContent())
+            .build();
+
+        createCommentAlarmMessage(comment.getUser(), user, commentCreateRequest, AlarmMessageType.CREATE_COMMENT_LIKE);
 
         comment.addCommentLike(CommentLike.builder()
             .comment(comment)
@@ -256,4 +274,19 @@ public class CommentService {
                 request.getEndDate().atTime(LocalTime.MAX));
         return new CommentStatResponse(commentStats);
     }
+
+    private void createCommentAlarmMessage(User receiver, User sender, CommentCreateRequest commentCreateRequest,
+        AlarmMessageType alarmMessageType) {
+        CommentAlarmMessage commentAlarmMessage = CommentAlarmMessage.builder()
+            .alarmMessageType(alarmMessageType)
+            .sender(sender.getNickName())
+            .url(commentCreateRequest.getUrl())
+            .content(commentCreateRequest.getContent())
+            .createDate(LocalDateTime.now())
+            .build();
+
+        messagingTemplate.convertAndSend("/queue/main" + receiver.getId(), commentAlarmMessage);
+        messagingTemplate.convertAndSend("/queue/module" + receiver.getId(), commentAlarmMessage);
+    }
+
 }
