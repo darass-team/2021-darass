@@ -1,12 +1,12 @@
 import { useQuery, useQueryClient } from "react-query";
-import { REACT_QUERY_KEY } from "../constants/reactQueryKey";
-import { Project } from "../types/project";
-import { GetProjectRequestParams } from "../types/comment";
-import { request } from "../utils/request";
-import { QUERY } from "../constants/api";
+import { REACT_QUERY_KEY } from "../../../constants/reactQueryKey";
+import { Project } from "../../../types/project";
+import { GetProjectRequestParams } from "../../../types/comment";
+import { request } from "../../../utils/request";
+import { QUERY } from "../../../constants/api";
 import axios from "axios";
-import { AlertError } from "../utils/Error";
-import { useUser } from ".";
+import { AlertError } from "../../../utils/Error";
+import { useUser } from "../..";
 import { useEffect } from "react";
 
 const getProject = async (projectSecretKey: GetProjectRequestParams["projectSecretKey"]) => {

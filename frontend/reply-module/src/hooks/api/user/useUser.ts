@@ -1,13 +1,13 @@
 import axios from "axios";
 import { useEffect } from "react";
 import { useQuery, useQueryClient } from "react-query";
-import { QUERY } from "../constants/api";
-import { NO_ACCESS_TOKEN } from "../constants/errorName";
-import { REACT_QUERY_KEY } from "../constants/reactQueryKey";
-import { User } from "../types/user";
-import { AlertError } from "../utils/Error";
-import { request } from "../utils/request";
-import { useToken } from "./useToken";
+import { QUERY } from "../../../constants/api";
+import { NO_ACCESS_TOKEN } from "../../../constants/errorName";
+import { REACT_QUERY_KEY } from "../../../constants/reactQueryKey";
+import { User } from "../../../types/user";
+import { AlertError } from "../../../utils/Error";
+import { request } from "../../../utils/request";
+import { useToken } from "../token/useToken";
 
 const getUser = async () => {
   try {

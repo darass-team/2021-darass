@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useLocation, useParams } from "react-router";
 import { QUERY } from "../../../constants/api";
-import { useToken } from "../../../hooks/useToken";
+import { useToken } from "../../../hooks/api/token/useToken";
 import { request } from "../../../utils/request";
 import LoadingPage from "../LoadingPage";
 

@@ -4,7 +4,7 @@ import { getPasswordConfirmResult } from "../../api/getPasswordConfirmResult";
 import CommentInput from "../../components/organisms/CommentInput/index";
 import CommentList from "../../components/organisms/CommentList";
 import { useCreateComment, useDeleteComment, useEditComment } from "../../hooks";
-import { useLikeComment } from "../../hooks/useLikeComment";
+import { useLikeComment } from "../../hooks/api/comment/useLikeComment";
 import { Comment } from "../../types";
 import { comments as _comments } from "../fixture/comments";
 import { guestUser } from "../fixture/user";
