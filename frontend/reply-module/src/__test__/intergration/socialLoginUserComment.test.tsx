@@ -9,11 +9,11 @@ import { getPasswordConfirmResult } from "../../api/getPasswordConfirmResult";
 import { getTotalCommentsCount } from "../util/getTotalCommentsCount";
 import { Comment } from "../../types";
 
-jest.mock("../../hooks/useCreateComment");
-jest.mock("../../hooks/useEditComment");
-jest.mock("../../hooks/useDeleteComment");
-jest.mock("../../hooks/useCreateComment");
-jest.mock("../../hooks/useLikeComment");
+jest.mock("../../hooks/api/comment/useCreateComment");
+jest.mock("../../hooks/api/comment/useEditComment");
+jest.mock("../../hooks/api/comment/useDeleteComment");
+jest.mock("../../hooks/api/comment/useCreateComment");
+jest.mock("../../hooks/api/comment/useLikeComment");
 jest.mock("../../utils/focusContentEditableTextToEnd");
 jest.mock("../../api/getPasswordConfirmResult");
 

@@ -1,9 +1,9 @@
-import { AlertError } from "./../utils/Error";
+import { AlertError } from "../../../utils/Error";
 import { useMutation, useQueryClient } from "react-query";
-import { QUERY } from "../constants/api";
-import { request } from "../utils/request";
-import { DeleteCommentRequestParameter } from "../types/comment";
-import { REACT_QUERY_KEY } from "../constants/reactQueryKey";
+import { QUERY } from "../../../constants/api";
+import { request } from "../../../utils/request";
+import { DeleteCommentRequestParameter } from "../../../types/comment";
+import { REACT_QUERY_KEY } from "../../../constants/reactQueryKey";
 import axios from "axios";
 
 const _deleteComment = async ({ id, guestUserId, guestUserPassword }: DeleteCommentRequestParameter) => {
