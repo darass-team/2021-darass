@@ -7,8 +7,8 @@ import { createMemoryHistory } from "history";
 import { myProject, otherProject } from "../fixture/project";
 import { Router } from "react-router";
 
-jest.mock("@/hooks/useCreateProject");
-jest.mock("@/hooks/useGetAllProjects");
+jest.mock("@/hooks/api/project/useCreateProject");
+jest.mock("@/hooks/api/project/useGetAllProjects");
 
 window.alert = function (str) {
   console.log(str);

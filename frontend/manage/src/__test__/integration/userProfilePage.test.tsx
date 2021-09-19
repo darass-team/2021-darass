@@ -6,9 +6,9 @@ import { createMemoryHistory } from "history";
 import { Router } from "react-router";
 import { socialLoginUser } from "../fixture/user";
 
-jest.mock("@/hooks/useUser");
-jest.mock("@/hooks/useEditUser");
-jest.mock("@/hooks/useDeleteUser");
+jest.mock("@/hooks/api/user/useUser");
+jest.mock("@/hooks/api/user/useEditUser");
+jest.mock("@/hooks/api/user/useDeleteUser");
 
 jest.spyOn(window, "alert").mockImplementation(str => {
   console.log(str);

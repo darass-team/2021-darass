@@ -8,9 +8,9 @@ import { useDeleteProject, useEditProject, useGetProject } from "@/hooks";
 import { EditProjectRequest } from "@/types/project";
 import { myProject } from "../fixture/project";
 
-jest.mock("@/hooks/useEditProject");
-jest.mock("@/hooks/useGetProject");
-jest.mock("@/hooks/useDeleteProject");
+jest.mock("@/hooks/api/project/useEditProject");
+jest.mock("@/hooks/api/project/useGetProject");
+jest.mock("@/hooks/api/project/useDeleteProject");
 
 window.alert = function (str) {
   console.log(str);
