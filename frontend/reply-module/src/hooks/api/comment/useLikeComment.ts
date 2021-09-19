@@ -1,10 +1,10 @@
 import axios from "axios";
 import { useMutation, useQueryClient } from "react-query";
-import { QUERY } from "../constants/api";
-import { REACT_QUERY_KEY } from "../constants/reactQueryKey";
-import { Comment, LikeCommentParameter } from "../types/comment";
-import { AlertError } from "../utils/Error";
-import { request } from "../utils/request";
+import { QUERY } from "../../../constants/api";
+import { REACT_QUERY_KEY } from "../../../constants/reactQueryKey";
+import { Comment, LikeCommentParameter } from "../../../types/comment";
+import { AlertError } from "../../../utils/Error";
+import { request } from "../../../utils/request";
 
 const _likeComment = async (id: Comment["id"]) => {
   try {
