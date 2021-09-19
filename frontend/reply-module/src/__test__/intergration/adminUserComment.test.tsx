@@ -10,10 +10,10 @@ import { myProject } from "../fixture/project";
 import { socialLoginUser } from "../fixture/user";
 import { getTotalCommentsCount } from "../util/getTotalCommentsCount";
 
-jest.mock("../../hooks/useEditComment");
-jest.mock("../../hooks/useDeleteComment");
-jest.mock("../../hooks/useCreateComment");
-jest.mock("../../hooks/useLikeComment");
+jest.mock("../../hooks/api/comment/useEditComment");
+jest.mock("../../hooks/api/comment/useDeleteComment");
+jest.mock("../../hooks/api/comment/useCreateComment");
+jest.mock("../../hooks/api/comment/useLikeComment");
 jest.mock("../../api/getPasswordConfirmResult");
 
 window.alert = function (str) {

@@ -9,10 +9,10 @@ import { Comment } from "../../types";
 import { comments as _comments } from "../fixture/comments";
 import { guestUser } from "../fixture/user";
 
-jest.mock("../../hooks/useEditComment");
-jest.mock("../../hooks/useDeleteComment");
-jest.mock("../../hooks/useCreateComment");
-jest.mock("../../hooks/useLikeComment");
+jest.mock("../../hooks/api/comment/useEditComment");
+jest.mock("../../hooks/api/comment/useDeleteComment");
+jest.mock("../../hooks/api/comment/useCreateComment");
+jest.mock("../../hooks/api/comment/useLikeComment");
 jest.mock("../../utils/request");
 jest.mock("../../utils/focusContentEditableTextToEnd");
 jest.mock("../../api/getPasswordConfirmResult");
