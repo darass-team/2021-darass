@@ -7,7 +7,7 @@ import { request } from "@/utils/request";
 import axios from "axios";
 import { useEffect } from "react";
 import { useQuery, useQueryClient } from "react-query";
-import { useToken } from ".";
+import { useToken } from "../..";
 
 const getUser = async () => {
   try {
