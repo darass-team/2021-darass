@@ -1,10 +1,10 @@
 import axios from "axios";
 import { useMutation, useQuery, useQueryClient } from "react-query";
-import { QUERY } from "../constants/api";
-import { REACT_QUERY_KEY } from "../constants/reactQueryKey";
-import { TOKEN_REFETCH_TIMER } from "../constants/timer";
-import { AlertError } from "../utils/Error";
-import { customAxios, request } from "../utils/request";
+import { QUERY } from "../../../constants/api";
+import { REACT_QUERY_KEY } from "../../../constants/reactQueryKey";
+import { TOKEN_REFETCH_TIMER } from "../../../constants/timer";
+import { AlertError } from "../../../utils/Error";
+import { customAxios, request } from "../../../utils/request";
 
 const axiosBearerOption = {
   _interceptorId: -1,
