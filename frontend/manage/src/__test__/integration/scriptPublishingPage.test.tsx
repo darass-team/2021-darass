@@ -19,7 +19,7 @@ jest.mock("react-router-dom", () => {
     }
   };
 });
-jest.mock("@/hooks/useGetProject");
+jest.mock("@/hooks/api/project/useGetProject");
 
 describe("스크립트 코드 페이지 테스트", () => {
   beforeEach(() => {

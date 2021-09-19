@@ -6,7 +6,7 @@ import { AlertError } from "@/utils/error";
 import { request } from "@/utils/request";
 import axios from "axios";
 import { useQuery } from "react-query";
-import { useToken } from ".";
+import { useToken } from "../..";
 
 const getProject = async (id: Project["id"]) => {
   try {

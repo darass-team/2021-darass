@@ -3,17 +3,17 @@ import { fireEvent, render, waitFor } from "@testing-library/react";
 import { getPasswordConfirmResult } from "../../api/getPasswordConfirmResult";
 import CommentList from "../../components/organisms/CommentList";
 import { useDeleteComment, useEditComment } from "../../hooks";
-import { useLikeComment } from "../../hooks/useLikeComment";
+import { useLikeComment } from "../../hooks/api/comment/useLikeComment";
 import { Comment } from "../../types";
 import { comments as _comments } from "../fixture/comments";
 import { myProject } from "../fixture/project";
 import { socialLoginUser } from "../fixture/user";
 import { getTotalCommentsCount } from "../util/getTotalCommentsCount";
 
-jest.mock("../../hooks/useEditComment");
-jest.mock("../../hooks/useDeleteComment");
-jest.mock("../../hooks/useCreateComment");
-jest.mock("../../hooks/useLikeComment");
+jest.mock("../../hooks/api/comment/useEditComment");
+jest.mock("../../hooks/api/comment/useDeleteComment");
+jest.mock("../../hooks/api/comment/useCreateComment");
+jest.mock("../../hooks/api/comment/useLikeComment");
 jest.mock("../../api/getPasswordConfirmResult");
 
 window.alert = function (str) {

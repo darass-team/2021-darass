@@ -7,7 +7,7 @@ import { createMemoryHistory } from "history";
 import { myProject, myProject2, myProject3 } from "../fixture/project";
 import { Router } from "react-router";
 
-jest.mock("@/hooks/useGetAllProjects");
+jest.mock("@/hooks/api/project/useGetAllProjects");
 
 describe("myProject 페이지 테스트", () => {
   test("프로젝트가 하나도 없는 경우 프로젝트 추가 안내 메시지를 보여준다.", () => {
