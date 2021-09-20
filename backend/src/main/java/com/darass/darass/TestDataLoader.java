@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 @Component
-@Profile({"!test", "!prod", "!local"})
+@Profile("develop")
 @AllArgsConstructor
 public class TestDataLoader implements CommandLineRunner {
 
