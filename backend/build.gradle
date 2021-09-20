@@ -13,8 +13,6 @@ plugins {
 
     // flyway
     id "org.flywaydb.flyway" version "7.9.1"
-
-   
 }
 
 group = 'com.darass'
@@ -179,6 +177,7 @@ jacocoTestCoverageVerification {
                     // '*.test.*',
                     '*.Kotlin*',
                     'com.darass.darass.DarassApplication',
+                    'com.darass.darass.TestDataLoader',
                     'com.darass.darass.common.LoggingAspect',
                     'com.darass.darass.config.*'
             ]
