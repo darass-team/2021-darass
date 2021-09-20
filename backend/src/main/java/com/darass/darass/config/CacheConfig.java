@@ -1,11 +1,13 @@
 package com.darass.darass.config;
 
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;
 import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
@@ -13,12 +15,14 @@ import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSeriali
 import org.springframework.data.redis.serializer.RedisSerializationContext;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
+@AllArgsConstructor
+@Profile({"develop", "prod"})
 @EnableCaching
 @Configuration
 public class CacheConfig extends CachingConfigurerSupport {
 
     @Autowired
-    RedisConnectionFactory connectionFactory;
+    private final RedisConnectionFactory connectionFactory;
 
     @Bean
     public CacheManager redisCacheManager() {
