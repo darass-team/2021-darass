@@ -2,9 +2,9 @@ package com.darass.darass.comment.service;
 
 import com.darass.darass.comment.domain.Comment;
 import com.darass.darass.comment.domain.CommentLike;
+import com.darass.darass.comment.domain.CommentStat;
 import com.darass.darass.comment.domain.Comments;
 import com.darass.darass.comment.domain.SortOption;
-import com.darass.darass.comment.domain.CommentStat;
 import com.darass.darass.comment.dto.CommentCreateRequest;
 import com.darass.darass.comment.dto.CommentDeleteRequest;
 import com.darass.darass.comment.dto.CommentReadRequest;
@@ -30,6 +30,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -107,6 +109,7 @@ public class CommentService {
         }
     }
 
+    @Cacheable(value = "comments", key = "#request.projectKey + #request.url")
     public CommentResponses findAllCommentsByUrlAndProjectKey(CommentReadRequest request) {
         List<Comment> comments = commentRepository
             .findByUrlAndProjectSecretKeyAndParentId(request.getUrl(), request.getProjectKey(), null,
@@ -117,6 +120,7 @@ public class CommentService {
             .collect(Collectors.toList()));
     }
 
+    @Cacheable(value = "comments", key = "#request.projectKey + #request.url")
     public CommentResponses findAllCommentsByUrlAndProjectKeyUsingPagination(CommentReadRequestByPagination request) {
         int pageBasedIndex = request.getPage() - 1;
         try {
@@ -133,8 +137,8 @@ public class CommentService {
         }
     }
 
-    public CommentResponses findAllCommentsInProject(
-        CommentReadRequestInProject request) {
+    @Cacheable(value = "comments", key = "#request.projectKey")
+    public CommentResponses findAllCommentsInProject(CommentReadRequestInProject request) {
         int pageBasedIndex = request.getPage() - 1;
         try {
             Page<Comment> comments = commentRepository
@@ -154,6 +158,7 @@ public class CommentService {
         }
     }
 
+    @Cacheable(value = "comments", key = "#request.projectKey")
     public CommentResponses findAllCommentsInProjectUsingSearch(
         CommentReadRequestBySearch request) {
         int pageBasedIndex = request.getPage() - 1;
