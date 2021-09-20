@@ -78,6 +78,8 @@ dependencies {
     // 슬랙 알람
     implementation 'com.github.maricn:logback-slack-appender:1.4.0'
 
+    // redis cache
+    implementation('org.springframework.boot:spring-boot-starter-data-redis')
 }
 
 test {
