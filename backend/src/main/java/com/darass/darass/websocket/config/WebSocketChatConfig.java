@@ -12,7 +12,7 @@ public class WebSocketChatConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry stompEndpointRegistry) {
-        stompEndpointRegistry.addEndpoint("/websocket").withSockJS();
+        stompEndpointRegistry.addEndpoint("/websocket").setAllowedOriginPatterns("*").withSockJS();
     }
 
     @Override
