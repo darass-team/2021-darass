@@ -25,19 +25,15 @@ import com.darass.darass.user.domain.GuestUser;
 import com.darass.darass.user.domain.User;
 import com.darass.darass.user.dto.UserResponse;
 import com.darass.darass.user.repository.UserRepository;
-import com.darass.darass.websocket.domain.AlarmMessageType;
-import com.darass.darass.websocket.domain.CommentAlarmMessage;
-import java.time.LocalDateTime;
+import com.darass.darass.websocket.domain.AlarmMessageMachine;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
-import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -50,14 +46,14 @@ public class CommentService {
     private final ProjectRepository projectRepository;
     private final UserRepository userRepository;
     private final CommentCountStrategyFactory commentCountStrategyFactory;
-    private final SimpMessageSendingOperations messagingTemplate;
+    private final AlarmMessageMachine alarmMessageMachine;
 
     public CommentResponse save(User user, CommentCreateRequest commentRequest) {
         if (!user.isLoginUser()) {
             user = saveGuestUser(commentRequest);
             user.setUserType("GuestUser");
         }
-        Project project = finProjectdBySecretKey(commentRequest);
+        Project project = findProjectBySecretKey(commentRequest);
         if (Objects.isNull(commentRequest.getParentId())) {
             return saveComment(user, commentRequest, project);
         }
@@ -169,7 +165,8 @@ public class CommentService {
             .url(comment.getUrl())
             .content(comment.getContent())
             .build();
-        createCommentAlarmMessage(comment.getUser(), user, commentCreateRequest, AlarmMessageType.CREATE_COMMENT_LIKE);
+
+        alarmMessageMachine.sendCommentLikeMessage(comment.getUser(), user, commentCreateRequest);
 
         comment.addCommentLike(CommentLike.builder()
             .comment(comment)
@@ -218,20 +215,6 @@ public class CommentService {
         }
     }
 
-    private void createCommentAlarmMessage(User receiver, User sender, CommentCreateRequest commentCreateRequest,
-        AlarmMessageType alarmMessageType) {
-        CommentAlarmMessage commentAlarmMessage = CommentAlarmMessage.builder()
-            .alarmMessageType(alarmMessageType)
-            .sender(sender.getNickName())
-            .url(commentCreateRequest.getUrl())
-            .content(commentCreateRequest.getContent())
-            .createDate(LocalDateTime.now())
-            .build();
-
-        messagingTemplate.convertAndSend("/queue/main" + receiver.getId(), commentAlarmMessage);
-        messagingTemplate.convertAndSend("/queue/module" + receiver.getId(), commentAlarmMessage);
-    }
-
     private User saveGuestUser(CommentCreateRequest commentRequest) {
         User user = GuestUser.builder()
             .nickName(commentRequest.getGuestNickName())
@@ -240,7 +223,7 @@ public class CommentService {
         return userRepository.saveAndFlush(user);
     }
 
-    private Project finProjectdBySecretKey(CommentCreateRequest commentRequest) {
+    private Project findProjectBySecretKey(CommentCreateRequest commentRequest) {
         return projectRepository.findBySecretKey(commentRequest.getProjectSecretKey())
             .orElseThrow(ExceptionWithMessageAndCode.NOT_FOUND_PROJECT::getException);
     }
@@ -252,7 +235,7 @@ public class CommentService {
             .project(project)
             .url(commentRequest.getUrl())
             .build();
-        createCommentAlarmMessage(project.getUser(), user, commentRequest, AlarmMessageType.CREATE_COMMENT);
+        alarmMessageMachine.sendCommentLikeMessage(project.getUser(), user, commentRequest);
 
         return CommentResponse.of(commentRepository.save(comment), UserResponse.of(comment.getUser()));
     }
@@ -269,8 +252,8 @@ public class CommentService {
             .url(commentRequest.getUrl())
             .parent(parentComment)
             .build();
+        alarmMessageMachine.sendSubCommentCreateMessage(parentComment.getUser(), user, commentRequest);
 
-        createCommentAlarmMessage(parentComment.getUser(), user, commentRequest, AlarmMessageType.CREATE_SUB_COMMENT);
         return CommentResponse.of(commentRepository.save(comment), UserResponse.of(comment.getUser()));
     }
 

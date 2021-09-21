@@ -2,6 +2,8 @@ package com.darass.darass.comment.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doNothing;
 
 import com.darass.darass.SpringContainerTest;
 import com.darass.darass.auth.oauth.api.domain.KaKaoOAuthProvider;
@@ -29,6 +31,7 @@ import com.darass.darass.user.domain.GuestUser;
 import com.darass.darass.user.domain.SocialLoginUser;
 import com.darass.darass.user.domain.User;
 import com.darass.darass.user.repository.UserRepository;
+import com.darass.darass.websocket.domain.AlarmMessageMachine;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
@@ -38,6 +41,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.transaction.annotation.Transactional;
 
 @DisplayName("CommentService 클래스")
@@ -58,6 +62,9 @@ class CommentServiceTest extends SpringContainerTest {
     @Autowired
     private CommentService commentService;
 
+    @MockBean
+    private AlarmMessageMachine alarmMessageMachine;
+
     private User socialLoginUser;
 
     private GuestUser guestUser;
@@ -69,6 +76,10 @@ class CommentServiceTest extends SpringContainerTest {
     @BeforeEach
     @Transactional
     void setUp() {
+        doNothing().when(alarmMessageMachine).sendCommentCreateMessage(any(), any(), any());
+        doNothing().when(alarmMessageMachine).sendSubCommentCreateMessage(any(), any(), any());
+        doNothing().when(alarmMessageMachine).sendCommentLikeMessage(any(), any(), any());
+
         socialLoginUser = SocialLoginUser.builder()
             .nickName("우기")
             .profileImageUrl("http://프로필이미지-url")
