@@ -11,6 +11,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class AlarmMessageMachine {
 
+    public static final String QUEUE_MAIN = "/queue/main";
+    public static final String QUEUE_MODULE = "/queue/module";
+
     private final SimpMessageSendingOperations simpMessageSendingOperations;
 
     public void sendCommentLikeMessage(User receiver, User sender, CommentCreateRequest commentCreateRequest) {
@@ -32,8 +35,8 @@ public class AlarmMessageMachine {
     }
 
     private void sendMessage(User receiver, CommentAlarmMessage commentAlarmMessage) {
-        simpMessageSendingOperations.convertAndSend("/queue/main" + receiver.getId(), commentAlarmMessage);
-        simpMessageSendingOperations.convertAndSend("/queue/module" + receiver.getId(), commentAlarmMessage);
+        simpMessageSendingOperations.convertAndSend(QUEUE_MAIN + receiver.getId(), commentAlarmMessage);
+        simpMessageSendingOperations.convertAndSend(QUEUE_MODULE + receiver.getId(), commentAlarmMessage);
     }
 
     private CommentAlarmMessage makeCommentAlarmMessage(User sender, CommentCreateRequest commentCreateRequest,
