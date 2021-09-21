@@ -231,7 +231,7 @@ public class CommentService {
             .project(project)
             .url(commentRequest.getUrl())
             .build();
-        alarmMessageMachine.sendCommentLikeMessage(project.getUser(), user, commentRequest);
+        alarmMessageMachine.sendCommentCreateMessage(project.getUser(), user, commentRequest);
 
         return CommentResponse.of(commentRepository.save(comment), UserResponse.of(comment.getUser()));
     }
