@@ -25,12 +25,12 @@ import com.darass.darass.user.domain.GuestUser;
 import com.darass.darass.user.domain.User;
 import com.darass.darass.user.dto.UserResponse;
 import com.darass.darass.user.repository.UserRepository;
+import com.darass.darass.websocket.domain.AlarmMessageMachine;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
-import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -46,67 +46,18 @@ public class CommentService {
     private final ProjectRepository projectRepository;
     private final UserRepository userRepository;
     private final CommentCountStrategyFactory commentCountStrategyFactory;
+    private final AlarmMessageMachine alarmMessageMachine;
 
     public CommentResponse save(User user, CommentCreateRequest commentRequest) {
         if (!user.isLoginUser()) {
-            user = savedGuestUser(commentRequest);
+            user = saveGuestUser(commentRequest);
+            user.setUserType("GuestUser");
         }
-        Project project = getBySecretKey(commentRequest);
-        String userType = userRepository.findUserTypeById(user.getId());
-
+        Project project = findProjectBySecretKey(commentRequest);
         if (Objects.isNull(commentRequest.getParentId())) {
-            Comment comment = savedComment(user, commentRequest, project);
-            return CommentResponse.of(comment, UserResponse.of(comment.getUser(), userType));
+            return saveComment(user, commentRequest, project);
         }
-
-        Comment subComment = savedSubComment(user, commentRequest, project);
-        return CommentResponse.of(subComment, UserResponse.of(subComment.getUser(), userType));
-    }
-
-    private User savedGuestUser(CommentCreateRequest commentRequest) {
-        User user = GuestUser.builder()
-            .nickName(commentRequest.getGuestNickName())
-            .password(commentRequest.getGuestPassword())
-            .build();
-        return userRepository.save(user);
-    }
-
-    private Project getBySecretKey(CommentCreateRequest commentRequest) {
-        return projectRepository.findBySecretKey(commentRequest.getProjectSecretKey())
-            .orElseThrow(ExceptionWithMessageAndCode.NOT_FOUND_PROJECT::getException);
-    }
-
-    private Comment savedComment(User user, CommentCreateRequest commentRequest, Project project) {
-        Comment comment = Comment.builder()
-            .user(user)
-            .content(commentRequest.getContent())
-            .project(project)
-            .url(commentRequest.getUrl())
-            .build();
-
-        return commentRepository.save(comment);
-    }
-
-    private Comment savedSubComment(User user, CommentCreateRequest commentRequest, Project project) {
-        Comment parentComment = commentRepository.findById(commentRequest.getParentId())
-            .orElseThrow(ExceptionWithMessageAndCode.NOT_FOUND_COMMENT::getException);
-        validateSubCommentable(parentComment);
-
-        Comment comment = Comment.builder()
-            .user(user)
-            .content(commentRequest.getContent())
-            .project(project)
-            .url(commentRequest.getUrl())
-            .parent(parentComment)
-            .build();
-
-        return commentRepository.save(comment);
-    }
-
-    private void validateSubCommentable(Comment parentComment) {
-        if (parentComment.isSubComment()) {
-            throw ExceptionWithMessageAndCode.INVALID_SUB_COMMENT_INDEX.getException();
-        }
+        return saveSubComment(user, commentRequest, project);
     }
 
     @Cacheable(value = "comments", key = "#request.projectKey + #request.url")
@@ -181,7 +132,7 @@ public class CommentService {
         }
     }
 
-    public void updateContent(Long id, User user, CommentUpdateRequest request) { //TODO: 리팩터링 고민
+    public void updateContent(Long id, User user, CommentUpdateRequest request) {
         user = findRegisteredUser(user, request.getGuestUserId(), request.getGuestUserPassword());
         Comment comment = findCommentById(id);
 
@@ -199,6 +150,35 @@ public class CommentService {
         validateCommentDeletableByUser(user, adminUser, comment);
 
         commentRepository.deleteById(id);
+    }
+
+    public void toggleLike(Long id, User user) {
+        Comment comment = commentRepository.findById(id)
+            .orElseThrow(ExceptionWithMessageAndCode.NOT_FOUND_COMMENT::getException);
+
+        if (comment.isLikedByUser(user)) {
+            comment.deleteCommentLikeByUser(user);
+            return;
+        }
+
+        CommentCreateRequest commentCreateRequest = CommentCreateRequest.builder()
+            .url(comment.getUrl())
+            .content(comment.getContent())
+            .build();
+
+        alarmMessageMachine.sendCommentLikeMessage(comment.getUser(), user, commentCreateRequest);
+
+        comment.addCommentLike(CommentLike.builder()
+            .comment(comment)
+            .user(user)
+            .build());
+    }
+
+    public CommentStatResponse giveStat(CommentStatRequest request) {
+        List<CommentStat> commentStats = commentCountStrategyFactory.findStrategy(request.getPeriodicity())
+            .calculateCount(request.getProjectKey(), request.getStartDate().atTime(LocalTime.MIN),
+                request.getEndDate().atTime(LocalTime.MAX));
+        return new CommentStatResponse(commentStats);
     }
 
     private void validateCommentUpdatableByUser(User user, Comment comment) {
@@ -235,25 +215,52 @@ public class CommentService {
         }
     }
 
-    public void toggleLikeStatus(Long id, User user) {
-        Comment comment = commentRepository.findById(id)
-            .orElseThrow(ExceptionWithMessageAndCode.NOT_FOUND_COMMENT::getException);
+    private User saveGuestUser(CommentCreateRequest commentRequest) {
+        User user = GuestUser.builder()
+            .nickName(commentRequest.getGuestNickName())
+            .password(commentRequest.getGuestPassword())
+            .build();
+        return userRepository.saveAndFlush(user);
+    }
 
-        if (comment.isLikedByUser(user)) {
-            comment.deleteCommentLikeByUser(user);
-            return;
-        }
+    private Project findProjectBySecretKey(CommentCreateRequest commentRequest) {
+        return projectRepository.findBySecretKey(commentRequest.getProjectSecretKey())
+            .orElseThrow(ExceptionWithMessageAndCode.NOT_FOUND_PROJECT::getException);
+    }
 
-        comment.addCommentLike(CommentLike.builder()
-            .comment(comment)
+    private CommentResponse saveComment(User user, CommentCreateRequest commentRequest, Project project) {
+        Comment comment = Comment.builder()
             .user(user)
-            .build());
+            .content(commentRequest.getContent())
+            .project(project)
+            .url(commentRequest.getUrl())
+            .build();
+        alarmMessageMachine.sendCommentCreateMessage(project.getUser(), user, commentRequest);
+
+        return CommentResponse.of(commentRepository.save(comment), UserResponse.of(comment.getUser()));
     }
 
-    public CommentStatResponse giveStat(CommentStatRequest request) {
-        List<CommentStat> commentStats = commentCountStrategyFactory.findStrategy(request.getPeriodicity())
-            .calculateCount(request.getProjectKey(), request.getStartDate().atTime(LocalTime.MIN),
-                request.getEndDate().atTime(LocalTime.MAX));
-        return new CommentStatResponse(commentStats);
+    private CommentResponse saveSubComment(User user, CommentCreateRequest commentRequest, Project project) {
+        Comment parentComment = commentRepository.findById(commentRequest.getParentId())
+            .orElseThrow(ExceptionWithMessageAndCode.NOT_FOUND_COMMENT::getException);
+        validateSubCommentable(parentComment);
+
+        Comment comment = Comment.builder()
+            .user(user)
+            .content(commentRequest.getContent())
+            .project(project)
+            .url(commentRequest.getUrl())
+            .parent(parentComment)
+            .build();
+        alarmMessageMachine.sendSubCommentCreateMessage(parentComment.getUser(), user, commentRequest);
+
+        return CommentResponse.of(commentRepository.save(comment), UserResponse.of(comment.getUser()));
     }
+
+    private void validateSubCommentable(Comment parentComment) {
+        if (parentComment.isSubComment()) {
+            throw ExceptionWithMessageAndCode.INVALID_SUB_COMMENT_INDEX.getException();
+        }
+    }
+
 }
