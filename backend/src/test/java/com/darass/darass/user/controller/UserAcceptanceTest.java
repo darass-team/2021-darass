@@ -6,9 +6,7 @@ import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.delete;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.patch;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
@@ -16,12 +14,13 @@ import static org.springframework.restdocs.request.RequestDocumentation.paramete
 import static org.springframework.restdocs.request.RequestDocumentation.partWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
 import static org.springframework.restdocs.request.RequestDocumentation.requestParts;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.darass.darass.AcceptanceTest;
+import com.darass.darass.auth.oauth.controller.argumentresolver.RequiredLoginArgumentResolver;
 import com.darass.darass.auth.oauth.infrastructure.JwtTokenProvider;
+import com.darass.darass.auth.oauth.service.OAuthService;
 import com.darass.darass.comment.dto.CommentCreateRequest;
 import com.darass.darass.comment.dto.CommentResponse;
 import com.darass.darass.exception.ExceptionWithMessageAndCode;
@@ -34,26 +33,26 @@ import com.darass.darass.user.dto.UserResponse;
 import com.darass.darass.user.dto.UserUpdateRequest;
 import com.darass.darass.user.infrastructure.S3Uploader;
 import com.darass.darass.user.repository.UserRepository;
+import com.darass.darass.user.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
+import javax.servlet.http.Cookie;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.test.web.servlet.request.MockMultipartHttpServletRequestBuilder;
 import org.springframework.web.multipart.MultipartFile;
 
 @DisplayName("User 인수테스트")
 class UserAcceptanceTest extends AcceptanceTest { //TODO: 로그이웃 기능 체크
-
-    private static final String API_URL = "/api/v1/users";
 
     private static final String REFRESH_TOKEN = "refreshToken";
 
@@ -73,6 +72,15 @@ class UserAcceptanceTest extends AcceptanceTest { //TODO: 로그이웃 기능 �
     @MockBean
     private S3Uploader s3Uploader;
 
+    @MockBean
+    private UserService userService;
+
+    @MockBean
+    private RequiredLoginArgumentResolver requiredLoginArgumentResolver;
+
+    @MockBean
+    private OAuthService oAuthService;
+
     @BeforeEach
     public void setUser() { // TODO: 이 부분 로그인 인수테스트로 바꾸기
         socialLoginUser = SocialLoginUser
@@ -87,17 +95,46 @@ class UserAcceptanceTest extends AcceptanceTest { //TODO: 로그이웃 기능 �
         userRepository.save(socialLoginUser);
     }
 
-    @Test
     @DisplayName("엑세스 토큰으로 유저를 조회한다.")
+    @Test
     void findUser_success() throws Exception {
         //given
-        String accessToken = tokenProvider.createAccessToken(socialLoginUser);
+        UserResponse userResponse = UserResponse.builder()
+            .id(1L)
+            .nickName("병욱")
+            .type("SocialLoginUser")
+            .profileImageUrl("https://darass/image")
+            .createdDate(LocalDateTime.now())
+            .modifiedDate(LocalDateTime.now())
+            .build();
 
-        //when
-        ResultActions resultActions = 유저_조회_요청(accessToken, REFRESH_TOKEN);
+        given(userService.findById(any())).willReturn(userResponse);
+        given(oAuthService.findSocialLoginUserByAccessToken("accessToken")).willReturn(socialLoginUser);
 
-        //then
-        유저_조회됨(resultActions);
+        //when 유저_조회_요청(accessToken, REFRESH_TOKEN);
+        ResultActions resultActions = this.mockMvc.perform(
+            get("/api/v1/users")
+                .contentType(MediaType.APPLICATION_JSON)
+                .header(HttpHeaders.AUTHORIZATION, "Bearer accessToken")
+                .cookie(new Cookie("refreshToken", "refreshToken"))
+        );
+
+        //then 유저_조회됨(resultActions);
+        resultActions
+            .andExpect(status().isOk())
+            .andDo(document("api/v1/users/get/success",
+                requestHeaders(
+                    headerWithName("Authorization").description("JWT - Bearer 토큰")
+                ),
+                responseFields(
+                    fieldWithPath("id").type(JsonFieldType.NUMBER).description("유저 아이디"),
+                    fieldWithPath("nickName").type(JsonFieldType.STRING).description("유저 닉네임"),
+                    fieldWithPath("type").type(JsonFieldType.STRING).description("유저 타입"),
+                    fieldWithPath("createdDate").type(JsonFieldType.STRING).description("유저 생성일"),
+                    fieldWithPath("modifiedDate").type(JsonFieldType.STRING).description("유저 수정일"),
+                    fieldWithPath("profileImageUrl").type(JsonFieldType.STRING).description("유저 프로필 이미지")
+                ))
+            );
     }
 
     @Test
@@ -114,7 +151,6 @@ class UserAcceptanceTest extends AcceptanceTest { //TODO: 로그이웃 기능 �
         유저_조회_실패_rest_doc_작성(resultActions);
     }
 
-
     @Test
     @DisplayName("유효하지 않은 리프레쉬 토큰으로 인해 토큰으로 유저 조회를 실패한다.")
     void findUser_success2() throws Exception {
@@ -122,7 +158,7 @@ class UserAcceptanceTest extends AcceptanceTest { //TODO: 로그이웃 기능 �
         String accessToken = tokenProvider.createAccessToken(socialLoginUser);
 
         //when
-        ResultActions resultActions = 유저_조회_요청(accessToken,"invalidRefreshToken");
+        ResultActions resultActions = 유저_조회_요청(accessToken, "invalidRefreshToken");
 
         //then
         유효하지_않은_리프레쉬_토큰으로_인해_유저_토큰_인증_실패됨(resultActions);
@@ -135,7 +171,8 @@ class UserAcceptanceTest extends AcceptanceTest { //TODO: 로그이웃 기능 �
         String jsonResponse = resultActions.andReturn().getResponse().getContentAsString();
         ExceptionResponse exceptionResponse = new ObjectMapper().readValue(jsonResponse, ExceptionResponse.class);
 
-        assertThat(exceptionResponse.getMessage()).isEqualTo(ExceptionWithMessageAndCode.INVALID_REFRESH_TOKEN.findMessage());
+        assertThat(exceptionResponse.getMessage())
+            .isEqualTo(ExceptionWithMessageAndCode.INVALID_REFRESH_TOKEN.findMessage());
         assertThat(exceptionResponse.getCode()).isEqualTo(ExceptionWithMessageAndCode.INVALID_REFRESH_TOKEN.findCode());
     }
 
@@ -313,7 +350,7 @@ class UserAcceptanceTest extends AcceptanceTest { //TODO: 로그이웃 기능 �
         String responseJson = 비로그인_댓글_등록됨(expected).andReturn().getResponse().getContentAsString();
         UserResponse userResponse = new ObjectMapper().readValue(responseJson, CommentResponse.class).getUser();
 
-        return this.mockMvc.perform(get(API_URL + "/check-password")
+        return this.mockMvc.perform(get("/api/v1/users" + "/check-password")
             .contentType(MediaType.APPLICATION_JSON)
             .param("guestUserId", userResponse.getId().toString())
             .param("guestUserPassword", actual)
@@ -329,7 +366,7 @@ class UserAcceptanceTest extends AcceptanceTest { //TODO: 로그이웃 기능 �
     }
 
     private ResultActions 유저_조회_요청(String accessToken, String refreshToken) throws Exception {
-        return this.mockMvc.perform(get(API_URL)
+        return this.mockMvc.perform(get("/api/v1/users")
             .contentType(MediaType.APPLICATION_JSON)
             .header("Authorization", "Bearer " + accessToken)
             .header("Cookie", "refreshToken=" + refreshToken));
@@ -375,26 +412,28 @@ class UserAcceptanceTest extends AcceptanceTest { //TODO: 로그이웃 기능 �
     }
 
     private ResultActions 유저_닉네임_수정_요청(UserUpdateRequest userUpdateRequest, String accessToken) throws Exception {
-        return this.mockMvc.perform(patch(API_URL)
-            .contentType(MediaType.MULTIPART_FORM_DATA)
-            .header("Authorization", "Bearer " + accessToken)
-            .header("Cookie", "refreshToken=refreshToken")
-            .param("nickName", userUpdateRequest.getNickName())
-            .content(asJsonString(userUpdateRequest)));
+        return null;
+        //        return this.mockMvc.perform(patch("/api/v1/users")
+//            .contentType(MediaType.MULTIPART_FORM_DATA)
+//            .header("Authorization", "Bearer " + accessToken)
+//            .header("Cookie", "refreshToken=refreshToken")
+//            .param("nickName", userUpdateRequest.getNickName())
+//            .content(asJsonString(userUpdateRequest)));
     }
 
     private ResultActions 유저_프로필_사진_수정_요청(UserUpdateRequest userUpdateRequest, String accessToken) throws Exception {
-        MockMultipartHttpServletRequestBuilder multipart = (MockMultipartHttpServletRequestBuilder) multipart(API_URL)
-            .with(request -> {
-                request.setMethod(HttpMethod.PATCH.toString());
-                return request;
-            });
-
-        return this.mockMvc.perform(multipart
-            .file((MockMultipartFile) userUpdateRequest.getProfileImageFile())
-            .param("nickName", userUpdateRequest.getNickName())
-            .header("Authorization", "Bearer " + accessToken)
-            .header("Cookie", "refreshToken=refreshToken"));
+        return null;
+//        MockMultipartHttpServletRequestBuilder multipart = (MockMultipartHttpServletRequestBuilder) multipart("/api/v1/users")
+//            .with(request -> {
+//                request.setMethod(HttpMethod.PATCH.toString());
+//                return request;
+//            });
+//
+//        return this.mockMvc.perform(multipart
+//            .file((MockMultipartFile) userUpdateRequest.getProfileImageFile())
+//            .param("nickName", userUpdateRequest.getNickName())
+//            .header("Authorization", "Bearer " + accessToken)
+//            .header("Cookie", "refreshToken=refreshToken"));
     }
 
     private void 유저_닉네임_수정됨(ResultActions resultActions, UserUpdateRequest userUpdateRequest) throws Exception {
@@ -481,10 +520,11 @@ class UserAcceptanceTest extends AcceptanceTest { //TODO: 로그이웃 기능 �
     }
 
     private ResultActions 유저_삭제_요청(String accessToken) throws Exception {
-        return this.mockMvc.perform(delete(API_URL)
-            .contentType(MediaType.APPLICATION_JSON)
-            .header("Authorization", "Bearer " + accessToken)
-            .header("Cookie", "refreshToken=refreshToken"));
+        return null;
+//        return this.mockMvc.perform(delete(API_URL)
+//            .contentType(MediaType.APPLICATION_JSON)
+//            .header("Authorization", "Bearer " + accessToken)
+//            .header("Cookie", "refreshToken=refreshToken"));
     }
 
     private void 유저_정보_삭제됨(ResultActions resultActions) throws Exception {

@@ -1,6 +1,7 @@
 package com.darass.darass.user.controller;
 
 import com.darass.darass.auth.oauth.domain.RequiredLogin;
+import com.darass.darass.user.domain.SocialLoginUser;
 import com.darass.darass.user.domain.User;
 import com.darass.darass.user.dto.PasswordCheckRequest;
 import com.darass.darass.user.dto.PasswordCheckResponse;
@@ -24,22 +25,22 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping
-    public ResponseEntity<UserResponse> find(@RequiredLogin User user) {
-        UserResponse userResponse = userService.findById(user.getId());
+    public ResponseEntity<UserResponse> find(@RequiredLogin SocialLoginUser socialLoginUser) {
+        UserResponse userResponse = userService.findById(socialLoginUser.getId());
         return ResponseEntity.ok(userResponse);
     }
 
     @PatchMapping
-    public ResponseEntity<UserResponse> update(@RequiredLogin User user,
+    public ResponseEntity<UserResponse> update(@RequiredLogin SocialLoginUser socialLoginUser,
         @ModelAttribute UserUpdateRequest userUpdateRequest
     ) {
-        UserResponse userResponse = userService.update(user.getId(), userUpdateRequest);
+        UserResponse userResponse = userService.update(socialLoginUser.getId(), userUpdateRequest);
         return ResponseEntity.ok(userResponse);
     }
 
     @DeleteMapping
-    public ResponseEntity<Void> delete(@RequiredLogin User user) {
-        userService.deleteById(user.getId());
+    public ResponseEntity<Void> delete(@RequiredLogin SocialLoginUser socialLoginUser) {
+        userService.deleteById(socialLoginUser.getId());
         return ResponseEntity.noContent().build();
     }
 
