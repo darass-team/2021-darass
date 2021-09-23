@@ -33,7 +33,7 @@ const Statistics = () => {
     PERIODICITY.DAILY
   );
 
-  const { project } = useGetProject(projectId);
+  const { project, isSuccess: isSuccessGetProject } = useGetProject(projectId);
   const projectSecretKey = project?.secretKey;
 
   const { showCalendar, setShowCalendar, currentDate, setCurrentDate, startDate, setStartDate, endDate, setEndDate } =
@@ -47,7 +47,11 @@ const Statistics = () => {
   const startDateAsString = startDate?.format("YYYY-MM-DD") || moment().format("YYYY-MM-DD");
   const endDateAsString = endDate?.format("YYYY-MM-DD") || moment().format("YYYY-MM-DD");
 
-  const { stats, refetch: getCommentStatisticsData } = useCommentStatisticsData({
+  const {
+    stats,
+    refetch: getCommentStatisticsData,
+    isSuccess: isSuccessGetCommentStatisticsData
+  } = useCommentStatisticsData({
     periodicity: selectedPeriodicity,
     projectKey: projectSecretKey,
     startDate: startDateAsString,
@@ -83,7 +87,7 @@ const Statistics = () => {
     }
   }, [selectedPeriodicity]);
 
-  if (!project || !stats) {
+  if (!isSuccessGetProject || !isSuccessGetCommentStatisticsData) {
     return <LoadingPage />;
   }
 

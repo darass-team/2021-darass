@@ -32,7 +32,8 @@ describe("project Detail 페이지 테스트", () => {
       return {
         project: testProject,
         isLoading: false,
-        error: false
+        error: false,
+        isSuccess: true
       };
     });
     (useEditProject as jest.Mock).mockImplementation(() => {
