@@ -25,6 +25,7 @@
     "@types/react": "^17.0.13",
     "@types/react-dom": "^17.0.8",
     "@types/react-router-dom": "^5.1.7",
+    "@types/sockjs-client": "^1.5.1",
     "@types/styled-components": "^5.1.11",
     "babel-loader": "^8.2.2",
     "babel-plugin-remove-react-jsx-attribute": "^1.0.1",
@@ -54,6 +55,7 @@
     "@loadable/component": "^5.15.0",
     "@sentry/react": "^6.11.0",
     "@sentry/tracing": "^6.11.0",
+    "@stomp/stompjs": "^6.1.2",
     "axios": "^0.21.1",
     "chart.js": "2.9.4",
     "moment": "^2.29.1",
@@ -63,6 +65,7 @@
     "react-query": "^3.18.1",
     "react-router-dom": "^5.2.0",
     "react-syntax-highlighter": "^15.4.3",
+    "sockjs-client": "^1.5.2",
     "styled-components": "^5.3.0",
     "styled-normalize": "^8.0.7"
   },
