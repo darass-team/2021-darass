@@ -27,11 +27,6 @@ public class UserResponse {
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime modifiedDate;
 
-    public static UserResponse of(User user, String type) {
-        return new UserResponse(user.getId(), user.getNickName(), type, user.getProfileImageUrl(), user.getCreatedDate(),
-            user.getModifiedDate());
-    }
-
     public static UserResponse of(User user) {
         return new UserResponse(user.getId(), user.getNickName(), user.getUserType(), user.getProfileImageUrl(),
             user.getCreatedDate(), user.getModifiedDate());
