@@ -15,7 +15,8 @@ describe("myProject 페이지 테스트", () => {
       return {
         projects: [],
         loading: false,
-        error: false
+        error: false,
+        isSuccess: true
       };
     });
     const history = createMemoryHistory();
@@ -36,7 +37,8 @@ describe("myProject 페이지 테스트", () => {
       return {
         projects,
         loading: false,
-        error: false
+        error: false,
+        isSuccess: true
       };
     });
 
@@ -58,7 +60,8 @@ describe("myProject 페이지 테스트", () => {
       return {
         projects: [],
         loading: false,
-        error: false
+        error: false,
+        isSuccess: true
       };
     });
 
@@ -87,7 +90,8 @@ describe("myProject 페이지 테스트", () => {
       return {
         projects,
         loading: false,
-        error: false
+        error: false,
+        isSuccess: true
       };
     });
 

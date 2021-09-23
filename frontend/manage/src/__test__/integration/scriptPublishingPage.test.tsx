@@ -27,7 +27,8 @@ describe("스크립트 코드 페이지 테스트", () => {
       return {
         project: myProject3,
         error: false,
-        secretKey: myProject3.secretKey
+        secretKey: myProject3.secretKey,
+        isSuccess: true
       };
     });
   });
