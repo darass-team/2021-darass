@@ -5,11 +5,12 @@ export const Z_INDEX = {
   ERROR_NOTICE: 1,
   NAV: {
     MOBILE: {
-      HAMBUGER_BUTTON: 200,
+      HAMBURGER_BUTTON: 200,
       MENU_WRAPPER: 199
     },
     DESKTOP: {
-      USER_AVATAR_WRAPPER: 1
+      USER_AVATAR_WRAPPER: 1,
+      ALARM: 2
     }
   },
   MODAL: 100

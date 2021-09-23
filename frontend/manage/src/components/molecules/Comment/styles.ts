@@ -27,8 +27,6 @@ export const Name = styled.span<{ isMyComment: boolean }>`
   }
 `;
 
-export const Date = styled.span``;
-
 export const Content = styled.span`
   font-size: 1.2rem;
   line-height: ${1.2 * LINE_HEIGHT_SCALE}rem;

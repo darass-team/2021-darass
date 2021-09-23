@@ -36,5 +36,4 @@ export const Count = styled.span`
   border-radius: 50%;
   color: ${PALETTE.WHITE};
   text-align: center;
-  font-size: 0.1rem;
 `;

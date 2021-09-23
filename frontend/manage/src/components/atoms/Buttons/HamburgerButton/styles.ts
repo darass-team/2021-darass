@@ -15,7 +15,7 @@ const Container = styled.button<{ isOpen: boolean }>`
   border: none;
   cursor: pointer;
   padding: 0;
-  z-index: ${Z_INDEX.NAV.MOBILE.HAMBUGER_BUTTON};
+  z-index: ${Z_INDEX.NAV.MOBILE.HAMBURGER_BUTTON};
 
   div {
     width: 3rem;

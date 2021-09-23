@@ -65,8 +65,8 @@ export const Title = styled.span`
 `;
 
 export const UserAvatarOptionWrapper = styled.div`
-  margin-left: auto;
   z-index: ${Z_INDEX.NAV.DESKTOP.USER_AVATAR_WRAPPER};
+  margin-left: 2rem;
 `;
 
 export const LoginMethodWrapper = styled.div`
@@ -79,4 +79,10 @@ export const LoginMethod = styled.button.attrs({ type: "button" })`
   margin-left: 0.5rem;
   font-weight: 700;
   background-color: transparent;
+`;
+
+export const UserInfoWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  margin-left: auto;
 `;
