@@ -24,7 +24,7 @@ import {
 
 const UserProfile = () => {
   const history = useHistory();
-  const { user, logout } = useUser();
+  const { user, logout, isSuccess: isSuccessGetUser } = useUser();
   const { editUser, isLoading: isEditLoading } = useEditUser();
   const { deleteUser } = useDeleteUser();
   const {
@@ -107,7 +107,7 @@ const UserProfile = () => {
     }
   }, [user]);
 
-  if (!user) {
+  if (!isSuccessGetUser) {
     return <LoadingPage />;
   }
 

@@ -33,17 +33,13 @@ describe("newProject 페이지 테스트", () => {
     });
     (useGetAllProjects as jest.Mock).mockImplementation(() => {
       return {
-        createProject: (str: string): Project => {
-          return {
-            ...myProject
-          };
-        }
+        projects: [myProject]
       };
     });
   });
   test("프로젝트 이름에 공백으로만 구성된 문자열을 입력하고, 등록버튼을 누르면 해당 프로젝트 배포페이지로 이동하지 않는다.", async () => {
     (useGetAllProjects as jest.Mock).mockImplementation(() => {
-      return { projects: [] };
+      return { projects: [], isSuccess: true };
     });
 
     const inputValue = "           \n \n \n \n \n ";
@@ -71,7 +67,7 @@ describe("newProject 페이지 테스트", () => {
   });
   test("프로젝트 이름에 이미 등록되어있는 프로젝트를 입력하고, 등록버튼을 누르면 해당 프로젝트 배포페이지로 이동하지 않는다.", async () => {
     (useGetAllProjects as jest.Mock).mockImplementation(() => {
-      return { projects: [myProject] };
+      return { projects: [myProject], isSuccess: true };
     });
 
     const inputValue = myProject.name;
@@ -99,7 +95,7 @@ describe("newProject 페이지 테스트", () => {
   });
   test("프로젝트 이름에 유효한 문자열을 입력하고, 등록버튼을 누르면, 프로젝트가 생성된다.", async () => {
     (useGetAllProjects as jest.Mock).mockImplementation(() => {
-      return { projects: [] };
+      return { projects: [], isSuccess: true };
     });
 
     const inputValue = "유효한 프로젝트";

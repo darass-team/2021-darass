@@ -39,10 +39,11 @@ export const useGetProject = (id: Project["id"]) => {
   const {
     data: project,
     isLoading,
-    error
+    error,
+    isSuccess
   } = useQuery<Project, Error>([REACT_QUERY_KEY.PROJECT, id], () => getProject(id), {
     enabled: !!accessToken
   });
 
-  return { project, isLoading, error };
+  return { project, isLoading, error, isSuccess };
 };
