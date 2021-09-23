@@ -45,13 +45,13 @@ const ScriptPublishing = () => {
   const match = useRouteMatch<{ id: string }>();
 
   const projectId = Number(match.params.id);
-  const { project } = useGetProject(projectId);
+  const { project, isSuccess: isSuccessGetProject } = useGetProject(projectId);
   const projectSecretKey = project?.secretKey || "스크립트 정보를 불러오는 중입니다...";
   const { isCopyButtonClicked, onCopy } = useCopyButton();
   const script =
     selectedBlogInfo?.scriptType === "HTML" ? htmlScriptCode(projectSecretKey) : JsxScriptCode(projectSecretKey);
 
-  if (!project) {
+  if (!isSuccessGetProject) {
     return <LoadingPage />;
   }
 
