@@ -32,8 +32,7 @@ public class UserController {
 
     @PatchMapping
     public ResponseEntity<UserResponse> update(@RequiredLogin SocialLoginUser socialLoginUser,
-        @ModelAttribute UserUpdateRequest userUpdateRequest
-    ) {
+        @ModelAttribute UserUpdateRequest userUpdateRequest) {
         UserResponse userResponse = userService.update(socialLoginUser.getId(), userUpdateRequest);
         return ResponseEntity.ok(userResponse);
     }
