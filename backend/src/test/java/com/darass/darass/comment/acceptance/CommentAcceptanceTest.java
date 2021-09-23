@@ -1,6 +1,8 @@
 package com.darass.darass.comment.acceptance;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doNothing;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -31,6 +33,7 @@ import com.darass.darass.project.repository.ProjectRepository;
 import com.darass.darass.user.domain.SocialLoginUser;
 import com.darass.darass.user.dto.UserResponse;
 import com.darass.darass.user.repository.UserRepository;
+import com.darass.darass.websocket.domain.AlarmMessageMachine;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.time.LocalDate;
 import java.util.stream.IntStream;
@@ -38,6 +41,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.ResultActions;
@@ -53,6 +57,9 @@ class CommentAcceptanceTest extends AcceptanceTest {
 
     @Autowired
     private ProjectRepository projects;
+
+    @MockBean
+    private AlarmMessageMachine alarmMessageMachine;
 
     private SocialLoginUser socialLoginUser;
 
@@ -87,6 +94,10 @@ class CommentAcceptanceTest extends AcceptanceTest {
 
     @BeforeEach
     void setUp() {
+        doNothing().when(alarmMessageMachine).sendCommentCreateMessage(any(), any(), any());
+        doNothing().when(alarmMessageMachine).sendSubCommentCreateMessage(any(), any(), any());
+        doNothing().when(alarmMessageMachine).sendCommentLikeMessage(any(), any(), any());
+
         setUpUser();
         setUpProject();
     }
