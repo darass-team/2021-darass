@@ -78,6 +78,10 @@ dependencies {
     // 슬랙 알람
     implementation 'com.github.maricn:logback-slack-appender:1.4.0'
 
+    // 웹 소켓 관련
+    implementation "org.springframework.boot:spring-boot-starter-websocket"
+    implementation 'org.springframework.boot:spring-boot-starter-amqp'
+    implementation 'org.springframework.boot:spring-boot-starter-reactor-netty'
 }
 
 test {
@@ -179,7 +183,8 @@ jacocoTestCoverageVerification {
                     'com.darass.darass.DarassApplication',
                     'com.darass.darass.TestDataLoader',
                     'com.darass.darass.common.LoggingAspect',
-                    'com.darass.darass.config.*'
+                    'com.darass.darass.config.*',
+                    'com.darass.darass.websocket.domain.AlarmMessageMachine'
             ]
         }
     }
