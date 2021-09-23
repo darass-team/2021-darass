@@ -1,29 +1,34 @@
 import Alarm from "@/components/atoms/Alarm";
-import Avatar from "@/components/atoms/Avatar";
 import { User } from "@/types/user";
 import { getTimeDifference } from "@/utils/time";
 import { useState } from "react";
 import {
   Container,
+  Content,
+  ContentWrapper,
   DropDownContainer,
   DropDownContent,
   DropDownHeader,
-  NotificationCount,
-  ContentWrapper,
   Name,
-  Content,
   Notification,
+  NotificationCount,
   Url
 } from "./styles";
 
 interface AlarmContent {
-  user: User;
+  sender: User["nickName"];
   url: string;
   content: string;
-  time: string;
-  category: "NewComment" | "ReplyComment";
+  createDate: string;
+  alarmMessageType: "CREATE_COMMENT" | "CREATE_SUB_COMMENT" | "CREATE_COMMENT_LIKE";
   hasBeenRead: boolean;
 }
+
+const ALARM_MESSAGE_TABLE = {
+  CREATE_COMMENT: "님이 댓글을 남겼습니다.",
+  CREATE_SUB_COMMENT: "님이 대댓글을 남겼습니다.",
+  CREATE_COMMENT_LIKE: "님이 좋아요를 누르셨습니다."
+};
 
 export interface Props {
   alarmContents: AlarmContent[];
@@ -46,22 +51,17 @@ const AlarmDropDown = ({ alarmContents }: Props) => {
           </DropDownHeader>
           <>
             {alarmContents.length > 0 ? (
-              alarmContents.map(({ user, url, content, time: date, category }) => {
+              alarmContents.map(({ sender, url, content, createDate, alarmMessageType }) => {
                 return (
                   <DropDownContent>
-                    <Avatar imageURL={user.profileImageUrl} />
                     <ContentWrapper>
                       <Notification>
-                        {category === "NewComment" ? (
-                          <span>
-                            <Name>{user.nickName}</Name>님이 새 댓글을 남기셨습니다.
-                          </span>
-                        ) : (
-                          <span>
-                            <Name>{user.nickName}</Name>님이 대댓글을 남기셨습니다.
-                          </span>
-                        )}
-                        <time>{getTimeDifference(date)}</time>
+                        <span>
+                          <Name>{sender}</Name>
+                          <span>{ALARM_MESSAGE_TABLE[alarmMessageType]}</span>
+                        </span>
+
+                        <time>{getTimeDifference(createDate)}</time>
                       </Notification>
 
                       <Content>{content}</Content>

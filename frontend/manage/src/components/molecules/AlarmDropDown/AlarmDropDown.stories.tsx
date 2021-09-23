@@ -15,29 +15,29 @@ export const Default = Template.bind({});
 Default.args = {
   alarmContents: [
     {
-      user: socialLoginUser2,
+      sender: socialLoginUser2.nickName,
       url: "www.naver.com",
       content: "안녕하세요",
-      time: new Date().toDateString(),
-      category: "NewComment",
+      createDate: new Date().toDateString(),
+      alarmMessageType: "CREATE_COMMENT",
       hasBeenRead: true
     },
     {
-      user: socialLoginUser2,
+      sender: socialLoginUser2.nickName,
       url: "www.naver.com",
       content:
         "안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요",
-      time: new Date().toDateString(),
-      category: "ReplyComment",
+      createDate: new Date().toDateString(),
+      alarmMessageType: "CREATE_SUB_COMMENT",
       hasBeenRead: false
     },
     {
-      user: socialLoginUser2,
+      sender: socialLoginUser2.nickName,
       url: "www.naver.com",
       content:
         "안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요",
-      time: new Date().toDateString(),
-      category: "ReplyComment",
+      createDate: new Date().toDateString(),
+      alarmMessageType: "CREATE_COMMENT_LIKE",
       hasBeenRead: false
     }
   ]

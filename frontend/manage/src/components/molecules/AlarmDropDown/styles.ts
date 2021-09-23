@@ -43,7 +43,6 @@ export const DropDownContent = styled.div`
   justify-content: center;
   align-items: center;
   cursor: pointer;
-
   transition: all 0.3s linear;
 
   @media (hover: hover) and (pointer: fine) {

@@ -1,5 +1,5 @@
 import * as Sentry from "@sentry/react";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 import { ConditionalRoute } from "./components/HOC/ConditionalRoute";
 import Nav from "./components/organisms/Nav";
@@ -24,29 +24,34 @@ import { Stomp } from "@stomp/stompjs";
 
 const App = () => {
   const { user, isLoading } = useUser();
+  const socketRef = useRef<WebSocket>();
 
   useEffect(() => {
     LoadableHome.preload();
   }, []);
 
   useEffect(() => {
-    if (!user) return;
+    if (!user) {
+      socketRef.current?.close();
 
-    const socket = new SockJS(`${BASE_URL}/websocket`);
-    const stompClient = Stomp.over(socket);
+      return;
+    }
 
-    stompClient.connect(
-      {},
-      () => {
-        console.log("소켓연결 성공");
-        stompClient.subscribe(`/queue/main${user.id}`, payload => {
-          console.log(`관리자 페이지에서 메시지를 받음 => ${payload}`);
-        });
-      },
-      () => {
-        console.error("소켓연결 실패");
-      }
-    );
+    if (!socketRef.current) {
+      socketRef.current = new SockJS(`${BASE_URL}/websocket`);
+
+      const stompClient = Stomp.over(socketRef.current);
+
+      stompClient.connect(
+        {},
+        () => {
+          stompClient.subscribe(`/queue/main${user.id}`, payload => {
+            console.log(`관리자 페이지에서 메시지를 받음 => ${payload.body}`);
+          });
+        },
+        () => console.error("소켓연결 실패")
+      );
+    }
   }, [user]);
 
   return (
