@@ -22,7 +22,8 @@ describe("login/logout test", () => {
           isLoading: false,
           error: undefined,
           refetch: jest.fn(),
-          logout: () => {}
+          logout: () => {},
+          isSuccess: true
         };
       });
 
@@ -143,7 +144,8 @@ describe("login/logout test", () => {
           refetch: () => {},
           logout: () => {
             user = undefined;
-          }
+          },
+          isSuccess: true
         };
       });
 

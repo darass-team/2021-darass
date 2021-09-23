@@ -16,7 +16,7 @@ const ProjectDetail = () => {
   const projectId = Number(match.params.id);
 
   const history = useHistory();
-  const { project } = useGetProject(projectId);
+  const { project, isSuccess: isSuccessGetProject } = useGetProject(projectId);
   const { editProject } = useEditProject();
   const { deleteProject } = useDeleteProject();
   const { value: projectName, setValue: setProjectName, onChange: onChangeProjectName } = useInput("");
@@ -78,7 +78,7 @@ const ProjectDetail = () => {
     }
   }, [project]);
 
-  if (!project) {
+  if (!isSuccessGetProject) {
     return <LoadingPage />;
   }
 
