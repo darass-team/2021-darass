@@ -25,7 +25,8 @@ describe("유저 프로필 페이지 테스트", () => {
   beforeEach(() => {
     (useUser as jest.Mock).mockImplementation(() => {
       return {
-        user: socialLoginUser
+        user: socialLoginUser,
+        isSuccess: true
       };
     });
     (useEditUser as jest.Mock).mockImplementation(() => {

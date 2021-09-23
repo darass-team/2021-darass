@@ -30,7 +30,7 @@ const Manage = () => {
   const match = useRouteMatch<{ id: string }>();
   const location = useLocation();
 
-  const { user: me } = useUser();
+  const { user: me, isSuccess: isSuccessGetUser } = useUser();
 
   const projectId = Number(match.params.id);
   const urlSearchParams = new URLSearchParams(location.search);
@@ -47,7 +47,7 @@ const Manage = () => {
   const startDateAsString = startDate?.format("YYYY-MM-DD") || moment().format("YYYY-MM-DD");
   const endDateAsString = endDate?.format("YYYY-MM-DD") || moment().format("YYYY-MM-DD");
 
-  const { project } = useGetProject(projectId);
+  const { project, isSuccess: isSuccessGetProject } = useGetProject(projectId);
   const projectSecretKey = project?.secretKey;
 
   const { deleteComment } = useDeleteComment({ projectKey: projectSecretKey, page: Number(pageIndex) });
@@ -62,7 +62,8 @@ const Manage = () => {
     totalComment,
     totalPage,
     refetch: getCommentsOfProjectPerPage,
-    prefetch: preGetCommentsOfProjectPerPage
+    prefetch: preGetCommentsOfProjectPerPage,
+    isSuccess: isSuccessGetCommentsOfProjectPerPage
   } = useGetCommentsOfProjectPerPage({
     projectKey: projectSecretKey,
     startDate: startDateAsString,
@@ -130,7 +131,7 @@ const Manage = () => {
     })();
   }, [currentPageIndex, projectSecretKey, totalPage]);
 
-  if (!project || !me || !comments) {
+  if (!isSuccessGetProject || !isSuccessGetUser || !isSuccessGetCommentsOfProjectPerPage) {
     return <LoadingPage />;
   }
 

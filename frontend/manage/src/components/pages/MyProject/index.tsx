@@ -16,7 +16,7 @@ import { AddProjectButton, ButtonWrapper, Container, Message } from "./styles";
 
 const MyProject = () => {
   const history = useHistory();
-  const { projects } = useGetAllProjects();
+  const { projects, isSuccess: isSuccessGetAllProjects } = useGetAllProjects();
 
   const moveScriptPublishingPage = (id: number) => {
     history.push(`/projects/${id}/guide`);
@@ -34,7 +34,7 @@ const MyProject = () => {
     LoadableProjectDetail.preload();
   }, []);
 
-  if (!projects) {
+  if (!isSuccessGetAllProjects) {
     return <LoadingPage />;
   }
 
