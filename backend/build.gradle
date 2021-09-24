@@ -88,6 +88,9 @@ test {
         destinationFile = file("$buildDir/jacoco/jacoco.exec")
     }
     finalizedBy 'jacocoTestReport'
+    testLogging {
+        exceptionFormat = 'full'
+    }
 }
 
 ext {
