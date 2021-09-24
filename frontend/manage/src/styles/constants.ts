@@ -10,7 +10,8 @@ export const Z_INDEX = {
     },
     DESKTOP: {
       USER_AVATAR_WRAPPER: 1,
-      ALARM: 2
+      ALARM_ICON: 2,
+      ALARM_DROPDOWN: 101
     }
   },
   MODAL: 100

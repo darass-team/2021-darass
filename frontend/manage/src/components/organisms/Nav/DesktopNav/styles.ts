@@ -66,7 +66,7 @@ export const Title = styled.span`
 
 export const UserAvatarOptionWrapper = styled.div`
   z-index: ${Z_INDEX.NAV.DESKTOP.USER_AVATAR_WRAPPER};
-  margin-left: 2rem;
+  margin-left: 1.5rem;
 `;
 
 export const LoginMethodWrapper = styled.div`

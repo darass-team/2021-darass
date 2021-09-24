@@ -5,7 +5,7 @@ import { contentBoxCSS } from "@/styles/css";
 
 export const Container = styled.div`
   position: relative;
-  z-index: ${Z_INDEX.NAV.DESKTOP.ALARM};
+  z-index: ${Z_INDEX.NAV.DESKTOP.ALARM_ICON};
   padding-top: 0.2rem;
 `;
 
@@ -19,6 +19,7 @@ export const DropDownContainer = styled.div`
   overflow-y: scroll;
   ${contentBoxCSS}
   padding: 0rem;
+  z-index: ${Z_INDEX.NAV.DESKTOP.ALARM_DROPDOWN};
 `;
 
 export const DropDownHeader = styled.div`
@@ -32,8 +33,7 @@ export const NotificationCount = styled.span`
   font-weight: 700;
 `;
 
-export const DropDownContent = styled.div`
-  padding: 0.5rem 1rem;
+export const DropDownNoContent = styled.div`
   width: 100%;
   height: auto;
   border-top: 1px solid ${PALETTE.GRAY_400};
@@ -42,6 +42,9 @@ export const DropDownContent = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+`;
+
+export const DropDownContent = styled(DropDownNoContent)`
   cursor: pointer;
   transition: all 0.3s linear;
 

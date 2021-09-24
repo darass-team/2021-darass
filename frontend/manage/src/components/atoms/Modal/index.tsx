@@ -12,6 +12,8 @@ export interface Props {
 const Modal = ({ isOpen, closeModal, children, dimmedOpacity = 0.6, blockScroll = true }: Props) => {
   const dimmedRef = useRef(null);
   const onCloseModal = (event: MouseEvent) => {
+    console.log(event.target, dimmedRef.current);
+
     if (event.target !== dimmedRef.current) return;
 
     closeModal();

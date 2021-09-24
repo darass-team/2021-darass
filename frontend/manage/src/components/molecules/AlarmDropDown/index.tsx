@@ -1,4 +1,5 @@
 import Alarm from "@/components/atoms/Alarm";
+import Modal from "@/components/atoms/Modal";
 import { User } from "@/types/user";
 import { getTimeDifference } from "@/utils/time";
 import { useState } from "react";
@@ -8,6 +9,7 @@ import {
   ContentWrapper,
   DropDownContainer,
   DropDownContent,
+  DropDownNoContent,
   DropDownHeader,
   Name,
   Notification,
@@ -45,37 +47,39 @@ const AlarmDropDown = ({ alarmContents }: Props) => {
     <Container>
       <Alarm size="MD" hasUnReadNotification={false} onClick={onClickAlarmIcon} />
       {isOpen && (
-        <DropDownContainer>
-          <DropDownHeader>
-            내 소식 <NotificationCount>{alarmContents.length}</NotificationCount>
-          </DropDownHeader>
-          <>
-            {alarmContents.length > 0 ? (
-              alarmContents.map(({ sender, url, content, createDate, alarmMessageType }) => {
-                return (
-                  <DropDownContent>
-                    <ContentWrapper>
-                      <Notification>
-                        <span>
-                          <Name>{sender}</Name>
-                          <span>{ALARM_MESSAGE_TABLE[alarmMessageType]}</span>
-                        </span>
+        <Modal isOpen={isOpen} blockScroll={false} closeModal={() => setIsOpen(false)} dimmedOpacity={0}>
+          <DropDownContainer>
+            <DropDownHeader>
+              내 소식 <NotificationCount>{alarmContents.length}</NotificationCount>
+            </DropDownHeader>
+            <>
+              {alarmContents.length > 0 ? (
+                alarmContents.map(({ sender, url, content, createDate, alarmMessageType }) => {
+                  return (
+                    <DropDownContent>
+                      <ContentWrapper>
+                        <Notification>
+                          <span>
+                            <Name>{sender}</Name>
+                            <span>{ALARM_MESSAGE_TABLE[alarmMessageType]}</span>
+                          </span>
 
-                        <time>{getTimeDifference(createDate)}</time>
-                      </Notification>
+                          <time>{getTimeDifference(createDate)}</time>
+                        </Notification>
 
-                      <Content>{content}</Content>
+                        <Content>{content}</Content>
 
-                      <Url>{url}</Url>
-                    </ContentWrapper>
-                  </DropDownContent>
-                );
-              })
-            ) : (
-              <DropDownContent>"최근 30일간 받은 알람이 없습니다."</DropDownContent>
-            )}
-          </>
-        </DropDownContainer>
+                        <Url>{url}</Url>
+                      </ContentWrapper>
+                    </DropDownContent>
+                  );
+                })
+              ) : (
+                <DropDownNoContent>"최근 30일간 받은 알람이 없습니다."</DropDownNoContent>
+              )}
+            </>
+          </DropDownContainer>
+        </Modal>
       )}
     </Container>
   );
