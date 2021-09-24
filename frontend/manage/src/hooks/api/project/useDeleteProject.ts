@@ -46,8 +46,10 @@ export const useDeleteProject = () => {
   const isLoading = deleteMutation.isLoading;
   const error = deleteMutation.error;
 
-  const deleteProject = async (id: Project["id"]) => {
-    return await deleteMutation.mutateAsync(id);
+  const deleteProject = (id: Project["id"]) => {
+    if (Number.isNaN(id)) return;
+
+    return deleteMutation.mutateAsync(id);
   };
 
   return { deleteProject, isLoading, error };

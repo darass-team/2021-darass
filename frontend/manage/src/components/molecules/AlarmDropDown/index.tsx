@@ -1,39 +1,11 @@
 import Alarm from "@/components/atoms/Alarm";
 import Modal from "@/components/atoms/Modal";
-import { User } from "@/types/user";
-import { getTimeDifference } from "@/utils/time";
 import { useState } from "react";
-import {
-  Container,
-  Content,
-  ContentWrapper,
-  DropDownContainer,
-  DropDownContent,
-  DropDownNoContent,
-  DropDownHeader,
-  Name,
-  Notification,
-  NotificationCount,
-  Url
-} from "./styles";
-
-interface AlarmContent {
-  sender: User["nickName"];
-  url: string;
-  content: string;
-  createDate: string;
-  alarmMessageType: "CREATE_COMMENT" | "CREATE_SUB_COMMENT" | "CREATE_COMMENT_LIKE";
-  hasBeenRead: boolean;
-}
-
-const ALARM_MESSAGE_TABLE = {
-  CREATE_COMMENT: "님이 댓글을 남겼습니다.",
-  CREATE_SUB_COMMENT: "님이 대댓글을 남겼습니다.",
-  CREATE_COMMENT_LIKE: "님이 좋아요를 누르셨습니다."
-};
+import AlarmContent, { AlarmContentType } from "../AlarmContent";
+import { Container, DropDownContainer } from "./styles";
 
 export interface Props {
-  alarmContents: AlarmContent[];
+  alarmContents: AlarmContentType[];
 }
 
 const AlarmDropDown = ({ alarmContents }: Props) => {
@@ -49,35 +21,7 @@ const AlarmDropDown = ({ alarmContents }: Props) => {
       {isOpen && (
         <Modal isOpen={isOpen} blockScroll={false} closeModal={() => setIsOpen(false)} dimmedOpacity={0}>
           <DropDownContainer>
-            <DropDownHeader>
-              내 소식 <NotificationCount>{alarmContents.length}</NotificationCount>
-            </DropDownHeader>
-            <>
-              {alarmContents.length > 0 ? (
-                alarmContents.map(({ sender, url, content, createDate, alarmMessageType }) => {
-                  return (
-                    <DropDownContent>
-                      <ContentWrapper>
-                        <Notification>
-                          <span>
-                            <Name>{sender}</Name>
-                            <span>{ALARM_MESSAGE_TABLE[alarmMessageType]}</span>
-                          </span>
-
-                          <time>{getTimeDifference(createDate)}</time>
-                        </Notification>
-
-                        <Content>{content}</Content>
-
-                        <Url>{url}</Url>
-                      </ContentWrapper>
-                    </DropDownContent>
-                  );
-                })
-              ) : (
-                <DropDownNoContent>"최근 30일간 받은 알람이 없습니다."</DropDownNoContent>
-              )}
-            </>
+            <AlarmContent alarmContents={alarmContents} />
           </DropDownContainer>
         </Modal>
       )}

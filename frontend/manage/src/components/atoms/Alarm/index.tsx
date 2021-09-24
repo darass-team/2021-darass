@@ -1,5 +1,6 @@
 import alarm from "@/assets/png/alarm.png";
-import { Container, Count, Img } from "./styles";
+import { ReactNode } from "react";
+import { Container, Dot, Img } from "./styles";
 
 export type Size = "SM" | "MD" | "LG";
 
@@ -13,7 +14,7 @@ const Alarm = ({ hasUnReadNotification = false, size = "SM", onClick, ...props }
   return (
     <Container size={size} onClick={onClick} {...props}>
       <Img src={alarm} alt="notification" />
-      {hasUnReadNotification && <Count />}
+      {hasUnReadNotification && <Dot />}
     </Container>
   );
 };

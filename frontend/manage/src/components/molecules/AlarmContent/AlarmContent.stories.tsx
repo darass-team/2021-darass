@@ -1,14 +1,14 @@
 import { alarmContents } from "@/__test__/fixture/alarmContent";
 import { Story } from "@storybook/react";
-import AlarmDropDown, { Props } from ".";
+import AlarmContent, { Props } from ".";
 
 export default {
-  title: "molecules/AlarmDropDown",
-  component: AlarmDropDown,
+  title: "molecules/AlarmContent",
+  component: AlarmContent,
   argTypes: { children: { control: "text" } }
 };
 
-const Template: Story<Props> = args => <AlarmDropDown {...args} />;
+const Template: Story<Props> = args => <AlarmContent {...args} />;
 
 export const Default = Template.bind({});
 

@@ -11,6 +11,7 @@ export const ROUTE = {
   AUTHORIZED: {
     USER_PROFILE: "/user",
     MY_PROJECT: "/projects",
+    NOTIFICATION: "/notification",
     get NEW_PROJECT() {
       return `${this.MY_PROJECT}/new`;
     },
@@ -25,9 +26,6 @@ export const ROUTE = {
     },
     get STATISTICS() {
       return `${this.PROJECT_DETAIL}/statistics`;
-    },
-    get NOTIFICATION() {
-      return `${this.PROJECT_DETAIL}/notification`;
     }
   }
 } as const;

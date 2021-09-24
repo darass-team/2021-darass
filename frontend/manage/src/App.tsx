@@ -30,11 +30,11 @@ const nonAuthorizedRoute = [
 
 const authorizedRoute = [
   { path: ROUTE.AUTHORIZED.USER_PROFILE, component: LoadableUserProfile },
+  { path: ROUTE.AUTHORIZED.NOTIFICATION, component: LoadableNotification },
   { path: ROUTE.AUTHORIZED.SCRIPT_PUBLISHING, component: LoadableScriptPublishing },
   { path: ROUTE.AUTHORIZED.NEW_PROJECT, component: LoadableNewProject },
   { path: ROUTE.AUTHORIZED.PROJECT_MANAGE, component: LoadableManage },
   { path: ROUTE.AUTHORIZED.STATISTICS, component: LoadableStatistics },
-  { path: ROUTE.AUTHORIZED.NOTIFICATION, component: LoadableNotification },
   { path: ROUTE.AUTHORIZED.PROJECT_DETAIL, component: LoadableProjectDetail },
   { path: ROUTE.AUTHORIZED.MY_PROJECT, component: LoadableMyProject }
 ];

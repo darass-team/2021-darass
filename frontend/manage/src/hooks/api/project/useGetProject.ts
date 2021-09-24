@@ -41,7 +41,7 @@ export const useGetProject = (id: Project["id"]) => {
     isLoading,
     error
   } = useQuery<Project, Error>([REACT_QUERY_KEY.PROJECT, id], () => getProject(id), {
-    enabled: !!accessToken
+    enabled: !!accessToken && !Number.isNaN(id)
   });
 
   return { project, isLoading, error };

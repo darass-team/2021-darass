@@ -9,6 +9,7 @@ import { OAUTH_URL } from "@/constants/oauth";
 import { useUser } from "@/hooks";
 import { PALETTE } from "@/styles/palette";
 import { MenuType } from "@/types/menu";
+import { alarmContents } from "@/__test__/fixture/alarmContent";
 import { Link } from "react-router-dom";
 import {
   Container,
@@ -54,7 +55,7 @@ const DesktopNav = ({ menuList }: Props) => {
         </Menu>
 
         <UserInfoWrapper>
-          {user && <AlarmDropDown alarmContents={[]} />}
+          {user && <AlarmDropDown alarmContents={alarmContents} />}
 
           <UserAvatarOptionWrapper>
             <UserAvatarOption user={user}>

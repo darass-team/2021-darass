@@ -4,7 +4,6 @@ export const PROJECT_MENU = {
   getByProjectId: (projectId: number) => {
     const menus: MenuType[] = [
       { name: "프로젝트 정보", route: `/projects/${projectId}` },
-      { name: "알림", route: `/projects/${projectId}/notification` },
       {
         name: "통계",
         route: `/projects/${projectId}/statistics`

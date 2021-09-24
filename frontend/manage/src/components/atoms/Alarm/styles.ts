@@ -29,7 +29,7 @@ export const Img = styled.img`
   object-fit: contain;
 `;
 
-export const Count = styled.span`
+export const Dot = styled.span`
   position: absolute;
   top: 0;
   right: 0;
