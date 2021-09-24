@@ -9,3 +9,4 @@ export const LoadableManage = loadable(() => import("../Manage"), { fallback: <L
 export const LoadableUserProfile = loadable(() => import("../UserProfile"), { fallback: <LoadingPage /> });
 export const LoadableNewProject = loadable(() => import("../NewProject"), { fallback: <LoadingPage /> });
 export const LoadableProjectDetail = loadable(() => import("../ProjectDetail"), { fallback: <LoadingPage /> });
+export const LoadableNotification = loadable(() => import("../Notification"), { fallback: <LoadingPage /> });

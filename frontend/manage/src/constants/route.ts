@@ -18,13 +18,16 @@ export const ROUTE = {
       return `${this.MY_PROJECT}/:id`;
     },
     get SCRIPT_PUBLISHING() {
-      return `${this.MY_PROJECT}/:id/guide`;
+      return `${this.PROJECT_DETAIL}/guide`;
     },
     get PROJECT_MANAGE() {
-      return `${this.MY_PROJECT}/:id/manage`;
+      return `${this.PROJECT_DETAIL}/manage`;
     },
     get STATISTICS() {
-      return `${this.MY_PROJECT}/:id/statistics`;
+      return `${this.PROJECT_DETAIL}/statistics`;
+    },
+    get NOTIFICATION() {
+      return `${this.PROJECT_DETAIL}/notification`;
     }
   }
 } as const;

@@ -7,6 +7,7 @@ import { useHistory } from "react-router-dom";
 import {
   LoadableManage,
   LoadableNewProject,
+  LoadableNotification,
   LoadableProjectDetail,
   LoadableScriptPublishing,
   LoadableStatistics
@@ -32,6 +33,7 @@ const MyProject = () => {
     LoadableStatistics.preload();
     LoadableManage.preload();
     LoadableProjectDetail.preload();
+    LoadableNotification.preload();
   }, []);
 
   if (!projects) {
