@@ -115,13 +115,13 @@ const Comment = ({
       const onMessageDeleteComment = ({ data }: MessageEvent) => {
         if (data.type === POST_MESSAGE_TYPE.CONFIRM_NO || data.type === POST_MESSAGE_TYPE.MODAL.CLOSE.CONFIRM) {
           resolve("no");
+          window.removeEventListener("message", onMessageDeleteComment);
         }
 
         if (data.type === POST_MESSAGE_TYPE.CONFIRM_OK) {
           resolve("yes");
+          window.removeEventListener("message", onMessageDeleteComment);
         }
-
-        window.removeEventListener("message", onMessageDeleteComment);
       };
 
       window.addEventListener("message", onMessageDeleteComment);

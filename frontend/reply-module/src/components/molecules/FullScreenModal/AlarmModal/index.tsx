@@ -17,8 +17,6 @@ const AlarmModal = () => {
   useEffect(() => {
     const onMessageAlarmModal = ({ data }: MessageEvent) => {
       if (data.type !== POST_MESSAGE_TYPE.MODAL.OPEN.ALARM) {
-        setIsOpen(false);
-
         return;
       }
 

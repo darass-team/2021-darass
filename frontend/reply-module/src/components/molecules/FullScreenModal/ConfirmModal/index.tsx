@@ -12,11 +12,14 @@ const ConfirmModal = () => {
     postCloseConfirm();
   };
 
+  const onClickConfirmNo = () => {
+    postConfirmNo();
+    setIsOpen(false);
+  };
+
   useEffect(() => {
     const onMessageConfirmModal = ({ data }: MessageEvent) => {
       if (data.type !== POST_MESSAGE_TYPE.MODAL.OPEN.CONFIRM) {
-        setIsOpen(false);
-
         return;
       }
 
@@ -37,7 +40,7 @@ const ConfirmModal = () => {
           <ConfirmButton type="button" onClick={postConfirmOK}>
             예
           </ConfirmButton>
-          <CancelButton type="button" onClick={postConfirmNo}>
+          <CancelButton type="button" onClick={onClickConfirmNo}>
             아니요
           </CancelButton>
         </ButtonWrapper>

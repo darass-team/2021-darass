@@ -18,8 +18,6 @@ const LikingUsersModal = () => {
   useEffect(() => {
     const onMessageLikingUserModal = ({ data }: MessageEvent) => {
       if (data.type !== POST_MESSAGE_TYPE.MODAL.OPEN.LIKING_USERS_MODAL) {
-        setIsOpen(false);
-
         return;
       }
 
