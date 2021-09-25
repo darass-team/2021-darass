@@ -46,7 +46,7 @@
 - **CI/CD** : Github Actions, Jenkins
 
 ## 🔨 Front-End Architecture
-![아키텍처](https://user-images.githubusercontent.com/42544600/134764855-e758065c-c015-495a-9ca3-0f179c3cb00e.png)
+![아키텍처](https://user-images.githubusercontent.com/42544600/134764981-617e61d1-fdf9-470a-80ae-26ffef230949.png)
 
 ## 🔨 Back-End Architecture
 
