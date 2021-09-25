@@ -10,6 +10,7 @@ import com.darass.darass.user.dto.UserResponse;
 import com.darass.darass.user.dto.UserUpdateRequest;
 import com.darass.darass.user.infrastructure.S3Uploader;
 import com.darass.darass.user.repository.UserRepository;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -59,6 +60,8 @@ public class UserService {
     }
 
     public void test() {
+        List<User> all = userRepository.findAll();
+        System.out.println(all.size());
         for (int i = 0; i < 1000000; i++) {
             User user = GuestUser.builder()
                 .nickName("aa")
