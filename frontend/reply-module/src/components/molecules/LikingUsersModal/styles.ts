@@ -1,7 +1,16 @@
+import { absoluteCenter, contentBoxCSS } from "@/constants/styles/css";
 import styled from "styled-components";
 import { PALETTE } from "../../../constants/styles/palette";
 
-export const Container = styled.div``;
+export const Container = styled.div`
+  ${contentBoxCSS}
+  ${absoluteCenter}
+  width: 22rem;
+  height: 22rem;
+  max-height: 22rem;
+  overflow-x: hidden;
+  overflow-y: scroll;
+`;
 
 export const Title = styled.h3`
   padding-bottom: 0.8rem;

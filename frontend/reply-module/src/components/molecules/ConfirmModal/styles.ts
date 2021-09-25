@@ -1,3 +1,4 @@
+import { absoluteCenter, contentBoxCSS } from "@/constants/styles/css";
 import styled from "styled-components";
 import { PALETTE } from "../../../constants/styles/palette";
 import ModalComponent from "../../atoms/Modal";
@@ -7,8 +8,11 @@ export const Modal = styled(ModalComponent)`
 `;
 
 export const Container = styled.div`
-  display: flex;
-  flex-direction: column;
+  ${contentBoxCSS}
+  ${absoluteCenter}
+  padding: 0;
+  width: 20rem;
+  height: fit-content;
 `;
 
 export const Message = styled.span`

@@ -21,6 +21,8 @@
   },
   "scripts": {
     "build": "cross-env BUILD_MODE=development webpack",
-    "build:production": "cross-env BUILD_MODE=production webpack"
+    "build:localhost": "cross-env BUILD_MODE=localhost webpack",
+    "build:production": "cross-env BUILD_MODE=production webpack",
+    "test": "yarn build:localhost && npx kill-port 5500 && live-server ./ --port=5500"
   }
 }

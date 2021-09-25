@@ -31,5 +31,5 @@ module.exports = {
     extensions: [".jsx", ".js"]
   },
   devtool: "source-map",
-  mode: process.env.BUILD_MODE
+  mode: process.env.BUILD_MODE === "development" ? "development" : "production"
 };

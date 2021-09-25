@@ -1,7 +1,14 @@
+const LOCALHOST_END_POINT = "https://localhost:3000";
 const DEVELOP_END_POINT = "https://dev-reply-module.darass.co.kr";
 const PRODUCTION_END_POINT = "https://reply-module.darass.co.kr";
 
-export const END_POINT = process.env.BUILD_MODE === "development" ? DEVELOP_END_POINT : PRODUCTION_END_POINT;
+const END_POINT_TABLE = {
+  localhost: LOCALHOST_END_POINT,
+  development: DEVELOP_END_POINT,
+  production: PRODUCTION_END_POINT
+};
+
+export const END_POINT = END_POINT_TABLE[process.env.BUILD_MODE];
 
 export const POST_MESSAGE_TYPE = {
   CLICK: "click",
