@@ -1,5 +1,6 @@
 package com.darass.darass.user.service;
 
+import com.darass.darass.comment.repository.CommentRepository;
 import com.darass.darass.exception.ExceptionWithMessageAndCode;
 import com.darass.darass.user.domain.GuestUser;
 import com.darass.darass.user.domain.SocialLoginUser;
@@ -24,6 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class UserService {
     private static final int MAX_FILE_SIZE = 5000000; // 5MB
     private final UserRepository userRepository;
+    private final CommentRepository commentRepository;
     private final S3Uploader s3Uploader;
 
     public UserResponse findById(Long id) {
@@ -60,9 +62,9 @@ public class UserService {
     }
 
     public void test() {
-        List<User> all = userRepository.findAll();
-        System.out.println(all.size());
-        for (int i = 0; i < 10; i++) {
+//        List<User> all = userRepository.findAll();
+//        System.out.println(all.size());
+        for (int i = 0; i < 10000; i++) {
             User user = GuestUser.builder()
                 .nickName("aa")
                 .password("aa")
