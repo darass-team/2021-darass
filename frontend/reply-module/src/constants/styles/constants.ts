@@ -4,3 +4,4 @@ export const Z_INDEX = {
 };
 
 export const LINE_HEIGHT_SCALE = 1.5;
+export const CLOSE_MODAL_ANIMATION_FINISH_TIME = 300;

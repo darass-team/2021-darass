@@ -1,9 +1,13 @@
+import { CLOSE_MODAL_ANIMATION_FINISH_TIME } from "@/constants/common";
+
 export const hideElement = (element: HTMLElement) => {
-  element.style.visibility = "collapse";
+  setTimeout(() => {
+    element.style.transform = "translateY(-100%)";
+  }, CLOSE_MODAL_ANIMATION_FINISH_TIME);
 };
 
 export const showElement = (element: HTMLElement) => {
-  element.style.visibility = "visible";
+  element.style.transform = "translateY(0%)";
 };
 
 export const disableScroll = () => {

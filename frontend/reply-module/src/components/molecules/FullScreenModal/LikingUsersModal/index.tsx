@@ -7,10 +7,11 @@ import Modal from "../../../atoms/Modal";
 import { Container, Title, UserNickName, UserGrid, UserWrapper } from "./styles";
 
 const LikingUsersModal = () => {
-  const [users, setUsers] = useState<User[] | null>(null);
+  const [users, setUsers] = useState<User[]>([]);
+  const [isOpen, setIsOpen] = useState(false);
 
   const onCloseModal = () => {
-    setUsers(null);
+    setIsOpen(false);
     postCloseLikingUsersModal();
   };
 
@@ -26,17 +27,22 @@ const LikingUsersModal = () => {
     return () => window.removeEventListener("message", onMessageLikingUserModal);
   }, []);
 
+  useEffect(() => {
+    setIsOpen(users.length > 0);
+  }, [users]);
+
   return (
-    <Modal isOpen={!!users} closeModal={onCloseModal} fadeInFrom="center">
+    <Modal isOpen={isOpen} closeModal={onCloseModal} fadeInFrom="center">
       <Container>
         <Title>👍 좋아요 누른 사람들</Title>
         <UserGrid>
-          {users?.map(user => (
-            <UserWrapper key={user.id}>
-              <Avatar size="SM" imageURL={user.profileImageUrl} alt={user.nickName} key={user.id}></Avatar>
-              <UserNickName>{user.nickName}</UserNickName>
-            </UserWrapper>
-          ))}
+          {users.length > 0 &&
+            users.map(user => (
+              <UserWrapper key={user.id}>
+                <Avatar size="SM" imageURL={user.profileImageUrl} alt={user.nickName} key={user.id}></Avatar>
+                <UserNickName>{user.nickName}</UserNickName>
+              </UserWrapper>
+            ))}
         </UserGrid>
       </Container>
     </Modal>

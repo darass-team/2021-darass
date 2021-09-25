@@ -1,7 +1,7 @@
 import { MouseEvent, ReactNode, useEffect, useRef } from "react";
 import { Dimmed, Container } from "./styles";
 
-export type FadeInDirection = "back" | "center" | "top" | "bottom" | "left" | "right";
+export type FadeInDirection = "back" | "center" | "top" | "bottom" | "left" | "right" | "none";
 
 export interface Props {
   isOpen: boolean;

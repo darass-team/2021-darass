@@ -6,10 +6,11 @@ import AlarmContent, { AlarmContentType } from "../../AlarmContent";
 import { Container, AlarmContainer } from "./styles";
 
 const AlarmModal = () => {
-  const [alarmContents, setAlarmContents] = useState<AlarmContentType[] | null>(null);
+  const [alarmContents, setAlarmContents] = useState<AlarmContentType[]>([]);
+  const [isOpen, setIsOpen] = useState(false);
 
   const onCloseModal = () => {
-    setAlarmContents(null);
+    setIsOpen(false);
     postCloseAlarm();
   };
 
@@ -25,11 +26,15 @@ const AlarmModal = () => {
     return () => window.removeEventListener("message", onMessageAlarmModal);
   }, []);
 
+  useEffect(() => {
+    setIsOpen(alarmContents.length > 0);
+  }, [alarmContents]);
+
   return (
-    <Modal isOpen={!!alarmContents} closeModal={onCloseModal}>
-      <Container>
+    <Modal isOpen={isOpen} closeModal={onCloseModal} fadeInFrom="none">
+      <Container isOpen={isOpen}>
         <AlarmContainer>
-          <AlarmContent alarmContents={alarmContents || []} />
+          <AlarmContent alarmContents={alarmContents} />
         </AlarmContainer>
       </Container>
     </Modal>

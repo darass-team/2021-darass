@@ -4,10 +4,11 @@ import { postCloseConfirm, postConfirmNo, postConfirmOK } from "../../../../util
 import { ButtonWrapper, CancelButton, ConfirmButton, Container, Message, Modal } from "./styles";
 
 const ConfirmModal = () => {
-  const [text, setText] = useState<string | null>(null);
+  const [text, setText] = useState<string>("");
+  const [isOpen, setIsOpen] = useState(false);
 
   const onCloseModal = () => {
-    setText(null);
+    setIsOpen(false);
     postCloseConfirm();
   };
 
@@ -23,8 +24,12 @@ const ConfirmModal = () => {
     return () => window.removeEventListener("message", onMessageConfirmModal);
   }, []);
 
+  useEffect(() => {
+    setIsOpen(text.length > 0);
+  }, [text]);
+
   return (
-    <Modal isOpen={!!text} closeModal={onCloseModal} fadeInFrom="center">
+    <Modal isOpen={isOpen} closeModal={onCloseModal} fadeInFrom="center">
       <Container>
         <Message>{text}</Message>
         <ButtonWrapper>

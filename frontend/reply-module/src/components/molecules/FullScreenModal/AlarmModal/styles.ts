@@ -1,15 +1,14 @@
 import { contentBoxCSS, fadeInDirectionCSS } from "@/constants/styles/css";
 import styled from "styled-components";
 
-export const Container = styled.div`
+export const Container = styled.div<{ isOpen: boolean }>`
   padding-top: 0.2rem;
-  transition: all 0.4s ease-in-out;
 
   @media all and (max-width: 780px) {
-    ${fadeInDirectionCSS["bottom"](true)}
+    ${({ isOpen }) => fadeInDirectionCSS["bottom"](isOpen)};
   }
   @media all and (min-width: 780px) {
-    ${fadeInDirectionCSS["right"](true)}
+    ${({ isOpen }) => fadeInDirectionCSS["right"](isOpen)};
   }
 `;
 

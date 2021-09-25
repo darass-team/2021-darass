@@ -87,28 +87,28 @@ export const fadeInDirectionCSS: { [key in FadeInDirection]: (on: boolean) => Fl
       top: 0;
       bottom: 0;
       left: 0;
-      transform: ${on ? "translateX(0)" : "translateX(-100%)"};
+      transform: ${on ? "translateX(0%)" : "translateX(-100%)"};
     `,
   right: (on: boolean) =>
     css`
       top: 0;
       bottom: 0;
       right: 0;
-      transform: ${on ? "translateX(0)" : "translateX(100%)"};
+      transform: ${on ? "translateX(0%)" : "translateX(100%)"};
     `,
   top: (on: boolean) =>
     css`
       right: 0;
       left: 0;
       top: 0;
-      transform: ${on ? "translateY(0)" : "translateY(-100%)"};
+      transform: ${on ? "translateY(0%)" : "translateY(-100%)"};
     `,
   bottom: (on: boolean) =>
     css`
       right: 0;
       left: 0;
       bottom: 0;
-      transform: ${on ? "translateY(0)" : "translateY(100%)"};
+      transform: ${on ? "translateY(0%)" : "translateY(100%)"};
     `,
   center: (on: boolean) => css`
     left: 50%;
@@ -118,5 +118,6 @@ export const fadeInDirectionCSS: { [key in FadeInDirection]: (on: boolean) => Fl
   `,
   back: (on: boolean) => css`
     visibility: ${on ? "visible" : "collapse"};
-  `
+  `,
+  none: (on: boolean) => css``
 };
