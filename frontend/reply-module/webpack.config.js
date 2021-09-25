@@ -6,7 +6,7 @@ const { DefinePlugin } = require("webpack");
 const Package = require("./package.json");
 
 const config = {
-  entry: { replyModule: "./src/index.tsx", modal: "./src/Modal.tsx" },
+  entry: { replyModule: "./src/index.tsx", modal: "./src/ReplyModal.tsx" },
   output: {
     path: path.resolve(__dirname, "dist"),
     filename: `[name]-${Package.version.replace("^", "")}.js`,

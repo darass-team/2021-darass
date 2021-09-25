@@ -25,11 +25,9 @@ export const Wrapper = styled.div`
   margin-bottom: 1rem;
 `;
 
-export const Calendar = styled(CalendarComponent)<{ isOpen: boolean }>`
-  position: absolute;
-  top: 4rem;
-  left: 5.5rem;
-  ${({ isOpen }) => !isOpen && "visibility: hidden;"};
+export const Calendar = styled(CalendarComponent)`
+  top: 2rem;
+  left: -11rem;
 `;
 
 export const Meta = styled.span`

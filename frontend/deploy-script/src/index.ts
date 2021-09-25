@@ -5,14 +5,14 @@ import { getModalUrl, getReplyModuleURL } from "./utils/getURL";
 import { postMessageToIframe } from "./utils/postMessage";
 
 const bindEvent = ($replyModuleIframe: HTMLIFrameElement, $modalIframe: HTMLIFrameElement) => {
-  const onMessageReplyModule = (type: string, data: string) => {
+  const onMessageToReplyModule = (type: string, data: string) => {
     if (type === POST_MESSAGE_TYPE.SCROLL_HEIGHT) {
       resizeElementHeight($replyModuleIframe, data);
 
       return;
     }
 
-    const closeCommand = Object.keys(POST_MESSAGE_TYPE.MODAL.CLOSE).find(iframeName => type === iframeName);
+    const closeCommand = Object.values(POST_MESSAGE_TYPE.MODAL.CLOSE).find(command => type === command);
     if (closeCommand) {
       postMessageToIframe({ iframe: $replyModuleIframe, message: { type: closeCommand } });
       hideElement($modalIframe);
@@ -35,7 +35,7 @@ const bindEvent = ($replyModuleIframe: HTMLIFrameElement, $modalIframe: HTMLIFra
     }
   };
 
-  const onMessageModal = (type: string, data: string) => {
+  const onMessageToModal = (type: string, data: any) => {
     if (type === POST_MESSAGE_TYPE.MODAL.OPEN.LIKING_USERS_MODAL) {
       postMessageToIframe({
         iframe: $modalIframe,
@@ -70,8 +70,8 @@ const bindEvent = ($replyModuleIframe: HTMLIFrameElement, $modalIframe: HTMLIFra
       return;
     }
 
-    onMessageReplyModule(type, data);
-    onMessageModal(type, data);
+    onMessageToReplyModule(type, data);
+    onMessageToModal(type, data);
   });
 };
 

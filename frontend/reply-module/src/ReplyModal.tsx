@@ -14,7 +14,7 @@ const isValidMessageType = (type: string) =>
     POST_MESSAGE_TYPE.MODAL.OPEN.ALARM
   ].some(_type => _type === type);
 
-const Modal = () => {
+const ReplyModal = () => {
   const [data, setData] = useState<{ type: string; data: any }>();
 
   useEffect(() => {
@@ -25,6 +25,7 @@ const Modal = () => {
     });
   }, []);
 
+  // 풀어야함
   if (data?.type === POST_MESSAGE_TYPE.MODAL.OPEN.LIKING_USERS_MODAL)
     return <LikingUsersModal users={data.data as User[]} />;
   if (data?.type === POST_MESSAGE_TYPE.MODAL.OPEN.CONFIRM) return <ConfirmModal message={data.data as string} />;
@@ -36,7 +37,7 @@ const Modal = () => {
 ReactDOM.render(
   <>
     <GlobalStyles />
-    <Modal />
+    <ReplyModal />
   </>,
   document.getElementById("root")
 );

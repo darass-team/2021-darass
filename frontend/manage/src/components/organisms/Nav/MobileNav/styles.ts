@@ -10,22 +10,16 @@ export const Container = styled.nav`
   }
 `;
 
-export const MenuWrapper = styled.nav<{ isOpen: boolean }>`
+export const MenuWrapper = styled.nav`
   width: 70%;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  position: absolute;
-  z-index: 1;
-
   background: ${PALETTE.PRIMARY};
-  height: 100%;
   text-align: left;
   padding: 10rem 2rem;
-  top: 0;
-  left: 0;
-  transform: ${({ isOpen }) => (isOpen ? "translateX(0)" : "translateX(-100%)")};
   transition: transform 0.4s ease-in-out;
 `;
 

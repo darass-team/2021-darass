@@ -62,9 +62,7 @@ export const DateRange = styled.span`
   margin-left: 1rem;
 `;
 
-export const Calendar = styled(CalendarComponent)<{ isOpen: boolean }>`
-  position: absolute;
-  top: 5rem;
-  left: 6.5rem;
-  ${({ isOpen }) => !isOpen && "visibility: hidden;"};
+export const Calendar = styled(CalendarComponent)`
+  top: 2rem;
+  left: -11rem;
 `;

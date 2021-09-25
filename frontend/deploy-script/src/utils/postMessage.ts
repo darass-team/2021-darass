@@ -1,6 +1,6 @@
 interface IFrameMessageProps {
   iframe: HTMLIFrameElement;
-  message: { type: string; data?: string };
+  message: Partial<MessageEvent>;
 }
 
 export const postMessageToIframe = ({ iframe, message }: IFrameMessageProps) => {

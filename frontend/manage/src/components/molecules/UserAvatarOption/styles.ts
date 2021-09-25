@@ -21,9 +21,8 @@ export const UserNickName = styled.button`
 `;
 
 export const UserOption = styled(UserOptionComponent)`
-  position: absolute;
-  right: 7px;
-  top: 50px;
+  right: 0;
+  top: 2rem;
 `;
 
 export const DownArrow = styled.img<{ isShowOptionBox: boolean }>`

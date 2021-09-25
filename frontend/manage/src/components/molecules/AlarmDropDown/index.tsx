@@ -18,13 +18,12 @@ const AlarmDropDown = ({ alarmContents }: Props) => {
   return (
     <Container>
       <Alarm size="MD" hasUnReadNotification={false} onClick={onClickAlarmIcon} />
-      {isOpen && (
-        <Modal isOpen={isOpen} blockScroll={false} closeModal={() => setIsOpen(false)} dimmedOpacity={0}>
-          <DropDownContainer>
-            <AlarmContent alarmContents={alarmContents} />
-          </DropDownContainer>
-        </Modal>
-      )}
+
+      <Modal isOpen={isOpen} blockScroll={false} closeModal={() => setIsOpen(false)} dimmedOpacity={0}>
+        <DropDownContainer>
+          <AlarmContent alarmContents={alarmContents} />
+        </DropDownContainer>
+      </Modal>
     </Container>
   );
 };

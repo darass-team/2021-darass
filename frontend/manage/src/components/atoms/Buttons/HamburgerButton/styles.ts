@@ -14,7 +14,7 @@ const Container = styled.button<{ isOpen: boolean }>`
   border: none;
   cursor: pointer;
   padding: 0;
-  z-index: 2;
+  z-index: ${({ isOpen }) => (isOpen ? 3 : 1)};
 
   div {
     width: 3rem;

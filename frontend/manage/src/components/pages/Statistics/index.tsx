@@ -110,7 +110,6 @@ const Statistics = () => {
                   dimmedOpacity={0}
                 >
                   <Calendar
-                    isOpen={showCalendar}
                     date={currentDate}
                     setDate={setCurrentDate}
                     startDate={startDate}

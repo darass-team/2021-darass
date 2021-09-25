@@ -112,17 +112,21 @@ const Comment = ({
     const confirmResult = await new Promise(resolve => {
       postOpenConfirm("정말 지우시겠습니까?");
 
-      window.addEventListener("message", ({ data }: MessageEvent) => {
+      const onMessageDeleteComment = ({ data }: MessageEvent) => {
+        console.log(data.type);
+
         if (data.type === POST_MESSAGE_TYPE.CONFIRM_NO || data.type === POST_MESSAGE_TYPE.MODAL.CLOSE.CONFIRM) {
           resolve("no");
-
-          return;
         }
 
         if (data.type === POST_MESSAGE_TYPE.CONFIRM_OK) {
           resolve("yes");
         }
-      });
+
+        window.removeEventListener("message", onMessageDeleteComment);
+      };
+
+      window.addEventListener("message", onMessageDeleteComment);
     });
 
     if (confirmResult === "no") {

@@ -1,29 +1,41 @@
 import { POST_MESSAGE_TYPE } from "../constants/postMessageType";
 import { Comment } from "../types";
 
+export const postToDeployScript = (message: Partial<MessageEvent>) => {
+  window.parent?.postMessage(message, "*");
+};
+
 export const postScrollHeightToParentWindow = () => {
-  window.parent.postMessage(
-    { type: POST_MESSAGE_TYPE.SCROLL_HEIGHT, data: document.querySelector("#root")?.scrollHeight },
-    "*"
-  );
+  postToDeployScript({
+    type: POST_MESSAGE_TYPE.SCROLL_HEIGHT,
+    data: document.querySelector("#root")?.scrollHeight
+  });
 };
 
 export const postOpenLikingUsersModal = (likingUsers: Comment["likingUsers"]) => {
-  window.parent.postMessage({ type: POST_MESSAGE_TYPE.MODAL.OPEN.LIKING_USERS_MODAL, data: likingUsers }, "*");
+  postToDeployScript({ type: POST_MESSAGE_TYPE.MODAL.OPEN.LIKING_USERS_MODAL, data: likingUsers });
 };
 
 export const postAlertMessage = (message: string) => {
-  window.parent.postMessage({ type: POST_MESSAGE_TYPE.ALERT, data: message }, "*");
+  postToDeployScript({ type: POST_MESSAGE_TYPE.ALERT, data: message });
 };
 
 export const postOpenConfirm = (message: string) => {
-  window.parent.postMessage({ type: POST_MESSAGE_TYPE.MODAL.OPEN.CONFIRM, data: message }, "*");
+  postToDeployScript({ type: POST_MESSAGE_TYPE.MODAL.OPEN.CONFIRM, data: message });
 };
 
 export const postCloseConfirm = () => {
-  window.parent.postMessage({ type: POST_MESSAGE_TYPE.CONFIRM_NO }, "*");
+  postToDeployScript({ type: POST_MESSAGE_TYPE.MODAL.CLOSE.CONFIRM });
+};
+
+export const postConfirmNo = () => {
+  postToDeployScript({ type: POST_MESSAGE_TYPE.CONFIRM_NO });
 };
 
 export const postConfirmOK = () => {
-  window.parent.postMessage({ type: POST_MESSAGE_TYPE.CONFIRM_OK }, "*");
+  postToDeployScript({ type: POST_MESSAGE_TYPE.CONFIRM_OK });
+};
+
+export const postCloseLikingUsersModal = () => {
+  postToDeployScript({ type: POST_MESSAGE_TYPE.MODAL.CLOSE.LIKING_USERS_MODAL });
 };

@@ -1,3 +1,4 @@
+import { postCloseLikingUsersModal } from "@/utils/postMessage";
 import { MouseEvent, ReactNode, useEffect, useRef } from "react";
 import { Dimmed } from "./styles";
 
@@ -14,13 +15,20 @@ const Modal = ({ isOpen, closeModal, children, dimmedOpacity = 0.6, blockScroll 
   const onCloseModal = (event: MouseEvent) => {
     if (event.target !== dimmedRef.current) return;
 
-    window.parent.postMessage({ type: "closeModal" }, "*");
     closeModal();
   };
 
   useEffect(() => {
     if (blockScroll) document.body.style.setProperty("overflow", isOpen ? "hidden" : "revert");
   }, [isOpen]);
+
+  useEffect(() => {
+    const onMessage = (event: MessageEvent) => {};
+
+    window.addEventListener("message", onMessage);
+
+    return () => window.removeEventListener("message", onMessage);
+  }, []);
 
   return (
     <>
