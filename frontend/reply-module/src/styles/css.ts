@@ -1,6 +1,15 @@
 import { css } from "styled-components";
 import { PALETTE } from "./palette";
 
+export const contentBoxCSS = css`
+  display: flex;
+  flex-direction: column;
+  padding: 2rem 2rem;
+  background-color: ${PALETTE.WHITE};
+  border-radius: 20px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0 3px 8px;
+`;
+
 export const InputCSS = css`
   box-sizing: border-box;
   border: 1px solid ${PALETTE.GRAY_500};

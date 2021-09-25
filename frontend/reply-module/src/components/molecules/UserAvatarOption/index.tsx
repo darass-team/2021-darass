@@ -1,6 +1,7 @@
 import { MouseEvent, ReactNode, useEffect, useRef, useState } from "react";
 import { User } from "../../../types/user";
 import Avatar from "../../atoms/Avatar";
+import AlarmDropDown from "../AlarmDropDown";
 import { Container, UserNickName, UserOption } from "./styles";
 
 export interface Props {
@@ -11,8 +12,7 @@ export interface Props {
 
 const UserAvatarOption = ({ user, children, className }: Props) => {
   const [isShowOptionBox, setShowOptionBox] = useState(false);
-  const ref = useRef(false);
-  ref.current = isShowOptionBox;
+  const ref = useRef(isShowOptionBox);
 
   const onShowOptionBox = (event: MouseEvent) => {
     event.stopPropagation();
@@ -36,6 +36,7 @@ const UserAvatarOption = ({ user, children, className }: Props) => {
 
   return (
     <Container className={className}>
+      <AlarmDropDown alarmContents={[]} />
       <UserNickName onClick={onShowOptionBox}>{user?.nickName ?? "로그인"}</UserNickName>
       <Avatar
         imageURL={user?.profileImageUrl}
