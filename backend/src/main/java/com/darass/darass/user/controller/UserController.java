@@ -8,6 +8,7 @@ import com.darass.darass.user.dto.UserResponse;
 import com.darass.darass.user.dto.UserUpdateRequest;
 import com.darass.darass.user.service.UserService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -48,5 +49,11 @@ public class UserController {
         @ModelAttribute PasswordCheckRequest passwordCheckRequest) {
         PasswordCheckResponse passwordCheckResponse = userService.checkGuestUserPassword(passwordCheckRequest);
         return ResponseEntity.ok(passwordCheckResponse);
+    }
+
+    @GetMapping("/test")
+    public ResponseEntity<Void> test() {
+        userService.test();
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }

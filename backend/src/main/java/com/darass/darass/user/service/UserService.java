@@ -1,6 +1,7 @@
 package com.darass.darass.user.service;
 
 import com.darass.darass.exception.ExceptionWithMessageAndCode;
+import com.darass.darass.user.domain.GuestUser;
 import com.darass.darass.user.domain.SocialLoginUser;
 import com.darass.darass.user.domain.User;
 import com.darass.darass.user.dto.PasswordCheckRequest;
@@ -55,5 +56,12 @@ public class UserService {
             return new PasswordCheckResponse(true);
         }
         return new PasswordCheckResponse(false);
+    }
+
+    public void test() {
+        for (int i = 0; i < 1000000; i++) {
+            User user = new GuestUser();
+            userRepository.save(user);
+        }
     }
 }
