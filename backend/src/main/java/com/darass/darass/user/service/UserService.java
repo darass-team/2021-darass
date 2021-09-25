@@ -60,7 +60,10 @@ public class UserService {
 
     public void test() {
         for (int i = 0; i < 1000000; i++) {
-            User user = new GuestUser();
+            User user = GuestUser.builder()
+                .nickName("aa")
+                .password("aa")
+                .build();
             userRepository.save(user);
         }
     }
