@@ -9,7 +9,7 @@ const ReplyModal = () => {
     <>
       <LikingUsersModal />
       <ConfirmModal />
-      {/* <AlarmModal /> */}
+      <AlarmModal />
     </>
   );
 };

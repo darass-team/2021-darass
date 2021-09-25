@@ -12,6 +12,7 @@ export const Container = styled.div`
   padding: 0;
   width: 20rem;
   height: fit-content;
+  overflow: hidden;
 `;
 
 export const Message = styled.span`

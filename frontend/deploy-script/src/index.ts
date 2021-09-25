@@ -20,8 +20,8 @@ const bindEvent = ($replyModuleIframe: HTMLIFrameElement, $modalIframe: HTMLIFra
       return;
     }
 
-    if (type === POST_MESSAGE_TYPE.MODAL.CLOSE.CONFIRM) {
-      postMessageToIframe({ iframe: $replyModuleIframe, message: { type: POST_MESSAGE_TYPE.MODAL.CLOSE.CONFIRM } });
+    if (type === POST_MESSAGE_TYPE.CONFIRM_NO) {
+      postMessageToIframe({ iframe: $replyModuleIframe, message: { type: POST_MESSAGE_TYPE.CONFIRM_NO } });
       hideElement($modalIframe);
 
       return;
@@ -36,20 +36,11 @@ const bindEvent = ($replyModuleIframe: HTMLIFrameElement, $modalIframe: HTMLIFra
   };
 
   const onMessageToModal = (type: string, data: any) => {
-    if (type === POST_MESSAGE_TYPE.MODAL.OPEN.LIKING_USERS_MODAL) {
+    const openCommand = Object.values(POST_MESSAGE_TYPE.MODAL.OPEN).find(command => type === command);
+    if (openCommand) {
       postMessageToIframe({
         iframe: $modalIframe,
-        message: { type: POST_MESSAGE_TYPE.MODAL.OPEN.LIKING_USERS_MODAL, data }
-      });
-      showElement($modalIframe);
-
-      return;
-    }
-
-    if (type === POST_MESSAGE_TYPE.MODAL.OPEN.CONFIRM) {
-      postMessageToIframe({
-        iframe: $modalIframe,
-        message: { type: POST_MESSAGE_TYPE.MODAL.OPEN.CONFIRM, data }
+        message: { type: openCommand, data }
       });
       showElement($modalIframe);
 

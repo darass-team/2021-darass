@@ -113,7 +113,7 @@ export const fadeInDirectionCSS: { [key in FadeInDirection]: (on: boolean) => Fl
   center: (on: boolean) => css`
     left: 50%;
     top: 50%;
-    transform: translate(-50%, 50%);
+    transform: translate(-50%, -50%);
     visibility: ${on ? "visible" : "hidden"};
   `,
   back: (on: boolean) => css`

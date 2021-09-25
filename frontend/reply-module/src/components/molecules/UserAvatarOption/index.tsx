@@ -1,9 +1,11 @@
 import Alarm from "@/components/atoms/Alarm";
 import Modal from "@/components/atoms/Modal";
+import { postOpenAlarm } from "@/utils/postMessage";
 import { MouseEvent, ReactNode, useEffect, useRef, useState } from "react";
 import { User } from "../../../types/user";
 import Avatar from "../../atoms/Avatar";
 import { Container, UserNickName, UserOption } from "./styles";
+import { alarmContents } from "@/__test__/fixture/alarmContent";
 
 export interface Props {
   user: User | undefined;
@@ -20,7 +22,9 @@ const UserAvatarOption = ({ user, children, className }: Props) => {
     setShowOptionBox(state => !state);
   };
 
-  const onClickAlarmIcon = () => {};
+  const onClickAlarmIcon = () => {
+    postOpenAlarm(alarmContents);
+  };
 
   useEffect(() => {
     setShowOptionBox(false);

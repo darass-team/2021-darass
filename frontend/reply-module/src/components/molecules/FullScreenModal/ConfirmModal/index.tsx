@@ -24,7 +24,7 @@ const ConfirmModal = () => {
   }, []);
 
   return (
-    <Modal isOpen={!!text} closeModal={onCloseModal}>
+    <Modal isOpen={!!text} closeModal={onCloseModal} fadeInFrom="center">
       <Container>
         <Message>{text}</Message>
         <ButtonWrapper>
