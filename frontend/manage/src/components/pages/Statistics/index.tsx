@@ -83,7 +83,7 @@ const Statistics = () => {
     }
   }, [selectedPeriodicity]);
 
-  if (!project || !stats) {
+  if (!project || !projectId || !stats) {
     return <LoadingPage />;
   }
 

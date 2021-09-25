@@ -130,7 +130,7 @@ const Manage = () => {
     })();
   }, [currentPageIndex, projectSecretKey, totalPage]);
 
-  if (!project || !me || !comments) {
+  if (!project || !projectId || !me || !comments) {
     return <LoadingPage />;
   }
 

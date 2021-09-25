@@ -78,7 +78,7 @@ const ProjectDetail = () => {
     }
   }, [project]);
 
-  if (!project) {
+  if (!project || !projectId) {
     return <LoadingPage />;
   }
 

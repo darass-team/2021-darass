@@ -34,7 +34,7 @@ const MobileNav = ({ menuList }: Props) => {
   return (
     <Container>
       <HamburgerButton isOpen={isOpen} onClick={onToggleNav} />
-      <Modal isOpen={isOpen} closeModal={() => setOpen(false)} dimmedOpacity={0} fadeInFrom="left">
+      <Modal isOpen={isOpen} closeModal={() => setOpen(false)} dimmedOpacity={0.6} fadeInFrom="left">
         <MenuWrapper>
           <MenuHeader>
             {user ? (

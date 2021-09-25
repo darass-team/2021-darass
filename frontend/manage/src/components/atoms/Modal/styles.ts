@@ -13,7 +13,7 @@ export const Dimmed = styled.div<{ isOpen: boolean; opacity: number }>`
   opacity: ${({ isOpen }) => (isOpen ? 1 : 0)};
 
   transition: all 0.5s linear;
-  ${({ isOpen }) => !isOpen && "visibility: hidden;"};
+  ${({ isOpen }) => !isOpen && "visibility: collapse"};
 `;
 
 export const Container = styled.div<{ isOpen: boolean; fadeInFrom: FadeInDirection }>`

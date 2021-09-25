@@ -51,7 +51,7 @@ const ScriptPublishing = () => {
   const script =
     selectedBlogInfo?.scriptType === "HTML" ? htmlScriptCode(projectSecretKey) : JsxScriptCode(projectSecretKey);
 
-  if (!project) {
+  if (!project || !projectId) {
     return <LoadingPage />;
   }
 
