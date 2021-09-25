@@ -62,8 +62,8 @@ public class UserService {
     }
 
     public void test() {
-//        List<User> all = userRepository.findAll();
-//        System.out.println(all.size());
+        List<User> all = userRepository.findAll();
+        System.out.println(all.size());
         for (int i = 0; i < 10000; i++) {
             User user = GuestUser.builder()
                 .nickName("aa")
