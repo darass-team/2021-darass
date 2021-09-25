@@ -7,7 +7,7 @@ import UserAvatarOption from "@/components/molecules/UserAvatarOption";
 import { ROUTE } from "@/constants";
 import { OAUTH_URL } from "@/constants/oauth";
 import { useUser } from "@/hooks";
-import { PALETTE } from "@/styles/palette";
+import { PALETTE } from "@/constants/styles/palette";
 import { MenuType } from "@/types/menu";
 import { alarmContents } from "@/__test__/fixture/alarmContent";
 import { Link } from "react-router-dom";

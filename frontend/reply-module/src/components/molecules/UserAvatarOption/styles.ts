@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { PALETTE } from "../../../styles/palette";
+import { PALETTE } from "../../../constants/styles/palette";
 import UserOptionComponent from "../../atoms/UserOption";
 
 export const Container = styled.div`

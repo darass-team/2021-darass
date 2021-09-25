@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import { NAVIGATION_HEIGHT, PAGE_MAX_WIDTH } from "./constants";
-import { PALETTE } from "./palette";
+import { NAVIGATION_HEIGHT, PAGE_MAX_WIDTH } from "../../constants/styles/constants";
+import { PALETTE } from "../../constants/styles/palette";
 
 const ScreenContainer = styled.div<{ bgColor?: PALETTE; bgImage?: string }>`
   overflow: hidden;

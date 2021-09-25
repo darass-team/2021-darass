@@ -1,7 +1,7 @@
 import AlarmContent from "@/components/molecules/AlarmContent";
 import ContainerWithSideBar from "@/components/organisms/ContainerWithSideBar";
 import { PROJECT_MENU } from "@/constants";
-import ScreenContainer from "@/styles/ScreenContainer";
+import ScreenContainer from "@/components/@style/ScreenContainer";
 import { alarmContents } from "@/__test__/fixture/alarmContent";
 import { useRouteMatch } from "react-router";
 import { AlarmContainer, Container, Title } from "./styles";

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { LINE_HEIGHT_SCALE, Z_INDEX } from "@/styles/constants";
+import { LINE_HEIGHT_SCALE, Z_INDEX } from "@/constants/styles/constants";
 
 export const Container = styled.div`
   margin: 4rem 0;

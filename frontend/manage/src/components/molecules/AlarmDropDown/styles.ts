@@ -1,5 +1,5 @@
-import { Z_INDEX } from "@/styles/constants";
-import { contentBoxCSS } from "@/styles/css";
+import { Z_INDEX } from "@/constants/styles/constants";
+import { contentBoxCSS } from "@/constants/styles/css";
 import styled from "styled-components";
 
 export const Container = styled.div`

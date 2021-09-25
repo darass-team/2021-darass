@@ -1,5 +1,5 @@
-import { LINE_HEIGHT_SCALE } from "@/styles/constants";
-import { PALETTE } from "@/styles/palette";
+import { LINE_HEIGHT_SCALE } from "@/constants/styles/constants";
+import { PALETTE } from "@/constants/styles/palette";
 import styled from "styled-components";
 
 export const AlarmHeader = styled.div`

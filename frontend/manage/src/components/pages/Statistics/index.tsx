@@ -4,7 +4,7 @@ import { useRouteMatch } from "react-router-dom";
 import { PROJECT_MENU } from "@/constants";
 import { PERIODICITY } from "@/constants/statistics";
 import { useCalendar, useCommentStatisticsData, useGetProject } from "@/hooks";
-import ScreenContainer from "@/styles/ScreenContainer";
+import ScreenContainer from "@/components/@style/ScreenContainer";
 import Modal from "@/components/atoms/Modal";
 import CommentStatisticsChart from "@/components/organisms/CommentStatisticsChart";
 import ContainerWithSideBar from "@/components/organisms/ContainerWithSideBar";

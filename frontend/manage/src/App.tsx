@@ -1,7 +1,7 @@
 import * as Sentry from "@sentry/react";
 import { useEffect, useRef } from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
-import { ConditionalRoute } from "./components/HOC/ConditionalRoute";
+import { ConditionalRoute } from "./components/@HOC/ConditionalRoute";
 import Nav from "./components/organisms/Nav";
 import About from "./components/pages/About";
 import ErrorPage from "./components/pages/ErrorPage";

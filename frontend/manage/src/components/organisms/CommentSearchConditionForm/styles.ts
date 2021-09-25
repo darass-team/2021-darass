@@ -1,7 +1,7 @@
 import styled from "styled-components";
-import { Z_INDEX } from "@/styles/constants";
-import { inputCSS } from "@/styles/css";
-import { PALETTE } from "@/styles/palette";
+import { Z_INDEX } from "@/constants/styles/constants";
+import { inputCSS } from "@/constants/styles/css";
+import { PALETTE } from "@/constants/styles/palette";
 import SubmitButton from "@/components/atoms/Buttons/SubmitButton";
 import CalendarComponent from "@/components/molecules/Calendar";
 

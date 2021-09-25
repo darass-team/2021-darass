@@ -3,7 +3,7 @@ import GuideStep from "@/components/molecules/GuideStep";
 import ContainerWithSideBar from "@/components/organisms/ContainerWithSideBar";
 import { GUIDE_FILE, PROJECT_MENU } from "@/constants";
 import { useCopyButton, useGetProject } from "@/hooks";
-import ScreenContainer from "@/styles/ScreenContainer";
+import ScreenContainer from "@/components/@style/ScreenContainer";
 import { useState } from "react";
 import { useRouteMatch } from "react-router-dom";
 import { PrismLight as SyntaxHighlighter } from "react-syntax-highlighter";

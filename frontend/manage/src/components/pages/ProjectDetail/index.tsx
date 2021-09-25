@@ -3,7 +3,7 @@ import { useHistory, useRouteMatch } from "react-router-dom";
 import { PROJECT_MENU, ROUTE } from "@/constants";
 import { MAX_PROJECT_NAME_LENGTH } from "@/constants/validation";
 import { useDeleteProject, useEditProject, useGetProject, useInput } from "@/hooks";
-import ScreenContainer from "@/styles/ScreenContainer";
+import ScreenContainer from "@/components/@style/ScreenContainer";
 import { AlertError } from "@/utils/error";
 import { isEmptyString } from "@/utils/validation";
 import DeleteSection from "@/components/molecules/DeleteSection";

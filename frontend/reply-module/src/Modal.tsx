@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import ConfirmModal from "./components/molecules/ConfirmModal";
 import LikingUsersModal from "./components/molecules/LikingUsersModal";
 import { POST_MESSAGE_TYPE } from "./constants/postMessageType";
-import GlobalStyles from "./styles/GlobalStyles";
+import GlobalStyles from "./constants/styles/GlobalStyles";
 import { User } from "./types/user";
 
 const isValidMessageType = (type: string) =>

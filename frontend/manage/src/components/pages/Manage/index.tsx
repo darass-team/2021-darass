@@ -17,7 +17,7 @@ import {
   useInput,
   useUser
 } from "@/hooks";
-import ScreenContainer from "@/styles/ScreenContainer";
+import ScreenContainer from "@/components/@style/ScreenContainer";
 import { AlertError } from "@/utils/error";
 import { getPagesOfLength5 } from "@/utils/pagination";
 import moment from "moment";

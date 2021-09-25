@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { PALETTE } from "../../../styles/palette";
+import { PALETTE } from "../../../constants/styles/palette";
 import ModalComponent from "../../atoms/Modal";
 
 export const Modal = styled(ModalComponent)`

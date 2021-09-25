@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { LINE_HEIGHT_SCALE } from "../../../styles/constants";
+import { LINE_HEIGHT_SCALE } from "../../../constants/styles/constants";
 import UserOptionComponent from "../../atoms/UserOption";
 
 export const Container = styled.div`

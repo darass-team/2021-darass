@@ -3,7 +3,7 @@ import HamburgerButton from "@/components/atoms/Buttons/HamburgerButton";
 import Modal from "@/components/atoms/Modal";
 import { ROUTE } from "@/constants";
 import { useGetProject, useUser } from "@/hooks";
-import { PALETTE } from "@/styles/palette";
+import { PALETTE } from "@/constants/styles/palette";
 import { MenuType } from "@/types/menu";
 import { useEffect, useState } from "react";
 import { Link, useHistory } from "react-router-dom";

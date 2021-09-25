@@ -1,4 +1,4 @@
-import { contentBoxCSS, titleCSS } from "@/styles/css";
+import { contentBoxCSS, titleCSS } from "@/constants/styles/css";
 import styled from "styled-components";
 
 export const Container = styled.div`

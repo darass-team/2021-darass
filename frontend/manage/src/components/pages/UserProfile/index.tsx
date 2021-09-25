@@ -3,7 +3,7 @@ import DeleteSection from "@/components/molecules/DeleteSection";
 import { ROUTE } from "@/constants";
 import { MAX_PROFILE_IMAGE_SIZE, MAX_USER_NAME_LENGTH } from "@/constants/validation";
 import { useUser, useDeleteUser, useEditUser, useInput } from "@/hooks";
-import ScreenContainer from "@/styles/ScreenContainer";
+import ScreenContainer from "@/components/@style/ScreenContainer";
 import { AlertError } from "@/utils/error";
 import { ChangeEvent, FormEventHandler, useContext, useEffect, useState } from "react";
 import { useHistory } from "react-router";

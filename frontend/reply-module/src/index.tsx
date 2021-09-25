@@ -2,7 +2,7 @@ import ReactDOM from "react-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
 import App from "./App";
 import { POST_MESSAGE_TYPE } from "./constants/postMessageType";
-import GlobalStyles from "./styles/GlobalStyles";
+import GlobalStyles from "./constants/styles/GlobalStyles";
 import { postScrollHeightToParentWindow } from "./utils/postMessage";
 import * as Sentry from "@sentry/react";
 import { Integrations } from "@sentry/tracing";

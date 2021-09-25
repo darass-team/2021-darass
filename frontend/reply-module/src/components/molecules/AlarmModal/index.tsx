@@ -2,13 +2,14 @@ import Alarm from "@/components/atoms/Alarm";
 import Modal from "@/components/atoms/Modal";
 import { useState } from "react";
 import AlarmContent, { AlarmContentType } from "../AlarmContent";
-import { Container, DropDownContainer } from "./styles";
+import { Container } from "./styles";
 
 export interface Props {
   alarmContents: AlarmContentType[];
+  direction?: "bottom" | "right";
 }
 
-const AlarmDropDown = ({ alarmContents }: Props) => {
+const AlarmModal = ({ alarmContents, direction = "right" }: Props) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const onClickAlarmIcon = () => {
@@ -19,14 +20,12 @@ const AlarmDropDown = ({ alarmContents }: Props) => {
     <Container>
       <Alarm size="MD" hasUnReadNotification={false} onClick={onClickAlarmIcon} />
       {isOpen && (
-        <Modal isOpen={isOpen} blockScroll={false} closeModal={() => setIsOpen(false)} dimmedOpacity={0}>
-          <DropDownContainer>
-            <AlarmContent alarmContents={alarmContents} />
-          </DropDownContainer>
+        <Modal direction={direction}>
+          <AlarmContent alarmContents={[]} />
         </Modal>
       )}
     </Container>
   );
 };
 
-export default AlarmDropDown;
+export default AlarmModal;

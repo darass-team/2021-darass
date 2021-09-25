@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { PALETTE } from "../../../styles/palette";
+import { PALETTE } from "../../../constants/styles/palette";
 
 export const Container = styled.div``;
 

@@ -1,7 +1,7 @@
 import styled from "styled-components";
-import { LINE_HEIGHT_SCALE } from "@/styles/constants";
-import { speechBubbleCSS } from "@/styles/css";
-import { PALETTE } from "@/styles/palette";
+import { LINE_HEIGHT_SCALE } from "@/constants/styles/constants";
+import { speechBubbleCSS } from "@/constants/styles/css";
+import { PALETTE } from "@/constants/styles/palette";
 
 export const Container = styled.div`
   ${speechBubbleCSS};

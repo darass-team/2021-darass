@@ -1,7 +1,7 @@
 import { MouseEvent, ReactNode, useEffect, useRef, useState } from "react";
 import { User } from "../../../types/user";
 import Avatar from "../../atoms/Avatar";
-import AlarmDropDown from "../AlarmDropDown";
+import AlarmDropDown from "../AlarmModal";
 import { Container, UserNickName, UserOption } from "./styles";
 
 export interface Props {
@@ -36,7 +36,6 @@ const UserAvatarOption = ({ user, children, className }: Props) => {
 
   return (
     <Container className={className}>
-      <AlarmDropDown alarmContents={[]} />
       <UserNickName onClick={onShowOptionBox}>{user?.nickName ?? "로그인"}</UserNickName>
       <Avatar
         imageURL={user?.profileImageUrl}

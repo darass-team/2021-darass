@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import { SpeechBubbleCSS } from "../../../styles/css";
-import { PALETTE } from "../../../styles/palette";
+import { SpeechBubbleCSS } from "../../../constants/styles/css";
+import { PALETTE } from "../../../constants/styles/palette";
 
 export const Container = styled.div`
   ${SpeechBubbleCSS};

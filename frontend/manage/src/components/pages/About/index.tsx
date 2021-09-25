@@ -1,5 +1,5 @@
 import { useScrollFadeInOut } from "@/hooks";
-import ScreenContainer from "@/styles/ScreenContainer";
+import ScreenContainer from "@/components/@style/ScreenContainer";
 
 import {
   Container,
