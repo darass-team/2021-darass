@@ -34,6 +34,7 @@ const UserProfile = () => {
   } = useInput("", MAX_USER_NAME_LENGTH);
   const [profileImageAsUrl, setProfileImageAsUrl] = useState<string>();
   const [profileImageAsFile, setProfileImageAsFile] = useState<Blob | string>("");
+  const [isMouseOverOnProfileImage, setIsMouseOverOnProfileImage] = useState(false);
 
   const onChangeFile = (event: ChangeEvent<HTMLInputElement>) => {
     const target = event.target;
@@ -119,8 +120,8 @@ const UserProfile = () => {
 
           <InfoWrapper>
             <FileLabel>
-              <CameraIcon src={cameraIcon} alt="이미지 업로드 버튼" />
               <UserProfileImage imageURL={profileImageAsUrl} size="LG" alt="유저 프로필 이미지" />
+              <CameraIcon src={cameraIcon} alt="이미지 업로드 버튼" />
               <Input type="file" accept="image/*" onChange={onChangeFile} data-testid="user-profile-image-input" />
             </FileLabel>
           </InfoWrapper>

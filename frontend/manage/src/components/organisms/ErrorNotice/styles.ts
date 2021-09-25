@@ -1,5 +1,5 @@
+import { LINE_HEIGHT_SCALE } from "@/constants/styles/constants";
 import styled from "styled-components";
-import { LINE_HEIGHT_SCALE, Z_INDEX } from "@/constants/styles/constants";
 
 export const Container = styled.div`
   margin: 4rem 0;
@@ -64,7 +64,6 @@ export const Img = styled.img`
     }
   }
 
-  z-index: ${Z_INDEX.ERROR_NOTICE};
   width: 6rem;
   height: 6rem;
 

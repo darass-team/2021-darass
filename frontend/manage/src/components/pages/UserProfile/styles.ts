@@ -50,10 +50,9 @@ export const CameraIcon = styled.img`
 `;
 
 export const FileLabel = styled(Label)`
-  position: relative;
   transform: scale(1.8);
   margin: 0 auto;
-  > input {
+  & > input {
     display: none;
   }
 `;

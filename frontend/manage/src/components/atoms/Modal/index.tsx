@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, MouseEvent, useRef } from "react";
+import { MouseEvent, ReactNode, useEffect, useRef } from "react";
 import { Dimmed } from "./styles";
 
 export interface Props {

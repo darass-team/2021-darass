@@ -2,8 +2,8 @@ import Alarm from "@/components/atoms/Alarm";
 import HamburgerButton from "@/components/atoms/Buttons/HamburgerButton";
 import Modal from "@/components/atoms/Modal";
 import { ROUTE } from "@/constants";
-import { useGetProject, useUser } from "@/hooks";
 import { PALETTE } from "@/constants/styles/palette";
+import { useUser } from "@/hooks";
 import { MenuType } from "@/types/menu";
 import { useEffect, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
@@ -34,7 +34,7 @@ const MobileNav = ({ menuList }: Props) => {
   return (
     <Container>
       <HamburgerButton isOpen={isOpen} onClick={onToggleNav} />
-      <Modal isOpen={isOpen} closeModal={() => setOpen(false)}>
+      <Modal isOpen={isOpen} closeModal={() => setOpen(false)} dimmedOpacity={0}>
         <MenuWrapper isOpen={isOpen}>
           <MenuHeader>
             {user ? (

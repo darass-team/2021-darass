@@ -1,9 +1,8 @@
 import styled from "styled-components";
-import { Z_INDEX } from "@/constants/styles/constants";
 import { PALETTE } from "@/constants/styles/palette";
 
 const Container = styled.button<{ isOpen: boolean }>`
-  position: fixed;
+  position: absolute;
   top: 3%;
   left: 1.4rem;
   display: flex;
@@ -15,7 +14,7 @@ const Container = styled.button<{ isOpen: boolean }>`
   border: none;
   cursor: pointer;
   padding: 0;
-  z-index: ${Z_INDEX.NAV.MOBILE.HAMBURGER_BUTTON};
+  z-index: 2;
 
   div {
     width: 3rem;
@@ -23,7 +22,6 @@ const Container = styled.button<{ isOpen: boolean }>`
     background-color: ${PALETTE.BLACK_700};
     border-radius: 10px;
     transition: all 0.3s linear;
-    position: relative;
     transform-origin: 18% 50%;
 
     :first-child {

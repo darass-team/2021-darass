@@ -18,7 +18,6 @@ export const Input = styled.input<{ hasLabelText: boolean }>`
   color: ${PALETTE.WHITE};
   cursor: pointer;
   outline: none;
-  position: relative;
   margin-right: ${({ hasLabelText }) => (hasLabelText ? 1 : 0)}rem;
   border-radius: 0.5rem;
 
@@ -33,12 +32,10 @@ export const Input = styled.input<{ hasLabelText: boolean }>`
   }
 
   &:checked::before {
-    height: 2rem;
-    width: 2rem;
+    display: flex;
+    justify-content: center;
     font-size: 1.3rem;
     color: ${PALETTE.WHITE};
-    position: absolute;
-
     content: "✔";
     text-align: center;
     line-height: ${1.3 * LINE_HEIGHT_SCALE}rem;

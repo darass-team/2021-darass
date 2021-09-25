@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { Z_INDEX } from "@/constants/styles/constants";
 import { inputCSS } from "@/constants/styles/css";
 import { PALETTE } from "@/constants/styles/palette";
 import SubmitButton from "@/components/atoms/Buttons/SubmitButton";
@@ -67,5 +66,5 @@ export const Calendar = styled(CalendarComponent)<{ isOpen: boolean }>`
   position: absolute;
   top: 5rem;
   left: 6.5rem;
-  z-index: ${({ isOpen }) => (isOpen ? Z_INDEX.MODAL + 1 : -1)};
+  ${({ isOpen }) => !isOpen && "visibility: hidden;"};
 `;

@@ -1,9 +1,8 @@
-import styled from "styled-components";
-import { Z_INDEX } from "@/constants/styles/constants";
-import { contentBoxCSS, titleCSS } from "@/constants/styles/css";
-import { PALETTE } from "@/constants/styles/palette";
 import TooltipComponent from "@/components/atoms/Tooltip";
 import CalendarComponent from "@/components/molecules/Calendar";
+import { contentBoxCSS, titleCSS } from "@/constants/styles/css";
+import { PALETTE } from "@/constants/styles/palette";
+import styled from "styled-components";
 
 export const Container = styled.div`
   ${contentBoxCSS}
@@ -30,7 +29,7 @@ export const Calendar = styled(CalendarComponent)<{ isOpen: boolean }>`
   position: absolute;
   top: 4rem;
   left: 5.5rem;
-  z-index: ${({ isOpen }) => (isOpen ? Z_INDEX.MODAL + 1 : -1)};
+  ${({ isOpen }) => !isOpen && "visibility: hidden;"};
 `;
 
 export const Meta = styled.span`

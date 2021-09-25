@@ -1,7 +1,7 @@
+import { LINE_HEIGHT_SCALE, NAVIGATION_HEIGHT, PAGE_MAX_WIDTH } from "@/constants/styles/constants";
+import { PALETTE } from "@/constants/styles/palette";
 import { Link, NavLink } from "react-router-dom";
 import styled from "styled-components";
-import { LINE_HEIGHT_SCALE, NAVIGATION_HEIGHT, PAGE_MAX_WIDTH, Z_INDEX } from "@/constants/styles/constants";
-import { PALETTE } from "@/constants/styles/palette";
 
 export const Container = styled.nav`
   position: relative;
@@ -65,7 +65,6 @@ export const Title = styled.span`
 `;
 
 export const UserAvatarOptionWrapper = styled.div`
-  z-index: ${Z_INDEX.NAV.DESKTOP.USER_AVATAR_WRAPPER};
   margin-left: 1.5rem;
 `;
 

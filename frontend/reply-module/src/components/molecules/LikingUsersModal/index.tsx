@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { User } from "../../../types/user";
 import Avatar from "../../atoms/Avatar";
 import Modal from "../../atoms/Modal";
@@ -8,8 +9,10 @@ export interface Props {
 }
 
 const LikingUsersModal = ({ users }: Props) => {
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
-    <Modal>
+    <Modal isOpen={isOpen} closeModal={() => setIsOpen(false)}>
       <Container>
         <Title>👍 좋아요 누른 사람들</Title>
         <UserGrid>

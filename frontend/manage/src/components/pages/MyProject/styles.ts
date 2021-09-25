@@ -7,7 +7,6 @@ export const Container = styled.div`
   flex-direction: column;
   align-items: center;
   width: fit-content;
-  position: relative;
 `;
 
 export const AddProjectButton = styled.button`

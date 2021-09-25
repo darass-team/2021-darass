@@ -16,7 +16,6 @@ export const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  position: relative;
 `;
 
 export const MainText = styled.h2`

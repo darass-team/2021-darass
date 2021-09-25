@@ -20,7 +20,7 @@ const AlarmModal = ({ alarmContents, direction = "right" }: Props) => {
     <Container>
       <Alarm size="MD" hasUnReadNotification={false} onClick={onClickAlarmIcon} />
       {isOpen && (
-        <Modal direction={direction}>
+        <Modal isOpen={isOpen} closeModal={() => setIsOpen(false)}>
           <AlarmContent alarmContents={[]} />
         </Modal>
       )}

@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { postCloseConfirm, postConfirmOK } from "../../../utils/postMessage";
 import { Container, Message, ButtonWrapper, ConfirmButton, CancelButton, Modal } from "./styles";
 
@@ -6,8 +7,10 @@ export interface Props {
 }
 
 const ConfirmModal = ({ message }: Props) => {
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
-    <Modal>
+    <Modal isOpen={isOpen} closeModal={() => setIsOpen(false)}>
       <Container>
         <Message>{message}</Message>
         <ButtonWrapper>

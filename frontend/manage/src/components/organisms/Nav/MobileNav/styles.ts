@@ -1,8 +1,8 @@
+import Avatar from "@/components/atoms/Avatar";
+import { LINE_HEIGHT_SCALE } from "@/constants/styles/constants";
+import { PALETTE } from "@/constants/styles/palette";
 import { Link, NavLink } from "react-router-dom";
 import styled from "styled-components";
-import { PALETTE } from "@/constants/styles/palette";
-import Avatar from "@/components/atoms/Avatar";
-import { LINE_HEIGHT_SCALE, Z_INDEX } from "@/constants/styles/constants";
 
 export const Container = styled.nav`
   @media (min-width: 780px) {
@@ -16,8 +16,8 @@ export const MenuWrapper = styled.nav<{ isOpen: boolean }>`
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  z-index: ${Z_INDEX.NAV.MOBILE.MENU_WRAPPER};
-  position: fixed;
+  position: absolute;
+  z-index: 1;
 
   background: ${PALETTE.PRIMARY};
   height: 100%;
