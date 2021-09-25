@@ -1,9 +1,9 @@
 export const hideElement = (element: HTMLElement) => {
-  element.style.display = "none";
+  element.style.visibility = "collapse";
 };
 
 export const showElement = (element: HTMLElement) => {
-  element.style.display = "";
+  element.style.visibility = "visible";
 };
 
 export const disableScroll = () => {

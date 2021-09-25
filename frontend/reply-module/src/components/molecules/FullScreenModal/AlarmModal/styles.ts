@@ -1,16 +1,32 @@
-import { contentBoxCSS } from "@/constants/styles/css";
+import { contentBoxCSS, fadeInDirectionCSS } from "@/constants/styles/css";
 import styled from "styled-components";
 
 export const Container = styled.div`
   padding-top: 0.2rem;
+
+  @media all and (max-width: 780px) {
+    ${fadeInDirectionCSS["bottom"](true)}
+  }
+  @media all and (min-width: 780px) {
+    ${fadeInDirectionCSS["right"](true)}
+  }
 `;
 
 export const AlarmContainer = styled.div`
   ${contentBoxCSS}
-  height: fit-content;
-  max-height: 30rem;
-  min-height: 30rem;
+
   width: 30rem;
   overflow-y: scroll;
   padding: 0rem;
+
+  @media all and (max-width: 780px) {
+    width: 100vw;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+  @media all and (min-width: 780px) {
+    height: 100vh;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
 `;

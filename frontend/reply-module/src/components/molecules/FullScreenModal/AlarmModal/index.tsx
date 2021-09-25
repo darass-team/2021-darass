@@ -26,7 +26,7 @@ const AlarmModal = () => {
   }, []);
 
   return (
-    <Modal isOpen={!!alarmContents} closeModal={onCloseModal} fadeInFrom="center">
+    <Modal isOpen={!!alarmContents} closeModal={onCloseModal}>
       <Container>
         <AlarmContainer>
           <AlarmContent alarmContents={alarmContents || []} />

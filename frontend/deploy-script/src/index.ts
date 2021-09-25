@@ -1,5 +1,5 @@
-import { POST_MESSAGE_TYPE } from "./constants";
-import { IFRAME_STYLE } from "./style";
+import { POST_MESSAGE_TYPE } from "./constants/common";
+import { IFRAME_STYLE } from "./constants/style";
 import { createIframe, hideElement, resizeElementHeight, showElement } from "./utils/dom";
 import { getModalUrl, getReplyModuleURL } from "./utils/getURL";
 import { postMessageToIframe } from "./utils/postMessage";

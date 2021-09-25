@@ -113,8 +113,6 @@ const Comment = ({
       postOpenConfirm("정말 지우시겠습니까?");
 
       const onMessageDeleteComment = ({ data }: MessageEvent) => {
-        console.log(data.type);
-
         if (data.type === POST_MESSAGE_TYPE.CONFIRM_NO || data.type === POST_MESSAGE_TYPE.MODAL.CLOSE.CONFIRM) {
           resolve("no");
         }

@@ -41,7 +41,7 @@ const AlarmContent = ({ alarmContents }: Props) => {
       {alarmContents.length > 0 ? (
         alarmContents.map(({ sender, url, content, createDate, alarmMessageType }) => {
           return (
-            <Content>
+            <Content key={sender + url + content + createDate + alarmMessageType}>
               <ContentWrapper>
                 <Notification>
                   <span>

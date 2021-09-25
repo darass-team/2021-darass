@@ -1,4 +1,4 @@
-import { END_POINT, URL_REPLACE_TABLE } from "@/constants";
+import { END_POINT, URL_REPLACE_TABLE } from "@/constants/common";
 
 const refineCurrentURL = () => {
   let currentURL = window.location.origin + window.location.pathname;
