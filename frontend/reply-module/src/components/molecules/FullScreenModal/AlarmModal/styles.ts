@@ -3,6 +3,7 @@ import styled from "styled-components";
 
 export const Container = styled.div`
   padding-top: 0.2rem;
+  transition: all 0.4s ease-in-out;
 
   @media all and (max-width: 780px) {
     ${fadeInDirectionCSS["bottom"](true)}
@@ -21,6 +22,7 @@ export const AlarmContainer = styled.div`
 
   @media all and (max-width: 780px) {
     width: 100vw;
+    height: 30rem;
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
   }

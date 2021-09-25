@@ -3,6 +3,8 @@ import { PALETTE } from "@/constants/styles/palette";
 import styled from "styled-components";
 
 export const AlarmHeader = styled.div`
+  position: sticky;
+  top: 0;
   padding: 1rem;
   background-color: ${PALETTE.WHITE};
   line-height: ${1 * LINE_HEIGHT_SCALE};

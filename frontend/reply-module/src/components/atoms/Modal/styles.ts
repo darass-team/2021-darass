@@ -12,13 +12,12 @@ export const Dimmed = styled.div<{ isOpen: boolean; opacity: number; fadeInFrom:
   opacity: ${({ isOpen }) => (isOpen ? 1 : 0)};
 
   transition: all 0.2s linear;
-  visibility: ${({ isOpen }) => (isOpen ? "visible" : "hidden;")};
+  visibility: ${({ isOpen }) => (isOpen ? "visible" : "collapse")};
 `;
 
 export const Container = styled.div<{ isOpen: boolean; fadeInFrom: FadeInDirection }>`
   & > * {
     position: absolute;
-    transition: all 0.2s linear;
 
     ${({ isOpen, fadeInFrom }) => fadeInDirectionCSS[fadeInFrom](isOpen)};
   }
