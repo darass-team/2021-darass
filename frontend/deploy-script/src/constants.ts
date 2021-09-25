@@ -32,4 +32,4 @@ export const POST_MESSAGE_TYPE = {
   }
 } as const;
 
-export const URL_REPLACE_TABLE = [{ from: "://m.", to: "://" }];
+export const URL_REPLACE_TABLE = [{ from: "://m.", to: "://" }] as const;

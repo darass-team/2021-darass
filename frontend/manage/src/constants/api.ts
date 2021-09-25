@@ -17,4 +17,4 @@ export const QUERY = {
   PROJECT: "/api/v1/projects",
   KEYWORD_COMMENTS_OF_PROJECT_PER_PAGE: "/api/v1/projects/comments/search/paging",
   STATISTICS_OF_PROJECT: "/api/v1/comments/stat"
-};
+} as const;

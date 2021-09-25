@@ -6,6 +6,6 @@ const REACT_QUERY_KEY = {
   COMMENT_OF_PROJECT_PER_PAGE: "commentsOfProject",
   COMMENT_COUNT_OF_PROJECT: "commentCountOfProject",
   STATISTICS: "commentStatistics"
-};
+} as const;
 
 export { REACT_QUERY_KEY };

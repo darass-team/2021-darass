@@ -1,4 +1,4 @@
-export const POST_MESSAGE_TYPE = Object.freeze({
+export const POST_MESSAGE_TYPE = {
   CLICK: "click",
   SCROLL_HEIGHT: "scrollHeight",
 
@@ -18,4 +18,4 @@ export const POST_MESSAGE_TYPE = Object.freeze({
       ALARM: "closeAlarm"
     }
   }
-});
+} as const;

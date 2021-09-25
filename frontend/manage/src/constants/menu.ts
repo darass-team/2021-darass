@@ -14,4 +14,4 @@ export const PROJECT_MENU = {
 
     return menus;
   }
-};
+} as const;
