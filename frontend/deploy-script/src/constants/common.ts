@@ -12,7 +12,10 @@ export const END_POINT = END_POINT_TABLE[process.env.BUILD_MODE as keyof typeof 
 
 export const POST_MESSAGE_TYPE = {
   CLICK: "click",
+
   SCROLL_HEIGHT: "scrollHeight",
+  SCROLL_BLOCK: "scrollBlock",
+  SCROLL_UNBLOCK: "scrollUnBlock",
 
   ALERT: "alert",
   CONFIRM_OK: "confirmOK",

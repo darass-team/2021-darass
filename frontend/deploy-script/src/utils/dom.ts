@@ -29,3 +29,11 @@ export const createIframe = (src: string, style: string) => {
 
   return $iframe;
 };
+
+export const blockScroll = () => {
+  document.body.style.setProperty("overflow", "hidden");
+};
+
+export const unBlockScroll = () => {
+  document.body.style.setProperty("overflow", "revert");
+};

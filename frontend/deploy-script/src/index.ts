@@ -1,37 +1,42 @@
 import { POST_MESSAGE_TYPE } from "./constants/common";
 import { IFRAME_STYLE } from "./constants/style";
-import { createIframe, hideElement, resizeElementHeight, showElement } from "./utils/dom";
+import { blockScroll, createIframe, hideElement, resizeElementHeight, showElement, unBlockScroll } from "./utils/dom";
 import { getModalUrl, getReplyModuleURL } from "./utils/getURL";
 import { postMessageToIframe } from "./utils/postMessage";
 
 const bindEvent = ($replyModuleIframe: HTMLIFrameElement, $modalIframe: HTMLIFrameElement) => {
   const onMessageToReplyModule = (type: string, data: string) => {
-    if (type === POST_MESSAGE_TYPE.SCROLL_HEIGHT) {
-      resizeElementHeight($replyModuleIframe, data);
+    const ACTION_TABLE = {
+      [POST_MESSAGE_TYPE.SCROLL_HEIGHT]: () => resizeElementHeight($replyModuleIframe, data),
+      [POST_MESSAGE_TYPE.SCROLL_BLOCK]: blockScroll,
+      [POST_MESSAGE_TYPE.SCROLL_UNBLOCK]: unBlockScroll,
+      [POST_MESSAGE_TYPE.MODAL.CLOSE.ALARM]: () => {
+        postMessageToIframe({ iframe: $replyModuleIframe, message: { type: POST_MESSAGE_TYPE.MODAL.CLOSE.ALARM } });
+        hideElement($modalIframe);
+      },
+      [POST_MESSAGE_TYPE.MODAL.CLOSE.CONFIRM]: () => {
+        postMessageToIframe({ iframe: $replyModuleIframe, message: { type: POST_MESSAGE_TYPE.MODAL.CLOSE.CONFIRM } });
+        hideElement($modalIframe);
+      },
+      [POST_MESSAGE_TYPE.MODAL.CLOSE.LIKING_USERS_MODAL]: () => {
+        postMessageToIframe({ iframe: $replyModuleIframe, message: { type: POST_MESSAGE_TYPE.MODAL.CLOSE.ALARM } });
+        hideElement($modalIframe);
+      },
+      [POST_MESSAGE_TYPE.CONFIRM_NO]: () => {
+        postMessageToIframe({ iframe: $replyModuleIframe, message: { type: POST_MESSAGE_TYPE.CONFIRM_NO } });
+        hideElement($modalIframe);
+      },
+      [POST_MESSAGE_TYPE.CONFIRM_OK]: () => {
+        postMessageToIframe({ iframe: $replyModuleIframe, message: { type: POST_MESSAGE_TYPE.CONFIRM_OK, data } });
+        hideElement($modalIframe);
+      }
+    } as const;
 
-      return;
-    }
+    type ACTION_TABLE_KEY = keyof typeof ACTION_TABLE;
+    const isValidAction = (_type: any): _type is ACTION_TABLE_KEY => Object.keys(ACTION_TABLE).includes(_type);
 
-    const closeCommand = Object.values(POST_MESSAGE_TYPE.MODAL.CLOSE).find(command => type === command);
-    if (closeCommand) {
-      postMessageToIframe({ iframe: $replyModuleIframe, message: { type: closeCommand } });
-      hideElement($modalIframe);
-
-      return;
-    }
-
-    if (type === POST_MESSAGE_TYPE.CONFIRM_NO) {
-      postMessageToIframe({ iframe: $replyModuleIframe, message: { type: POST_MESSAGE_TYPE.CONFIRM_NO } });
-      hideElement($modalIframe);
-
-      return;
-    }
-
-    if (type === POST_MESSAGE_TYPE.CONFIRM_OK) {
-      postMessageToIframe({ iframe: $replyModuleIframe, message: { type: POST_MESSAGE_TYPE.CONFIRM_OK, data } });
-      hideElement($modalIframe);
-
-      return;
+    if (isValidAction(type)) {
+      ACTION_TABLE[type]();
     }
   };
 
