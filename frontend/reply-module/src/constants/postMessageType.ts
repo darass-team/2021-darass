@@ -1,10 +1,21 @@
 export const POST_MESSAGE_TYPE = Object.freeze({
   CLICK: "click",
   SCROLL_HEIGHT: "scrollHeight",
-  OPEN_LIKING_USERS_MODAL: "openLikingUsersModal",
-  CLOSE_MODAL: "closeModal",
+
   ALERT: "alert",
-  OPEN_CONFIRM: "confirm",
-  CLOSE_CONFIRM: "closeConfirm",
-  CONFIRM_OK: "confirmOK"
+  CONFIRM_OK: "confirmOK",
+  CONFIRM_NO: "confirmNO",
+
+  MODAL: {
+    OPEN: {
+      LIKING_USERS_MODAL: "openLikingUsersModal",
+      CONFIRM: "openConfirm",
+      ALARM: "openAlarm"
+    },
+    CLOSE: {
+      LIKING_USERS_MODAL: "closeLikingUsersModal",
+      CONFIRM: "closeConfirm",
+      ALARM: "closeAlarm"
+    }
+  }
 });

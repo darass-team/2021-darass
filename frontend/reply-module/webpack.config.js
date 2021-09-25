@@ -18,7 +18,23 @@ const config = {
         test: /\.(ts|tsx|js|jsx)$/,
         use: [
           {
-            loader: "babel-loader"
+            loader: "babel-loader",
+            options: {
+              presets: [
+                "@babel/preset-env",
+                [
+                  "@babel/preset-react",
+                  {
+                    runtime: "automatic"
+                  }
+                ],
+                "@babel/preset-typescript"
+              ],
+              plugins: [
+                "@babel/transform-runtime",
+                ["babel-plugin-remove-react-jsx-attribute", { attributes: ["data-testid"] }]
+              ]
+            }
           }
         ],
         exclude: /node_modules/

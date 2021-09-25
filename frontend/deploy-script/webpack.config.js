@@ -4,7 +4,7 @@ const { DefinePlugin } = require("webpack");
 const path = require("path");
 
 module.exports = {
-  entry: "./src/index.js",
+  entry: "./src/index.ts",
   output: {
     path: path.resolve(__dirname, "dist"),
     filename: "embed.js",
@@ -13,10 +13,19 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.(js|jsx)$/,
+        test: /\.(ts|tsx|js|jsx)$/,
         use: [
           {
-            loader: "babel-loader"
+            loader: "babel-loader",
+            options: {
+              presets: [
+                "@babel/preset-env",
+                "@babel/preset-typescript"
+              ],
+              plugins: [
+                "@babel/transform-runtime",
+              ]
+            }
           }
         ],
         exclude: /node_modules/
@@ -28,8 +37,9 @@ module.exports = {
     new DefinePlugin({ "process.env.BUILD_MODE": JSON.stringify(process.env.BUILD_MODE) })
   ],
   resolve: {
-    extensions: [".jsx", ".js"]
+    extensions: [".tsx", ".ts", ".jsx", ".js"],
+    alias: { "@": path.resolve(__dirname, "src") }
   },
-  devtool: "source-map",
+  devtool: process.env.BUILD_MODE !== "production" ? "source-map" : false,
   mode: process.env.BUILD_MODE === "development" ? "development" : "production"
 };

@@ -1,6 +1,6 @@
 import { alarmContents } from "@/__test__/fixture/alarmContent";
 import { Story } from "@storybook/react";
-import AlarmModal, { Props } from ".";
+import AlarmModal from ".";
 
 export default {
   title: "molecules/AlarmModal",
@@ -8,10 +8,8 @@ export default {
   argTypes: { children: { control: "text" } }
 };
 
-const Template: Story<Props> = args => <AlarmModal {...args} />;
+const Template: Story = args => <AlarmModal {...args} />;
 
 export const Default = Template.bind({});
 
-Default.args = {
-  alarmContents
-};
+Default.args = {};

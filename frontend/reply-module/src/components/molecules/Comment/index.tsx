@@ -113,7 +113,7 @@ const Comment = ({
       postOpenConfirm("정말 지우시겠습니까?");
 
       window.addEventListener("message", ({ data }: MessageEvent) => {
-        if (data.type === POST_MESSAGE_TYPE.CLOSE_CONFIRM || data.type === POST_MESSAGE_TYPE.CLOSE_MODAL) {
+        if (data.type === POST_MESSAGE_TYPE.CONFIRM_NO || data.type === POST_MESSAGE_TYPE.MODAL.CLOSE.CONFIRM) {
           resolve("no");
 
           return;

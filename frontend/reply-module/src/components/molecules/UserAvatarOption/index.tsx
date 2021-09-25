@@ -1,7 +1,7 @@
+import Alarm from "@/components/atoms/Alarm";
 import { MouseEvent, ReactNode, useEffect, useRef, useState } from "react";
 import { User } from "../../../types/user";
 import Avatar from "../../atoms/Avatar";
-import AlarmDropDown from "../AlarmModal";
 import { Container, UserNickName, UserOption } from "./styles";
 
 export interface Props {
@@ -12,30 +12,21 @@ export interface Props {
 
 const UserAvatarOption = ({ user, children, className }: Props) => {
   const [isShowOptionBox, setShowOptionBox] = useState(false);
-  const ref = useRef(isShowOptionBox);
 
   const onShowOptionBox = (event: MouseEvent) => {
     event.stopPropagation();
     setShowOptionBox(state => !state);
   };
 
-  const onHideOptionBox = () => {
-    if (ref.current) setShowOptionBox(false);
-  };
+  const onClickAlarmIcon = () => {};
 
   useEffect(() => {
     setShowOptionBox(false);
   }, [user]);
 
-  useEffect(() => {
-    window.addEventListener("click", onHideOptionBox);
-    return () => {
-      window.removeEventListener("click", onHideOptionBox);
-    };
-  }, []);
-
   return (
     <Container className={className}>
+      <Alarm size="MD" hasUnReadNotification={false} onClick={onClickAlarmIcon} />
       <UserNickName onClick={onShowOptionBox}>{user?.nickName ?? "로그인"}</UserNickName>
       <Avatar
         imageURL={user?.profileImageUrl}
