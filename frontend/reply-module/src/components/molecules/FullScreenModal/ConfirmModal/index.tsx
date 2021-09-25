@@ -14,19 +14,20 @@ const ConfirmModal = () => {
 
   useEffect(() => {
     const onMessageConfirmModal = ({ data }: MessageEvent) => {
-      if (data.type !== POST_MESSAGE_TYPE.MODAL.OPEN.CONFIRM) return;
+      if (data.type !== POST_MESSAGE_TYPE.MODAL.OPEN.CONFIRM) {
+        setIsOpen(false);
+
+        return;
+      }
 
       setText(data.data);
+      setIsOpen(true);
     };
 
     window.addEventListener("message", onMessageConfirmModal);
 
     return () => window.removeEventListener("message", onMessageConfirmModal);
   }, []);
-
-  useEffect(() => {
-    setIsOpen(text.length > 0);
-  }, [text]);
 
   return (
     <Modal isOpen={isOpen} closeModal={onCloseModal} fadeInFrom="center">

@@ -255,7 +255,7 @@ const Comment = ({
             >
               {comment.content}
             </CommentTextBox>
-            {shouldShowOption && !submitType && (
+            {shouldShowOption && (
               <CommentOption startEditing={canIEdit ? startEditing : undefined} startDeleting={startDeleting} />
             )}
             <CommentBottomWrapper>

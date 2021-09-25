@@ -17,19 +17,20 @@ const LikingUsersModal = () => {
 
   useEffect(() => {
     const onMessageLikingUserModal = ({ data }: MessageEvent) => {
-      if (data.type !== POST_MESSAGE_TYPE.MODAL.OPEN.LIKING_USERS_MODAL) return;
+      if (data.type !== POST_MESSAGE_TYPE.MODAL.OPEN.LIKING_USERS_MODAL) {
+        setIsOpen(false);
+
+        return;
+      }
 
       setUsers(data.data);
+      setIsOpen(true);
     };
 
     window.addEventListener("message", onMessageLikingUserModal);
 
     return () => window.removeEventListener("message", onMessageLikingUserModal);
   }, []);
-
-  useEffect(() => {
-    setIsOpen(users.length > 0);
-  }, [users]);
 
   return (
     <Modal isOpen={isOpen} closeModal={onCloseModal} fadeInFrom="center">

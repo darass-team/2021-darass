@@ -16,19 +16,20 @@ const AlarmModal = () => {
 
   useEffect(() => {
     const onMessageAlarmModal = ({ data }: MessageEvent) => {
-      if (data.type !== POST_MESSAGE_TYPE.MODAL.OPEN.ALARM) return;
+      if (data.type !== POST_MESSAGE_TYPE.MODAL.OPEN.ALARM) {
+        setIsOpen(false);
+
+        return;
+      }
 
       setAlarmContents(data.data);
+      setIsOpen(true);
     };
 
     window.addEventListener("message", onMessageAlarmModal);
 
     return () => window.removeEventListener("message", onMessageAlarmModal);
   }, []);
-
-  useEffect(() => {
-    setIsOpen(alarmContents.length > 0);
-  }, [alarmContents]);
 
   return (
     <Modal isOpen={isOpen} closeModal={onCloseModal} fadeInFrom="none">
