@@ -6,6 +6,7 @@
 
 <br/>
 
+
 ## 📝 Introduce
 
 다라쓰는 스크립트 코드를 웹 페이지에 붙여넣는 것만으로 간편하게 댓글 기능을 추가할 수 있는 댓글 모듈 서비스 입니다.
@@ -45,7 +46,7 @@
 - **CI/CD** : Github Actions, Jenkins
 
 ## 🔨 Front-End Architecture
-![아키텍처](https://user-images.githubusercontent.com/42544600/134601249-422da399-8d05-41e2-847e-a84f8417ec33.png)
+![아키텍처](https://user-images.githubusercontent.com/42544600/134764731-09073569-a250-471c-b069-39f2c48a3d85.png)
 
 ## 🔨 Back-End Architecture
 
