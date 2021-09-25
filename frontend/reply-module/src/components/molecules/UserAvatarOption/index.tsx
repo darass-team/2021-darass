@@ -1,4 +1,5 @@
 import Alarm from "@/components/atoms/Alarm";
+import Modal from "@/components/atoms/Modal";
 import { MouseEvent, ReactNode, useEffect, useRef, useState } from "react";
 import { User } from "../../../types/user";
 import Avatar from "../../atoms/Avatar";
@@ -15,6 +16,7 @@ const UserAvatarOption = ({ user, children, className }: Props) => {
 
   const onShowOptionBox = (event: MouseEvent) => {
     event.stopPropagation();
+
     setShowOptionBox(state => !state);
   };
 
@@ -34,7 +36,10 @@ const UserAvatarOption = ({ user, children, className }: Props) => {
         alt="유저 프로필 이미지"
         data-testid="avartar-option-img"
       />
-      {isShowOptionBox && <UserOption userName={user?.nickName}>{children}</UserOption>}
+
+      <Modal isOpen={isShowOptionBox} closeModal={() => setShowOptionBox(false)} dimmedOpacity={0}>
+        <UserOption userName={user?.nickName}>{children}</UserOption>
+      </Modal>
     </Container>
   );
 };

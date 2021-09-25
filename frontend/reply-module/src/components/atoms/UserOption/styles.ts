@@ -12,13 +12,6 @@ export const Container = styled.div`
   padding: 0.6rem 0.6rem;
 `;
 
-export const Label = styled.span`
-  align-self: flex-start;
-  font-size: 0.8rem;
-  line-height: 1.2rem;
-  margin-bottom: 0.5rem;
-`;
-
 export const OptionContainer = styled.div`
   width: 100%;
   display: flex;

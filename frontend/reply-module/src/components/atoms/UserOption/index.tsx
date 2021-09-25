@@ -1,6 +1,5 @@
-import { ReactNode, useState } from "react";
-import Modal from "../Modal";
-import { Container, Label, OptionContainer } from "./styles";
+import { ReactNode } from "react";
+import { Container, OptionContainer } from "./styles";
 
 export interface Props {
   className?: string;
@@ -9,15 +8,10 @@ export interface Props {
 }
 
 const UserOption = ({ className, userName, children }: Props) => {
-  const [isOpen, setIsOpen] = useState(false);
-
   return (
-    <Modal isOpen={isOpen} closeModal={() => setIsOpen(false)} dimmedOpacity={0}>
-      <Container className={className}>
-        {!userName && <Label>Login with</Label>}
-        <OptionContainer>{children}</OptionContainer>
-      </Container>
-    </Modal>
+    <Container className={className}>
+      <OptionContainer>{children}</OptionContainer>
+    </Container>
   );
 };
 

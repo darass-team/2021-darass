@@ -1,5 +1,5 @@
 import { Story } from "@storybook/react";
-import ConfirmModal, { Props } from ".";
+import ConfirmModal from ".";
 
 export default {
   title: "atoms/ConfirmModal",
@@ -7,7 +7,7 @@ export default {
   argTypes: { children: { control: "text" } }
 };
 
-const Template: Story<Props> = args => <ConfirmModal {...args} />;
+const Template: Story = args => <ConfirmModal {...args} />;
 
 export const Default = Template.bind({});
 

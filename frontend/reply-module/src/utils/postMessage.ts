@@ -28,6 +28,10 @@ export const postCloseConfirm = () => {
   postToDeployScript({ type: POST_MESSAGE_TYPE.MODAL.CLOSE.CONFIRM });
 };
 
+export const postCloseAlarm = () => {
+  postToDeployScript({ type: POST_MESSAGE_TYPE.MODAL.CLOSE.ALARM });
+};
+
 export const postConfirmNo = () => {
   postToDeployScript({ type: POST_MESSAGE_TYPE.CONFIRM_NO });
 };

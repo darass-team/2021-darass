@@ -1,10 +1,9 @@
-import { absoluteCenter, contentBoxCSS } from "@/constants/styles/css";
+import { contentBoxCSS } from "@/constants/styles/css";
 import styled from "styled-components";
-import { PALETTE } from "../../../constants/styles/palette";
+import { PALETTE } from "../../../../constants/styles/palette";
 
 export const Container = styled.div`
   ${contentBoxCSS}
-  ${absoluteCenter}
   width: 22rem;
   height: 22rem;
   max-height: 22rem;

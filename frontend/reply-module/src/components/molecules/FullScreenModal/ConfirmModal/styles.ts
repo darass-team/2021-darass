@@ -1,7 +1,7 @@
-import { absoluteCenter, contentBoxCSS } from "@/constants/styles/css";
+import { contentBoxCSS } from "@/constants/styles/css";
 import styled from "styled-components";
-import { PALETTE } from "../../../constants/styles/palette";
-import ModalComponent from "../../atoms/Modal";
+import { PALETTE } from "../../../../constants/styles/palette";
+import ModalComponent from "../../../atoms/Modal";
 
 export const Modal = styled(ModalComponent)`
   padding: 0;
@@ -9,7 +9,6 @@ export const Modal = styled(ModalComponent)`
 
 export const Container = styled.div`
   ${contentBoxCSS}
-  ${absoluteCenter}
   padding: 0;
   width: 20rem;
   height: fit-content;

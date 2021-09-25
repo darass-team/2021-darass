@@ -79,6 +79,7 @@
     "watch:production": "cross-env BUILD_MODE=production webpack watch",
     "test": "jest",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "build-storybook": "build-storybook",
+    "tsc": "tsc --noEmit -w"
   }
 }

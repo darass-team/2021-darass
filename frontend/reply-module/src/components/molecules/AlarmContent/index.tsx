@@ -37,32 +37,31 @@ const AlarmContent = ({ alarmContents }: Props) => {
       <AlarmHeader>
         내 소식 <NotificationCount>{alarmContents.length}</NotificationCount>
       </AlarmHeader>
-      <>
-        {alarmContents.length > 0 ? (
-          alarmContents.map(({ sender, url, content, createDate, alarmMessageType }) => {
-            return (
-              <Content>
-                <ContentWrapper>
-                  <Notification>
-                    <span>
-                      <Name>{sender}</Name>
-                      <span>{ALARM_MESSAGE_TABLE[alarmMessageType]}</span>
-                    </span>
 
-                    <time>{getTimeDifference(createDate)}</time>
-                  </Notification>
+      {alarmContents.length > 0 ? (
+        alarmContents.map(({ sender, url, content, createDate, alarmMessageType }) => {
+          return (
+            <Content>
+              <ContentWrapper>
+                <Notification>
+                  <span>
+                    <Name>{sender}</Name>
+                    <span>{ALARM_MESSAGE_TABLE[alarmMessageType]}</span>
+                  </span>
 
-                  <Text>{content}</Text>
+                  <time>{getTimeDifference(createDate)}</time>
+                </Notification>
 
-                  <Url>{url}</Url>
-                </ContentWrapper>
-              </Content>
-            );
-          })
-        ) : (
-          <NoContent>"최근 30일간 받은 알람이 없습니다."</NoContent>
-        )}
-      </>
+                <Text>{content}</Text>
+
+                <Url>{url}</Url>
+              </ContentWrapper>
+            </Content>
+          );
+        })
+      ) : (
+        <NoContent>"최근 30일간 받은 알람이 없습니다."</NoContent>
+      )}
     </>
   );
 };

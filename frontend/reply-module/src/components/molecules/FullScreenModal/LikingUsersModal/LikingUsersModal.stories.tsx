@@ -1,5 +1,5 @@
 import { Story } from "@storybook/react";
-import LikingUsersModal, { Props } from ".";
+import LikingUsersModal from ".";
 
 export default {
   title: "atoms/LikingUsersModal",
@@ -7,7 +7,7 @@ export default {
   argTypes: { children: { control: "text" } }
 };
 
-const Template: Story<Props> = args => <LikingUsersModal {...args} />;
+const Template: Story = args => <LikingUsersModal {...args} />;
 
 export const Default = Template.bind({});
 
