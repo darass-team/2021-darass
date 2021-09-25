@@ -9,7 +9,8 @@ const alarmSizeBySize = {
 };
 
 export const Container = styled.div<{ size: Size }>`
-  padding-top: 0.2rem;
+  margin-top: 0.4rem;
+  margin-right: 0.5rem;
   cursor: pointer;
   position: relative;
   width: fit-content;

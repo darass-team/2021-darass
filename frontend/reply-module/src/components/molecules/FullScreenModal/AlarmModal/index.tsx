@@ -26,13 +26,13 @@ const AlarmModal = () => {
   }, []);
 
   return (
-    <Container>
-      <Modal isOpen={!!alarmContents} closeModal={onCloseModal}>
+    <Modal isOpen={!!alarmContents} closeModal={onCloseModal} fadeInFrom="center">
+      <Container>
         <AlarmContainer>
           <AlarmContent alarmContents={alarmContents || []} />
         </AlarmContainer>
-      </Modal>
-    </Container>
+      </Container>
+    </Modal>
   );
 };
 

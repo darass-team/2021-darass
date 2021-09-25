@@ -16,7 +16,6 @@ export const Dimmed = styled.div<{ isOpen: boolean; opacity: number }>`
 `;
 
 export const Container = styled.div<{ isOpen: boolean; fadeInFrom: FadeInDirection }>`
-  z-index: 2;
   opacity: 1;
 
   & > * {

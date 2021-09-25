@@ -26,7 +26,6 @@ export const NoContent = styled.div`
 
 export const Content = styled(NoContent)`
   cursor: pointer;
-  transition: all 0.3s linear;
 
   @media (hover: hover) and (pointer: fine) {
     &:hover {

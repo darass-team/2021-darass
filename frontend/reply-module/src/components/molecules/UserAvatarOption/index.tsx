@@ -32,7 +32,8 @@ const UserAvatarOption = ({ user, children, className }: Props) => {
 
   return (
     <Container className={className}>
-      <Alarm size="MD" hasUnReadNotification={false} onClick={onClickAlarmIcon} />
+      {user && <Alarm size="SM" hasUnReadNotification={false} onClick={onClickAlarmIcon} />}
+
       <UserNickName onClick={onShowOptionBox}>{user?.nickName ?? "로그인"}</UserNickName>
       <Avatar
         imageURL={user?.profileImageUrl}
