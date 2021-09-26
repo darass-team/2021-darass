@@ -182,9 +182,9 @@ jacocoTestCoverageVerification {
                     '*.Kotlin*',
                     'com.darass.darass.DarassApplication',
                     'com.darass.darass.TestDataLoader',
-                    'com.darass.darass.common.LoggingAspect',
-                    'com.darass.darass.config.*',
-                    'com.darass.darass.websocket.domain.AlarmMessageMachine'
+                    'com.darass.common.LoggingAspect',
+                    'com.darass.config.*',
+                    'com.darass.websocket.domain.AlarmMessageMachine'
             ]
         }
     }
