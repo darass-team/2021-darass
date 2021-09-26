@@ -1,4 +1,4 @@
-package com.darass.websocket.domain;
+package com.darass.comment.domain;
 
 public enum AlarmMessageType {
 

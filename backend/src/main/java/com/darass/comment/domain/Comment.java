@@ -59,6 +59,10 @@ public class Comment extends BaseTimeEntity {
     @OneToMany(mappedBy = "parent", fetch = LAZY, cascade = ALL, orphanRemoval = true)
     private List<Comment> subComments = new ArrayList<>();
 
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @OneToMany(mappedBy = "comment")
+    private List<CommentAlarm> commentAlarms = new ArrayList<>();
+
     private String url;
 
     @Lob
@@ -126,4 +130,15 @@ public class Comment extends BaseTimeEntity {
             throw ExceptionWithMessageAndCode.INVALID_INPUT_LENGTH.getException();
         }
     }
+
+    public CommentAlarm createCommentAlarm(AlarmMessageType alarmMessageType) {
+        CommentAlarm commentAlarm = CommentAlarm.builder()
+            .alarmMessageType(alarmMessageType)
+            .sender(user)
+            .comment(this)
+            .build();
+
+        return commentAlarm;
+    }
+
 }

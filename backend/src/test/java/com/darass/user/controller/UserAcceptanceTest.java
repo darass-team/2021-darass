@@ -3,6 +3,7 @@ package com.darass.user.controller;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.doNothing;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -20,6 +21,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.darass.comment.domain.AlarmMessageMachine;
 import com.darass.darass.AcceptanceTest;
 import com.darass.auth.infrastructure.JwtTokenProvider;
 import com.darass.comment.dto.CommentCreateRequest;
@@ -73,8 +75,15 @@ class UserAcceptanceTest extends AcceptanceTest { //TODO: 로그이웃 기능 �
     @MockBean
     private S3Uploader s3Uploader;
 
+    @MockBean
+    private AlarmMessageMachine alarmMessageMachine;
+
     @BeforeEach
     public void setUser() { // TODO: 이 부분 로그인 인수테스트로 바꾸기
+        doNothing().when(alarmMessageMachine).sendMessage(any(), any());
+        doNothing().when(alarmMessageMachine).sendMessage(any(), any());
+        doNothing().when(alarmMessageMachine).sendMessage(any(), any());
+
         socialLoginUser = SocialLoginUser
             .builder()
             .nickName("우기")

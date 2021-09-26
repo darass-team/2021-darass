@@ -5,6 +5,8 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
 
+import com.darass.comment.domain.CommentAlarm;
+import com.darass.comment.repository.CommentAlarmRepository;
 import com.darass.darass.SpringContainerTest;
 import com.darass.auth.domain.KaKaoOAuthProvider;
 import com.darass.comment.domain.Comment;
@@ -31,12 +33,14 @@ import com.darass.user.domain.GuestUser;
 import com.darass.user.domain.SocialLoginUser;
 import com.darass.user.domain.User;
 import com.darass.user.repository.UserRepository;
-import com.darass.websocket.domain.AlarmMessageMachine;
+import com.darass.comment.domain.AlarmMessageMachine;
+import com.darass.comment.domain.AlarmMessageType;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import org.checkerframework.checker.units.qual.C;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -44,6 +48,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.transaction.annotation.Transactional;
 
+@Transactional
 @DisplayName("CommentService 클래스")
 class CommentServiceTest extends SpringContainerTest {
 
@@ -60,6 +65,9 @@ class CommentServiceTest extends SpringContainerTest {
     private UserRepository userRepository;
 
     @Autowired
+    private CommentAlarmRepository commentAlarmRepository;
+
+    @Autowired
     private CommentService commentService;
 
     @MockBean
@@ -74,11 +82,10 @@ class CommentServiceTest extends SpringContainerTest {
     private List<Comment> comments;
 
     @BeforeEach
-    @Transactional
     void setUp() {
-        doNothing().when(alarmMessageMachine).sendCommentCreateMessage(any(), any(), any());
-        doNothing().when(alarmMessageMachine).sendSubCommentCreateMessage(any(), any(), any());
-        doNothing().when(alarmMessageMachine).sendCommentLikeMessage(any(), any(), any());
+        doNothing().when(alarmMessageMachine).sendMessage(any(), any());
+        doNothing().when(alarmMessageMachine).sendMessage(any(), any());
+        doNothing().when(alarmMessageMachine).sendMessage(any(), any());
 
         socialLoginUser = SocialLoginUser.builder()
             .nickName("우기")
@@ -143,19 +150,33 @@ class CommentServiceTest extends SpringContainerTest {
         comments = Arrays.asList(comment1, comment2, comment3, comment4);
     }
 
-    @DisplayName("소셜 로그인 유저가 댓글을 등록한다.")
+    @DisplayName("소셜 로그인 유저가 댓글을 등록하고 알람 메세지를 보낸다.")
     @Test
     void save() {
         CommentCreateRequest request = new CommentCreateRequest(null, null, null, project.getSecretKey(), "content", "url");
         assertThat(commentService.save(socialLoginUser, request).getContent()).isEqualTo("content");
+
+        List<CommentAlarm> commentAlarms = commentAlarmRepository.findAll();
+        CommentAlarm commentAlarm = commentAlarms.get(0);
+
+        assertThat(commentAlarm.getComment().getContent()).isEqualTo("content");
+        assertThat(commentAlarm.getSender()).isEqualTo(socialLoginUser);
+        assertThat(commentAlarm.getAlarmMessageType()).isEqualTo(AlarmMessageType.CREATE_COMMENT);
     }
 
-    @DisplayName("비로그인 유저가 댓글을 등록한다.")
+    @DisplayName("비로그인 유저가 댓글을 등록하고 알람 메세지를 보낸다.")
     @Test
     void save_guest() {
         CommentCreateRequest request = new CommentCreateRequest(guestUser.getNickName(), guestUser.getPassword(), null,
             project.getSecretKey(), "content", "url");
         assertThat(commentService.save(guestUser, request).getContent()).isEqualTo("content");
+
+        List<CommentAlarm> commentAlarms = commentAlarmRepository.findAll();
+        CommentAlarm commentAlarm = commentAlarms.get(0);
+
+        assertThat(commentAlarm.getComment().getContent()).isEqualTo("content");
+        assertThat(commentAlarm.getSender().getNickName()).isEqualTo(guestUser.getNickName());
+        assertThat(commentAlarm.getAlarmMessageType()).isEqualTo(AlarmMessageType.CREATE_COMMENT);
     }
 
     @DisplayName("존재하지 않는 프로젝트에 댓글을 등록하면 에러를 던진다.")
@@ -419,7 +440,6 @@ class CommentServiceTest extends SpringContainerTest {
 
     @DisplayName("관리자가 다른 유저의 댓글을 삭제한다.")
     @Test
-    @Transactional
     void delete_administrator() {
         CommentDeleteRequest request = new CommentDeleteRequest(null, null);
         commentService.delete(comments.get(3).getId(), socialLoginUser, request);
@@ -428,16 +448,40 @@ class CommentServiceTest extends SpringContainerTest {
 
     @DisplayName("좋아요를 누른다.")
     @Test
-    @Transactional
     void click_like() {
         commentService.toggleLike(comments.get(0).getId(), socialLoginUser);
+
+        List<CommentAlarm> commentAlarms = commentAlarmRepository.findAll();
+        CommentAlarm commentAlarm = commentAlarms.get(0);
+
         assertThat(comments.get(0).getCommentLikes()).hasSize(1);
+        assertThat(commentAlarm.getComment().getContent()).isEqualTo("content1");
+        assertThat(commentAlarm.getSender()).isEqualTo(socialLoginUser);
+        assertThat(commentAlarm.getAlarmMessageType()).isEqualTo(AlarmMessageType.CREATE_COMMENT_LIKE);
     }
 
+    @Transactional
     @DisplayName("이미 좋아요가 되어 있으면 토글한다.")
     @Test
     void toggle_like() {
-        commentService.toggleLike(comments.get(1).getId(), socialLoginUser);
-        assertThat(comments.get(1).getCommentLikes()).hasSize(0);
+        //given
+        commentLikeRepository.deleteAll();
+        commentRepository.deleteAll();
+
+        Comment comment = Comment.builder()
+            .user(socialLoginUser)
+            .project(project)
+            .url("url")
+            .content("content")
+            .build();
+        commentRepository.save(comment);
+
+        commentService.toggleLike(comment.getId(), socialLoginUser);
+
+        //when
+        commentService.toggleLike(comment.getId(), socialLoginUser);
+
+        //then
+        assertThat(comment.getCommentLikes()).hasSize(0);
     }
 }

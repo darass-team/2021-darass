@@ -33,7 +33,7 @@ import com.darass.project.repository.ProjectRepository;
 import com.darass.user.domain.SocialLoginUser;
 import com.darass.user.dto.UserResponse;
 import com.darass.user.repository.UserRepository;
-import com.darass.websocket.domain.AlarmMessageMachine;
+import com.darass.comment.domain.AlarmMessageMachine;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.time.LocalDate;
 import java.util.stream.IntStream;
@@ -94,9 +94,9 @@ class CommentAcceptanceTest extends AcceptanceTest {
 
     @BeforeEach
     void setUp() {
-        doNothing().when(alarmMessageMachine).sendCommentCreateMessage(any(), any(), any());
-        doNothing().when(alarmMessageMachine).sendSubCommentCreateMessage(any(), any(), any());
-        doNothing().when(alarmMessageMachine).sendCommentLikeMessage(any(), any(), any());
+        doNothing().when(alarmMessageMachine).sendMessage(any(), any());
+        doNothing().when(alarmMessageMachine).sendMessage(any(), any());
+        doNothing().when(alarmMessageMachine).sendMessage(any(), any());
 
         setUpUser();
         setUpProject();
