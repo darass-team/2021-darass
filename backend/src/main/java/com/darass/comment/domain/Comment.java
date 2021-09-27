@@ -3,6 +3,8 @@ package com.darass.comment.domain;
 import static javax.persistence.CascadeType.ALL;
 import static javax.persistence.FetchType.LAZY;
 
+import com.darass.commentalarm.domain.CommentAlarmType;
+import com.darass.commentalarm.domain.CommentAlarm;
 import com.darass.common.domain.BaseTimeEntity;
 import com.darass.exception.ExceptionWithMessageAndCode;
 import com.darass.project.domain.Project;
@@ -131,9 +133,9 @@ public class Comment extends BaseTimeEntity {
         }
     }
 
-    public CommentAlarm createCommentAlarm(AlarmMessageType alarmMessageType) {
+    public CommentAlarm createCommentAlarm(CommentAlarmType commentAlarmType) {
         CommentAlarm commentAlarm = CommentAlarm.builder()
-            .alarmMessageType(alarmMessageType)
+            .commentAlarmType(commentAlarmType)
             .sender(user)
             .comment(this)
             .build();

@@ -1,5 +1,6 @@
-package com.darass.comment.domain;
+package com.darass.commentalarm.domain;
 
+import com.darass.comment.domain.Comment;
 import com.darass.common.domain.BaseTimeEntity;
 import com.darass.user.domain.User;
 import javax.persistence.CascadeType;
@@ -27,7 +28,7 @@ public class CommentAlarm extends BaseTimeEntity {
     private Long id;
 
     @Enumerated(EnumType.STRING)
-    private AlarmMessageType alarmMessageType;
+    private CommentAlarmType commentAlarmType;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "sender_id")
@@ -38,9 +39,9 @@ public class CommentAlarm extends BaseTimeEntity {
     private Comment comment;
 
     @Builder
-    public CommentAlarm(Long id, AlarmMessageType alarmMessageType, User sender, Comment comment) {
+    public CommentAlarm(Long id, CommentAlarmType commentAlarmType, User sender, Comment comment) {
         this.id = id;
-        this.alarmMessageType = alarmMessageType;
+        this.commentAlarmType = commentAlarmType;
         this.sender = sender;
         this.comment = comment;
     }
