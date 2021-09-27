@@ -1,15 +1,8 @@
 import { contentBoxCSS, fadeInDirectionCSS } from "@/constants/styles/css";
 import styled from "styled-components";
 
-export const Container = styled.div<{ isOpen: boolean }>`
+export const Container = styled.div`
   padding-top: 0.2rem;
-
-  @media all and (max-width: 780px) {
-    ${({ isOpen }) => fadeInDirectionCSS["bottom"](isOpen)};
-  }
-  @media all and (min-width: 780px) {
-    ${({ isOpen }) => fadeInDirectionCSS["right"](isOpen)};
-  }
 `;
 
 export const AlarmContainer = styled.div`

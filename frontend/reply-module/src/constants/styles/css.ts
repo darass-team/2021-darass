@@ -85,19 +85,37 @@ export const SkeletonCSS = css`
 export const fadeInDirectionCSS: { [key in FadeInDirection]: (on: boolean) => FlattenSimpleInterpolation } = {
   left: (on: boolean) =>
     css`
-      transition: all ${CLOSE_MODAL_ANIMATION_FINISH_TIME}ms ease-in-out;
-      top: 0;
-      bottom: 0;
-      left: 0;
-      transform: ${on ? "translateX(0%)" : "translateX(-100%)"};
+      @media all and (max-width: 780px) {
+        transition: all ${CLOSE_MODAL_ANIMATION_FINISH_TIME}ms ease-in-out;
+        right: 0;
+        left: 0;
+        bottom: 0;
+        transform: ${on ? "translateY(0%)" : "translateY(100%)"};
+      }
+      @media all and (min-width: 780px) {
+        transition: all ${CLOSE_MODAL_ANIMATION_FINISH_TIME}ms ease-in-out;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        transform: ${on ? "translateX(0%)" : "translateX(-100%)"};
+      }
     `,
   right: (on: boolean) =>
     css`
-      transition: all ${CLOSE_MODAL_ANIMATION_FINISH_TIME}ms ease-in-out;
-      top: 0;
-      bottom: 0;
-      right: 0;
-      transform: ${on ? "translateX(0%)" : "translateX(100%)"};
+      @media all and (max-width: 780px) {
+        transition: all ${CLOSE_MODAL_ANIMATION_FINISH_TIME}ms ease-in-out;
+        right: 0;
+        left: 0;
+        bottom: 0;
+        transform: ${on ? "translateY(0%)" : "translateY(100%)"};
+      }
+      @media all and (min-width: 780px) {
+        transition: all ${CLOSE_MODAL_ANIMATION_FINISH_TIME}ms ease-in-out;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        transform: ${on ? "translateX(0%)" : "translateX(100%)"};
+      }
     `,
   top: (on: boolean) =>
     css`

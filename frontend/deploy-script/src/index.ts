@@ -8,14 +8,53 @@ const messageChannel = {
   replyModal: new MessageChannel()
 };
 
-const bindEventAboutReplyModule = ($replyModuleIframe: HTMLIFrameElement, $modalIframe: HTMLIFrameElement) => {
-  messageChannel.replyModule.port1.addEventListener("message", ({ data: { type, data } }) => {
+const init = () => {
+  const $darass: HTMLElement | null = document.querySelector("#darass");
+  if (!$darass) {
+    alert("Darass를 렌더링할 수 없습니다. id가 darass인 요소를 추가해주세요.");
+
+    return;
+  }
+
+  const projectKey = $darass.dataset.projectKey;
+  if (!projectKey) {
+    alert("유효하지 않은 프로젝트 키입니다. 프로젝트키를 확인해주세요.");
+
+    return;
+  }
+
+  const $replyModuleIframe = createIframe(getReplyModuleURL(projectKey), IFRAME_STYLE.REPLY_MODULE);
+  const $modalIframe = createIframe(getModalUrl(), IFRAME_STYLE.MODAL);
+  $replyModuleIframe.setAttribute("scrolling", "no");
+
+  $darass.append($replyModuleIframe, $modalIframe);
+
+  const postReplyModulePort = () => {
+    $replyModuleIframe.contentWindow?.postMessage(
+      { type: POST_MESSAGE_TYPE.INIT_MESSAGE_CHANNEL.REPLY_MODULE.RESPONSE_PORT },
+      "*",
+      [messageChannel.replyModule.port2]
+    );
+  };
+
+  const postReplyModalPort = () => {
+    $modalIframe.contentWindow?.postMessage(
+      { type: POST_MESSAGE_TYPE.INIT_MESSAGE_CHANNEL.REPLY_MODAL.RESPONSE_PORT },
+      "*",
+      [messageChannel.replyModal.port2]
+    );
+  };
+
+  const onMessageFromReplyModuleIFrame = ({ data: { type, data } }: MessageEvent) => {
     const ACTION_TABLE = {
       [POST_MESSAGE_TYPE.ALERT]: () => {
         alert(data);
       },
       [POST_MESSAGE_TYPE.MODAL.OPEN.LIKING_USERS_MODAL]: () => {
-        messageChannel.replyModal.port1.postMessage({ type: POST_MESSAGE_TYPE.MODAL.OPEN.LIKING_USERS_MODAL, data });
+        messageChannel.replyModal.port1.postMessage({
+          type: POST_MESSAGE_TYPE.MODAL.OPEN.LIKING_USERS_MODAL,
+          data
+        });
         showElement($modalIframe);
         blockScroll();
       },
@@ -33,15 +72,10 @@ const bindEventAboutReplyModule = ($replyModuleIframe: HTMLIFrameElement, $modal
     } as const;
 
     if (!Object.keys(ACTION_TABLE).includes(type)) return;
-
     ACTION_TABLE[type as keyof typeof ACTION_TABLE]();
-  });
+  };
 
-  messageChannel.replyModule.port1.start();
-};
-
-const bindEventAboutReplyModal = ($replyModuleIframe: HTMLIFrameElement, $modalIframe: HTMLIFrameElement) => {
-  messageChannel.replyModal.port1.addEventListener("message", ({ data: { type, data } }) => {
+  const onMessageFromReplyModalIFrame = ({ data: { type, data } }: MessageEvent) => {
     const ACTION_TABLE = {
       [POST_MESSAGE_TYPE.MODAL.CLOSE.ALARM]: () => {
         messageChannel.replyModule.port1.postMessage({ type: POST_MESSAGE_TYPE.MODAL.CLOSE.ALARM });
@@ -71,55 +105,23 @@ const bindEventAboutReplyModal = ($replyModuleIframe: HTMLIFrameElement, $modalI
     };
 
     if (!Object.keys(ACTION_TABLE).includes(type)) return;
-
     ACTION_TABLE[type as keyof typeof ACTION_TABLE]();
-  });
+  };
 
-  messageChannel.replyModal.port1.start();
-};
-
-const init = () => {
-  const $darass: HTMLElement | null = document.querySelector("#darass");
-  if (!$darass) {
-    alert("Darass를 렌더링할 수 없습니다. id가 darass인 요소를 추가해주세요.");
-
-    return;
-  }
-
-  const projectKey = $darass.dataset.projectKey;
-  if (!projectKey) {
-    alert("유효하지 않은 프로젝트 키입니다. 프로젝트키를 확인해주세요.");
-
-    return;
-  }
-
-  const $replyModuleIframe = createIframe(getReplyModuleURL(projectKey), IFRAME_STYLE.REPLY_MODULE);
-  const $modalIframe = createIframe(getModalUrl(), IFRAME_STYLE.MODAL);
-  $replyModuleIframe.setAttribute("scrolling", "no");
-
-  $darass.append($replyModuleIframe, $modalIframe);
-
-  window.addEventListener("message", ({ data }: MessageEvent) => {
+  const onMessageForRequestPort = ({ data }: MessageEvent) => {
     if (data.type === POST_MESSAGE_TYPE.INIT_MESSAGE_CHANNEL.REPLY_MODULE.REQUEST_PORT) {
-      $replyModuleIframe.contentWindow?.postMessage(
-        { type: POST_MESSAGE_TYPE.INIT_MESSAGE_CHANNEL.REPLY_MODULE.RESPONSE_PORT },
-        "*",
-        [messageChannel.replyModule.port2]
-      );
-
-      bindEventAboutReplyModule($replyModuleIframe, $modalIframe);
+      postReplyModulePort();
+      messageChannel.replyModule.port1.addEventListener("message", onMessageFromReplyModuleIFrame);
+      messageChannel.replyModule.port1.start();
     }
-
     if (data.type === POST_MESSAGE_TYPE.INIT_MESSAGE_CHANNEL.REPLY_MODAL.REQUEST_PORT) {
-      $modalIframe.contentWindow?.postMessage(
-        { type: POST_MESSAGE_TYPE.INIT_MESSAGE_CHANNEL.REPLY_MODAL.RESPONSE_PORT },
-        "*",
-        [messageChannel.replyModal.port2]
-      );
-
-      bindEventAboutReplyModal($replyModuleIframe, $modalIframe);
+      postReplyModalPort();
+      messageChannel.replyModal.port1.addEventListener("message", onMessageFromReplyModalIFrame);
+      messageChannel.replyModal.port1.start();
     }
-  });
+  };
+
+  window.addEventListener("message", onMessageForRequestPort);
 };
 
 window.addEventListener("load", init);
