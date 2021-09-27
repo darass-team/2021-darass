@@ -1,7 +1,7 @@
 package com.darass.comment.service;
 
 import com.darass.comment.domain.Comment;
-import com.darass.comment.domain.CommentAlarm;
+import com.darass.commentalarm.domain.CommentAlarm;
 import com.darass.comment.domain.CommentLike;
 import com.darass.comment.domain.Comments;
 import com.darass.comment.domain.SortOption;
@@ -17,7 +17,7 @@ import com.darass.comment.dto.CommentResponses;
 import com.darass.comment.dto.CommentStatRequest;
 import com.darass.comment.dto.CommentStatResponse;
 import com.darass.comment.dto.CommentUpdateRequest;
-import com.darass.comment.repository.CommentAlarmRepository;
+import com.darass.commentalarm.repository.CommentAlarmRepository;
 import com.darass.comment.repository.CommentCountStrategyFactory;
 import com.darass.comment.repository.CommentRepository;
 import com.darass.exception.ExceptionWithMessageAndCode;
@@ -27,8 +27,8 @@ import com.darass.user.domain.GuestUser;
 import com.darass.user.domain.User;
 import com.darass.user.dto.UserResponse;
 import com.darass.user.repository.UserRepository;
-import com.darass.comment.domain.AlarmMessageMachine;
-import com.darass.comment.domain.AlarmMessageType;
+import com.darass.commentalarm.domain.CommentAlarmMachine;
+import com.darass.commentalarm.domain.CommentAlarmType;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Objects;
@@ -49,7 +49,7 @@ public class CommentService {
     private final UserRepository userRepository;
     private final CommentAlarmRepository commentAlarmRepository;
     private final CommentCountStrategyFactory commentCountStrategyFactory;
-    private final AlarmMessageMachine alarmMessageMachine;
+    private final CommentAlarmMachine commentAlarmMachine;
 
     public CommentResponse save(User user, CommentCreateRequest commentRequest) {
         if (!user.isLoginUser()) {
@@ -161,7 +161,7 @@ public class CommentService {
             return;
         }
 
-        sendAlarm(comment, AlarmMessageType.CREATE_COMMENT_LIKE, comment.getUser());
+        sendAlarm(comment, CommentAlarmType.CREATE_COMMENT_LIKE, comment.getUser());
 
         comment.addCommentLike(CommentLike.builder()
             .comment(comment)
@@ -231,7 +231,7 @@ public class CommentService {
             .url(commentRequest.getUrl())
             .build();
 
-        sendAlarm(comment, AlarmMessageType.CREATE_COMMENT, project.getUser());
+        sendAlarm(comment, CommentAlarmType.CREATE_COMMENT, project.getUser());
 
         return CommentResponse.of(commentRepository.save(comment), UserResponse.of(comment.getUser()));
     }
@@ -249,15 +249,15 @@ public class CommentService {
             .parent(parentComment)
             .build();
 
-        sendAlarm(comment, AlarmMessageType.CREATE_SUB_COMMENT, parentComment.getUser());
+        sendAlarm(comment, CommentAlarmType.CREATE_SUB_COMMENT, parentComment.getUser());
 
         return CommentResponse.of(commentRepository.save(comment), UserResponse.of(comment.getUser()));
     }
 
-    private void sendAlarm(Comment comment, AlarmMessageType createSubComment, User receiver) {
+    private void sendAlarm(Comment comment, CommentAlarmType createSubComment, User receiver) {
         CommentAlarm commentAlarm = comment.createCommentAlarm(createSubComment);
         commentAlarmRepository.save(commentAlarm);
-        alarmMessageMachine.sendMessage(receiver, commentAlarm);
+        commentAlarmMachine.sendMessage(receiver, commentAlarm);
     }
 
     private void validateSubCommentable(Comment parentComment) {

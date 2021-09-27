@@ -5,8 +5,8 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
 
-import com.darass.comment.domain.CommentAlarm;
-import com.darass.comment.repository.CommentAlarmRepository;
+import com.darass.commentalarm.domain.CommentAlarm;
+import com.darass.commentalarm.repository.CommentAlarmRepository;
 import com.darass.darass.SpringContainerTest;
 import com.darass.auth.domain.KaKaoOAuthProvider;
 import com.darass.comment.domain.Comment;
@@ -33,14 +33,13 @@ import com.darass.user.domain.GuestUser;
 import com.darass.user.domain.SocialLoginUser;
 import com.darass.user.domain.User;
 import com.darass.user.repository.UserRepository;
-import com.darass.comment.domain.AlarmMessageMachine;
-import com.darass.comment.domain.AlarmMessageType;
+import com.darass.commentalarm.domain.CommentAlarmMachine;
+import com.darass.commentalarm.domain.CommentAlarmType;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import org.checkerframework.checker.units.qual.C;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -71,7 +70,7 @@ class CommentServiceTest extends SpringContainerTest {
     private CommentService commentService;
 
     @MockBean
-    private AlarmMessageMachine alarmMessageMachine;
+    private CommentAlarmMachine commentAlarmMachine;
 
     private User socialLoginUser;
 
@@ -83,9 +82,9 @@ class CommentServiceTest extends SpringContainerTest {
 
     @BeforeEach
     void setUp() {
-        doNothing().when(alarmMessageMachine).sendMessage(any(), any());
-        doNothing().when(alarmMessageMachine).sendMessage(any(), any());
-        doNothing().when(alarmMessageMachine).sendMessage(any(), any());
+        doNothing().when(commentAlarmMachine).sendMessage(any(), any());
+        doNothing().when(commentAlarmMachine).sendMessage(any(), any());
+        doNothing().when(commentAlarmMachine).sendMessage(any(), any());
 
         socialLoginUser = SocialLoginUser.builder()
             .nickName("우기")
@@ -161,7 +160,7 @@ class CommentServiceTest extends SpringContainerTest {
 
         assertThat(commentAlarm.getComment().getContent()).isEqualTo("content");
         assertThat(commentAlarm.getSender()).isEqualTo(socialLoginUser);
-        assertThat(commentAlarm.getAlarmMessageType()).isEqualTo(AlarmMessageType.CREATE_COMMENT);
+        assertThat(commentAlarm.getCommentAlarmType()).isEqualTo(CommentAlarmType.CREATE_COMMENT);
     }
 
     @DisplayName("비로그인 유저가 댓글을 등록하고 알람 메세지를 보낸다.")
@@ -176,7 +175,7 @@ class CommentServiceTest extends SpringContainerTest {
 
         assertThat(commentAlarm.getComment().getContent()).isEqualTo("content");
         assertThat(commentAlarm.getSender().getNickName()).isEqualTo(guestUser.getNickName());
-        assertThat(commentAlarm.getAlarmMessageType()).isEqualTo(AlarmMessageType.CREATE_COMMENT);
+        assertThat(commentAlarm.getCommentAlarmType()).isEqualTo(CommentAlarmType.CREATE_COMMENT);
     }
 
     @DisplayName("존재하지 않는 프로젝트에 댓글을 등록하면 에러를 던진다.")
@@ -457,7 +456,7 @@ class CommentServiceTest extends SpringContainerTest {
         assertThat(comments.get(0).getCommentLikes()).hasSize(1);
         assertThat(commentAlarm.getComment().getContent()).isEqualTo("content1");
         assertThat(commentAlarm.getSender()).isEqualTo(socialLoginUser);
-        assertThat(commentAlarm.getAlarmMessageType()).isEqualTo(AlarmMessageType.CREATE_COMMENT_LIKE);
+        assertThat(commentAlarm.getCommentAlarmType()).isEqualTo(CommentAlarmType.CREATE_COMMENT_LIKE);
     }
 
     @Transactional
