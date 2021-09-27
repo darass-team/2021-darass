@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import threeDots from "../../../assets/svg/three-dots.svg";
+import Modal from "../Modal";
 import { Container, DeleteButton, EditButton, OptionContainer, OptionIcon } from "./styles";
 
 export interface Props {
@@ -12,13 +13,8 @@ const CommentOption = ({ className, startEditing, startDeleting }: Props) => {
   const [isShowOptionBox, setShowOptionBox] = useState(false);
   const $optionIcon = useRef(null);
 
-  const onShowOptionBox = () => {
+  const onToggleOptionBox = () => {
     setShowOptionBox(state => !state);
-  };
-
-  const onHideOptionBox = (event: MouseEvent) => {
-    if (event.target === $optionIcon.current) return;
-    setShowOptionBox(false);
   };
 
   const onEdit = () => {
@@ -32,16 +28,8 @@ const CommentOption = ({ className, startEditing, startDeleting }: Props) => {
     if (!startDeleting) return;
 
     startDeleting();
-
     setShowOptionBox(false);
   };
-
-  useEffect(() => {
-    window.addEventListener("click", onHideOptionBox);
-    return () => {
-      window.removeEventListener("click", onHideOptionBox);
-    };
-  }, []);
 
   return (
     <Container className={className}>
@@ -49,10 +37,10 @@ const CommentOption = ({ className, startEditing, startDeleting }: Props) => {
         ref={$optionIcon}
         src={threeDots}
         alt="댓글 옵션"
-        onClick={onShowOptionBox}
+        onClick={onToggleOptionBox}
         data-testid="comment-option"
       />
-      {isShowOptionBox && (
+      <Modal isOpen={isShowOptionBox} closeModal={() => setShowOptionBox(false)} dimmedOpacity={0}>
         <OptionContainer>
           {startEditing && (
             <EditButton type="button" onClick={onEdit} data-testid="comment-option-edit-button">
@@ -65,7 +53,7 @@ const CommentOption = ({ className, startEditing, startDeleting }: Props) => {
             </DeleteButton>
           )}
         </OptionContainer>
-      )}
+      </Modal>
     </Container>
   );
 };

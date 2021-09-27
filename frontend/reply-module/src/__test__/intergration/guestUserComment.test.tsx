@@ -1,6 +1,5 @@
 import "@testing-library/jest-dom/extend-expect";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
-import { getPasswordConfirmResult } from "../../api/getPasswordConfirmResult";
 import CommentInput from "../../components/organisms/CommentInput/index";
 import CommentList from "../../components/organisms/CommentList";
 import { useCreateComment, useDeleteComment, useEditComment } from "../../hooks";
@@ -15,7 +14,6 @@ jest.mock("../../hooks/api/comment/useCreateComment");
 jest.mock("../../hooks/api/comment/useLikeComment");
 jest.mock("../../utils/request");
 jest.mock("../../utils/focusContentEditableTextToEnd");
-jest.mock("../../api/getPasswordConfirmResult");
 
 window.alert = function (str) {
   console.log(str);
@@ -50,9 +48,7 @@ describe("비로그인 유저 댓글 CRUD 테스트 코드를 작성한다.", ()
         error: false
       };
     });
-    (getPasswordConfirmResult as jest.Mock).mockImplementation(() => {
-      return true;
-    });
+
     (useLikeComment as jest.Mock).mockImplementation(() => {
       return {
         likeComment: () => {},

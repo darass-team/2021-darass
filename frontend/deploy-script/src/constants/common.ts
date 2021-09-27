@@ -10,31 +10,6 @@ const END_POINT_TABLE = {
 
 export const END_POINT = END_POINT_TABLE[process.env.BUILD_MODE as keyof typeof END_POINT_TABLE];
 
-export const POST_MESSAGE_TYPE = {
-  CLICK: "click",
-
-  SCROLL_HEIGHT: "scrollHeight",
-  SCROLL_BLOCK: "scrollBlock",
-  SCROLL_UNBLOCK: "scrollUnBlock",
-
-  ALERT: "alert",
-  CONFIRM_OK: "confirmOK",
-  CONFIRM_NO: "confirmNO",
-
-  MODAL: {
-    OPEN: {
-      LIKING_USERS_MODAL: "openLikingUsersModal",
-      CONFIRM: "openConfirm",
-      ALARM: "openAlarm"
-    },
-    CLOSE: {
-      LIKING_USERS_MODAL: "closeLikingUsersModal",
-      CONFIRM: "closeConfirm",
-      ALARM: "closeAlarm"
-    }
-  }
-} as const;
-
 export const URL_REPLACE_TABLE = [{ from: "://m.", to: "://" }] as const;
 
 export const CLOSE_MODAL_ANIMATION_FINISH_TIME = 200;

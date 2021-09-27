@@ -6,7 +6,7 @@ const { DefinePlugin } = require("webpack");
 const Package = require("./package.json");
 
 const config = {
-  entry: { replyModule: "./src/index.tsx", modal: "./src/ReplyModal.tsx" },
+  entry: { replyModule: "./src/ReplyModule.tsx", replyModal: "./src/ReplyModal.tsx" },
   output: {
     path: path.resolve(__dirname, "dist"),
     filename: `[name]-${Package.version.replace("^", "")}.js`,
@@ -64,7 +64,7 @@ const config = {
     }),
     new HtmlWebpackPlugin({
       filename: "modal.html",
-      chunks: ["modal"],
+      chunks: ["replyModal"],
       template: "./public/modal.html"
     }),
     new CleanWebpackPlugin(),

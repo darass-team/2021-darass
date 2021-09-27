@@ -31,14 +31,6 @@ const Modal = ({
     if (blockScroll) document.body.style.setProperty("overflow", isOpen ? "hidden" : "revert");
   }, [isOpen]);
 
-  useEffect(() => {
-    const onMessage = (event: MessageEvent) => {};
-
-    window.addEventListener("message", onMessage);
-
-    return () => window.removeEventListener("message", onMessage);
-  }, []);
-
   return (
     <>
       <Dimmed ref={DimmedRef} onClick={onCloseModal} isOpen={isOpen} opacity={dimmedOpacity} fadeInFrom={fadeInFrom} />

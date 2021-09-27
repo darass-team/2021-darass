@@ -26,5 +26,5 @@ export const UserNickName = styled.button`
 export const UserOption = styled(UserOptionComponent)`
   position: absolute;
   right: 0.4rem;
-  top: 2rem;
+  top: 3.5rem;
 `;

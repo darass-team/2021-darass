@@ -18,15 +18,8 @@ const refineCurrentURL = () => {
   return currentURL;
 };
 
-export const getReplyModuleURL = ($darass: HTMLElement) => {
+export const getReplyModuleURL = (projectKey: string) => {
   const currentURL = refineCurrentURL();
-  const projectKey = $darass.dataset.projectKey;
-
-  if (!projectKey) {
-    alert("프로젝트키가 없습니다.");
-
-    return "";
-  }
 
   const urlParams = new URLSearchParams(END_POINT + "?");
   urlParams.set("url", currentURL);

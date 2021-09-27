@@ -1,6 +1,5 @@
 import "@testing-library/jest-dom/extend-expect";
 import { fireEvent, render, waitFor } from "@testing-library/react";
-import { getPasswordConfirmResult } from "../../api/getPasswordConfirmResult";
 import CommentList from "../../components/organisms/CommentList";
 import { useDeleteComment, useEditComment } from "../../hooks";
 import { useLikeComment } from "../../hooks/api/comment/useLikeComment";
@@ -43,9 +42,7 @@ describe("관리자 유저일 때의 동작 테스트", () => {
         error: false
       };
     });
-    (getPasswordConfirmResult as jest.Mock).mockImplementation(() => {
-      return true;
-    });
+
     (useLikeComment as jest.Mock).mockImplementation(() => {
       return {
         likeComment: () => {},

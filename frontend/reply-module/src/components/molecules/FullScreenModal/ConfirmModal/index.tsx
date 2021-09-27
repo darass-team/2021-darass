@@ -1,43 +1,51 @@
 import { POST_MESSAGE_TYPE } from "@/constants/postMessageType";
-import { useEffect, useState } from "react";
-import { postCloseConfirm, postConfirmNo, postConfirmOK } from "../../../../utils/postMessage";
+import { MessageChannelContext } from "@/contexts/messageChannelContext";
+import { messageFromReplyModal } from "@/utils/postMessage";
+import { useContext, useEffect, useState } from "react";
 import { ButtonWrapper, CancelButton, ConfirmButton, Container, Message, Modal } from "./styles";
 
 const ConfirmModal = () => {
   const [text, setText] = useState<string>("");
   const [isOpen, setIsOpen] = useState(false);
+  const { port } = useContext(MessageChannelContext);
 
   const onCloseModal = () => {
     setIsOpen(false);
-    postCloseConfirm();
+    messageFromReplyModal(port).closeConfirmModal();
+  };
+
+  const onClickConfirmOk = () => {
+    messageFromReplyModal(port).clickedConfirmOk();
   };
 
   const onClickConfirmNo = () => {
-    postConfirmNo();
+    messageFromReplyModal(port).clickedConfirmNo();
     setIsOpen(false);
   };
 
+  const onMessageConfirmModal = ({ data }: MessageEvent) => {
+    if (data.type !== POST_MESSAGE_TYPE.MODAL.OPEN.CONFIRM) {
+      return;
+    }
+
+    setText(data.data);
+    setIsOpen(true);
+  };
+
   useEffect(() => {
-    const onMessageConfirmModal = ({ data }: MessageEvent) => {
-      if (data.type !== POST_MESSAGE_TYPE.MODAL.OPEN.CONFIRM) {
-        return;
-      }
-
-      setText(data.data);
-      setIsOpen(true);
-    };
-
-    window.addEventListener("message", onMessageConfirmModal);
-
-    return () => window.removeEventListener("message", onMessageConfirmModal);
-  }, []);
+    if (port) {
+      port.removeEventListener("message", onMessageConfirmModal);
+      port.addEventListener("message", onMessageConfirmModal);
+      port.start();
+    }
+  }, [port]);
 
   return (
     <Modal isOpen={isOpen} closeModal={onCloseModal} fadeInFrom="center">
       <Container>
         <Message>{text}</Message>
         <ButtonWrapper>
-          <ConfirmButton type="button" onClick={postConfirmOK}>
+          <ConfirmButton type="button" onClick={onClickConfirmOk}>
             예
           </ConfirmButton>
           <CancelButton type="button" onClick={onClickConfirmNo}>

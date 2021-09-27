@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { MessageChannelContext } from "@/contexts/messageChannelContext";
+import { useContext, useEffect, useState } from "react";
 import kakaoTalkIcon from "../../../assets/png/kakaotalk.png";
 import naverIcon from "../../../assets/png/naver.png";
 import { MANAGE_PAGE_DOMAIN } from "../../../constants/domain";
@@ -7,7 +8,7 @@ import { ORDER_BUTTON } from "../../../constants/orderButton";
 import { useGetAllComments, useGetProject, useUser } from "../../../hooks";
 import { AlertError } from "../../../utils/Error";
 import { popUpCenter } from "../../../utils/popUpCenter";
-import { postScrollHeightToParentWindow } from "../../../utils/postMessage";
+import { messageFromReplyModule } from "../../../utils/postMessage";
 import Avatar from "../../atoms/Avatar";
 import CommentInput from "../../organisms/CommentInput";
 import Footer from "../../organisms/Footer";
@@ -30,7 +31,7 @@ const CommentArea = () => {
   const [sortOption, setSortOption] = useState<keyof typeof ORDER_BUTTON>("oldest");
   const [notice, setNotice] = useState("");
 
-  const { user, logout } = useUser();
+  const { user, logout, refetch: refetchUser } = useUser();
   const {
     totalCommentsCount,
     comments,
@@ -39,9 +40,10 @@ const CommentArea = () => {
     error: commentsError
   } = useGetAllComments({ url, projectSecretKey, sortOption });
   const { project, isLoading: projectLoading, error: projectError } = useGetProject({ projectSecretKey });
+  const { port } = useContext(MessageChannelContext);
 
   useEffect(() => {
-    postScrollHeightToParentWindow();
+    messageFromReplyModule(port).setScrollHeight();
   }, [comments]);
 
   useEffect(() => {
@@ -87,7 +89,7 @@ const CommentArea = () => {
 
         clearInterval(popUpcheckIntervalId);
 
-        window.location.reload();
+        refetchUser();
       }, 300);
     } catch (error) {
       if (error instanceof AlertError) {

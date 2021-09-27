@@ -1,11 +1,12 @@
 import Alarm from "@/components/atoms/Alarm";
 import Modal from "@/components/atoms/Modal";
-import { postOpenAlarm } from "@/utils/postMessage";
-import { MouseEvent, ReactNode, useEffect, useRef, useState } from "react";
+import { MouseEvent, ReactNode, useContext, useEffect, useRef, useState } from "react";
 import { User } from "../../../types/user";
 import Avatar from "../../atoms/Avatar";
 import { Container, UserNickName, UserOption } from "./styles";
 import { alarmContents } from "@/__test__/fixture/alarmContent";
+import { MessageChannelContext } from "@/contexts/messageChannelContext";
+import { messageFromReplyModule } from "@/utils/postMessage";
 
 export interface Props {
   user: User | undefined;
@@ -15,6 +16,7 @@ export interface Props {
 
 const UserAvatarOption = ({ user, children, className }: Props) => {
   const [isShowOptionBox, setShowOptionBox] = useState(false);
+  const { port } = useContext(MessageChannelContext);
 
   const onShowOptionBox = (event: MouseEvent) => {
     event.stopPropagation();
@@ -23,7 +25,7 @@ const UserAvatarOption = ({ user, children, className }: Props) => {
   };
 
   const onClickAlarmIcon = () => {
-    postOpenAlarm(alarmContents);
+    messageFromReplyModule(port).openAlarmModal(alarmContents);
   };
 
   useEffect(() => {

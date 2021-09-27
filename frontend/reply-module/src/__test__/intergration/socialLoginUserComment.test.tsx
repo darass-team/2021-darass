@@ -5,7 +5,6 @@ import { socialLoginUser } from "../fixture/user";
 import CommentList from "../../components/organisms/CommentList";
 import { useCreateComment, useDeleteComment, useEditComment, useLikeComment } from "../../hooks";
 import CommentInput from "../../components/organisms/CommentInput";
-import { getPasswordConfirmResult } from "../../api/getPasswordConfirmResult";
 import { getTotalCommentsCount } from "../util/getTotalCommentsCount";
 import { Comment } from "../../types";
 
@@ -15,7 +14,6 @@ jest.mock("../../hooks/api/comment/useDeleteComment");
 jest.mock("../../hooks/api/comment/useCreateComment");
 jest.mock("../../hooks/api/comment/useLikeComment");
 jest.mock("../../utils/focusContentEditableTextToEnd");
-jest.mock("../../api/getPasswordConfirmResult");
 
 window.alert = function (str) {
   console.log(str);
@@ -50,9 +48,7 @@ describe("로그인 유저의 댓글 CRUD 테스트 코드를 작성한다.", ()
         error: false
       };
     });
-    (getPasswordConfirmResult as jest.Mock).mockImplementation(() => {
-      return true;
-    });
+
     (useLikeComment as jest.Mock).mockImplementation(() => {
       return {
         likeComment: () => {},

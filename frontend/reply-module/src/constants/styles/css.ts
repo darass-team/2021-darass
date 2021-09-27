@@ -1,5 +1,6 @@
 import { FadeInDirection } from "@/components/atoms/Modal";
 import { css, FlattenSimpleInterpolation } from "styled-components";
+import { CLOSE_MODAL_ANIMATION_FINISH_TIME } from "./constants";
 import { PALETTE } from "./palette";
 
 export const contentBoxCSS = css`
@@ -84,6 +85,7 @@ export const SkeletonCSS = css`
 export const fadeInDirectionCSS: { [key in FadeInDirection]: (on: boolean) => FlattenSimpleInterpolation } = {
   left: (on: boolean) =>
     css`
+      transition: all ${CLOSE_MODAL_ANIMATION_FINISH_TIME}ms ease-in-out;
       top: 0;
       bottom: 0;
       left: 0;
@@ -91,6 +93,7 @@ export const fadeInDirectionCSS: { [key in FadeInDirection]: (on: boolean) => Fl
     `,
   right: (on: boolean) =>
     css`
+      transition: all ${CLOSE_MODAL_ANIMATION_FINISH_TIME}ms ease-in-out;
       top: 0;
       bottom: 0;
       right: 0;
@@ -98,6 +101,7 @@ export const fadeInDirectionCSS: { [key in FadeInDirection]: (on: boolean) => Fl
     `,
   top: (on: boolean) =>
     css`
+      transition: all ${CLOSE_MODAL_ANIMATION_FINISH_TIME}ms ease-in-out;
       right: 0;
       left: 0;
       top: 0;
@@ -105,12 +109,14 @@ export const fadeInDirectionCSS: { [key in FadeInDirection]: (on: boolean) => Fl
     `,
   bottom: (on: boolean) =>
     css`
+      transition: all ${CLOSE_MODAL_ANIMATION_FINISH_TIME}ms ease-in-out;
       right: 0;
       left: 0;
       bottom: 0;
       transform: ${on ? "translateY(0%)" : "translateY(100%)"};
     `,
   center: (on: boolean) => css`
+    transition: all ${CLOSE_MODAL_ANIMATION_FINISH_TIME}ms ease-in-out;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
