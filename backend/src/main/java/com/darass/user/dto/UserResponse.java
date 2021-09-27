@@ -21,6 +21,8 @@ public class UserResponse {
 
     private String profileImageUrl;
 
+    private Boolean hasRecentAlarm;
+
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime createdDate;
 
@@ -29,6 +31,6 @@ public class UserResponse {
 
     public static UserResponse of(User user) {
         return new UserResponse(user.getId(), user.getNickName(), user.getUserType(), user.getProfileImageUrl(),
-            user.getCreatedDate(), user.getModifiedDate());
+            user.getHasRecentAlarm(), user.getCreatedDate(), user.getModifiedDate());
     }
 }

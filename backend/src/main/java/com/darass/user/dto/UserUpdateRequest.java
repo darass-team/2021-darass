@@ -16,5 +16,6 @@ public class UserUpdateRequest {
 
     private MultipartFile profileImageFile;
 
+    private Boolean hasRecentAlarm;
 }
 

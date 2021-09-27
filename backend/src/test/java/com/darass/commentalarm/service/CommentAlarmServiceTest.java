@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.darass.comment.domain.Comment;
 import com.darass.commentalarm.domain.CommentAlarm;
 import com.darass.commentalarm.domain.CommentAlarmType;
+import com.darass.commentalarm.dto.CommentAlarmResponse;
 import com.darass.commentalarm.repository.CommentAlarmRepository;
 import com.darass.darass.SpringContainerTest;
 import com.darass.user.domain.SocialLoginUser;
@@ -54,13 +55,13 @@ class CommentAlarmServiceTest extends SpringContainerTest {
     @DisplayName("특정 기간에 유저에게 생성된 댓글 알람 리스트를 반환한다.")
     @Test
     void findAllBySenderAndCreatedDateBetween_success() {
-        List<CommentAlarm> commentAlarms = commentAlarmService.findAllBySenderAndCreatedDateBetween(
+        List<CommentAlarmResponse> commentAlarmResponses = commentAlarmService.findAllBySenderAndCreatedDateBetween(
             socialLoginUser,
             LocalDateTime.of(2020, 1, 1, 1, 1),
             LocalDateTime.of(2022, 1, 1, 1, 1)
         );
 
-        assertThat(commentAlarms.size()).isEqualTo(1);
+        assertThat(commentAlarmResponses.size()).isEqualTo(1);
     }
 
 }

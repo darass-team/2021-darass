@@ -102,7 +102,7 @@ class UserServiceTest extends SpringContainerTest {
     @DisplayName("updateNickName 메서드는 유저 id와 UserUpdateRequest가 주어지면, 유저 닉네임을 수정한다.")
     void updateNickName() {
         // when
-        userService.update(socialUser.getId(), new UserUpdateRequest("병욱", null));
+        userService.update(socialUser.getId(), new UserUpdateRequest("병욱", null, true));
 
         // then
         UserResponse userResponse = userService.findById(socialUser.getId());
@@ -114,7 +114,7 @@ class UserServiceTest extends SpringContainerTest {
     void updateNickName_exception() {
         // when then
         Assertions.assertThrows(ExceptionWithMessageAndCode.NOT_FOUND_USER.getException().getClass(),
-            () -> userService.update(0L, new UserUpdateRequest("병욱", null)));
+            () -> userService.update(0L, new UserUpdateRequest("병욱", null, true)));
     }
 
     @Test

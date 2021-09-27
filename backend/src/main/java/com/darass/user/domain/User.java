@@ -35,6 +35,9 @@ public abstract class User extends BaseTimeEntity {
     @Column(name = "user_type", insertable = false, updatable = false)
     private String userType;
 
+    @Column
+    private Boolean hasRecentAlarm = false;
+
     public User(Long id, String nickName, String profileImageUrl) {
         this(id, nickName, profileImageUrl, null);
     }
@@ -74,4 +77,7 @@ public abstract class User extends BaseTimeEntity {
         this.profileImageUrl = profileImageUrl;
     }
 
+    public void changeHasRecentAlarm(boolean hasRecentAlarm) {
+        this.hasRecentAlarm = hasRecentAlarm;
+    }
 }

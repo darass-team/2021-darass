@@ -1,12 +1,14 @@
 package com.darass.user.controller;
 
 import com.darass.auth.domain.RequiredLogin;
-import com.darass.user.domain.User;
+import com.darass.commentalarm.service.CommentAlarmService;
+import com.darass.user.domain.SocialLoginUser;
 import com.darass.user.dto.PasswordCheckRequest;
 import com.darass.user.dto.PasswordCheckResponse;
 import com.darass.user.dto.UserResponse;
 import com.darass.user.dto.UserUpdateRequest;
 import com.darass.user.service.UserService;
+import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -24,21 +26,20 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping
-    public ResponseEntity<UserResponse> find(@RequiredLogin User user) {
+    public ResponseEntity<UserResponse> find(@RequiredLogin SocialLoginUser user) {
         UserResponse userResponse = userService.findById(user.getId());
         return ResponseEntity.ok(userResponse);
     }
 
     @PatchMapping
-    public ResponseEntity<UserResponse> update(@RequiredLogin User user,
-        @ModelAttribute UserUpdateRequest userUpdateRequest
-    ) {
+    public ResponseEntity<UserResponse> update(@RequiredLogin SocialLoginUser user,
+        @ModelAttribute UserUpdateRequest userUpdateRequest) {
         UserResponse userResponse = userService.update(user.getId(), userUpdateRequest);
         return ResponseEntity.ok(userResponse);
     }
 
     @DeleteMapping
-    public ResponseEntity<Void> delete(@RequiredLogin User user) {
+    public ResponseEntity<Void> delete(@RequiredLogin SocialLoginUser user) {
         userService.deleteById(user.getId());
         return ResponseEntity.noContent().build();
     }

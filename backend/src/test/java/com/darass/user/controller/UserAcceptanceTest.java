@@ -21,7 +21,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.darass.comment.domain.AlarmMessageMachine;
+import com.darass.commentalarm.domain.CommentAlarmMachine;
 import com.darass.darass.AcceptanceTest;
 import com.darass.auth.infrastructure.JwtTokenProvider;
 import com.darass.comment.dto.CommentCreateRequest;
@@ -52,6 +52,8 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMultipartHttpServletRequestBuilder;
 import org.springframework.web.multipart.MultipartFile;
 
+//TODO: user 필드에 추가된 빨간점 알람. flyway 반영
+
 @DisplayName("User 인수테스트")
 class UserAcceptanceTest extends AcceptanceTest { //TODO: 로그이웃 기능 체크
 
@@ -76,13 +78,13 @@ class UserAcceptanceTest extends AcceptanceTest { //TODO: 로그이웃 기능 �
     private S3Uploader s3Uploader;
 
     @MockBean
-    private AlarmMessageMachine alarmMessageMachine;
+    private CommentAlarmMachine commentAlarmMachine;
 
     @BeforeEach
     public void setUser() { // TODO: 이 부분 로그인 인수테스트로 바꾸기
-        doNothing().when(alarmMessageMachine).sendMessage(any(), any());
-        doNothing().when(alarmMessageMachine).sendMessage(any(), any());
-        doNothing().when(alarmMessageMachine).sendMessage(any(), any());
+        doNothing().when(commentAlarmMachine).sendMessage(any(), any());
+        doNothing().when(commentAlarmMachine).sendMessage(any(), any());
+        doNothing().when(commentAlarmMachine).sendMessage(any(), any());
 
         socialLoginUser = SocialLoginUser
             .builder()
@@ -153,7 +155,7 @@ class UserAcceptanceTest extends AcceptanceTest { //TODO: 로그이웃 기능 �
     void updateUserNickname_success() throws Exception {
         //given
         String accessToken = tokenProvider.createAccessToken(socialLoginUser);
-        UserUpdateRequest userUpdateRequest = new UserUpdateRequest("병욱", null);
+        UserUpdateRequest userUpdateRequest = new UserUpdateRequest("병욱", null, true);
 
         //when
         ResultActions resultActions = 유저_닉네임_수정_요청(userUpdateRequest, accessToken);
@@ -170,7 +172,7 @@ class UserAcceptanceTest extends AcceptanceTest { //TODO: 로그이웃 기능 �
         byte[] bytes = Files.readAllBytes(Paths.get("./src/test/resources/static/testImg.jpg"));
         String originalFilename = "testImg.jpg";
         MultipartFile multipartFile = new MockMultipartFile("profileImageFile", originalFilename, "image/jpeg", bytes);
-        UserUpdateRequest userUpdateRequest = new UserUpdateRequest(null, multipartFile);
+        UserUpdateRequest userUpdateRequest = new UserUpdateRequest("우기", multipartFile, true);
         given(s3Uploader.upload(any())).willReturn(originalFilename);
 
         //when
@@ -186,7 +188,7 @@ class UserAcceptanceTest extends AcceptanceTest { //TODO: 로그이웃 기능 �
         //given
         String accessToken = tokenProvider.createAccessToken(socialLoginUser);
         String invalidNickName = "invalid_nickName_invalid_nickName_invalid_nickName_invalid_nickName";
-        UserUpdateRequest userUpdateRequest = new UserUpdateRequest(invalidNickName, null);
+        UserUpdateRequest userUpdateRequest = new UserUpdateRequest(invalidNickName, null, true);
 
         //when
         ResultActions resultActions = 유저_닉네임_수정_요청(userUpdateRequest, accessToken);
@@ -200,7 +202,7 @@ class UserAcceptanceTest extends AcceptanceTest { //TODO: 로그이웃 기능 �
     void updateUserNickname_fail() throws Exception {
         //given
         String incorrectAccessToken = "incorrectAccessToken";
-        UserUpdateRequest userUpdateRequest = new UserUpdateRequest("병욱", null);
+        UserUpdateRequest userUpdateRequest = new UserUpdateRequest("병욱", null, true);
 
         //when
         ResultActions resultActions = 유저_닉네임_수정_요청(userUpdateRequest, incorrectAccessToken);
@@ -217,7 +219,7 @@ class UserAcceptanceTest extends AcceptanceTest { //TODO: 로그이웃 기능 �
         byte[] bytes = Files.readAllBytes(Paths.get("./src/test/resources/static/overSizeImage.jpg"));
         String originalFilename = "overSizeImage.jpg";
         MultipartFile multipartFile = new MockMultipartFile("profileImageFile", originalFilename, "image/jpeg", bytes);
-        UserUpdateRequest userUpdateRequest = new UserUpdateRequest(null, multipartFile);
+        UserUpdateRequest userUpdateRequest = new UserUpdateRequest(null, multipartFile, true);
         given(s3Uploader.upload(any())).willReturn(originalFilename);
 
         //when
@@ -368,7 +370,8 @@ class UserAcceptanceTest extends AcceptanceTest { //TODO: 로그이웃 기능 �
                     fieldWithPath("type").type(JsonFieldType.STRING).description("유저 타입"),
                     fieldWithPath("createdDate").type(JsonFieldType.STRING).description("유저 생성일"),
                     fieldWithPath("modifiedDate").type(JsonFieldType.STRING).description("유저 수정일"),
-                    fieldWithPath("profileImageUrl").type(JsonFieldType.STRING).description("유저 프로필 이미지")
+                    fieldWithPath("profileImageUrl").type(JsonFieldType.STRING).description("유저 프로필 이미지"),
+                    fieldWithPath("hasRecentAlarm").type(JsonFieldType.BOOLEAN).description("유저가 최근에 알람을 받았는지 여부")
                 ))
         );
     }
@@ -389,6 +392,7 @@ class UserAcceptanceTest extends AcceptanceTest { //TODO: 로그이웃 기능 �
             .header("Authorization", "Bearer " + accessToken)
             .header("Cookie", "refreshToken=refreshToken")
             .param("nickName", userUpdateRequest.getNickName())
+            .param("hasRecentAlarm", "true")
             .content(asJsonString(userUpdateRequest)));
     }
 
@@ -402,6 +406,7 @@ class UserAcceptanceTest extends AcceptanceTest { //TODO: 로그이웃 기능 �
         return this.mockMvc.perform(multipart
             .file((MockMultipartFile) userUpdateRequest.getProfileImageFile())
             .param("nickName", userUpdateRequest.getNickName())
+            .param("hasRecentAlarm", "true")
             .header("Authorization", "Bearer " + accessToken)
             .header("Cookie", "refreshToken=refreshToken"));
     }
@@ -443,7 +448,8 @@ class UserAcceptanceTest extends AcceptanceTest { //TODO: 로그이웃 기능 �
                     fieldWithPath("type").type(JsonFieldType.STRING).description("유저 타입"),
                     fieldWithPath("createdDate").type(JsonFieldType.STRING).description("유저 생성일"),
                     fieldWithPath("modifiedDate").type(JsonFieldType.STRING).description("유저 수정일"),
-                    fieldWithPath("profileImageUrl").type(JsonFieldType.STRING).description("유저 프로필 이미지")
+                    fieldWithPath("profileImageUrl").type(JsonFieldType.STRING).description("유저 프로필 이미지"),
+                    fieldWithPath("hasRecentAlarm").type(JsonFieldType.BOOLEAN).description("유저가 최근에 알람을 받았는지 여부")
                 ))
         );
     }
@@ -464,7 +470,8 @@ class UserAcceptanceTest extends AcceptanceTest { //TODO: 로그이웃 기능 �
                     fieldWithPath("type").type(JsonFieldType.STRING).description("유저 타입"),
                     fieldWithPath("createdDate").type(JsonFieldType.STRING).description("유저 생성일"),
                     fieldWithPath("modifiedDate").type(JsonFieldType.STRING).description("유저 수정일"),
-                    fieldWithPath("profileImageUrl").type(JsonFieldType.STRING).description("유저 프로필 이미지")
+                    fieldWithPath("profileImageUrl").type(JsonFieldType.STRING).description("유저 프로필 이미지"),
+                    fieldWithPath("hasRecentAlarm").type(JsonFieldType.BOOLEAN).description("유저가 최근에 알람을 받았는지 여부")
                 ))
         );
     }
