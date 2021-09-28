@@ -25,7 +25,9 @@ class CommentAlarmServiceTest extends SpringContainerTest {
     @Autowired
     private CommentAlarmRepository commentAlarmRepository;
 
-    private SocialLoginUser socialLoginUser;
+    private SocialLoginUser sender;
+
+    private SocialLoginUser receiver;
 
     private Comment comment;
 
@@ -33,19 +35,25 @@ class CommentAlarmServiceTest extends SpringContainerTest {
 
     @BeforeEach
     void setUp() {
-        socialLoginUser = SocialLoginUser
+        sender = SocialLoginUser
+            .builder()
+            .nickName("박병욱")
+            .build();
+
+        receiver = SocialLoginUser
             .builder()
             .nickName("박병욱")
             .build();
 
         comment = Comment.builder()
-            .user(socialLoginUser)
+            .user(sender)
             .content("content")
             .build();
 
         commentAlarm = CommentAlarm.builder()
             .commentAlarmType(CommentAlarmType.CREATE_COMMENT)
-            .sender(socialLoginUser)
+            .sender(sender)
+            .receiver(receiver)
             .comment(comment)
             .build();
 
@@ -56,7 +64,7 @@ class CommentAlarmServiceTest extends SpringContainerTest {
     @Test
     void findAllBySenderAndCreatedDateBetween_success() {
         List<CommentAlarmResponse> commentAlarmResponses = commentAlarmService.findAllBySenderAndCreatedDateBetween(
-            socialLoginUser,
+            sender,
             LocalDateTime.of(2020, 1, 1, 1, 1),
             LocalDateTime.of(2022, 1, 1, 1, 1)
         );

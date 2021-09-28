@@ -82,9 +82,7 @@ class UserAcceptanceTest extends AcceptanceTest { //TODO: 로그이웃 기능 �
 
     @BeforeEach
     public void setUser() { // TODO: 이 부분 로그인 인수테스트로 바꾸기
-        doNothing().when(commentAlarmMachine).sendMessage(any(), any());
-        doNothing().when(commentAlarmMachine).sendMessage(any(), any());
-        doNothing().when(commentAlarmMachine).sendMessage(any(), any());
+        doNothing().when(commentAlarmMachine).sendMessage(any());
 
         socialLoginUser = SocialLoginUser
             .builder()
