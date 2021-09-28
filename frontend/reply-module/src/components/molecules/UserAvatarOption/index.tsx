@@ -6,7 +6,8 @@ import Avatar from "../../atoms/Avatar";
 import { Container, UserNickName, UserOption } from "./styles";
 import { MessageChannelContext } from "@/contexts/messageChannelContext";
 import { messageFromReplyModule } from "@/utils/postMessage";
-import { useCommentAlarm } from "@/hooks";
+import { useCommentAlarm, useEditUser, useUser } from "@/hooks";
+import { AlertError } from "@/utils/alertError";
 
 export interface Props {
   user: User | undefined;
@@ -18,6 +19,8 @@ const UserAvatarOption = ({ user, children, className }: Props) => {
   const [isShowOptionBox, setShowOptionBox] = useState(false);
   const { port } = useContext(MessageChannelContext);
   const { data: alarmContents } = useCommentAlarm();
+  const { refetch: refetchUser } = useUser();
+  const { editUser } = useEditUser();
 
   const onShowOptionBox = (event: MouseEvent) => {
     event.stopPropagation();
@@ -25,7 +28,19 @@ const UserAvatarOption = ({ user, children, className }: Props) => {
     setShowOptionBox(state => !state);
   };
 
-  const onClickAlarmIcon = () => {
+  const onClickAlarmIcon = async () => {
+    try {
+      const formData = new FormData();
+      formData.append("hasRecentAlarm", "false");
+
+      await editUser(formData);
+      refetchUser();
+    } catch (error) {
+      if (error instanceof AlertError) {
+        alert(error.message);
+      }
+    }
+
     messageFromReplyModule(port).openAlarmModal(alarmContents || []);
   };
 

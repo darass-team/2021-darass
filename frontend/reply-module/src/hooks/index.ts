@@ -8,3 +8,4 @@ export { useContentEditable } from "./ui/useContentEditable";
 export { useGetAllComments } from "./api/comment/useGetAllComments";
 export { useCommentAlarm } from "./api/comment/useGetAlarmContents";
 export { useGetProjectOwnerId } from "./api/user/useGetProjectOwnerId";
+export { useEditUser } from "./api/user/useEditUser";

@@ -1,14 +1,13 @@
 import { GetAlarmResponse } from "@/types/comment";
-import { User } from "@/types/user";
 import { getTimeDifference } from "@/utils/time";
 import {
   AlarmHeader,
-  NotificationCount,
-  NoContent,
   Content,
   ContentWrapper,
-  Notification,
   Name,
+  NoContent,
+  Notification,
+  NotificationCount,
   Text,
   Url
 } from "./styles";

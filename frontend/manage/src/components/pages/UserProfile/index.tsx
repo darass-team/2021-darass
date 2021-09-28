@@ -34,7 +34,6 @@ const UserProfile = () => {
   } = useInput("", MAX_USER_NAME_LENGTH);
   const [profileImageAsUrl, setProfileImageAsUrl] = useState<string>();
   const [profileImageAsFile, setProfileImageAsFile] = useState<Blob | string>("");
-  const [isMouseOverOnProfileImage, setIsMouseOverOnProfileImage] = useState(false);
 
   const onChangeFile = (event: ChangeEvent<HTMLInputElement>) => {
     const target = event.target;
