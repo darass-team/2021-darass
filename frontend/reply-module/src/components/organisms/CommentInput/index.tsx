@@ -11,7 +11,7 @@ import {
 import { useContentEditable, useCreateComment, useInput } from "../../../hooks";
 import { Comment } from "../../../types";
 import { User } from "../../../types/user";
-import { AlertError } from "../../../utils/Error";
+import { AlertError } from "../../../utils/alertError";
 import { getErrorMessage } from "../../../utils/errorMessage";
 import { focusContentEditableTextToEnd } from "../../../utils/focusContentEditableTextToEnd";
 import { isEmptyString } from "../../../utils/isEmptyString";

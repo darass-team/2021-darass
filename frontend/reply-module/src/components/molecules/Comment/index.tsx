@@ -12,7 +12,7 @@ import { Comment as CommentType } from "../../../types";
 import { DeleteCommentRequestParameter, GuestUserConfirmInfo } from "../../../types/comment";
 import { Project } from "../../../types/project";
 import { User } from "../../../types/user";
-import { AlertError } from "../../../utils/Error";
+import { AlertError } from "../../../utils/alertError";
 import { getErrorMessage } from "../../../utils/errorMessage";
 import { isEmptyString } from "../../../utils/isEmptyString";
 import { getTimeDifference } from "../../../utils/time";
@@ -53,7 +53,7 @@ export const getPasswordConfirmResult = async ({ guestUserId, guestUserPassword 
 
 export interface Props {
   user?: User;
-  project?: Project;
+  projectOwnerId?: User["id"];
   comment: CommentType;
   shouldShowOption?: boolean;
   iAmAdmin: boolean;
@@ -66,7 +66,7 @@ type SubmitType = "Edit" | "Delete";
 
 const Comment = ({
   user,
-  project,
+  projectOwnerId,
   comment,
   shouldShowOption,
   iAmAdmin,
@@ -332,10 +332,10 @@ const Comment = ({
           const authorId = subComment.user.id;
 
           const iAmGuestUser = !user;
-          const iAmAdmin = user !== undefined && project?.userId === user.id;
+          const iAmAdmin = user !== undefined && projectOwnerId === user.id;
 
           const thisCommentIsMine = authorId !== undefined && authorId === user?.id;
-          const thisCommentIsWrittenByAdmin = subComment.user.id === project?.userId;
+          const thisCommentIsWrittenByAdmin = subComment.user.id === projectOwnerId;
           const thisCommentIsWrittenByGuest = subComment.user.type === "GuestUser";
           const shouldShowOption = iAmAdmin || thisCommentIsMine || (iAmGuestUser && thisCommentIsWrittenByGuest);
           const shouldShowSubCommentInput = isSubCommentInputOpen && index === comment.subComments.length - 1;

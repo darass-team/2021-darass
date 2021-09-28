@@ -66,7 +66,7 @@ describe("비로그인 유저 댓글 CRUD 테스트 코드를 작성한다.", ()
           totalCommentsCount={comments.length}
           isLoading={false}
           comments={comments}
-          project={undefined}
+          projectOwnerId={undefined}
           notice={""}
           sortOption={"oldest"}
           onSelectSortOption={() => {}}
@@ -125,7 +125,7 @@ describe("비로그인 유저 댓글 CRUD 테스트 코드를 작성한다.", ()
           isLoading={false}
           user={undefined}
           comments={guestUserComments}
-          project={undefined}
+          projectOwnerId={undefined}
           notice={""}
           sortOption={"oldest"}
           onSelectSortOption={() => {}}
@@ -158,7 +158,7 @@ describe("비로그인 유저 댓글 CRUD 테스트 코드를 작성한다.", ()
           isLoading={false}
           user={undefined}
           comments={guestUserComments}
-          project={undefined}
+          projectOwnerId={undefined}
           notice={""}
           sortOption={"oldest"}
           onSelectSortOption={() => {}}
@@ -198,7 +198,7 @@ describe("비로그인 유저 댓글 CRUD 테스트 코드를 작성한다.", ()
           totalCommentsCount={_comments.length}
           isLoading={false}
           user={undefined}
-          project={undefined}
+          projectOwnerId={undefined}
           comments={comments}
           notice={""}
           sortOption={"oldest"}
@@ -215,7 +215,7 @@ describe("비로그인 유저 댓글 CRUD 테스트 코드를 작성한다.", ()
           totalCommentsCount={_comments.length}
           isLoading={false}
           user={undefined}
-          project={undefined}
+          projectOwnerId={undefined}
           comments={comments}
           notice={""}
           sortOption={"oldest"}
@@ -237,7 +237,7 @@ describe("비로그인 유저 댓글 CRUD 테스트 코드를 작성한다.", ()
           totalCommentsCount={_comments.length}
           isLoading={false}
           user={user}
-          project={undefined}
+          projectOwnerId={undefined}
           notice={""}
           comments={comments}
           sortOption={"oldest"}
@@ -257,7 +257,7 @@ describe("비로그인 유저 댓글 CRUD 테스트 코드를 작성한다.", ()
           totalCommentsCount={_comments.length}
           isLoading={false}
           user={user}
-          project={undefined}
+          projectOwnerId={undefined}
           notice={""}
           comments={comments}
           sortOption={"oldest"}
@@ -292,7 +292,8 @@ describe("비로그인 유저 댓글 CRUD 테스트 코드를 작성한다.", ()
         likingUsers: [],
         createdDate: new Date().toDateString(),
         modifiedDate: new Date().toDateString(),
-        subComments: []
+        subComments: [],
+        url: ""
       });
 
       commentList.rerender(
@@ -300,7 +301,7 @@ describe("비로그인 유저 댓글 CRUD 테스트 코드를 작성한다.", ()
           totalCommentsCount={_comments.length}
           isLoading={false}
           user={user}
-          project={undefined}
+          projectOwnerId={undefined}
           comments={newComments}
           notice={""}
           sortOption={"oldest"}

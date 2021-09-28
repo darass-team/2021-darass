@@ -5,7 +5,7 @@ import { useUser } from "../..";
 import { QUERY } from "../../../constants/api";
 import { REACT_QUERY_KEY } from "../../../constants/reactQueryKey";
 import { GetCommentsResponse, GetCommentsRequestParams } from "../../../types/comment";
-import { AlertError } from "../../../utils/Error";
+import { AlertError } from "../../../utils/alertError";
 import { request } from "../../../utils/request";
 
 const getAllComments = async ({ url, projectSecretKey, sortOption }: GetCommentsRequestParams) => {

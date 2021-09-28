@@ -3,7 +3,7 @@ import { useMutation, useQuery, useQueryClient } from "react-query";
 import { QUERY } from "../../../constants/api";
 import { REACT_QUERY_KEY } from "../../../constants/reactQueryKey";
 import { TOKEN_REFETCH_TIMER } from "../../../constants/timer";
-import { AlertError } from "../../../utils/Error";
+import { AlertError } from "../../../utils/alertError";
 import { customAxios, request } from "../../../utils/request";
 
 const axiosBearerOption = {

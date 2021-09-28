@@ -1,5 +1,5 @@
-import { AlarmContentType } from "@/components/molecules/AlarmContent";
 import { Comment } from "@/types";
+import { GetAlarmResponse } from "@/types/comment";
 import { POST_MESSAGE_TYPE } from "../constants/postMessageType";
 
 export const messageFromReplyModule = (port: MessagePort | undefined) => {
@@ -16,7 +16,7 @@ export const messageFromReplyModule = (port: MessagePort | undefined) => {
     openConfirmModal: (message: string) => {
       port?.postMessage({ type: POST_MESSAGE_TYPE.MODAL.OPEN.CONFIRM, data: message });
     },
-    openAlarmModal: (alarmContents: AlarmContentType[]) => {
+    openAlarmModal: (alarmContents: GetAlarmResponse[]) => {
       port?.postMessage({ type: POST_MESSAGE_TYPE.MODAL.OPEN.ALARM, data: alarmContents });
     },
     openLikingUserModal: (users: Comment["user"][]) => {

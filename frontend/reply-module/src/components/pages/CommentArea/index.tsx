@@ -1,12 +1,13 @@
 import { MessageChannelContext } from "@/contexts/messageChannelContext";
+import { useToken } from "@/hooks/api/token/useToken";
 import { useContext, useEffect, useState } from "react";
 import kakaoTalkIcon from "../../../assets/png/kakaotalk.png";
 import naverIcon from "../../../assets/png/naver.png";
 import { MANAGE_PAGE_DOMAIN } from "../../../constants/domain";
 import { OAUTH_URL } from "../../../constants/oauth";
 import { ORDER_BUTTON } from "../../../constants/orderButton";
-import { useGetAllComments, useGetProject, useUser } from "../../../hooks";
-import { AlertError } from "../../../utils/Error";
+import { useGetAllComments, useGetProjectOwnerId, useUser } from "../../../hooks";
+import { AlertError } from "../../../utils/alertError";
 import { popUpCenter } from "../../../utils/popUpCenter";
 import { messageFromReplyModule } from "../../../utils/postMessage";
 import Avatar from "../../atoms/Avatar";
@@ -31,7 +32,8 @@ const CommentArea = () => {
   const [sortOption, setSortOption] = useState<keyof typeof ORDER_BUTTON>("oldest");
   const [notice, setNotice] = useState("");
 
-  const { user, logout, refetch: refetchUser } = useUser();
+  const { refetchAccessToken } = useToken();
+  const { user, logout } = useUser();
   const {
     totalCommentsCount,
     comments,
@@ -39,7 +41,11 @@ const CommentArea = () => {
     isLoading: commentsLoading,
     error: commentsError
   } = useGetAllComments({ url, projectSecretKey, sortOption });
-  const { project, isLoading: projectLoading, error: projectError } = useGetProject({ projectSecretKey });
+  const {
+    projectOwnerId,
+    isLoading: getProjectOwnerIdLoading,
+    error: getProjectOwnerError
+  } = useGetProjectOwnerId(projectSecretKey || "");
   const { port } = useContext(MessageChannelContext);
 
   useEffect(() => {
@@ -51,7 +57,7 @@ const CommentArea = () => {
   }, [sortOption]);
 
   useEffect(() => {
-    if (projectLoading || commentsLoading) return;
+    if (getProjectOwnerIdLoading || commentsLoading) return;
 
     if (!url) {
       setNotice("URL을 확인해주세요.");
@@ -61,8 +67,8 @@ const CommentArea = () => {
       setNotice("project secret key를 확인해주세요.");
       return;
     }
-    if (projectError) {
-      setNotice(projectError.message);
+    if (getProjectOwnerError) {
+      setNotice(getProjectOwnerError.message);
       return;
     }
     if (commentsError) {
@@ -70,7 +76,7 @@ const CommentArea = () => {
       return;
     }
 
-    if (!(projectError || commentsError)) {
+    if (!(getProjectOwnerError || commentsError)) {
       if (totalCommentsCount === 0) {
         setNotice("작성된 댓글이 없습니다.");
         return;
@@ -78,18 +84,17 @@ const CommentArea = () => {
 
       setNotice("");
     }
-  }, [projectLoading, commentsLoading, projectError, commentsError, totalCommentsCount]);
+  }, [getProjectOwnerIdLoading, commentsLoading, getProjectOwnerError, commentsError, totalCommentsCount]);
 
   const onLogin = async (provider: keyof typeof OAUTH_URL) => {
     try {
       const popUp = popUpCenter(OAUTH_URL[provider], "Authentication", 600, 900, "modal=yes,alwaysRaised=yes");
 
-      const popUpcheckIntervalId = setInterval(() => {
+      const timerId = setInterval(() => {
         if (!popUp || !popUp.closed) return;
 
-        clearInterval(popUpcheckIntervalId);
-
-        refetchUser();
+        clearInterval(timerId);
+        refetchAccessToken();
       }, 300);
     } catch (error) {
       if (error instanceof AlertError) {
@@ -106,10 +111,10 @@ const CommentArea = () => {
     <Container>
       <CommentList
         user={user}
-        isLoading={projectLoading || commentsLoading}
+        isLoading={getProjectOwnerIdLoading || commentsLoading}
         totalCommentsCount={totalCommentsCount || 0}
         comments={comments || []}
-        project={project}
+        projectOwnerId={projectOwnerId}
         sortOption={sortOption}
         onSelectSortOption={onSelectSortOption}
         notice={notice}

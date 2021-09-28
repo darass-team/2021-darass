@@ -4,9 +4,9 @@ import { MouseEvent, ReactNode, useContext, useEffect, useRef, useState } from "
 import { User } from "../../../types/user";
 import Avatar from "../../atoms/Avatar";
 import { Container, UserNickName, UserOption } from "./styles";
-import { alarmContents } from "@/__test__/fixture/alarmContent";
 import { MessageChannelContext } from "@/contexts/messageChannelContext";
 import { messageFromReplyModule } from "@/utils/postMessage";
+import { useCommentAlarm } from "@/hooks";
 
 export interface Props {
   user: User | undefined;
@@ -17,6 +17,7 @@ export interface Props {
 const UserAvatarOption = ({ user, children, className }: Props) => {
   const [isShowOptionBox, setShowOptionBox] = useState(false);
   const { port } = useContext(MessageChannelContext);
+  const { data: alarmContents } = useCommentAlarm();
 
   const onShowOptionBox = (event: MouseEvent) => {
     event.stopPropagation();
@@ -25,7 +26,7 @@ const UserAvatarOption = ({ user, children, className }: Props) => {
   };
 
   const onClickAlarmIcon = () => {
-    messageFromReplyModule(port).openAlarmModal(alarmContents);
+    messageFromReplyModule(port).openAlarmModal(alarmContents || []);
   };
 
   useEffect(() => {
@@ -34,7 +35,7 @@ const UserAvatarOption = ({ user, children, className }: Props) => {
 
   return (
     <Container className={className}>
-      {user && <Alarm size="SM" hasUnReadNotification={false} onClick={onClickAlarmIcon} />}
+      {user && <Alarm size="SM" hasUnReadNotification={user.hasRecentAlarm} onClick={onClickAlarmIcon} />}
 
       <UserNickName onClick={onShowOptionBox}>{user?.nickName ?? "로그인"}</UserNickName>
       <Avatar

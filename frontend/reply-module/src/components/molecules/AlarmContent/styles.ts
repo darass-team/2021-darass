@@ -28,6 +28,7 @@ export const NoContent = styled.div`
 
 export const Content = styled(NoContent)`
   cursor: pointer;
+  padding-right: 2rem;
 
   @media (hover: hover) and (pointer: fine) {
     &:hover {

@@ -16,9 +16,10 @@ export const QUERY = {
   COMMENT: "/api/v1/comments",
   GET_ALL_COMMENTS: ({ url, projectSecretKey, sortOption }: GetCommentsRequestParams) =>
     `/api/v1/comments?url=${url}&projectKey=${projectSecretKey}&sortOption=${sortOption}`,
-  GET_PROJECT: (projectKey: string) => `/api/v1/projects/user-id?secretKey=${projectKey}`,
   CHECK_GUEST_PASSWORD: ({ guestUserId, guestUserPassword }: GuestUserConfirmInfo) =>
     `/api/v1/users/check-password?guestUserId=${guestUserId}&guestUserPassword=${guestUserPassword}`,
   LIKE_COMMENT: (commentId: number) => `/api/v1/comments/${commentId}/like`,
-  USER: "/api/v1/users"
+  USER: "/api/v1/users",
+  ALARM: "/api/v1/comment-alarms",
+  PROJECT: "/api/v1/projects"
 } as const;

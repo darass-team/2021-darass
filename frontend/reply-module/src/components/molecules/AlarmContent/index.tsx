@@ -1,3 +1,4 @@
+import { GetAlarmResponse } from "@/types/comment";
 import { User } from "@/types/user";
 import { getTimeDifference } from "@/utils/time";
 import {
@@ -12,15 +13,6 @@ import {
   Url
 } from "./styles";
 
-export interface AlarmContentType {
-  sender: User["nickName"];
-  url: string;
-  content: string;
-  createDate: string;
-  alarmMessageType: "CREATE_COMMENT" | "CREATE_SUB_COMMENT" | "CREATE_COMMENT_LIKE";
-  hasBeenRead: boolean;
-}
-
 export const ALARM_MESSAGE_TABLE = {
   CREATE_COMMENT: "님이 댓글을 남겼습니다.",
   CREATE_SUB_COMMENT: "님이 대댓글을 남겼습니다.",
@@ -28,7 +20,7 @@ export const ALARM_MESSAGE_TABLE = {
 };
 
 export interface Props {
-  alarmContents: AlarmContentType[];
+  alarmContents: GetAlarmResponse[];
 }
 
 const AlarmContent = ({ alarmContents }: Props) => {
@@ -39,22 +31,22 @@ const AlarmContent = ({ alarmContents }: Props) => {
       </AlarmHeader>
 
       {alarmContents.length > 0 ? (
-        alarmContents.map(({ sender, url, content, createDate, alarmMessageType }) => {
+        alarmContents.map(({ id, createdDate, commentAlarmType, sender, comment }) => {
           return (
-            <Content key={sender + url + content + createDate + alarmMessageType}>
+            <Content key={id}>
               <ContentWrapper>
                 <Notification>
                   <span>
-                    <Name>{sender}</Name>
-                    <span>{ALARM_MESSAGE_TABLE[alarmMessageType]}</span>
+                    <Name>{sender.nickName}</Name>
+                    <span>{ALARM_MESSAGE_TABLE[commentAlarmType]}</span>
                   </span>
 
-                  <time>{getTimeDifference(createDate)}</time>
+                  <time>{getTimeDifference(createdDate)}</time>
                 </Notification>
 
-                <Text>{content}</Text>
+                {commentAlarmType !== "CREATE_COMMENT_LIKE" && <Text>{comment.content}</Text>}
 
-                <Url>{url}</Url>
+                <Url>{comment.url}</Url>
               </ContentWrapper>
             </Content>
           );
