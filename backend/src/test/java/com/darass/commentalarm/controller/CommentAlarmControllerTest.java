@@ -8,6 +8,8 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.docu
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.darass.auth.service.OAuthService;
@@ -119,6 +121,10 @@ class CommentAlarmControllerTest extends AcceptanceTest {
             .andDo(document("api/v1/comment-alarms-get",
                 requestHeaders(
                     headerWithName("Authorization").description("JWT - Bearer 토큰")
+                ),
+                requestParameters(
+                    parameterWithName("startDate").description("시작 날짜"),
+                    parameterWithName("endDate").description("종료 날짜")
                 ),
                 responseFields(
                     fieldWithPath("[].id").optional().type(JsonFieldType.NUMBER).description("알람 아이디"),
