@@ -22,4 +22,11 @@ public abstract class BaseTimeEntity {
     @Column(columnDefinition = "TIMESTAMP")
     private LocalDateTime modifiedDate;
 
+    public void updateCreateDate(LocalDateTime createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public void updateModifiedDate(LocalDateTime modifiedDate) {
+        this.modifiedDate = modifiedDate;
+    }
 }
