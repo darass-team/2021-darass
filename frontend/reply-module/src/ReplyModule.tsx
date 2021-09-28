@@ -1,18 +1,18 @@
-import ReactDOM from "react-dom";
-import { QueryClient, QueryClientProvider } from "react-query";
-import CommentArea from "./components/pages/CommentArea";
-import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
-import OAuth from "./components/pages/OAuth";
-import { ROUTE } from "./constants/route";
-import { POST_MESSAGE_TYPE } from "./constants/postMessageType";
-import GlobalStyles from "./constants/styles/GlobalStyles";
 import * as Sentry from "@sentry/react";
 import { Integrations } from "@sentry/tracing";
-import ErrorPage from "./components/pages/ErrorPage";
-import throttling from "./utils/throttle";
 import { useEffect, useState } from "react";
-import { messageFromReplyModule } from "./utils/postMessage";
+import ReactDOM from "react-dom";
+import { QueryClient, QueryClientProvider } from "react-query";
+import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
+import CommentArea from "./components/pages/CommentArea";
+import ErrorPage from "./components/pages/ErrorPage";
+import OAuth from "./components/pages/OAuth";
+import { POST_MESSAGE_TYPE } from "./constants/postMessageType";
+import { ROUTE } from "./constants/route";
+import GlobalStyles from "./constants/styles/GlobalStyles";
 import { MessageChannelContext } from "./contexts/messageChannelContext";
+import { messageFromReplyModule } from "./utils/postMessage";
+import throttling from "./utils/throttle";
 
 Sentry.init({
   dsn: process.env.SENTRY_REPLY_MODULE_DSN,
@@ -38,19 +38,23 @@ const App = () => {
 
     const [port2] = ports;
     setPort(port2);
+
+    window.removeEventListener("message", onMessageInitMessageChannel);
   };
 
-  const onResize = throttling({ callback: messageFromReplyModule(port).setScrollHeight, delay: 600 });
+  useEffect(() => {
+    if (!port) return;
+    const onResize = throttling({ callback: messageFromReplyModule(port).setScrollHeight, delay: 600 });
+    window.addEventListener("resize", onResize);
+
+    return () => window.removeEventListener("resize", onResize);
+  }, [port]);
 
   useEffect(() => {
     window.addEventListener("message", onMessageInitMessageChannel);
-    window.addEventListener("resize", onResize);
     window.parent.postMessage({ type: POST_MESSAGE_TYPE.INIT_MESSAGE_CHANNEL.REPLY_MODULE.REQUEST_PORT }, "*");
 
-    return () => {
-      window.removeEventListener("message", onMessageInitMessageChannel);
-      window.removeEventListener("resize", onResize);
-    };
+    return () => window.removeEventListener("message", onMessageInitMessageChannel);
   }, []);
 
   return (

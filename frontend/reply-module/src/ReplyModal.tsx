@@ -25,6 +25,7 @@ const App = () => {
 
     const [port2] = ports;
     setPort(port2);
+    window.removeEventListener("message", onMessageInitMessageChannel);
   };
 
   useEffect(() => {
