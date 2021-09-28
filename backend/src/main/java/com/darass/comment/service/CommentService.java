@@ -255,9 +255,9 @@ public class CommentService {
     }
 
     private void sendAlarm(Comment comment, CommentAlarmType createSubComment, User receiver) {
-        CommentAlarm commentAlarm = comment.createCommentAlarm(createSubComment);
+        CommentAlarm commentAlarm = comment.createCommentAlarm(createSubComment, receiver);
         commentAlarmRepository.save(commentAlarm);
-        commentAlarmMachine.sendMessage(receiver, commentAlarm);
+        commentAlarmMachine.sendMessage(commentAlarm);
     }
 
     private void validateSubCommentable(Comment parentComment) {
