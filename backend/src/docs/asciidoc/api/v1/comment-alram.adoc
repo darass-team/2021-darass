@@ -4,6 +4,7 @@
 
 include::{snippets}/api/v1/comment-alarms-get/http-request.adoc[]
 include::{snippets}/api/v1/comment-alarms-get/request-headers.adoc[]
+include::{snippets}/api/v1/comment-alarms-get/request-parameters.adoc[]
 
 ==== Response
 
