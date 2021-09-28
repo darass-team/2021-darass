@@ -19,16 +19,15 @@ public class CommentAlarmService {
     private final CommentAlarmRepository commentAlarmRepository;
 
     public List<CommentAlarmResponse> findAllBySenderAndCreatedDateBetween(SocialLoginUser socialLoginUser,
-        LocalDateTime start,
-        LocalDateTime end) {
+        LocalDateTime start, LocalDateTime end) {
         List<CommentAlarm> commentAlarms = commentAlarmRepository
-            .findAllBySenderAndCreatedDateBetween(socialLoginUser, start, end);
+            .findAllBySenderAndCreatedDateBetweenOrderByCreatedDateDesc(socialLoginUser, start, end);
 
         return makeCommentAlarmResponses(commentAlarms);
     }
 
     private List<CommentAlarmResponse> makeCommentAlarmResponses(List<CommentAlarm> commentAlarms) {
-        return commentAlarms.stream().map(CommentAlarm::makeCommentAlarmResponse).collect(Collectors.toList());
+        return commentAlarms.stream().map(CommentAlarmResponse::of).collect(Collectors.toList());
     }
 
 }
