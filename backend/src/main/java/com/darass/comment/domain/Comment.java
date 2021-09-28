@@ -133,14 +133,13 @@ public class Comment extends BaseTimeEntity {
         }
     }
 
-    public CommentAlarm createCommentAlarm(CommentAlarmType commentAlarmType) {
-        CommentAlarm commentAlarm = CommentAlarm.builder()
+    public CommentAlarm createCommentAlarm(CommentAlarmType commentAlarmType, User receiver) {
+        return CommentAlarm.builder()
             .commentAlarmType(commentAlarmType)
             .sender(user)
+            .receiver(receiver)
             .comment(this)
             .build();
-
-        return commentAlarm;
     }
 
 }

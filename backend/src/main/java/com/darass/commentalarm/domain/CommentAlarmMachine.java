@@ -15,7 +15,8 @@ public class CommentAlarmMachine {
 
     private final SimpMessageSendingOperations simpMessageSendingOperations;
 
-    public void sendMessage(User receiver, CommentAlarm commentAlarm) {
+    public void sendMessage(CommentAlarm commentAlarm) {
+        User receiver = commentAlarm.getReceiver();
         receiver.changeHasRecentAlarm(true);
         CommentAlarmResponse commentAlarmResponse = commentAlarm.makeCommentAlarmResponse();
 

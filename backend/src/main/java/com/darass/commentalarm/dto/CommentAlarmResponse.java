@@ -14,12 +14,15 @@ public class CommentAlarmResponse {
 
     private CommentAlarmType commentAlarmType;
 
-    private UserResponse user;
+    private UserResponse sender;
+
+    private UserResponse receiver;
 
     private CommentResponse comment;
 
-    public static CommentAlarmResponse of(CommentAlarmType commentAlarmType, UserResponse user, CommentResponse comment) {
-        return new CommentAlarmResponse(commentAlarmType, user, comment);
+    public static CommentAlarmResponse of(CommentAlarmType commentAlarmType,
+        UserResponse sender, UserResponse receiver, CommentResponse comment) {
+        return new CommentAlarmResponse(commentAlarmType, sender, receiver, comment);
     }
 
 }
