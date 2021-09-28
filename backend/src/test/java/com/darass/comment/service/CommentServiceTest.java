@@ -5,9 +5,6 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
 
-import com.darass.commentalarm.domain.CommentAlarm;
-import com.darass.commentalarm.repository.CommentAlarmRepository;
-import com.darass.darass.SpringContainerTest;
 import com.darass.auth.domain.KaKaoOAuthProvider;
 import com.darass.comment.domain.Comment;
 import com.darass.comment.domain.CommentLike;
@@ -24,6 +21,11 @@ import com.darass.comment.dto.CommentStatResponse;
 import com.darass.comment.dto.CommentUpdateRequest;
 import com.darass.comment.repository.CommentLikeRepository;
 import com.darass.comment.repository.CommentRepository;
+import com.darass.commentalarm.domain.CommentAlarm;
+import com.darass.commentalarm.domain.CommentAlarmMachine;
+import com.darass.commentalarm.domain.CommentAlarmType;
+import com.darass.commentalarm.repository.CommentAlarmRepository;
+import com.darass.darass.SpringContainerTest;
 import com.darass.exception.httpbasicexception.BadRequestException;
 import com.darass.exception.httpbasicexception.NotFoundException;
 import com.darass.exception.httpbasicexception.UnauthorizedException;
@@ -33,8 +35,6 @@ import com.darass.user.domain.GuestUser;
 import com.darass.user.domain.SocialLoginUser;
 import com.darass.user.domain.User;
 import com.darass.user.repository.UserRepository;
-import com.darass.commentalarm.domain.CommentAlarmMachine;
-import com.darass.commentalarm.domain.CommentAlarmType;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
@@ -82,9 +82,7 @@ class CommentServiceTest extends SpringContainerTest {
 
     @BeforeEach
     void setUp() {
-        doNothing().when(commentAlarmMachine).sendMessage(any(), any());
-        doNothing().when(commentAlarmMachine).sendMessage(any(), any());
-        doNothing().when(commentAlarmMachine).sendMessage(any(), any());
+        doNothing().when(commentAlarmMachine).sendMessage(any());
 
         socialLoginUser = SocialLoginUser.builder()
             .nickName("우기")
