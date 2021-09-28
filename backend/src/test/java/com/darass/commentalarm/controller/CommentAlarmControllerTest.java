@@ -34,7 +34,8 @@ import org.springframework.test.web.servlet.ResultActions;
 @DisplayName("CommentAlarm 인수 테스트")
 class CommentAlarmControllerTest extends AcceptanceTest {
 
-    private static final SocialLoginUser SOCIAL_LOGIN_USER;
+    private static final SocialLoginUser SENDER;
+    private static final SocialLoginUser RECEIVER;
     public static final String ACCESS_TOKEN = "accessToken";
     public static final String REFRESH_TOKEN = "refreshToken";
 
@@ -45,10 +46,22 @@ class CommentAlarmControllerTest extends AcceptanceTest {
     private OAuthService oAuthService;
 
     static {
-        SOCIAL_LOGIN_USER = SocialLoginUser
+        SENDER = SocialLoginUser
             .builder()
             .id(1L)
-            .nickName("우기")
+            .nickName("송신자")
+            .oauthId("2312312312")
+            .oauthProvider("kakao")
+            .email("bbwwpark@naver.com")
+            .profileImageUrl("https://imageUrl")
+            .refreshToken(REFRESH_TOKEN)
+            .userType("SocialLoginUser")
+            .build();
+
+        RECEIVER = SocialLoginUser
+            .builder()
+            .id(1L)
+            .nickName("수신자")
             .oauthId("2312312312")
             .oauthProvider("kakao")
             .email("bbwwpark@naver.com")
@@ -60,7 +73,7 @@ class CommentAlarmControllerTest extends AcceptanceTest {
 
     @BeforeEach
     void setUp() {
-        given(oAuthService.findSocialLoginUserByAccessToken(ACCESS_TOKEN)).willReturn(SOCIAL_LOGIN_USER);
+        given(oAuthService.findSocialLoginUserByAccessToken(ACCESS_TOKEN)).willReturn(SENDER);
     }
 
     @DisplayName("유저의 알람 내역을 조회한다.")
@@ -68,14 +81,16 @@ class CommentAlarmControllerTest extends AcceptanceTest {
     void findUser_success() throws Exception {
         //given
         List<CommentAlarmResponse> commentAlarmResponses = new ArrayList<>();
-        UserResponse userResponse = UserResponse.of(SOCIAL_LOGIN_USER);
+        UserResponse senderResponse = UserResponse.of(SENDER);
+        UserResponse receiverResponse = UserResponse.of(RECEIVER);
+
         CommentResponse commentResponse = new CommentResponse(
             1L, "content", "url", LocalDateTime.now(), LocalDateTime.now(),
-            null, userResponse, null
+            null, senderResponse, null
         );
 
         CommentAlarmResponse commentAlarmResponse = CommentAlarmResponse.of(
-            CommentAlarmType.CREATE_COMMENT, UserResponse.of(SOCIAL_LOGIN_USER), commentResponse
+            CommentAlarmType.CREATE_COMMENT, senderResponse, receiverResponse, commentResponse
         );
 
         commentAlarmResponses.add(commentAlarmResponse);
@@ -100,13 +115,20 @@ class CommentAlarmControllerTest extends AcceptanceTest {
                 ),
                 responseFields(
                     fieldWithPath("[].commentAlarmType").type(JsonFieldType.STRING).description("알람 타입"),
-                    fieldWithPath("[].user.id").type(JsonFieldType.NUMBER).description("알람 수신한 유저 아이디"),
-                    fieldWithPath("[].user.nickName").type(JsonFieldType.STRING).description("알람 수신한 유저 닉네임"),
-                    fieldWithPath("[].user.type").type(JsonFieldType.STRING).description("알람 수신한 유저 타입"),
-                    fieldWithPath("[].user.profileImageUrl").type(JsonFieldType.STRING).description("알람 수신한 유저 프로필 이미지 링크"),
-                    fieldWithPath("[].user.hasRecentAlarm").type(JsonFieldType.BOOLEAN).description("알람 수신한 유저 최근 알람 수신 여부"),
-                    fieldWithPath("[].user.createdDate").optional().type(JsonFieldType.STRING).description("알람 수신한 유저 생성일"),
-                    fieldWithPath("[].user.modifiedDate").optional().type(JsonFieldType.STRING).description("알람 수신한 유저 수정일"),
+                    fieldWithPath("[].sender.id").type(JsonFieldType.NUMBER).description("알람 송신자 유저 아이디"),
+                    fieldWithPath("[].sender.nickName").type(JsonFieldType.STRING).description("알람 송신자 유저 닉네임"),
+                    fieldWithPath("[].sender.type").type(JsonFieldType.STRING).description("알람 송신자 유저 타입"),
+                    fieldWithPath("[].sender.profileImageUrl").type(JsonFieldType.STRING).description("알람 송신자 유저 프로필 이미지 링크"),
+                    fieldWithPath("[].sender.hasRecentAlarm").type(JsonFieldType.BOOLEAN).description("알람 송신자 유저 최근 알람 수신 여부"),
+                    fieldWithPath("[].sender.createdDate").optional().type(JsonFieldType.STRING).description("알람 송신자 유저 생성일"),
+                    fieldWithPath("[].sender.modifiedDate").optional().type(JsonFieldType.STRING).description("알람 송신자 유저 수정일"),
+                    fieldWithPath("[].receiver.id").type(JsonFieldType.NUMBER).description("알람 수신자 유저 아이디"),
+                    fieldWithPath("[].receiver.nickName").type(JsonFieldType.STRING).description("알람 수신자 유저 닉네임"),
+                    fieldWithPath("[].receiver.type").type(JsonFieldType.STRING).description("알람 수신자 유저 타입"),
+                    fieldWithPath("[].receiver.profileImageUrl").type(JsonFieldType.STRING).description("알람 수신자 유저 프로필 이미지 링크"),
+                    fieldWithPath("[].receiver.hasRecentAlarm").type(JsonFieldType.BOOLEAN).description("알람 수신자 유저 최근 알람 수신 여부"),
+                    fieldWithPath("[].receiver.createdDate").optional().type(JsonFieldType.STRING).description("알람 수신자 유저 생성일"),
+                    fieldWithPath("[].receiver.modifiedDate").optional().type(JsonFieldType.STRING).description("알람 수신자 유저 수정일"),
                     fieldWithPath("[].comment.id").type(JsonFieldType.NUMBER).description("알람에 해당하는 댓글 아이디"),
                     fieldWithPath("[].comment.content").type(JsonFieldType.STRING).description("알람에 해당하는 댓글 내용"),
                     fieldWithPath("[].comment.url").type(JsonFieldType.STRING).description("알람에 해당하는 댓글이 존재하는 url"),
