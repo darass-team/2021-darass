@@ -54,10 +54,4 @@ public class CommentAlarm extends BaseTimeEntity {
         this.comment = comment;
     }
 
-    public CommentAlarmResponse makeCommentAlarmResponse() {
-        UserResponse senderResponse = UserResponse.of(getSender());
-        UserResponse receiverResponse = UserResponse.of(getReceiver());
-        CommentResponse commentResponse = CommentResponse.of(getComment(), senderResponse);
-        return CommentAlarmResponse.of(getCommentAlarmType(), senderResponse, receiverResponse, commentResponse);
-    }
 }

@@ -9,7 +9,9 @@ import com.darass.commentalarm.dto.CommentAlarmResponse;
 import com.darass.commentalarm.repository.CommentAlarmRepository;
 import com.darass.darass.SpringContainerTest;
 import com.darass.user.domain.SocialLoginUser;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -65,8 +67,8 @@ class CommentAlarmServiceTest extends SpringContainerTest {
     void findAllBySenderAndCreatedDateBetween_success() {
         List<CommentAlarmResponse> commentAlarmResponses = commentAlarmService.findAllBySenderAndCreatedDateBetween(
             sender,
-            LocalDateTime.of(2020, 1, 1, 1, 1),
-            LocalDateTime.of(2022, 1, 1, 1, 1)
+            LocalDate.of(2020,1,1).atTime(LocalTime.MIN),
+            LocalDate.of(2022,1,1).atTime(LocalTime.MAX)
         );
 
         assertThat(commentAlarmResponses.size()).isEqualTo(1);

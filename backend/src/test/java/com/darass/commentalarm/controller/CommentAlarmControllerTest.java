@@ -11,13 +11,13 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.response
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.darass.auth.service.OAuthService;
-import com.darass.comment.dto.CommentResponse;
+import com.darass.comment.domain.Comment;
+import com.darass.commentalarm.domain.CommentAlarm;
 import com.darass.commentalarm.domain.CommentAlarmType;
 import com.darass.commentalarm.dto.CommentAlarmResponse;
 import com.darass.commentalarm.service.CommentAlarmService;
 import com.darass.darass.AcceptanceTest;
 import com.darass.user.domain.SocialLoginUser;
-import com.darass.user.dto.UserResponse;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -60,7 +60,7 @@ class CommentAlarmControllerTest extends AcceptanceTest {
 
         RECEIVER = SocialLoginUser
             .builder()
-            .id(1L)
+            .id(2L)
             .nickName("수신자")
             .oauthId("2312312312")
             .oauthProvider("kakao")
@@ -81,18 +81,23 @@ class CommentAlarmControllerTest extends AcceptanceTest {
     void findUser_success() throws Exception {
         //given
         List<CommentAlarmResponse> commentAlarmResponses = new ArrayList<>();
-        UserResponse senderResponse = UserResponse.of(SENDER);
-        UserResponse receiverResponse = UserResponse.of(RECEIVER);
 
-        CommentResponse commentResponse = new CommentResponse(
-            1L, "content", "url", LocalDateTime.now(), LocalDateTime.now(),
-            null, senderResponse, null
-        );
+        Comment comment = Comment.builder()
+            .content("content")
+            .url("url")
+            .build();
 
-        CommentAlarmResponse commentAlarmResponse = CommentAlarmResponse.of(
-            CommentAlarmType.CREATE_COMMENT, senderResponse, receiverResponse, commentResponse
-        );
+        comment.updateCreateDate(LocalDateTime.now());
+        comment.updateModifiedDate(LocalDateTime.now());
 
+        CommentAlarm commentAlarm = CommentAlarm.builder()
+            .commentAlarmType(CommentAlarmType.CREATE_COMMENT)
+            .sender(SENDER)
+            .receiver(RECEIVER)
+            .comment(comment)
+            .build();
+
+        CommentAlarmResponse commentAlarmResponse = CommentAlarmResponse.of(commentAlarm);
         commentAlarmResponses.add(commentAlarmResponse);
 
         given(commentAlarmService.findAllBySenderAndCreatedDateBetween(any(), any(), any()))
@@ -103,6 +108,8 @@ class CommentAlarmControllerTest extends AcceptanceTest {
             get("/api/v1/comment-alarms")
                 .contentType(MediaType.APPLICATION_JSON)
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + ACCESS_TOKEN)
+                .param("startDate", "2000-01-01")
+                .param("endDate", "2030-12-31")
                 .cookie(new Cookie(REFRESH_TOKEN, "refreshToken"))
         );
 
@@ -114,6 +121,8 @@ class CommentAlarmControllerTest extends AcceptanceTest {
                     headerWithName("Authorization").description("JWT - Bearer 토큰")
                 ),
                 responseFields(
+                    fieldWithPath("[].id").optional().type(JsonFieldType.NUMBER).description("알람 아이디"),
+                    fieldWithPath("[].createdDate").optional().type(JsonFieldType.STRING).description("알람 아이디"),
                     fieldWithPath("[].commentAlarmType").type(JsonFieldType.STRING).description("알람 타입"),
                     fieldWithPath("[].sender.id").type(JsonFieldType.NUMBER).description("알람 송신자 유저 아이디"),
                     fieldWithPath("[].sender.nickName").type(JsonFieldType.STRING).description("알람 송신자 유저 닉네임"),
@@ -129,14 +138,14 @@ class CommentAlarmControllerTest extends AcceptanceTest {
                     fieldWithPath("[].receiver.hasRecentAlarm").type(JsonFieldType.BOOLEAN).description("알람 수신자 유저 최근 알람 수신 여부"),
                     fieldWithPath("[].receiver.createdDate").optional().type(JsonFieldType.STRING).description("알람 수신자 유저 생성일"),
                     fieldWithPath("[].receiver.modifiedDate").optional().type(JsonFieldType.STRING).description("알람 수신자 유저 수정일"),
-                    fieldWithPath("[].comment.id").type(JsonFieldType.NUMBER).description("알람에 해당하는 댓글 아이디"),
+                    fieldWithPath("[].comment.id").optional().type(JsonFieldType.NUMBER).description("알람에 해당하는 댓글 아이디"),
                     fieldWithPath("[].comment.content").type(JsonFieldType.STRING).description("알람에 해당하는 댓글 내용"),
                     fieldWithPath("[].comment.url").type(JsonFieldType.STRING).description("알람에 해당하는 댓글이 존재하는 url"),
                     fieldWithPath("[].comment.createdDate").optional().type(JsonFieldType.STRING).description("알람에 해당하는 댓글 생성 시점"),
                     fieldWithPath("[].comment.modifiedDate").optional().type(JsonFieldType.STRING).description("알람에 해당하는 댓글 수정 시점"),
                     fieldWithPath("[].comment.likingUsers").optional().type(JsonFieldType.ARRAY).description("알람에 해당하는 댓글 좋아요 누른 유저 정보"),
                     fieldWithPath("[].comment.user").type(JsonFieldType.OBJECT).description("알람에 해당하는 댓글 작성한 유저 정보"),
-                    fieldWithPath("[].comment.user.id").type(JsonFieldType.NUMBER).description("알람에 해당하는 댓글 작성한 유저 아이디"),
+                    fieldWithPath("[].comment.user.id").optional().type(JsonFieldType.NUMBER).description("알람에 해당하는 댓글 작성한 유저 아이디"),
                     fieldWithPath("[].comment.user.nickName").type(JsonFieldType.STRING).description("알람에 해당하는 댓글 작성한 유저 닉네임"),
                     fieldWithPath("[].comment.user.type").type(JsonFieldType.STRING).description("알람에 해당하는 댓글 작성한 유저 타입"),
                     fieldWithPath("[].comment.user.profileImageUrl").type(JsonFieldType.STRING).description("알람에 해당하는 댓글 작성한 유저 프로필 이미지"),
