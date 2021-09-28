@@ -25,7 +25,6 @@ import {
 
 const CommentArea = () => {
   const urlParams = new URLSearchParams(window.location.search);
-
   const url = urlParams.get("url");
   const projectSecretKey = urlParams.get("projectKey");
 

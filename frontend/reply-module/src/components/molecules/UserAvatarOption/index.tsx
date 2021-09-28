@@ -18,7 +18,7 @@ export interface Props {
 const UserAvatarOption = ({ user, children, className }: Props) => {
   const [isShowOptionBox, setShowOptionBox] = useState(false);
   const { port } = useContext(MessageChannelContext);
-  const { data: alarmContents } = useCommentAlarm();
+  const { data: alarmContents, hasNewAlarmOnRealTime, setHasNewAlarmOnRealTime } = useCommentAlarm();
   const { refetch: refetchUser } = useUser();
   const { editUser } = useEditUser();
 
@@ -34,7 +34,8 @@ const UserAvatarOption = ({ user, children, className }: Props) => {
       formData.append("hasRecentAlarm", "false");
 
       await editUser(formData);
-      refetchUser();
+      await refetchUser();
+      setHasNewAlarmOnRealTime(false);
     } catch (error) {
       if (error instanceof AlertError) {
         alert(error.message);
@@ -50,7 +51,13 @@ const UserAvatarOption = ({ user, children, className }: Props) => {
 
   return (
     <Container className={className}>
-      {user && <Alarm size="SM" hasUnReadNotification={user.hasRecentAlarm} onClick={onClickAlarmIcon} />}
+      {user && (
+        <Alarm
+          size="SM"
+          hasUnReadNotification={user.hasRecentAlarm || hasNewAlarmOnRealTime}
+          onClick={onClickAlarmIcon}
+        />
+      )}
 
       <UserNickName onClick={onShowOptionBox}>{user?.nickName ?? "로그인"}</UserNickName>
       <Avatar
