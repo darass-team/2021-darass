@@ -33,7 +33,7 @@ const AlarmContent = ({ alarmContents }: Props) => {
       {alarmContents.length > 0 ? (
         alarmContents.map(({ id, createdDate, commentAlarmType, sender, comment }) => {
           return (
-            <Content key={id}>
+            <Content key={id} onClick={() => window.open(comment.url, "_blank", "noopener")}>
               <ContentWrapper>
                 <Notification>
                   <span>
