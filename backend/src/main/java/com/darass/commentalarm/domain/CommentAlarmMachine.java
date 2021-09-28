@@ -18,7 +18,7 @@ public class CommentAlarmMachine {
     public void sendMessage(CommentAlarm commentAlarm) {
         User receiver = commentAlarm.getReceiver();
         receiver.changeHasRecentAlarm(true);
-        CommentAlarmResponse commentAlarmResponse = commentAlarm.makeCommentAlarmResponse();
+        CommentAlarmResponse commentAlarmResponse = CommentAlarmResponse.of(commentAlarm);
 
         simpMessageSendingOperations.convertAndSend(QUEUE_MAIN + receiver.getId(), commentAlarmResponse);
         simpMessageSendingOperations.convertAndSend(QUEUE_MODULE + receiver.getId(), commentAlarmResponse);
