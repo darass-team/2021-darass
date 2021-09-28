@@ -63,7 +63,7 @@ class CommentAlarmRepositoryTest extends SpringContainerTest {
     @DisplayName("특정 기간에 유저에게 생성된 댓글 알람 리스트를 반환한다.")
     @Test
     void findAllBySenderAndCreatedDateBetween_success() {
-        List<CommentAlarm> commentAlarms = commentAlarmRepository.findAllBySenderAndCreatedDateBetween(
+        List<CommentAlarm> commentAlarms = commentAlarmRepository.findAllBySenderAndCreatedDateBetweenOrderByCreatedDateDesc(
             socialLoginUser,
             LocalDateTime.of(2020, 1, 1, 1, 1),
             LocalDateTime.of(2022, 1, 1, 1, 1)
@@ -75,7 +75,7 @@ class CommentAlarmRepositoryTest extends SpringContainerTest {
     @DisplayName("특정 기간에 유저에게 생성된 댓글 알람이 없다면 빈 리스트를 반환한다.")
     @Test
     void findAllBySenderAndCreatedDateBetween_empty() {
-        List<CommentAlarm> commentAlarms = commentAlarmRepository.findAllBySenderAndCreatedDateBetween(
+        List<CommentAlarm> commentAlarms = commentAlarmRepository.findAllBySenderAndCreatedDateBetweenOrderByCreatedDateDesc(
             socialLoginUser,
             LocalDateTime.of(2022, 1, 1, 1, 1),
             LocalDateTime.of(2023, 1, 1, 1, 1)
@@ -83,7 +83,7 @@ class CommentAlarmRepositoryTest extends SpringContainerTest {
 
         assertThat(commentAlarms.size()).isEqualTo(0);
 
-        commentAlarms = commentAlarmRepository.findAllBySenderAndCreatedDateBetween(
+        commentAlarms = commentAlarmRepository.findAllBySenderAndCreatedDateBetweenOrderByCreatedDateDesc(
             null,
             LocalDateTime.of(2020, 1, 1, 1, 1),
             LocalDateTime.of(2022, 1, 1, 1, 1)
