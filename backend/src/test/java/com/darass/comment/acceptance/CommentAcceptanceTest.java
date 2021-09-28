@@ -94,9 +94,7 @@ class CommentAcceptanceTest extends AcceptanceTest {
 
     @BeforeEach
     void setUp() {
-        doNothing().when(commentAlarmMachine).sendMessage(any(), any());
-        doNothing().when(commentAlarmMachine).sendMessage(any(), any());
-        doNothing().when(commentAlarmMachine).sendMessage(any(), any());
+        doNothing().when(commentAlarmMachine).sendMessage(any());
 
         setUpUser();
         setUpProject();
