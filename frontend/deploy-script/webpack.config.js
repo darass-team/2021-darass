@@ -1,4 +1,3 @@
-const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const { DefinePlugin } = require("webpack");
 
 const path = require("path");
@@ -8,7 +7,8 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, "dist"),
     filename: "embed.js",
-    publicPath: "/"
+    publicPath: "/",
+    clean: true
   },
   module: {
     rules: [
@@ -18,13 +18,8 @@ module.exports = {
           {
             loader: "babel-loader",
             options: {
-              presets: [
-                "@babel/preset-env",
-                "@babel/preset-typescript"
-              ],
-              plugins: [
-                "@babel/transform-runtime",
-              ]
+              presets: ["@babel/preset-env", "@babel/preset-typescript"],
+              plugins: ["@babel/transform-runtime"]
             }
           }
         ],
@@ -32,10 +27,7 @@ module.exports = {
       }
     ]
   },
-  plugins: [
-    new CleanWebpackPlugin(),
-    new DefinePlugin({ "process.env.BUILD_MODE": JSON.stringify(process.env.BUILD_MODE) })
-  ],
+  plugins: [new DefinePlugin({ "process.env.BUILD_MODE": JSON.stringify(process.env.BUILD_MODE) })],
   resolve: {
     extensions: [".tsx", ".ts", ".jsx", ".js"],
     alias: { "@": path.resolve(__dirname, "src") }
