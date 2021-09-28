@@ -37,21 +37,27 @@ public class CommentAlarm extends BaseTimeEntity {
     @JoinColumn(name = "sender_id")
     private User sender;
 
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "receiver_id")
+    private User receiver;
+
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "comment_id")
     private Comment comment;
 
     @Builder
-    public CommentAlarm(Long id, CommentAlarmType commentAlarmType, User sender, Comment comment) {
+    public CommentAlarm(Long id, CommentAlarmType commentAlarmType, User sender, User receiver, Comment comment) {
         this.id = id;
         this.commentAlarmType = commentAlarmType;
         this.sender = sender;
+        this.receiver = receiver;
         this.comment = comment;
     }
 
     public CommentAlarmResponse makeCommentAlarmResponse() {
-        UserResponse userResponse = UserResponse.of(getSender());
-        CommentResponse commentResponse = CommentResponse.of(getComment(), userResponse);
-        return CommentAlarmResponse.of(getCommentAlarmType(), userResponse, commentResponse);
+        UserResponse senderResponse = UserResponse.of(getSender());
+        UserResponse receiverResponse = UserResponse.of(getReceiver());
+        CommentResponse commentResponse = CommentResponse.of(getComment(), senderResponse);
+        return CommentAlarmResponse.of(getCommentAlarmType(), senderResponse, receiverResponse, commentResponse);
     }
 }
