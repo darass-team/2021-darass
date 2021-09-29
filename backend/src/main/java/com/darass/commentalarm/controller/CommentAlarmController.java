@@ -25,7 +25,7 @@ public class CommentAlarmController {
     public ResponseEntity<List<CommentAlarmResponse>> findAllAlarmByCreatedDateBetween(
         @RequiredLogin SocialLoginUser socialLoginUser, @ModelAttribute CommentAlarmRequest commentAlarmRequest) {
 
-        List<CommentAlarmResponse> commentAlarmResponses = commentAlarmService.findAllBySenderAndCreatedDateBetween(
+        List<CommentAlarmResponse> commentAlarmResponses = commentAlarmService.findAllCreatedDateBetween(
             socialLoginUser,
             commentAlarmRequest.getStartDate().atTime(LocalTime.MIN),
             commentAlarmRequest.getEndDate().atTime(LocalTime.MAX)
