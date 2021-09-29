@@ -6,7 +6,7 @@ name: Darass PR Checker - dev [FE]
 on:
   pull_request:
     types: [ opened, edited ]
-    branches: [ dev ]
+    branches: [ develop ]
 
 jobs:
   build:
