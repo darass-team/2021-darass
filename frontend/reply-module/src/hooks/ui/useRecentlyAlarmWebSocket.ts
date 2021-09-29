@@ -8,6 +8,7 @@ import { GetAlarmResponse } from "@/types/comment";
 export const useRecentlyAlarmWebSocket = () => {
   const socketRef = useRef<WebSocket>();
   const [recentlyAlarmContent, setRecentlyAlarmContent] = useState<GetAlarmResponse>();
+  const [hasNewAlarmOnRealTime, setHasNewAlarmOnRealTime] = useState(false);
   const { user } = useUser();
 
   useEffect(() => {
@@ -25,7 +26,7 @@ export const useRecentlyAlarmWebSocket = () => {
       stompClient.connect(
         {},
         () => {
-          stompClient.subscribe(`/queue/main${user.id}`, payload => {
+          stompClient.subscribe(`/queue/module${user.id}`, payload => {
             const data = JSON.parse(payload.body) as GetAlarmResponse;
             setRecentlyAlarmContent(data);
           });
@@ -35,5 +36,5 @@ export const useRecentlyAlarmWebSocket = () => {
     }
   }, [user]);
 
-  return { recentlyAlarmContent };
+  return { recentlyAlarmContent, hasNewAlarmOnRealTime, setHasNewAlarmOnRealTime };
 };

@@ -34,7 +34,7 @@ const queryClient = new QueryClient({
 
 const App = () => {
   const [port, setPort] = useState<MessagePort>();
-  const { recentlyAlarmContent } = useRecentlyAlarmWebSocket();
+  const { recentlyAlarmContent, hasNewAlarmOnRealTime, setHasNewAlarmOnRealTime } = useRecentlyAlarmWebSocket();
 
   const onMessageInitMessageChannel = ({ data, ports }: MessageEvent) => {
     if (data.type !== POST_MESSAGE_TYPE.INIT_MESSAGE_CHANNEL.REPLY_MODULE.RESPONSE_PORT) return;
@@ -62,7 +62,9 @@ const App = () => {
 
   return (
     <MessageChannelContext.Provider value={{ port }}>
-      <RecentlyAlarmContentContext.Provider value={{ recentlyAlarmContent }}>
+      <RecentlyAlarmContentContext.Provider
+        value={{ recentlyAlarmContent, hasNewAlarmOnRealTime, setHasNewAlarmOnRealTime }}
+      >
         <BrowserRouter>
           <Switch>
             <Route exact path={ROUTE.HOME} component={CommentArea} />

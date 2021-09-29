@@ -35,7 +35,7 @@ const UserAvatarOption = ({ user, children, className }: Props) => {
 
       await editUser(formData);
       await refetchUser();
-      setHasNewAlarmOnRealTime(false);
+      setHasNewAlarmOnRealTime?.(false);
     } catch (error) {
       if (error instanceof AlertError) {
         alert(error.message);

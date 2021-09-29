@@ -35,8 +35,9 @@ const getAlarms = async () => {
 
 export const useGetAlarmContents = () => {
   const { accessToken } = useToken();
-  const { recentlyAlarmContent } = useContext(RecentlyAlarmContentContext);
-  const { data, refetch, isLoading, isError } = useQuery<GetAlarmResponse[], Error>(
+  const { recentlyAlarmContent, hasNewAlarmOnRealTime, setHasNewAlarmOnRealTime } =
+    useContext(RecentlyAlarmContentContext);
+  const { data, refetch, isLoading, isError, isSuccess } = useQuery<GetAlarmResponse[], Error>(
     [REACT_QUERY_KEY.COMMENT_ALARM],
     getAlarms,
     {
@@ -44,14 +45,16 @@ export const useGetAlarmContents = () => {
       enabled: !!accessToken
     }
   );
-  const [hasNewAlarmOnRealTime, setHasNewAlarmOnRealTime] = useState(false);
 
   useEffect(() => {
     if (recentlyAlarmContent && data) {
+      const isExistedAlarm = data.find(_data => _data.id === recentlyAlarmContent.id);
+      if (isExistedAlarm) return;
+
       data.unshift(recentlyAlarmContent);
-      setHasNewAlarmOnRealTime(true);
+      setHasNewAlarmOnRealTime?.(true);
     }
   }, [recentlyAlarmContent]);
 
-  return { data, refetch, isLoading, isError, hasNewAlarmOnRealTime, setHasNewAlarmOnRealTime };
+  return { data, refetch, isLoading, isError, isSuccess, hasNewAlarmOnRealTime, setHasNewAlarmOnRealTime };
 };
