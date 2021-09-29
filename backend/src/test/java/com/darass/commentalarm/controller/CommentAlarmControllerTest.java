@@ -102,7 +102,7 @@ class CommentAlarmControllerTest extends AcceptanceTest {
         CommentAlarmResponse commentAlarmResponse = CommentAlarmResponse.of(commentAlarm);
         commentAlarmResponses.add(commentAlarmResponse);
 
-        given(commentAlarmService.findAllBySenderAndCreatedDateBetween(any(), any(), any()))
+        given(commentAlarmService.findAllCreatedDateBetween(any(), any(), any()))
             .willReturn(commentAlarmResponses);
 
         //when

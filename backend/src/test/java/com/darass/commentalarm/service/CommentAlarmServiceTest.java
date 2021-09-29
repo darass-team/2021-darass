@@ -10,7 +10,6 @@ import com.darass.commentalarm.repository.CommentAlarmRepository;
 import com.darass.darass.SpringContainerTest;
 import com.darass.user.domain.SocialLoginUser;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -29,57 +28,62 @@ class CommentAlarmServiceTest extends SpringContainerTest {
     @Autowired
     private CommentAlarmRepository commentAlarmRepository;
 
-    private SocialLoginUser sender;
+    private static SocialLoginUser SENDER;
 
-    private SocialLoginUser receiver;
+    private static SocialLoginUser RECEIVER;
 
     private Comment comment;
 
-    private CommentAlarm commentAlarm;
+    static {
+        SENDER = SocialLoginUser
+            .builder()
+            .nickName("송신자")
+            .build();
 
+        RECEIVER = SocialLoginUser
+            .builder()
+            .nickName("수신자")
+            .build();
+    }
     @BeforeEach
     void setUp() {
-        sender = SocialLoginUser
-            .builder()
-            .nickName("박병욱")
-            .build();
-
-        receiver = SocialLoginUser
-            .builder()
-            .nickName("박병욱")
-            .build();
-
         comment = Comment.builder()
-            .user(sender)
+            .user(SENDER)
             .content("content")
             .build();
+
+        commentAlarmRepository.save(CommentAlarm.builder()
+            .commentAlarmType(CommentAlarmType.CREATE_COMMENT)
+            .sender(SENDER)
+            .receiver(RECEIVER)
+            .comment(comment)
+            .build());
+
+        commentAlarmRepository.save(CommentAlarm.builder()
+            .commentAlarmType(CommentAlarmType.CREATE_COMMENT)
+            .sender(SENDER)
+            .receiver(RECEIVER)
+            .comment(comment)
+            .build());
+
+        commentAlarmRepository.save(CommentAlarm.builder()
+            .commentAlarmType(CommentAlarmType.CREATE_COMMENT)
+            .sender(SENDER)
+            .receiver(RECEIVER)
+            .comment(comment)
+            .build());
     }
 
     @DisplayName("특정 기간에 유저에게 생성된 댓글 알람 리스트를 반환한다.")
     @Test
     void findAllBySenderAndCreatedDateBetween_success() {
-
-        CommentAlarm commentAlarm1 = commentAlarmRepository.save(CommentAlarm.builder()
-            .commentAlarmType(CommentAlarmType.CREATE_COMMENT)
-            .sender(sender)
-            .receiver(receiver)
-            .comment(comment)
-            .build());
-
-        CommentAlarm commentAlarm2 = commentAlarmRepository.save(CommentAlarm.builder()
-            .commentAlarmType(CommentAlarmType.CREATE_COMMENT)
-            .sender(sender)
-            .receiver(receiver)
-            .comment(comment)
-            .build());
-
-        List<CommentAlarmResponse> commentAlarmResponses = commentAlarmService.findAllBySenderAndCreatedDateBetween(
-            sender,
+        List<CommentAlarmResponse> commentAlarmResponses = commentAlarmService.findAllCreatedDateBetween(
+            RECEIVER,
             LocalDate.of(2020,1,1).atTime(LocalTime.MIN),
             LocalDate.of(2022,1,1).atTime(LocalTime.MAX)
         );
 
-        assertThat(commentAlarmResponses).hasSize(2);
+        assertThat(commentAlarmResponses).hasSize(3);
     }
 
 }
