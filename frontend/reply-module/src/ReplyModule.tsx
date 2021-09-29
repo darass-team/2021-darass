@@ -11,6 +11,8 @@ import { POST_MESSAGE_TYPE } from "./constants/postMessageType";
 import { ROUTE } from "./constants/route";
 import GlobalStyles from "./constants/styles/GlobalStyles";
 import { MessageChannelContext } from "./contexts/messageChannelContext";
+import { RecentlyAlarmContentContext } from "./contexts/recentlyAlarmContentContext";
+import { useRecentlyAlarmWebSocket } from "./hooks";
 import { messageFromReplyModule } from "./utils/postMessage";
 import throttling from "./utils/throttle";
 
@@ -32,6 +34,7 @@ const queryClient = new QueryClient({
 
 const App = () => {
   const [port, setPort] = useState<MessagePort>();
+  const { recentlyAlarmContent } = useRecentlyAlarmWebSocket();
 
   const onMessageInitMessageChannel = ({ data, ports }: MessageEvent) => {
     if (data.type !== POST_MESSAGE_TYPE.INIT_MESSAGE_CHANNEL.REPLY_MODULE.RESPONSE_PORT) return;
@@ -59,13 +62,15 @@ const App = () => {
 
   return (
     <MessageChannelContext.Provider value={{ port }}>
-      <BrowserRouter>
-        <Switch>
-          <Route exact path={ROUTE.HOME} component={CommentArea} />
-          <Route exact path={ROUTE.OAUTH} component={OAuth} />
-          <Redirect to={ROUTE.HOME} />
-        </Switch>
-      </BrowserRouter>
+      <RecentlyAlarmContentContext.Provider value={{ recentlyAlarmContent }}>
+        <BrowserRouter>
+          <Switch>
+            <Route exact path={ROUTE.HOME} component={CommentArea} />
+            <Route exact path={ROUTE.OAUTH} component={OAuth} />
+            <Redirect to={ROUTE.HOME} />
+          </Switch>
+        </BrowserRouter>
+      </RecentlyAlarmContentContext.Provider>
     </MessageChannelContext.Provider>
   );
 };

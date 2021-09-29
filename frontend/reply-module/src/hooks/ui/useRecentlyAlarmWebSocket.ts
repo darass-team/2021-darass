@@ -5,7 +5,7 @@ import { Stomp } from "@stomp/stompjs";
 import { BASE_URL } from "@/constants/api";
 import { GetAlarmResponse } from "@/types/comment";
 
-export const useAlarmSocket = () => {
+export const useRecentlyAlarmWebSocket = () => {
   const socketRef = useRef<WebSocket>();
   const [recentlyAlarmContent, setRecentlyAlarmContent] = useState<GetAlarmResponse>();
   const { user } = useUser();

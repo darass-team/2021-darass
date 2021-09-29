@@ -9,4 +9,4 @@ export { useGetAllComments } from "./api/comment/useGetAllComments";
 export { useGetAlarmContents } from "./api/comment/useGetAlarmContents";
 export { useGetProjectOwnerId } from "./api/user/useGetProjectOwnerId";
 export { useEditUser } from "./api/user/useEditUser";
-export { useAlarmSocket } from "./api/comment/useAlarmSocket";
+export { useRecentlyAlarmWebSocket } from "./ui/useRecentlyAlarmWebSocket";
