@@ -147,9 +147,26 @@ class CommentServiceTest extends SpringContainerTest {
         comments = Arrays.asList(comment1, comment2, comment3, comment4);
     }
 
-    @DisplayName("소셜 로그인 유저가 댓글을 등록하고 알람 메세지를 보낸다.")
+    @DisplayName("소셜 로그인 유저가 댓글을 등록하고 알람 메세지를 저장한다.")
     @Test
     void save() {
+        SocialLoginUser user = SocialLoginUser.builder()
+            .nickName("우기")
+            .profileImageUrl("http://프로필이미지-url")
+            .userType("socialLoginUser")
+            .email("bbwwpark@naver.com")
+            .oauthProvider(KaKaoOAuthProvider.NAME)
+            .oauthId("1234")
+            .build();
+        userRepository.save(user);
+
+        Project project = Project.builder()
+            .user(user)
+            .name("깃헙 블로그 프로젝트")
+            .description("프로젝트 설명")
+            .build();
+        projectRepository.save(project);
+
         CommentCreateRequest request = new CommentCreateRequest(null, null, null, project.getSecretKey(), "content", "url");
         assertThat(commentService.save(socialLoginUser, request).getContent()).isEqualTo("content");
 
@@ -446,14 +463,15 @@ class CommentServiceTest extends SpringContainerTest {
     @DisplayName("좋아요를 누른다.")
     @Test
     void click_like() {
-        commentService.toggleLike(comments.get(0).getId(), socialLoginUser);
+        commentService.toggleLike(comments.get(0).getId(), guestUser);
 
         List<CommentAlarm> commentAlarms = commentAlarmRepository.findAll();
         CommentAlarm commentAlarm = commentAlarms.get(0);
 
         assertThat(comments.get(0).getCommentLikes()).hasSize(1);
+        assertThat(comments.get(0).getUser()).isEqualTo(socialLoginUser);
         assertThat(commentAlarm.getComment().getContent()).isEqualTo("content1");
-        assertThat(commentAlarm.getSender()).isEqualTo(socialLoginUser);
+        assertThat(commentAlarm.getSender()).isEqualTo(guestUser);
         assertThat(commentAlarm.getCommentAlarmType()).isEqualTo(CommentAlarmType.CREATE_COMMENT_LIKE);
     }
 
