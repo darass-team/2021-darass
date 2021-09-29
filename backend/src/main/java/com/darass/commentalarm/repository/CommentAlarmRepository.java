@@ -8,6 +8,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface CommentAlarmRepository extends JpaRepository<CommentAlarm, Long> {
 
-    List<CommentAlarm> findAllBySenderAndCreatedDateBetweenOrderByCreatedDateDesc(User sender, LocalDateTime start, LocalDateTime end);
+    List<CommentAlarm> findAllByReceiverAndCreatedDateBetweenOrderByCreatedDateDesc(User receiver, LocalDateTime start, LocalDateTime end);
 
 }

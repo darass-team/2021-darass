@@ -3,6 +3,7 @@ package com.darass.commentalarm.repository;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.darass.comment.domain.Comment;
+import com.darass.comment.repository.CommentRepository;
 import com.darass.commentalarm.domain.CommentAlarm;
 import com.darass.commentalarm.domain.CommentAlarmType;
 import com.darass.darass.SpringContainerTest;
@@ -22,31 +23,48 @@ class CommentAlarmRepositoryTest extends SpringContainerTest {
     @Autowired
     private CommentAlarmRepository commentAlarmRepository;
 
-    private SocialLoginUser socialLoginUser;
+    @Autowired
+    private CommentRepository commentRepository;
 
-    private Comment comment;
+    private static SocialLoginUser sender;
 
-    private CommentAlarm commentAlarm;
+    private static SocialLoginUser receiver;
+
+    private static Comment comment
+        ;
 
     @BeforeEach
     void setUp() {
-        socialLoginUser = SocialLoginUser
+        sender = SocialLoginUser
             .builder()
-            .nickName("박병욱")
+            .nickName("송신자")
+            .build();
+
+        receiver = SocialLoginUser
+            .builder()
+            .nickName("수신자")
             .build();
 
         comment = Comment.builder()
-            .user(socialLoginUser)
+            .user(sender)
             .content("content")
             .build();
 
-        commentAlarm = CommentAlarm.builder()
-            .commentAlarmType(CommentAlarmType.CREATE_COMMENT)
-            .sender(socialLoginUser)
-            .comment(comment)
-            .build();
+        commentRepository.save(comment);
 
-        commentAlarmRepository.save(commentAlarm);
+        commentAlarmRepository.save(CommentAlarm.builder()
+            .commentAlarmType(CommentAlarmType.CREATE_COMMENT)
+            .sender(sender)
+            .receiver(receiver)
+            .comment(comment)
+            .build());
+
+        commentAlarmRepository.save(CommentAlarm.builder()
+            .commentAlarmType(CommentAlarmType.CREATE_COMMENT)
+            .sender(sender)
+            .receiver(receiver)
+            .comment(comment)
+            .build());
     }
 
     @DisplayName("댓글 알람을 저장한다.")
@@ -56,34 +74,35 @@ class CommentAlarmRepositoryTest extends SpringContainerTest {
         CommentAlarm findCommentAlarm = commentAlarms.get(0);
 
         assertThat(findCommentAlarm.getComment()).isEqualTo(comment);
-        assertThat(findCommentAlarm.getSender()).isEqualTo(socialLoginUser);
+        assertThat(findCommentAlarm.getSender()).isEqualTo(sender);
+        assertThat(findCommentAlarm.getReceiver()).isEqualTo(receiver);
         assertThat(findCommentAlarm.getCommentAlarmType()).isEqualTo(CommentAlarmType.CREATE_COMMENT);
     }
 
     @DisplayName("특정 기간에 유저에게 생성된 댓글 알람 리스트를 반환한다.")
     @Test
     void findAllBySenderAndCreatedDateBetween_success() {
-        List<CommentAlarm> commentAlarms = commentAlarmRepository.findAllBySenderAndCreatedDateBetweenOrderByCreatedDateDesc(
-            socialLoginUser,
+        List<CommentAlarm> commentAlarms = commentAlarmRepository.findAllByReceiverAndCreatedDateBetweenOrderByCreatedDateDesc(
+            receiver,
             LocalDateTime.of(2020, 1, 1, 1, 1),
             LocalDateTime.of(2022, 1, 1, 1, 1)
         );
 
-        assertThat(commentAlarms.size()).isEqualTo(1);
+        assertThat(commentAlarms.size()).isEqualTo(2);
     }
 
     @DisplayName("특정 기간에 유저에게 생성된 댓글 알람이 없다면 빈 리스트를 반환한다.")
     @Test
     void findAllBySenderAndCreatedDateBetween_empty() {
-        List<CommentAlarm> commentAlarms = commentAlarmRepository.findAllBySenderAndCreatedDateBetweenOrderByCreatedDateDesc(
-            socialLoginUser,
+        List<CommentAlarm> commentAlarms = commentAlarmRepository.findAllByReceiverAndCreatedDateBetweenOrderByCreatedDateDesc(
+            sender,
             LocalDateTime.of(2022, 1, 1, 1, 1),
             LocalDateTime.of(2023, 1, 1, 1, 1)
         );
 
         assertThat(commentAlarms.size()).isEqualTo(0);
 
-        commentAlarms = commentAlarmRepository.findAllBySenderAndCreatedDateBetweenOrderByCreatedDateDesc(
+        commentAlarms = commentAlarmRepository.findAllByReceiverAndCreatedDateBetweenOrderByCreatedDateDesc(
             null,
             LocalDateTime.of(2020, 1, 1, 1, 1),
             LocalDateTime.of(2022, 1, 1, 1, 1)

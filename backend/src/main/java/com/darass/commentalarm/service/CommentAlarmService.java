@@ -18,10 +18,10 @@ public class CommentAlarmService {
 
     private final CommentAlarmRepository commentAlarmRepository;
 
-    public List<CommentAlarmResponse> findAllBySenderAndCreatedDateBetween(SocialLoginUser socialLoginUser,
+    public List<CommentAlarmResponse> findAllCreatedDateBetween(SocialLoginUser socialLoginUser,
         LocalDateTime start, LocalDateTime end) {
         List<CommentAlarm> commentAlarms = commentAlarmRepository
-            .findAllBySenderAndCreatedDateBetweenOrderByCreatedDateDesc(socialLoginUser, start, end);
+            .findAllByReceiverAndCreatedDateBetweenOrderByCreatedDateDesc(socialLoginUser, start, end);
 
         return makeCommentAlarmResponses(commentAlarms);
     }
