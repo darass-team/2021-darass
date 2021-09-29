@@ -1,29 +1,46 @@
+import { Comment } from "@/types";
+import { GetAlarmResponse } from "@/types/comment";
 import { POST_MESSAGE_TYPE } from "../constants/postMessageType";
-import { Comment } from "../types";
 
-export const postScrollHeightToParentWindow = () => {
-  window.parent.postMessage(
-    { type: POST_MESSAGE_TYPE.SCROLL_HEIGHT, data: document.querySelector("#root")?.scrollHeight },
-    "*"
-  );
+export const messageFromReplyModule = (port: MessagePort | undefined) => {
+  return {
+    setScrollHeight: () => {
+      port?.postMessage({
+        type: POST_MESSAGE_TYPE.SCROLL_HEIGHT,
+        data: document.querySelector("#root")?.scrollHeight
+      });
+    },
+    openAlert: (message: string) => {
+      port?.postMessage({ type: POST_MESSAGE_TYPE.ALERT, data: message });
+    },
+    openConfirmModal: (message: string) => {
+      port?.postMessage({ type: POST_MESSAGE_TYPE.MODAL.OPEN.CONFIRM, data: message });
+    },
+    openAlarmModal: (alarmContents: GetAlarmResponse[]) => {
+      port?.postMessage({ type: POST_MESSAGE_TYPE.MODAL.OPEN.ALARM, data: alarmContents });
+    },
+    openLikingUserModal: (users: Comment["user"][]) => {
+      port?.postMessage({ type: POST_MESSAGE_TYPE.MODAL.OPEN.LIKING_USERS_MODAL, data: users });
+    }
+  };
 };
 
-export const postOpenLikingUsersModal = (likingUsers: Comment["likingUsers"]) => {
-  window.parent.postMessage({ type: POST_MESSAGE_TYPE.OPEN_LIKING_USERS_MODAL, data: likingUsers }, "*");
-};
-
-export const postAlertMessage = (message: string) => {
-  window.parent.postMessage({ type: POST_MESSAGE_TYPE.ALERT, data: message }, "*");
-};
-
-export const postOpenConfirm = (message: string) => {
-  window.parent.postMessage({ type: POST_MESSAGE_TYPE.OPEN_CONFIRM, data: message }, "*");
-};
-
-export const postCloseConfirm = () => {
-  window.parent.postMessage({ type: POST_MESSAGE_TYPE.CLOSE_CONFIRM }, "*");
-};
-
-export const postConfirmOK = () => {
-  window.parent.postMessage({ type: POST_MESSAGE_TYPE.CONFIRM_OK }, "*");
+export const messageFromReplyModal = (port: MessagePort | undefined) => {
+  return {
+    clickedConfirmNo: () => {
+      port?.postMessage({ type: POST_MESSAGE_TYPE.CONFIRM_NO });
+    },
+    clickedConfirmOk: () => {
+      port?.postMessage({ type: POST_MESSAGE_TYPE.CONFIRM_OK });
+    },
+    closeConfirmModal: () => {
+      port?.postMessage({ type: POST_MESSAGE_TYPE.MODAL.CLOSE.CONFIRM });
+    },
+    closeAlarmModal: () => {
+      port?.postMessage({ type: POST_MESSAGE_TYPE.MODAL.CLOSE.ALARM });
+    },
+    closeLikingUserModal: () => {
+      port?.postMessage({ type: POST_MESSAGE_TYPE.MODAL.CLOSE.LIKING_USERS_MODAL });
+    }
+  };
 };

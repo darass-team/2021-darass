@@ -1,10 +1,10 @@
 import { FormEvent, useEffect } from "react";
-import { useHistory, useRouteMatch } from "react-router-dom";
+import { useHistory, useRouteMatch, Redirect } from "react-router-dom";
 import { PROJECT_MENU, ROUTE } from "@/constants";
 import { MAX_PROJECT_NAME_LENGTH } from "@/constants/validation";
 import { useDeleteProject, useEditProject, useGetProject, useInput } from "@/hooks";
-import ScreenContainer from "@/styles/ScreenContainer";
-import { AlertError } from "@/utils/error";
+import ScreenContainer from "@/components/@style/ScreenContainer";
+import { AlertError } from "@/utils/alertError";
 import { isEmptyString } from "@/utils/validation";
 import DeleteSection from "@/components/molecules/DeleteSection";
 import ContainerWithSideBar from "@/components/organisms/ContainerWithSideBar";
@@ -78,7 +78,11 @@ const ProjectDetail = () => {
     }
   }, [project]);
 
-  if (!isSuccessGetProject) {
+  if (Number.isNaN(projectId)) {
+    return <Redirect to={ROUTE.COMMON.HOME} />;
+  }
+
+  if (!project) {
     return <LoadingPage />;
   }
 

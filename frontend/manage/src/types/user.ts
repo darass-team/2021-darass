@@ -5,6 +5,7 @@ export interface User {
   type: string;
   createdDate: string;
   modifiedDate: string;
+  hasRecentAlarm: boolean;
 }
 
 export interface EditUserRequest extends Pick<User, "nickName"> {

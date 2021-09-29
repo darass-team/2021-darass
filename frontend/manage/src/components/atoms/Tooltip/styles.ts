@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { PALETTE } from "@/styles/palette";
+import { PALETTE } from "@/constants/styles/palette";
 
 const Container = styled.div`
   width: 2rem;

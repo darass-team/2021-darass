@@ -1,7 +1,7 @@
-import { inputCSS, labelCSS } from "@/styles/css";
+import { inputCSS, labelCSS } from "@/constants/styles/css";
 import styled from "styled-components";
-import { titleCSS } from "@/styles/css";
-import { PALETTE } from "@/styles/palette";
+import { titleCSS } from "@/constants/styles/css";
+import { PALETTE } from "@/constants/styles/palette";
 import SubmitButtonComponent from "@/components/atoms/Buttons/SubmitButton";
 
 export const Container = styled.div`

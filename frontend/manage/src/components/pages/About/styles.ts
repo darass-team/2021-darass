@@ -1,7 +1,7 @@
-import { contentBoxCSS } from "@/styles/css";
+import { contentBoxCSS } from "@/constants/styles/css";
 import styled from "styled-components";
-import { LINE_HEIGHT_SCALE } from "@/styles/constants";
-import { PALETTE } from "@/styles/palette";
+import { LINE_HEIGHT_SCALE } from "@/constants/styles/constants";
+import { PALETTE } from "@/constants/styles/palette";
 import AvatarComponent from "@/components/atoms/Avatar";
 
 export const Container = styled.div`

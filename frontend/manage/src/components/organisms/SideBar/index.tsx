@@ -4,6 +4,7 @@ import { Container } from "./styles";
 import { useEffect } from "react";
 import {
   LoadableManage,
+  LoadableNotification,
   LoadableProjectDetail,
   LoadableScriptPublishing,
   LoadableStatistics
@@ -20,6 +21,7 @@ const SideBar = ({ menus, className }: Props) => {
     LoadableStatistics.preload();
     LoadableManage.preload();
     LoadableProjectDetail.preload();
+    LoadableNotification.preload();
   }, []);
 
   return (

@@ -4,7 +4,7 @@ import ReactDOM from "react-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { BrowserRouter } from "react-router-dom";
 import App from "./App";
-import GlobalStyles from "./styles/GlobalStyles";
+import GlobalStyles from "./constants/styles/GlobalStyles";
 
 Sentry.init({
   dsn: process.env.SENTRY_MANAGE_PAGE_DSN,

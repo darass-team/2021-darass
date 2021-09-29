@@ -1,5 +1,4 @@
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const path = require("path");
 const DotEnv = require("dotenv-webpack");
 const { DefinePlugin } = require("webpack");
@@ -10,7 +9,8 @@ const config = {
   output: {
     path: path.resolve(__dirname, "dist"),
     filename: `manage-${Package.version.replace("^", "")}.js`,
-    publicPath: "/"
+    publicPath: "/",
+    clean: true
   },
   module: {
     rules: [
@@ -56,7 +56,6 @@ const config = {
     new HtmlWebpackPlugin({
       template: "./public/index.html"
     }),
-    new CleanWebpackPlugin(),
     new DefinePlugin({
       "process.env.BUILD_MODE": JSON.stringify(process.env.BUILD_MODE)
     }),

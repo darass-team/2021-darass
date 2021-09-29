@@ -1,6 +1,6 @@
-import { LINE_HEIGHT_SCALE } from "@/styles/constants";
+import { LINE_HEIGHT_SCALE } from "@/constants/styles/constants";
 import styled from "styled-components";
-import { PALETTE } from "@/styles/palette";
+import { PALETTE } from "@/constants/styles/palette";
 
 export const Button = styled.button.attrs({ type: "button" })`
   min-width: fit-content;

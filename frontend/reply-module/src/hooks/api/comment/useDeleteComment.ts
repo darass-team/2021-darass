@@ -1,4 +1,4 @@
-import { AlertError } from "../../../utils/Error";
+import { AlertError } from "../../../utils/alertError";
 import { useMutation, useQueryClient } from "react-query";
 import { QUERY } from "../../../constants/api";
 import { request } from "../../../utils/request";

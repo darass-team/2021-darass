@@ -1,6 +1,6 @@
 import { Name as CommentTextBoxName, Text as CommentTextBoxText } from "./../../atoms/CommentTextBox/styles";
 import styled from "styled-components";
-import { SkeletonCSS } from "../../../styles/css";
+import { SkeletonCSS } from "../../../constants/styles/css";
 
 export const Avatar = styled.div`
   border-radius: 50%;

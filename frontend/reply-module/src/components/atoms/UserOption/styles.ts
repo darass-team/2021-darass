@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import { SpeechBubbleCSS } from "../../../styles/css";
-import { PALETTE } from "../../../styles/palette";
+import { SpeechBubbleCSS } from "../../../constants/styles/css";
+import { PALETTE } from "../../../constants/styles/palette";
 
 export const Container = styled.div`
   ${SpeechBubbleCSS};
@@ -10,13 +10,6 @@ export const Container = styled.div`
     border-bottom: 10px solid ${PALETTE.GRAY_200};
   }
   padding: 0.6rem 0.6rem;
-`;
-
-export const Label = styled.span`
-  align-self: flex-start;
-  font-size: 0.8rem;
-  line-height: 1.2rem;
-  margin-bottom: 0.5rem;
 `;
 
 export const OptionContainer = styled.div`

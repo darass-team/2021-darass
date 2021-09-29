@@ -1,4 +1,6 @@
-import { ChangeEvent, FormEvent, MutableRefObject, RefObject, useState } from "react";
+import { MessageChannelContext } from "@/contexts/messageChannelContext";
+import { messageFromReplyModule } from "@/utils/postMessage";
+import { ChangeEvent, FormEvent, MutableRefObject, RefObject, useContext, useState } from "react";
 import {
   GUEST_NICKNAME_MAX_LENGTH,
   GUEST_NICKNAME_MIN_LENGTH,
@@ -9,11 +11,10 @@ import {
 import { useContentEditable, useCreateComment, useInput } from "../../../hooks";
 import { Comment } from "../../../types";
 import { User } from "../../../types/user";
-import { AlertError } from "../../../utils/Error";
+import { AlertError } from "../../../utils/alertError";
 import { getErrorMessage } from "../../../utils/errorMessage";
 import { focusContentEditableTextToEnd } from "../../../utils/focusContentEditableTextToEnd";
 import { isEmptyString } from "../../../utils/isEmptyString";
-import { postAlertMessage } from "../../../utils/postMessage";
 import SubmitButton from "../../atoms/Buttons/SubmitButton";
 import { ButtonWrapper, CancelButton, Form, GuestInfo, TextBox, TextBoxWrapper, TextCount, Wrapper } from "./styles";
 
@@ -44,22 +45,27 @@ const CommentInput = ({ className, innerRef, user, parentCommentId, onClose }: P
     ? GUEST_PASSWORD_MIN_LENGTH <= guestPassword.length && guestPassword.length <= GUEST_PASSWORD_MAX_LENGTH
     : true;
 
+  const { port } = useContext(MessageChannelContext);
+
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setFormSubmitted(true);
 
     if (!isValidCommentInput) {
-      postAlertMessage(getErrorMessage.commentInput(content));
+      messageFromReplyModule(port).openAlert(getErrorMessage.commentInput(content));
+
       return;
     }
 
     if (!isValidGuestNickName) {
-      postAlertMessage(getErrorMessage.guestNickName(guestNickName));
+      messageFromReplyModule(port).openAlert(getErrorMessage.guestNickName(guestNickName));
+
       return;
     }
 
     if (!isValidGuestPassword) {
-      postAlertMessage(getErrorMessage.guestPassword(guestPassword));
+      messageFromReplyModule(port).openAlert(getErrorMessage.guestPassword(guestPassword));
+
       return;
     }
 
@@ -76,7 +82,7 @@ const CommentInput = ({ className, innerRef, user, parentCommentId, onClose }: P
       if (onClose) onClose();
     } catch (error) {
       if (error instanceof AlertError) {
-        postAlertMessage(error.message);
+        messageFromReplyModule(port).openAlert(error.message);
       }
     } finally {
       setFormSubmitted(false);
@@ -87,7 +93,7 @@ const CommentInput = ({ className, innerRef, user, parentCommentId, onClose }: P
     const currentText = event.target.textContent || "";
 
     if (currentText.length > MAX_COMMENT_INPUT_LENGTH) {
-      postAlertMessage(getErrorMessage.commentInput(currentText));
+      messageFromReplyModule(port).openAlert(getErrorMessage.commentInput(currentText));
       setContent(currentText.substr(0, MAX_COMMENT_INPUT_LENGTH));
 
       if (!$contentEditable.current) return;
