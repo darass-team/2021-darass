@@ -1,6 +1,6 @@
 import { QUERY, REACT_QUERY_KEY } from "@/constants";
 import { Comment, GetCommentsOfProjectPerPageRequest } from "@/types/comment";
-import { AlertError } from "@/utils/error";
+import { AlertError } from "@/utils/alertError";
 import { request } from "@/utils/request";
 import axios from "axios";
 import { useQuery, useQueryClient } from "react-query";

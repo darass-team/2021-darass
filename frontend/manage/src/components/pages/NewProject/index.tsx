@@ -4,7 +4,7 @@ import { ROUTE } from "@/constants";
 import { MAX_PROJECT_DESCRIPTION_LENGTH, MAX_PROJECT_NAME_LENGTH } from "@/constants/validation";
 import { useCreateProject, useInput } from "@/hooks";
 import ScreenContainer from "@/components/@style/ScreenContainer";
-import { AlertError } from "@/utils/error";
+import { AlertError } from "@/utils/alertError";
 import { isEmptyString } from "@/utils/validation";
 import { Container, Form, Input, InputWrapper, Label, ProjectInputCounter, SubmitButton, Title } from "./styles";
 

@@ -18,7 +18,7 @@ import {
   useUser
 } from "@/hooks";
 import ScreenContainer from "@/components/@style/ScreenContainer";
-import { AlertError } from "@/utils/error";
+import { AlertError } from "@/utils/alertError";
 import { getPagesOfLength5 } from "@/utils/pagination";
 import moment from "moment";
 import { FormEvent, useEffect } from "react";

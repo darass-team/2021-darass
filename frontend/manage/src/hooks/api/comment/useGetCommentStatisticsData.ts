@@ -1,4 +1,4 @@
-import { AlertError } from "@/utils/error";
+import { AlertError } from "@/utils/alertError";
 import { COMMENT_STATISTICS, GetCommentStatisticsRequest } from "@/types/statistics";
 import { useQuery } from "react-query";
 import { PERIODICITY } from "@/constants/statistics";

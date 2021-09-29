@@ -36,7 +36,7 @@ const getAlarms = async () => {
 export const useGetAlarmContents = () => {
   const { accessToken } = useToken();
   const { recentlyAlarmContent } = useAlarmSocket();
-  const { data, refetch, isLoading, isError } = useQuery<GetAlarmResponse[], Error>(
+  const { data, refetch, isLoading, isError, isSuccess } = useQuery<GetAlarmResponse[], Error>(
     [REACT_QUERY_KEY.COMMENT_ALARM],
     getAlarms,
     {
@@ -53,5 +53,5 @@ export const useGetAlarmContents = () => {
     }
   }, [recentlyAlarmContent]);
 
-  return { data, refetch, isLoading, isError, hasNewAlarmOnRealTime, setHasNewAlarmOnRealTime };
+  return { data, refetch, isLoading, isError, isSuccess, hasNewAlarmOnRealTime, setHasNewAlarmOnRealTime };
 };

@@ -1,5 +1,5 @@
 import * as Sentry from "@sentry/react";
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 import { ConditionalRoute } from "./components/@HOC/ConditionalRoute";
 import Nav from "./components/organisms/Nav";
@@ -10,18 +10,16 @@ import {
   LoadableManage,
   LoadableMyProject,
   LoadableNewProject,
+  LoadableNotification,
   LoadableProjectDetail,
   LoadableScriptPublishing,
   LoadableStatistics,
-  LoadableUserProfile,
-  LoadableNotification
+  LoadableUserProfile
 } from "./components/pages/Loadable";
 import Login from "./components/pages/Login";
 import OAuth from "./components/pages/OAuth";
-import { BASE_URL, ROUTE } from "./constants";
+import { ROUTE } from "./constants";
 import { useUser } from "./hooks";
-import SockJS from "sockjs-client";
-import { Stomp } from "@stomp/stompjs";
 
 const nonAuthorizedRoute = [
   { path: ROUTE.NON_AUTHORIZED.OAUTH, component: OAuth, redirectPath: ROUTE.AUTHORIZED.MY_PROJECT },
@@ -41,35 +39,10 @@ const authorizedRoute = [
 
 const App = () => {
   const { user, isLoading } = useUser();
-  const socketRef = useRef<WebSocket>();
 
   useEffect(() => {
     LoadableHome.preload();
   }, []);
-
-  useEffect(() => {
-    if (!user) {
-      socketRef.current?.close();
-
-      return;
-    }
-
-    if (!socketRef.current) {
-      socketRef.current = new SockJS(`${BASE_URL}/websocket`);
-
-      const stompClient = Stomp.over(socketRef.current);
-
-      stompClient.connect(
-        {},
-        () => {
-          stompClient.subscribe(`/queue/main${user.id}`, payload => {
-            console.log(`관리자 페이지에서 메시지를 받음 => ${payload.body}`);
-          });
-        },
-        () => console.error("소켓연결 실패")
-      );
-    }
-  }, [user]);
 
   return (
     <>

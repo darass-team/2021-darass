@@ -4,7 +4,7 @@ import { ROUTE } from "@/constants";
 import { MAX_PROFILE_IMAGE_SIZE, MAX_USER_NAME_LENGTH } from "@/constants/validation";
 import { useUser, useDeleteUser, useEditUser, useInput } from "@/hooks";
 import ScreenContainer from "@/components/@style/ScreenContainer";
-import { AlertError } from "@/utils/error";
+import { AlertError } from "@/utils/alertError";
 import { ChangeEvent, FormEventHandler, useContext, useEffect, useState } from "react";
 import { useHistory } from "react-router";
 import LoadingPage from "../LoadingPage";

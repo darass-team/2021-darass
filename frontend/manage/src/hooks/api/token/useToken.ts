@@ -1,6 +1,6 @@
 import { QUERY, REACT_QUERY_KEY } from "@/constants";
 import { TOKEN_REFETCH_TIMER } from "@/constants/timer";
-import { AlertError } from "@/utils/error";
+import { AlertError } from "@/utils/alertError";
 import { customAxios, request } from "@/utils/request";
 import axios from "axios";
 import { useMutation, useQuery, useQueryClient } from "react-query";

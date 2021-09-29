@@ -6,7 +6,7 @@ import Avatar from "../../atoms/Avatar";
 import { Container, UserNickName, UserOption } from "./styles";
 import { MessageChannelContext } from "@/contexts/messageChannelContext";
 import { messageFromReplyModule } from "@/utils/postMessage";
-import { useCommentAlarm, useEditUser, useUser } from "@/hooks";
+import { useGetAlarmContents, useEditUser, useUser } from "@/hooks";
 import { AlertError } from "@/utils/alertError";
 
 export interface Props {
@@ -18,7 +18,7 @@ export interface Props {
 const UserAvatarOption = ({ user, children, className }: Props) => {
   const [isShowOptionBox, setShowOptionBox] = useState(false);
   const { port } = useContext(MessageChannelContext);
-  const { data: alarmContents, hasNewAlarmOnRealTime, setHasNewAlarmOnRealTime } = useCommentAlarm();
+  const { data: alarmContents, hasNewAlarmOnRealTime, setHasNewAlarmOnRealTime } = useGetAlarmContents();
   const { refetch: refetchUser } = useUser();
   const { editUser } = useEditUser();
 

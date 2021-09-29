@@ -3,7 +3,7 @@ import HamburgerButton from "@/components/atoms/Buttons/HamburgerButton";
 import Modal from "@/components/atoms/Modal";
 import { ROUTE } from "@/constants";
 import { PALETTE } from "@/constants/styles/palette";
-import { useUser } from "@/hooks";
+import { useGetAlarmContents, useUser } from "@/hooks";
 import { MenuType } from "@/types/menu";
 import { useEffect, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
@@ -17,12 +17,13 @@ const MobileNav = ({ menuList }: Props) => {
   const history = useHistory();
   const { user, logout } = useUser();
   const [isOpen, setOpen] = useState(false);
+  const { hasNewAlarmOnRealTime } = useGetAlarmContents();
 
   const onToggleNav = () => {
     setOpen(state => !state);
   };
 
-  const onClickAlarmIcon = () => {
+  const onClickAlarmIcon = async () => {
     onToggleNav();
     history.push(ROUTE.AUTHORIZED.NOTIFICATION);
   };
@@ -39,7 +40,10 @@ const MobileNav = ({ menuList }: Props) => {
           <MenuHeader>
             {user ? (
               <>
-                <Alarm onClick={onClickAlarmIcon} />
+                <Alarm
+                  onClick={onClickAlarmIcon}
+                  hasUnReadNotification={user.hasRecentAlarm || hasNewAlarmOnRealTime}
+                />
                 <AuthLink
                   to={ROUTE.COMMON.HOME}
                   onClick={() => {
