@@ -1,12 +1,12 @@
 import { QUERY } from "@/constants/api";
 import { REACT_QUERY_KEY } from "@/constants/reactQueryKey";
-import { useAlarmSocket } from "@/hooks";
+import { RecentlyAlarmContentContext } from "@/context/recentlyAlarmContentContext";
 import { GetAlarmResponse } from "@/types/comment";
 import { AlertError } from "@/utils/alertError";
 import convertDateFormat from "@/utils/convertDateFormat";
 import { request } from "@/utils/request";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { useToken } from "../token/useToken";
 
@@ -35,7 +35,8 @@ const getAlarms = async () => {
 
 export const useGetAlarmContents = () => {
   const { accessToken } = useToken();
-  const { recentlyAlarmContent } = useAlarmSocket();
+  const { recentlyAlarmContent, hasNewAlarmOnRealTime, setHasNewAlarmOnRealTime } =
+    useContext(RecentlyAlarmContentContext);
   const { data, refetch, isLoading, isError, isSuccess } = useQuery<GetAlarmResponse[], Error>(
     [REACT_QUERY_KEY.COMMENT_ALARM],
     getAlarms,
@@ -44,12 +45,14 @@ export const useGetAlarmContents = () => {
       enabled: !!accessToken
     }
   );
-  const [hasNewAlarmOnRealTime, setHasNewAlarmOnRealTime] = useState(false);
 
   useEffect(() => {
     if (recentlyAlarmContent && data) {
+      const isExistedAlarm = data.find(_data => _data.id === recentlyAlarmContent.id);
+      if (isExistedAlarm) return;
+
       data.unshift(recentlyAlarmContent);
-      setHasNewAlarmOnRealTime(true);
+      setHasNewAlarmOnRealTime?.(true);
     }
   }, [recentlyAlarmContent]);
 

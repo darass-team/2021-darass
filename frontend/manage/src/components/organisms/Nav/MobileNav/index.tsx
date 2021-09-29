@@ -17,13 +17,14 @@ const MobileNav = ({ menuList }: Props) => {
   const history = useHistory();
   const { user, logout } = useUser();
   const [isOpen, setOpen] = useState(false);
-  const { hasNewAlarmOnRealTime } = useGetAlarmContents();
+  const { hasNewAlarmOnRealTime, setHasNewAlarmOnRealTime } = useGetAlarmContents();
 
   const onToggleNav = () => {
     setOpen(state => !state);
   };
 
   const onClickAlarmIcon = async () => {
+    setHasNewAlarmOnRealTime?.(false);
     onToggleNav();
     history.push(ROUTE.AUTHORIZED.NOTIFICATION);
   };

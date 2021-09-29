@@ -6,7 +6,7 @@ export const Container = styled.div`
   height: fit-content;
   min-height: 50rem;
   max-height: 100rem;
-  overflow-y: scroll;
+  overflow-y: hidden;
   font-size: 1.3rem;
 `;
 
@@ -16,4 +16,5 @@ export const Title = styled.h2`
 
 export const AlarmContainer = styled.div`
   padding: 0rem;
+  overflow-y: scroll;
 `;

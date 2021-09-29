@@ -1,17 +1,12 @@
-import AlarmContent from "@/components/molecules/AlarmContent";
-import ContainerWithSideBar from "@/components/organisms/ContainerWithSideBar";
-import { PROJECT_MENU } from "@/constants";
 import ScreenContainer from "@/components/@style/ScreenContainer";
-import { useRouteMatch } from "react-router";
-import { AlarmContainer, Container, Title } from "./styles";
+import AlarmContent from "@/components/molecules/AlarmContent";
 import { useEditUser, useGetAlarmContents, useUser } from "@/hooks";
-import { useEffect } from "react";
 import { AlertError } from "@/utils/alertError";
+import { useEffect } from "react";
 import LoadingPage from "../LoadingPage";
+import { AlarmContainer, Container, Title } from "./styles";
 
 const Notification = () => {
-  const match = useRouteMatch<{ id?: string }>();
-  const projectId = Number(match.params.id);
   const { refetch: refetchUser } = useUser();
   const { data: alarmContents, setHasNewAlarmOnRealTime, isSuccess: isSuccessAlarmContents } = useGetAlarmContents();
   const { editUser } = useEditUser();
@@ -23,7 +18,7 @@ const Notification = () => {
 
       await editUser(formData);
       await refetchUser();
-      setHasNewAlarmOnRealTime(false);
+      setHasNewAlarmOnRealTime?.(false);
     } catch (error) {
       if (error instanceof AlertError) {
         alert(error.message);
@@ -43,14 +38,12 @@ const Notification = () => {
 
   return (
     <ScreenContainer>
-      <ContainerWithSideBar menus={PROJECT_MENU.getByProjectId(projectId)}>
-        <Container>
-          <Title>알림</Title>
-          <AlarmContainer>
-            <AlarmContent alarmContents={alarmContents || []} />
-          </AlarmContainer>
-        </Container>
-      </ContainerWithSideBar>
+      <Container>
+        <Title>알림</Title>
+        <AlarmContainer>
+          <AlarmContent alarmContents={alarmContents || []} />
+        </AlarmContainer>
+      </Container>
     </ScreenContainer>
   );
 };

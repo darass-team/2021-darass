@@ -1,7 +1,7 @@
 import moment from "moment";
 import { useEffect, useState } from "react";
-import { useRouteMatch } from "react-router-dom";
-import { PROJECT_MENU } from "@/constants";
+import { useRouteMatch, Redirect } from "react-router-dom";
+import { PROJECT_MENU, ROUTE } from "@/constants";
 import { PERIODICITY } from "@/constants/statistics";
 import { useCalendar, useCommentStatisticsData, useGetProject } from "@/hooks";
 import ScreenContainer from "@/components/@style/ScreenContainer";
@@ -83,7 +83,11 @@ const Statistics = () => {
     }
   }, [selectedPeriodicity]);
 
-  if (!project || !projectId || !stats) {
+  if (Number.isNaN(projectId)) {
+    return <Redirect to={ROUTE.COMMON.HOME} />;
+  }
+
+  if (!project || !stats) {
     return <LoadingPage />;
   }
 

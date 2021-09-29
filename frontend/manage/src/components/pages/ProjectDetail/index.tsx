@@ -1,5 +1,5 @@
 import { FormEvent, useEffect } from "react";
-import { useHistory, useRouteMatch } from "react-router-dom";
+import { useHistory, useRouteMatch, Redirect } from "react-router-dom";
 import { PROJECT_MENU, ROUTE } from "@/constants";
 import { MAX_PROJECT_NAME_LENGTH } from "@/constants/validation";
 import { useDeleteProject, useEditProject, useGetProject, useInput } from "@/hooks";
@@ -78,7 +78,11 @@ const ProjectDetail = () => {
     }
   }, [project]);
 
-  if (!project || !projectId) {
+  if (Number.isNaN(projectId)) {
+    return <Redirect to={ROUTE.COMMON.HOME} />;
+  }
+
+  if (!project) {
     return <LoadingPage />;
   }
 

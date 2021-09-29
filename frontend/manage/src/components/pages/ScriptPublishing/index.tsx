@@ -1,11 +1,11 @@
 import BlogLogoButton from "@/components/atoms/Buttons/BlogLogoButton";
 import GuideStep from "@/components/molecules/GuideStep";
 import ContainerWithSideBar from "@/components/organisms/ContainerWithSideBar";
-import { GUIDE_FILE, PROJECT_MENU } from "@/constants";
+import { GUIDE_FILE, PROJECT_MENU, ROUTE } from "@/constants";
 import { useCopyButton, useGetProject } from "@/hooks";
 import ScreenContainer from "@/components/@style/ScreenContainer";
 import { useState } from "react";
-import { useRouteMatch } from "react-router-dom";
+import { useRouteMatch, Redirect } from "react-router-dom";
 import { PrismLight as SyntaxHighlighter } from "react-syntax-highlighter";
 import js from "react-syntax-highlighter/dist/cjs/languages/prism/javascript";
 import prism from "react-syntax-highlighter/dist/cjs/styles/prism/darcula";
@@ -51,7 +51,11 @@ const ScriptPublishing = () => {
   const script =
     selectedBlogInfo?.scriptType === "HTML" ? htmlScriptCode(projectSecretKey) : JsxScriptCode(projectSecretKey);
 
-  if (!project || !projectId) {
+  if (Number.isNaN(projectId)) {
+    return <Redirect to={ROUTE.COMMON.HOME} />;
+  }
+
+  if (!project) {
     return <LoadingPage />;
   }
 

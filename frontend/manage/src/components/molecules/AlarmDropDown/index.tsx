@@ -7,7 +7,7 @@ import { Container, DropDownContainer } from "./styles";
 
 export interface Props {
   alarmContents: GetAlarmResponse[];
-  hasUnReadNotification: boolean;
+  hasUnReadNotification?: boolean;
   onClick: () => void;
 }
 

@@ -19,7 +19,8 @@ import {
 import Login from "./components/pages/Login";
 import OAuth from "./components/pages/OAuth";
 import { ROUTE } from "./constants";
-import { useUser } from "./hooks";
+import { RecentlyAlarmContentContext } from "./context/recentlyAlarmContentContext";
+import { useRecentlyAlarmWebSocket, useUser } from "./hooks";
 
 const nonAuthorizedRoute = [
   { path: ROUTE.NON_AUTHORIZED.OAUTH, component: OAuth, redirectPath: ROUTE.AUTHORIZED.MY_PROJECT },
@@ -39,13 +40,16 @@ const authorizedRoute = [
 
 const App = () => {
   const { user, isLoading } = useUser();
+  const { recentlyAlarmContent, hasNewAlarmOnRealTime, setHasNewAlarmOnRealTime } = useRecentlyAlarmWebSocket();
 
   useEffect(() => {
     LoadableHome.preload();
   }, []);
 
   return (
-    <>
+    <RecentlyAlarmContentContext.Provider
+      value={{ recentlyAlarmContent, hasNewAlarmOnRealTime, setHasNewAlarmOnRealTime }}
+    >
       <Nav />
       <Sentry.ErrorBoundary fallback={<ErrorPage notice="에러가 발생했습니다." />}>
         <Switch>
@@ -53,15 +57,23 @@ const App = () => {
           <Route exact path={ROUTE.COMMON.ABOUT} component={About} />,
           <Route exact path={ROUTE.COMMON.NOTICE} render={() => <ErrorPage notice="개발중인 페이지 입니다." />} />
           {nonAuthorizedRoute.map(({ path, component, redirectPath }) => {
-            return <ConditionalRoute path={path} component={component} condition={!user} redirectPath={redirectPath} />;
+            return (
+              <ConditionalRoute
+                key={path}
+                path={path}
+                component={component}
+                condition={!user}
+                redirectPath={redirectPath}
+              />
+            );
           })}
           {authorizedRoute.map(({ path, component }) => {
-            return <ConditionalRoute path={path} component={component} condition={!!user || isLoading} />;
+            return <ConditionalRoute key={path} path={path} component={component} condition={!!user || isLoading} />;
           })}
           <Redirect to={ROUTE.COMMON.HOME} />
         </Switch>
       </Sentry.ErrorBoundary>
-    </>
+    </RecentlyAlarmContentContext.Provider>
   );
 };
 export default App;
