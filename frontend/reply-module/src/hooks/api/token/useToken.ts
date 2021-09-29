@@ -70,7 +70,7 @@ export const useToken = (enabled = false) => {
     refetch: refetchAccessToken,
     error
   } = useQuery<string, Error>([REACT_QUERY_KEY.ACCESS_TOKEN], getAccessTokenByRefreshToken, {
-    retry: 2,
+    retry: 10,
     refetchIntervalInBackground: true,
     refetchInterval: TOKEN_REFETCH_TIMER,
     enabled

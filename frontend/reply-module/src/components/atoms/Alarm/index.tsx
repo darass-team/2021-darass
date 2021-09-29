@@ -12,7 +12,7 @@ export interface Props {
 const Alarm = ({ hasUnReadNotification = false, size = "SM", onClick, ...props }: Props) => {
   return (
     <Container size={size} onClick={onClick} {...props}>
-      <Img src={alarm} alt="notification" />
+      <Img src={alarm} alt="notification" on={hasUnReadNotification} />
       {hasUnReadNotification && <Dot />}
     </Container>
   );

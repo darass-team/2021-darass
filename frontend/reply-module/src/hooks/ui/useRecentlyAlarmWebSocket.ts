@@ -8,8 +8,8 @@ import { GetAlarmResponse } from "@/types/comment";
 export const useRecentlyAlarmWebSocket = () => {
   const socketRef = useRef<WebSocket>();
   const [recentlyAlarmContent, setRecentlyAlarmContent] = useState<GetAlarmResponse>();
-  const [hasNewAlarmOnRealTime, setHasNewAlarmOnRealTime] = useState(false);
   const { user } = useUser();
+  const [hasNewAlarmOnRealTime, setHasNewAlarmOnRealTime] = useState(user?.id);
 
   useEffect(() => {
     if (!user) {

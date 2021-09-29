@@ -1,3 +1,4 @@
+import { ShakeCSS } from "@/constants/styles/css";
 import { PALETTE } from "@/constants/styles/palette";
 import styled from "styled-components";
 import { Size } from ".";
@@ -26,8 +27,9 @@ export const Container = styled.div<{ size: Size }>`
   }
 `;
 
-export const Img = styled.img`
+export const Img = styled.img<{ on: boolean }>`
   object-fit: contain;
+  ${({ on }) => on && ShakeCSS};
 `;
 
 export const Dot = styled.span`
