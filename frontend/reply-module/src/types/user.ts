@@ -5,6 +5,7 @@ export interface User {
   type: UserType;
   createdDate: string;
   modifiedDate: string;
+  hasRecentAlarm: boolean;
 }
 
 export type UserType = "SocialLoginUser" | "GuestUser";

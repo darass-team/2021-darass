@@ -1,9 +1,8 @@
-import styled from "styled-components";
-import { Z_INDEX } from "@/styles/constants";
-import { contentBoxCSS, titleCSS } from "@/styles/css";
-import { PALETTE } from "@/styles/palette";
 import TooltipComponent from "@/components/atoms/Tooltip";
 import CalendarComponent from "@/components/molecules/Calendar";
+import { contentBoxCSS, titleCSS } from "@/constants/styles/css";
+import { PALETTE } from "@/constants/styles/palette";
+import styled from "styled-components";
 
 export const Container = styled.div`
   ${contentBoxCSS}
@@ -26,11 +25,9 @@ export const Wrapper = styled.div`
   margin-bottom: 1rem;
 `;
 
-export const Calendar = styled(CalendarComponent)<{ isOpen: boolean }>`
-  position: absolute;
-  top: 4rem;
-  left: 5.5rem;
-  z-index: ${({ isOpen }) => (isOpen ? Z_INDEX.MODAL + 1 : -1)};
+export const Calendar = styled(CalendarComponent)`
+  top: 2rem;
+  left: -11rem;
 `;
 
 export const Meta = styled.span`

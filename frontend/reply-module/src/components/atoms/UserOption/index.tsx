@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { Container, Label, OptionContainer } from "./styles";
+import { Container, OptionContainer } from "./styles";
 
 export interface Props {
   className?: string;
@@ -10,7 +10,6 @@ export interface Props {
 const UserOption = ({ className, userName, children }: Props) => {
   return (
     <Container className={className}>
-      {!userName && <Label>Login with</Label>}
       <OptionContainer>{children}</OptionContainer>
     </Container>
   );

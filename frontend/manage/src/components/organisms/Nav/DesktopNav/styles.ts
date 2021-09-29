@@ -1,7 +1,7 @@
+import { LINE_HEIGHT_SCALE, NAVIGATION_HEIGHT, PAGE_MAX_WIDTH } from "@/constants/styles/constants";
+import { PALETTE } from "@/constants/styles/palette";
 import { Link, NavLink } from "react-router-dom";
 import styled from "styled-components";
-import { LINE_HEIGHT_SCALE, NAVIGATION_HEIGHT, PAGE_MAX_WIDTH, Z_INDEX } from "@/styles/constants";
-import { PALETTE } from "@/styles/palette";
 
 export const Container = styled.nav`
   position: relative;
@@ -65,8 +65,7 @@ export const Title = styled.span`
 `;
 
 export const UserAvatarOptionWrapper = styled.div`
-  margin-left: auto;
-  z-index: ${Z_INDEX.NAV.DESKTOP.USER_AVATAR_WRAPPER};
+  margin-left: 1.5rem;
 `;
 
 export const LoginMethodWrapper = styled.div`
@@ -79,4 +78,10 @@ export const LoginMethod = styled.button.attrs({ type: "button" })`
   margin-left: 0.5rem;
   font-weight: 700;
   background-color: transparent;
+`;
+
+export const UserInfoWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  margin-left: auto;
 `;

@@ -19,7 +19,7 @@ import {
 export interface Props {
   className?: string;
   user?: User;
-  project?: Project;
+  projectOwnerId?: User["id"];
   isLoading: boolean;
   totalCommentsCount: number;
   comments: CommentType[];
@@ -31,7 +31,7 @@ export interface Props {
 const CommentList = ({
   className,
   user,
-  project,
+  projectOwnerId,
   isLoading,
   totalCommentsCount,
   comments,
@@ -72,17 +72,17 @@ const CommentList = ({
             const authorId = comment.user.id;
 
             const iAmGuestUser = !user;
-            const iAmAdmin = user !== undefined && project?.userId === user.id;
+            const iAmAdmin = user !== undefined && projectOwnerId === user.id;
 
             const thisCommentIsMine = authorId !== undefined && authorId === user?.id;
-            const thisCommentIsWrittenByAdmin = comment.user.id === project?.userId;
+            const thisCommentIsWrittenByAdmin = comment.user.id === projectOwnerId;
             const thisCommentIsWrittenByGuest = comment.user.type === "GuestUser";
             const shouldShowOption = iAmAdmin || thisCommentIsMine || (iAmGuestUser && thisCommentIsWrittenByGuest);
 
             return (
               <Comment
                 user={user}
-                project={project}
+                projectOwnerId={projectOwnerId}
                 comment={comment}
                 key={comment.id}
                 thisCommentIsWrittenByAdmin={thisCommentIsWrittenByAdmin}

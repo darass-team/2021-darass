@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import { InputCSS } from "../../../styles/css";
-import { PALETTE } from "../../../styles/palette";
+import { InputCSS } from "../../../constants/styles/css";
+import { PALETTE } from "../../../constants/styles/palette";
 import DeleteButton from "../../atoms/Buttons/DeleteButton";
 import LikingUsersButtonComponent from "../../atoms/Buttons/LikingUsersButton";
 import SubmitButtonComponent from "../../atoms/Buttons/SubmitButton";

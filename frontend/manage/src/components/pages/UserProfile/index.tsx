@@ -3,8 +3,8 @@ import DeleteSection from "@/components/molecules/DeleteSection";
 import { ROUTE } from "@/constants";
 import { MAX_PROFILE_IMAGE_SIZE, MAX_USER_NAME_LENGTH } from "@/constants/validation";
 import { useUser, useDeleteUser, useEditUser, useInput } from "@/hooks";
-import ScreenContainer from "@/styles/ScreenContainer";
-import { AlertError } from "@/utils/error";
+import ScreenContainer from "@/components/@style/ScreenContainer";
+import { AlertError } from "@/utils/alertError";
 import { ChangeEvent, FormEventHandler, useContext, useEffect, useState } from "react";
 import { useHistory } from "react-router";
 import LoadingPage from "../LoadingPage";
@@ -119,8 +119,8 @@ const UserProfile = () => {
 
           <InfoWrapper>
             <FileLabel>
-              <CameraIcon src={cameraIcon} alt="이미지 업로드 버튼" />
               <UserProfileImage imageURL={profileImageAsUrl} size="LG" alt="유저 프로필 이미지" />
+              <CameraIcon src={cameraIcon} alt="이미지 업로드 버튼" />
               <Input type="file" accept="image/*" onChange={onChangeFile} data-testid="user-profile-image-input" />
             </FileLabel>
           </InfoWrapper>

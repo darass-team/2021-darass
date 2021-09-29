@@ -3,7 +3,7 @@ import { QUERY } from "../../../constants/api";
 import { request } from "../../../utils/request";
 import { EditCommentParameter, EditCommentRequestData } from "../../../types/comment";
 import { REACT_QUERY_KEY } from "../../../constants/reactQueryKey";
-import { AlertError } from "../../../utils/Error";
+import { AlertError } from "../../../utils/alertError";
 import axios from "axios";
 
 const _editComment = async (editedComment: EditCommentParameter) => {

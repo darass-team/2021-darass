@@ -1,9 +1,8 @@
 import styled from "styled-components";
-import { PAGE_MAX_WIDTH } from "@/styles/constants";
+import { PAGE_MAX_WIDTH } from "@/constants/styles/constants";
 import SideBarComponent from "../SideBar";
 
 export const Container = styled.div`
-  position: relative;
   width: 100%;
   display: flex;
   justify-content: space-between;
@@ -15,8 +14,8 @@ export const Container = styled.div`
 `;
 
 export const SideBar = styled(SideBarComponent)<{ offsetY: number }>`
-  position: relative;
   height: max-content;
+  position: relative;
   top: ${props => props.offsetY}px;
   transition: width 0.3s, top 1.5s ease-out;
 

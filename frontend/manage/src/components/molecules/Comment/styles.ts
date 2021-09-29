@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import { LINE_HEIGHT_SCALE } from "../../../styles/constants";
-import { PALETTE } from "../../../styles/palette";
+import { LINE_HEIGHT_SCALE } from "../../../constants/styles/constants";
+import { PALETTE } from "../../../constants/styles/palette";
 
 export const ContentWrapper = styled.div`
   width: 100%;
@@ -26,8 +26,6 @@ export const Name = styled.span<{ isMyComment: boolean }>`
     display: ${({ isMyComment }) => (isMyComment ? "" : "none")};
   }
 `;
-
-export const Date = styled.span``;
 
 export const Content = styled.span`
   font-size: 1.2rem;

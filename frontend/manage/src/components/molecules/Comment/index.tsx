@@ -3,7 +3,7 @@ import { Comment as CommentType } from "@/types/comment";
 import { User } from "@/types/user";
 import Avatar from "@/components/atoms/Avatar";
 import CheckBox from "@/components/atoms/CheckBox";
-import { Content, ContentMeta, ContentWrapper, Date, Name, Url } from "./styles";
+import { Content, ContentMeta, ContentWrapper, Name, Url } from "./styles";
 
 export interface Props {
   isMyComment: boolean;
@@ -33,7 +33,7 @@ const Comment = ({
       <ContentWrapper>
         <ContentMeta>
           <Name isMyComment={isMyComment}>{authorNickName}</Name>
-          <Date>{moment(createdDate).format("YYYY-MM-DD")}</Date>
+          <time>{moment(createdDate).format("YYYY-MM-DD")}</time>
         </ContentMeta>
         <Content>{content}</Content>
         <Url href={url} target="_blank" rel="noopener noreferrer nofollow">

@@ -1,6 +1,6 @@
-import { PALETTE } from "./../../../styles/palette";
+import { PALETTE } from "../../../constants/styles/palette";
 import styled, { css } from "styled-components";
-import { InputCSS } from "../../../styles/css";
+import { InputCSS } from "../../../constants/styles/css";
 import DeleteButton from "../../atoms/Buttons/DeleteButton";
 
 export const Form = styled.form<{ isSubCommentInput: boolean }>`

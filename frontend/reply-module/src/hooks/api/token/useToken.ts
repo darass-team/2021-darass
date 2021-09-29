@@ -3,7 +3,7 @@ import { useMutation, useQuery, useQueryClient } from "react-query";
 import { QUERY } from "../../../constants/api";
 import { REACT_QUERY_KEY } from "../../../constants/reactQueryKey";
 import { TOKEN_REFETCH_TIMER } from "../../../constants/timer";
-import { AlertError } from "../../../utils/Error";
+import { AlertError } from "../../../utils/alertError";
 import { customAxios, request } from "../../../utils/request";
 
 const axiosBearerOption = {
@@ -70,7 +70,7 @@ export const useToken = (enabled = false) => {
     refetch: refetchAccessToken,
     error
   } = useQuery<string, Error>([REACT_QUERY_KEY.ACCESS_TOKEN], getAccessTokenByRefreshToken, {
-    retry: 2,
+    retry: 10,
     refetchIntervalInBackground: true,
     refetchInterval: TOKEN_REFETCH_TIMER,
     enabled

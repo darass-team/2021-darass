@@ -5,7 +5,8 @@ const REACT_QUERY_KEY = {
   USER: "user",
   COMMENT_OF_PROJECT_PER_PAGE: "commentsOfProject",
   COMMENT_COUNT_OF_PROJECT: "commentCountOfProject",
-  STATISTICS: "commentStatistics"
-};
+  STATISTICS: "commentStatistics",
+  COMMENT_ALARM: "comment-alarm"
+} as const;
 
 export { REACT_QUERY_KEY };

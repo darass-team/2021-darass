@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import { LINE_HEIGHT_SCALE } from "../../../styles/constants";
-import { PALETTE } from "../../../styles/palette";
+import { LINE_HEIGHT_SCALE } from "../../../constants/styles/constants";
+import { PALETTE } from "../../../constants/styles/palette";
 
 export const Container = styled.div<{ isDropDown: boolean | null }>`
   width: 100%;
@@ -47,7 +47,6 @@ export const Container = styled.div<{ isDropDown: boolean | null }>`
 `;
 
 export const MainTitle = styled.button<{ isDropDown: boolean | null; depth: number }>`
-  position: relative;
   text-align: left;
   display: flex;
   justify-content: space-between;
@@ -56,7 +55,6 @@ export const MainTitle = styled.button<{ isDropDown: boolean | null; depth: numb
   font-size: ${props => 1.2 - 1.2 * 0.1 * props.depth}rem;
   line-height: ${props => 1.2 - 1.2 * 0.1 * props.depth * LINE_HEIGHT_SCALE}rem;
   padding: 0.3rem 0 0.3rem ${props => 1 + 1 * 0.5 * props.depth}rem;
-  z-index: ${props => props.depth};
   transition: "all 0.1s ease-in";
 
   @media (hover: hover) and (pointer: fine) {

@@ -6,6 +6,7 @@ export interface Comment {
   content: string;
   user: User;
   likingUsers: User[];
+  subComments: Comment[];
   createdDate: string;
   modifiedDate: string;
   url: string;
@@ -28,3 +29,12 @@ export interface DeleteCommentRequestParameter {
 }
 
 export type GetCommentCountOfProject = GetCommentsOfProjectPerPageRequest;
+
+export interface GetAlarmResponse {
+  id: number;
+  commentAlarmType: "CREATE_COMMENT" | "CREATE_SUB_COMMENT" | "CREATE_COMMENT_LIKE";
+  sender: User;
+  receiver: User;
+  comment: Comment;
+  createdDate: string;
+}

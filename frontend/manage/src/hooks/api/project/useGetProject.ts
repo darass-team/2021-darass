@@ -2,7 +2,7 @@ import { REACT_QUERY_KEY } from "@/constants";
 import { QUERY } from "@/constants/api";
 import { NO_ACCESS_TOKEN } from "@/constants/errorName";
 import { Project } from "@/types/project";
-import { AlertError } from "@/utils/error";
+import { AlertError } from "@/utils/alertError";
 import { request } from "@/utils/request";
 import axios from "axios";
 import { useQuery } from "react-query";
@@ -42,7 +42,7 @@ export const useGetProject = (id: Project["id"]) => {
     error,
     isSuccess
   } = useQuery<Project, Error>([REACT_QUERY_KEY.PROJECT, id], () => getProject(id), {
-    enabled: !!accessToken
+    enabled: !!accessToken && !Number.isNaN(id)
   });
 
   return { project, isLoading, error, isSuccess };

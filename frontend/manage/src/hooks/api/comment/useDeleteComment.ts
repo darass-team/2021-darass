@@ -3,7 +3,7 @@ import { NO_ACCESS_TOKEN } from "@/constants/errorName";
 import { REACT_QUERY_KEY } from "@/constants/reactQueryKey";
 import { DeleteCommentRequestParameter } from "@/types/comment";
 import { Project } from "@/types/project";
-import { AlertError } from "@/utils/error";
+import { AlertError } from "@/utils/alertError";
 import { request } from "@/utils/request";
 import axios from "axios";
 import { useMutation, useQueryClient } from "react-query";

@@ -1,6 +1,6 @@
 import { QUERY, REACT_QUERY_KEY } from "@/constants";
 import { TOKEN_REFETCH_TIMER } from "@/constants/timer";
-import { AlertError } from "@/utils/error";
+import { AlertError } from "@/utils/alertError";
 import { customAxios, request } from "@/utils/request";
 import axios from "axios";
 import { useMutation, useQuery, useQueryClient } from "react-query";
@@ -69,7 +69,7 @@ export const useToken = (enabled = false) => {
     refetch: refetchAccessToken,
     error
   } = useQuery<string, Error>([REACT_QUERY_KEY.ACCESS_TOKEN], getAccessTokenByRefreshToken, {
-    retry: 2,
+    retry: 10,
     refetchIntervalInBackground: true,
     refetchInterval: TOKEN_REFETCH_TIMER,
     enabled
