@@ -31,9 +31,13 @@ const getAllProjects = async () => {
 
 export const useGetAllProjects = () => {
   const { accessToken } = useToken();
-  const { data: projects, error } = useQuery<Project[], Error>([REACT_QUERY_KEY.PROJECTS], getAllProjects, {
+  const {
+    data: projects,
+    error,
+    isSuccess
+  } = useQuery<Project[], Error>([REACT_QUERY_KEY.PROJECTS], getAllProjects, {
     enabled: !!accessToken
   });
 
-  return { projects, error };
+  return { projects, error, isSuccess };
 };

@@ -55,7 +55,7 @@ export const useGetCommentsOfProjectPerPage = ({
 }: Props) => {
   const queryClient = useQueryClient();
 
-  const { data, refetch, isLoading, error } = useQuery<
+  const { data, refetch, isLoading, error, isSuccess } = useQuery<
     {
       comments: Comment[];
       totalComment: number;
@@ -91,5 +91,5 @@ export const useGetCommentsOfProjectPerPage = ({
   const totalComment = data?.totalComment ? data?.totalComment : 0;
   const totalPage = data?.totalPage ? data?.totalPage : 0;
 
-  return { comments, totalComment, totalPage, refetch, isLoading, error, prefetch };
+  return { comments, totalComment, totalPage, refetch, isLoading, error, prefetch, isSuccess };
 };

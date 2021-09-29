@@ -1,0 +1,12 @@
+=== 댓글 알람 조회 (GET /api/v1/comment-alarms)
+
+==== Request
+
+include::{snippets}/api/v1/comment-alarms-get/http-request.adoc[]
+include::{snippets}/api/v1/comment-alarms-get/request-headers.adoc[]
+include::{snippets}/api/v1/comment-alarms-get/request-parameters.adoc[]
+
+==== Response
+
+include::{snippets}/api/v1/comment-alarms-get/http-response.adoc[]
+include::{snippets}/api/v1/comment-alarms-get/response-fields.adoc[]

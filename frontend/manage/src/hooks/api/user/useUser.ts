@@ -37,7 +37,8 @@ export const useUser = () => {
     data: user,
     isLoading,
     error,
-    refetch
+    refetch,
+    isSuccess
   } = useQuery<User, Error>([REACT_QUERY_KEY.USER], getUser, {
     retry: false,
     initialData: getLocalStorage("user"),
@@ -65,5 +66,5 @@ export const useUser = () => {
     }
   }, [user]);
 
-  return { user, isLoading, error, refetch, logout };
+  return { user, isLoading, error, refetch, logout, isSuccess };
 };
