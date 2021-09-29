@@ -1,5 +1,5 @@
 import { Line } from "react-chartjs-2";
-import { PALETTE } from "@/styles/palette";
+import { PALETTE } from "@/constants/styles/palette";
 import { COMMENT_STATISTICS } from "@/types/statistics";
 import { Container } from "./styles";
 

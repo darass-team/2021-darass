@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { contentBoxCSS, inputCSS, labelCSS, titleCSS } from "../../../styles/css";
+import { contentBoxCSS, inputCSS, labelCSS, titleCSS } from "../../../constants/styles/css";
 import Avatar from "@/components/atoms/Avatar";
 import SubmitButtonComponent from "@/components/atoms/Buttons/SubmitButton";
 
@@ -50,10 +50,9 @@ export const CameraIcon = styled.img`
 `;
 
 export const FileLabel = styled(Label)`
-  position: relative;
   transform: scale(1.8);
   margin: 0 auto;
-  > input {
+  & > input {
     display: none;
   }
 `;

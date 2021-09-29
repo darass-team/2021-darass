@@ -11,6 +11,7 @@ export const ROUTE = {
   AUTHORIZED: {
     USER_PROFILE: "/user",
     MY_PROJECT: "/projects",
+    NOTIFICATION: "/notification",
     get NEW_PROJECT() {
       return `${this.MY_PROJECT}/new`;
     },
@@ -18,13 +19,13 @@ export const ROUTE = {
       return `${this.MY_PROJECT}/:id`;
     },
     get SCRIPT_PUBLISHING() {
-      return `${this.MY_PROJECT}/:id/guide`;
+      return `${this.PROJECT_DETAIL}/guide`;
     },
     get PROJECT_MANAGE() {
-      return `${this.MY_PROJECT}/:id/manage`;
+      return `${this.PROJECT_DETAIL}/manage`;
     },
     get STATISTICS() {
-      return `${this.MY_PROJECT}/:id/statistics`;
+      return `${this.PROJECT_DETAIL}/statistics`;
     }
   }
 } as const;

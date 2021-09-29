@@ -1,8 +1,8 @@
+import Avatar from "@/components/atoms/Avatar";
+import { LINE_HEIGHT_SCALE } from "@/constants/styles/constants";
+import { PALETTE } from "@/constants/styles/palette";
 import { Link, NavLink } from "react-router-dom";
 import styled from "styled-components";
-import { PALETTE } from "@/styles/palette";
-import Avatar from "@/components/atoms/Avatar";
-import { LINE_HEIGHT_SCALE, Z_INDEX } from "@/styles/constants";
 
 export const Container = styled.nav`
   @media (min-width: 780px) {
@@ -10,23 +10,16 @@ export const Container = styled.nav`
   }
 `;
 
-export const MenuWrapper = styled.nav<{ isOpen: boolean }>`
+export const MenuWrapper = styled.nav`
   width: 70%;
-
+  height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  z-index: ${Z_INDEX.NAV.MOBILE.MENU_WRAPPER};
-  position: fixed;
-
   background: ${PALETTE.PRIMARY};
-  height: 100%;
   text-align: left;
   padding: 10rem 2rem;
-  top: 0;
-  left: 0;
-  transform: ${({ isOpen }) => (isOpen ? "translateX(0)" : "translateX(-100%)")};
   transition: transform 0.4s ease-in-out;
 `;
 
@@ -39,14 +32,18 @@ export const Name = styled.p`
   font-weight: 700;
 `;
 
+export const MenuHeader = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+`;
+
 export const AuthLink = styled(Link)`
-  position: absolute;
-  top: 5%;
-  right: 2rem;
   font-size: 1.5rem;
   line-height: ${1.5 * LINE_HEIGHT_SCALE}rem;
   text-align: center;
   font-weight: 700;
+  margin-left: 1rem;
 `;
 
 export const MenuAvatar = styled(Avatar)`

@@ -1,4 +1,4 @@
-import ScreenContainer from "@/styles/ScreenContainer";
+import ScreenContainer from "@/components/@style/ScreenContainer";
 import { Container, ErrorNotice } from "./styles";
 
 interface Props {

@@ -3,7 +3,7 @@ import naverLogo from "@/assets/png/naver.png";
 import kakaoLogo from "@/assets/svg/kakao.svg";
 import { OAUTH_URL } from "@/constants/oauth";
 import { useScrollFadeInOut } from "@/hooks";
-import ScreenContainer from "@/styles/ScreenContainer";
+import ScreenContainer from "@/components/@style/ScreenContainer";
 import { Container, SectionContainer, KakaoLoginButton, MainText, NaverLoginButton } from "./styles";
 
 const Login = () => {
