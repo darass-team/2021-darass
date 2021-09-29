@@ -1,7 +1,7 @@
 import styled from "styled-components";
-import { LINE_HEIGHT_SCALE } from "@/styles/constants";
-import { subTitleCSS } from "@/styles/css";
-import { PALETTE } from "@/styles/palette";
+import { LINE_HEIGHT_SCALE } from "@/constants/styles/constants";
+import { subTitleCSS } from "@/constants/styles/css";
+import { PALETTE } from "@/constants/styles/palette";
 import DeleteButtonComponent from "@/components/atoms/Buttons/DeleteButton";
 
 export const Container = styled.div`

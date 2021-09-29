@@ -1,10 +1,10 @@
 import moment from "moment";
 import { useEffect, useState } from "react";
-import { useRouteMatch } from "react-router-dom";
-import { PROJECT_MENU } from "@/constants";
+import { useRouteMatch, Redirect } from "react-router-dom";
+import { PROJECT_MENU, ROUTE } from "@/constants";
 import { PERIODICITY } from "@/constants/statistics";
 import { useCalendar, useCommentStatisticsData, useGetProject } from "@/hooks";
-import ScreenContainer from "@/styles/ScreenContainer";
+import ScreenContainer from "@/components/@style/ScreenContainer";
 import Modal from "@/components/atoms/Modal";
 import CommentStatisticsChart from "@/components/organisms/CommentStatisticsChart";
 import ContainerWithSideBar from "@/components/organisms/ContainerWithSideBar";
@@ -87,7 +87,11 @@ const Statistics = () => {
     }
   }, [selectedPeriodicity]);
 
-  if (!isSuccessGetProject || !isSuccessGetCommentStatisticsData) {
+  if (Number.isNaN(projectId)) {
+    return <Redirect to={ROUTE.COMMON.HOME} />;
+  }
+
+  if (!project || !stats) {
     return <LoadingPage />;
   }
 
@@ -114,7 +118,6 @@ const Statistics = () => {
                   dimmedOpacity={0}
                 >
                   <Calendar
-                    isOpen={showCalendar}
                     date={currentDate}
                     setDate={setCurrentDate}
                     startDate={startDate}

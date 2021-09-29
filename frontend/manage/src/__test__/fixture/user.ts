@@ -4,6 +4,7 @@ import defaultUserImage from "./default-user-image.svg";
 
 export const socialLoginUser: User = {
   id: 1,
+  hasRecentAlarm: false,
   nickName: "고니",
   profileImageUrl: defaultUserImage,
   type: "SocialLoginUser",
@@ -13,6 +14,7 @@ export const socialLoginUser: User = {
 
 export const socialLoginUser2: User = {
   id: 2,
+  hasRecentAlarm: false,
   nickName: "도비",
   profileImageUrl: defaultUserImage,
   type: "SocialLoginUser",
@@ -22,6 +24,7 @@ export const socialLoginUser2: User = {
 
 export const guestUser: User = {
   id: 3,
+  hasRecentAlarm: false,
   nickName: "고니2",
   profileImageUrl: defaultUserImage,
   type: "GuestUser",
@@ -31,6 +34,7 @@ export const guestUser: User = {
 
 export const guestUser2: User = {
   id: 4,
+  hasRecentAlarm: false,
   nickName: "도비2",
   profileImageUrl: defaultUserImage,
   type: "GuestUser",

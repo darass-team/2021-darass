@@ -8,7 +8,8 @@ export const socialLoginUser: User = {
   profileImageUrl: defaultUserImage,
   type: "SocialLoginUser",
   createdDate: new Date().toDateString(),
-  modifiedDate: new Date().toDateString()
+  modifiedDate: new Date().toDateString(),
+  hasRecentAlarm: false
 };
 
 export const socialLoginUser2: User = {
@@ -17,7 +18,8 @@ export const socialLoginUser2: User = {
   profileImageUrl: defaultUserImage,
   type: "SocialLoginUser",
   createdDate: new Date().toDateString(),
-  modifiedDate: new Date().toDateString()
+  modifiedDate: new Date().toDateString(),
+  hasRecentAlarm: false
 };
 
 export const guestUser: User = {
@@ -26,7 +28,8 @@ export const guestUser: User = {
   profileImageUrl: defaultUserImage,
   type: "GuestUser",
   createdDate: new Date().toDateString(),
-  modifiedDate: new Date().toDateString()
+  modifiedDate: new Date().toDateString(),
+  hasRecentAlarm: false
 };
 
 export const guestUser2: User = {
@@ -35,5 +38,6 @@ export const guestUser2: User = {
   profileImageUrl: defaultUserImage,
   type: "GuestUser",
   createdDate: new Date().toDateString(),
-  modifiedDate: new Date().toDateString()
+  modifiedDate: new Date().toDateString(),
+  hasRecentAlarm: false
 };

@@ -1,12 +1,13 @@
+import { QUERY } from "@/constants/api";
+import { NO_ACCESS_TOKEN } from "@/constants/errorName";
+import { REACT_QUERY_KEY } from "@/constants/reactQueryKey";
+import { User } from "@/types/user";
+import { AlertError } from "@/utils/alertError";
+import { getLocalStorage, removeLocalStorage, setLocalStorage } from "@/utils/localStorage";
+import { request } from "@/utils/request";
 import axios from "axios";
 import { useEffect } from "react";
 import { useQuery, useQueryClient } from "react-query";
-import { QUERY } from "../../../constants/api";
-import { NO_ACCESS_TOKEN } from "../../../constants/errorName";
-import { REACT_QUERY_KEY } from "../../../constants/reactQueryKey";
-import { User } from "../../../types/user";
-import { AlertError } from "../../../utils/Error";
-import { request } from "../../../utils/request";
 import { useToken } from "../token/useToken";
 
 const getUser = async () => {
@@ -33,6 +34,7 @@ const getUser = async () => {
 export const useUser = () => {
   const queryClient = useQueryClient();
   const { accessToken, deleteMutation, error: refreshError } = useToken(true);
+
   const {
     data: user,
     isLoading,
@@ -40,6 +42,7 @@ export const useUser = () => {
     refetch
   } = useQuery<User, Error>([REACT_QUERY_KEY.USER], getUser, {
     retry: false,
+    initialData: getLocalStorage("user"),
     enabled: !!accessToken
   });
 
@@ -55,6 +58,14 @@ export const useUser = () => {
       logout();
     }
   }, [refreshError]);
+
+  useEffect(() => {
+    if (user) {
+      setLocalStorage("user", user);
+    } else {
+      removeLocalStorage("user");
+    }
+  }, [user]);
 
   return { user, isLoading, error, refetch, logout };
 };

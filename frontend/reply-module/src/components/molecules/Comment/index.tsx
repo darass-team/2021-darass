@@ -1,47 +1,59 @@
-import { FormEvent, useEffect, useRef, useState } from "react";
-import { useDeleteComment, useEditComment, useLikeComment, useInput } from "../../../hooks";
+import { QUERY } from "@/constants/api";
+import { MessageChannelContext } from "@/contexts/messageChannelContext";
+import { messageFromReplyModule } from "@/utils/postMessage";
+import { request } from "@/utils/request";
+import axios from "axios";
+import { FormEvent, useContext, useEffect, useRef, useState } from "react";
+import downRightArrowSVG from "../../../assets/svg/down-right-arrow.svg";
+import { MAX_COMMENT_INPUT_LENGTH } from "../../../constants/comment";
+import { POST_MESSAGE_TYPE } from "../../../constants/postMessageType";
+import { useDeleteComment, useEditComment, useInput, useLikeComment } from "../../../hooks";
 import { Comment as CommentType } from "../../../types";
-import { DeleteCommentRequestParameter } from "../../../types/comment";
+import { DeleteCommentRequestParameter, GuestUserConfirmInfo } from "../../../types/comment";
+import { Project } from "../../../types/project";
 import { User } from "../../../types/user";
-import {
-  postAlertMessage,
-  postOpenConfirm,
-  postOpenLikingUsersModal,
-  postScrollHeightToParentWindow
-} from "../../../utils/postMessage";
+import { AlertError } from "../../../utils/alertError";
+import { getErrorMessage } from "../../../utils/errorMessage";
 import { isEmptyString } from "../../../utils/isEmptyString";
 import { getTimeDifference } from "../../../utils/time";
 import Avatar from "../../atoms/Avatar";
 import CommentTextBox from "../../atoms/CommentTextBox";
 import {
-  SubmitButton,
-  LikeButton,
+  AddSubCommentButton,
   CancelButton,
   CommentBottomWrapper,
+  CommentInput,
   CommentOption,
   CommentTextBoxWrapper,
   CommentWrapper,
   Container,
+  DownRightArrow,
+  LikeButton,
+  LikingUsersButton,
+  PasswordButtonWrapper,
   PasswordForm,
   PasswordInput,
-  LikingUsersButton,
-  Time,
-  DownRightArrow,
-  AddSubCommentButton,
-  CommentInput,
-  PasswordButtonWrapper
+  SubmitButton,
+  Time
 } from "./styles";
-import { POST_MESSAGE_TYPE } from "../../../constants/postMessageType";
-import { getPasswordConfirmResult } from "../../../api/getPasswordConfirmResult";
-import { AlertError } from "../../../utils/Error";
-import { MAX_COMMENT_INPUT_LENGTH } from "../../../constants/comment";
-import { getErrorMessage } from "../../../utils/errorMessage";
-import downRightArrowSVG from "../../../assets/svg/down-right-arrow.svg";
-import { Project } from "../../../types/project";
+
+export const getPasswordConfirmResult = async ({ guestUserId, guestUserPassword }: GuestUserConfirmInfo) => {
+  try {
+    const response = await request.get(QUERY.CHECK_GUEST_PASSWORD({ guestUserId, guestUserPassword }));
+
+    return response.data.isCorrectPassword;
+  } catch (error) {
+    if (!axios.isAxiosError(error)) {
+      throw new AlertError("알 수 없는 에러입니다.");
+    }
+
+    throw new Error(error.response?.data.message);
+  }
+};
 
 export interface Props {
   user?: User;
-  project?: Project;
+  projectOwnerId?: User["id"];
   comment: CommentType;
   shouldShowOption?: boolean;
   iAmAdmin: boolean;
@@ -54,7 +66,7 @@ type SubmitType = "Edit" | "Delete";
 
 const Comment = ({
   user,
-  project,
+  projectOwnerId,
   comment,
   shouldShowOption,
   iAmAdmin,
@@ -81,6 +93,7 @@ const Comment = ({
     setSubmitType(null);
     setPassword("");
   };
+  const { port } = useContext(MessageChannelContext);
 
   const canIEdit = (iAmAdmin && thisCommentIsMine) || !iAmAdmin;
 
@@ -110,19 +123,22 @@ const Comment = ({
 
   const confirmDelete = async () => {
     const confirmResult = await new Promise(resolve => {
-      postOpenConfirm("정말 지우시겠습니까?");
+      messageFromReplyModule(port).openConfirmModal("정말 지우시겠습니까?");
 
-      window.addEventListener("message", ({ data }: MessageEvent) => {
-        if (data.type === POST_MESSAGE_TYPE.CLOSE_CONFIRM || data.type === POST_MESSAGE_TYPE.CLOSE_MODAL) {
+      const onMessageDeleteComment = ({ data }: MessageEvent) => {
+        if (data.type === POST_MESSAGE_TYPE.CONFIRM_NO || data.type === POST_MESSAGE_TYPE.MODAL.CLOSE.CONFIRM) {
           resolve("no");
-
-          return;
+          port?.removeEventListener("message", onMessageDeleteComment);
         }
 
         if (data.type === POST_MESSAGE_TYPE.CONFIRM_OK) {
           resolve("yes");
+          port?.removeEventListener("message", onMessageDeleteComment);
         }
-      });
+      };
+
+      port?.addEventListener("message", onMessageDeleteComment);
+      port?.start();
     });
 
     if (confirmResult === "no") {
@@ -141,7 +157,7 @@ const Comment = ({
       await deleteComment(deleteCommentRequestParameter);
     } catch (error) {
       if (error instanceof AlertError) {
-        postAlertMessage(error.message);
+        messageFromReplyModule(port).openAlert(error.message);
       }
     } finally {
       clear();
@@ -155,7 +171,7 @@ const Comment = ({
     const isValidPassword = await confirmGuestPassword();
 
     if (!isValidPassword) {
-      postAlertMessage("비밀번호가 일치하지 않습니다.");
+      messageFromReplyModule(port).openAlert("비밀번호가 일치하지 않습니다.");
 
       return;
     }
@@ -169,7 +185,7 @@ const Comment = ({
       const isValidContent = !isEmptyString(content) && content.length <= MAX_COMMENT_INPUT_LENGTH;
 
       if (!isValidContent) {
-        postAlertMessage(getErrorMessage.commentInput(content));
+        messageFromReplyModule(port).openAlert(getErrorMessage.commentInput(content));
 
         return;
       }
@@ -184,7 +200,7 @@ const Comment = ({
       clear();
     } catch (error) {
       if (error instanceof AlertError) {
-        postAlertMessage(error.message);
+        messageFromReplyModule(port).openAlert(error.message);
       }
     } finally {
       setPassword("");
@@ -197,13 +213,13 @@ const Comment = ({
       await likeComment({ commentId: comment.id });
     } catch (error) {
       if (error instanceof AlertError) {
-        postAlertMessage(error.message);
+        messageFromReplyModule(port).openAlert(error.message);
       }
     }
   };
 
   const onLikingUsersModalOpen = () => {
-    postOpenLikingUsersModal(comment.likingUsers);
+    messageFromReplyModule(port).openLikingUserModal(comment.likingUsers);
   };
 
   const onOpenSubCommentInput = () => {
@@ -217,7 +233,7 @@ const Comment = ({
   const hasSubComments = comment?.subComments ? comment.subComments.length > 0 : false;
 
   useEffect(() => {
-    postScrollHeightToParentWindow();
+    messageFromReplyModule(port).setScrollHeight();
   }, [shouldShowPasswordInput, submitType, isSubCommentInputOpen]);
 
   useEffect(() => {
@@ -253,7 +269,7 @@ const Comment = ({
             >
               {comment.content}
             </CommentTextBox>
-            {shouldShowOption && !submitType && (
+            {shouldShowOption && (
               <CommentOption startEditing={canIEdit ? startEditing : undefined} startDeleting={startDeleting} />
             )}
             <CommentBottomWrapper>
@@ -316,10 +332,10 @@ const Comment = ({
           const authorId = subComment.user.id;
 
           const iAmGuestUser = !user;
-          const iAmAdmin = user !== undefined && project?.userId === user.id;
+          const iAmAdmin = user !== undefined && projectOwnerId === user.id;
 
           const thisCommentIsMine = authorId !== undefined && authorId === user?.id;
-          const thisCommentIsWrittenByAdmin = subComment.user.id === project?.userId;
+          const thisCommentIsWrittenByAdmin = subComment.user.id === projectOwnerId;
           const thisCommentIsWrittenByGuest = subComment.user.type === "GuestUser";
           const shouldShowOption = iAmAdmin || thisCommentIsMine || (iAmGuestUser && thisCommentIsWrittenByGuest);
           const shouldShowSubCommentInput = isSubCommentInputOpen && index === comment.subComments.length - 1;

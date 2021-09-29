@@ -8,6 +8,7 @@ export interface Comment {
   subComments: Comment[];
   createdDate: string;
   modifiedDate: string;
+  url: string;
 }
 
 export interface GuestUserInfo {
@@ -36,6 +37,15 @@ export interface GetCommentsResponse {
   totalComment: number;
   totalPage: number;
   comments: Comment[];
+}
+
+export interface GetAlarmResponse {
+  id: number;
+  commentAlarmType: "CREATE_COMMENT" | "CREATE_SUB_COMMENT" | "CREATE_COMMENT_LIKE";
+  sender: User;
+  receiver: User;
+  comment: Comment;
+  createdDate: string;
 }
 
 export type GetProjectRequestParams = Pick<ScriptInfo, "projectSecretKey">;

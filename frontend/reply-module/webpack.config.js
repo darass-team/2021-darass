@@ -1,16 +1,16 @@
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const path = require("path");
 const DotEnv = require("dotenv-webpack");
 const { DefinePlugin } = require("webpack");
 const Package = require("./package.json");
 
 const config = {
-  entry: { replyModule: "./src/index.tsx", modal: "./src/Modal.tsx" },
+  entry: { replyModule: "./src/ReplyModule.tsx", replyModal: "./src/ReplyModal.tsx" },
   output: {
     path: path.resolve(__dirname, "dist"),
     filename: `[name]-${Package.version.replace("^", "")}.js`,
-    publicPath: "/"
+    publicPath: "/",
+    clean: true
   },
   module: {
     rules: [
@@ -18,7 +18,23 @@ const config = {
         test: /\.(ts|tsx|js|jsx)$/,
         use: [
           {
-            loader: "babel-loader"
+            loader: "babel-loader",
+            options: {
+              presets: [
+                "@babel/preset-env",
+                [
+                  "@babel/preset-react",
+                  {
+                    runtime: "automatic"
+                  }
+                ],
+                "@babel/preset-typescript"
+              ],
+              plugins: [
+                "@babel/transform-runtime",
+                ["babel-plugin-remove-react-jsx-attribute", { attributes: ["data-testid"] }]
+              ]
+            }
           }
         ],
         exclude: /node_modules/
@@ -48,10 +64,9 @@ const config = {
     }),
     new HtmlWebpackPlugin({
       filename: "modal.html",
-      chunks: ["modal"],
+      chunks: ["replyModal"],
       template: "./public/modal.html"
     }),
-    new CleanWebpackPlugin(),
     new DefinePlugin({
       "process.env.BUILD_MODE": JSON.stringify(process.env.BUILD_MODE)
     }),

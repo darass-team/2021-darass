@@ -4,7 +4,7 @@ import Comment from "@/components/molecules/Comment";
 import CommentSearchConditionForm from "@/components/organisms/CommentSearchConditionForm";
 import ContainerWithSideBar from "@/components/organisms/ContainerWithSideBar";
 import ErrorNotice from "@/components/organisms/ErrorNotice";
-import { PROJECT_MENU } from "@/constants";
+import { PROJECT_MENU, ROUTE } from "@/constants";
 import { COMMENT_COUNT_PER_PAGE } from "@/constants/pagination";
 import { MAX_COMMENT_SEARCH_TERM_LENGTH } from "@/constants/validation";
 import {
@@ -17,12 +17,12 @@ import {
   useInput,
   useUser
 } from "@/hooks";
-import ScreenContainer from "@/styles/ScreenContainer";
-import { AlertError } from "@/utils/error";
+import ScreenContainer from "@/components/@style/ScreenContainer";
+import { AlertError } from "@/utils/alertError";
 import { getPagesOfLength5 } from "@/utils/pagination";
 import moment from "moment";
 import { FormEvent, useEffect } from "react";
-import { useLocation, useRouteMatch } from "react-router-dom";
+import { useLocation, useRouteMatch, Redirect } from "react-router-dom";
 import LoadingPage from "../LoadingPage";
 import { CommentList, CommentsViewer, Container, DeleteButton, Header, Row, Title, TotalComment } from "./styles";
 
@@ -131,7 +131,11 @@ const Manage = () => {
     })();
   }, [currentPageIndex, projectSecretKey, totalPage]);
 
-  if (!isSuccessGetProject || !isSuccessGetUser || !isSuccessGetCommentsOfProjectPerPage) {
+  if (Number.isNaN(projectId)) {
+    return <Redirect to={ROUTE.COMMON.HOME} />;
+  }
+
+  if (!project || !me || !comments) {
     return <LoadingPage />;
   }
 

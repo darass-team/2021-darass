@@ -13,6 +13,8 @@ export const useCommentPageIndex = ({ initialPageIndex, projectId }: Props) => {
   const [currentPageIndex, setCurrentPageIndex] = useState<number>(initialPageIndex);
 
   useEffect(() => {
+    if (Number.isNaN(projectId)) return;
+
     history.push(`/projects/${projectId}/manage?pageIndex=${currentPageIndex}`);
   }, [currentPageIndex]);
 

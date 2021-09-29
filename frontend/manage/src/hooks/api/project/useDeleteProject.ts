@@ -2,7 +2,7 @@ import { QUERY } from "@/constants";
 import { NO_ACCESS_TOKEN } from "@/constants/errorName";
 import { REACT_QUERY_KEY } from "@/constants/reactQueryKey";
 import { Project } from "@/types/project";
-import { AlertError } from "@/utils/error";
+import { AlertError } from "@/utils/alertError";
 import { request } from "@/utils/request";
 import axios from "axios";
 import { useMutation, useQueryClient } from "react-query";
@@ -46,8 +46,10 @@ export const useDeleteProject = () => {
   const isLoading = deleteMutation.isLoading;
   const error = deleteMutation.error;
 
-  const deleteProject = async (id: Project["id"]) => {
-    return await deleteMutation.mutateAsync(id);
+  const deleteProject = (id: Project["id"]) => {
+    if (Number.isNaN(id)) return;
+
+    return deleteMutation.mutateAsync(id);
   };
 
   return { deleteProject, isLoading, error };

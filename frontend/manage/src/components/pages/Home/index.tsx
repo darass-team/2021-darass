@@ -6,7 +6,7 @@ import scrollDownButton from "@/assets/svg/scroll-down.svg";
 import TypingText from "@/components/atoms/TypingText";
 import { ROUTE } from "@/constants";
 import { useScrollFadeInOut } from "@/hooks";
-import { PALETTE } from "@/styles/palette";
+import { PALETTE } from "@/constants/styles/palette";
 import { useHistory } from "react-router-dom";
 import {
   Button,

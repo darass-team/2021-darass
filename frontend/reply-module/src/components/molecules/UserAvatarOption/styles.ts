@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { PALETTE } from "../../../styles/palette";
+import { PALETTE } from "../../../constants/styles/palette";
 import UserOptionComponent from "../../atoms/UserOption";
 
 export const Container = styled.div`
@@ -25,6 +25,6 @@ export const UserNickName = styled.button`
 
 export const UserOption = styled(UserOptionComponent)`
   position: absolute;
-  right: 7px;
-  top: 50px;
+  right: 0.4rem;
+  top: 3.5rem;
 `;

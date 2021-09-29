@@ -3,6 +3,7 @@ import { User } from "@/types/user";
 import Avatar from "@/components/atoms/Avatar";
 import arrowDown from "@/assets/svg/arrow-down.svg";
 import { Container, UserNickName, UserOption, DownArrow } from "./styles";
+import Modal from "@/components/atoms/Modal";
 
 export interface Props {
   user: User | undefined;
@@ -11,28 +12,15 @@ export interface Props {
 
 const UserAvatarOption = ({ user, children }: Props) => {
   const [isShowOptionBox, setShowOptionBox] = useState(false);
-  const ref = useRef(false);
-  ref.current = isShowOptionBox;
 
   const onShowOptionBox = (event: MouseEvent) => {
     event.stopPropagation();
     setShowOptionBox(state => !state);
   };
 
-  const onHideOptionBox = () => {
-    if (ref.current) setShowOptionBox(false);
-  };
-
   useEffect(() => {
     setShowOptionBox(false);
   }, [user]);
-
-  useEffect(() => {
-    window.addEventListener("click", onHideOptionBox);
-    return () => {
-      window.removeEventListener("click", onHideOptionBox);
-    };
-  }, []);
 
   return (
     <Container>
@@ -44,7 +32,9 @@ const UserAvatarOption = ({ user, children }: Props) => {
         onClick={onShowOptionBox}
         isShowOptionBox={isShowOptionBox}
       />
-      {isShowOptionBox && <UserOption>{children}</UserOption>}
+      <Modal isOpen={isShowOptionBox} closeModal={() => setShowOptionBox(false)} dimmedOpacity={0} blockScroll={false}>
+        <UserOption>{children}</UserOption>
+      </Modal>
     </Container>
   );
 };

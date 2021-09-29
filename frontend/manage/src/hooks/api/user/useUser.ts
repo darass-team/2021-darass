@@ -1,7 +1,7 @@
 import { QUERY, REACT_QUERY_KEY } from "@/constants";
 import { NO_ACCESS_TOKEN } from "@/constants/errorName";
 import { User } from "@/types/user";
-import { AlertError } from "@/utils/error";
+import { AlertError } from "@/utils/alertError";
 import { getLocalStorage, removeLocalStorage, setLocalStorage } from "@/utils/localStorage";
 import { request } from "@/utils/request";
 import axios from "axios";
