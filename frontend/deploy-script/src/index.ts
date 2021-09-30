@@ -47,12 +47,14 @@ const init = () => {
 
   const onMessageFromReplyModuleIFrame = ({ data: { type, data } }: MessageEvent) => {
     const ACTION_TABLE = {
-      [POST_MESSAGE_TYPE.ALERT]: () => {
-        alert(data);
+      [POST_MESSAGE_TYPE.MODAL.OPEN.ALERT]: () => {
+        messageChannel.replyModal.port1.postMessage({ type: POST_MESSAGE_TYPE.MODAL.OPEN.ALERT, data });
+        showElement($modalIframe);
+        blockScroll();
       },
-      [POST_MESSAGE_TYPE.MODAL.OPEN.LIKING_USERS_MODAL]: () => {
+      [POST_MESSAGE_TYPE.MODAL.OPEN.LIKING_USERS]: () => {
         messageChannel.replyModal.port1.postMessage({
-          type: POST_MESSAGE_TYPE.MODAL.OPEN.LIKING_USERS_MODAL,
+          type: POST_MESSAGE_TYPE.MODAL.OPEN.LIKING_USERS,
           data
         });
         showElement($modalIframe);
@@ -77,6 +79,11 @@ const init = () => {
 
   const onMessageFromReplyModalIFrame = ({ data: { type, data } }: MessageEvent) => {
     const ACTION_TABLE = {
+      [POST_MESSAGE_TYPE.MODAL.CLOSE.ALERT]: () => {
+        messageChannel.replyModule.port1.postMessage({ type: POST_MESSAGE_TYPE.MODAL.CLOSE.ALERT });
+        hideElement($modalIframe);
+        unBlockScroll();
+      },
       [POST_MESSAGE_TYPE.MODAL.CLOSE.ALARM]: () => {
         messageChannel.replyModule.port1.postMessage({ type: POST_MESSAGE_TYPE.MODAL.CLOSE.ALARM });
         hideElement($modalIframe);
@@ -87,7 +94,7 @@ const init = () => {
         hideElement($modalIframe);
         unBlockScroll();
       },
-      [POST_MESSAGE_TYPE.MODAL.CLOSE.LIKING_USERS_MODAL]: () => {
+      [POST_MESSAGE_TYPE.MODAL.CLOSE.LIKING_USERS]: () => {
         messageChannel.replyModule.port1.postMessage({ type: POST_MESSAGE_TYPE.MODAL.CLOSE.ALARM });
         hideElement($modalIframe);
         unBlockScroll();
