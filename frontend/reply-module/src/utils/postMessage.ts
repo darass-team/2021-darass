@@ -11,7 +11,7 @@ export const messageFromReplyModule = (port: MessagePort | undefined) => {
       });
     },
     openAlert: (message: string) => {
-      port?.postMessage({ type: POST_MESSAGE_TYPE.ALERT, data: message });
+      port?.postMessage({ type: POST_MESSAGE_TYPE.MODAL.OPEN.ALERT, data: message });
     },
     openConfirmModal: (message: string) => {
       port?.postMessage({ type: POST_MESSAGE_TYPE.MODAL.OPEN.CONFIRM, data: message });
@@ -20,7 +20,7 @@ export const messageFromReplyModule = (port: MessagePort | undefined) => {
       port?.postMessage({ type: POST_MESSAGE_TYPE.MODAL.OPEN.ALARM, data: alarmContents });
     },
     openLikingUserModal: (users: Comment["user"][]) => {
-      port?.postMessage({ type: POST_MESSAGE_TYPE.MODAL.OPEN.LIKING_USERS_MODAL, data: users });
+      port?.postMessage({ type: POST_MESSAGE_TYPE.MODAL.OPEN.LIKING_USERS, data: users });
     }
   };
 };
@@ -33,6 +33,9 @@ export const messageFromReplyModal = (port: MessagePort | undefined) => {
     clickedConfirmOk: () => {
       port?.postMessage({ type: POST_MESSAGE_TYPE.CONFIRM_OK });
     },
+    closeAlertModal: () => {
+      port?.postMessage({ type: POST_MESSAGE_TYPE.MODAL.CLOSE.ALERT });
+    },
     closeConfirmModal: () => {
       port?.postMessage({ type: POST_MESSAGE_TYPE.MODAL.CLOSE.CONFIRM });
     },
@@ -40,7 +43,7 @@ export const messageFromReplyModal = (port: MessagePort | undefined) => {
       port?.postMessage({ type: POST_MESSAGE_TYPE.MODAL.CLOSE.ALARM });
     },
     closeLikingUserModal: () => {
-      port?.postMessage({ type: POST_MESSAGE_TYPE.MODAL.CLOSE.LIKING_USERS_MODAL });
+      port?.postMessage({ type: POST_MESSAGE_TYPE.MODAL.CLOSE.LIKING_USERS });
     }
   };
 };

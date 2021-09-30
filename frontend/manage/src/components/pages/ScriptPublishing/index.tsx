@@ -55,7 +55,7 @@ const ScriptPublishing = () => {
     return <Redirect to={ROUTE.COMMON.HOME} />;
   }
 
-  if (!project) {
+  if (!isSuccessGetProject) {
     return <LoadingPage />;
   }
 

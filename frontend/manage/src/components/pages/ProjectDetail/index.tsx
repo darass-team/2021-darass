@@ -1,14 +1,14 @@
 import { FormEvent, useEffect } from "react";
 import { useHistory, useRouteMatch, Redirect } from "react-router-dom";
 import { PROJECT_MENU, ROUTE } from "@/constants";
-import { MAX_PROJECT_NAME_LENGTH } from "@/constants/validation";
+import { MAX_PROJECT_DESCRIPTION_LENGTH, MAX_PROJECT_NAME_LENGTH } from "@/constants/validation";
 import { useDeleteProject, useEditProject, useGetProject, useInput } from "@/hooks";
 import ScreenContainer from "@/components/@style/ScreenContainer";
 import { AlertError } from "@/utils/alertError";
 import { isEmptyString } from "@/utils/validation";
 import DeleteSection from "@/components/molecules/DeleteSection";
 import ContainerWithSideBar from "@/components/organisms/ContainerWithSideBar";
-import { Container, Form, InfoWrapper, Input, Label, SubmitButton, Title } from "./styles";
+import { Container, Form, InfoWrapper, Input, Label, InputLengthCounter, SubmitButton, Title } from "./styles";
 import LoadingPage from "../LoadingPage";
 
 const ProjectDetail = () => {
@@ -35,6 +35,12 @@ const ProjectDetail = () => {
 
     if (projectName.length > MAX_PROJECT_NAME_LENGTH) {
       alert(`프로젝트 이름은 ${MAX_PROJECT_NAME_LENGTH}자를 넘을 수 없습니다.`);
+
+      return;
+    }
+
+    if (projectDesc.length > MAX_PROJECT_DESCRIPTION_LENGTH) {
+      alert(`프로젝트 설명은 ${MAX_PROJECT_DESCRIPTION_LENGTH}자를 넘을 수 없습니다.`);
 
       return;
     }
@@ -82,7 +88,7 @@ const ProjectDetail = () => {
     return <Redirect to={ROUTE.COMMON.HOME} />;
   }
 
-  if (!project) {
+  if (!isSuccessGetProject) {
     return <LoadingPage />;
   }
 
@@ -95,7 +101,17 @@ const ProjectDetail = () => {
             <InfoWrapper>
               <Label htmlFor="project-name">이름</Label>
 
-              <Input id="project-name" placeholder="프로젝트 이름" value={projectName} onChange={onChangeProjectName} />
+              <Input
+                id="project-name"
+                placeholder="프로젝트 이름"
+                value={projectName}
+                onChange={onChangeProjectName}
+                maxLength={MAX_PROJECT_NAME_LENGTH}
+              />
+
+              <InputLengthCounter>
+                {projectName.length} / {MAX_PROJECT_NAME_LENGTH}
+              </InputLengthCounter>
             </InfoWrapper>
             <InfoWrapper>
               <Label htmlFor="project-description">설명</Label>
@@ -104,7 +120,11 @@ const ProjectDetail = () => {
                 placeholder="프로젝트 설명"
                 value={projectDesc}
                 onChange={onChangeProjectDesc}
+                maxLength={MAX_PROJECT_DESCRIPTION_LENGTH}
               />
+              <InputLengthCounter>
+                {projectDesc.length} / {MAX_PROJECT_DESCRIPTION_LENGTH}
+              </InputLengthCounter>
             </InfoWrapper>
             <SubmitButton>수정</SubmitButton>
           </Form>
