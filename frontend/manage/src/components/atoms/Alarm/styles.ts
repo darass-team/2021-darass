@@ -26,9 +26,9 @@ export const Container = styled.div<{ size: Size }>`
   }
 `;
 
-export const Img = styled.img<{ on: boolean }>`
+export const Img = styled.img<{ hasUnReadNotification: boolean }>`
   object-fit: contain;
-  ${({ on }) => on && ShakeCSS};
+  ${({ hasUnReadNotification }) => hasUnReadNotification && ShakeCSS};
 `;
 
 export const Dot = styled.span`

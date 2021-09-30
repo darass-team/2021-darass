@@ -93,7 +93,7 @@ export const DataTable = styled.table`
   margin-top: 2rem;
   width: 100%;
   border: 1px solid ${PALETTE.GRAY_400};
-  border-collapse: collapse;
+  border-hidden: hidden;
 
   thead {
     background-color: ${PALETTE.PRIMARY};

@@ -110,14 +110,14 @@ const init = () => {
 
   const onMessageForRequestPort = ({ data }: MessageEvent) => {
     if (data.type === POST_MESSAGE_TYPE.INIT_MESSAGE_CHANNEL.REPLY_MODULE.REQUEST_PORT) {
-      postReplyModulePort();
       messageChannel.replyModule.port1.addEventListener("message", onMessageFromReplyModuleIFrame);
       messageChannel.replyModule.port1.start();
+      postReplyModulePort();
     }
     if (data.type === POST_MESSAGE_TYPE.INIT_MESSAGE_CHANNEL.REPLY_MODAL.REQUEST_PORT) {
-      postReplyModalPort();
       messageChannel.replyModal.port1.addEventListener("message", onMessageFromReplyModalIFrame);
       messageChannel.replyModal.port1.start();
+      postReplyModalPort();
     }
   };
 
