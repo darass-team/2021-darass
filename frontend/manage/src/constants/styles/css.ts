@@ -131,10 +131,10 @@ export const fadeInDirectionCSS: { [key in FadeInDirection]: (on: boolean) => Fl
     left: 50%;
     right: 50%;
     transform: translate(-50%, -50%);
-    visibility: ${on ? "visible" : "collapse"};
+    visibility: ${on ? "visible" : "hidden"};
   `,
   back: (on: boolean) => css`
-    visibility: ${on ? "visible" : "collapse"};
+    visibility: ${on ? "visible" : "hidden"};
   `
 };
 
