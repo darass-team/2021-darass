@@ -101,7 +101,7 @@ public class CommentService {
                     PageRequest.of(pageBasedIndex, request.getSize(), SortOption.getMatchedSort(request.getSortOption()))
                 );
 
-            return new CommentResponses(new Comments(comments.toList()).totalComment(),
+            return new CommentResponses(comments.getTotalElements(),
                 comments.getTotalPages(), comments.stream()
                 .map(comment -> CommentResponse.of(comment, UserResponse.of(comment.getUser())))
                 .collect(Collectors.toList()));
@@ -123,7 +123,7 @@ public class CommentService {
                     PageRequest.of(pageBasedIndex, request.getSize(), SortOption.getMatchedSort(request.getSortOption()))
                 );
 
-            return new CommentResponses(new Comments(comments.toList()).totalComment(),
+            return new CommentResponses(comments.getTotalElements(),
                 comments.getTotalPages(), comments.stream()
                 .map(comment -> CommentResponse.of(comment, UserResponse.of(comment.getUser())))
                 .collect(Collectors.toList()));
