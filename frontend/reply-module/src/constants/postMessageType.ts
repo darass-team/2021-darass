@@ -12,18 +12,19 @@ export const POST_MESSAGE_TYPE = {
 
   SCROLL_HEIGHT: "scrollHeight",
 
-  ALERT: "alert",
   CONFIRM_OK: "confirmOK",
   CONFIRM_NO: "confirmNO",
 
   MODAL: {
     OPEN: {
-      LIKING_USERS_MODAL: "openLikingUsersModal",
+      ALERT: "openAlert",
+      LIKING_USERS: "openLikingUsersModal",
       CONFIRM: "openConfirm",
       ALARM: "openAlarm"
     },
     CLOSE: {
-      LIKING_USERS_MODAL: "closeLikingUsersModal",
+      ALERT: "closeAlert",
+      LIKING_USERS: "closeLikingUsersModal",
       CONFIRM: "closeConfirm",
       ALARM: "closeAlarm"
     }
