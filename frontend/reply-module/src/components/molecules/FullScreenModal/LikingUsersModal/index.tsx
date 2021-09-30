@@ -9,6 +9,7 @@ import { Container, Title, UserGrid, UserNickName, UserWrapper } from "./styles"
 
 const LikingUsersModal = () => {
   const [users, setUsers] = useState<User[]>([]);
+  const [isOpen, setIsOpen] = useState(false);
   const { port } = useContext(MessageChannelContext);
 
   const onCloseModal = () => {
@@ -17,6 +18,8 @@ const LikingUsersModal = () => {
 
   return (
     <FullScreenModal
+      isOpen={isOpen}
+      setIsOpen={setIsOpen}
       setValue={setUsers}
       postCloseModal={onCloseModal}
       postType={POST_MESSAGE_TYPE.MODAL.OPEN.LIKING_USERS_MODAL}

@@ -7,18 +7,27 @@ import { ButtonWrapper, CancelButton, ConfirmButton, Container, Message } from "
 
 const ConfirmModal = () => {
   const [text, setText] = useState<string>("");
+  const [isOpen, setIsOpen] = useState(false);
   const { port } = useContext(MessageChannelContext);
 
   const onCloseModal = () => {
+    setIsOpen(false);
     messageFromReplyModal(port).closeConfirmModal();
   };
 
   const onClickConfirmOk = () => {
+    setIsOpen(false);
     messageFromReplyModal(port).clickedConfirmOk();
   };
 
   return (
-    <FullScreenModal setValue={setText} postCloseModal={onCloseModal} postType={POST_MESSAGE_TYPE.MODAL.OPEN.CONFIRM}>
+    <FullScreenModal
+      isOpen={isOpen}
+      setIsOpen={setIsOpen}
+      setValue={setText}
+      postCloseModal={onCloseModal}
+      postType={POST_MESSAGE_TYPE.MODAL.OPEN.CONFIRM}
+    >
       <Container>
         <Message>{text}</Message>
         <ButtonWrapper>
