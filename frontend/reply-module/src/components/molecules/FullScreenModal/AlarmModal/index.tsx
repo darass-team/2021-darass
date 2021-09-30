@@ -9,6 +9,7 @@ import { AlarmContainer, Container } from "./styles";
 
 const AlarmModal = () => {
   const [alarmContents, setAlarmContents] = useState<GetAlarmResponse[]>([]);
+  const [isOpen, setIsOpen] = useState(false);
   const { port } = useContext(MessageChannelContext);
 
   const onCloseModal = () => {
@@ -17,6 +18,8 @@ const AlarmModal = () => {
 
   return (
     <FullScreenModal
+      isOpen={isOpen}
+      setIsOpen={setIsOpen}
       setValue={setAlarmContents}
       postCloseModal={onCloseModal}
       postType={POST_MESSAGE_TYPE.MODAL.OPEN.ALARM}

@@ -3,6 +3,8 @@ import { MessageChannelContext } from "@/contexts/messageChannelContext";
 import { Dispatch, ReactNode, useContext, useEffect, useState } from "react";
 
 interface Props {
+  isOpen: boolean;
+  setIsOpen: Dispatch<boolean>;
   setValue: Dispatch<any>;
   children: ReactNode;
   postCloseModal: () => void;
@@ -10,8 +12,15 @@ interface Props {
   fadeInFrom?: FadeInDirection;
 }
 
-const FullScreenModal = ({ setValue, children, postCloseModal, postType, fadeInFrom = "center" }: Props) => {
-  const [isOpen, setIsOpen] = useState(false);
+const FullScreenModal = ({
+  isOpen,
+  setIsOpen,
+  setValue,
+  children,
+  postCloseModal,
+  postType,
+  fadeInFrom = "center"
+}: Props) => {
   const { port } = useContext(MessageChannelContext);
 
   const onCloseModal = () => {

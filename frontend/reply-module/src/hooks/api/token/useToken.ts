@@ -62,6 +62,7 @@ export const useToken = (enabled = false) => {
       queryClient.setQueryData<string | undefined>([REACT_QUERY_KEY.ACCESS_TOKEN], () => {
         return undefined;
       });
+      axiosBearerOption.clear();
     }
   });
 
@@ -70,7 +71,7 @@ export const useToken = (enabled = false) => {
     refetch: refetchAccessToken,
     error
   } = useQuery<string, Error>([REACT_QUERY_KEY.ACCESS_TOKEN], getAccessTokenByRefreshToken, {
-    retry: 10,
+    retry: 2,
     refetchIntervalInBackground: true,
     refetchInterval: TOKEN_REFETCH_TIMER,
     enabled
