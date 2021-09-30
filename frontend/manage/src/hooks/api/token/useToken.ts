@@ -61,6 +61,7 @@ export const useToken = (enabled = false) => {
       queryClient.setQueryData<string | undefined>([REACT_QUERY_KEY.ACCESS_TOKEN], () => {
         return undefined;
       });
+      axiosBearerOption.clear();
     }
   });
 
