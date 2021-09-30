@@ -35,6 +35,10 @@ export const Input = styled.input`
   ${inputCSS};
 `;
 
+export const InputLengthCounter = styled.span`
+  align-self: flex-end;
+`;
+
 export const SubmitButton = styled(SubmitButtonComponent)`
   align-items: flex-end;
   margin-top: 4rem;

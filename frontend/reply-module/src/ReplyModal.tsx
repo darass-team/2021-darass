@@ -3,6 +3,7 @@ import { Integrations } from "@sentry/tracing";
 import { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 import AlarmModal from "./components/molecules/FullScreenModal/AlarmModal";
+import AlertModal from "./components/molecules/FullScreenModal/AlertModal";
 import ConfirmModal from "./components/molecules/FullScreenModal/ConfirmModal";
 import LikingUsersModal from "./components/molecules/FullScreenModal/LikingUsersModal";
 import ErrorPage from "./components/pages/ErrorPage";
@@ -40,6 +41,7 @@ const App = () => {
       <LikingUsersModal />
       <ConfirmModal />
       <AlarmModal />
+      <AlertModal />
     </MessageChannelContext.Provider>
   );
 };

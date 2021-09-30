@@ -135,7 +135,7 @@ const Manage = () => {
     return <Redirect to={ROUTE.COMMON.HOME} />;
   }
 
-  if (!project || !me || !comments) {
+  if (!isSuccessGetUser || !isSuccessGetProject || !isSuccessGetCommentsOfProjectPerPage) {
     return <LoadingPage />;
   }
 

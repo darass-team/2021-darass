@@ -91,7 +91,7 @@ const Statistics = () => {
     return <Redirect to={ROUTE.COMMON.HOME} />;
   }
 
-  if (!project || !stats) {
+  if (!isSuccessGetProject || !isSuccessGetCommentStatisticsData) {
     return <LoadingPage />;
   }
 

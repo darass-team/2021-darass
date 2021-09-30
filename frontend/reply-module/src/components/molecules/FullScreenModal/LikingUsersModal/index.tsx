@@ -22,7 +22,7 @@ const LikingUsersModal = () => {
       setIsOpen={setIsOpen}
       setValue={setUsers}
       postCloseModal={onCloseModal}
-      postType={POST_MESSAGE_TYPE.MODAL.OPEN.LIKING_USERS_MODAL}
+      postType={POST_MESSAGE_TYPE.MODAL.OPEN.LIKING_USERS}
     >
       <Container>
         <Title>👍 좋아요 누른 사람들</Title>
