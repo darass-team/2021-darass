@@ -9,7 +9,7 @@ export const useRecentlyAlarmWebSocket = () => {
   const socketRef = useRef<WebSocket>();
   const [recentlyAlarmContent, setRecentlyAlarmContent] = useState<GetAlarmResponse>();
   const { user } = useUser();
-  const [hasNewAlarmOnRealTime, setHasNewAlarmOnRealTime] = useState(user?.id);
+  const [hasNewAlarmOnRealTime, setHasNewAlarmOnRealTime] = useState(!!user?.hasRecentAlarm);
 
   useEffect(() => {
     if (!user) {
