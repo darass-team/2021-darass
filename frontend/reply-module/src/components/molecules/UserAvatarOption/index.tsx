@@ -64,7 +64,7 @@ const UserAvatarOption = ({ user, children, className }: Props) => {
       <Avatar imageURL={avatarImageURL} onClick={onShowOptionBox} alt="유저 프로필 이미지" />
 
       <Modal isOpen={isShowOptionBox} closeModal={() => setShowOptionBox(false)} dimmedOpacity={0}>
-        <UserOption userName={user?.nickName}>{children}</UserOption>
+        <UserOption>{children}</UserOption>
       </Modal>
     </Container>
   );

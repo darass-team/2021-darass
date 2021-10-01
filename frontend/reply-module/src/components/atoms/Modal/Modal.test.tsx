@@ -79,6 +79,7 @@ describe("Modal test", () => {
         blockScroll: true,
         fadeInFrom: "none"
       };
+      const modal = render(<Modal {...props} />);
 
       expect(document.body.style.overflow).toEqual("revert");
     });

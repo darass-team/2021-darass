@@ -3,13 +3,12 @@ import { Container, OptionContainer } from "./styles";
 
 export interface Props {
   className?: string;
-  userName: string | undefined;
   children: ReactNode;
 }
 
-const UserOption = ({ className, userName, children }: Props) => {
+const UserOption = ({ className, children }: Props) => {
   return (
-    <Container className={className}>
+    <Container className={className} data-testid="userOption">
       <OptionContainer>{children}</OptionContainer>
     </Container>
   );
