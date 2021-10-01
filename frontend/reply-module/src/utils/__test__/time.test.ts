@@ -1,4 +1,4 @@
-import { getTimeDifference } from "../../utils/time";
+import { getTimeDifference } from "../time";
 
 describe("Time Util", () => {
   test("getTimeDifference", () => {

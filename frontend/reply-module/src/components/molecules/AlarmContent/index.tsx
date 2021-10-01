@@ -16,34 +16,44 @@ export const ALARM_MESSAGE_TABLE = {
   CREATE_COMMENT: "님이 댓글을 남겼습니다.",
   CREATE_SUB_COMMENT: "님이 대댓글을 남겼습니다.",
   CREATE_COMMENT_LIKE: "님이 좋아요를 누르셨습니다."
-};
+} as const;
 
 export interface Props {
   alarmContents: GetAlarmResponse[];
 }
 
 const AlarmContent = ({ alarmContents }: Props) => {
+  const hasAlarmContent = alarmContents.length > 0;
+
   return (
     <>
       <AlarmHeader>
         내 소식 <NotificationCount>{alarmContents.length}</NotificationCount>
       </AlarmHeader>
 
-      {alarmContents.length > 0 ? (
+      {hasAlarmContent ? (
         alarmContents.map(({ id, createdDate, commentAlarmType, sender, comment }) => {
+          const isLikeAlarm = commentAlarmType === "CREATE_COMMENT_LIKE";
+
           return (
-            <Content key={id} onClick={() => window.open(comment.url, "_blank", "noopener")}>
+            <Content
+              key={id}
+              onClick={() => window.open(comment.url, "_blank", "noopener")}
+              data-testid="alarm-content-container"
+            >
               <ContentWrapper>
                 <Notification>
                   <span>
-                    <Name>{sender.nickName}</Name>
-                    <span>{ALARM_MESSAGE_TABLE[commentAlarmType]}</span>
+                    <Name data-testid="alarm-content-sender-name">{sender.nickName}</Name>
+                    <span data-testid="alarm-content-sender-notification-text">
+                      {ALARM_MESSAGE_TABLE[commentAlarmType]}
+                    </span>
                   </span>
 
                   <time>{getTimeDifference(createdDate)}</time>
                 </Notification>
 
-                {commentAlarmType !== "CREATE_COMMENT_LIKE" && <Text>{comment.content}</Text>}
+                {!isLikeAlarm && <Text>{comment.content}</Text>}
 
                 <Url>{comment.url}</Url>
               </ContentWrapper>
