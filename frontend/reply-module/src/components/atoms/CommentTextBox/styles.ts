@@ -1,7 +1,6 @@
 import styled, { css } from "styled-components";
 import { PALETTE } from "../../../constants/styles/palette";
 import CancelButtonComponent from "../Buttons/CancelButton";
-import SubmitButtonComponent from "../Buttons/SubmitButton";
 
 export const Container = styled.div<{ isSubComment: boolean }>`
   width: 100%;
@@ -72,5 +71,3 @@ export const ButtonWrapper = styled.div`
 export const CancelButton = styled(CancelButtonComponent)`
   margin-right: 0.3rem;
 `;
-
-export const SubmitButton = styled(SubmitButtonComponent)``;

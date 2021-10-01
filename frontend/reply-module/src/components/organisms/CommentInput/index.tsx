@@ -152,7 +152,7 @@ const CommentInput = ({ className, innerRef, user, parentCommentId, onClose }: P
           </div>
         )}
         <ButtonWrapper isSubCommentInput={isSubCommentInput}>
-          {isSubCommentInput && <CancelButton onClick={onClose}>취소</CancelButton>}
+          {isSubCommentInput && onClose && <CancelButton onClick={onClose}>취소</CancelButton>}
           <SubmitButton data-testid="comment-input-submit-button">등록</SubmitButton>
         </ButtonWrapper>
       </Wrapper>

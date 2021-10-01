@@ -3,7 +3,7 @@ import { Button } from "./styles";
 export interface Props {
   className?: string;
   children: string;
-  onClick?: () => void;
+  onClick: () => void;
 }
 
 const CancelButton = ({ className, children, onClick }: Props) => {

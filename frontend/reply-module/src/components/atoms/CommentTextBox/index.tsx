@@ -1,9 +1,10 @@
 import { useEffect } from "react";
-import { useContentEditable } from "../../../hooks";
-import { Comment } from "../../../types";
-import { User } from "../../../types/user";
-import { focusContentEditableTextToEnd } from "../../../utils/focusContentEditableTextToEnd";
-import { SubmitButton, Container, Name, Text, CancelButton, ButtonWrapper } from "./styles";
+import { useContentEditable } from "@/hooks";
+import { Comment } from "@/types";
+import { User } from "@/types/user";
+import { focusContentEditableTextToEnd } from "@/utils/focusContentEditableTextToEnd";
+import SubmitButton from "../Buttons/SubmitButton";
+import { Container, Name, Text, CancelButton, ButtonWrapper } from "./styles";
 
 export interface Props {
   name: User["nickName"];
