@@ -5,7 +5,7 @@ import { request } from "@/utils/request";
 import axios from "axios";
 import { FormEvent, useContext, useEffect, useRef, useState } from "react";
 import downRightArrowSVG from "../../../assets/svg/down-right-arrow.svg";
-import { MAX_COMMENT_INPUT_LENGTH } from "../../../constants/comment";
+import { GUEST_IMAGE_URL, MAX_COMMENT_INPUT_LENGTH } from "../../../constants/comment";
 import { POST_MESSAGE_TYPE } from "../../../constants/postMessageType";
 import { useDeleteComment, useEditComment, useInput, useLikeComment } from "../../../hooks";
 import { Comment as CommentType } from "../../../types";
@@ -96,7 +96,7 @@ const Comment = ({
   const { port } = useContext(MessageChannelContext);
 
   const canIEdit = (iAmAdmin && thisCommentIsMine) || !iAmAdmin;
-
+  const avatarImageURL = comment.user.profileImageUrl !== GUEST_IMAGE_URL ? comment.user.profileImageUrl : undefined;
   const confirmGuestPassword = async () => {
     try {
       const isCorrectPassword = await getPasswordConfirmResult({
@@ -257,7 +257,7 @@ const Comment = ({
       <Container data-testid={isSubComment ? "subComment" : "comment"} isSubComment={isSubComment}>
         <CommentWrapper>
           {isSubComment && <DownRightArrow src={downRightArrowSVG} data-testid="downRightArrowImage" />}
-          <Avatar imageURL={comment.user.profileImageUrl} />
+          <Avatar imageURL={avatarImageURL} />
           <CommentTextBoxWrapper>
             <CommentTextBox
               name={comment.user.nickName}

@@ -21,6 +21,7 @@ const UserAvatarOption = ({ user, children, className }: Props) => {
   const { data: alarmContents, hasNewAlarmOnRealTime, setHasNewAlarmOnRealTime } = useGetAlarmContents();
   const { refetch: refetchUser } = useUser();
   const { editUser } = useEditUser();
+  const avatarImageURL = user ? user.profileImageUrl : undefined;
 
   const onShowOptionBox = (event: MouseEvent) => {
     event.stopPropagation();
@@ -60,12 +61,7 @@ const UserAvatarOption = ({ user, children, className }: Props) => {
       )}
 
       <UserNickName onClick={onShowOptionBox}>{user?.nickName ?? "로그인"}</UserNickName>
-      <Avatar
-        imageURL={user?.profileImageUrl}
-        onClick={onShowOptionBox}
-        alt="유저 프로필 이미지"
-        data-testid="avartar-option-img"
-      />
+      <Avatar imageURL={avatarImageURL} onClick={onShowOptionBox} alt="유저 프로필 이미지" />
 
       <Modal isOpen={isShowOptionBox} closeModal={() => setShowOptionBox(false)} dimmedOpacity={0}>
         <UserOption userName={user?.nickName}>{children}</UserOption>
