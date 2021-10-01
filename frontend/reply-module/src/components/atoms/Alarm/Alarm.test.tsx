@@ -1,41 +1,42 @@
-import { ShakeCSS } from "@/constants/styles/css";
 import "@testing-library/jest-dom/extend-expect";
 import { fireEvent, render, waitFor } from "@testing-library/react";
 import Alarm, { Props } from ".";
 import { alarmSizeBySize } from "./styles";
 
 describe("Alarm Component Test", () => {
-  test("hasUnReadNotification이 true이면 Dot이 렌더링된다.", () => {
-    const props: Props = {
-      hasUnReadNotification: true,
-      size: "SM",
-      onClick: () => {}
-    };
+  describe("logic test", () => {
+    test("hasUnReadNotification이 true이면 Dot이 렌더링된다.", () => {
+      const props: Props = {
+        hasUnReadNotification: true,
+        size: "SM",
+        onClick: () => {}
+      };
 
-    const alarm = render(<Alarm {...props} />);
+      const alarm = render(<Alarm {...props} />);
 
-    expect(alarm.getByTestId("alarm-red-dot")).toBeVisible();
-  });
-  test("hasUnReadNotification이 주어지지 않으면 Dot이 렌더링되지 않는다.", () => {
-    const props: Props = {
-      size: "SM",
-      onClick: () => {}
-    };
+      expect(alarm.getByTestId("alarm-red-dot")).toBeVisible();
+    });
+    test("hasUnReadNotification이 주어지지 않으면 Dot이 렌더링되지 않는다.", () => {
+      const props: Props = {
+        size: "SM",
+        onClick: () => {}
+      };
 
-    const alarm = render(<Alarm {...props} />);
+      const alarm = render(<Alarm {...props} />);
 
-    expect(alarm.queryByTestId("alarm-red-dot")).toBeFalsy();
-  });
-  test("hasUnReadNotification이 false이면 Dot이 렌더링되지 않는다.", () => {
-    const props: Props = {
-      hasUnReadNotification: false,
-      size: "SM",
-      onClick: () => {}
-    };
+      expect(alarm.queryByTestId("alarm-red-dot")).toBeFalsy();
+    });
+    test("hasUnReadNotification이 false이면 Dot이 렌더링되지 않는다.", () => {
+      const props: Props = {
+        hasUnReadNotification: false,
+        size: "SM",
+        onClick: () => {}
+      };
 
-    const alarm = render(<Alarm {...props} />);
+      const alarm = render(<Alarm {...props} />);
 
-    expect(alarm.queryByTestId("alarm-red-dot")).toBeFalsy();
+      expect(alarm.queryByTestId("alarm-red-dot")).toBeFalsy();
+    });
   });
 
   describe("style test", () => {

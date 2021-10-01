@@ -1,5 +1,5 @@
 import { Container } from "./styles";
-import defaultUserImage from "../../../assets/svg/default-user-image.svg";
+import defaultUserImage from "@/assets/svg/default-user-image.svg";
 import { MouseEvent } from "react";
 
 export type Size = "SM" | "MD" | "LG";
@@ -11,10 +11,10 @@ export interface Props {
   alt?: string;
 }
 
-const Avatar = ({ imageURL, size = "MD", onClick, alt }: Props) => {
+const Avatar = ({ imageURL, size = "MD", onClick, alt = "avatar" }: Props) => {
   return (
     <Container
-      src={imageURL ? (imageURL === "guestProfileImageUrl" ? defaultUserImage : imageURL) : defaultUserImage}
+      src={imageURL ? imageURL : defaultUserImage}
       size={size}
       onClick={onClick}
       alt={alt}
