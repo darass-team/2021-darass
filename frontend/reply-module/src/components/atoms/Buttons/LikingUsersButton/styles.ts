@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { PALETTE } from "../../../../constants/styles/palette";
+import { PALETTE } from "@/constants/styles/palette";
 
 export const Button = styled.button<{ isLiked: boolean }>`
   display: flex;
