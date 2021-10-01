@@ -6,7 +6,7 @@ export interface Props {
   onClick?: () => void;
 }
 
-const DeleteButton = ({ className, children, onClick }: Props) => {
+const CancelButton = ({ className, children, onClick }: Props) => {
   return (
     <Button className={className} type="button" onClick={onClick}>
       {children}
@@ -14,4 +14,4 @@ const DeleteButton = ({ className, children, onClick }: Props) => {
   );
 };
 
-export default DeleteButton;
+export default CancelButton;

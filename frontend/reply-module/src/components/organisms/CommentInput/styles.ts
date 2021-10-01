@@ -1,7 +1,6 @@
 import { PALETTE } from "../../../constants/styles/palette";
 import styled, { css } from "styled-components";
 import { InputCSS } from "../../../constants/styles/css";
-import DeleteButton from "../../atoms/Buttons/DeleteButton";
 
 export const Form = styled.form<{ isSubCommentInput: boolean }>`
   display: flex;
@@ -107,5 +106,3 @@ export const ButtonWrapper = styled.div<{ isSubCommentInput: boolean }>`
       `}
   }
 `;
-
-export const CancelButton = styled(DeleteButton)``;

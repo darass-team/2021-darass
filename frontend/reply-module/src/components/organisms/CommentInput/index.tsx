@@ -1,3 +1,4 @@
+import CancelButton from "@/components/atoms/Buttons/CancelButton";
 import { MessageChannelContext } from "@/contexts/messageChannelContext";
 import { messageFromReplyModule } from "@/utils/postMessage";
 import { ChangeEvent, FormEvent, MutableRefObject, RefObject, useContext, useState } from "react";
@@ -7,16 +8,16 @@ import {
   GUEST_PASSWORD_MAX_LENGTH,
   GUEST_PASSWORD_MIN_LENGTH,
   MAX_COMMENT_INPUT_LENGTH
-} from "../../../constants/comment";
-import { useContentEditable, useCreateComment, useInput } from "../../../hooks";
-import { Comment } from "../../../types";
-import { User } from "../../../types/user";
-import { AlertError } from "../../../utils/alertError";
-import { getErrorMessage } from "../../../utils/errorMessage";
-import { focusContentEditableTextToEnd } from "../../../utils/focusContentEditableTextToEnd";
-import { isEmptyString } from "../../../utils/isEmptyString";
-import SubmitButton from "../../atoms/Buttons/SubmitButton";
-import { ButtonWrapper, CancelButton, Form, GuestInfo, TextBox, TextBoxWrapper, TextCount, Wrapper } from "./styles";
+} from "@/constants/comment";
+import { useContentEditable, useCreateComment, useInput } from "@/hooks";
+import { Comment } from "@/types";
+import { User } from "@/types/user";
+import { AlertError } from "@/utils/alertError";
+import { getErrorMessage } from "@/utils/errorMessage";
+import { focusContentEditableTextToEnd } from "@/utils/focusContentEditableTextToEnd";
+import { isEmptyString } from "@/utils/isEmptyString";
+import SubmitButton from "@/components/atoms/Buttons/SubmitButton";
+import { ButtonWrapper, Form, GuestInfo, TextBox, TextBoxWrapper, TextCount, Wrapper } from "./styles";
 
 export interface Props {
   className?: string;

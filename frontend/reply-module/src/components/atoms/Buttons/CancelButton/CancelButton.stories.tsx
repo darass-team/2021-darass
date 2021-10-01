@@ -1,13 +1,13 @@
 import { Story } from "@storybook/react";
-import DeleteButton, { Props } from ".";
+import CancelButton, { Props } from ".";
 
 export default {
-  title: "atoms/DeleteButton",
-  component: DeleteButton,
+  title: "atoms/CancelButton",
+  component: CancelButton,
   argTypes: { children: { control: "text" } }
 };
 
-const Template: Story<Props> = args => <DeleteButton {...args} />;
+const Template: Story<Props> = args => <CancelButton {...args} />;
 
 export const Default = Template.bind({});
 

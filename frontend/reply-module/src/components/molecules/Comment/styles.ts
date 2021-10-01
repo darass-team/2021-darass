@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { InputCSS } from "../../../constants/styles/css";
 import { PALETTE } from "../../../constants/styles/palette";
-import DeleteButton from "../../atoms/Buttons/DeleteButton";
+import CancelButtonComponent from "../../atoms/Buttons/CancelButton";
 import LikingUsersButtonComponent from "../../atoms/Buttons/LikingUsersButton";
 import SubmitButtonComponent from "../../atoms/Buttons/SubmitButton";
 import CommentOptionComponent from "../../atoms/CommentOption";
@@ -130,7 +130,7 @@ export const SubmitButton = styled(SubmitButtonComponent)`
   line-height: 1.5rem;
 `;
 
-export const CancelButton = styled(DeleteButton)`
+export const CancelButton = styled(CancelButtonComponent)`
   width: 4rem;
   height: 2.4rem;
   padding: 0.2rem 0.3rem;
