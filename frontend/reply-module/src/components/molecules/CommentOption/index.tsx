@@ -1,6 +1,6 @@
-import { useEffect, useRef, useState } from "react";
-import threeDots from "../../../assets/svg/three-dots.svg";
-import Modal from "../Modal";
+import threeDots from "@/assets/svg/three-dots.svg";
+import Modal from "@/components/atoms/Modal";
+import { useRef, useState } from "react";
 import { Container, DeleteButton, EditButton, OptionContainer, OptionIcon } from "./styles";
 
 export interface Props {

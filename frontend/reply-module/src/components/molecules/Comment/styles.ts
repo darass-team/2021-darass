@@ -1,11 +1,11 @@
 import styled from "styled-components";
-import { InputCSS } from "../../../constants/styles/css";
-import { PALETTE } from "../../../constants/styles/palette";
-import CancelButtonComponent from "../../atoms/Buttons/CancelButton";
-import LikingUsersButtonComponent from "../../atoms/Buttons/LikingUsersButton";
-import SubmitButtonComponent from "../../atoms/Buttons/SubmitButton";
-import CommentOptionComponent from "../../atoms/CommentOption";
-import CommentInputComponent from "../../organisms/CommentInput";
+import { InputCSS } from "@/constants/styles/css";
+import { PALETTE } from "@/constants/styles/palette";
+import CancelButtonComponent from "@/components/atoms/Buttons/CancelButton";
+import LikingUsersButtonComponent from "@/components/atoms/Buttons/LikingUsersButton";
+import SubmitButtonComponent from "@/components/atoms/Buttons/SubmitButton";
+import CommentInputComponent from "@/components/organisms/CommentInput";
+import CommentOptionComponent from "@/components/molecules/CommentOption";
 
 export const Container = styled.div<{ isSubComment?: boolean }>`
   display: flex;

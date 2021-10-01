@@ -2,7 +2,7 @@ import { Story } from "@storybook/react";
 import CommentOption, { Props } from ".";
 
 export default {
-  title: "atoms/CommentOption",
+  title: "molecules/CommentOption",
   component: CommentOption,
   argTypes: { children: { control: "text" } }
 };

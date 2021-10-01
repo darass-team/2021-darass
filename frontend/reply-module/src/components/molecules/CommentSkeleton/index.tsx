@@ -1,5 +1,5 @@
 import { Container, CommentWrapper, CommentTextBoxWrapper, CommentBottomWrapper } from "../Comment/styles";
-import { Container as CommentTextBoxContainer } from "../../atoms/CommentTextBox/styles";
+import { Container as CommentTextBoxContainer } from "../CommentTextBox/styles";
 import { Avatar, Name, Text, Buttons } from "./styles";
 
 const CommentSkeleton = () => {

@@ -10,14 +10,13 @@ import { POST_MESSAGE_TYPE } from "../../../constants/postMessageType";
 import { useDeleteComment, useEditComment, useInput, useLikeComment } from "../../../hooks";
 import { Comment as CommentType } from "../../../types";
 import { DeleteCommentRequestParameter, GuestUserConfirmInfo } from "../../../types/comment";
-import { Project } from "../../../types/project";
 import { User } from "../../../types/user";
 import { AlertError } from "../../../utils/alertError";
 import { getErrorMessage } from "../../../utils/errorMessage";
 import { isEmptyString } from "../../../utils/isEmptyString";
 import { getTimeDifference } from "../../../utils/time";
 import Avatar from "../../atoms/Avatar";
-import CommentTextBox from "../../atoms/CommentTextBox";
+import CommentTextBox from "../CommentTextBox";
 import {
   AddSubCommentButton,
   CancelButton,
