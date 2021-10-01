@@ -13,7 +13,7 @@ const Alarm = ({ hasUnReadNotification = false, size = "SM", onClick, ...props }
   return (
     <Container size={size} onClick={onClick} {...props}>
       <Img src={alarm} alt="notification" hasUnReadNotification={hasUnReadNotification} />
-      {hasUnReadNotification && <Dot />}
+      {hasUnReadNotification && <Dot data-testid="alarm-red-dot" />}
     </Container>
   );
 };

@@ -3,7 +3,7 @@ import { PALETTE } from "@/constants/styles/palette";
 import styled from "styled-components";
 import { Size } from ".";
 
-const alarmSizeBySize = {
+export const alarmSizeBySize = {
   SM: 20,
   MD: 30,
   LG: 40
