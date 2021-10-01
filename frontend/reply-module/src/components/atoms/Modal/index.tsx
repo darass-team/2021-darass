@@ -33,8 +33,15 @@ const Modal = ({
 
   return (
     <>
-      <Dimmed ref={DimmedRef} onClick={onCloseModal} isOpen={isOpen} opacity={dimmedOpacity} fadeInFrom={fadeInFrom} />
-      <Container isOpen={isOpen} fadeInFrom={fadeInFrom}>
+      <Dimmed
+        ref={DimmedRef}
+        onClick={onCloseModal}
+        isOpen={isOpen}
+        opacity={dimmedOpacity}
+        fadeInFrom={fadeInFrom}
+        data-testid="modal-dimmed"
+      />
+      <Container isOpen={isOpen} fadeInFrom={fadeInFrom} data-testid="modal-container">
         {children}
       </Container>
     </>
