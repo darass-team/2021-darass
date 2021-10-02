@@ -1,6 +1,6 @@
-import { PALETTE } from "../../../constants/styles/palette";
+import { PALETTE } from "@/constants/styles/palette";
 import styled, { css } from "styled-components";
-import { InputCSS } from "../../../constants/styles/css";
+import { InputCSS } from "@/constants/styles/css";
 
 export const Form = styled.form<{ isSubCommentInput: boolean }>`
   display: flex;

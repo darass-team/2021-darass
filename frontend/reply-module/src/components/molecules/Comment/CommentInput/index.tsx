@@ -20,13 +20,13 @@ import SubmitButton from "@/components/atoms/Buttons/SubmitButton";
 import { ButtonWrapper, Form, GuestInfo, TextBox, TextBoxWrapper, TextCount, Wrapper } from "./styles";
 
 export interface Props {
-  user: User | undefined;
+  user?: User;
   parentCommentId?: Comment["id"];
+  isSubComment: boolean;
   onClose?: () => void;
 }
 
-// TODO: 얘는왜 Organism이지?
-const CommentInput = ({ user, parentCommentId, onClose, ...props }: Props) => {
+const CommentInput = ({ user, parentCommentId, isSubComment, onClose, ...props }: Props) => {
   const urlParams = new URLSearchParams(window.location.search);
   const url = urlParams.get("url");
   const projectSecretKey = urlParams.get("projectKey");
@@ -108,8 +108,9 @@ const CommentInput = ({ user, parentCommentId, onClose, ...props }: Props) => {
   };
 
   useEffect(() => {
-    // TODO: 대댓글일떄 focus되는것이 현명하다.
-    $contentEditable.current?.focus();
+    if (isSubComment) {
+      $contentEditable.current?.focus();
+    }
   }, []);
 
   return (

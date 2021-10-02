@@ -2,7 +2,7 @@ import { Story } from "@storybook/react";
 import CommentInput, { Props } from ".";
 
 export default {
-  title: "organisms/CommentInput",
+  title: "molecules/CommentInput",
   component: CommentInput,
   argTypes: { children: { control: "text" } }
 };

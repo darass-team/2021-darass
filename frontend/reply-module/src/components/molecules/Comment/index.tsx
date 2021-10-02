@@ -314,7 +314,12 @@ const Comment = ({
       )}
 
       {isSubCommentInputOpen && (
-        <CommentInput user={user} parentCommentId={comment.id} onClose={onCloseSubCommentInput} />
+        <CommentInput
+          isSubComment={isSubComment}
+          user={user}
+          parentCommentId={comment.id}
+          onClose={onCloseSubCommentInput}
+        />
       )}
     </>
   );

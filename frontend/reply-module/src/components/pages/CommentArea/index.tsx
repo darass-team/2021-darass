@@ -11,7 +11,6 @@ import { AlertError } from "@/utils/alertError";
 import { popUpCenter } from "@/utils/popUpCenter";
 import { messageFromReplyModule } from "@/utils/postMessage";
 import Avatar from "@/components/atoms/Avatar";
-import CommentInput from "@/components/organisms/CommentInput";
 import Footer from "@/components/organisms/Footer";
 import {
   CommentList,
@@ -22,6 +21,7 @@ import {
   UserAvatarOptionButton,
   UserAvatarOptionLink
 } from "./styles";
+import CommentInput from "@/components/molecules/Comment/CommentInput";
 
 const CommentArea = () => {
   const urlParams = new URLSearchParams(window.location.search);
@@ -141,7 +141,7 @@ const CommentArea = () => {
           </>
         )}
       </UserAvatarOption>
-      <CommentInput user={user} />
+      <CommentInput isSubComment={false} user={user} />
       <Footer />
     </Container>
   );
