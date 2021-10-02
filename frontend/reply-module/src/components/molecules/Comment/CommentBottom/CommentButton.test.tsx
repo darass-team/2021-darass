@@ -7,7 +7,7 @@ describe("CommentButton test", () => {
   describe("style test", () => {
     test("isLike가 true이면 좋아요버튼의 color가 PALETTE.BLUE_700이다.", () => {
       const props: Props = {
-        isLiked: true,
+        alreadyLiked: true,
         isSubComment: false,
         onClickLikeButton: () => {},
         onClickAddSubCommentButton: () => {},
@@ -20,7 +20,7 @@ describe("CommentButton test", () => {
     });
     test("isLike가 false이면 좋아요버튼의 color가 PALETTE.BLACK_700이다.", () => {
       const props: Props = {
-        isLiked: false,
+        alreadyLiked: false,
         isSubComment: false,
         onClickLikeButton: () => {},
         onClickAddSubCommentButton: () => {},

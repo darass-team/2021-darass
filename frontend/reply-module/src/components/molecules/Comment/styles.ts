@@ -4,7 +4,7 @@ import CommentOptionComponent from "@/components/molecules/CommentOption";
 import CommentInputComponent from "@/components/organisms/CommentInput";
 import styled from "styled-components";
 
-export const Container = styled.div<{ isSubComment: boolean }>`
+export const Container = styled.div`
   display: flex;
   flex-direction: column;
   margin-bottom: 1.5rem;
@@ -28,12 +28,6 @@ export const ContentWrapper = styled.div`
   }
 `;
 
-export const IndentTab = styled.img`
-  width: 1.5rem;
-  height: 1.5rem;
-  margin: 0.3rem 0.4rem 0 0.4rem;
-`;
-
 export const LikingUsersButton = styled(LikingUsersButtonComponent)`
   position: absolute;
   bottom: 0.7rem;
@@ -54,4 +48,8 @@ export const CommentOption = styled(CommentOptionComponent)`
 
 export const CommentInput = styled(CommentInputComponent)`
   margin-left: 3rem;
+`;
+
+export const SubCommentWrapper = styled.div`
+  width: 100%;
 `;

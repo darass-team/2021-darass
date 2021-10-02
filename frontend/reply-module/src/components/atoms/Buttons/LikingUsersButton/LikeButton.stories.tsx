@@ -11,8 +11,4 @@ const Template: Story<Props> = args => <LikingUsersButton {...args} />;
 
 export const Default = Template.bind({});
 
-Default.args = {
-  numOfLikes: 912,
-  isLiked: true,
-  onClick: () => {}
-};
+Default.args = {};

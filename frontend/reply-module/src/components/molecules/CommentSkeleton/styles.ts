@@ -9,6 +9,7 @@ export const Avatar = styled.div`
   width: 2.5rem;
   height: 2.5rem;
   ${SkeletonCSS};
+  margin-right: 0.6rem;
 `;
 
 export const Name = styled(CommentTextBoxName)`

@@ -1,12 +1,12 @@
 import axios from "axios";
 import { useEffect } from "react";
 import { useQuery, useQueryClient } from "react-query";
-import { useUser } from "../..";
-import { QUERY } from "../../../constants/api";
-import { REACT_QUERY_KEY } from "../../../constants/reactQueryKey";
-import { GetCommentsResponse, GetCommentsRequestParams } from "../../../types/comment";
-import { AlertError } from "../../../utils/alertError";
-import { request } from "../../../utils/request";
+import { useUser } from "@/hooks";
+import { QUERY } from "@/constants/api";
+import { REACT_QUERY_KEY } from "@/constants/reactQueryKey";
+import { GetCommentsResponse, GetCommentsRequestParams } from "@/types/comment";
+import { AlertError } from "@/utils/alertError";
+import { request } from "@/utils/request";
 
 const getAllComments = async ({ url, projectSecretKey, sortOption }: GetCommentsRequestParams) => {
   if (!url || !projectSecretKey) return undefined;

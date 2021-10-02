@@ -1,61 +1,61 @@
-import { QUERY } from "@/constants/api";
 import { MessageChannelContext } from "@/contexts/messageChannelContext";
-import { useInput } from "@/hooks";
-import { GuestUserConfirmInfo, Comment } from "@/types/comment";
+import { useConfirmGuestPassword } from "@/hooks";
+import { User } from "@/types/user";
 import { messageFromReplyModule } from "@/utils/postMessage";
-import { request } from "@/utils/request";
 import { ChangeEvent, Dispatch, FormEvent, SetStateAction, useContext, useEffect, useRef, useState } from "react";
-import { Container, PasswordInput, PasswordButtonWrapper, SubmitButton, CancelButton } from "./styles";
-
-const confirmGuestPassword = async ({ guestUserId, guestUserPassword }: GuestUserConfirmInfo) => {
-  try {
-    const response = await request.get(QUERY.CHECK_GUEST_PASSWORD({ guestUserId, guestUserPassword }));
-    const isCorrectPassword = response.data.isCorrectPassword;
-
-    return isCorrectPassword;
-  } catch (error) {
-    return false;
-  }
-};
+import { CancelButton, Container, PasswordButtonWrapper, PasswordInput, SubmitButton } from "./styles";
 
 export interface Props {
+  authorId: User["id"];
   password: string;
   setPassword: Dispatch<SetStateAction<string>>;
   onChangePassword: (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
   isSubComment: boolean;
-  currentComment: Comment;
-  resetState: () => void;
+  onClose: () => void;
+  onSubmitSuccess: () => void;
 }
 
-const PasswordForm = ({ password, setPassword, onChangePassword, isSubComment, currentComment, resetState }: Props) => {
-  const [isPasswordSubmitted, setPasswordSubmitted] = useState(false);
+const PasswordForm = ({
+  authorId,
+  password,
+  setPassword,
+  onChangePassword,
+  isSubComment,
+  onClose,
+  onSubmitSuccess
+}: Props) => {
   const { port } = useContext(MessageChannelContext);
   const passwordInputRef = useRef<HTMLInputElement>(null);
+  const {
+    data: isValidGuestPassword,
+    refetch: refetchIsValidGuestPassword,
+    reset: resetConfirmResult
+  } = useConfirmGuestPassword({ guestUserId: authorId, guestUserPassword: password });
 
   const onSubmitPassword = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const isValidPassword = await confirmGuestPassword({});
-
-    if (!isValidPassword) {
-      messageFromReplyModule(port).openAlert("비밀번호가 일치하지 않습니다.");
-
-      return;
-    } else {
-      setPasswordSubmitted(true);
-    }
+    refetchIsValidGuestPassword();
   };
 
   const onClickCancelButton = () => {
-    resetState();
+    onClose();
     setPassword("");
-    setPasswordSubmitted(false);
+    resetConfirmResult();
   };
 
   useEffect(() => {
     passwordInputRef.current?.focus();
     messageFromReplyModule(port).setScrollHeight();
   }, []);
+
+  useEffect(() => {
+    if (isValidGuestPassword) {
+      onSubmitSuccess();
+      onClose();
+      resetConfirmResult();
+    }
+  }, [isValidGuestPassword]);
 
   return (
     <Container isSubComment={isSubComment} onSubmit={onSubmitPassword}>
@@ -65,8 +65,8 @@ const PasswordForm = ({ password, setPassword, onChangePassword, isSubComment, c
         value={password}
         onChange={onChangePassword}
         placeholder="댓글 작성 시 입력한 비밀번호 입력"
-        isValidInput={!isPasswordSubmitted}
-        data-testid="comment-guest-password-input"
+        isValidInput={isValidGuestPassword !== false}
+        data-testid="password-form-input"
       />
       <PasswordButtonWrapper>
         <CancelButton onClick={onClickCancelButton} data-testid="comment-guest-password-cancel-button">

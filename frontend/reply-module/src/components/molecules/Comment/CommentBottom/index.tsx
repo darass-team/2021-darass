@@ -2,7 +2,7 @@ import { getTimeDifference } from "@/utils/time";
 import { Container, LikeButton, AddSubCommentButton, Time } from "./styles";
 
 export interface Props {
-  isLiked: boolean;
+  alreadyLiked: boolean;
   isSubComment: boolean;
   onClickLikeButton: () => void;
   onClickAddSubCommentButton: () => void;
@@ -10,7 +10,7 @@ export interface Props {
 }
 
 const CommentBottom = ({
-  isLiked,
+  alreadyLiked,
   isSubComment,
   onClickLikeButton,
   onClickAddSubCommentButton,
@@ -18,7 +18,12 @@ const CommentBottom = ({
 }: Props) => {
   return (
     <Container>
-      <LikeButton isLiked={isLiked} onClick={onClickLikeButton} type="button" data-testid="comment-bottom-like-button">
+      <LikeButton
+        isLiked={alreadyLiked}
+        onClick={onClickLikeButton}
+        type="button"
+        data-testid="comment-bottom-like-button"
+      >
         좋아요
       </LikeButton>
       {!isSubComment && (

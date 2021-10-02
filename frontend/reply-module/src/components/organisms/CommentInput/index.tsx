@@ -46,7 +46,6 @@ const CommentInput = ({ user, parentCommentId, onClose, ...props }: Props) => {
     : true;
 
   const { port } = useContext(MessageChannelContext);
-  const commentInputRef = useRef<HTMLDivElement | null>(null);
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -77,9 +76,11 @@ const CommentInput = ({ user, parentCommentId, onClose, ...props }: Props) => {
       };
 
       await createComment({ content, url, projectSecretKey, ...guestInfo, parentId: parentCommentId });
+
       setContent("");
       setGuestNickName("");
       setGuestPassword("");
+
       if (onClose) onClose();
     } catch (error) {
       if (error instanceof AlertError) {
@@ -108,24 +109,14 @@ const CommentInput = ({ user, parentCommentId, onClose, ...props }: Props) => {
 
   useEffect(() => {
     // TODO: 대댓글일떄 focus되는것이 현명하다.
-    commentInputRef.current?.focus();
+    $contentEditable.current?.focus();
   }, []);
 
   return (
-    <Form
-      onSubmit={onSubmit}
-      isSubCommentInput={isSubCommentInput}
-      data-testid={isSubCommentInput ? "subCommentInput" : "commentInput"}
-      {...props}
-    >
+    <Form onSubmit={onSubmit} isSubCommentInput={isSubCommentInput} {...props}>
       <TextBoxWrapper>
         <TextBox
-          // ref={(element: HTMLDivElement) => {
-          //   $contentEditable.current = element;
-          //   if (!innerRef) return;
-          //   innerRef.current = element;
-          // }}
-          ref={commentInputRef}
+          ref={$contentEditable}
           contentEditable={true}
           onInput={onInput}
           isValidInput={!isFormSubmitted || isValidCommentInput}

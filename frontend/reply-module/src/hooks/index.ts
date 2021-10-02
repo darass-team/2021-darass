@@ -1,3 +1,4 @@
+export { useConfirmGuestPassword } from "./api/comment/useConfirmGuestPassword";
 export { useUser } from "./api/user/useUser";
 export { useCreateComment } from "./api/comment/useCreateComment";
 export { useEditComment } from "./api/comment/useEditComment";

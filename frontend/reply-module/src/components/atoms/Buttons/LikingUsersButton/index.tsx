@@ -2,13 +2,13 @@ import { Button } from "./styles";
 import { ReactComponent as Like } from "@/assets/svg/like.svg";
 export interface Props {
   numOfLikes: number;
-  isLiked: boolean;
+  alreadyLiked: boolean;
   onClick: () => void;
 }
 
-const LikingUsersButton = ({ numOfLikes, isLiked, onClick, ...props }: Props) => {
+const LikingUsersButton = ({ numOfLikes, alreadyLiked, onClick, ...props }: Props) => {
   return (
-    <Button onClick={onClick} isLiked={isLiked} {...props}>
+    <Button onClick={onClick} isLiked={alreadyLiked} {...props}>
       <Like data-testid="like-svg" />
       <span>{numOfLikes}</span>
     </Button>

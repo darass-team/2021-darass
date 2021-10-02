@@ -4,7 +4,7 @@ import { Avatar, Name, Text, Buttons, CommentTextBoxWrapper } from "./styles";
 
 const CommentSkeleton = () => {
   return (
-    <Container isSubComment={false}>
+    <Container>
       <CommentWrapper>
         <Avatar />
         <CommentTextBoxWrapper isSubComment={false}>

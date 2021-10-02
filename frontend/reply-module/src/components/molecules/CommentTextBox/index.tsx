@@ -27,7 +27,7 @@ const CommentTextBox = ({
 }: Props) => {
   const { content, setContent, onInput, $contentEditable } = useContentEditable(children);
 
-  const cancelEdit = () => {
+  const onClickCancelButton = () => {
     setContent(children);
     resetState();
   };
@@ -51,7 +51,7 @@ const CommentTextBox = ({
       />
       {contentEditable && (
         <ButtonWrapper>
-          <CancelButton onClick={cancelEdit}>취소</CancelButton>
+          <CancelButton onClick={onClickCancelButton}>취소</CancelButton>
           <SubmitButton
             type="button"
             onClick={() => onSubmitEditedComment(content)}

@@ -24,13 +24,11 @@ const CommentOption = ({
   };
 
   const onEdit = () => {
-    if (!isVisibleEditButton) return;
     onClickEditButton();
     setShowOptionBox(false);
   };
 
   const onDelete = () => {
-    if (!isVisibleDeleteButton) return;
     onClickDeleteButton();
     setShowOptionBox(false);
   };

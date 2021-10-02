@@ -70,7 +70,7 @@ const CommentList = ({
             const authorId = comment.user.id;
 
             const iAmGuestUser = !user;
-            const iAmAdmin = projectOwnerId === user?.id;
+            const iAmAdmin = projectOwnerId !== undefined && projectOwnerId === user?.id;
 
             const thisCommentIsMine = authorId !== undefined && authorId === user?.id;
             const thisCommentIsWrittenByAdmin = comment.user.id === projectOwnerId;
@@ -78,17 +78,29 @@ const CommentList = ({
             const isVisibleCommentOption =
               iAmAdmin || thisCommentIsMine || (iAmGuestUser && thisCommentIsWrittenByGuest);
 
+            const hasLikingUser = comment.likingUsers.length > 0;
+            const hasSubComments = comment?.subComments ? comment.subComments.length > 0 : false;
+            const alreadyLiked = comment.likingUsers.some(likingUser => likingUser.id === user?.id);
+            const canIEdit = thisCommentIsMine || (iAmGuestUser && thisCommentIsWrittenByGuest);
+            const canIDelete = canIEdit || iAmAdmin;
             return (
               <Comment
+                key={comment.id}
                 user={user}
                 projectOwnerId={projectOwnerId}
                 comment={comment}
-                key={comment.id}
-                thisCommentIsWrittenByAdmin={thisCommentIsWrittenByAdmin}
                 isVisibleCommentOption={isVisibleCommentOption}
                 iAmAdmin={iAmAdmin}
+                iAmGuestUser={iAmGuestUser}
+                thisCommentIsWrittenByAdmin={thisCommentIsWrittenByAdmin}
+                thisCommentIsWrittenByGuest={thisCommentIsWrittenByGuest}
                 thisCommentIsMine={thisCommentIsMine}
                 isSubComment={false}
+                alreadyLiked={alreadyLiked}
+                hasSubComments={hasSubComments}
+                hasLikingUser={hasLikingUser}
+                canIEdit={canIEdit}
+                canIDelete={canIDelete}
               />
             );
           })
