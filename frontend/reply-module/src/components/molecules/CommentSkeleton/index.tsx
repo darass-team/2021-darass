@@ -1,13 +1,13 @@
-import { Container, CommentWrapper, CommentTextBoxWrapper, CommentBottomWrapper } from "../Comment/styles";
+import { Container, CommentWrapper, CommentBottomWrapper } from "../Comment/styles";
 import { Container as CommentTextBoxContainer } from "../CommentTextBox/styles";
-import { Avatar, Name, Text, Buttons } from "./styles";
+import { Avatar, Name, Text, Buttons, CommentTextBoxWrapper } from "./styles";
 
 const CommentSkeleton = () => {
   return (
-    <Container>
+    <Container isSubComment={false}>
       <CommentWrapper>
         <Avatar />
-        <CommentTextBoxWrapper>
+        <CommentTextBoxWrapper isSubComment={false}>
           <CommentTextBoxContainer isSubComment={false}>
             <Name thisCommentIsWrittenByAdmin={false} />
             <Text isSubComment={false} contentEditable={false} />

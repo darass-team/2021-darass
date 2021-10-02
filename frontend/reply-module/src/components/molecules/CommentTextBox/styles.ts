@@ -4,11 +4,14 @@ import CancelButtonComponent from "@/components/atoms/Buttons/CancelButton";
 
 export const Container = styled.div<{ isSubComment: boolean }>`
   width: 100%;
+
   background-color: ${props => (props.isSubComment ? PALETTE.GRAY_300 : PALETTE.GRAY_100)};
   border-radius: 10px;
-  padding: 0.8rem 1rem 0.8rem 1rem;
+  padding: 0.8rem 1rem;
   display: flex;
   flex-direction: column;
+
+  transition: all 0.3s linear;
 `;
 
 export const Name = styled.span<{ thisCommentIsWrittenByAdmin: boolean }>`

@@ -11,11 +11,10 @@ import { AlertError } from "@/utils/alertError";
 
 export interface Props {
   user: User | undefined;
-  className?: string;
   children: ReactNode;
 }
 
-const UserAvatarOption = ({ user, children, className }: Props) => {
+const UserAvatarOption = ({ user, children, ...props }: Props) => {
   const [isShowOptionBox, setShowOptionBox] = useState(false);
   const { port } = useContext(MessageChannelContext);
   const { data: alarmContents, hasNewAlarmOnRealTime, setHasNewAlarmOnRealTime } = useGetAlarmContents();
@@ -51,7 +50,7 @@ const UserAvatarOption = ({ user, children, className }: Props) => {
   }, [user]);
 
   return (
-    <Container className={className}>
+    <Container {...props}>
       {user && (
         <Alarm
           size="SM"

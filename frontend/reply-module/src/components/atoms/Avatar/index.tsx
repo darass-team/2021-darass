@@ -11,7 +11,7 @@ export interface Props {
   alt?: string;
 }
 
-const Avatar = ({ imageURL, size = "MD", onClick, alt = "avatar" }: Props) => {
+const Avatar = ({ imageURL, size = "MD", onClick, alt = "avatar", ...props }: Props) => {
   return (
     <Container
       src={imageURL ? imageURL : defaultUserImage}
@@ -19,6 +19,7 @@ const Avatar = ({ imageURL, size = "MD", onClick, alt = "avatar" }: Props) => {
       onClick={onClick}
       alt={alt}
       data-testid="avatar-img"
+      {...props}
     />
   );
 };

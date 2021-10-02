@@ -1,14 +1,13 @@
 import { Button } from "./styles";
 
 export interface Props {
-  className?: string;
   children: string;
   onClick: () => void;
 }
 
-const CancelButton = ({ className, children, onClick }: Props) => {
+const CancelButton = ({ children, onClick, ...props }: Props) => {
   return (
-    <Button className={className} type="button" onClick={onClick}>
+    <Button type="button" onClick={onClick} {...props}>
       {children}
     </Button>
   );

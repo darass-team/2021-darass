@@ -1,9 +1,8 @@
-import { ORDER_BUTTON } from "../../../constants/orderButton";
-import { Comment as CommentType } from "../../../types/comment";
-import { Project } from "../../../types/project";
-import { User } from "../../../types/user";
-import Comment from "../../molecules/Comment";
-import CommentSkeleton from "../../molecules/CommentSkeleton";
+import { ORDER_BUTTON } from "@/constants/orderButton";
+import { Comment as CommentType } from "@/types/comment";
+import { User } from "@/types/user";
+import Comment from "@/components/molecules/Comment";
+import CommentSkeleton from "@/components/molecules/CommentSkeleton";
 import {
   CommentContainer,
   CommentCount,
@@ -17,7 +16,6 @@ import {
 } from "./styles";
 
 export interface Props {
-  className?: string;
   user?: User;
   projectOwnerId?: User["id"];
   isLoading: boolean;
@@ -29,7 +27,6 @@ export interface Props {
 }
 
 const CommentList = ({
-  className,
   user,
   projectOwnerId,
   isLoading,
@@ -37,10 +34,11 @@ const CommentList = ({
   comments,
   sortOption,
   notice,
-  onSelectSortOption
+  onSelectSortOption,
+  ...props
 }: Props) => {
   return (
-    <Container className={className}>
+    <Container {...props}>
       <Header>
         <CommentCountWrapper>
           <span>댓글</span>
@@ -72,12 +70,13 @@ const CommentList = ({
             const authorId = comment.user.id;
 
             const iAmGuestUser = !user;
-            const iAmAdmin = user !== undefined && projectOwnerId === user.id;
+            const iAmAdmin = projectOwnerId === user?.id;
 
             const thisCommentIsMine = authorId !== undefined && authorId === user?.id;
             const thisCommentIsWrittenByAdmin = comment.user.id === projectOwnerId;
             const thisCommentIsWrittenByGuest = comment.user.type === "GuestUser";
-            const shouldShowOption = iAmAdmin || thisCommentIsMine || (iAmGuestUser && thisCommentIsWrittenByGuest);
+            const isVisibleCommentOption =
+              iAmAdmin || thisCommentIsMine || (iAmGuestUser && thisCommentIsWrittenByGuest);
 
             return (
               <Comment
@@ -86,7 +85,7 @@ const CommentList = ({
                 comment={comment}
                 key={comment.id}
                 thisCommentIsWrittenByAdmin={thisCommentIsWrittenByAdmin}
-                shouldShowOption={shouldShowOption}
+                isVisibleCommentOption={isVisibleCommentOption}
                 iAmAdmin={iAmAdmin}
                 thisCommentIsMine={thisCommentIsMine}
                 isSubComment={false}

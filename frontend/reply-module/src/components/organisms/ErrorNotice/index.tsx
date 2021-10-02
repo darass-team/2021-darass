@@ -3,12 +3,11 @@ import logo from "../../../assets/svg/darass-logo.svg";
 
 export interface Props {
   children: string;
-  className?: string;
 }
 
-const ErrorNotice = ({ className, children }: Props) => {
+const ErrorNotice = ({ children, ...props }: Props) => {
   return (
-    <Container className={className}>
+    <Container {...props}>
       <Img src={logo} />
       <TextArea>
         <h2>Oops...</h2>

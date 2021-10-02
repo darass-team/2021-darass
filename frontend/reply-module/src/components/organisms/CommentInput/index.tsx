@@ -1,7 +1,7 @@
 import CancelButton from "@/components/atoms/Buttons/CancelButton";
 import { MessageChannelContext } from "@/contexts/messageChannelContext";
 import { messageFromReplyModule } from "@/utils/postMessage";
-import { ChangeEvent, FormEvent, MutableRefObject, RefObject, useContext, useState } from "react";
+import { ChangeEvent, FormEvent, MutableRefObject, RefObject, useContext, useEffect, useRef, useState } from "react";
 import {
   GUEST_NICKNAME_MAX_LENGTH,
   GUEST_NICKNAME_MIN_LENGTH,
@@ -20,14 +20,13 @@ import SubmitButton from "@/components/atoms/Buttons/SubmitButton";
 import { ButtonWrapper, Form, GuestInfo, TextBox, TextBoxWrapper, TextCount, Wrapper } from "./styles";
 
 export interface Props {
-  className?: string;
-  innerRef?: MutableRefObject<HTMLDivElement | null>;
   user: User | undefined;
   parentCommentId?: Comment["id"];
   onClose?: () => void;
 }
 
-const CommentInput = ({ className, innerRef, user, parentCommentId, onClose }: Props) => {
+// TODO: 얘는왜 Organism이지?
+const CommentInput = ({ user, parentCommentId, onClose, ...props }: Props) => {
   const urlParams = new URLSearchParams(window.location.search);
   const url = urlParams.get("url");
   const projectSecretKey = urlParams.get("projectKey");
@@ -47,6 +46,7 @@ const CommentInput = ({ className, innerRef, user, parentCommentId, onClose }: P
     : true;
 
   const { port } = useContext(MessageChannelContext);
+  const commentInputRef = useRef<HTMLDivElement | null>(null);
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -106,20 +106,26 @@ const CommentInput = ({ className, innerRef, user, parentCommentId, onClose }: P
     onInputContentEditable(event);
   };
 
+  useEffect(() => {
+    // TODO: 대댓글일떄 focus되는것이 현명하다.
+    commentInputRef.current?.focus();
+  }, []);
+
   return (
     <Form
       onSubmit={onSubmit}
-      className={className}
       isSubCommentInput={isSubCommentInput}
       data-testid={isSubCommentInput ? "subCommentInput" : "commentInput"}
+      {...props}
     >
       <TextBoxWrapper>
         <TextBox
-          ref={(element: HTMLDivElement) => {
-            $contentEditable.current = element;
-            if (!innerRef) return;
-            innerRef.current = element;
-          }}
+          // ref={(element: HTMLDivElement) => {
+          //   $contentEditable.current = element;
+          //   if (!innerRef) return;
+          //   innerRef.current = element;
+          // }}
+          ref={commentInputRef}
           contentEditable={true}
           onInput={onInput}
           isValidInput={!isFormSubmitted || isValidCommentInput}

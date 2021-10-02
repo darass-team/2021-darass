@@ -12,7 +12,7 @@ export interface Props {
   contentEditable?: boolean;
   thisCommentIsWrittenByAdmin: boolean;
   isSubComment: boolean;
-  clear: () => void;
+  resetState: () => void;
   onSubmitEditedComment: (content: Comment["content"]) => void;
 }
 
@@ -22,14 +22,14 @@ const CommentTextBox = ({
   contentEditable = false,
   thisCommentIsWrittenByAdmin,
   isSubComment,
-  clear,
+  resetState,
   onSubmitEditedComment
 }: Props) => {
   const { content, setContent, onInput, $contentEditable } = useContentEditable(children);
 
   const cancelEdit = () => {
     setContent(children);
-    clear();
+    resetState();
   };
 
   useEffect(() => {
