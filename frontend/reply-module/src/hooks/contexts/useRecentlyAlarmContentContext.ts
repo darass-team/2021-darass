@@ -1,5 +1,5 @@
 import { GetAlarmResponse } from "@/types/comment";
-import { createContext, Dispatch, SetStateAction } from "react";
+import { createContext, Dispatch, SetStateAction, useContext } from "react";
 
 export const RecentlyAlarmContentContext = createContext<{
   recentlyAlarmContent: GetAlarmResponse | undefined;
@@ -10,3 +10,5 @@ export const RecentlyAlarmContentContext = createContext<{
   hasNewAlarmOnRealTime: undefined,
   setHasNewAlarmOnRealTime: undefined
 });
+
+export const useRecentlyAlarmContentContext = () => useContext(RecentlyAlarmContentContext);

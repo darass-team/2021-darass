@@ -10,11 +10,12 @@ import OAuth from "./components/pages/OAuth";
 import { POST_MESSAGE_TYPE } from "./constants/postMessageType";
 import { ROUTE } from "./constants/route";
 import GlobalStyles from "./constants/styles/GlobalStyles";
-import { MessageChannelContext } from "./contexts/messageChannelContext";
-import { RecentlyAlarmContentContext } from "./contexts/recentlyAlarmContentContext";
+import { RecentlyAlarmContentContext } from "./hooks/contexts/useRecentlyAlarmContentContext";
 import { useRecentlyAlarmWebSocket } from "./hooks";
 import { messageFromReplyModule } from "./utils/postMessage";
 import throttling from "./utils/throttle";
+import { MessageChannelFromReplyModuleContext } from "./hooks/contexts/useMessageFromReplyModule";
+import LoadingPage from "./components/pages/LoadingPage";
 
 Sentry.init({
   dsn: process.env.SENTRY_REPLY_MODULE_DSN,
@@ -47,6 +48,7 @@ const App = () => {
 
   useEffect(() => {
     if (!port) return;
+
     const onResize = throttling({ callback: messageFromReplyModule(port).setScrollHeight, delay: 600 });
     window.addEventListener("resize", onResize);
 
@@ -60,8 +62,20 @@ const App = () => {
     return () => window.removeEventListener("message", onMessageInitMessageChannel);
   }, []);
 
+  if (!port) {
+    return <LoadingPage />;
+  }
+
   return (
-    <MessageChannelContext.Provider value={{ port }}>
+    <MessageChannelFromReplyModuleContext.Provider
+      value={{
+        setScrollHeight: messageFromReplyModule(port).setScrollHeight,
+        openAlert: messageFromReplyModule(port).openAlert,
+        openConfirmModal: messageFromReplyModule(port).openConfirmModal,
+        openAlarmModal: messageFromReplyModule(port).openAlarmModal,
+        openLikingUserModal: messageFromReplyModule(port).openLikingUserModal
+      }}
+    >
       <RecentlyAlarmContentContext.Provider
         value={{ recentlyAlarmContent, hasNewAlarmOnRealTime, setHasNewAlarmOnRealTime }}
       >
@@ -73,7 +87,7 @@ const App = () => {
           </Switch>
         </BrowserRouter>
       </RecentlyAlarmContentContext.Provider>
-    </MessageChannelContext.Provider>
+    </MessageChannelFromReplyModuleContext.Provider>
   );
 };
 

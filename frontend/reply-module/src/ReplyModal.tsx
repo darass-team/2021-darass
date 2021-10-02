@@ -1,15 +1,17 @@
 import * as Sentry from "@sentry/react";
+import ReactDOM from "react-dom";
 import { Integrations } from "@sentry/tracing";
 import { useEffect, useState } from "react";
-import ReactDOM from "react-dom";
 import AlarmModal from "./components/molecules/FullScreenModal/AlarmModal";
 import AlertModal from "./components/molecules/FullScreenModal/AlertModal";
 import ConfirmModal from "./components/molecules/FullScreenModal/ConfirmModal";
 import LikingUsersModal from "./components/molecules/FullScreenModal/LikingUsersModal";
 import ErrorPage from "./components/pages/ErrorPage";
+import LoadingPage from "./components/pages/LoadingPage";
 import { POST_MESSAGE_TYPE } from "./constants/postMessageType";
 import GlobalStyles from "./constants/styles/GlobalStyles";
-import { MessageChannelContext } from "./contexts/messageChannelContext";
+import { MessageChannelFromReplyModalContext } from "./hooks/contexts/useMessageFromReplyModal";
+import { messageFromReplyModal } from "./utils/postMessage";
 
 Sentry.init({
   dsn: process.env.SENTRY_REPLY_MODULE_DSN,
@@ -20,6 +22,7 @@ Sentry.init({
 
 const App = () => {
   const [port, setPort] = useState<MessagePort>();
+  const [receivedMessageFromReplyModule, setReceivedMessageFromReplyModule] = useState<MessageEvent["data"]>();
 
   const onMessageInitMessageChannel = ({ data, ports }: MessageEvent) => {
     if (data.type !== POST_MESSAGE_TYPE.INIT_MESSAGE_CHANNEL.REPLY_MODAL.RESPONSE_PORT) return;
@@ -29,6 +32,10 @@ const App = () => {
     window.removeEventListener("message", onMessageInitMessageChannel);
   };
 
+  const onListenMessage = ({ data }: MessageEvent) => {
+    setReceivedMessageFromReplyModule(data);
+  };
+
   useEffect(() => {
     window.addEventListener("message", onMessageInitMessageChannel);
     window.parent.postMessage({ type: POST_MESSAGE_TYPE.INIT_MESSAGE_CHANNEL.REPLY_MODAL.REQUEST_PORT }, "*");
@@ -36,13 +43,35 @@ const App = () => {
     return () => window.removeEventListener("message", onMessageInitMessageChannel);
   }, []);
 
+  useEffect(() => {
+    if (!port) return;
+
+    port.removeEventListener("message", onListenMessage);
+    port.addEventListener("message", onListenMessage);
+    port.start();
+  }, [port]);
+
+  if (!port) {
+    return <LoadingPage />;
+  }
+
   return (
-    <MessageChannelContext.Provider value={{ port }}>
+    <MessageChannelFromReplyModalContext.Provider
+      value={{
+        clickedConfirmNo: messageFromReplyModal(port).clickedConfirmNo,
+        clickedConfirmOk: messageFromReplyModal(port).clickedConfirmOk,
+        closeAlertModal: messageFromReplyModal(port).closeAlertModal,
+        closeConfirmModal: messageFromReplyModal(port).closeConfirmModal,
+        closeAlarmModal: messageFromReplyModal(port).closeAlarmModal,
+        closeLikingUserModal: messageFromReplyModal(port).closeLikingUserModal,
+        receivedMessageFromReplyModule
+      }}
+    >
       <LikingUsersModal />
       <ConfirmModal />
       <AlarmModal />
       <AlertModal />
-    </MessageChannelContext.Provider>
+    </MessageChannelFromReplyModalContext.Provider>
   );
 };
 

@@ -31,7 +31,8 @@ export const TextBox = styled.div<{ isValidInput: boolean }>`
   min-height: 6rem;
   max-height: 12rem;
   margin-bottom: 0.2rem;
-  overflow: auto;
+
+  overflow-y: auto;
 
   &:empty:before {
     content: "댓글을 입력해주세요.";

@@ -1,4 +1,3 @@
-import { MessageChannelContext } from "@/contexts/messageChannelContext";
 import { useToken } from "@/hooks/api/token/useToken";
 import { useContext, useEffect, useState } from "react";
 import kakaoTalkIcon from "@/assets/png/kakaotalk.png";
@@ -6,7 +5,7 @@ import naverIcon from "@/assets/png/naver.png";
 import { MANAGE_PAGE_DOMAIN } from "@/constants/domain";
 import { OAUTH_URL } from "@/constants/oauth";
 import { ORDER_BUTTON } from "@/constants/orderButton";
-import { useGetAllComments, useGetProjectOwnerId, useUser } from "@/hooks";
+import { useGetAllComments, useGetProjectOwnerId, useMessageChannelFromReplyModuleContext, useUser } from "@/hooks";
 import { AlertError } from "@/utils/alertError";
 import { popUpCenter } from "@/utils/popUpCenter";
 import { messageFromReplyModule } from "@/utils/postMessage";
@@ -45,10 +44,10 @@ const CommentArea = () => {
     isLoading: getProjectOwnerIdLoading,
     error: getProjectOwnerError
   } = useGetProjectOwnerId(projectSecretKey || "");
-  const { port } = useContext(MessageChannelContext);
+  const { setScrollHeight } = useMessageChannelFromReplyModuleContext();
 
   useEffect(() => {
-    messageFromReplyModule(port).setScrollHeight();
+    setScrollHeight();
   }, [comments]);
 
   useEffect(() => {

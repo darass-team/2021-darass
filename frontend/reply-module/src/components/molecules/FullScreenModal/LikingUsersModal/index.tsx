@@ -1,19 +1,18 @@
 import { POST_MESSAGE_TYPE } from "@/constants/postMessageType";
-import { MessageChannelContext } from "@/contexts/messageChannelContext";
-import { messageFromReplyModal } from "@/utils/postMessage";
-import { useContext, useState } from "react";
+import { useMessageChannelFromReplyModalContext } from "@/hooks";
+import { useState } from "react";
 import FullScreenModal from "..";
-import { User } from "../../../../types/user";
-import Avatar from "../../../atoms/Avatar";
+import { User } from "@/types/user";
+import Avatar from "@/components/atoms/Avatar";
 import { Container, Title, UserGrid, UserNickName, UserWrapper } from "./styles";
 
 const LikingUsersModal = () => {
   const [users, setUsers] = useState<User[]>([]);
   const [isOpen, setIsOpen] = useState(false);
-  const { port } = useContext(MessageChannelContext);
+  const { closeLikingUserModal } = useMessageChannelFromReplyModalContext();
 
   const onCloseModal = () => {
-    messageFromReplyModal(port).closeLikingUserModal();
+    closeLikingUserModal();
   };
 
   return (

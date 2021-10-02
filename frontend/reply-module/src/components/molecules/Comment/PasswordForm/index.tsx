@@ -1,5 +1,4 @@
-import { MessageChannelContext } from "@/contexts/messageChannelContext";
-import { useConfirmGuestPassword } from "@/hooks";
+import { useConfirmGuestPassword, useMessageChannelFromReplyModuleContext } from "@/hooks";
 import { User } from "@/types/user";
 import { messageFromReplyModule } from "@/utils/postMessage";
 import { ChangeEvent, Dispatch, FormEvent, SetStateAction, useContext, useEffect, useRef, useState } from "react";
@@ -24,13 +23,14 @@ const PasswordForm = ({
   onClose,
   onSubmitSuccess
 }: Props) => {
-  const { port } = useContext(MessageChannelContext);
   const passwordInputRef = useRef<HTMLInputElement>(null);
   const {
     data: isValidGuestPassword,
     refetch: refetchIsValidGuestPassword,
     reset: resetConfirmResult
   } = useConfirmGuestPassword({ guestUserId: authorId, guestUserPassword: password });
+
+  const { setScrollHeight } = useMessageChannelFromReplyModuleContext();
 
   const onSubmitPassword = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -46,7 +46,7 @@ const PasswordForm = ({
 
   useEffect(() => {
     passwordInputRef.current?.focus();
-    messageFromReplyModule(port).setScrollHeight();
+    setScrollHeight();
   }, []);
 
   useEffect(() => {

@@ -1,12 +1,12 @@
 import { QUERY } from "@/constants/api";
 import { REACT_QUERY_KEY } from "@/constants/reactQueryKey";
-import { RecentlyAlarmContentContext } from "@/contexts/recentlyAlarmContentContext";
+import { useRecentlyAlarmContentContext } from "@/hooks";
 import { GetAlarmResponse } from "@/types/comment";
 import { AlertError } from "@/utils/alertError";
 import convertDateFormat from "@/utils/convertDateFormat";
 import { request } from "@/utils/request";
 import axios from "axios";
-import { useContext, useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useQuery } from "react-query";
 import { useToken } from "../token/useToken";
 
@@ -35,8 +35,7 @@ const getAlarms = async () => {
 
 export const useGetAlarmContents = () => {
   const { accessToken } = useToken();
-  const { recentlyAlarmContent, hasNewAlarmOnRealTime, setHasNewAlarmOnRealTime } =
-    useContext(RecentlyAlarmContentContext);
+  const { recentlyAlarmContent, hasNewAlarmOnRealTime, setHasNewAlarmOnRealTime } = useRecentlyAlarmContentContext();
   const { data, refetch, isLoading, isError, isSuccess } = useQuery<GetAlarmResponse[], Error>(
     [REACT_QUERY_KEY.COMMENT_ALARM],
     getAlarms,

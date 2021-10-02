@@ -1,6 +1,6 @@
 import { QUERY } from "@/constants/api";
 import { REACT_QUERY_KEY } from "@/constants/reactQueryKey";
-import { MessageChannelContext } from "@/contexts/messageChannelContext";
+import { useMessageChannelFromReplyModuleContext } from "@/hooks";
 import { GuestUserConfirmInfo } from "@/types/comment";
 import { AlertError } from "@/utils/alertError";
 import { messageFromReplyModule } from "@/utils/postMessage";
@@ -28,7 +28,7 @@ const confirmGuestPassword = async ({ guestUserId, guestUserPassword }: GuestUse
 
 export const useConfirmGuestPassword = ({ guestUserId, guestUserPassword }: GuestUserConfirmInfo) => {
   const queryClient = useQueryClient();
-  const { port } = useContext(MessageChannelContext);
+  const { openAlert } = useMessageChannelFromReplyModuleContext();
 
   const { data, isLoading, error, refetch } = useQuery<boolean | undefined, Error>(
     [REACT_QUERY_KEY.IS_VALID_GUEST_PASSWORD],
@@ -37,7 +37,7 @@ export const useConfirmGuestPassword = ({ guestUserId, guestUserPassword }: Gues
       enabled: false,
       onSuccess: data => {
         if (data === false) {
-          messageFromReplyModule(port).openAlert("비밀번호가 일치하지 않습니다.");
+          openAlert("비밀번호가 일치하지 않습니다.");
         }
       }
     }

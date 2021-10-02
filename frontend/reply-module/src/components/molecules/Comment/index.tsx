@@ -1,28 +1,32 @@
-import { MessageChannelContext } from "@/contexts/messageChannelContext";
-import { messageFromReplyModule } from "@/utils/postMessage";
-import { useContext, useEffect, useState } from "react";
 import { GUEST_IMAGE_URL, MAX_COMMENT_INPUT_LENGTH } from "@/constants/comment";
-import { POST_MESSAGE_TYPE } from "@/constants/postMessageType";
-import { useDeleteComment, useEditComment, useLikeComment, useInput, useConfirmGuestPassword } from "@/hooks";
+import {
+  useDeleteComment,
+  useEditComment,
+  useInput,
+  useLikeComment,
+  useMessageChannelFromReplyModuleContext
+} from "@/hooks";
 import { Comment as CommentType } from "@/types";
 import { User } from "@/types/user";
 import { AlertError } from "@/utils/alertError";
+import { getErrorMessage } from "@/utils/errorMessage";
+import { isEmptyString } from "@/utils/isEmptyString";
+import { messageFromReplyModule } from "@/utils/postMessage";
+import { useEffect, useState } from "react";
 import CommentTextBox from "../CommentTextBox";
 import CommentBottom from "./CommentBottom";
 import PasswordForm from "./PasswordForm";
 import {
+  Avatar,
   CommentInput,
   CommentOption,
   CommentWrapper,
   Container,
-  LikingUsersButton,
-  Avatar,
   ContentWrapper,
+  LikingUsersButton,
   SubCommentWrapper
 } from "./styles";
 import SubComment from "./SubComment";
-import { isEmptyString } from "@/utils/isEmptyString";
-import { getErrorMessage } from "@/utils/errorMessage";
 
 export interface Props {
   user?: User;
@@ -66,7 +70,8 @@ const Comment = ({
   const [isEditMode, setEditMode] = useState(false);
   const { value: password, setValue: setPassword, onChange: onChangePassword } = useInput("");
 
-  const { port } = useContext(MessageChannelContext);
+  const { openConfirmModal, openAlert, openLikingUserModal, setScrollHeight } =
+    useMessageChannelFromReplyModuleContext();
 
   const { editComment } = useEditComment();
   const { deleteComment } = useDeleteComment();
@@ -101,33 +106,11 @@ const Comment = ({
     }
   };
 
-  const getConfirmResultFromParentWindow = (message: string) =>
-    new Promise(resolve => {
-      messageFromReplyModule(port).openConfirmModal(message);
-
-      const onMessageDeleteComment = ({ data }: MessageEvent) => {
-        if (data.type === POST_MESSAGE_TYPE.CONFIRM_NO || data.type === POST_MESSAGE_TYPE.MODAL.CLOSE.CONFIRM) {
-          resolve("no");
-          port?.removeEventListener("message", onMessageDeleteComment);
-        }
-
-        if (data.type === POST_MESSAGE_TYPE.CONFIRM_OK) {
-          resolve("yes");
-          port?.removeEventListener("message", onMessageDeleteComment);
-        }
-      };
-
-      port?.addEventListener("message", onMessageDeleteComment);
-      port?.start();
-    });
-
   const confirmDelete = async () => {
     try {
-      const confirmResult = await getConfirmResultFromParentWindow("정말 지우시겠습니까?");
+      const confirmResult = await openConfirmModal("정말 지우시겠습니까?");
 
-      if (confirmResult === "no") {
-        return;
-      }
+      if (confirmResult === "no") return;
 
       await deleteComment({
         id: comment.id,
@@ -136,7 +119,7 @@ const Comment = ({
       });
     } catch (error) {
       if (error instanceof AlertError) {
-        messageFromReplyModule(port).openAlert(error.message);
+        openAlert(error.message);
       }
     } finally {
       resetState();
@@ -148,7 +131,7 @@ const Comment = ({
       const isValidContent = !isEmptyString(content) && content.length <= MAX_COMMENT_INPUT_LENGTH;
 
       if (!isValidContent) {
-        messageFromReplyModule(port).openAlert(getErrorMessage.commentInput(content));
+        openAlert(getErrorMessage.commentInput(content));
 
         return;
       }
@@ -163,7 +146,7 @@ const Comment = ({
       setEditMode(false);
     } catch (error) {
       if (error instanceof AlertError) {
-        messageFromReplyModule(port).openAlert(error.message);
+        openAlert(error.message);
       }
     } finally {
       resetState();
@@ -175,13 +158,13 @@ const Comment = ({
       await likeComment({ commentId: comment.id });
     } catch (error) {
       if (error instanceof AlertError) {
-        messageFromReplyModule(port).openAlert(error.message);
+        openAlert(error.message);
       }
     }
   };
 
   const onLikingUsersModalOpen = () => {
-    messageFromReplyModule(port).openLikingUserModal(comment.likingUsers);
+    openLikingUserModal(comment.likingUsers);
   };
 
   const onOpenSubCommentInput = () => {
@@ -193,7 +176,7 @@ const Comment = ({
   };
 
   useEffect(() => {
-    messageFromReplyModule(port).setScrollHeight();
+    setScrollHeight();
   }, [isSubCommentInputOpen]);
 
   useEffect(() => {

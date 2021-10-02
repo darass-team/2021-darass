@@ -1,8 +1,7 @@
 import { POST_MESSAGE_TYPE } from "@/constants/postMessageType";
-import { MessageChannelContext } from "@/contexts/messageChannelContext";
+import { useMessageChannelFromReplyModalContext } from "@/hooks";
 import { GetAlarmResponse } from "@/types/comment";
-import { messageFromReplyModal } from "@/utils/postMessage";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import FullScreenModal from "..";
 import AlarmContent from "../../AlarmContent";
 import { AlarmContainer, Container } from "./styles";
@@ -10,10 +9,11 @@ import { AlarmContainer, Container } from "./styles";
 const AlarmModal = () => {
   const [alarmContents, setAlarmContents] = useState<GetAlarmResponse[]>([]);
   const [isOpen, setIsOpen] = useState(false);
-  const { port } = useContext(MessageChannelContext);
+
+  const { closeAlarmModal } = useMessageChannelFromReplyModalContext();
 
   const onCloseModal = () => {
-    messageFromReplyModal(port).closeAlarmModal();
+    closeAlarmModal();
   };
 
   return (

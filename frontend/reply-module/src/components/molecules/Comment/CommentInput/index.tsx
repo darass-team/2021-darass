@@ -1,7 +1,5 @@
 import CancelButton from "@/components/atoms/Buttons/CancelButton";
-import { MessageChannelContext } from "@/contexts/messageChannelContext";
-import { messageFromReplyModule } from "@/utils/postMessage";
-import { ChangeEvent, FormEvent, MutableRefObject, RefObject, useContext, useEffect, useRef, useState } from "react";
+import SubmitButton from "@/components/atoms/Buttons/SubmitButton";
 import {
   GUEST_NICKNAME_MAX_LENGTH,
   GUEST_NICKNAME_MIN_LENGTH,
@@ -9,14 +7,15 @@ import {
   GUEST_PASSWORD_MIN_LENGTH,
   MAX_COMMENT_INPUT_LENGTH
 } from "@/constants/comment";
-import { useContentEditable, useCreateComment, useInput } from "@/hooks";
+import { useContentEditable, useCreateComment, useInput, useMessageChannelFromReplyModuleContext } from "@/hooks";
 import { Comment } from "@/types";
 import { User } from "@/types/user";
 import { AlertError } from "@/utils/alertError";
 import { getErrorMessage } from "@/utils/errorMessage";
 import { focusContentEditableTextToEnd } from "@/utils/focusContentEditableTextToEnd";
 import { isEmptyString } from "@/utils/isEmptyString";
-import SubmitButton from "@/components/atoms/Buttons/SubmitButton";
+import { messageFromReplyModule } from "@/utils/postMessage";
+import { ChangeEvent, FormEvent, useContext, useEffect, useState } from "react";
 import { ButtonWrapper, Form, GuestInfo, TextBox, TextBoxWrapper, TextCount, Wrapper } from "./styles";
 
 export interface Props {
@@ -30,13 +29,17 @@ const CommentInput = ({ user, parentCommentId, isSubComment, onClose, ...props }
   const urlParams = new URLSearchParams(window.location.search);
   const url = urlParams.get("url");
   const projectSecretKey = urlParams.get("projectKey");
+
+  const { openAlert } = useMessageChannelFromReplyModuleContext();
+  const { createComment } = useCreateComment();
+
   const isSubCommentInput = parentCommentId ? true : false;
 
   const { content, setContent, onInput: onInputContentEditable, $contentEditable } = useContentEditable("");
   const { value: guestNickName, onChange: onChangeGuestNickName, setValue: setGuestNickName } = useInput("");
   const { value: guestPassword, onChange: onChangeGuestPassword, setValue: setGuestPassword } = useInput("");
-  const { createComment } = useCreateComment();
   const [isFormSubmitted, setFormSubmitted] = useState(false);
+
   const isValidCommentInput = !isEmptyString(content) && content.length <= MAX_COMMENT_INPUT_LENGTH;
   const isValidGuestNickName = !user
     ? GUEST_NICKNAME_MIN_LENGTH <= guestNickName.length && guestNickName.length <= GUEST_NICKNAME_MAX_LENGTH
@@ -45,26 +48,24 @@ const CommentInput = ({ user, parentCommentId, isSubComment, onClose, ...props }
     ? GUEST_PASSWORD_MIN_LENGTH <= guestPassword.length && guestPassword.length <= GUEST_PASSWORD_MAX_LENGTH
     : true;
 
-  const { port } = useContext(MessageChannelContext);
-
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setFormSubmitted(true);
 
     if (!isValidCommentInput) {
-      messageFromReplyModule(port).openAlert(getErrorMessage.commentInput(content));
+      openAlert(getErrorMessage.commentInput(content));
 
       return;
     }
 
     if (!isValidGuestNickName) {
-      messageFromReplyModule(port).openAlert(getErrorMessage.guestNickName(guestNickName));
+      openAlert(getErrorMessage.guestNickName(guestNickName));
 
       return;
     }
 
     if (!isValidGuestPassword) {
-      messageFromReplyModule(port).openAlert(getErrorMessage.guestPassword(guestPassword));
+      openAlert(getErrorMessage.guestPassword(guestPassword));
 
       return;
     }
@@ -84,7 +85,7 @@ const CommentInput = ({ user, parentCommentId, isSubComment, onClose, ...props }
       if (onClose) onClose();
     } catch (error) {
       if (error instanceof AlertError) {
-        messageFromReplyModule(port).openAlert(error.message);
+        openAlert(error.message);
       }
     } finally {
       setFormSubmitted(false);
@@ -95,7 +96,7 @@ const CommentInput = ({ user, parentCommentId, isSubComment, onClose, ...props }
     const currentText = event.target.textContent || "";
 
     if (currentText.length > MAX_COMMENT_INPUT_LENGTH) {
-      messageFromReplyModule(port).openAlert(getErrorMessage.commentInput(currentText));
+      openAlert(getErrorMessage.commentInput(currentText));
       setContent(currentText.substr(0, MAX_COMMENT_INPUT_LENGTH));
 
       if (!$contentEditable.current) return;
@@ -123,7 +124,7 @@ const CommentInput = ({ user, parentCommentId, isSubComment, onClose, ...props }
           isValidInput={!isFormSubmitted || isValidCommentInput}
           data-testid="comment-input-text-box"
         />
-        <TextCount>{`${content.length} / ${MAX_COMMENT_INPUT_LENGTH}`}</TextCount>
+        <TextCount data-testid="comment-input-text-length">{`${content.length} / ${MAX_COMMENT_INPUT_LENGTH}`}</TextCount>
       </TextBoxWrapper>
 
       <Wrapper>

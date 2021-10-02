@@ -1,12 +1,11 @@
 import Alarm from "@/components/atoms/Alarm";
 import Modal from "@/components/atoms/Modal";
 import { MouseEvent, ReactNode, useContext, useEffect, useRef, useState } from "react";
-import { User } from "../../../types/user";
-import Avatar from "../../atoms/Avatar";
+import { User } from "@/types/user";
+import Avatar from "@/components/atoms/Avatar";
 import { Container, UserNickName, UserOption } from "./styles";
-import { MessageChannelContext } from "@/contexts/messageChannelContext";
 import { messageFromReplyModule } from "@/utils/postMessage";
-import { useGetAlarmContents, useEditUser, useUser } from "@/hooks";
+import { useGetAlarmContents, useEditUser, useUser, useMessageChannelFromReplyModuleContext } from "@/hooks";
 import { AlertError } from "@/utils/alertError";
 
 export interface Props {
@@ -16,7 +15,8 @@ export interface Props {
 
 const UserAvatarOption = ({ user, children, ...props }: Props) => {
   const [isShowOptionBox, setShowOptionBox] = useState(false);
-  const { port } = useContext(MessageChannelContext);
+  const { openAlarmModal } = useMessageChannelFromReplyModuleContext();
+
   const { data: alarmContents, hasNewAlarmOnRealTime, setHasNewAlarmOnRealTime } = useGetAlarmContents();
   const { refetch: refetchUser } = useUser();
   const { editUser } = useEditUser();
@@ -42,7 +42,7 @@ const UserAvatarOption = ({ user, children, ...props }: Props) => {
       }
     }
 
-    messageFromReplyModule(port).openAlarmModal(alarmContents || []);
+    openAlarmModal(alarmContents || []);
   };
 
   useEffect(() => {

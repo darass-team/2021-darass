@@ -1,5 +1,5 @@
 import { Button } from "./styles";
-import { ReactComponent as Like } from "@/assets/svg/like.svg";
+import { ReactComponent as Like } from "../../../../assets/svg/like.svg";
 export interface Props {
   numOfLikes: number;
   alreadyLiked: boolean;

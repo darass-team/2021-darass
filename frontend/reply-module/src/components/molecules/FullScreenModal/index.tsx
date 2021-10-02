@@ -1,6 +1,6 @@
 import Modal, { FadeInDirection } from "@/components/atoms/Modal";
-import { MessageChannelContext } from "@/contexts/messageChannelContext";
-import { Dispatch, ReactNode, useContext, useEffect, useState } from "react";
+import { useMessageChannelFromReplyModalContext } from "@/hooks";
+import { Dispatch, ReactNode, useEffect } from "react";
 
 interface Props {
   isOpen: boolean;
@@ -21,29 +21,20 @@ const FullScreenModal = ({
   postType,
   fadeInFrom = "center"
 }: Props) => {
-  const { port } = useContext(MessageChannelContext);
+  const { receivedMessageFromReplyModule } = useMessageChannelFromReplyModalContext();
 
   const onCloseModal = () => {
     setIsOpen(false);
     postCloseModal();
   };
 
-  const onMessageFromDeployScript = ({ data }: MessageEvent) => {
-    if (data.type !== postType) {
-      return;
-    }
-
-    setValue(data.data);
-    setIsOpen(true);
-  };
-
   useEffect(() => {
-    if (port) {
-      port.removeEventListener("message", onMessageFromDeployScript);
-      port.addEventListener("message", onMessageFromDeployScript);
-      port.start();
-    }
-  }, [port]);
+    if (!receivedMessageFromReplyModule) return;
+    if (receivedMessageFromReplyModule.type !== postType) return;
+
+    setValue(receivedMessageFromReplyModule.data);
+    setIsOpen(true);
+  }, [receivedMessageFromReplyModule]);
 
   return (
     <Modal isOpen={isOpen} closeModal={onCloseModal} fadeInFrom={fadeInFrom}>
