@@ -1,14 +1,12 @@
+import AvatarComponent from "@/components/atoms/Avatar";
 import LikingUsersButtonComponent from "@/components/atoms/Buttons/LikingUsersButton";
 import CommentOptionComponent from "@/components/molecules/CommentOption";
 import CommentInputComponent from "@/components/organisms/CommentInput";
-import { PALETTE } from "@/constants/styles/palette";
 import styled from "styled-components";
-import AvatarComponent from "@/components/atoms/Avatar";
 
 export const Container = styled.div<{ isSubComment: boolean }>`
   display: flex;
   flex-direction: column;
-
   margin-bottom: 1.5rem;
 `;
 

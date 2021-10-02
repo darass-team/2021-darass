@@ -29,9 +29,11 @@ describe("AlarmContent test", () => {
     const alarmContent = render(<AlarmContent alarmContents={alarmContentData} />);
 
     const allAlarmContent = alarmContent.queryAllByTestId("alarm-content-container");
+
     jest.spyOn(window, "open");
 
     fireEvent.click(allAlarmContent[0]);
+
     expect(window.open).toHaveBeenCalledWith(alarmContentData[0].comment.url, "_blank", "noopener");
   });
 });

@@ -18,7 +18,7 @@ const CommentBottom = ({
 }: Props) => {
   return (
     <Container>
-      <LikeButton isLiked={isLiked} onClick={onClickLikeButton} type="button">
+      <LikeButton isLiked={isLiked} onClick={onClickLikeButton} type="button" data-testid="comment-bottom-like-button">
         좋아요
       </LikeButton>
       {!isSubComment && (
