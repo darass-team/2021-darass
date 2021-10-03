@@ -4,10 +4,10 @@ import CancelButtonComponent from "@/components/atoms/Buttons/CancelButton";
 import SubmitButtonComponent from "@/components/atoms/Buttons/SubmitButton";
 import { PALETTE } from "@/constants/styles/palette";
 
-export const Container = styled.form<{ isSubComment: boolean }>`
+export const Container = styled.form`
   display: flex;
   align-items: center;
-  margin-left: ${props => (props.isSubComment ? "calc(2.5rem + 0.6rem + 2.1rem)" : "3rem")};
+  margin-left: 3rem;
 
   @media all and (max-width: 780px) {
     width: 17rem;

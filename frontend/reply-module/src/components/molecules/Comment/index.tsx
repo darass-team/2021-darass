@@ -108,9 +108,7 @@ const Comment = ({
 
   const confirmDelete = async () => {
     try {
-      console.log("confirmResult시작");
       const confirmResult = await openConfirmModal("정말 지우시겠습니까?");
-      console.log("confirmResult", confirmResult);
 
       if (confirmResult === "no") return;
 

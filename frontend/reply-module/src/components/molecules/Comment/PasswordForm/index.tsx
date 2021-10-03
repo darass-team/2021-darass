@@ -58,7 +58,7 @@ const PasswordForm = ({
   }, [isValidGuestPassword]);
 
   return (
-    <Container isSubComment={isSubComment} onSubmit={onSubmitPassword}>
+    <Container onSubmit={onSubmitPassword}>
       <PasswordInput
         ref={passwordInputRef}
         type="password"
