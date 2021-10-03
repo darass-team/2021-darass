@@ -7,7 +7,7 @@ export interface Props extends CommentProps {}
 const SubComment = ({ ...thisCommentInfo }: Props) => {
   return (
     <Container>
-      <IndentTab src={downRightArrowSVG} />
+      <IndentTab src={downRightArrowSVG} data-testid="subcomment-indent-icon" />
       <CommentWrapper>
         <Comment {...thisCommentInfo} />
       </CommentWrapper>
