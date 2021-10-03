@@ -8,7 +8,6 @@ import { ORDER_BUTTON } from "@/constants/orderButton";
 import { useGetAllComments, useGetProjectOwnerId, useMessageChannelFromReplyModuleContext, useUser } from "@/hooks";
 import { AlertError } from "@/utils/alertError";
 import { popUpCenter } from "@/utils/popUpCenter";
-import { messageFromReplyModule } from "@/utils/postMessage";
 import Avatar from "@/components/atoms/Avatar";
 import Footer from "@/components/organisms/Footer";
 import {

@@ -51,7 +51,9 @@ const CommentTextBox = ({
       />
       {contentEditable && (
         <ButtonWrapper>
-          <CancelButton onClick={onClickCancelButton}>취소</CancelButton>
+          <CancelButton onClick={onClickCancelButton} data-testid="comment-text-box-cancel-button">
+            취소
+          </CancelButton>
           <SubmitButton
             type="button"
             onClick={() => onSubmitEditedComment(content)}
