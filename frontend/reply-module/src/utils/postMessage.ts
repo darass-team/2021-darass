@@ -14,9 +14,7 @@ export const messageFromReplyModule = (port: MessagePort) => {
       port.postMessage({ type: POST_MESSAGE_TYPE.MODAL.OPEN.ALERT, data: message });
     },
     openConfirmModal: async (message: string): Promise<"yes" | "no"> => {
-      port.postMessage({ type: POST_MESSAGE_TYPE.MODAL.OPEN.CONFIRM, data: message });
-
-      return new Promise(resolve => {
+      return await new Promise(resolve => {
         const onMessageConfirmResult = ({ data }: MessageEvent) => {
           if (data.type === POST_MESSAGE_TYPE.CONFIRM_NO || data.type === POST_MESSAGE_TYPE.MODAL.CLOSE.CONFIRM) {
             resolve("no");
@@ -25,10 +23,11 @@ export const messageFromReplyModule = (port: MessagePort) => {
             resolve("yes");
             port.removeEventListener("message", onMessageConfirmResult);
           }
-
-          port.addEventListener("message", onMessageConfirmResult);
-          port.start();
         };
+
+        port.addEventListener("message", onMessageConfirmResult);
+        port.start();
+        port.postMessage({ type: POST_MESSAGE_TYPE.MODAL.OPEN.CONFIRM, data: message });
       });
     },
     openAlarmModal: (alarmContents: GetAlarmResponse[]) => {

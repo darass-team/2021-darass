@@ -35,6 +35,7 @@ const queryClient = new QueryClient({
 
 const App = () => {
   const [port, setPort] = useState<MessagePort>();
+  const [receivedMessageFromReplyModal, setReceivedMessageFromReplyModal] = useState<MessageEvent["data"]>();
   const { recentlyAlarmContent, hasNewAlarmOnRealTime, setHasNewAlarmOnRealTime } = useRecentlyAlarmWebSocket();
 
   const onMessageInitMessageChannel = ({ data, ports }: MessageEvent) => {
@@ -52,7 +53,17 @@ const App = () => {
     const onResize = throttling({ callback: messageFromReplyModule(port).setScrollHeight, delay: 600 });
     window.addEventListener("resize", onResize);
 
-    return () => window.removeEventListener("resize", onResize);
+    const onListenMessage = ({ data }: MessageEvent) => {
+      setReceivedMessageFromReplyModal(data);
+    };
+    port.removeEventListener("message", onListenMessage);
+    port.addEventListener("message", onListenMessage);
+    port.start();
+
+    return () => {
+      window.removeEventListener("resize", onResize);
+      port.removeEventListener("message", onListenMessage);
+    };
   }, [port]);
 
   useEffect(() => {
@@ -73,7 +84,8 @@ const App = () => {
         openAlert: messageFromReplyModule(port).openAlert,
         openConfirmModal: messageFromReplyModule(port).openConfirmModal,
         openAlarmModal: messageFromReplyModule(port).openAlarmModal,
-        openLikingUserModal: messageFromReplyModule(port).openLikingUserModal
+        openLikingUserModal: messageFromReplyModule(port).openLikingUserModal,
+        receivedMessageFromReplyModal
       }}
     >
       <RecentlyAlarmContentContext.Provider

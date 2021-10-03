@@ -49,6 +49,8 @@ const App = () => {
     port.removeEventListener("message", onListenMessage);
     port.addEventListener("message", onListenMessage);
     port.start();
+
+    return () => port.removeEventListener("message", onListenMessage);
   }, [port]);
 
   if (!port) {

@@ -7,6 +7,7 @@ export const MessageChannelFromReplyModuleContext = createContext<{
   openConfirmModal: (message: string) => Promise<"yes" | "no">;
   openAlarmModal: (alarmContents: GetAlarmResponse[]) => void;
   openLikingUserModal: (users: Comment["user"][]) => void;
+  receivedMessageFromReplyModal: MessageEvent["data"];
 }>({
   setScrollHeight: () => console.error("Message channel port not initialized"),
   openAlert: (message: string) => console.error("Message channel port not initialized"),
@@ -15,7 +16,8 @@ export const MessageChannelFromReplyModuleContext = createContext<{
     return "no";
   },
   openAlarmModal: (alarmContents: GetAlarmResponse[]) => console.error("Message channel port not initialized"),
-  openLikingUserModal: (users: Comment["user"][]) => console.error("Message channel port not initialized")
+  openLikingUserModal: (users: Comment["user"][]) => console.error("Message channel port not initialized"),
+  receivedMessageFromReplyModal: null
 });
 
 export const useMessageChannelFromReplyModuleContext = () => useContext(MessageChannelFromReplyModuleContext);
