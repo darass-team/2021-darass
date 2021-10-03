@@ -36,8 +36,6 @@ const getProjectOwnerId = async (projectSecretKey: Project["secretKey"]) => {
 };
 
 export const useGetProjectOwnerId = (projectSecretKey: Project["secretKey"]) => {
-  const { accessToken } = useToken();
-
   const {
     data: projectOwnerId,
     isLoading,
@@ -46,7 +44,7 @@ export const useGetProjectOwnerId = (projectSecretKey: Project["secretKey"]) => 
     [REACT_QUERY_KEY.PROJECT_OWNER_ID, projectSecretKey],
     () => getProjectOwnerId(projectSecretKey),
     {
-      enabled: !!accessToken && projectSecretKey.length > 0
+      enabled: projectSecretKey.length > 0
     }
   );
 

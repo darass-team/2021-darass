@@ -30,7 +30,7 @@ import SubComment from "./SubComment";
 
 export interface Props {
   user?: User;
-  projectOwnerId?: User["id"];
+  projectOwnerId: User["id"];
   comment: CommentType;
   isVisibleCommentOption: boolean;
   iAmAdmin: boolean;
@@ -289,7 +289,6 @@ const Comment = ({
                 hasLikingUser={hasLikingUser}
                 canIEdit={canIEdit}
                 canIDelete={canIDelete}
-                onCloseSubCommentInput={onCloseSubCommentInput}
               />
             );
           })}

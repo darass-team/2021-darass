@@ -21,6 +21,8 @@ import {
   UserAvatarOptionLink
 } from "./styles";
 import CommentInput from "@/components/molecules/Comment/CommentInput";
+import LoadingPage from "../LoadingPage";
+import CommentSkeleton from "@/components/molecules/CommentSkeleton";
 
 const CommentArea = () => {
   const urlParams = new URLSearchParams(window.location.search);
@@ -107,16 +109,20 @@ const CommentArea = () => {
 
   return (
     <Container>
-      <CommentList
-        user={user}
-        isLoading={getProjectOwnerIdLoading || commentsLoading}
-        totalCommentsCount={totalCommentsCount || 0}
-        comments={comments || []}
-        projectOwnerId={projectOwnerId}
-        sortOption={sortOption}
-        onSelectSortOption={onSelectSortOption}
-        notice={notice}
-      />
+      {projectOwnerId && !getProjectOwnerIdLoading && !commentsLoading ? (
+        <CommentList
+          user={user}
+          totalCommentsCount={totalCommentsCount}
+          comments={comments}
+          projectOwnerId={projectOwnerId}
+          sortOption={sortOption}
+          onSelectSortOption={onSelectSortOption}
+          notice={notice}
+        />
+      ) : (
+        <LoadingPage />
+      )}
+
       <UserAvatarOption user={user}>
         {user ? (
           <>

@@ -32,9 +32,9 @@ export const useGetAllComments = ({ url, projectSecretKey, sortOption = "oldest"
     getAllComments({ url, projectSecretKey, sortOption })
   );
 
-  const totalCommentsCount = data?.totalComment;
+  const totalCommentsCount = data?.totalComment || 0;
   const totalPage = data?.totalPage;
-  const comments = data?.comments;
+  const comments = data?.comments || [];
 
   useEffect(() => {
     queryClient.invalidateQueries([REACT_QUERY_KEY.COMMENT]);

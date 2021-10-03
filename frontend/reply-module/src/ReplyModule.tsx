@@ -16,6 +16,7 @@ import { messageFromReplyModule } from "./utils/postMessage";
 import throttling from "./utils/throttle";
 import { MessageChannelFromReplyModuleContext } from "./hooks/contexts/useMessageFromReplyModule";
 import LoadingPage from "./components/pages/LoadingPage";
+import CommentSkeleton from "./components/molecules/CommentSkeleton";
 
 Sentry.init({
   dsn: process.env.SENTRY_REPLY_MODULE_DSN,
