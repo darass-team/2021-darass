@@ -2,7 +2,6 @@ import { ORDER_BUTTON } from "@/constants/orderButton";
 import { Comment as CommentType } from "@/types/comment";
 import { User } from "@/types/user";
 import Comment from "@/components/molecules/Comment";
-import CommentSkeleton from "@/components/molecules/CommentSkeleton";
 import {
   CommentContainer,
   CommentCount,

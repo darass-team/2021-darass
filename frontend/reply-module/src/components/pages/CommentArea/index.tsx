@@ -22,7 +22,6 @@ import {
 } from "./styles";
 import CommentInput from "@/components/molecules/Comment/CommentInput";
 import LoadingPage from "../LoadingPage";
-import CommentSkeleton from "@/components/molecules/CommentSkeleton";
 
 const CommentArea = () => {
   const urlParams = new URLSearchParams(window.location.search);
