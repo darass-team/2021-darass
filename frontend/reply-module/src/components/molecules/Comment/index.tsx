@@ -46,6 +46,7 @@ export interface Props {
   canIDelete: boolean;
 }
 
+// TODO: organism 으로 옮기기
 const Comment = ({
   user,
   projectOwnerId,
@@ -209,6 +210,7 @@ const Comment = ({
                 isVisibleDeleteButton={!!onClickDeleteOptionButton}
                 onClickEditButton={onClickEditOptionButton}
                 onClickDeleteButton={onClickDeleteOptionButton}
+                data-testid="comment-option"
               />
             )}
 
@@ -225,6 +227,7 @@ const Comment = ({
                 numOfLikes={comment.likingUsers.length}
                 alreadyLiked={alreadyLiked}
                 onClick={onLikingUsersModalOpen}
+                data-testid="comment-liking-user-button"
               />
             )}
           </ContentWrapper>
@@ -253,7 +256,7 @@ const Comment = ({
       </Container>
 
       {hasSubComments && (
-        <SubCommentWrapper>
+        <SubCommentWrapper data-testid="comment-subcomment-wrapper">
           {comment.subComments.map(subComment => {
             const authorId = subComment.user.id;
 

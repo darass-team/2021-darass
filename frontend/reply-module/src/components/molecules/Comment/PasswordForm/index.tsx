@@ -21,7 +21,8 @@ const PasswordForm = ({
   onChangePassword,
   isSubComment,
   onClose,
-  onSubmitSuccess
+  onSubmitSuccess,
+  ...props
 }: Props) => {
   const passwordInputRef = useRef<HTMLInputElement>(null);
   const {
@@ -58,7 +59,7 @@ const PasswordForm = ({
   }, [isValidGuestPassword]);
 
   return (
-    <Container onSubmit={onSubmitPassword}>
+    <Container onSubmit={onSubmitPassword} {...props}>
       <PasswordInput
         ref={passwordInputRef}
         type="password"

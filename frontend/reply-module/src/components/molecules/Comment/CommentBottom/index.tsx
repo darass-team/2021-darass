@@ -27,7 +27,11 @@ const CommentBottom = ({
         좋아요
       </LikeButton>
       {!isSubComment && (
-        <AddSubCommentButton onClick={onClickAddSubCommentButton} type="button">
+        <AddSubCommentButton
+          onClick={onClickAddSubCommentButton}
+          type="button"
+          data-testid="comment-bottom-add-subcomment-button"
+        >
           답글 달기
         </AddSubCommentButton>
       )}

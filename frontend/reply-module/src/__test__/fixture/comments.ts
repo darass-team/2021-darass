@@ -7,7 +7,18 @@ export const comments: Comment[] = [
     content: "댓글1",
     user: socialLoginUser,
     likingUsers: [],
-    subComments: [],
+    subComments: [
+      {
+        id: 11,
+        content: "댓글3",
+        user: socialLoginUser,
+        likingUsers: [],
+        subComments: [],
+        createdDate: "",
+        modifiedDate: "",
+        url: "댓글2 url"
+      }
+    ],
     createdDate: "",
     modifiedDate: "",
     url: "댓글1 url"
