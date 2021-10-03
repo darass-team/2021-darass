@@ -36,7 +36,12 @@ const CommentOption = ({
   return (
     <Container {...props}>
       <OptionIcon src={threeDots} alt="댓글 옵션" onClick={onToggleOptionBox} />
-      <Modal isOpen={isShowOptionBox} closeModal={() => setShowOptionBox(false)} dimmedOpacity={0}>
+      <Modal
+        isOpen={isShowOptionBox}
+        closeModal={() => setShowOptionBox(false)}
+        dimmedOpacity={0}
+        data-testid="comment-option-modal"
+      >
         <OptionContainer>
           {isVisibleEditButton && (
             <EditButton type="button" onClick={onEdit} data-testid="comment-option-edit-button">

@@ -1,7 +1,7 @@
 import styled from "styled-components";
-import { Z_INDEX } from "../../../constants/styles/constants";
-import { SpeechBubbleCSS } from "../../../constants/styles/css";
-import { PALETTE } from "../../../constants/styles/palette";
+import { Z_INDEX } from "@/constants/styles/constants";
+import { SpeechBubbleCSS } from "@/constants/styles/css";
+import { PALETTE } from "@/constants/styles/palette";
 
 export const Container = styled.div`
   position: absolute;
