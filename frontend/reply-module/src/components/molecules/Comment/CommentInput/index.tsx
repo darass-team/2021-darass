@@ -14,7 +14,6 @@ import { AlertError } from "@/utils/alertError";
 import { getErrorMessage } from "@/utils/errorMessage";
 import { focusContentEditableTextToEnd } from "@/utils/focusContentEditableTextToEnd";
 import { isEmptyString } from "@/utils/isEmptyString";
-import { messageFromReplyModule } from "@/utils/postMessage";
 import { ChangeEvent, FormEvent, useContext, useEffect, useState } from "react";
 import { ButtonWrapper, Form, GuestInfo, TextBox, TextBoxWrapper, TextCount, Wrapper } from "./styles";
 
@@ -50,6 +49,7 @@ const CommentInput = ({ user, parentCommentId, isSubComment, onClose, ...props }
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
     setFormSubmitted(true);
 
     if (!isValidCommentInput) {
@@ -151,7 +151,11 @@ const CommentInput = ({ user, parentCommentId, isSubComment, onClose, ...props }
           </div>
         )}
         <ButtonWrapper isSubCommentInput={isSubCommentInput}>
-          {isSubCommentInput && onClose && <CancelButton onClick={onClose}>취소</CancelButton>}
+          {isSubCommentInput && onClose && (
+            <CancelButton onClick={onClose} data-testid="comment-input-cancel-button">
+              취소
+            </CancelButton>
+          )}
           <SubmitButton data-testid="comment-input-submit-button">등록</SubmitButton>
         </ButtonWrapper>
       </Wrapper>
