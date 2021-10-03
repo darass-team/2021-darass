@@ -7,8 +7,8 @@ describe("CommentOption test", () => {
   const onClickDeleteButton = jest.fn();
 
   beforeEach(() => {
-    onClickEditButton.mockReset();
-    onClickDeleteButton.mockReset();
+    onClickEditButton.mockClear();
+    onClickDeleteButton.mockClear();
   });
 
   describe("logic test", () => {

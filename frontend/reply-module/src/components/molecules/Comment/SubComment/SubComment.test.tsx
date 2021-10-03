@@ -47,13 +47,13 @@ describe("SubComment test", () => {
   });
 
   beforeEach(() => {
-    openConfirmModal.mockReset();
-    openAlert.mockReset();
-    openLikingUserModal.mockReset();
-    setScrollHeight.mockReset();
-    editComment.mockReset();
-    deleteComment.mockReset();
-    likeComment.mockReset();
+    openConfirmModal.mockClear();
+    openAlert.mockClear();
+    openLikingUserModal.mockClear();
+    setScrollHeight.mockClear();
+    editComment.mockClear();
+    deleteComment.mockClear();
+    likeComment.mockClear();
   });
 
   describe("style test", () => {

@@ -29,9 +29,9 @@ describe("PasswordForm test", () => {
 
   beforeEach(() => {
     isValidPassword = false;
-    refetchConfirmGuestPassword.mockReset();
-    resetConfirmGuestPassword.mockReset();
-    setScrollHeight.mockReset();
+    refetchConfirmGuestPassword.mockClear();
+    resetConfirmGuestPassword.mockClear();
+    setScrollHeight.mockClear();
   });
 
   describe("logic test", () => {

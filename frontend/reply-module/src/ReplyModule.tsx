@@ -73,10 +73,6 @@ const App = () => {
     return () => window.removeEventListener("message", onMessageInitMessageChannel);
   }, []);
 
-  if (!port) {
-    return <LoadingPage />;
-  }
-
   return (
     <MessageChannelFromReplyModuleContext.Provider
       value={{
@@ -93,7 +89,7 @@ const App = () => {
       >
         <BrowserRouter>
           <Switch>
-            <Route exact path={ROUTE.HOME} component={CommentArea} />
+            <Route exact path={ROUTE.HOME} component={port ? CommentArea : LoadingPage} />
             <Route exact path={ROUTE.OAUTH} component={OAuth} />
             <Redirect to={ROUTE.HOME} />
           </Switch>

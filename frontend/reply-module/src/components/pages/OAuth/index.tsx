@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import { useLocation, useParams } from "react-router";
-import { QUERY } from "../../../constants/api";
-import { useToken } from "../../../hooks/api/token/useToken";
-import { request } from "../../../utils/request";
+import { QUERY } from "@/constants/api";
+import { useToken } from "@/hooks/api/token/useToken";
+import { request } from "@/utils/request";
 import LoadingPage from "../LoadingPage";
 
 const OAuth = () => {
@@ -31,9 +31,20 @@ const OAuth = () => {
     setAccessTokenAsync();
   }, [code]);
 
-  if (accessToken) {
-    window.close();
-  }
+  useEffect(() => {
+    if (accessToken) {
+      window.close();
+    }
+  }, [accessToken]);
+
+  useEffect(() => {
+    const timeId = setTimeout(() => {
+      alert("로그인에 실패하였습니다. 잠시후 다시 시도해주세요.");
+      window.close();
+    }, 5000);
+
+    return () => clearTimeout(timeId);
+  }, []);
 
   return <LoadingPage />;
 };

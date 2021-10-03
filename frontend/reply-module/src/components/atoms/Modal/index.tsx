@@ -1,5 +1,5 @@
-import { MouseEvent, ReactNode, useEffect, useRef } from "react";
-import { Dimmed, Container } from "./styles";
+import { MouseEvent, ReactNode, useEffect } from "react";
+import { Container, Dimmed } from "./styles";
 
 export type FadeInDirection = "back" | "center" | "top" | "bottom" | "left" | "right" | "none";
 
@@ -20,9 +20,8 @@ const Modal = ({
   blockScroll = true,
   fadeInFrom = "back"
 }: Props) => {
-  const DimmedRef = useRef(null);
   const onCloseModal = (event: MouseEvent) => {
-    if (event.target !== DimmedRef.current) return;
+    event.preventDefault();
 
     closeModal();
   };
@@ -34,7 +33,6 @@ const Modal = ({
   return (
     <>
       <Dimmed
-        ref={DimmedRef}
         onClick={onCloseModal}
         isOpen={isOpen}
         opacity={dimmedOpacity}

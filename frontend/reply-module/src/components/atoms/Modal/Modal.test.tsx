@@ -12,7 +12,6 @@ describe("Modal test", () => {
           isOpen = false;
         },
         children: <></>,
-        dimmedOpacity: 0.6,
         blockScroll: false,
         fadeInFrom: "none"
       };

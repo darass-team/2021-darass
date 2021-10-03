@@ -2,39 +2,39 @@ import { Comment } from "@/types";
 import { GetAlarmResponse } from "@/types/comment";
 import { POST_MESSAGE_TYPE } from "../constants/postMessageType";
 
-export const messageFromReplyModule = (port: MessagePort) => {
+export const messageFromReplyModule = (port?: MessagePort) => {
   return {
     setScrollHeight: () => {
-      port.postMessage({
+      port?.postMessage({
         type: POST_MESSAGE_TYPE.SCROLL_HEIGHT,
         data: document.querySelector("#root")?.scrollHeight
       });
     },
     openAlert: (message: string) => {
-      port.postMessage({ type: POST_MESSAGE_TYPE.MODAL.OPEN.ALERT, data: message });
+      port?.postMessage({ type: POST_MESSAGE_TYPE.MODAL.OPEN.ALERT, data: message });
     },
     openConfirmModal: async (message: string): Promise<"yes" | "no"> => {
       return await new Promise(resolve => {
         const onMessageConfirmResult = ({ data }: MessageEvent) => {
           if (data.type === POST_MESSAGE_TYPE.CONFIRM_NO || data.type === POST_MESSAGE_TYPE.MODAL.CLOSE.CONFIRM) {
             resolve("no");
-            port.removeEventListener("message", onMessageConfirmResult);
+            port?.removeEventListener("message", onMessageConfirmResult);
           } else if (data.type === POST_MESSAGE_TYPE.CONFIRM_OK) {
             resolve("yes");
-            port.removeEventListener("message", onMessageConfirmResult);
+            port?.removeEventListener("message", onMessageConfirmResult);
           }
         };
 
-        port.addEventListener("message", onMessageConfirmResult);
-        port.start();
-        port.postMessage({ type: POST_MESSAGE_TYPE.MODAL.OPEN.CONFIRM, data: message });
+        port?.addEventListener("message", onMessageConfirmResult);
+        port?.start();
+        port?.postMessage({ type: POST_MESSAGE_TYPE.MODAL.OPEN.CONFIRM, data: message });
       });
     },
     openAlarmModal: (alarmContents: GetAlarmResponse[]) => {
-      port.postMessage({ type: POST_MESSAGE_TYPE.MODAL.OPEN.ALARM, data: alarmContents });
+      port?.postMessage({ type: POST_MESSAGE_TYPE.MODAL.OPEN.ALARM, data: alarmContents });
     },
     openLikingUserModal: (users: Comment["user"][]) => {
-      port.postMessage({ type: POST_MESSAGE_TYPE.MODAL.OPEN.LIKING_USERS, data: users });
+      port?.postMessage({ type: POST_MESSAGE_TYPE.MODAL.OPEN.LIKING_USERS, data: users });
     }
   };
 };

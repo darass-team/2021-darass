@@ -19,8 +19,8 @@ describe("CommentTextBox test", () => {
   });
 
   beforeEach(() => {
-    setScrollHeight.mockReset();
-    focusContentEditableTextToEnd.mockReset();
+    setScrollHeight.mockClear();
+    focusContentEditableTextToEnd.mockClear();
   });
 
   describe("logic test", () => {
