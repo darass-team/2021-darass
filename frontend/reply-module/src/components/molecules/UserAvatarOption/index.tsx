@@ -1,5 +1,5 @@
 import Alarm from "@/components/atoms/Alarm";
-import Modal from "@/components/atoms/Modal";
+import Modal from "@/components/molecules/Modal";
 import { MouseEvent, ReactNode, useEffect, useRef, useState } from "react";
 import { User } from "@/types/user";
 import Avatar from "@/components/atoms/Avatar";

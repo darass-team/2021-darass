@@ -1,4 +1,4 @@
-import Modal, { FadeInDirection } from "@/components/atoms/Modal";
+import Modal, { FadeInDirection } from "@/components/molecules/Modal";
 import { useMessageChannelFromReplyModalContext } from "@/hooks";
 import { Dispatch, ReactNode, useEffect } from "react";
 

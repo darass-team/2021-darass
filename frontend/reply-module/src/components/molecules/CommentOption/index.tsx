@@ -1,5 +1,5 @@
 import threeDots from "@/assets/svg/three-dots.svg";
-import Modal from "@/components/atoms/Modal";
+import Modal from "@/components/molecules/Modal";
 import { useState } from "react";
 import { Container, DeleteButton, EditButton, OptionContainer, OptionIcon } from "./styles";
 
