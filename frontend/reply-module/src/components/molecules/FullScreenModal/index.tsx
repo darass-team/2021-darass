@@ -4,8 +4,8 @@ import { Dispatch, ReactNode, useEffect } from "react";
 
 interface Props {
   isOpen: boolean;
-  setIsOpen: Dispatch<boolean>;
-  setValue: Dispatch<any>;
+  openModal: () => void;
+  setValue: (data: any) => void;
   children: ReactNode;
   postCloseModal: () => void;
   postType: string;
@@ -14,7 +14,7 @@ interface Props {
 
 const FullScreenModal = ({
   isOpen,
-  setIsOpen,
+  openModal,
   setValue,
   children,
   postCloseModal,
@@ -24,7 +24,6 @@ const FullScreenModal = ({
   const { receivedMessageFromReplyModule } = useMessageChannelFromReplyModalContext();
 
   const onCloseModal = () => {
-    setIsOpen(false);
     postCloseModal();
   };
 
@@ -33,7 +32,7 @@ const FullScreenModal = ({
     if (receivedMessageFromReplyModule.type !== postType) return;
 
     setValue(receivedMessageFromReplyModule.data);
-    setIsOpen(true);
+    openModal();
   }, [receivedMessageFromReplyModule]);
 
   return (
