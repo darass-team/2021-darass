@@ -143,6 +143,7 @@ const Comment = ({
             isSubComment={isSubComment}
             onClose={onClosePasswordForm}
             onSubmitSuccess={onSuccessPasswordForm}
+            data-testid="comment-password-form"
           />
         )}
       </Container>
@@ -196,6 +197,7 @@ const Comment = ({
           user={user}
           parentCommentId={comment.id}
           onClose={onCloseSubCommentInput}
+          data-testid="comment-input"
         />
       )}
     </>

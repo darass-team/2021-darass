@@ -4,18 +4,44 @@ import { useDeleteComment, useEditComment, useLikeComment, useMessageChannelFrom
 import Comment, { Props } from "..";
 import { socialLoginUser } from "@/__test__/fixture/user";
 import { comments } from "@/__test__/fixture/comments";
-import PasswordForm, { Props as PasswordProps } from "@/components/molecules/PasswordForm";
-import CommentInput, { Props as CommentInputProps } from "@/components/molecules/CommentInput";
+import { usePasswordForm } from "@/components/molecules/PasswordForm/usePasswordForm";
+import { useCommentInput } from "@/components/molecules/CommentInput/useCommentInput";
+
+jest.mock("@/components/molecules/PasswordForm/usePasswordForm");
+jest.mock("@/components/molecules/CommentInput/useCommentInput");
 
 jest.mock("@/hooks/contexts/useMessageFromReplyModule");
 jest.mock("@/hooks/api/comment/useEditComment");
 jest.mock("@/hooks/api/comment/useDeleteComment");
 jest.mock("@/hooks/api/comment/useLikeComment");
 
-jest.mock("@/components/molecules/PasswordForm");
-jest.mock("@/components/molecules/CommentInput");
-
 describe("Comment test", () => {
+  (usePasswordForm as jest.Mock).mockImplementation(() => {
+    return {
+      onSubmitPassword: jest.fn(),
+      passwordInputRef: null,
+      isValidGuestPassword: true,
+      onClickCancelButton: jest.fn()
+    };
+  });
+  (useCommentInput as jest.Mock).mockImplementation(() => {
+    return {
+      onSubmit: jest.fn(),
+      $contentEditable: null,
+      onInput: jest.fn(),
+      isFormSubmitted: true,
+      isValidCommentInput: true,
+      isValidGuestPassword: true,
+      isValidGuestNickName: true,
+      content: "",
+      guestNickName: "",
+      onChangeGuestNickName: jest.fn(),
+      isSubCommentInput: true,
+      guestPassword: "",
+      onChangeGuestPassword: jest.fn()
+    };
+  });
+
   const openConfirmModal = jest.fn();
   const openAlert = jest.fn();
   const openLikingUserModal = jest.fn();
@@ -175,10 +201,6 @@ describe("Comment test", () => {
         canIDelete: false
       };
 
-      (PasswordForm as jest.Mock).mockImplementation((props: PasswordProps) => {
-        return <div data-testid="comment-password-form"></div>;
-      });
-
       const { getByTestId, queryByTestId } = render(<Comment {...props} />);
 
       fireEvent.click(getByTestId("comment-option"));
@@ -229,10 +251,6 @@ describe("Comment test", () => {
         canIEdit: true,
         canIDelete: false
       };
-
-      (CommentInput as jest.Mock).mockImplementation((props: CommentInputProps) => {
-        return <div data-testid="comment-input"></div>;
-      });
 
       const { getByTestId, queryByTestId } = render(<Comment {...props} />);
 

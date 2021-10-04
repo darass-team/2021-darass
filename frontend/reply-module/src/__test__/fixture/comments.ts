@@ -43,4 +43,4 @@ export const comments: Comment[] = [
     modifiedDate: "",
     url: "댓글3 url"
   }
-].sort(() => Math.random() - 0.5);
+];
