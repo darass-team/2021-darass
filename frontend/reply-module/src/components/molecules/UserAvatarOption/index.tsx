@@ -6,6 +6,7 @@ import Avatar from "@/components/atoms/Avatar";
 import { Container, UserNickName, UserOption } from "./styles";
 import { useGetAlarmContents, useEditUser, useUser, useMessageChannelFromReplyModuleContext } from "@/hooks";
 import { AlertError } from "@/utils/alertError";
+import { useUserAvatarOption } from "./useUserAvatarOption";
 
 export interface Props {
   user?: User;
@@ -13,40 +14,15 @@ export interface Props {
 }
 
 const UserAvatarOption = ({ user, children, ...props }: Props) => {
-  const [isShowOptionBox, setShowOptionBox] = useState(false);
-  const { openAlarmModal, openAlert } = useMessageChannelFromReplyModuleContext();
-
-  const { data: alarmContents, hasNewAlarmOnRealTime, setHasNewAlarmOnRealTime } = useGetAlarmContents();
-  const { refetch: refetchUser } = useUser();
-  const { editUser } = useEditUser();
-  const avatarImageURL = user ? user.profileImageUrl : undefined;
-
-  const onShowOptionBox = (event: MouseEvent) => {
-    event.stopPropagation();
-
-    setShowOptionBox(state => !state);
-  };
-
-  const onClickAlarmIcon = async () => {
-    try {
-      const formData = new FormData();
-      formData.append("hasRecentAlarm", "false");
-
-      await editUser(formData);
-      await refetchUser();
-      setHasNewAlarmOnRealTime?.(false);
-    } catch (error) {
-      if (error instanceof AlertError) {
-        openAlert(error.message);
-      }
-    }
-
-    openAlarmModal(alarmContents || []);
-  };
-
-  useEffect(() => {
-    setShowOptionBox(false);
-  }, [user]);
+  const {
+    onClickAlarmIcon,
+    avatarImageURL,
+    onClickUserNickName,
+    isShowOptionBox,
+    onCloseShowOptionBox,
+    hasNewAlarmOnRealTime,
+    onClickAvatar
+  } = useUserAvatarOption({ user, children });
 
   return (
     <Container {...props}>
@@ -59,12 +35,12 @@ const UserAvatarOption = ({ user, children, ...props }: Props) => {
         />
       )}
 
-      <UserNickName onClick={onShowOptionBox} data-testid="user-avatar-option-user-name">
+      <UserNickName onClick={onClickUserNickName} data-testid="user-avatar-option-user-name">
         {user?.nickName ?? "로그인"}
       </UserNickName>
-      <Avatar imageURL={avatarImageURL} onClick={onShowOptionBox} alt="유저 프로필 이미지" />
+      <Avatar imageURL={avatarImageURL} onClick={onClickAvatar} alt="유저 프로필 이미지" />
 
-      <Modal isOpen={isShowOptionBox} closeModal={() => setShowOptionBox(false)} dimmedOpacity={0}>
+      <Modal isOpen={isShowOptionBox} closeModal={onCloseShowOptionBox} dimmedOpacity={0}>
         <UserOption>{children}</UserOption>
       </Modal>
     </Container>
