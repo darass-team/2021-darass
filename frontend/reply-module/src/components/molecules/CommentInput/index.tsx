@@ -1,5 +1,5 @@
-import CancelButton from "@/components/atoms/Buttons/CancelButton";
-import SubmitButton from "@/components/atoms/Buttons/SubmitButton";
+import CancelButton from "@/components/atoms/CancelButton";
+import SubmitButton from "@/components/atoms/SubmitButton";
 import {
   GUEST_NICKNAME_MAX_LENGTH,
   GUEST_NICKNAME_MIN_LENGTH,

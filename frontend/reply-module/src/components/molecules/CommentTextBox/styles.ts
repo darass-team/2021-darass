@@ -1,6 +1,6 @@
 import styled, { css } from "styled-components";
 import { PALETTE } from "@/constants/styles/palette";
-import CancelButtonComponent from "@/components/atoms/Buttons/CancelButton";
+import CancelButtonComponent from "@/components/atoms/CancelButton";
 
 export const Container = styled.div<{ isSubComment: boolean }>`
   width: 100%;

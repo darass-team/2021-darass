@@ -1,5 +1,5 @@
 import AvatarComponent from "@/components/atoms/Avatar";
-import LikingUsersButtonComponent from "@/components/atoms/Buttons/LikingUsersButton";
+import LikingUsersButtonComponent from "@/components/atoms/LikingUsersButton";
 import CommentOptionComponent from "@/components/molecules/CommentOption";
 import styled from "styled-components";
 import CommentInputComponent from "../../molecules/CommentInput";

@@ -3,7 +3,7 @@ import { useContentEditable } from "@/hooks";
 import { Comment } from "@/types";
 import { User } from "@/types/user";
 import { focusContentEditableTextToEnd } from "@/utils/focusContentEditableTextToEnd";
-import SubmitButton from "@/components/atoms/Buttons/SubmitButton";
+import SubmitButton from "@/components/atoms/SubmitButton";
 import { Container, Name, Text, CancelButton, ButtonWrapper } from "./styles";
 
 export interface Props {

@@ -1,7 +1,7 @@
 import { InputCSS } from "@/constants/styles/css";
 import styled from "styled-components";
-import CancelButtonComponent from "@/components/atoms/Buttons/CancelButton";
-import SubmitButtonComponent from "@/components/atoms/Buttons/SubmitButton";
+import CancelButtonComponent from "@/components/atoms/CancelButton";
+import SubmitButtonComponent from "@/components/atoms/SubmitButton";
 import { PALETTE } from "@/constants/styles/palette";
 
 export const Container = styled.form`
