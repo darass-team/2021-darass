@@ -2,6 +2,7 @@ import threeDots from "@/assets/svg/three-dots.svg";
 import Modal from "@/components/molecules/Modal";
 import { useState } from "react";
 import { Container, DeleteButton, EditButton, OptionContainer, OptionIcon } from "./styles";
+import { useCommentOption } from "./useCommentOption";
 
 export interface Props {
   isVisibleEditButton: boolean;
@@ -17,31 +18,17 @@ const CommentOption = ({
   onClickDeleteButton,
   ...props
 }: Props) => {
-  const [isShowOptionBox, setShowOptionBox] = useState(false);
-
-  const onToggleOptionBox = () => {
-    setShowOptionBox(state => !state);
-  };
-
-  const onEdit = () => {
-    onClickEditButton();
-    setShowOptionBox(false);
-  };
-
-  const onDelete = () => {
-    onClickDeleteButton();
-    setShowOptionBox(false);
-  };
+  const { isShowOptionBox, onToggleOptionBox, onCloseModal, onEdit, onDelete } = useCommentOption({
+    isVisibleEditButton,
+    isVisibleDeleteButton,
+    onClickEditButton,
+    onClickDeleteButton
+  });
 
   return (
     <Container {...props}>
       <OptionIcon src={threeDots} alt="댓글 옵션" onClick={onToggleOptionBox} />
-      <Modal
-        isOpen={isShowOptionBox}
-        closeModal={() => setShowOptionBox(false)}
-        dimmedOpacity={0}
-        data-testid="comment-option-modal"
-      >
+      <Modal isOpen={isShowOptionBox} closeModal={onCloseModal} dimmedOpacity={0} data-testid="comment-option-modal">
         <OptionContainer>
           {isVisibleEditButton && (
             <EditButton type="button" onClick={onEdit} data-testid="comment-option-edit-button">
