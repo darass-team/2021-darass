@@ -1,7 +1,7 @@
 import { POST_MESSAGE_TYPE } from "@/constants/postMessageType";
 import { useMessageChannelFromReplyModalContext } from "@/hooks";
 import { useState } from "react";
-import FullScreenModal from "..";
+import FullScreenModal from "../FullScreenModal";
 import { User } from "@/types/user";
 import Avatar from "@/components/atoms/Avatar";
 import { Container, Title, UserGrid, UserNickName, UserWrapper } from "./styles";

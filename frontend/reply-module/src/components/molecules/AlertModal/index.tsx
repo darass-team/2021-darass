@@ -1,7 +1,7 @@
 import { POST_MESSAGE_TYPE } from "@/constants/postMessageType";
 import { useMessageChannelFromReplyModalContext } from "@/hooks";
 import { useState } from "react";
-import FullScreenModal from "..";
+import FullScreenModal from "../FullScreenModal";
 import { ButtonWrapper, Container, Message, OkButton } from "./styles";
 
 const AlertModal = () => {

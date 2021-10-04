@@ -1,7 +1,7 @@
 import { contentBoxCSS } from "@/constants/styles/css";
 import styled from "styled-components";
-import { PALETTE } from "../../../../constants/styles/palette";
-import ModalComponent from "../../Modal";
+import { PALETTE } from "../../../constants/styles/palette";
+import ModalComponent from "../Modal";
 
 export const Modal = styled(ModalComponent)`
   padding: 0;

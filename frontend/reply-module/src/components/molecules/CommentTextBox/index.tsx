@@ -1,10 +1,7 @@
-import { useEffect } from "react";
-import { useContentEditable } from "@/hooks";
+import SubmitButton from "@/components/atoms/SubmitButton";
 import { Comment } from "@/types";
 import { User } from "@/types/user";
-import { focusContentEditableTextToEnd } from "@/utils/focusContentEditableTextToEnd";
-import SubmitButton from "@/components/atoms/SubmitButton";
-import { Container, Name, Text, CancelButton, ButtonWrapper } from "./styles";
+import { ButtonWrapper, CancelButton, Container, Name, Text } from "./styles";
 import { useCommentTextBox } from "./useCommentTextBox";
 
 export interface Props {

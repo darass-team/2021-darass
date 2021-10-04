@@ -1,7 +1,7 @@
 import { POST_MESSAGE_TYPE } from "@/constants/postMessageType";
 import { useMessageChannelFromReplyModalContext } from "@/hooks";
 import { useState } from "react";
-import FullScreenModal from "..";
+import FullScreenModal from "../FullScreenModal";
 import { ButtonWrapper, CancelButton, ConfirmButton, Container, Message } from "./styles";
 
 const ConfirmModal = () => {
