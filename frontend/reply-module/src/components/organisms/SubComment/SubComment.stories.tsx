@@ -1,9 +1,8 @@
 import { Story } from "@storybook/react";
-import { QueryClient, QueryClientProvider } from "react-query";
 import SubComment, { Props } from ".";
 
 export default {
-  title: "molecules/SubComment",
+  title: "organism/SubComment",
   component: SubComment,
   argTypes: { children: { control: "text" } }
 };

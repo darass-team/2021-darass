@@ -4,8 +4,8 @@ import { useDeleteComment, useEditComment, useLikeComment, useMessageChannelFrom
 import Comment, { Props } from ".";
 import { socialLoginUser } from "@/__test__/fixture/user";
 import { comments } from "@/__test__/fixture/comments";
-import PasswordForm, { Props as PasswordProps } from "./PasswordForm";
-import CommentInput, { Props as CommentInputProps } from "./CommentInput";
+import PasswordForm, { Props as PasswordProps } from "../../molecules/PasswordForm";
+import CommentInput, { Props as CommentInputProps } from "../../molecules/CommentInput";
 
 jest.mock("@/hooks/contexts/useMessageFromReplyModule");
 jest.mock("@/hooks/api/comment/useEditComment");

@@ -11,7 +11,7 @@ const queryClient = new QueryClient({
 });
 
 export default {
-  title: "molecules/Comment",
+  title: "organism/Comment",
   component: Comment,
   decorators: [(story: any) => <QueryClientProvider client={queryClient}>{story()}</QueryClientProvider>],
   argTypes: { children: { control: "text" } }

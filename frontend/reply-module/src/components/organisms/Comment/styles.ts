@@ -2,7 +2,7 @@ import AvatarComponent from "@/components/atoms/Avatar";
 import LikingUsersButtonComponent from "@/components/atoms/Buttons/LikingUsersButton";
 import CommentOptionComponent from "@/components/molecules/CommentOption";
 import styled from "styled-components";
-import CommentInputComponent from "./CommentInput";
+import CommentInputComponent from "../../molecules/CommentInput";
 
 export const Container = styled.div`
   display: flex;

@@ -19,7 +19,7 @@ import {
   UserAvatarOptionButton,
   UserAvatarOptionLink
 } from "./styles";
-import CommentInput from "@/components/molecules/Comment/CommentInput";
+import CommentInput from "@/components/molecules/CommentInput";
 import LoadingPage from "../LoadingPage";
 
 const CommentArea = () => {

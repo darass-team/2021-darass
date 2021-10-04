@@ -13,9 +13,9 @@ import { getErrorMessage } from "@/utils/errorMessage";
 import { isEmptyString } from "@/utils/isEmptyString";
 import { messageFromReplyModule } from "@/utils/postMessage";
 import { useEffect, useState } from "react";
-import CommentTextBox from "../CommentTextBox";
-import CommentBottom from "./CommentBottom";
-import PasswordForm from "./PasswordForm";
+import CommentTextBox from "../../molecules/CommentTextBox";
+import CommentBottom from "../../molecules/CommentBottom";
+import PasswordForm from "../../molecules/PasswordForm";
 import {
   Avatar,
   CommentInput,
@@ -26,7 +26,7 @@ import {
   LikingUsersButton,
   SubCommentWrapper
 } from "./styles";
-import SubComment from "./SubComment";
+import SubComment from "../SubComment";
 
 export interface Props {
   user?: User;
