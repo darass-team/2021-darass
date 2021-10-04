@@ -6,7 +6,6 @@ import { Props } from ".";
 export const useUserAvatarOption = ({ user, children }: Props) => {
   const [isShowOptionBox, setShowOptionBox] = useState(false);
   const { openAlarmModal, openAlert } = useMessageChannelFromReplyModuleContext();
-
   const { data: alarmContents, hasNewAlarmOnRealTime, setHasNewAlarmOnRealTime } = useGetAlarmContents();
   const { refetch: refetchUser } = useUser();
   const { editUser } = useEditUser();
@@ -39,6 +38,8 @@ export const useUserAvatarOption = ({ user, children }: Props) => {
     } catch (error) {
       if (error instanceof AlertError) {
         openAlert(error.message);
+
+        return;
       }
     }
 

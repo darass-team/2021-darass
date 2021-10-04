@@ -104,7 +104,7 @@ describe("UserAvatarOption test", () => {
       fireEvent.click(getByTestId("user-avatar-option-alarm"));
 
       await waitFor(() => {
-        expect(openAlert).toHaveBeenCalledTimes(1);
+        expect(openAlert).toHaveBeenLastCalledWith("editUser error");
       });
     });
   });
@@ -121,6 +121,31 @@ describe("UserAvatarOption test", () => {
       fireEvent.click(getByTestId("user-avatar-option-user-name"));
 
       expect(getByTestId("modal-dimmed")).toHaveStyle("visibility: visible");
+    });
+    test("프로필 사진을 클릭하면 모달이 보여진다.", () => {
+      const props: Props = {
+        user: socialLoginUser,
+        children: <></>
+      };
+
+      const { getByAltText, getByTestId } = render(<UserAvatarOption {...props} />);
+
+      fireEvent.click(getByAltText("유저 프로필 이미지"));
+
+      expect(getByTestId("modal-dimmed")).toHaveStyle("visibility: visible");
+    });
+    test("UserNickName영역을 클릭하고, 딤드영역을 클릭하면 모달이 사라진다.", () => {
+      const props: Props = {
+        user: socialLoginUser,
+        children: <></>
+      };
+
+      const { getByTestId } = render(<UserAvatarOption {...props} />);
+
+      fireEvent.click(getByTestId("user-avatar-option-user-name"));
+      fireEvent.click(getByTestId("modal-dimmed"));
+
+      expect(getByTestId("modal-dimmed")).toHaveStyle("visibility: hidden");
     });
   });
 });

@@ -8,7 +8,7 @@ import { usePasswordForm } from "./usePasswordForm";
 export interface Props {
   authorId: User["id"];
   password: string;
-  setPassword: Dispatch<SetStateAction<string>>;
+  setPassword: (_password: string) => void;
   onChangePassword: (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
   isSubComment: boolean;
   onClose: () => void;

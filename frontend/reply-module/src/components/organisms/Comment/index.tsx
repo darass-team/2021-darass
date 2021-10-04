@@ -1,21 +1,9 @@
-import { GUEST_IMAGE_URL, MAX_COMMENT_INPUT_LENGTH } from "@/constants/comment";
-import {
-  useDeleteComment,
-  useEditComment,
-  useInput,
-  useLikeComment,
-  useMessageChannelFromReplyModuleContext
-} from "@/hooks";
 import { Comment as CommentType } from "@/types";
 import { User } from "@/types/user";
-import { AlertError } from "@/utils/alertError";
-import { getErrorMessage } from "@/utils/errorMessage";
-import { isEmptyString } from "@/utils/isEmptyString";
-import { messageFromReplyModule } from "@/utils/postMessage";
-import { useEffect, useState } from "react";
-import CommentTextBox from "../../molecules/CommentTextBox";
 import CommentBottom from "../../molecules/CommentBottom";
+import CommentTextBox from "../../molecules/CommentTextBox";
 import PasswordForm from "../../molecules/PasswordForm";
+import SubComment from "../SubComment";
 import {
   Avatar,
   CommentInput,
@@ -26,7 +14,7 @@ import {
   LikingUsersButton,
   SubCommentWrapper
 } from "./styles";
-import SubComment from "../SubComment";
+import { useComment } from "./useComment";
 
 export interface Props {
   user?: User;
@@ -46,7 +34,6 @@ export interface Props {
   canIDelete: boolean;
 }
 
-// TODO: organism 으로 옮기기
 const Comment = ({
   user,
   projectOwnerId,
@@ -64,127 +51,41 @@ const Comment = ({
   canIEdit,
   canIDelete
 }: Props) => {
-  const [isSubCommentInputOpen, setSubCommentInputOpen] = useState(false);
-  const [isOpenPassWordForm, setIsOpenPassWordForm] = useState(false);
-
-  const [clickedOptionType, setClickedOptionType] = useState<"Edit" | "Delete">();
-  const [isEditMode, setEditMode] = useState(false);
-  const { value: password, setValue: setPassword, onChange: onChangePassword } = useInput("");
-
-  const { openConfirmModal, openAlert, openLikingUserModal, setScrollHeight } =
-    useMessageChannelFromReplyModuleContext();
-
-  const { editComment } = useEditComment();
-  const { deleteComment } = useDeleteComment();
-  const { likeComment } = useLikeComment();
-
-  const avatarImageURL = comment.user.profileImageUrl !== GUEST_IMAGE_URL ? comment.user.profileImageUrl : undefined;
-
-  const resetState = () => {
-    setEditMode(false);
-    setClickedOptionType(undefined);
-    setSubCommentInputOpen(false);
-    setPassword("");
-  };
-
-  const onClickEditOptionButton = () => {
-    resetState();
-    setClickedOptionType("Edit");
-    if (user) {
-      setEditMode(true);
-    } else {
-      setIsOpenPassWordForm(true);
-    }
-  };
-
-  const onClickDeleteOptionButton = () => {
-    resetState();
-    setClickedOptionType("Delete");
-    if (user) {
-      confirmDelete();
-    } else {
-      setIsOpenPassWordForm(true);
-    }
-  };
-
-  const confirmDelete = async () => {
-    try {
-      const confirmResult = await openConfirmModal("정말 지우시겠습니까?");
-
-      if (confirmResult === "no") return;
-
-      await deleteComment({
-        id: comment.id,
-        guestUserId: comment.user.id,
-        guestUserPassword: password
-      });
-    } catch (error) {
-      if (error instanceof AlertError) {
-        openAlert(error.message);
-      }
-    } finally {
-      resetState();
-    }
-  };
-
-  const onSubmitEditedComment = async (content: CommentType["content"]) => {
-    try {
-      const isValidContent = !isEmptyString(content) && content.length <= MAX_COMMENT_INPUT_LENGTH;
-
-      if (!isValidContent) {
-        openAlert(getErrorMessage.commentInput(content));
-
-        return;
-      }
-
-      await editComment({
-        id: comment.id,
-        content,
-        guestUserId: comment.user.id,
-        guestUserPassword: password
-      });
-
-      setEditMode(false);
-    } catch (error) {
-      if (error instanceof AlertError) {
-        openAlert(error.message);
-      }
-    } finally {
-      resetState();
-    }
-  };
-
-  const onClickLikeButton = async () => {
-    try {
-      await likeComment({ commentId: comment.id });
-    } catch (error) {
-      if (error instanceof AlertError) {
-        openAlert(error.message);
-      }
-    }
-  };
-
-  const onLikingUsersModalOpen = () => {
-    openLikingUserModal(comment.likingUsers);
-  };
-
-  const onOpenSubCommentInput = () => {
-    setSubCommentInputOpen(true);
-  };
-
-  const onCloseSubCommentInput = () => {
-    setSubCommentInputOpen(false);
-  };
-
-  useEffect(() => {
-    setScrollHeight();
-  }, [isSubCommentInputOpen]);
-
-  useEffect(() => {
-    setEditMode(false);
-    setClickedOptionType(undefined);
-    setSubCommentInputOpen(false);
-  }, [user]);
+  const {
+    avatarImageURL,
+    isEditMode,
+    resetState,
+    onSubmitEditedComment,
+    onClickDeleteOptionButton,
+    onClickEditOptionButton,
+    onClickLikeButton,
+    onOpenSubCommentInput,
+    onLikingUsersModalOpen,
+    isOpenPassWordForm,
+    password,
+    setPassword,
+    onChangePassword,
+    onClosePasswordForm,
+    onSuccessPasswordForm,
+    isSubCommentInputOpen,
+    onCloseSubCommentInput
+  } = useComment({
+    user,
+    projectOwnerId,
+    comment,
+    isVisibleCommentOption,
+    iAmAdmin,
+    iAmGuestUser,
+    thisCommentIsWrittenByAdmin,
+    thisCommentIsWrittenByGuest,
+    thisCommentIsMine,
+    isSubComment,
+    alreadyLiked,
+    hasSubComments,
+    hasLikingUser,
+    canIEdit,
+    canIDelete
+  });
 
   return (
     <>
@@ -240,17 +141,8 @@ const Comment = ({
             setPassword={setPassword}
             onChangePassword={onChangePassword}
             isSubComment={isSubComment}
-            onClose={() => setIsOpenPassWordForm(false)}
-            onSubmitSuccess={() => {
-              if (clickedOptionType === "Edit") {
-                setEditMode(true);
-              } else if (clickedOptionType === "Delete") {
-                confirmDelete();
-              }
-
-              setIsOpenPassWordForm(false);
-              setClickedOptionType(undefined);
-            }}
+            onClose={onClosePasswordForm}
+            onSubmitSuccess={onSuccessPasswordForm}
           />
         )}
       </Container>
