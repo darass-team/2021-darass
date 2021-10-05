@@ -14,7 +14,7 @@ const AlertModal = () => {
       postCloseModal={onCloseModal}
       postType={POST_MESSAGE_TYPE.MODAL.OPEN.ALERT}
     >
-      <Container>
+      <Container data-testid="alert-modal-container">
         <Message>{data}</Message>
         <ButtonWrapper>
           <OkButton type="button" onClick={onCloseModal}>

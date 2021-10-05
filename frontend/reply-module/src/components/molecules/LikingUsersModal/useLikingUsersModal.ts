@@ -2,7 +2,7 @@ import { useMessageChannelFromReplyModalContext } from "@/hooks";
 import { User } from "@/types/user";
 import { useState } from "react";
 
-export const useLikingUserModal = () => {
+export const useLikingUsersModal = () => {
   const [data, _setData] = useState<User[]>([]);
   const [isOpen, setIsOpen] = useState(false);
   const { closeLikingUserModal } = useMessageChannelFromReplyModalContext();

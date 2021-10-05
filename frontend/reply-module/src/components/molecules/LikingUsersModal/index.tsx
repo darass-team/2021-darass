@@ -2,10 +2,10 @@ import Avatar from "@/components/atoms/Avatar";
 import { POST_MESSAGE_TYPE } from "@/constants/postMessageType";
 import FullScreenModal from "../FullScreenModal";
 import { Container, Title, UserGrid, UserNickName, UserWrapper } from "./styles";
-import { useLikingUserModal } from "./useLikingUserModal";
+import { useLikingUsersModal } from "./useLikingUsersModal";
 
 const LikingUsersModal = () => {
-  const { isOpen, data, setData, openModal, onCloseModal } = useLikingUserModal();
+  const { isOpen, data, setData, openModal, onCloseModal } = useLikingUsersModal();
 
   return (
     <FullScreenModal
@@ -15,7 +15,7 @@ const LikingUsersModal = () => {
       postCloseModal={onCloseModal}
       postType={POST_MESSAGE_TYPE.MODAL.OPEN.LIKING_USERS}
     >
-      <Container>
+      <Container data-testid="liking-users-modal-container">
         <Title>👍 좋아요 누른 사람들</Title>
         <UserGrid>
           {data.length > 0 &&

@@ -2,7 +2,7 @@ import { POST_MESSAGE_TYPE } from "@/constants/postMessageType";
 import AlarmContent from "../AlarmContent";
 import FullScreenModal from "../FullScreenModal";
 import { AlarmContainer, Container } from "./styles";
-import { useAlarmModal } from "./useAlarmContent";
+import { useAlarmModal } from "./useAlarmModal";
 
 const AlarmModal = () => {
   const { isOpen, data, setData, openModal, onCloseModal } = useAlarmModal();
@@ -16,7 +16,7 @@ const AlarmModal = () => {
       postType={POST_MESSAGE_TYPE.MODAL.OPEN.ALARM}
       fadeInFrom="right"
     >
-      <Container>
+      <Container data-testid="alarm-modal-container">
         <AlarmContainer>
           <AlarmContent alarmContents={data || []} />
         </AlarmContainer>

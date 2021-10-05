@@ -14,7 +14,7 @@ const ConfirmModal = () => {
       postCloseModal={onCloseModal}
       postType={POST_MESSAGE_TYPE.MODAL.OPEN.CONFIRM}
     >
-      <Container>
+      <Container data-testid="confirm-modal-container">
         <Message>{data}</Message>
         <ButtonWrapper>
           <ConfirmButton type="button" onClick={onClickConfirmOk}>
