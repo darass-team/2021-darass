@@ -42,6 +42,7 @@ const CommentArea = () => {
           sortOption={sortOption}
           onSelectSortOption={onSelectSortOption}
           notice={notice}
+          data-testid="comment-list"
         />
       ) : (
         <LoadingPage />
