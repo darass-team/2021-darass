@@ -2,6 +2,7 @@ package com.darass.darass.comment.controller;
 
 import com.darass.darass.auth.oauth.domain.AuthenticationPrincipal;
 import com.darass.darass.auth.oauth.domain.RequiredLogin;
+import com.darass.darass.comment.domain.Comment;
 import com.darass.darass.comment.dto.CommentCreateRequest;
 import com.darass.darass.comment.dto.CommentDeleteRequest;
 import com.darass.darass.comment.dto.CommentReadRequest;
@@ -13,12 +14,15 @@ import com.darass.darass.comment.dto.CommentResponses;
 import com.darass.darass.comment.dto.CommentStatRequest;
 import com.darass.darass.comment.dto.CommentStatResponse;
 import com.darass.darass.comment.dto.CommentUpdateRequest;
+import com.darass.darass.comment.repository.CommentRepository;
 import com.darass.darass.comment.service.CommentService;
 import com.darass.darass.user.domain.User;
+import java.util.Optional;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -35,6 +39,22 @@ import org.springframework.web.bind.annotation.RestController;
 public class CommentController {
 
     private final CommentService commentService;
+    private final CommentRepository commentRepository;
+
+    @GetMapping("/test")
+    @Transactional(readOnly = true)
+    public ResponseEntity<CommentResponses> test() {
+        Optional<Comment> byId = commentRepository.findById(1L);
+        System.out.println(byId);
+        return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/test2")
+    public ResponseEntity<CommentResponses> test2() {
+        Optional<Comment> byId = commentRepository.findById(1L);
+        System.out.println(byId);
+        return ResponseEntity.noContent().build();
+    }
 
     @GetMapping("/comments")
     public ResponseEntity<CommentResponses> read(@ModelAttribute CommentReadRequest commentReadRequest) {
