@@ -4,7 +4,7 @@ import Avatar from "@/components/atoms/Avatar";
 import CommentInput from "@/components/molecules/CommentInput";
 import Footer from "@/components/molecules/Footer";
 import { MANAGE_PAGE_DOMAIN } from "@/constants/domain";
-import LoadingPage from "../LoadingPage";
+import LoadingPage from "../../organisms/LoadingPage";
 import {
   CommentList,
   Container,

@@ -3,7 +3,7 @@ import { useLocation, useParams } from "react-router";
 import { QUERY } from "@/constants/api";
 import { useToken } from "@/hooks/api/token/useToken";
 import { request } from "@/utils/request";
-import LoadingPage from "../LoadingPage";
+import LoadingPage from "../../organisms/LoadingPage";
 
 const OAuth = () => {
   const location = useLocation();

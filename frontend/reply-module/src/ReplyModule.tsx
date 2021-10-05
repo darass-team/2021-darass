@@ -15,7 +15,7 @@ import { useRecentlyAlarmWebSocket } from "./hooks";
 import { messageFromReplyModule } from "./utils/postMessage";
 import throttling from "./utils/throttle";
 import { MessageChannelFromReplyModuleContext } from "./hooks/contexts/useMessageFromReplyModule";
-import LoadingPage from "./components/pages/LoadingPage";
+import LoadingPage from "./components/organisms/LoadingPage";
 
 Sentry.init({
   dsn: process.env.SENTRY_REPLY_MODULE_DSN,
