@@ -1,6 +1,6 @@
 import { Container, ErrorNotice } from "./styles";
 
-interface Props {
+export interface Props {
   notice: string;
 }
 

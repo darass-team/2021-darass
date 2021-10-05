@@ -5,7 +5,7 @@ import ReactDOM from "react-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
 import CommentArea from "./components/pages/CommentArea";
-import ErrorPage from "./components/pages/ErrorPage";
+import ErrorPage from "./components/organisms/ErrorPage";
 import OAuth from "./components/pages/OAuth";
 import { POST_MESSAGE_TYPE } from "./constants/postMessageType";
 import { ROUTE } from "./constants/route";
