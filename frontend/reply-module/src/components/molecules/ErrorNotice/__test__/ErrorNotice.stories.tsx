@@ -2,7 +2,7 @@ import { Story } from "@storybook/react";
 import ErrorNotice, { Props } from "..";
 
 export default {
-  title: "organisms/ErrorNotice",
+  title: "molecules/ErrorNotice",
   component: ErrorNotice,
   argTypes: { children: { control: "text" } }
 };
