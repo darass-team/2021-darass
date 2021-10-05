@@ -24,6 +24,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final S3Uploader s3Uploader;
 
+    @Transactional(readOnly = true)
     public UserResponse findById(Long id) {
         Optional<User> possibleUser = userRepository.findById(id);
         User user = possibleUser.orElseThrow(ExceptionWithMessageAndCode.NOT_FOUND_USER::getException);
@@ -48,6 +49,7 @@ public class UserService {
         userRepository.deleteById(id);
     }
 
+    @Transactional(readOnly = true)
     public PasswordCheckResponse checkGuestUserPassword(PasswordCheckRequest passwordCheckRequest) {
         Optional<User> possibleUser = userRepository.findById(passwordCheckRequest.getGuestUserId());
         User user = possibleUser.orElseThrow(ExceptionWithMessageAndCode.NOT_FOUND_USER::getException);
