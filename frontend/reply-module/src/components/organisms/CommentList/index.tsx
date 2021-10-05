@@ -1,7 +1,7 @@
+import Comment from "@/components/organisms/Comment";
 import { ORDER_BUTTON } from "@/constants/orderButton";
 import { Comment as CommentType } from "@/types/comment";
 import { User } from "@/types/user";
-import Comment from "@/components/organisms/Comment";
 import {
   CommentContainer,
   CommentCount,
@@ -51,6 +51,7 @@ const CommentList = ({
                 onClick={() => {
                   onSelectSortOption(key as keyof typeof ORDER_BUTTON);
                 }}
+                data-testid={`comment-list-order-button-${key}`}
               >
                 {value}
               </OrderButton>
