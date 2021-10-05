@@ -21,6 +21,7 @@ public class ProjectService {
 
     private final ProjectRepository projectRepository;
 
+    @Transactional(readOnly = true)
     public List<ProjectResponse> findByUserId(Long id) {
         List<Project> projects = projectRepository.findByUserId(id);
 
@@ -29,12 +30,14 @@ public class ProjectService {
             .collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
     public ProjectResponse findByIdAndUserId(Long projectId, Long userId) {
         Project project = projectRepository.findByIdAndUserId(projectId, userId)
             .orElseThrow(ExceptionWithMessageAndCode.NOT_FOUND_PROJECT::getException);
         return ProjectResponse.from(project);
     }
 
+    @Transactional(readOnly = true)
     public ProjectResponse findUserIdBySecretKey(String secretKey) {
         Optional<Project> expectedProject = projectRepository.findBySecretKey(secretKey);
         Project project = expectedProject.orElseThrow(ExceptionWithMessageAndCode.NOT_FOUND_PROJECT::getException);

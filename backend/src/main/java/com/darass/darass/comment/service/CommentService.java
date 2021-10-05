@@ -69,6 +69,7 @@ public class CommentService {
         return userRepository.save(user);
     }
 
+    @Transactional(readOnly = true)
     private Project getBySecretKey(CommentCreateRequest commentRequest) {
         return projectRepository.findBySecretKey(commentRequest.getProjectSecretKey())
             .orElseThrow(ExceptionWithMessageAndCode.NOT_FOUND_PROJECT::getException);
@@ -107,6 +108,7 @@ public class CommentService {
         }
     }
 
+    @Transactional(readOnly = true)
     public CommentResponses findAllCommentsByUrlAndProjectKey(CommentReadRequest request) {
         List<Comment> comments = commentRepository
             .findByUrlAndProjectSecretKeyAndParentId(request.getUrl(), request.getProjectKey(), null,
@@ -117,6 +119,7 @@ public class CommentService {
             .collect(Collectors.toList()));
     }
 
+    @Transactional(readOnly = true)
     public CommentResponses findAllCommentsByUrlAndProjectKeyUsingPagination(CommentReadRequestByPagination request) {
         int pageBasedIndex = request.getPage() - 1;
         try {
@@ -133,6 +136,7 @@ public class CommentService {
         }
     }
 
+    @Transactional(readOnly = true)
     public CommentResponses findAllCommentsInProject(
         CommentReadRequestInProject request) {
         int pageBasedIndex = request.getPage() - 1;
@@ -154,6 +158,7 @@ public class CommentService {
         }
     }
 
+    @Transactional(readOnly = true)
     public CommentResponses findAllCommentsInProjectUsingSearch(
         CommentReadRequestBySearch request) {
         int pageBasedIndex = request.getPage() - 1;

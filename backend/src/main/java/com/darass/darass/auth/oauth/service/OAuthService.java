@@ -39,6 +39,7 @@ public class OAuthService {
             jwtTokenProvider.createRefreshToken(socialLoginUser));
     }
 
+    @Transactional(readOnly = true)
     public SocialLoginUser findSocialLoginUserByAccessToken(String accessToken) {
         jwtTokenProvider.validateAccessToken(accessToken);
         String userId = jwtTokenProvider.getAccessTokenPayload(accessToken);
