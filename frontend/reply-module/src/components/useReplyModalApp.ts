@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { POST_MESSAGE_TYPE } from "./constants/postMessageType";
+import { POST_MESSAGE_TYPE } from "@/constants/postMessageType";
 
 export const useReplyModal = () => {
   const [port, setPort] = useState<MessagePort>();
