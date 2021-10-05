@@ -1,21 +1,18 @@
 import * as Sentry from "@sentry/react";
 import { Integrations } from "@sentry/tracing";
-import { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
-import CommentArea from "./components/pages/CommentArea";
 import ErrorPage from "./components/organisms/ErrorPage";
+import LoadingPage from "./components/organisms/LoadingPage";
+import CommentArea from "./components/pages/CommentArea";
 import OAuth from "./components/pages/OAuth";
-import { POST_MESSAGE_TYPE } from "./constants/postMessageType";
 import { ROUTE } from "./constants/route";
 import GlobalStyles from "./constants/styles/GlobalStyles";
-import { RecentlyAlarmContentContext } from "./hooks/contexts/useRecentlyAlarmContentContext";
-import { useRecentlyAlarmWebSocket } from "./hooks";
-import { messageFromReplyModule } from "./utils/postMessage";
-import throttling from "./utils/throttle";
 import { MessageChannelFromReplyModuleContext } from "./hooks/contexts/useMessageFromReplyModule";
-import LoadingPage from "./components/organisms/LoadingPage";
+import { RecentlyAlarmContentContext } from "./hooks/contexts/useRecentlyAlarmContentContext";
+import { useReplyModule } from "./useReplyModule";
+import { messageFromReplyModule } from "./utils/postMessage";
 
 Sentry.init({
   dsn: process.env.SENTRY_REPLY_MODULE_DSN,
@@ -34,44 +31,8 @@ const queryClient = new QueryClient({
 });
 
 const App = () => {
-  const [port, setPort] = useState<MessagePort>();
-  const [receivedMessageFromReplyModal, setReceivedMessageFromReplyModal] = useState<MessageEvent["data"]>();
-  const { recentlyAlarmContent, hasNewAlarmOnRealTime, setHasNewAlarmOnRealTime } = useRecentlyAlarmWebSocket();
-
-  const onMessageInitMessageChannel = ({ data, ports }: MessageEvent) => {
-    if (data.type !== POST_MESSAGE_TYPE.INIT_MESSAGE_CHANNEL.REPLY_MODULE.RESPONSE_PORT) return;
-
-    const [port2] = ports;
-    setPort(port2);
-
-    window.removeEventListener("message", onMessageInitMessageChannel);
-  };
-
-  useEffect(() => {
-    if (!port) return;
-
-    const onResize = throttling({ callback: messageFromReplyModule(port).setScrollHeight, delay: 600 });
-    window.addEventListener("resize", onResize);
-
-    const onListenMessage = ({ data }: MessageEvent) => {
-      setReceivedMessageFromReplyModal(data);
-    };
-    port.removeEventListener("message", onListenMessage);
-    port.addEventListener("message", onListenMessage);
-    port.start();
-
-    return () => {
-      window.removeEventListener("resize", onResize);
-      port.removeEventListener("message", onListenMessage);
-    };
-  }, [port]);
-
-  useEffect(() => {
-    window.addEventListener("message", onMessageInitMessageChannel);
-    window.parent.postMessage({ type: POST_MESSAGE_TYPE.INIT_MESSAGE_CHANNEL.REPLY_MODULE.REQUEST_PORT }, "*");
-
-    return () => window.removeEventListener("message", onMessageInitMessageChannel);
-  }, []);
+  const { port, recentlyAlarmContent, hasNewAlarmOnRealTime, setHasNewAlarmOnRealTime, receivedMessageFromReplyModal } =
+    useReplyModule();
 
   return (
     <MessageChannelFromReplyModuleContext.Provider
