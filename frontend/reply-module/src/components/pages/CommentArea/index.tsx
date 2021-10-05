@@ -9,7 +9,7 @@ import { useGetAllComments, useGetProjectOwnerId, useMessageChannelFromReplyModu
 import { AlertError } from "@/utils/alertError";
 import { popUpCenter } from "@/utils/popUpCenter";
 import Avatar from "@/components/atoms/Avatar";
-import Footer from "@/components/organisms/Footer";
+import Footer from "@/components/molecules/Footer";
 import {
   CommentList,
   Container,

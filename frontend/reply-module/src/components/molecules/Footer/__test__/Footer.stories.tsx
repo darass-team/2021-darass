@@ -2,7 +2,7 @@ import { Story } from "@storybook/react";
 import Footer from "..";
 
 export default {
-  title: "organisms/Footer",
+  title: "molecules/Footer",
   component: Footer,
   argTypes: { children: { control: "text" } }
 };
