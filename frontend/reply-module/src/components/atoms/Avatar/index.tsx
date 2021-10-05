@@ -1,6 +1,6 @@
-import { Container } from "./styles";
 import defaultUserImage from "@/assets/svg/default-user-image.svg";
-import { MouseEvent, MouseEventHandler } from "react";
+import { MouseEventHandler } from "react";
+import { Container } from "./styles";
 
 export type Size = "SM" | "MD" | "LG";
 

@@ -7,26 +7,6 @@ import { useComment } from "@/components/organisms/Comment/useComment";
 jest.mock("@/components/organisms/Comment/useComment");
 
 describe("CommentList test", () => {
-  (useComment as jest.Mock).mockImplementation(() => {
-    return {
-      user: socialLoginUser,
-      projectOwnerId: 1,
-      comment: comments[0],
-      isVisibleCommentOption: false,
-      iAmAdmin: false,
-      iAmGuestUser: false,
-      thisCommentIsWrittenByAdmin: false,
-      thisCommentIsWrittenByGuest: false,
-      thisCommentIsMine: false,
-      isSubComment: false,
-      alreadyLiked: false,
-      hasSubComments: false,
-      hasLikingUser: false,
-      canIEdit: false,
-      canIDelete: false
-    };
-  });
-
   test("notice가 있다면, notice가 렌더링 된다.", () => {
     const props: Props = {
       user: socialLoginUser,

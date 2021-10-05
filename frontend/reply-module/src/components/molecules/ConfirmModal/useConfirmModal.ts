@@ -1,5 +1,4 @@
 import { useMessageChannelFromReplyModalContext } from "@/hooks";
-import { GetAlarmResponse } from "@/types/comment";
 import { useState } from "react";
 
 export const useConfirmModal = () => {

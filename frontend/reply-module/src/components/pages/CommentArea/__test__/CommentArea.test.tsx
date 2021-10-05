@@ -12,56 +12,6 @@ jest.mock("@/components/molecules/UserAvatarOption/useUserAvatarOption");
 jest.mock("@/components/organisms/Comment/useComment");
 jest.mock("@/components/molecules/CommentInput/useCommentInput");
 
-(useUserAvatarOption as jest.Mock).mockImplementation(() => {
-  return {
-    onClickAlarmIcon: jest.fn(),
-    avatarImageURL: "",
-    onClickUserNickName: jest.fn(),
-    isShowOptionBox: false,
-    onCloseShowOptionBox: jest.fn(),
-    hasNewAlarmOnRealTime: false,
-    onClickAvatar: jest.fn()
-  };
-});
-
-(useCommentInput as jest.Mock).mockImplementation(() => {
-  return {
-    onSubmit: jest.fn(),
-    $contentEditable: null,
-    onInput: jest.fn(),
-    isFormSubmitted: false,
-    isValidCommentInput: false,
-    isValidGuestNickName: false,
-    isValidGuestPassword: false,
-    content: "",
-    guestNickName: "",
-    onChangeGuestNickName: jest.fn(),
-    isSubCommentInput: false,
-    guestPassword: "",
-    onChangeGuestPassword: jest.fn()
-  };
-});
-
-(useComment as jest.Mock).mockImplementation(() => {
-  return {
-    user: socialLoginUser,
-    projectOwnerId: 1,
-    comment: comments[0],
-    isVisibleCommentOption: false,
-    iAmAdmin: false,
-    iAmGuestUser: false,
-    thisCommentIsWrittenByAdmin: false,
-    thisCommentIsWrittenByGuest: false,
-    thisCommentIsMine: false,
-    isSubComment: false,
-    alreadyLiked: false,
-    hasSubComments: false,
-    hasLikingUser: false,
-    canIEdit: false,
-    canIDelete: false
-  };
-});
-
 describe("CommentArea test", () => {
   test("projectOwnerId && !getProjectOwnerIdLoading && !commentsLoading 가 true이면 CommentList가 렌더링된다.", () => {
     (useCommentArea as jest.Mock).mockImplementation(() => {
