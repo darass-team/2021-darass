@@ -39,22 +39,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class CommentController {
 
     private final CommentService commentService;
-    private final CommentRepository commentRepository;
-
-    @GetMapping("/test")
-    @Transactional(readOnly = true)
-    public ResponseEntity<CommentResponses> test() {
-        Optional<Comment> byId = commentRepository.findById(1L);
-        System.out.println(byId);
-        return ResponseEntity.noContent().build();
-    }
-
-    @GetMapping("/test2")
-    public ResponseEntity<CommentResponses> test2() {
-        Optional<Comment> byId = commentRepository.findById(1L);
-        System.out.println(byId);
-        return ResponseEntity.noContent().build();
-    }
 
     @GetMapping("/comments")
     public ResponseEntity<CommentResponses> read(@ModelAttribute CommentReadRequest commentReadRequest) {

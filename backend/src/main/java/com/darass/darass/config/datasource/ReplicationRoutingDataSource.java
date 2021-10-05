@@ -11,10 +11,10 @@ public class ReplicationRoutingDataSource extends AbstractRoutingDataSource {
     protected Object determineCurrentLookupKey() {
         boolean isReadOnly = TransactionSynchronizationManager.isCurrentTransactionReadOnly();
         if (isReadOnly) {
-            logger.warn("Connection Slave");
+            System.out.println("Connection Slave");
             return DATASOURCE_KEY_SLAVE;
         } else {
-            logger.warn("Connection Master");
+            System.out.println("Connection Master");
             return DATASOURCE_KEY_MASTER;
         }
     }
