@@ -18,6 +18,7 @@ public class CommentAlarmService {
 
     private final CommentAlarmRepository commentAlarmRepository;
 
+    @Transactional(readOnly = true)
     public List<CommentAlarmResponse> findAllCreatedDateBetween(SocialLoginUser socialLoginUser,
         LocalDateTime start, LocalDateTime end) {
         List<CommentAlarm> commentAlarms = commentAlarmRepository
