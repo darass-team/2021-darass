@@ -72,7 +72,7 @@ public class CustomDataSourceConfig {
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         EntityManagerFactoryBuilder entityManagerFactoryBuilder = createEntityManagerFactoryBuilder(jpaProperties);
-        return entityManagerFactoryBuilder.dataSource(dataSource()).packages("com.darass.darass").build();
+        return entityManagerFactoryBuilder.dataSource(dataSource()).packages("com.darass").build();
     }
 
     private EntityManagerFactoryBuilder createEntityManagerFactoryBuilder(JpaProperties jpaProperties) {
