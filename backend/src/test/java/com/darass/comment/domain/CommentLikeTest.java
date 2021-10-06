@@ -21,6 +21,8 @@ class CommentLikeTest {
             .user(guestUser)
             .build();
 
+
+
         assertThat(commentLike.getUserName()).isEqualTo(guestUser.getNickName());
     }
 }
