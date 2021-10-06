@@ -4,7 +4,7 @@ import { useRecentlyAlarmWebSocket } from "@/hooks";
 import { messageFromReplyModule } from "@/utils/postMessage";
 import throttling from "@/utils/throttle";
 
-export const useReplyModule = () => {
+export const useReplyModuleApp = () => {
   const [port, setPort] = useState<MessagePort>();
   const [receivedMessageFromReplyModal, setReceivedMessageFromReplyModal] = useState<MessageEvent["data"]>();
   const { recentlyAlarmContent, hasNewAlarmOnRealTime, setHasNewAlarmOnRealTime } = useRecentlyAlarmWebSocket();

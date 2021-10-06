@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { POST_MESSAGE_TYPE } from "@/constants/postMessageType";
 
-export const useReplyModal = () => {
+export const useReplyModalApp = () => {
   const [port, setPort] = useState<MessagePort>();
   const [receivedMessageFromReplyModule, setReceivedMessageFromReplyModule] = useState<MessageEvent["data"]>();
 

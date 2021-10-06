@@ -4,11 +4,11 @@ import ConfirmModal from "./molecules/ConfirmModal";
 import LikingUsersModal from "./molecules/LikingUsersModal";
 import LoadingPage from "./organisms/LoadingPage";
 import { MessageChannelFromReplyModalContext } from "../hooks/contexts/useMessageFromReplyModal";
-import { useReplyModal } from "./useReplyModalApp";
+import { useReplyModalApp } from "./useReplyModalApp";
 import { messageFromReplyModal } from "../utils/postMessage";
 
 const App = () => {
-  const { port, receivedMessageFromReplyModule } = useReplyModal();
+  const { port, receivedMessageFromReplyModule } = useReplyModalApp();
 
   if (!port) {
     return <LoadingPage />;

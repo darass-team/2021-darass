@@ -5,12 +5,12 @@ import OAuth from "@/components/pages/OAuth";
 import { ROUTE } from "@/constants/route";
 import { MessageChannelFromReplyModuleContext } from "@/hooks/contexts/useMessageFromReplyModule";
 import { RecentlyAlarmContentContext } from "@/hooks/contexts/useRecentlyAlarmContentContext";
-import { useReplyModule } from "./useReplyModuleApp";
+import { useReplyModuleApp } from "./useReplyModuleApp";
 import { messageFromReplyModule } from "@/utils/postMessage";
 
 const App = () => {
   const { port, recentlyAlarmContent, hasNewAlarmOnRealTime, setHasNewAlarmOnRealTime, receivedMessageFromReplyModal } =
-    useReplyModule();
+    useReplyModuleApp();
 
   return (
     <MessageChannelFromReplyModuleContext.Provider
