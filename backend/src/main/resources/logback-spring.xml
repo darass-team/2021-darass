@@ -13,6 +13,20 @@
     </root>
   </springProfile>
 
+  <springProfile name="prod">
+    <appender class="ch.qos.logback.core.ConsoleAppender" name="STDOUT">
+      <encoder>
+        <pattern>
+          %green(%d{yyyy-MM-dd HH:mm:ss.SSS}) [%thread] %highlight([%level]) %logger - %cyan(%msg%n)
+        </pattern>
+      </encoder>
+    </appender>
+
+    <root level="warn">
+      <appender-ref ref="STDOUT"/>
+    </root>
+  </springProfile>
+
   <springProfile name="develop">
     <springProperty name="SLACK_WEBHOOK_URI" source="logging.slack.webhook-uri"/>
     <appender class="com.github.maricn.logback.SlackAppender" name="SLACK">

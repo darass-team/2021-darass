@@ -1,7 +1,5 @@
 package com.darass.config.datasource;
 
-import java.util.Map;
-import java.util.stream.Collectors;
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 
@@ -12,11 +10,12 @@ public class ReplicationRoutingDataSource extends AbstractRoutingDataSource {
     @Override
     protected Object determineCurrentLookupKey() {
         boolean isReadOnly = TransactionSynchronizationManager.isCurrentTransactionReadOnly();
+        logger.warn(isReadOnly);
         if (isReadOnly) {
-            logger.info("Connection Slave");
+            logger.warn("Connection Slave");
             return DATASOURCE_KEY_SLAVE;
         } else {
-            logger.info("Connection Master");
+            logger.warn("Connection Master");
             return DATASOURCE_KEY_MASTER;
         }
     }
