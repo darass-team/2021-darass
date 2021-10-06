@@ -184,7 +184,7 @@ jacocoTestCoverageVerification {
                     'com.darass.TestDataLoader',
                     'com.darass.common.LoggingAspect',
                     'com.darass.config.*',
-                    'com.darass.commentalarm.domain.CommentAlarmMachine'
+
             ]
         }
     }

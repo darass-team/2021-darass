@@ -1,14 +1,14 @@
-package com.darass.websocket.config;
+package com.darass;
 
-import org.springframework.context.annotation.Configuration;
+import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
 
-@Configuration
+@TestConfiguration
 @EnableWebSocketMessageBroker
-public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
+public class WebSocketTestConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry stompEndpointRegistry) {
@@ -20,12 +20,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
         messageBrokerRegistry.setApplicationDestinationPrefixes("/app");
 
-        messageBrokerRegistry.enableStompBrokerRelay("/queue")
-            .setRelayHost("52.78.66.216")
-            .setRelayPort(8000)
-            .setSystemLogin("username")
-            .setSystemPasscode("password")
-            .setClientLogin("username")
-            .setClientPasscode("password");
+        messageBrokerRegistry.enableSimpleBroker("/queue");
     }
+
 }
