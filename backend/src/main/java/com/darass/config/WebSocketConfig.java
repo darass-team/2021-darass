@@ -13,16 +13,16 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 @EnableWebSocketMessageBroker
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
-    @Value("${stomp-broker-ip}")
+    @Value("${stomp-broker.ip}")
     private String StompBrokerIp;
 
-    @Value("${stomp-broker-port}")
+    @Value("${stomp-broke.port}")
     private int StompBrokerPort;
 
-    @Value("${stomp-broker-username}")
+    @Value("${stomp-broker.username}")
     private String StompBrokerUsername;
 
-    @Value("${stomp-broker-passowrd}")
+    @Value("${stomp-broker.passowrd}")
     private String StompBrokerPassword;
 
     @Override
