@@ -1,9 +1,8 @@
+import { useMessageChannelFromReplyModalContext } from "@/hooks";
 import { render } from "@testing-library/react";
 import ConfirmModal from "..";
 
-jest.mock("../../FullScreenModal/useFullScreenModal");
-jest.mock("../../Modal/useModal");
-jest.mock("../useConfirmModal");
+jest.mock("@/hooks/contexts/useMessageFromReplyModal");
 
 describe("ConfirmModal test", () => {
   test("rendering test", () => {

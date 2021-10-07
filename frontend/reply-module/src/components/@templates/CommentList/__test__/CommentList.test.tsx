@@ -1,10 +1,13 @@
+import { useDeleteComment, useEditComment, useLikeComment, useMessageChannelFromReplyModuleContext } from "@/hooks";
 import { comments } from "@/__test__/fixture/comments";
 import { socialLoginUser } from "@/__test__/fixture/user";
 import { render, fireEvent, waitFor } from "@testing-library/react";
 import CommentList, { Props } from "..";
-import { useComment } from "@/components/@organisms/Comment/useComment";
 
-jest.mock("@/components/organisms/Comment/useComment");
+jest.mock("@/hooks/contexts/useMessageFromReplyModule");
+jest.mock("@/hooks/api/comment/useEditComment");
+jest.mock("@/hooks/api/comment/useDeleteComment");
+jest.mock("@/hooks/api/comment/useLikeComment");
 
 describe("CommentList test", () => {
   test("notice가 있다면, notice가 렌더링 된다.", () => {
