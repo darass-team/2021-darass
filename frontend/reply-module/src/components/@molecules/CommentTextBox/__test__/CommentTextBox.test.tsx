@@ -9,6 +9,7 @@ import CommentTextBox, { Props } from "..";
 jest.mock("@/hooks/contexts/useMessageFromReplyModule");
 jest.mock("@/hooks/contexts/useMessageFromReplyModule");
 jest.mock("@/utils/focusContentEditableTextToEnd");
+
 describe("CommentTextBox test", () => {
   const focusContentEditableTextToEnd = jest.fn();
   const setScrollHeight = jest.fn();
