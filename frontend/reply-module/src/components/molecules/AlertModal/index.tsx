@@ -1,10 +1,26 @@
 import { POST_MESSAGE_TYPE } from "@/constants/postMessageType";
+import { useMessageChannelFromReplyModalContext } from "@/hooks";
+import { useState } from "react";
 import FullScreenModal from "../FullScreenModal";
 import { ButtonWrapper, Container, Message, OkButton } from "./styles";
-import { useAlertModal } from "./useAlertModal";
 
 const AlertModal = () => {
-  const { isOpen, data, setData, openModal, onCloseModal } = useAlertModal();
+  const [data, _setData] = useState<string>();
+  const [isOpen, setIsOpen] = useState(false);
+  const { closeAlertModal } = useMessageChannelFromReplyModalContext();
+
+  const openModal = () => {
+    setIsOpen(true);
+  };
+
+  const onCloseModal = () => {
+    setIsOpen(false);
+    closeAlertModal();
+  };
+
+  const setData = (_data: string) => {
+    _setData(_data);
+  };
 
   return (
     <FullScreenModal
@@ -17,7 +33,7 @@ const AlertModal = () => {
       <Container data-testid="alert-modal-container">
         <Message>{data}</Message>
         <ButtonWrapper>
-          <OkButton type="button" onClick={onCloseModal}>
+          <OkButton type="button" onClick={onCloseModal} data-testid="alert-modal-ok-button">
             확인
           </OkButton>
         </ButtonWrapper>
