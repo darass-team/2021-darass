@@ -1,4 +1,4 @@
-import { customAxios } from "../request";
+import { customAxios } from "../customAxios";
 
 jest.mock("../request");
 

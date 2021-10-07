@@ -1,5 +1,6 @@
 import { QUERY } from "@/constants/api";
-import { customAxios, request } from "../request";
+import { customAxios } from "../customAxios";
+import { request } from "../request";
 
 jest.spyOn(customAxios, "get");
 jest.spyOn(customAxios, "post");
