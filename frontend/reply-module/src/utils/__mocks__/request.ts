@@ -1,23 +1,18 @@
 import { customAxios } from "../customAxios";
 
-jest.mock("../request");
-
-jest.spyOn(customAxios, "get");
-jest.spyOn(customAxios, "post");
-jest.spyOn(customAxios, "patch");
-jest.spyOn(customAxios, "delete");
+jest.mock("../customAxios");
 
 export const request = {
-  get: jest.fn(() => {
+  get: jest.fn().mockImplementation(() => {
     customAxios.get("");
   }),
-  post: jest.fn(() => {
+  post: jest.fn().mockImplementation(() => {
     customAxios.post("", {});
   }),
-  patch: jest.fn(() => {
+  patch: jest.fn().mockImplementation(() => {
     customAxios.patch("", {});
   }),
-  delete: jest.fn(() => {
+  delete: jest.fn().mockImplementation(() => {
     customAxios.delete("");
   })
 };

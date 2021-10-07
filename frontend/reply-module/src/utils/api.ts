@@ -38,7 +38,7 @@ export const deleteRefreshToken = async () => {
   try {
     const response = await request.delete(QUERY.LOGOUT);
 
-    return response.data.accessToken;
+    return response.data;
   } catch (error) {
     if (!axios.isAxiosError(error)) {
       throw new AlertError("알 수 없는 에러입니다.");
@@ -48,7 +48,7 @@ export const deleteRefreshToken = async () => {
   }
 };
 
-export const postEditUser = async (data: FormData) => {
+export const patchEditUser = async (data: FormData) => {
   const headers = {
     "Content-Type": "multipart/form-data"
   };

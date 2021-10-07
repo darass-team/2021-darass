@@ -1,12 +1,12 @@
 import { REACT_QUERY_KEY } from "@/constants/reactQueryKey";
 import { User } from "@/types/user";
-import { postEditUser } from "@/utils/api";
+import { patchEditUser } from "@/utils/api";
 import { useMutation, useQueryClient } from "react-query";
 
 export const useEditUser = () => {
   const queryClient = useQueryClient();
 
-  const editMutation = useMutation<User, Error, FormData>(data => postEditUser(data), {
+  const editMutation = useMutation<User, Error, FormData>(data => patchEditUser(data), {
     onSuccess: () => {
       queryClient.invalidateQueries(REACT_QUERY_KEY.USER);
     }
