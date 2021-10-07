@@ -1,8 +1,8 @@
-import AlarmModal from "./molecules/AlarmModal";
-import AlertModal from "./molecules/AlertModal";
-import ConfirmModal from "./molecules/ConfirmModal";
-import LikingUsersModal from "./molecules/LikingUsersModal";
-import LoadingPage from "./organisms/LoadingPage";
+import AlarmModal from "./@organisms/AlarmModal";
+import AlertModal from "./@organisms/AlertModal";
+import ConfirmModal from "./@organisms/ConfirmModal";
+import LikingUsersModal from "./@organisms/LikingUsersModal";
+import LoadingPage from "./@molecules/LoadingPage";
 import { MessageChannelFromReplyModalContext } from "../hooks/contexts/useMessageFromReplyModal";
 import { useReplyModalApp } from "./useReplyModalApp";
 import { messageFromReplyModal } from "../utils/postMessage";

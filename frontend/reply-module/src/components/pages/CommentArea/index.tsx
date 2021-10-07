@@ -1,10 +1,10 @@
 import kakaoTalkIcon from "@/assets/png/kakaotalk.png";
 import naverIcon from "@/assets/png/naver.png";
-import Avatar from "@/components/atoms/Avatar";
-import CommentInput from "@/components/molecules/CommentInput";
-import Footer from "@/components/molecules/Footer";
+import Avatar from "@/components/@atoms/Avatar";
+import CommentInput from "@/components/@molecules/CommentInput";
+import Footer from "@/components/@molecules/Footer";
 import { MANAGE_PAGE_DOMAIN } from "@/constants/domain";
-import LoadingPage from "../../organisms/LoadingPage";
+import LoadingPage from "../../@molecules/LoadingPage";
 import {
   CommentList,
   Container,

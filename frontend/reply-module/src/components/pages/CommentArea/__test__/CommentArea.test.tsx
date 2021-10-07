@@ -1,16 +1,10 @@
-import { render, fireEvent } from "@testing-library/react";
 import { comments } from "@/__test__/fixture/comments";
 import { socialLoginUser } from "@/__test__/fixture/user";
-import { useCommentArea } from "../useCommentArea";
+import { fireEvent, render } from "@testing-library/react";
 import CommentArea from "..";
-import { useComment } from "@/components/organisms/Comment/useComment";
-import { useCommentInput } from "@/components/molecules/CommentInput/useCommentInput";
-import { useUserAvatarOption } from "@/components/molecules/UserAvatarOption/useUserAvatarOption";
+import { useCommentArea } from "../useCommentArea";
 
 jest.mock("../useCommentArea");
-jest.mock("@/components/molecules/UserAvatarOption/useUserAvatarOption");
-jest.mock("@/components/organisms/Comment/useComment");
-jest.mock("@/components/molecules/CommentInput/useCommentInput");
 
 describe("CommentArea test", () => {
   test("projectOwnerId && !getProjectOwnerIdLoading && !commentsLoading 가 true이면 CommentList가 렌더링된다.", () => {

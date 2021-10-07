@@ -2,7 +2,7 @@ import * as Sentry from "@sentry/react";
 import { Integrations } from "@sentry/tracing";
 import ReactDOM from "react-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
-import ErrorPage from "@/components/organisms/ErrorPage";
+import ErrorPage from "@/components/@organisms/ErrorPage";
 import GlobalStyles from "@/constants/styles/GlobalStyles";
 import App from "@/components/ReplyModuleApp";
 

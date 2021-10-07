@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import UserAvatarOptionComponent from "../../molecules/UserAvatarOption";
-import CommentListComponent from "../../organisms/CommentList";
+import UserAvatarOptionComponent from "../../@molecules/UserAvatarOption";
+import CommentListComponent from "../../@templates/CommentList";
 
 export const Container = styled.section`
   width: 100%;

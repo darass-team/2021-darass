@@ -1,4 +1,4 @@
-import LoadingPage from "@/components/organisms/LoadingPage";
+import LoadingPage from "@/components/@molecules/LoadingPage";
 import { useOAuth } from "./useOAuth";
 
 const OAuth = () => {

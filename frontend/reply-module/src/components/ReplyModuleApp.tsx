@@ -1,5 +1,5 @@
 import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
-import LoadingPage from "@/components/organisms/LoadingPage";
+import LoadingPage from "@/components/@molecules/LoadingPage";
 import CommentArea from "@/components/pages/CommentArea";
 import OAuth from "@/components/pages/OAuth";
 import { ROUTE } from "@/constants/route";

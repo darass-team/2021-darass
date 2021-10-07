@@ -1,4 +1,4 @@
-import { FadeInDirection } from "@/components/molecules/Modal";
+import { FadeInDirection } from "@/components/@molecules/Modal";
 import { css, FlattenSimpleInterpolation } from "styled-components";
 import { CLOSE_MODAL_ANIMATION_FINISH_TIME } from "./constants";
 import { PALETTE } from "./palette";
