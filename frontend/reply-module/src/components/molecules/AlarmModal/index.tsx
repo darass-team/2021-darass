@@ -1,11 +1,28 @@
 import { POST_MESSAGE_TYPE } from "@/constants/postMessageType";
+import { useMessageChannelFromReplyModalContext } from "@/hooks";
+import { GetAlarmResponse } from "@/types/comment";
+import { useState } from "react";
 import AlarmContent from "../AlarmContent";
 import FullScreenModal from "../FullScreenModal";
 import { AlarmContainer, Container } from "./styles";
-import { useAlarmModal } from "./useAlarmModal";
 
 const AlarmModal = () => {
-  const { isOpen, data, setData, openModal, onCloseModal } = useAlarmModal();
+  const [data, _setData] = useState<GetAlarmResponse[]>();
+  const [isOpen, setIsOpen] = useState(false);
+  const { closeAlarmModal } = useMessageChannelFromReplyModalContext();
+
+  const openModal = () => {
+    setIsOpen(true);
+  };
+
+  const onCloseModal = () => {
+    setIsOpen(false);
+    closeAlarmModal();
+  };
+
+  const setData = (_data: GetAlarmResponse[]) => {
+    _setData(_data);
+  };
 
   return (
     <FullScreenModal
