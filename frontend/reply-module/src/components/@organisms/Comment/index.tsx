@@ -6,7 +6,7 @@ import {
   useLikeComment,
   useMessageChannelFromReplyModuleContext
 } from "@/hooks";
-import { Comment, Comment as CommentType } from "@/types";
+import { Comment as CommentType } from "@/types";
 import { User } from "@/types/user";
 import { AlertError } from "@/utils/alertError";
 import { getErrorMessage } from "@/utils/errorMessage";
@@ -129,7 +129,7 @@ const Comment = ({
     }
   };
 
-  const onSubmitEditedComment = async (content: Comment["content"]) => {
+  const onSubmitEditedComment = async (content: CommentType["content"]) => {
     try {
       const isValidContent = !isEmptyString(content) && content.length <= MAX_COMMENT_INPUT_LENGTH;
 
