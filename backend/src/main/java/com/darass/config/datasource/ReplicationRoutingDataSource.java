@@ -10,7 +10,6 @@ public class ReplicationRoutingDataSource extends AbstractRoutingDataSource {
     @Override
     protected Object determineCurrentLookupKey() {
         boolean isReadOnly = TransactionSynchronizationManager.isCurrentTransactionReadOnly();
-        logger.warn(isReadOnly);
         if (isReadOnly) {
             logger.warn("Connection Slave");
             return DATASOURCE_KEY_SLAVE;
