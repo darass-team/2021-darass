@@ -4,6 +4,8 @@ import "@testing-library/jest-dom/extend-expect";
 import { fireEvent, render, waitFor } from "@testing-library/react";
 import AlarmContent from "..";
 
+window.open = jest.fn();
+
 describe("AlarmContent test", () => {
   test("alarmContents의 length가 0이면, NoContent 문구를 띄운다.", () => {
     const alarmContentData: GetAlarmResponse[] = [];
@@ -28,8 +30,6 @@ describe("AlarmContent test", () => {
 
     const alarmContent = render(<AlarmContent alarmContents={alarmContentData} />);
     const allAlarmContent = alarmContent.queryAllByTestId("alarm-content-container");
-
-    jest.spyOn(window, "open");
 
     fireEvent.click(allAlarmContent[0]);
 
