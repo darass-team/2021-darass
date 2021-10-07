@@ -5,7 +5,7 @@ name: Darass Push Builder - dev [FE]
 
 on:
   push:
-    branches: [ develop ]
+    branches: [ main ]
 
 jobs:
   deploy:
