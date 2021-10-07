@@ -1,6 +1,5 @@
-import { ReactNode } from "react";
+import { MouseEventHandler, ReactNode, useEffect } from "react";
 import { Container, Dimmed } from "./styles";
-import { useModal } from "./useModal";
 
 export type FadeInDirection = "back" | "center" | "top" | "bottom" | "left" | "right" | "none";
 
@@ -21,14 +20,15 @@ const Modal = ({
   blockScroll = true,
   fadeInFrom = "back"
 }: Props) => {
-  const { onCloseModal } = useModal({
-    isOpen,
-    closeModal,
-    children,
-    dimmedOpacity,
-    blockScroll,
-    fadeInFrom
-  });
+  const onCloseModal: MouseEventHandler<HTMLDivElement> = event => {
+    event.preventDefault();
+
+    closeModal();
+  };
+
+  useEffect(() => {
+    if (blockScroll) document.body.style.setProperty("overflow", isOpen ? "hidden" : "revert");
+  }, [isOpen]);
 
   return (
     <>

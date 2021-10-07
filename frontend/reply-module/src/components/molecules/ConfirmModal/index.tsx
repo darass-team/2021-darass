@@ -1,10 +1,31 @@
 import { POST_MESSAGE_TYPE } from "@/constants/postMessageType";
+import { useMessageChannelFromReplyModalContext } from "@/hooks";
+import { useState } from "react";
 import FullScreenModal from "../FullScreenModal";
 import { ButtonWrapper, CancelButton, ConfirmButton, Container, Message } from "./styles";
-import { useConfirmModal } from "./useConfirmModal";
 
 const ConfirmModal = () => {
-  const { isOpen, data, setData, openModal, onCloseModal, onClickConfirmOk } = useConfirmModal();
+  const [data, _setData] = useState<string>();
+  const [isOpen, setIsOpen] = useState(false);
+  const { closeConfirmModal, clickedConfirmOk } = useMessageChannelFromReplyModalContext();
+
+  const openModal = () => {
+    setIsOpen(true);
+  };
+
+  const onCloseModal = () => {
+    setIsOpen(false);
+    closeConfirmModal();
+  };
+
+  const setData = (_data: string) => {
+    _setData(_data);
+  };
+
+  const onClickConfirmOk = () => {
+    setIsOpen(false);
+    clickedConfirmOk();
+  };
 
   return (
     <FullScreenModal

@@ -1,8 +1,10 @@
 import SubmitButton from "@/components/atoms/SubmitButton";
+import { useContentEditable } from "@/hooks";
 import { Comment } from "@/types";
 import { User } from "@/types/user";
+import { focusContentEditableTextToEnd } from "@/utils/focusContentEditableTextToEnd";
+import { useEffect } from "react";
 import { ButtonWrapper, CancelButton, Container, Name, Text } from "./styles";
-import { useCommentTextBox } from "./useCommentTextBox";
 
 export interface Props {
   name: User["nickName"];
@@ -23,15 +25,18 @@ const CommentTextBox = ({
   resetState,
   onSubmitEditedComment
 }: Props) => {
-  const { $contentEditable, onInput, onClickCancelButton, content } = useCommentTextBox({
-    name,
-    children,
-    contentEditable,
-    thisCommentIsWrittenByAdmin,
-    isSubComment,
-    resetState,
-    onSubmitEditedComment
-  });
+  const { content, setContent, onInput, $contentEditable } = useContentEditable(children);
+
+  const onClickCancelButton = () => {
+    setContent(children);
+    resetState();
+  };
+
+  useEffect(() => {
+    if (contentEditable && $contentEditable.current) {
+      focusContentEditableTextToEnd($contentEditable.current);
+    }
+  }, [contentEditable]);
 
   return (
     <Container isSubComment={isSubComment}>

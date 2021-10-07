@@ -1,11 +1,28 @@
 import Avatar from "@/components/atoms/Avatar";
 import { POST_MESSAGE_TYPE } from "@/constants/postMessageType";
+import { useMessageChannelFromReplyModalContext } from "@/hooks";
+import { User } from "@/types/user";
+import { useState } from "react";
 import FullScreenModal from "../FullScreenModal";
 import { Container, Title, UserGrid, UserNickName, UserWrapper } from "./styles";
-import { useLikingUsersModal } from "./useLikingUsersModal";
 
 const LikingUsersModal = () => {
-  const { isOpen, data, setData, openModal, onCloseModal } = useLikingUsersModal();
+  const [data, _setData] = useState<User[]>([]);
+  const [isOpen, setIsOpen] = useState(false);
+  const { closeLikingUserModal } = useMessageChannelFromReplyModalContext();
+
+  const openModal = () => {
+    setIsOpen(true);
+  };
+
+  const onCloseModal = () => {
+    setIsOpen(false);
+    closeLikingUserModal();
+  };
+
+  const setData = (_data: User[]) => {
+    _setData(_data);
+  };
 
   return (
     <FullScreenModal

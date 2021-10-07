@@ -1,12 +1,11 @@
 import Alarm from "@/components/atoms/Alarm";
-import Modal from "@/components/molecules/Modal";
-import { MouseEvent, ReactNode, useEffect, useRef, useState } from "react";
-import { User } from "@/types/user";
 import Avatar from "@/components/atoms/Avatar";
-import { Container, UserNickName, UserOption } from "./styles";
-import { useGetAlarmContents, useEditUser, useUser, useMessageChannelFromReplyModuleContext } from "@/hooks";
+import Modal from "@/components/molecules/Modal";
+import { useEditUser, useGetAlarmContents, useMessageChannelFromReplyModuleContext, useUser } from "@/hooks";
+import { User } from "@/types/user";
 import { AlertError } from "@/utils/alertError";
-import { useUserAvatarOption } from "./useUserAvatarOption";
+import { MouseEventHandler, ReactNode, useEffect, useState } from "react";
+import { Container, UserNickName, UserOption } from "./styles";
 
 export interface Props {
   user?: User;
@@ -14,15 +13,51 @@ export interface Props {
 }
 
 const UserAvatarOption = ({ user, children, ...props }: Props) => {
-  const {
-    onClickAlarmIcon,
-    avatarImageURL,
-    onClickUserNickName,
-    isShowOptionBox,
-    onCloseShowOptionBox,
-    hasNewAlarmOnRealTime,
-    onClickAvatar
-  } = useUserAvatarOption({ user, children });
+  const [isShowOptionBox, setShowOptionBox] = useState(false);
+  const { openAlarmModal, openAlert } = useMessageChannelFromReplyModuleContext();
+  const { data: alarmContents, hasNewAlarmOnRealTime, setHasNewAlarmOnRealTime } = useGetAlarmContents();
+  const { refetch: refetchUser } = useUser();
+  const { editUser } = useEditUser();
+  const avatarImageURL = user ? user.profileImageUrl : undefined;
+
+  const onCloseShowOptionBox = () => {
+    setShowOptionBox(false);
+  };
+
+  const onClickUserNickName: MouseEventHandler<HTMLButtonElement> = event => {
+    event.stopPropagation();
+
+    setShowOptionBox(state => !state);
+  };
+
+  const onClickAvatar: MouseEventHandler<HTMLImageElement> = event => {
+    event.stopPropagation();
+
+    setShowOptionBox(state => !state);
+  };
+
+  const onClickAlarmIcon = async () => {
+    try {
+      const formData = new FormData();
+      formData.append("hasRecentAlarm", "false");
+
+      await editUser(formData);
+      await refetchUser();
+      setHasNewAlarmOnRealTime?.(false);
+    } catch (error) {
+      if (error instanceof AlertError) {
+        openAlert(error.message);
+
+        return;
+      }
+    }
+
+    openAlarmModal(alarmContents || []);
+  };
+
+  useEffect(() => {
+    setShowOptionBox(false);
+  }, [user]);
 
   return (
     <Container {...props}>

@@ -1,6 +1,6 @@
 import Modal, { FadeInDirection } from "@/components/molecules/Modal";
-import { ReactNode } from "react";
-import { useFullScreenModal } from "./useFullScreenModal";
+import { useMessageChannelFromReplyModalContext } from "@/hooks";
+import { ReactNode, useEffect } from "react";
 
 export interface Props {
   isOpen: boolean;
@@ -21,15 +21,19 @@ const FullScreenModal = ({
   postType,
   fadeInFrom = "center"
 }: Props) => {
-  const { onCloseModal } = useFullScreenModal({
-    isOpen,
-    openModal,
-    setValue,
-    children,
-    postCloseModal,
-    postType,
-    fadeInFrom
-  });
+  const { receivedMessageFromReplyModule } = useMessageChannelFromReplyModalContext();
+
+  const onCloseModal = () => {
+    postCloseModal();
+  };
+
+  useEffect(() => {
+    if (!receivedMessageFromReplyModule) return;
+    if (receivedMessageFromReplyModule.type !== postType) return;
+
+    setValue(receivedMessageFromReplyModule.data);
+    openModal();
+  }, [receivedMessageFromReplyModule]);
 
   return (
     <Modal isOpen={isOpen} closeModal={onCloseModal} fadeInFrom={fadeInFrom}>

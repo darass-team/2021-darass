@@ -1,9 +1,7 @@
 import { useConfirmGuestPassword, useMessageChannelFromReplyModuleContext } from "@/hooks";
 import { User } from "@/types/user";
-import { messageFromReplyModule } from "@/utils/postMessage";
-import { ChangeEvent, Dispatch, FormEvent, SetStateAction, useContext, useEffect, useRef, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useRef } from "react";
 import { CancelButton, Container, PasswordButtonWrapper, PasswordInput, SubmitButton } from "./styles";
-import { usePasswordForm } from "./usePasswordForm";
 
 export interface Props {
   authorId: User["id"];
@@ -25,15 +23,39 @@ const PasswordForm = ({
   onSubmitSuccess,
   ...props
 }: Props) => {
-  const { onSubmitPassword, passwordInputRef, isValidGuestPassword, onClickCancelButton } = usePasswordForm({
-    authorId,
-    password,
-    setPassword,
-    onChangePassword,
-    isSubComment,
-    onClose,
-    onSubmitSuccess
-  });
+  const passwordInputRef = useRef<HTMLInputElement>(null);
+  const {
+    data: isValidGuestPassword,
+    refetch: refetchIsValidGuestPassword,
+    reset: resetConfirmResult
+  } = useConfirmGuestPassword({ guestUserId: authorId, guestUserPassword: password });
+
+  const { setScrollHeight } = useMessageChannelFromReplyModuleContext();
+
+  const onSubmitPassword = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    refetchIsValidGuestPassword();
+  };
+
+  const onClickCancelButton = () => {
+    onClose();
+    setPassword("");
+    resetConfirmResult();
+  };
+
+  useEffect(() => {
+    passwordInputRef.current?.focus();
+    setScrollHeight();
+  }, []);
+
+  useEffect(() => {
+    if (isValidGuestPassword) {
+      onSubmitSuccess();
+      onClose();
+      resetConfirmResult();
+    }
+  }, [isValidGuestPassword]);
 
   return (
     <Container onSubmit={onSubmitPassword} {...props}>
