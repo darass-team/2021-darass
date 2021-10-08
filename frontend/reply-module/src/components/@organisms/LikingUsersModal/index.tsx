@@ -3,7 +3,7 @@ import { POST_MESSAGE_TYPE } from "@/constants/postMessageType";
 import { useMessageChannelFromReplyModalContext } from "@/hooks";
 import { User } from "@/types/user";
 import { useState } from "react";
-import FullScreenModal from "../../@molecules/FullScreenModal";
+import FullScreenModal from "@/components/@molecules/FullScreenModal";
 import { Container, Title, UserGrid, UserNickName, UserWrapper } from "./styles";
 
 const LikingUsersModal = () => {

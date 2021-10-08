@@ -1,5 +1,5 @@
 import { EditCommentParameter } from "@/types/comment";
-import { CreateCommentRequestData, GetCommentsRequestParams } from "./../../types/comment";
+import { CreateCommentRequestData, GetCommentsRequestParams } from "@/types/comment";
 import { QUERY } from "@/constants/api";
 import { comments } from "@/__test__/fixture/comments";
 import { socialLoginUser } from "@/__test__/fixture/user";

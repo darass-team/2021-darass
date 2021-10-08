@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Z_INDEX } from "../../../constants/styles/constants";
+import { Z_INDEX } from "@/constants/styles/constants";
 
 export const Container = styled.div`
   margin: 4rem 0;

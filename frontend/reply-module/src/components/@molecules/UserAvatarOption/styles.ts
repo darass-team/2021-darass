@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import { PALETTE } from "../../../constants/styles/palette";
-import UserOptionComponent from "../../@atoms/UserOption";
+import { PALETTE } from "@/constants/styles/palette";
+import UserOptionComponent from "@/components/@atoms/UserOption";
 
 export const Container = styled.div`
   position: relative;

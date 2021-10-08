@@ -11,7 +11,7 @@ import { useToken } from "@/hooks/api/token/useToken";
 import { AlertError } from "@/utils/alertError";
 import { popUpCenter } from "@/utils/popUpCenter";
 import { useEffect, useState } from "react";
-import LoadingPage from "../../@molecules/LoadingPage";
+import LoadingPage from "@/components/@molecules/LoadingPage";
 import {
   CommentList,
   Container,

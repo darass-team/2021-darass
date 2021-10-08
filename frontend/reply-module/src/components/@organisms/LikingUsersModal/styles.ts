@@ -1,6 +1,6 @@
 import { contentBoxCSS } from "@/constants/styles/css";
 import styled from "styled-components";
-import { PALETTE } from "../../../constants/styles/palette";
+import { PALETTE } from "@/constants/styles/palette";
 
 export const Container = styled.div`
   ${contentBoxCSS}

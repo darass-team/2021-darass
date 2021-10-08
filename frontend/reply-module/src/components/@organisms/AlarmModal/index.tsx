@@ -2,8 +2,8 @@ import { POST_MESSAGE_TYPE } from "@/constants/postMessageType";
 import { useMessageChannelFromReplyModalContext } from "@/hooks";
 import { GetAlarmResponse } from "@/types/comment";
 import { useState } from "react";
-import AlarmContent from "../../@molecules/AlarmContent";
-import FullScreenModal from "../../@molecules/FullScreenModal";
+import AlarmContent from "@/components/@molecules/AlarmContent";
+import FullScreenModal from "@/components/@molecules/FullScreenModal";
 import { AlarmContainer, Container } from "./styles";
 
 const AlarmModal = () => {

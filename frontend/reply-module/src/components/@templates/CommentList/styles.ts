@@ -1,4 +1,4 @@
-import { PALETTE } from "../../../constants/styles/palette";
+import { PALETTE } from "@/constants/styles/palette";
 import styled from "styled-components";
 
 export const Container = styled.section`
