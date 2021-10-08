@@ -55,9 +55,12 @@ export const Name = styled.span`
 `;
 
 export const Text = styled.span`
-  display: flex;
   line-height: ${1.2 * LINE_HEIGHT_SCALE}rem;
   margin-top: 0.5rem;
+  box-orient: vertical;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
 export const Url = styled.span`
