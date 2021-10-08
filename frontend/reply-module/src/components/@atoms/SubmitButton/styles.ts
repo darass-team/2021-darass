@@ -17,4 +17,8 @@ export const Button = styled.button`
       background-color: ${PALETTE.SECONDARY_HOVER};
     }
   }
+
+  &:disabled {
+    background-color: ${PALETTE.GRAY_400};
+  }
 `;

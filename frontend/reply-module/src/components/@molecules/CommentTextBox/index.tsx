@@ -56,6 +56,7 @@ const CommentTextBox = ({
           </CancelButton>
           <SubmitButton
             type="button"
+            disabled={content.length === 0}
             onClick={() => onSubmitEditedComment(content)}
             data-testid="comment-text-box-submit-button"
           >
