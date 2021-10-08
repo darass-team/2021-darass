@@ -61,6 +61,15 @@
 - **Deploy**: AWS(EC2, S3, ELB), Docker, Nginx, ELK
 - **CI/CD** : Github Actions, Jenkins
 
+#### ORM
+<img alt="JPA" src ="https://img.shields.io/badge/JPA-005571.svg?&style=for-the-badge&logo=JPA&logoColor=white"/>
+
+#### Deploy 
+<img alt="Elastic Stack" src ="https://img.shields.io/badge/Elastic Stack-005571.svg?&style=for-the-badge&logo=Elastic Stack&logoColor=white"/> <img alt="GitHub Actions" src ="https://img.shields.io/badge/GitHub Actions-2088FF.svg?&style=for-the-badge&logo=GitHub Actions&logoColor=white"/> <img alt="Docker" src ="https://img.shields.io/badge/Docker-2496ED.svg?&style=for-the-badge&logo=Docker&logoColor=white"/> <img alt="NGINX" src ="https://img.shields.io/badge/NGINX-009639.svg?&style=for-the-badge&logo=NGINX&logoColor=white"/> <img alt="Amazon AWS" src ="https://img.shields.io/badge/Amazon AWS-FF9900.svg?&style=for-the-badge&logo=Amazon AWS&logoColor=white"/>(EC2, S3, ELB)
+
+#### CI/CD
+<img alt="Jenkins" src ="https://img.shields.io/badge/Jenkins-D24939.svg?&style=for-the-badge&logo=Jenkins&logoColor=white"/> <img alt="GitHub Actions" src ="https://img.shields.io/badge/GitHub Actions-2088FF.svg?&style=for-the-badge&logo=GitHub Actions&logoColor=white"/>
+
 # 🔨 Front-End Architecture
 ![아키텍처](https://user-images.githubusercontent.com/42544600/134909775-cd4d3ab7-6181-4356-8392-097cee0467dd.png)
 
