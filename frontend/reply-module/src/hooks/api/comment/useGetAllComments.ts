@@ -1,28 +1,9 @@
-import axios from "axios";
+import { REACT_QUERY_KEY } from "@/constants/reactQueryKey";
+import { useUser } from "@/hooks";
+import { GetCommentsRequestParams, GetCommentsResponse } from "@/types/comment";
+import { getAllComments } from "@/utils/api";
 import { useEffect } from "react";
 import { useQuery, useQueryClient } from "react-query";
-import { useUser } from "../..";
-import { QUERY } from "../../../constants/api";
-import { REACT_QUERY_KEY } from "../../../constants/reactQueryKey";
-import { GetCommentsResponse, GetCommentsRequestParams } from "../../../types/comment";
-import { AlertError } from "../../../utils/alertError";
-import { request } from "../../../utils/request";
-
-const getAllComments = async ({ url, projectSecretKey, sortOption }: GetCommentsRequestParams) => {
-  if (!url || !projectSecretKey) return undefined;
-
-  try {
-    const response = await request.get(QUERY.GET_ALL_COMMENTS({ url, projectSecretKey, sortOption }));
-
-    return response.data;
-  } catch (error) {
-    if (!axios.isAxiosError(error)) {
-      throw new AlertError("알 수 없는 에러입니다.");
-    }
-
-    throw new Error("댓글을 불러오는데 실패하였습니다.\n잠시 후 다시 시도해주세요.");
-  }
-};
 
 export const useGetAllComments = ({ url, projectSecretKey, sortOption = "oldest" }: GetCommentsRequestParams) => {
   const queryClient = useQueryClient();
@@ -32,9 +13,9 @@ export const useGetAllComments = ({ url, projectSecretKey, sortOption = "oldest"
     getAllComments({ url, projectSecretKey, sortOption })
   );
 
-  const totalCommentsCount = data?.totalComment;
+  const totalCommentsCount = data?.totalComment || 0;
   const totalPage = data?.totalPage;
-  const comments = data?.comments;
+  const comments = data?.comments || [];
 
   useEffect(() => {
     queryClient.invalidateQueries([REACT_QUERY_KEY.COMMENT]);

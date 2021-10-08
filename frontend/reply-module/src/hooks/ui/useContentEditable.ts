@@ -1,15 +1,14 @@
-import { MessageChannelContext } from "@/contexts/messageChannelContext";
-import { ChangeEvent, useContext, useEffect, useRef, useState } from "react";
-import { messageFromReplyModule } from "../../utils/postMessage";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
+import { useMessageChannelFromReplyModuleContext } from "..";
 
 export const useContentEditable = (initialContent: string) => {
   const $contentEditable = useRef<HTMLDivElement | null>(null);
   const [content, _setContent] = useState(initialContent);
-  const { port } = useContext(MessageChannelContext);
+  const { setScrollHeight } = useMessageChannelFromReplyModuleContext();
 
   const onInput = (event: ChangeEvent<HTMLDivElement>) => {
     _setContent(event.target.textContent || "");
-    messageFromReplyModule(port).setScrollHeight();
+    setScrollHeight();
   };
 
   const setContent = (newContent: string) => {
