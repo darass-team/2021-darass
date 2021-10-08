@@ -17,7 +17,7 @@
 # 🐤 Demo
 - 다라쓰 댓글 모듈 체험해보기 
   - [데모 블로그](https://park-back-end.tistory.com/1)
-  - [다라쓰 댓글 모듈을 실제 사용중인 블로그](https://steady-coding.tistory.com/487) 
+  - [실제 운영중인 블로그](https://steady-coding.tistory.com/487) 
 - 다라쓰 시작하기 
   - [https://darass.co.kr](https://darass.co.kr)
 
