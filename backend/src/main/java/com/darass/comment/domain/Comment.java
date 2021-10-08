@@ -3,8 +3,8 @@ package com.darass.comment.domain;
 import static javax.persistence.CascadeType.ALL;
 import static javax.persistence.FetchType.LAZY;
 
-import com.darass.commentalarm.domain.CommentAlarmType;
 import com.darass.commentalarm.domain.CommentAlarm;
+import com.darass.commentalarm.domain.CommentAlarmType;
 import com.darass.common.domain.BaseTimeEntity;
 import com.darass.exception.ExceptionWithMessageAndCode;
 import com.darass.project.domain.Project;
@@ -35,6 +35,8 @@ import org.hibernate.annotations.OnDeleteAction;
 public class Comment extends BaseTimeEntity {
 
     private static final int CONTENT_LENGTH_LIMIT = 3000;
+    private static final String SECRET_USER_NICKNAME = "";
+    private static final String SECRET_COMMENT_CONTENT = "[비밀 댓글입니다.]";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -70,6 +72,8 @@ public class Comment extends BaseTimeEntity {
     @Lob
     private String content;
 
+    private boolean isSecret = false;
+
     @Formula("(select count(*) from comment_like where comment_like.comment_id=id)")
     private int likeCount;
 
@@ -86,6 +90,10 @@ public class Comment extends BaseTimeEntity {
 
     public void changeContent(String content) {
         this.content = content;
+    }
+
+    public void changeUserNickname(String nickname) {
+        user.changeNickName(nickname);
     }
 
     public boolean isCommentWriter(User user) {
@@ -151,4 +159,17 @@ public class Comment extends BaseTimeEntity {
             .build();
     }
 
+    public void handleSecretComment() {
+        if (this.isSecret()) {
+            replaceCommentInfoToSecret();
+        }
+        new SubComments(this.getSubComments()).handleSecretSubComment();
+    }
+
+    public void replaceCommentInfoToSecret() {
+        if (this.getUser().isLoginUser()) {
+            this.changeUserNickname(SECRET_USER_NICKNAME);
+        }
+        this.changeContent(SECRET_USER_NICKNAME);
+    }
 }

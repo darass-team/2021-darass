@@ -75,6 +75,28 @@ public class CommentService {
     }
 
     @Transactional(readOnly = true)
+    public CommentResponses findAllCommentsByUrlAndProjectKey2(User user, CommentReadRequest request) {
+        List<Comment> comments = commentRepository
+            .findByUrlAndProjectSecretKeyAndParentId(request.getUrl(), request.getProjectKey(), null,
+                SortOption.getMatchedSort(request.getSortOption()));
+
+        Project project = projectRepository.findBySecretKey(request.getProjectKey())
+            .orElseThrow(ExceptionWithMessageAndCode.NOT_FOUND_PROJECT::getException);
+
+        if (!user.isLoginUser()) {
+            comments = new Comments(comments).handleSecretCommentWithGuestUser();
+        }
+
+        if (!user.isAdminUser(project.getAdminUserId())) {
+            comments = new Comments(comments).handleSecretCommentWithLoginUser(user);
+        }
+
+        return new CommentResponses(new Comments(comments).totalCommentWithSubComment(), 1, comments.stream()
+            .map(comment -> CommentResponse.of(comment, UserResponse.of(comment.getUser())))
+            .collect(Collectors.toList()));
+    }
+
+    @Transactional(readOnly = true)
     public CommentResponses findAllCommentsByUrlAndProjectKeyUsingPagination(CommentReadRequestByPagination request) {
         int pageBasedIndex = request.getPage() - 1;
         try {

@@ -1,5 +1,6 @@
 package com.darass.comment.domain;
 
+import com.darass.user.domain.User;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -27,5 +28,18 @@ public class Comments {
         return comments.stream()
             .mapToInt(Comment::getSubCommentSize)
             .sum();
+    }
+
+    public List<Comment> handleSecretCommentWithGuestUser() {
+        return comments.stream()
+            .peek(Comment::handleSecretComment)
+            .collect(Collectors.toList());
+    }
+
+    public List<Comment> handleSecretCommentWithLoginUser(User user) {
+        return comments.stream()
+            .filter(comment -> !user.isSameUser(comment.getUser()))
+            .peek(Comment::handleSecretComment)
+            .collect(Collectors.toList());
     }
 }
