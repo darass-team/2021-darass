@@ -10,7 +10,7 @@ on:
 jobs:
   build:
 
-    runs-on: [self-hosted, front]
+    runs-on: [ self-hosted, front ]
 
     steps:
     - name: Checkout source code
