@@ -84,8 +84,6 @@ const CommentInput = ({ user, parentCommentId, isSubComment, onClose, ...props }
 
       if (onClose) onClose();
     } catch (error) {
-
-      
       if (error instanceof AlertError) {
         openAlert(error.message);
       }

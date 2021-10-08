@@ -136,6 +136,7 @@ const Comment = ({
       if (!isValidContent) {
         openAlert(getErrorMessage.commentInput(content));
 
+        resetState();
         return;
       }
 
