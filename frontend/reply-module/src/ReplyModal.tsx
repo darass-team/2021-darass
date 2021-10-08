@@ -1,15 +1,9 @@
 import * as Sentry from "@sentry/react";
 import { Integrations } from "@sentry/tracing";
-import { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
-import AlarmModal from "./components/molecules/FullScreenModal/AlarmModal";
-import AlertModal from "./components/molecules/FullScreenModal/AlertModal";
-import ConfirmModal from "./components/molecules/FullScreenModal/ConfirmModal";
-import LikingUsersModal from "./components/molecules/FullScreenModal/LikingUsersModal";
-import ErrorPage from "./components/pages/ErrorPage";
-import { POST_MESSAGE_TYPE } from "./constants/postMessageType";
-import GlobalStyles from "./constants/styles/GlobalStyles";
-import { MessageChannelContext } from "./contexts/messageChannelContext";
+import ErrorPage from "@/components/@organisms/ErrorPage";
+import GlobalStyles from "@/constants/styles/GlobalStyles";
+import App from "@/components/ReplyModalApp";
 
 Sentry.init({
   dsn: process.env.SENTRY_REPLY_MODULE_DSN,
@@ -17,34 +11,6 @@ Sentry.init({
   tracesSampleRate: 1,
   enabled: process.env.BUILD_MODE === "production"
 });
-
-const App = () => {
-  const [port, setPort] = useState<MessagePort>();
-
-  const onMessageInitMessageChannel = ({ data, ports }: MessageEvent) => {
-    if (data.type !== POST_MESSAGE_TYPE.INIT_MESSAGE_CHANNEL.REPLY_MODAL.RESPONSE_PORT) return;
-
-    const [port2] = ports;
-    setPort(port2);
-    window.removeEventListener("message", onMessageInitMessageChannel);
-  };
-
-  useEffect(() => {
-    window.addEventListener("message", onMessageInitMessageChannel);
-    window.parent.postMessage({ type: POST_MESSAGE_TYPE.INIT_MESSAGE_CHANNEL.REPLY_MODAL.REQUEST_PORT }, "*");
-
-    return () => window.removeEventListener("message", onMessageInitMessageChannel);
-  }, []);
-
-  return (
-    <MessageChannelContext.Provider value={{ port }}>
-      <LikingUsersModal />
-      <ConfirmModal />
-      <AlarmModal />
-      <AlertModal />
-    </MessageChannelContext.Provider>
-  );
-};
 
 ReactDOM.render(
   <>

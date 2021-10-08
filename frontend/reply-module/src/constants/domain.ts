@@ -1,4 +1,4 @@
-import { BUILD_MODE_TABLE } from "./../types/buildMode";
+import { BUILD_MODE_TABLE } from "@/types/buildMode";
 
 const REPLY_MODULE_DOMAIN_TABLE = {
   production: "https://reply-module.darass.co.kr",

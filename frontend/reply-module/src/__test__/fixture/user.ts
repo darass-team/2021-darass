@@ -1,6 +1,6 @@
-import { User } from "../../types/user";
+import { User } from "@/types/user";
 
-import defaultUserImage from "../../assets/svg/default-user-image.svg";
+import defaultUserImage from "@/assets/svg/default-user-image.svg";
 
 export const socialLoginUser: User = {
   id: 1,

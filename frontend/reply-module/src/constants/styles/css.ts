@@ -1,4 +1,4 @@
-import { FadeInDirection } from "@/components/atoms/Modal";
+import { FadeInDirection } from "@/components/@molecules/Modal";
 import { css, FlattenSimpleInterpolation } from "styled-components";
 import { CLOSE_MODAL_ANIMATION_FINISH_TIME } from "./constants";
 import { PALETTE } from "./palette";
@@ -138,10 +138,10 @@ export const fadeInDirectionCSS: { [key in FadeInDirection]: (on: boolean) => Fl
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    visibility: ${on ? "visible" : "collapse"};
+    visibility: ${on ? "visible" : "hidden"};
   `,
   back: (on: boolean) => css`
-    visibility: ${on ? "visible" : "collapse"};
+    visibility: ${on ? "visible" : "hidden"};
   `,
   none: (on: boolean) => css``
 };
