@@ -63,6 +63,7 @@ public class CommentService {
         return saveSubComment(user, commentRequest, project);
     }
 
+    @Transactional(readOnly = true)
     public CommentResponses findAllCommentsByUrlAndProjectKey(CommentReadRequest request) {
         List<Comment> comments = commentRepository
             .findByUrlAndProjectSecretKeyAndParentId(request.getUrl(), request.getProjectKey(), null,
@@ -73,6 +74,7 @@ public class CommentService {
             .collect(Collectors.toList()));
     }
 
+    @Transactional(readOnly = true)
     public CommentResponses findAllCommentsByUrlAndProjectKeyUsingPagination(CommentReadRequestByPagination request) {
         int pageBasedIndex = request.getPage() - 1;
         try {
@@ -89,6 +91,7 @@ public class CommentService {
         }
     }
 
+    @Transactional(readOnly = true)
     public CommentResponses findAllCommentsInProject(
         CommentReadRequestInProject request) {
         int pageBasedIndex = request.getPage() - 1;
@@ -110,6 +113,7 @@ public class CommentService {
         }
     }
 
+    @Transactional(readOnly = true)
     public CommentResponses findAllCommentsInProjectUsingSearch(
         CommentReadRequestBySearch request) {
         int pageBasedIndex = request.getPage() - 1;
