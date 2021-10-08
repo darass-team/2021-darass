@@ -1,18 +1,17 @@
-import { MessageChannelContext } from "@/contexts/messageChannelContext";
+import kakaoTalkIcon from "@/assets/png/kakaotalk.png";
+import naverIcon from "@/assets/png/naver.png";
+import Avatar from "@/components/@atoms/Avatar";
+import CommentInput from "@/components/@molecules/CommentInput";
+import Footer from "@/components/@molecules/Footer";
+import { MANAGE_PAGE_DOMAIN } from "@/constants/domain";
+import { OAUTH_URL } from "@/constants/oauth";
+import { ORDER_BUTTON } from "@/constants/orderButton";
+import { useGetAllComments, useGetProjectOwnerId, useMessageChannelFromReplyModuleContext, useUser } from "@/hooks";
 import { useToken } from "@/hooks/api/token/useToken";
-import { useContext, useEffect, useState } from "react";
-import kakaoTalkIcon from "../../../assets/png/kakaotalk.png";
-import naverIcon from "../../../assets/png/naver.png";
-import { MANAGE_PAGE_DOMAIN } from "../../../constants/domain";
-import { OAUTH_URL } from "../../../constants/oauth";
-import { ORDER_BUTTON } from "../../../constants/orderButton";
-import { useGetAllComments, useGetProjectOwnerId, useUser } from "../../../hooks";
-import { AlertError } from "../../../utils/alertError";
-import { popUpCenter } from "../../../utils/popUpCenter";
-import { messageFromReplyModule } from "../../../utils/postMessage";
-import Avatar from "../../atoms/Avatar";
-import CommentInput from "../../organisms/CommentInput";
-import Footer from "../../organisms/Footer";
+import { AlertError } from "@/utils/alertError";
+import { popUpCenter } from "@/utils/popUpCenter";
+import { useEffect, useState } from "react";
+import LoadingPage from "@/components/@molecules/LoadingPage";
 import {
   CommentList,
   Container,
@@ -33,6 +32,7 @@ const CommentArea = () => {
 
   const { refetchAccessToken } = useToken();
   const { user, logout } = useUser();
+
   const {
     totalCommentsCount,
     comments,
@@ -45,10 +45,10 @@ const CommentArea = () => {
     isLoading: getProjectOwnerIdLoading,
     error: getProjectOwnerError
   } = useGetProjectOwnerId(projectSecretKey || "");
-  const { port } = useContext(MessageChannelContext);
+  const { setScrollHeight } = useMessageChannelFromReplyModuleContext();
 
   useEffect(() => {
-    messageFromReplyModule(port).setScrollHeight();
+    setScrollHeight();
   }, [comments]);
 
   useEffect(() => {
@@ -108,16 +108,21 @@ const CommentArea = () => {
 
   return (
     <Container>
-      <CommentList
-        user={user}
-        isLoading={getProjectOwnerIdLoading || commentsLoading}
-        totalCommentsCount={totalCommentsCount || 0}
-        comments={comments || []}
-        projectOwnerId={projectOwnerId}
-        sortOption={sortOption}
-        onSelectSortOption={onSelectSortOption}
-        notice={notice}
-      />
+      {projectOwnerId && !getProjectOwnerIdLoading && !commentsLoading ? (
+        <CommentList
+          user={user}
+          totalCommentsCount={totalCommentsCount}
+          comments={comments}
+          projectOwnerId={projectOwnerId}
+          sortOption={sortOption}
+          onSelectSortOption={onSelectSortOption}
+          notice={notice}
+          data-testid="comment-list"
+        />
+      ) : (
+        <LoadingPage />
+      )}
+
       <UserAvatarOption user={user}>
         {user ? (
           <>
@@ -141,7 +146,7 @@ const CommentArea = () => {
           </>
         )}
       </UserAvatarOption>
-      <CommentInput user={user} />
+      <CommentInput isSubComment={false} user={user} />
       <Footer />
     </Container>
   );

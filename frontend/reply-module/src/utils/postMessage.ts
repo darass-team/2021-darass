@@ -2,7 +2,7 @@ import { Comment } from "@/types";
 import { GetAlarmResponse } from "@/types/comment";
 import { POST_MESSAGE_TYPE } from "../constants/postMessageType";
 
-export const messageFromReplyModule = (port: MessagePort | undefined) => {
+export const messageFromReplyModule = (port?: MessagePort) => {
   return {
     setScrollHeight: () => {
       port?.postMessage({
@@ -13,8 +13,22 @@ export const messageFromReplyModule = (port: MessagePort | undefined) => {
     openAlert: (message: string) => {
       port?.postMessage({ type: POST_MESSAGE_TYPE.MODAL.OPEN.ALERT, data: message });
     },
-    openConfirmModal: (message: string) => {
-      port?.postMessage({ type: POST_MESSAGE_TYPE.MODAL.OPEN.CONFIRM, data: message });
+    openConfirmModal: async (message: string): Promise<"yes" | "no"> => {
+      return await new Promise(resolve => {
+        const onMessageConfirmResult = ({ data }: MessageEvent) => {
+          if (data.type === POST_MESSAGE_TYPE.CONFIRM_NO || data.type === POST_MESSAGE_TYPE.MODAL.CLOSE.CONFIRM) {
+            resolve("no");
+            port?.removeEventListener("message", onMessageConfirmResult);
+          } else if (data.type === POST_MESSAGE_TYPE.CONFIRM_OK) {
+            resolve("yes");
+            port?.removeEventListener("message", onMessageConfirmResult);
+          }
+        };
+
+        port?.addEventListener("message", onMessageConfirmResult);
+        port?.start();
+        port?.postMessage({ type: POST_MESSAGE_TYPE.MODAL.OPEN.CONFIRM, data: message });
+      });
     },
     openAlarmModal: (alarmContents: GetAlarmResponse[]) => {
       port?.postMessage({ type: POST_MESSAGE_TYPE.MODAL.OPEN.ALARM, data: alarmContents });
@@ -25,25 +39,25 @@ export const messageFromReplyModule = (port: MessagePort | undefined) => {
   };
 };
 
-export const messageFromReplyModal = (port: MessagePort | undefined) => {
+export const messageFromReplyModal = (port: MessagePort) => {
   return {
     clickedConfirmNo: () => {
-      port?.postMessage({ type: POST_MESSAGE_TYPE.CONFIRM_NO });
+      port.postMessage({ type: POST_MESSAGE_TYPE.CONFIRM_NO });
     },
     clickedConfirmOk: () => {
-      port?.postMessage({ type: POST_MESSAGE_TYPE.CONFIRM_OK });
+      port.postMessage({ type: POST_MESSAGE_TYPE.CONFIRM_OK });
     },
     closeAlertModal: () => {
-      port?.postMessage({ type: POST_MESSAGE_TYPE.MODAL.CLOSE.ALERT });
+      port.postMessage({ type: POST_MESSAGE_TYPE.MODAL.CLOSE.ALERT });
     },
     closeConfirmModal: () => {
-      port?.postMessage({ type: POST_MESSAGE_TYPE.MODAL.CLOSE.CONFIRM });
+      port.postMessage({ type: POST_MESSAGE_TYPE.MODAL.CLOSE.CONFIRM });
     },
     closeAlarmModal: () => {
-      port?.postMessage({ type: POST_MESSAGE_TYPE.MODAL.CLOSE.ALARM });
+      port.postMessage({ type: POST_MESSAGE_TYPE.MODAL.CLOSE.ALARM });
     },
     closeLikingUserModal: () => {
-      port?.postMessage({ type: POST_MESSAGE_TYPE.MODAL.CLOSE.LIKING_USERS });
+      port.postMessage({ type: POST_MESSAGE_TYPE.MODAL.CLOSE.LIKING_USERS });
     }
   };
 };
