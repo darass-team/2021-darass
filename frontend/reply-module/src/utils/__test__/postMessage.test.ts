@@ -1,15 +1,21 @@
 import { POST_MESSAGE_TYPE } from "@/constants/postMessageType";
 import { messageFromReplyModule, messageFromReplyModal } from "./../postMessage";
 
-window.MessageChannel = require("worker_threads").MessageChannel;
+const port = {
+  postMessage: jest.fn(),
+  addEventListener: jest.fn(),
+  removeEventListener: jest.fn(),
+  start: jest.fn()
+};
 
-const port = new MessageChannel().port2;
-jest.spyOn(port, "postMessage");
+beforeEach(() => {
+  jest.clearAllMocks();
+});
 
 describe("postMessage test", () => {
   describe("messageFromReplyModule test", () => {
     test("setScrollHeight를 호출하면, postMessage가 호출된다.", () => {
-      messageFromReplyModule(port).setScrollHeight();
+      messageFromReplyModule(port as unknown as MessagePort).setScrollHeight();
 
       expect(port.postMessage).toHaveBeenCalledWith({
         type: POST_MESSAGE_TYPE.SCROLL_HEIGHT,
@@ -17,7 +23,7 @@ describe("postMessage test", () => {
       });
     });
     test("openAlert를 호출하면, postMessage가 호출된다.", () => {
-      messageFromReplyModule(port).openAlert("message");
+      messageFromReplyModule(port as unknown as MessagePort).openAlert("message");
 
       expect(port.postMessage).toHaveBeenCalledWith({
         type: POST_MESSAGE_TYPE.MODAL.OPEN.ALERT,
@@ -25,8 +31,10 @@ describe("postMessage test", () => {
       });
     });
 
-    test("openAlert를 호출하면, postMessage가 호출된다.", () => {
-      messageFromReplyModule(port).openConfirmModal("message");
+    test("openConfirmModal를 호출하면, postMessage가 호출된다.", async () => {
+      try {
+        messageFromReplyModule(port as unknown as MessagePort).openConfirmModal("message");
+      } catch (error) {}
 
       expect(port.postMessage).toHaveBeenCalledWith({
         type: POST_MESSAGE_TYPE.MODAL.OPEN.CONFIRM,
@@ -34,7 +42,7 @@ describe("postMessage test", () => {
       });
     });
     test("openAlarmModal를 호출하면, postMessage가 호출된다.", () => {
-      messageFromReplyModule(port).openAlarmModal([]);
+      messageFromReplyModule(port as unknown as MessagePort).openAlarmModal([]);
 
       expect(port.postMessage).toHaveBeenCalledWith({
         type: POST_MESSAGE_TYPE.MODAL.OPEN.ALARM,
@@ -42,7 +50,7 @@ describe("postMessage test", () => {
       });
     });
     test("openLikingUserModal를 호출하면, postMessage가 호출된다.", () => {
-      messageFromReplyModule(port).openLikingUserModal([]);
+      messageFromReplyModule(port as unknown as MessagePort).openLikingUserModal([]);
 
       expect(port.postMessage).toHaveBeenCalledWith({
         type: POST_MESSAGE_TYPE.MODAL.OPEN.LIKING_USERS,
@@ -53,42 +61,42 @@ describe("postMessage test", () => {
 
   describe("messageFromReplyModal test", () => {
     test("clickedConfirmNo를 호출하면, postMessage가 호출된다.", () => {
-      messageFromReplyModal(port).clickedConfirmNo();
+      messageFromReplyModal(port as unknown as MessagePort).clickedConfirmNo();
 
       expect(port.postMessage).toHaveBeenCalledWith({
         type: POST_MESSAGE_TYPE.CONFIRM_NO
       });
     });
     test("clickedConfirmOk를 호출하면, postMessage가 호출된다.", () => {
-      messageFromReplyModal(port).clickedConfirmOk();
+      messageFromReplyModal(port as unknown as MessagePort).clickedConfirmOk();
 
       expect(port.postMessage).toHaveBeenCalledWith({
         type: POST_MESSAGE_TYPE.CONFIRM_OK
       });
     });
     test("closeAlertModal를 호출하면, postMessage가 호출된다.", () => {
-      messageFromReplyModal(port).closeAlertModal();
+      messageFromReplyModal(port as unknown as MessagePort).closeAlertModal();
 
       expect(port.postMessage).toHaveBeenCalledWith({
         type: POST_MESSAGE_TYPE.MODAL.CLOSE.ALERT
       });
     });
     test("closeConfirmModal를 호출하면, postMessage가 호출된다.", () => {
-      messageFromReplyModal(port).closeConfirmModal();
+      messageFromReplyModal(port as unknown as MessagePort).closeConfirmModal();
 
       expect(port.postMessage).toHaveBeenCalledWith({
         type: POST_MESSAGE_TYPE.MODAL.CLOSE.CONFIRM
       });
     });
     test("closeAlarmModal를 호출하면, postMessage가 호출된다.", () => {
-      messageFromReplyModal(port).closeAlarmModal();
+      messageFromReplyModal(port as unknown as MessagePort).closeAlarmModal();
 
       expect(port.postMessage).toHaveBeenCalledWith({
         type: POST_MESSAGE_TYPE.MODAL.CLOSE.ALARM
       });
     });
     test("closeLikingUserModal를 호출하면, postMessage가 호출된다.", () => {
-      messageFromReplyModal(port).closeLikingUserModal();
+      messageFromReplyModal(port as unknown as MessagePort).closeLikingUserModal();
 
       expect(port.postMessage).toHaveBeenCalledWith({
         type: POST_MESSAGE_TYPE.MODAL.CLOSE.LIKING_USERS

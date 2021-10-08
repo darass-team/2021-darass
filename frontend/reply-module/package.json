@@ -68,7 +68,8 @@
     "build": "cross-env BUILD_MODE=development webpack",
     "build:production": "cross-env BUILD_MODE=production webpack",
     "watch": "cross-env BUILD_MODE=development webpack watch",
-    "test": "jest --coverage",
+    "test": "jest --detectOpenHandles",
+    "test:coverage": "jest --coverage --detectOpenHandles",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
     "tsc": "tsc --noEmit -w"
