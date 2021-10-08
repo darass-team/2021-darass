@@ -9,9 +9,10 @@
 
 # 📝 Introduce
 
-다라쓰는 스크립트 코드를 웹 페이지에 붙여넣는 것만으로 간편하게 댓글 기능을 추가할 수 있는 댓글 모듈 서비스 입니다.
+- 다라쓰는 댓글 모듈을 제공하는 서비스입니다.
+- 간단한 html 스크립트를 내 사이트에 붙여 넣기만 하면, 댓글 모듈이 추가됩니다! 
+- 소셜 로그인 기능, 댓글 통계기능, 댓글 실시간 알람 등의 기능도 제공합니다. 
 
-사용자에게 필요한 댓글 기능과 함께 운영에 필요한 댓글 통계 및 관리 기능도 제공합니다.
 
 # 🐤 Demo
 - 다라쓰 댓글 모듈 체험해보기 
@@ -80,3 +81,11 @@
 | :----------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------: |
 | <img src="https://avatars.githubusercontent.com/u/56083021?v=4" width=400px alt="제이온"/> | <img src="https://avatars.githubusercontent.com/u/37281119?v=4" width=400px alt="우기"/> | <img src="https://avatars.githubusercontent.com/u/68985748?v=4" width=400px alt="아론"/> | <img src="https://avatars.githubusercontent.com/u/41244373?v=4" width=400px alt="제리"> | <img src="https://avatars.githubusercontent.com/u/42544600?v=4" width=400px alt="도비"> | <img src="https://avatars.githubusercontent.com/u/59409762?v=4" width=400px alt="곤이"> |
 |                            [제이온](https://github.com/pjy1368)                            |                           [우기](https://github.com/jujubebat)                           |                          [아론](https://github.com/Sehwan-Jang)                          |                         [제리](https://github.com/jaeseongDev)                          |                           [도비](https://github.com/zereight)                           |                          [곤이](https://github.com/yungo1846)                           |
+
+# 서비스 이미지
+
+## 티스토리 댓글 모듈 적용 예 
+![image](https://user-images.githubusercontent.com/37281119/136521221-c97ff851-52e5-42eb-8f92-0ad1c48d88cd.png)
+
+## 소셜 로그인 기능
+![image](https://user-images.githubusercontent.com/37281119/136521320-87d1af58-ed67-4586-b32b-50b326adec35.png)   
