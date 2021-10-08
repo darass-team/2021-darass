@@ -12,8 +12,8 @@ export interface Comment {
 }
 
 export interface GuestUserInfo {
-  guestUserId?: number;
-  guestNickName?: string;
+  guestUserId?: User["id"];
+  guestNickName?: User["nickName"];
   guestUserPassword?: string;
 }
 

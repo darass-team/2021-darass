@@ -8,7 +8,7 @@
   "coveragePathIgnorePatterns": ["/node_modules/", "/jest"],
   "testEnvironment": "jsdom",
   "moduleNameMapper": {
-    "\\.svg$": "<rootDir>/src/__test__/__mocks__/svgrMock.ts",
-    "@/(.*)$": "<rootDir>/src/$1"
+    "@/(.*)$": "<rootDir>/src/$1",
+    "\\.svg$": "<rootDir>/src/__test__/__mocks__/svgrMock.ts"
   }
 }

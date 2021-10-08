@@ -1,9 +1,5 @@
-import axios, { AxiosResponse } from "axios";
-import { BASE_URL } from "../constants/api";
-
-export const customAxios = axios.create({
-  baseURL: BASE_URL
-});
+import { AxiosResponse } from "axios";
+import { customAxios } from "./customAxios";
 
 const request = {
   get: async (query: string, headers?: AxiosResponse["headers"]) =>
