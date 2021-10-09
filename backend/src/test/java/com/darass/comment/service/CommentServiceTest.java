@@ -8,6 +8,7 @@ import static org.mockito.Mockito.doNothing;
 import com.darass.auth.domain.KaKaoOAuthProvider;
 import com.darass.comment.domain.Comment;
 import com.darass.comment.domain.CommentLike;
+import com.darass.comment.domain.Comments;
 import com.darass.comment.domain.SortOption;
 import com.darass.comment.dto.CommentCreateRequest;
 import com.darass.comment.dto.CommentDeleteRequest;
@@ -16,6 +17,7 @@ import com.darass.comment.dto.CommentReadRequestByPagination;
 import com.darass.comment.dto.CommentReadRequestBySearch;
 import com.darass.comment.dto.CommentReadRequestInProject;
 import com.darass.comment.dto.CommentResponse;
+import com.darass.comment.dto.CommentResponses;
 import com.darass.comment.dto.CommentStatRequest;
 import com.darass.comment.dto.CommentStatResponse;
 import com.darass.comment.dto.CommentUpdateRequest;
@@ -40,6 +42,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -76,6 +79,8 @@ class CommentServiceTest extends SpringContainerTest {
 
     private GuestUser guestUser;
 
+    private User admin;
+
     private Project project;
 
     private List<Comment> comments;
@@ -100,8 +105,18 @@ class CommentServiceTest extends SpringContainerTest {
             .build();
         userRepository.save(guestUser);
 
+        admin = SocialLoginUser.builder()
+            .nickName("진영")
+            .profileImageUrl("http://프로필이미지-url")
+            .userType("socialLoginUser")
+            .email("pjy1368@naver.com")
+            .oauthProvider(KaKaoOAuthProvider.NAME)
+            .oauthId("1234")
+            .build();
+        userRepository.save(admin);
+
         project = Project.builder()
-            .user(socialLoginUser)
+            .user(admin)
             .name("깃헙 블로그 프로젝트")
             .description("프로젝트 설명")
             .build();
@@ -112,6 +127,7 @@ class CommentServiceTest extends SpringContainerTest {
             .project(project)
             .url("url")
             .content("content1")
+            .secret(true)
             .build();
         commentRepository.save(comment1);
 
@@ -133,6 +149,7 @@ class CommentServiceTest extends SpringContainerTest {
             .project(project)
             .url("url")
             .content("content3")
+            .secret(true)
             .build();
         commentRepository.save(comment3);
 
@@ -456,7 +473,7 @@ class CommentServiceTest extends SpringContainerTest {
     @Test
     void delete_administrator() {
         CommentDeleteRequest request = new CommentDeleteRequest(null, null);
-        commentService.delete(comments.get(3).getId(), socialLoginUser, request);
+        commentService.delete(comments.get(3).getId(), admin, request);
         assertThat(commentRepository.existsById(comments.get(3).getId())).isFalse();
     }
 
@@ -498,5 +515,59 @@ class CommentServiceTest extends SpringContainerTest {
 
         //then
         assertThat(comment.getCommentLikes()).hasSize(0);
+    }
+
+    @DisplayName("비로그인 사용자가 볼 때, 로그인 유저가 쓴 비밀 댓글의 작성자와 본문 내용은 확인이 불가능하고"
+        + "비로그인 유저가 쓴 비밀 댓글의 본문 내용은 확인이 불가능하다.")
+    @Test
+    void findAllCommentsByUrlAndProjectKeyConsiderSecretComment_guest_user() {
+        CommentReadRequest request = new CommentReadRequest("latest", "url", project.getSecretKey());
+        CommentResponses responses = commentService
+            .findAllCommentsByUrlAndProjectKeyConsiderSecretComment(guestUser, request);
+
+        for (CommentResponse commentResponse : responses.getComments()) {
+            if (commentResponse.isSecret()) {
+                if (!Objects.isNull(commentResponse.getUser().getType())) {
+                    assertThat(commentResponse.getUser().getNickName()).isEqualTo(Comment.SECRET_COMMENT_USER_NICKNAME);
+                }
+                assertThat(commentResponse.getContent()).isEqualTo(Comment.SECRET_COMMENT_CONTENT);
+            }
+        }
+    }
+
+    @DisplayName("로그인 사용자가 댓글을 볼 때, 자신이 쓴 댓글을 제외한 모든 로그인 유저가 쓴 비밀 댓글의 작성자와 본문 내용은"
+        + "확인이 불가능하고 비로그인 유저가 쓴 비밀 댓글의 본문 내용은 확인이 불가능하다.")
+    @Test
+    void findAllCommentsByUrlAndProjectKeyConsiderSecretComment_login_user() {
+        CommentReadRequest request = new CommentReadRequest("latest", "url", project.getSecretKey());
+        CommentResponses responses = commentService
+            .findAllCommentsByUrlAndProjectKeyConsiderSecretComment(socialLoginUser, request);
+
+        for (CommentResponse commentResponse : responses.getComments()) {
+            if (commentResponse.isSecret()) {
+                if (socialLoginUser.isSameUser(commentResponse.getUser().getId())) {
+                    assertThat(commentResponse.getUser().getNickName()).isNotEqualTo(Comment.SECRET_COMMENT_USER_NICKNAME);
+                    assertThat(commentResponse.getContent()).isNotEqualTo(Comment.SECRET_COMMENT_CONTENT);
+                    continue;
+                }
+                if (!Objects.isNull(commentResponse.getUser().getType())) {
+                    assertThat(commentResponse.getUser().getNickName()).isEqualTo(Comment.SECRET_COMMENT_USER_NICKNAME);
+                }
+                assertThat(commentResponse.getContent()).isEqualTo(Comment.SECRET_COMMENT_CONTENT);
+            }
+        }
+    }
+
+    @DisplayName("관리자는 모든 댓글을 열람할 수 있다.")
+    @Test
+    void findAllCommentsByUrlAndProjectKeyConsiderSecretComment_admin() {
+        CommentReadRequest request = new CommentReadRequest("latest", "url", project.getSecretKey());
+        CommentResponses responses = commentService
+            .findAllCommentsByUrlAndProjectKeyConsiderSecretComment(socialLoginUser, request);
+
+        for (CommentResponse commentResponse : responses.getComments()) {
+            assertThat(commentResponse.getUser().getNickName()).isNotEqualTo(Comment.SECRET_COMMENT_USER_NICKNAME);
+            assertThat(commentResponse.getContent()).isNotEqualTo(Comment.SECRET_COMMENT_CONTENT);
+        }
     }
 }
