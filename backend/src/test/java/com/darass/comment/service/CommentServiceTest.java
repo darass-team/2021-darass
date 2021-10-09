@@ -8,7 +8,6 @@ import static org.mockito.Mockito.doNothing;
 import com.darass.auth.domain.KaKaoOAuthProvider;
 import com.darass.comment.domain.Comment;
 import com.darass.comment.domain.CommentLike;
-import com.darass.comment.domain.Comments;
 import com.darass.comment.domain.SortOption;
 import com.darass.comment.dto.CommentCreateRequest;
 import com.darass.comment.dto.CommentDeleteRequest;
@@ -223,7 +222,7 @@ class CommentServiceTest extends SpringContainerTest {
     @Test
     void findAllCommentsByUrlAndProjectKey_latest() {
         CommentReadRequest request = new CommentReadRequest(SortOption.LATEST.name(), "url", project.getSecretKey());
-        List<CommentResponse> responses = commentService.findAllCommentsByUrlAndProjectKey(request).getComments();
+        List<CommentResponse> responses = commentService.findAllCommentsByUrlAndProjectKey(admin, request).getComments();
         assertThat(responses).extracting("content").isEqualTo(Arrays.asList("content3", "content2", "content1"));
     }
 
@@ -231,7 +230,7 @@ class CommentServiceTest extends SpringContainerTest {
     @Test
     void findAllCommentsByUrlAndProjectKey_like() {
         CommentReadRequest request = new CommentReadRequest(SortOption.LIKE.name(), "url", project.getSecretKey());
-        List<CommentResponse> responses = commentService.findAllCommentsByUrlAndProjectKey(request).getComments();
+        List<CommentResponse> responses = commentService.findAllCommentsByUrlAndProjectKey(admin, request).getComments();
         assertThat(responses).extracting("content").isEqualTo(Arrays.asList("content2", "content1", "content3"));
     }
 
@@ -239,7 +238,7 @@ class CommentServiceTest extends SpringContainerTest {
     @Test
     void findAllCommentsByUrlAndProjectKey_oldest() {
         CommentReadRequest request = new CommentReadRequest(SortOption.OTHER.name(), "url", project.getSecretKey());
-        List<CommentResponse> responses = commentService.findAllCommentsByUrlAndProjectKey(request).getComments();
+        List<CommentResponse> responses = commentService.findAllCommentsByUrlAndProjectKey(admin, request).getComments();
         assertThat(responses).extracting("content").isEqualTo(Arrays.asList("content1", "content2", "content3"));
     }
 
@@ -523,7 +522,7 @@ class CommentServiceTest extends SpringContainerTest {
     void findAllCommentsByUrlAndProjectKeyConsiderSecretComment_guest_user() {
         CommentReadRequest request = new CommentReadRequest("latest", "url", project.getSecretKey());
         CommentResponses responses = commentService
-            .findAllCommentsByUrlAndProjectKeyConsiderSecretComment(guestUser, request);
+            .findAllCommentsByUrlAndProjectKey(guestUser, request);
 
         for (CommentResponse commentResponse : responses.getComments()) {
             if (commentResponse.isSecret()) {
@@ -541,7 +540,7 @@ class CommentServiceTest extends SpringContainerTest {
     void findAllCommentsByUrlAndProjectKeyConsiderSecretComment_login_user() {
         CommentReadRequest request = new CommentReadRequest("latest", "url", project.getSecretKey());
         CommentResponses responses = commentService
-            .findAllCommentsByUrlAndProjectKeyConsiderSecretComment(socialLoginUser, request);
+            .findAllCommentsByUrlAndProjectKey(socialLoginUser, request);
 
         for (CommentResponse commentResponse : responses.getComments()) {
             if (commentResponse.isSecret()) {
@@ -563,7 +562,7 @@ class CommentServiceTest extends SpringContainerTest {
     void findAllCommentsByUrlAndProjectKeyConsiderSecretComment_admin() {
         CommentReadRequest request = new CommentReadRequest("latest", "url", project.getSecretKey());
         CommentResponses responses = commentService
-            .findAllCommentsByUrlAndProjectKeyConsiderSecretComment(socialLoginUser, request);
+            .findAllCommentsByUrlAndProjectKey(socialLoginUser, request);
 
         for (CommentResponse commentResponse : responses.getComments()) {
             assertThat(commentResponse.getUser().getNickName()).isNotEqualTo(Comment.SECRET_COMMENT_USER_NICKNAME);

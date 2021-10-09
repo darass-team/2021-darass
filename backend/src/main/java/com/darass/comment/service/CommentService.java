@@ -64,18 +64,7 @@ public class CommentService {
     }
 
     @Transactional(readOnly = true)
-    public CommentResponses findAllCommentsByUrlAndProjectKey(CommentReadRequest request) {
-        List<Comment> comments = commentRepository
-            .findByUrlAndProjectSecretKeyAndParentId(request.getUrl(), request.getProjectKey(), null,
-                SortOption.getMatchedSort(request.getSortOption()));
-
-        return new CommentResponses(new Comments(comments).totalCommentWithSubComment(), 1, comments.stream()
-            .map(comment -> CommentResponse.of(comment, UserResponse.of(comment.getUser())))
-            .collect(Collectors.toList()));
-    }
-
-    @Transactional(readOnly = true)
-    public CommentResponses findAllCommentsByUrlAndProjectKeyConsiderSecretComment(User user, CommentReadRequest request) {
+    public CommentResponses findAllCommentsByUrlAndProjectKey(User user, CommentReadRequest request) {
         Comments comments = new Comments(commentRepository
             .findByUrlAndProjectSecretKeyAndParentId(request.getUrl(), request.getProjectKey(), null,
                 SortOption.getMatchedSort(request.getSortOption())));

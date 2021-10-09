@@ -38,9 +38,8 @@ public class CommentController {
 
     @GetMapping("/comments")
     public ResponseEntity<CommentResponses> read(@AuthenticationPrincipal User user, @ModelAttribute CommentReadRequest commentReadRequest) {
-        // CommentResponses commentResponses = commentService.findAllCommentsByUrlAndProjectKey(commentReadRequest);
         CommentResponses commentResponses = commentService
-            .findAllCommentsByUrlAndProjectKeyConsiderSecretComment(user, commentReadRequest);
+            .findAllCommentsByUrlAndProjectKey(user, commentReadRequest);
         return ResponseEntity.status(HttpStatus.OK).body(commentResponses);
     }
 
