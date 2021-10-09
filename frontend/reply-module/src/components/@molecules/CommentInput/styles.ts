@@ -31,7 +31,8 @@ export const TextBox = styled.div<{ isValidInput: boolean }>`
   min-height: 6rem;
   max-height: 12rem;
   margin-bottom: 0.2rem;
-
+  word-break: break-all;
+  white-space: break-spaces;
   overflow-y: auto;
 
   &:empty:before {
