@@ -145,7 +145,16 @@ class CommentTest {
     @Test
     void handleSecretComment() {
         commentWithLoginUser.handleSecretComment();
-        assertThat(commentWithLoginUser.getSubComments()).hasSize(4);
+        assertThat(commentWithLoginUser.getUserNickName()).isEqualTo(Comment.SECRET_COMMENT_USER_NICKNAME);
+        assertThat(commentWithLoginUser.getContent()).isEqualTo(Comment.SECRET_COMMENT_CONTENT);
+        for (Comment subComment : commentWithLoginUser.getSubComments()) {
+            if (subComment.isSecret()) {
+                if (subComment.getUser().isLoginUser()) {
+                    assertThat(subComment.getUserNickName()).isEqualTo(Comment.SECRET_COMMENT_USER_NICKNAME);
+                }
+                assertThat(subComment.getContent()).isEqualTo(Comment.SECRET_COMMENT_CONTENT);
+            }
+        }
     }
 
     private CommentLike buildCommentLike() {

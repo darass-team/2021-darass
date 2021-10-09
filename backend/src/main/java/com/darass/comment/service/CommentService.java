@@ -76,22 +76,16 @@ public class CommentService {
 
     @Transactional(readOnly = true)
     public CommentResponses findAllCommentsByUrlAndProjectKeyConsiderSecretComment(User user, CommentReadRequest request) {
-        List<Comment> comments = commentRepository
+        Comments comments = new Comments(commentRepository
             .findByUrlAndProjectSecretKeyAndParentId(request.getUrl(), request.getProjectKey(), null,
-                SortOption.getMatchedSort(request.getSortOption()));
+                SortOption.getMatchedSort(request.getSortOption())));
 
         Project project = projectRepository.findBySecretKey(request.getProjectKey())
             .orElseThrow(ExceptionWithMessageAndCode.NOT_FOUND_PROJECT::getException);
 
-        if (!user.isLoginUser()) {
-            comments = new Comments(comments).handleSecretCommentWithGuestUser();
-        }
+        comments.handleSecretComments(user, project.getAdminUserId());
 
-        if (!user.isAdminUser(project.getAdminUserId())) {
-            comments = new Comments(comments).handleSecretCommentWithLoginUser(user);
-        }
-
-        return new CommentResponses(new Comments(comments).totalCommentWithSubComment(), 1, comments.stream()
+        return new CommentResponses(comments.totalCommentWithSubComment(), 1, comments.getComments().stream()
             .map(comment -> CommentResponse.of(comment, UserResponse.of(comment.getUser())))
             .collect(Collectors.toList()));
     }
