@@ -249,6 +249,7 @@ public class CommentService {
             .content(commentRequest.getContent())
             .project(project)
             .url(commentRequest.getUrl())
+            .secret(commentRequest.isSecret())
             .build();
 
         sendCommentAlarm(comment, CommentAlarmType.CREATE_COMMENT, project.getUser());
@@ -267,6 +268,7 @@ public class CommentService {
             .project(project)
             .url(commentRequest.getUrl())
             .parent(parentComment)
+            .secret(commentRequest.isSecret())
             .build();
 
         sendCommentAlarm(comment, CommentAlarmType.CREATE_SUB_COMMENT, parentComment.getUser());

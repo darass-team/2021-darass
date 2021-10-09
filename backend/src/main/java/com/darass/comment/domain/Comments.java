@@ -34,6 +34,7 @@ public class Comments {
     public void handleSecretComments(User commentReadUser, Long adminUserId) {
         if (!commentReadUser.isLoginUser()) {
             handleSecretCommentWithGuestUser();
+            return;
         }
         if (!commentReadUser.isAdminUser(adminUserId)) {
             handleSecretCommentWithLoginUser(commentReadUser);

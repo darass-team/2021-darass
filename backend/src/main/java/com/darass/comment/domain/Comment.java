@@ -74,7 +74,7 @@ public class Comment extends BaseTimeEntity {
     @Lob
     private String content;
 
-    private boolean secret = false;
+    private boolean secret;
 
     @Formula("(select count(*) from comment_like where comment_like.comment_id=id)")
     private int likeCount;
