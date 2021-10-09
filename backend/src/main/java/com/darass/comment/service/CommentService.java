@@ -75,7 +75,7 @@ public class CommentService {
     }
 
     @Transactional(readOnly = true)
-    public CommentResponses findAllCommentsByUrlAndProjectKey2(User user, CommentReadRequest request) {
+    public CommentResponses findAllCommentsByUrlAndProjectKeyConsiderSecretComment(User user, CommentReadRequest request) {
         List<Comment> comments = commentRepository
             .findByUrlAndProjectSecretKeyAndParentId(request.getUrl(), request.getProjectKey(), null,
                 SortOption.getMatchedSort(request.getSortOption()));

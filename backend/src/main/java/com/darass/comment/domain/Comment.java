@@ -35,8 +35,9 @@ import org.hibernate.annotations.OnDeleteAction;
 public class Comment extends BaseTimeEntity {
 
     private static final int CONTENT_LENGTH_LIMIT = 3000;
-    private static final String SECRET_USER_NICKNAME = "";
-    private static final String SECRET_COMMENT_CONTENT = "[비밀 댓글입니다.]";
+
+    public static final String SECRET_COMMENT_USER_NICKNAME = "비밀 댓글 작성자";
+    public static final String SECRET_COMMENT_CONTENT = "[비밀 댓글입니다.]";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -72,13 +73,13 @@ public class Comment extends BaseTimeEntity {
     @Lob
     private String content;
 
-    private boolean isSecret = false;
+    private boolean secret = false;
 
     @Formula("(select count(*) from comment_like where comment_like.comment_id=id)")
     private int likeCount;
 
     @Builder
-    public Comment(Long id, User user, Project project, String url, String content, Comment parent) {
+    public Comment(Long id, User user, Project project, String url, String content, Comment parent, boolean secret) {
         validateContentLength(content);
         this.id = id;
         this.user = user;
@@ -86,6 +87,7 @@ public class Comment extends BaseTimeEntity {
         this.url = url;
         this.content = content;
         this.parent = parent;
+        this.secret = secret;
     }
 
     public void changeContent(String content) {
@@ -106,6 +108,10 @@ public class Comment extends BaseTimeEntity {
 
     public Long getUserId() {
         return user.getId();
+    }
+
+    public String getUserNickName() {
+        return user.getNickName();
     }
 
     public boolean isLikedByUser(User user) {
@@ -160,16 +166,20 @@ public class Comment extends BaseTimeEntity {
     }
 
     public void handleSecretComment() {
-        if (this.isSecret()) {
+        if (this.secret) {
             replaceCommentInfoToSecret();
         }
-        new SubComments(this.getSubComments()).handleSecretSubComment();
+        for (Comment subComment : this.subComments) {
+            if (subComment.secret) {
+                subComment.replaceCommentInfoToSecret();
+            }
+        }
     }
 
     public void replaceCommentInfoToSecret() {
         if (this.getUser().isLoginUser()) {
-            this.changeUserNickname(SECRET_USER_NICKNAME);
+            this.changeUserNickname(SECRET_COMMENT_USER_NICKNAME);
         }
-        this.changeContent(SECRET_USER_NICKNAME);
+        this.changeContent(SECRET_COMMENT_CONTENT);
     }
 }

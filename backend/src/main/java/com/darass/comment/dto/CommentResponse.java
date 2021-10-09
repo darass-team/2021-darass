@@ -35,7 +35,7 @@ public class CommentResponse {
 
     private List<SubCommentResponse> subComments;
 
-    private boolean isSecret;
+    private boolean secret;
 
     public static CommentResponse of(Comment comment, UserResponse userResponse) {
         return new CommentResponse(comment.getId(), comment.getContent(), comment.getUrl(), comment.getCreatedDate(),
