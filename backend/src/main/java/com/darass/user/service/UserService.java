@@ -41,7 +41,9 @@ public class UserService {
             throw ExceptionWithMessageAndCode.OVER_MAX_FILE_SIZE.getException();
         }
         user.changeNickNameOrProfileImageIfExists(s3Uploader, nickName, profileImageFile);
-        user.changeHasRecentAlarm(userUpdateRequest.getHasRecentAlarm());
+        if (!Objects.isNull(userUpdateRequest.getHasRecentAlarm())) {
+            user.changeHasRecentAlarm(userUpdateRequest.getHasRecentAlarm());
+        }
         return UserResponse.of(user);
     }
 
