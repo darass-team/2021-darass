@@ -516,8 +516,7 @@ class CommentServiceTest extends SpringContainerTest {
         assertThat(comment.getCommentLikes()).hasSize(0);
     }
 
-    @DisplayName("비로그인 사용자가 볼 때, 로그인 유저가 쓴 비밀 댓글의 작성자와 본문 내용은 확인이 불가능하고"
-        + "비로그인 유저가 쓴 비밀 댓글의 본문 내용은 확인이 불가능하다.")
+    @DisplayName("비로그인 사용자가 볼 때, 비밀 댓글의 본문 내용은 확인이 불가능하다.")
     @Test
     void findAllCommentsByUrlAndProjectKeyConsiderSecretComment_guest_user() {
         CommentReadRequest request = new CommentReadRequest("latest", "url", project.getSecretKey());
@@ -526,16 +525,12 @@ class CommentServiceTest extends SpringContainerTest {
 
         for (CommentResponse commentResponse : responses.getComments()) {
             if (commentResponse.isSecret()) {
-                if (!Objects.isNull(commentResponse.getUser().getType())) {
-                    assertThat(commentResponse.getUser().getNickName()).isEqualTo(Comment.SECRET_COMMENT_USER_NICKNAME);
-                }
                 assertThat(commentResponse.getContent()).isEqualTo(Comment.SECRET_COMMENT_CONTENT);
             }
         }
     }
 
-    @DisplayName("로그인 사용자가 댓글을 볼 때, 자신이 쓴 댓글을 제외한 모든 로그인 유저가 쓴 비밀 댓글의 작성자와 본문 내용은"
-        + "확인이 불가능하고 비로그인 유저가 쓴 비밀 댓글의 본문 내용은 확인이 불가능하다.")
+    @DisplayName("로그인 사용자가 댓글을 볼 때, 자신이 쓴 댓글을 제외한 모든 비밀 댓글의 본문 내용은 확인이 불가능하다.")
     @Test
     void findAllCommentsByUrlAndProjectKeyConsiderSecretComment_login_user() {
         CommentReadRequest request = new CommentReadRequest("latest", "url", project.getSecretKey());
@@ -545,12 +540,8 @@ class CommentServiceTest extends SpringContainerTest {
         for (CommentResponse commentResponse : responses.getComments()) {
             if (commentResponse.isSecret()) {
                 if (socialLoginUser.isSameUser(commentResponse.getUser().getId())) {
-                    assertThat(commentResponse.getUser().getNickName()).isNotEqualTo(Comment.SECRET_COMMENT_USER_NICKNAME);
                     assertThat(commentResponse.getContent()).isNotEqualTo(Comment.SECRET_COMMENT_CONTENT);
                     continue;
-                }
-                if (!Objects.isNull(commentResponse.getUser().getType())) {
-                    assertThat(commentResponse.getUser().getNickName()).isEqualTo(Comment.SECRET_COMMENT_USER_NICKNAME);
                 }
                 assertThat(commentResponse.getContent()).isEqualTo(Comment.SECRET_COMMENT_CONTENT);
             }
@@ -565,7 +556,6 @@ class CommentServiceTest extends SpringContainerTest {
             .findAllCommentsByUrlAndProjectKey(socialLoginUser, request);
 
         for (CommentResponse commentResponse : responses.getComments()) {
-            assertThat(commentResponse.getUser().getNickName()).isNotEqualTo(Comment.SECRET_COMMENT_USER_NICKNAME);
             assertThat(commentResponse.getContent()).isNotEqualTo(Comment.SECRET_COMMENT_CONTENT);
         }
     }

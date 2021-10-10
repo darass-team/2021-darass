@@ -97,8 +97,7 @@ class CommentsTest {
         );
     }
 
-    @DisplayName("비로그인 사용자가 볼 때, 로그인 유저가 쓴 비밀 댓글의 작성자와 본문 내용은 확인이 불가능하고"
-        + "비로그인 유저가 쓴 비밀 댓글의 본문 내용은 확인이 불가능하다.")
+    @DisplayName("비로그인 사용자가 볼 때, 모든 비밀 댓글의 본문 내용은 확인이 불가능하다.")
     @Test
     void handleSecretComments_guest_user() {
         Comment jekyllProjectComment1 = makeComment(guestUser, jekyllProject, "https://jekyll.blog/post/1", "댓글1", true);
@@ -119,16 +118,12 @@ class CommentsTest {
 
         for (Comment comment : comments.getComments()) {
             if (comment.isSecret()) {
-                if (comment.getUser().isLoginUser()) {
-                    assertThat(comment.getUserNickName()).isEqualTo(Comment.SECRET_COMMENT_USER_NICKNAME);
-                }
                 assertThat(comment.getContent()).isEqualTo(Comment.SECRET_COMMENT_CONTENT);
             }
         }
     }
 
-    @DisplayName("로그인 사용자가 댓글을 볼 때, 자신이 쓴 댓글을 제외한 모든 로그인 유저가 쓴 비밀 댓글의 작성자와 본문 내용은"
-        + "확인이 불가능하고 비로그인 유저가 쓴 비밀 댓글의 본문 내용은 확인이 불가능하다.")
+    @DisplayName("로그인 사용자가 댓글을 볼 때, 자신이 쓴 댓글을 제외한 모든 비밀 댓글의 본문 내용은 확인이 불가능하다.")
     @Test
     void handleSecretComments_login_user() {
         Comment jekyllProjectComment1 = makeComment(guestUser, jekyllProject, "https://jekyll.blog/post/1", "댓글1", true);
@@ -150,12 +145,8 @@ class CommentsTest {
         for (Comment comment : comments.getComments()) {
             if (comment.isSecret()) {
                 if (socialLoginUser.isSameUser(comment.getUser())) {
-                    assertThat(comment.getUserNickName()).isNotEqualTo(Comment.SECRET_COMMENT_USER_NICKNAME);
                     assertThat(comment.getContent()).isNotEqualTo(Comment.SECRET_COMMENT_CONTENT);
                     continue;
-                }
-                if (comment.getUser().isLoginUser()) {
-                    assertThat(comment.getUserNickName()).isEqualTo(Comment.SECRET_COMMENT_USER_NICKNAME);
                 }
                 assertThat(comment.getContent()).isEqualTo(Comment.SECRET_COMMENT_CONTENT);
             }
@@ -182,7 +173,6 @@ class CommentsTest {
         comments.handleSecretComments(socialLoginUser, jekyllProject.getAdminUserId());
 
         for (Comment comment : comments.getComments()) {
-            assertThat(comment.getUserNickName()).isNotEqualTo(Comment.SECRET_COMMENT_USER_NICKNAME);
             assertThat(comment.getContent()).isNotEqualTo(Comment.SECRET_COMMENT_CONTENT);
         }
     }

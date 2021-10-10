@@ -125,33 +125,27 @@ class CommentTest {
             .isInstanceOf(ExceptionWithMessageAndCode.INVALID_INPUT_LENGTH.getException().getClass());
     }
 
-    @DisplayName("유저가 로그인 상태라면, 비밀 댓글의 유저 닉네임과 본문을 숨긴다.")
+    @DisplayName("유저가 로그인 상태라면, 비밀 댓글의 본문을 숨긴다.")
     @Test
     void replaceCommentInfoToSecret_login_user() {
         commentWithLoginUser.replaceCommentInfoToSecret();
-        assertThat(commentWithLoginUser.getUserNickName()).isEqualTo(Comment.SECRET_COMMENT_USER_NICKNAME);
         assertThat(commentWithLoginUser.getContent()).isEqualTo(Comment.SECRET_COMMENT_CONTENT);
     }
 
-    @DisplayName("유저가 비로그인 상태라면, 비밀 댓글의 본문만 숨긴다.")
+    @DisplayName("유저가 비로그인 상태라면, 비밀 댓글의 본문을 숨긴다.")
     @Test
     void replaceCommentInfoToSecret_guest_user() {
         commentWithGuestUser.replaceCommentInfoToSecret();
-        assertThat(commentWithGuestUser.getUserNickName()).isNotEqualTo(Comment.SECRET_COMMENT_USER_NICKNAME);
         assertThat(commentWithGuestUser.getContent()).isEqualTo(Comment.SECRET_COMMENT_CONTENT);
     }
 
-    @DisplayName("각 부모 댓글과 대댓글에 대해 비밀 댓글이면 숨김 처리를 한다.")
+    @DisplayName("각 부모 댓글과 대댓글에 대해 비밀 댓글이면 본문을 숨긴다.")
     @Test
     void handleSecretComment() {
         commentWithLoginUser.handleSecretComment();
-        assertThat(commentWithLoginUser.getUserNickName()).isEqualTo(Comment.SECRET_COMMENT_USER_NICKNAME);
         assertThat(commentWithLoginUser.getContent()).isEqualTo(Comment.SECRET_COMMENT_CONTENT);
         for (Comment subComment : commentWithLoginUser.getSubComments()) {
             if (subComment.isSecret()) {
-                if (subComment.getUser().isLoginUser()) {
-                    assertThat(subComment.getUserNickName()).isEqualTo(Comment.SECRET_COMMENT_USER_NICKNAME);
-                }
                 assertThat(subComment.getContent()).isEqualTo(Comment.SECRET_COMMENT_CONTENT);
             }
         }

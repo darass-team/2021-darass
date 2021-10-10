@@ -37,7 +37,6 @@ public class Comment extends BaseTimeEntity {
 
     private static final int CONTENT_LENGTH_LIMIT = 3000;
 
-    public static final String SECRET_COMMENT_USER_NICKNAME = "비밀 댓글 작성자";
     public static final String SECRET_COMMENT_CONTENT = "[비밀 댓글입니다.]";
 
     @Id
@@ -178,9 +177,6 @@ public class Comment extends BaseTimeEntity {
     }
 
     public void replaceCommentInfoToSecret() {
-        if (this.getUser().isLoginUser()) {
-            this.changeUserNickname(SECRET_COMMENT_USER_NICKNAME);
-        }
         this.changeContent(SECRET_COMMENT_CONTENT);
     }
 }
