@@ -82,7 +82,7 @@ public class CommentController {
     @PatchMapping("/comments/{id}")
     public ResponseEntity<Void> update(@PathVariable("id") Long id, @AuthenticationPrincipal User user,
         @RequestBody CommentUpdateRequest request) {
-        commentService.updateContent(id, user, request);
+        commentService.updateComment(id, user, request);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 

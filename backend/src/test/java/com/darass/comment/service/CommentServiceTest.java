@@ -41,7 +41,6 @@ import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -413,15 +412,15 @@ class CommentServiceTest extends SpringContainerTest {
     @Test
     void updateContent_social_login_user() {
         CommentUpdateRequest request = new CommentUpdateRequest("jayon");
-        commentService.updateContent(comments.get(0).getId(), socialLoginUser, request);
+        commentService.updateComment(comments.get(0).getId(), socialLoginUser, request);
         assertThat(commentRepository.findById(comments.get(0).getId()).get().getContent()).isEqualTo("jayon");
     }
 
     @DisplayName("비로그인 유저가 댓글을 수정한다.")
     @Test
     void updateContent_guest_user() {
-        CommentUpdateRequest request = new CommentUpdateRequest(guestUser.getId(), guestUser.getPassword(), "jayon");
-        commentService.updateContent(comments.get(3).getId(), guestUser, request);
+        CommentUpdateRequest request = new CommentUpdateRequest(guestUser.getId(), guestUser.getPassword(), "jayon", false);
+        commentService.updateComment(comments.get(3).getId(), guestUser, request);
         assertThat(commentRepository.findById(comments.get(3).getId()).get().getContent()).isEqualTo("jayon");
     }
 
@@ -429,7 +428,7 @@ class CommentServiceTest extends SpringContainerTest {
     @Test
     void updateContent_social_login_user_exception() {
         CommentUpdateRequest request = new CommentUpdateRequest("jayon");
-        assertThatThrownBy(() -> commentService.updateContent(comments.get(3).getId(), socialLoginUser, request))
+        assertThatThrownBy(() -> commentService.updateComment(comments.get(3).getId(), socialLoginUser, request))
             .isInstanceOf(UnauthorizedException.class)
             .hasMessage("해당 댓글을 관리할 권한이 없습니다.");
     }
@@ -437,8 +436,8 @@ class CommentServiceTest extends SpringContainerTest {
     @DisplayName("비로그인 유저가 비밀번호를 틀리면 댓글을 수정할 수 없다.")
     @Test
     void updateContent_guest_user_exception() {
-        CommentUpdateRequest request = new CommentUpdateRequest(guestUser.getId(), "invalid", "jayon");
-        assertThatThrownBy(() -> commentService.updateContent(comments.get(3).getId(), guestUser, request))
+        CommentUpdateRequest request = new CommentUpdateRequest(guestUser.getId(), "invalid", "jayon", false);
+        assertThatThrownBy(() -> commentService.updateComment(comments.get(3).getId(), guestUser, request))
             .isInstanceOf(UnauthorizedException.class)
             .hasMessage("Guest 사용자의 비밀번호가 일치하지 않습니다.");
     }

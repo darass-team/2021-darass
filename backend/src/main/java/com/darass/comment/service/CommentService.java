@@ -141,13 +141,14 @@ public class CommentService {
         }
     }
 
-    public void updateContent(Long id, User user, CommentUpdateRequest request) {
+    public void updateComment(Long id, User user, CommentUpdateRequest request) {
         user = findRegisteredUser(user, request.getGuestUserId(), request.getGuestUserPassword());
         Comment comment = findCommentById(id);
 
         validateCommentUpdatableByUser(user, comment);
 
         comment.changeContent(request.getContent());
+        comment.changeSecretStatus(request.isSecret());
         commentRepository.save(comment);
     }
 

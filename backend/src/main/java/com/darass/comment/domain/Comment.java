@@ -179,4 +179,8 @@ public class Comment extends BaseTimeEntity {
     public void replaceCommentInfoToSecret() {
         this.changeContent(SECRET_COMMENT_CONTENT);
     }
+
+    public void changeSecretStatus(boolean secret) {
+        this.secret = secret;
+    }
 }

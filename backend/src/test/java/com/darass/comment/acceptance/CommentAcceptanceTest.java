@@ -1450,7 +1450,8 @@ class CommentAcceptanceTest extends AcceptanceTest {
                     parameterWithName("id").description("수정할 댓글 id")
                 ),
                 relaxedRequestFields(
-                    fieldWithPath("content").type(JsonFieldType.STRING).description("수정 내용")
+                    fieldWithPath("content").type(JsonFieldType.STRING).description("수정 내용"),
+                    fieldWithPath("secret").type(JsonFieldType.BOOLEAN).description("댓글 공개/비공개 여부")
                 )
             ));
     }
@@ -1466,7 +1467,7 @@ class CommentAcceptanceTest extends AcceptanceTest {
             .header("Cookie", "refreshToken=refreshToken")
             .contentType(MediaType.APPLICATION_JSON)
             .content(asJsonString(
-                new CommentUpdateRequest(userResponse.getId(), "password", "updateContent"))))
+                new CommentUpdateRequest(userResponse.getId(), "password", "updateContent", false))))
             .andExpect(status().isNoContent())
             .andDo(document("api/v1/comments/patch/success-guest-user",
                 pathParameters(
@@ -1477,7 +1478,8 @@ class CommentAcceptanceTest extends AcceptanceTest {
                         .description("비로그인 작성자 id"),
                     fieldWithPath("guestUserPassword").type(JsonFieldType.STRING)
                         .description("비로그인 작성자 비밀번호"),
-                    fieldWithPath("content").type(JsonFieldType.STRING).description("수정 내용")
+                    fieldWithPath("content").type(JsonFieldType.STRING).description("수정 내용"),
+                    fieldWithPath("secret").type(JsonFieldType.BOOLEAN).description("댓글 공개/비공개 여부")
                 )
             ));
     }
@@ -1514,7 +1516,7 @@ class CommentAcceptanceTest extends AcceptanceTest {
         mockMvc.perform(patch("/api/v1/comments/{id}", commentId)
             .contentType(MediaType.APPLICATION_JSON)
             .content(
-                asJsonString(new CommentUpdateRequest(user.getId(), "invalid", "updateContent"))))
+                asJsonString(new CommentUpdateRequest(user.getId(), "invalid", "updateContent", false))))
             .andExpect(status().isUnauthorized())
             .andExpect(jsonPath("$.code").value(901))
             .andDo(document("api/v1/comments/patch/fail-guest-password-wrong",
