@@ -23,6 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.darass.auth.infrastructure.JwtTokenProvider;
 import com.darass.comment.dto.CommentCreateRequest;
+import com.darass.comment.dto.CommentReadSecretCommentRequest;
 import com.darass.comment.dto.CommentResponse;
 import com.darass.comment.dto.CommentResponses;
 import com.darass.comment.dto.CommentUpdateRequest;
@@ -1483,6 +1484,82 @@ class CommentAcceptanceTest extends AcceptanceTest {
             ));
     }
 
+    @DisplayName("비로그인 유저가 비밀 댓글을 조회한다.")
+    @Test
+    void readSecretComment_guest_user() throws Exception{
+        CommentResponse commentResponse = 비로그인_댓글_등록됨_Response_반환("content1", "url", true);
+        소셜_로그인_대댓글_등록됨("content2", "url", commentResponse.getId(), true);
+        소셜_로그인_대댓글_등록됨("content3", "url", commentResponse.getId(), true);
+        UserResponse userResponse = commentResponse.getUser();
+        Long commentId = commentResponse.getId();
+
+        mockMvc.perform(get("/api/v1/comments/" + commentId + "/secret-comment")
+            .header("Cookie", "refreshToken=refreshToken")
+            .contentType(MediaType.APPLICATION_JSON)
+            .param("guestUserId", String.valueOf(userResponse.getId()))
+            .param("guestUserPassword", "password"))
+            .andExpect(status().isOk())
+            .andDo(document("api/v1/comments/secret-comment/guest-user/get/success",
+                requestParameters(
+                    parameterWithName("guestUserId").description("비로그인 유저 ID"),
+                    parameterWithName("guestUserPassword").description("비로그인 유저 비밀번호")
+                ),
+                responseFields(
+                    fieldWithPath("createdDate").type(JsonFieldType.STRING).description("댓글 생성 시점"),
+                    fieldWithPath("modifiedDate").type(JsonFieldType.STRING).description("댓글 수정 시점"),
+                    fieldWithPath("id").type(JsonFieldType.NUMBER).description("댓글 id"),
+                    fieldWithPath("content").type(JsonFieldType.STRING).description("댓글 내용"),
+                    fieldWithPath("url").type(JsonFieldType.STRING).description("댓글이 있는 url"),
+                    fieldWithPath("secret").type(JsonFieldType.BOOLEAN).description("댓글 공개/비공개 여부"),
+                    fieldWithPath("likingUsers[*]").type(JsonFieldType.ARRAY).description("좋아요 누른 유저 정보"),
+                    fieldWithPath("user").type(JsonFieldType.OBJECT).description("댓글 작성 유저 정보"),
+                    fieldWithPath("user.createdDate").type(JsonFieldType.STRING).description("유저 생성 시점"),
+                    fieldWithPath("user.modifiedDate").type(JsonFieldType.STRING).description("유저 수정 시점"),
+                    fieldWithPath("user.id").type(JsonFieldType.NUMBER).description("유저 id"),
+                    fieldWithPath("user.nickName").type(JsonFieldType.STRING).description("유저 닉네임"),
+                    fieldWithPath("user.type").type(JsonFieldType.STRING).description("유저 타입"),
+                    fieldWithPath("user.profileImageUrl").type(JsonFieldType.STRING).description("유저 프로필 이미지"),
+                    fieldWithPath("user.hasRecentAlarm").type(JsonFieldType.BOOLEAN).description("유저가 최근에 알람을 받았는지 여부"),
+                    fieldWithPath("subComments[]").type(JsonFieldType.ARRAY).description("대댓글 정보"),
+                    fieldWithPath("subComments[].createdDate").type(JsonFieldType.STRING).description("대댓글 생성 시점"),
+                    fieldWithPath("subComments[].modifiedDate").type(JsonFieldType.STRING).description("대댓글 수정 시점"),
+                    fieldWithPath("subComments[].id").type(JsonFieldType.NUMBER).description("대댓글 id"),
+                    fieldWithPath("subComments[].content").type(JsonFieldType.STRING).description("대댓글 내용"),
+                    fieldWithPath("subComments[].url").type(JsonFieldType.STRING).description("대댓글이 있는 url"),
+                    fieldWithPath("subComments[].secret").type(JsonFieldType.BOOLEAN).description("대댓글 공개/비공개 여부"),
+                    fieldWithPath("subComments[].likingUsers[*]").type(JsonFieldType.ARRAY).description("좋아요 누른 유저 정보"),
+                    fieldWithPath("subComments[].user").type(JsonFieldType.OBJECT).description("대댓글 작성 유저 정보"),
+                    fieldWithPath("subComments[].user.createdDate").type(JsonFieldType.STRING).description("유저 생성 시점"),
+                    fieldWithPath("subComments[].user.modifiedDate").type(JsonFieldType.STRING).description("유저 수정 시점"),
+                    fieldWithPath("subComments[].user.id").type(JsonFieldType.NUMBER).description("유저 id"),
+                    fieldWithPath("subComments[].user.nickName").type(JsonFieldType.STRING).description("유저 닉네임"),
+                    fieldWithPath("subComments[].user.type").type(JsonFieldType.STRING).description("유저 타입"),
+                    fieldWithPath("subComments[].user.profileImageUrl").type(JsonFieldType.STRING).description("유저 프로필 이미지"),
+                    fieldWithPath("subComments[].user.hasRecentAlarm").type(JsonFieldType.BOOLEAN).description("유저가 최근에 알람을 받았는지 여부")
+                )
+            ));
+    }
+
+    @DisplayName("소셜 로그인 유저는 남의 비밀 댓글을 조회할 수 없다.")
+    @Test
+    void readSecretComment_login_user() throws Exception{
+        CommentResponse commentResponse1 = 소셜_로그인_댓글_등록됨_Response_반환("content1", "url");
+        CommentResponse commentResponse2 = 비로그인_댓글_등록됨_Response_반환("content2", "url", true);
+        Long commentId2 = commentResponse2.getId();
+
+        mockMvc.perform(get("/api/v1/comments/" + commentId2 + "/secret-comment")
+            .header("Cookie", "refreshToken=refreshToken")
+            .header("Authorization", "Bearer " + token))
+            .andExpect(status().isUnauthorized())
+            .andExpect(jsonPath("$.code").value(903))
+            .andDo(document("api/v1/comments/secret-comment/login-user/get/fail-not-mine",
+                responseFields(
+                    fieldWithPath("message").type(JsonFieldType.STRING).description("에러 메시지"),
+                    fieldWithPath("code").type(JsonFieldType.NUMBER).description("에러 코드")
+                )
+            ));
+    }
+
     @DisplayName("소셜 로그인 유저는 남의 댓글을 수정할 수 없다.")
     @Test
     void updateUnauthorized() throws Exception {
@@ -1512,13 +1589,32 @@ class CommentAcceptanceTest extends AcceptanceTest {
         Long commentId = commentResponse.getId();
         UserResponse user = commentResponse.getUser();
 
-        mockMvc.perform(patch("/api/v1/comments/{id}", commentId)
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(
-                asJsonString(new CommentUpdateRequest(user.getId(), "invalid", "updateContent", false))))
+        mockMvc.perform(get("/api/v1/comments/" + commentId + "/secret-comment")
+            .param("guestUserId", String.valueOf(user.getId()))
+            .param("guestUserPassword", "Invalid"))
             .andExpect(status().isUnauthorized())
             .andExpect(jsonPath("$.code").value(901))
-            .andDo(document("api/v1/comments/patch/fail-guest-password-wrong",
+            .andDo(document("api/v1/comments/secret-comment/guest-user/get/fail-not-mine",
+                responseFields(
+                    fieldWithPath("message").type(JsonFieldType.STRING).description("에러 메시지"),
+                    fieldWithPath("code").type(JsonFieldType.NUMBER).description("에러 코드")
+                )
+            ));
+    }
+
+    @DisplayName("비로그인 유저가 비밀번호를 틀리면 비밀 댓글을 조회할 수 없다.")
+    @Test
+    void readSecretComment_guest_user_exception() throws Exception{
+        CommentResponse commentResponse = 비로그인_댓글_등록됨_Response_반환("content2", "url");
+        Long commentId = commentResponse.getId();
+        UserResponse user = commentResponse.getUser();
+
+        mockMvc.perform(get("/api/v1/comments/" + commentId + "/secret-comment")
+            .header("Authorization", "Bearer " + token)
+            .content(asJsonString(new CommentReadSecretCommentRequest(null, null))))
+            .andExpect(status().isUnauthorized())
+            .andExpect(jsonPath("$.code").value(903))
+            .andDo(document("api/v1/comments/secret-comment/get/fail-not-mine",
                 responseFields(
                     fieldWithPath("message").type(JsonFieldType.STRING).description("에러 메시지"),
                     fieldWithPath("code").type(JsonFieldType.NUMBER).description("에러 코드")

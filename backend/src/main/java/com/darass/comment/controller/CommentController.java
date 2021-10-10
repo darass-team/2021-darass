@@ -8,6 +8,7 @@ import com.darass.comment.dto.CommentReadRequest;
 import com.darass.comment.dto.CommentReadRequestByPagination;
 import com.darass.comment.dto.CommentReadRequestBySearch;
 import com.darass.comment.dto.CommentReadRequestInProject;
+import com.darass.comment.dto.CommentReadSecretCommentRequest;
 import com.darass.comment.dto.CommentResponse;
 import com.darass.comment.dto.CommentResponses;
 import com.darass.comment.dto.CommentStatRequest;
@@ -27,6 +28,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
@@ -77,6 +79,12 @@ public class CommentController {
         @Valid @RequestBody CommentCreateRequest commentRequest) {
         CommentResponse commentResponse = commentService.save(user, commentRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(commentResponse);
+    }
+
+    @GetMapping("/comments/{id}/secret-comment")
+    public ResponseEntity<CommentResponse> readSecretComment(@PathVariable("id") Long id, @AuthenticationPrincipal User user,
+        @ModelAttribute CommentReadSecretCommentRequest commentReadSecretCommentRequest) {
+        return ResponseEntity.ok(commentService.readSecretComment(id, user, commentReadSecretCommentRequest));
     }
 
     @PatchMapping("/comments/{id}")

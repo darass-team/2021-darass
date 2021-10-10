@@ -11,6 +11,7 @@ import com.darass.comment.dto.CommentReadRequest;
 import com.darass.comment.dto.CommentReadRequestByPagination;
 import com.darass.comment.dto.CommentReadRequestBySearch;
 import com.darass.comment.dto.CommentReadRequestInProject;
+import com.darass.comment.dto.CommentReadSecretCommentRequest;
 import com.darass.comment.dto.CommentResponse;
 import com.darass.comment.dto.CommentResponses;
 import com.darass.comment.dto.CommentStatRequest;
@@ -145,7 +146,7 @@ public class CommentService {
         user = findRegisteredUser(user, request.getGuestUserId(), request.getGuestUserPassword());
         Comment comment = findCommentById(id);
 
-        validateCommentUpdatableByUser(user, comment);
+        validateCommentUpdatableOrReadableByUser(user, comment);
 
         comment.changeContent(request.getContent());
         comment.changeSecretStatus(request.isSecret());
@@ -186,7 +187,15 @@ public class CommentService {
         return new CommentStatResponse(commentStats);
     }
 
-    private void validateCommentUpdatableByUser(User user, Comment comment) {
+    public CommentResponse readSecretComment(Long id, User user, CommentReadSecretCommentRequest request) {
+        user = findRegisteredUser(user, request.getGuestUserId(), request.getGuestUserPassword());
+        Comment comment = findCommentById(id);
+
+        validateCommentUpdatableOrReadableByUser(user, comment);
+        return CommentResponse.of(comment, UserResponse.of(user));
+    }
+
+    private void validateCommentUpdatableOrReadableByUser(User user, Comment comment) {
         if (comment.isCommentWriter(user)) {
             return;
         }
@@ -291,5 +300,4 @@ public class CommentService {
             throw ExceptionWithMessageAndCode.INVALID_SUB_COMMENT_INDEX.getException();
         }
     }
-
 }

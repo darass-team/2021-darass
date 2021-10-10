@@ -15,6 +15,7 @@ import com.darass.comment.dto.CommentReadRequest;
 import com.darass.comment.dto.CommentReadRequestByPagination;
 import com.darass.comment.dto.CommentReadRequestBySearch;
 import com.darass.comment.dto.CommentReadRequestInProject;
+import com.darass.comment.dto.CommentReadSecretCommentRequest;
 import com.darass.comment.dto.CommentResponse;
 import com.darass.comment.dto.CommentResponses;
 import com.darass.comment.dto.CommentStatRequest;
@@ -440,6 +441,33 @@ class CommentServiceTest extends SpringContainerTest {
         assertThatThrownBy(() -> commentService.updateComment(comments.get(3).getId(), guestUser, request))
             .isInstanceOf(UnauthorizedException.class)
             .hasMessage("Guest 사용자의 비밀번호가 일치하지 않습니다.");
+    }
+
+    @DisplayName("비로그인 유저가 비밀 댓글을 조회한다.")
+    @Test
+    void readSecretComment_guest_user() {
+        CommentReadSecretCommentRequest request = new CommentReadSecretCommentRequest(guestUser.getId(), guestUser.getPassword());
+        commentService.readSecretComment(comments.get(3).getId(), guestUser, request);
+        assertThat(commentRepository.findById(comments.get(2).getId()).get().getContent())
+            .isNotEqualTo(Comment.SECRET_COMMENT_CONTENT);
+    }
+
+    @DisplayName("비로그인 유저가 비밀번호를 틀리면 비밀 댓글을 조회할 수 없다.")
+    @Test
+    void readSecretComment_guest_user_exception() {
+        CommentReadSecretCommentRequest request = new CommentReadSecretCommentRequest(guestUser.getId(), "invalid");
+        assertThatThrownBy(() -> commentService.readSecretComment(comments.get(3).getId(), guestUser, request))
+            .isInstanceOf(UnauthorizedException.class)
+            .hasMessage("Guest 사용자의 비밀번호가 일치하지 않습니다.");
+    }
+
+    @DisplayName("소셜 로그인 유저가 남의 비밀 댓글을 조회하려고 하면 에러를 던진다.")
+    @Test
+    void readSecretComment_login_user_exception() {
+        CommentReadSecretCommentRequest request = new CommentReadSecretCommentRequest(null, null);
+        assertThatThrownBy(() -> commentService.readSecretComment(comments.get(3).getId(), socialLoginUser, request))
+            .isInstanceOf(UnauthorizedException.class)
+            .hasMessage("해당 댓글을 관리할 권한이 없습니다.");
     }
 
     @DisplayName("소셜 로그인 유저가 댓글을 삭제한다.")
