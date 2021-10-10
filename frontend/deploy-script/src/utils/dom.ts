@@ -7,7 +7,8 @@ export const hideElement = (element: HTMLElement) => {
 };
 
 export const showElement = (element: HTMLElement) => {
-  element.style.transform = "translateY(0%)";
+  element.style.setProperty("transform", `translateY(0%)`);
+  element.style.setProperty("z-index", `2147483647`, "important");
 };
 
 export const disableScroll = () => {
