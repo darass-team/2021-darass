@@ -46,7 +46,7 @@ class CommentTest {
             .name("깃헙 지킬 블로그")
             .build();
 
-        commentWithGuestUser = createComment(content, guestUser, null,false);
+        commentWithGuestUser = createComment(content, guestUser, null, false);
         commentWithLoginUser = createComment(content, socialLoginUser, null, true);
 
         subComments.add(createComment(content, guestUser, commentWithLoginUser, false));

@@ -22,17 +22,8 @@ import org.springframework.transaction.annotation.Transactional;
 @DisplayName("CommentAlarmService 클래스")
 class CommentAlarmServiceTest extends SpringContainerTest {
 
-    @Autowired
-    private CommentAlarmService commentAlarmService;
-
-    @Autowired
-    private CommentAlarmRepository commentAlarmRepository;
-
     private static SocialLoginUser SENDER;
-
     private static SocialLoginUser RECEIVER;
-
-    private Comment comment;
 
     static {
         SENDER = SocialLoginUser
@@ -45,6 +36,13 @@ class CommentAlarmServiceTest extends SpringContainerTest {
             .nickName("수신자")
             .build();
     }
+
+    @Autowired
+    private CommentAlarmService commentAlarmService;
+    @Autowired
+    private CommentAlarmRepository commentAlarmRepository;
+    private Comment comment;
+
     @BeforeEach
     void setUp() {
         comment = Comment.builder()
@@ -79,8 +77,8 @@ class CommentAlarmServiceTest extends SpringContainerTest {
     void findAllBySenderAndCreatedDateBetween_success() {
         List<CommentAlarmResponse> commentAlarmResponses = commentAlarmService.findAllCreatedDateBetween(
             RECEIVER,
-            LocalDate.of(2020,1,1).atTime(LocalTime.MIN),
-            LocalDate.of(2022,1,1).atTime(LocalTime.MAX)
+            LocalDate.of(2020, 1, 1).atTime(LocalTime.MIN),
+            LocalDate.of(2022, 1, 1).atTime(LocalTime.MAX)
         );
 
         assertThat(commentAlarmResponses).hasSize(3);

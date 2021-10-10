@@ -8,13 +8,13 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.darass.darass.SpringContainerTest;
 import com.darass.auth.controller.OAuthController;
 import com.darass.auth.controller.argumentresolver.AuthenticationPrincipalArgumentResolver;
 import com.darass.auth.dto.TokenRequest;
 import com.darass.auth.service.OAuthService;
 import com.darass.comment.controller.CommentController;
 import com.darass.comment.dto.CommentCreateRequest;
+import com.darass.darass.SpringContainerTest;
 import com.darass.exception.ExceptionWithMessageAndCode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;

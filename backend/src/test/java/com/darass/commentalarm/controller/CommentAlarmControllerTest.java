@@ -36,16 +36,10 @@ import org.springframework.test.web.servlet.ResultActions;
 @DisplayName("CommentAlarm 인수 테스트")
 class CommentAlarmControllerTest extends AcceptanceTest {
 
-    private static final SocialLoginUser SENDER;
-    private static final SocialLoginUser RECEIVER;
     public static final String ACCESS_TOKEN = "accessToken";
     public static final String REFRESH_TOKEN = "refreshToken";
-
-    @MockBean
-    private CommentAlarmService commentAlarmService;
-
-    @MockBean
-    private OAuthService oAuthService;
+    private static final SocialLoginUser SENDER;
+    private static final SocialLoginUser RECEIVER;
 
     static {
         SENDER = SocialLoginUser
@@ -72,6 +66,11 @@ class CommentAlarmControllerTest extends AcceptanceTest {
             .userType("SocialLoginUser")
             .build();
     }
+
+    @MockBean
+    private CommentAlarmService commentAlarmService;
+    @MockBean
+    private OAuthService oAuthService;
 
     @BeforeEach
     void setUp() {

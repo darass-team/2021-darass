@@ -23,7 +23,6 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import lombok.Builder;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Formula;
@@ -35,9 +34,11 @@ import org.hibernate.annotations.OnDeleteAction;
 @Entity
 public class Comment extends BaseTimeEntity {
 
+    public static final String SECRET_COMMENT_CONTENT = "[비밀 댓글입니다.]";
     private static final int CONTENT_LENGTH_LIMIT = 3000;
 
-    public static final String SECRET_COMMENT_CONTENT = "[비밀 댓글입니다.]";
+    @OneToMany(mappedBy = "comment", fetch = LAZY, cascade = ALL, orphanRemoval = true)
+    private final List<CommentLike> commentLikes = new ArrayList<>();
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -52,9 +53,6 @@ public class Comment extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(foreignKey = @ForeignKey(name = "comment_fk_project"))
     private Project project;
-
-    @OneToMany(mappedBy = "comment", fetch = LAZY, cascade = ALL, orphanRemoval = true)
-    private final List<CommentLike> commentLikes = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "parent_id", referencedColumnName = "id",

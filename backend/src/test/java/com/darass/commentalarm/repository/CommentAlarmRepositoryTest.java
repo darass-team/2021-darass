@@ -20,18 +20,13 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 class CommentAlarmRepositoryTest extends SpringContainerTest {
 
+    private static SocialLoginUser sender;
+    private static SocialLoginUser receiver;
+    private static Comment comment;
     @Autowired
     private CommentAlarmRepository commentAlarmRepository;
-
     @Autowired
     private CommentRepository commentRepository;
-
-    private static SocialLoginUser sender;
-
-    private static SocialLoginUser receiver;
-
-    private static Comment comment
-        ;
 
     @BeforeEach
     void setUp() {

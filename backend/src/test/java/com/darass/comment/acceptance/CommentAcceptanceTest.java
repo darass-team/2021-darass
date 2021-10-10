@@ -21,20 +21,19 @@ import static org.springframework.restdocs.request.RequestDocumentation.requestP
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.darass.darass.AcceptanceTest;
 import com.darass.auth.infrastructure.JwtTokenProvider;
 import com.darass.comment.dto.CommentCreateRequest;
 import com.darass.comment.dto.CommentResponse;
 import com.darass.comment.dto.CommentResponses;
 import com.darass.comment.dto.CommentUpdateRequest;
+import com.darass.commentalarm.domain.CommentAlarmMachine;
+import com.darass.darass.AcceptanceTest;
 import com.darass.exception.ExceptionWithMessageAndCode;
 import com.darass.project.domain.Project;
 import com.darass.project.repository.ProjectRepository;
 import com.darass.user.domain.SocialLoginUser;
-import com.darass.user.domain.User;
 import com.darass.user.dto.UserResponse;
 import com.darass.user.repository.UserRepository;
-import com.darass.commentalarm.domain.CommentAlarmMachine;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.time.LocalDate;
 import java.util.stream.IntStream;
