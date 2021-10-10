@@ -10,6 +10,7 @@ const messageChannel = {
 
 const init = () => {
   const $darass: HTMLElement | null = document.querySelector("#darass");
+
   if (!$darass) {
     alert("Darass를 렌더링할 수 없습니다. id가 darass인 요소를 추가해주세요.");
 
@@ -27,7 +28,8 @@ const init = () => {
   const $modalIframe = createIframe(getModalUrl(), IFRAME_STYLE.MODAL);
   $replyModuleIframe.setAttribute("scrolling", "no");
 
-  $darass.append($replyModuleIframe, $modalIframe);
+  $darass.append($replyModuleIframe);
+  document.body.append($modalIframe);
 
   const postReplyModulePort = () => {
     $replyModuleIframe.contentWindow?.postMessage(
