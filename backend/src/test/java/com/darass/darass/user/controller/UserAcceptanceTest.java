@@ -8,8 +8,6 @@ import static org.springframework.restdocs.headers.HeaderDocumentation.headerWit
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.patch;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
@@ -18,24 +16,15 @@ import static org.springframework.restdocs.request.RequestDocumentation.requestP
 import static org.springframework.restdocs.request.RequestDocumentation.requestParts;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.darass.darass.AcceptanceTest;
-import com.darass.darass.auth.oauth.infrastructure.JwtTokenProvider;
 import com.darass.darass.auth.oauth.service.OAuthService;
-import com.darass.darass.comment.dto.CommentCreateRequest;
-import com.darass.darass.comment.dto.CommentResponse;
-import com.darass.darass.exception.ExceptionWithMessageAndCode;
-import com.darass.darass.exception.dto.ExceptionResponse;
-import com.darass.darass.project.domain.Project;
-import com.darass.darass.project.repository.ProjectRepository;
 import com.darass.darass.user.domain.SocialLoginUser;
 import com.darass.darass.user.dto.PasswordCheckRequest;
 import com.darass.darass.user.dto.PasswordCheckResponse;
 import com.darass.darass.user.dto.UserResponse;
 import com.darass.darass.user.dto.UserUpdateRequest;
-import com.darass.darass.user.infrastructure.S3Uploader;
 import com.darass.darass.user.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.nio.file.Files;
@@ -45,7 +34,6 @@ import javax.servlet.http.Cookie;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -55,42 +43,6 @@ import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMultipartHttpServletRequestBuilder;
 import org.springframework.web.multipart.MultipartFile;
-
-/*
-인수 테스트 건들이기가 매우 힘들었음
-인수테스트시 테스트 픽스쳐를 만들기 힘들었음
-서비스 테스트와의 중복
-restdoc + e2e 테스트 하니까 너무 느림.
-지금은 괜찮지만, 테스트가 1000개가 되면? 더 느려지고 더 유지보수하기 힘들어짐
-
-이에반에 e2e 테스트가 우리에게 주는 장점?
-실제로 끝점에서 끝점까지 잘동작 하는지 확인할 수 있음 -> 더 큰 안정감.
-
-e2e 테스트를 안하면 불안정적인가?
-
-현재 단위 테스트에서 검증해할걸 인수 테스트에서 검증하고 있음... 유저 닉네임 길이 오류
-현재 UserAcceptanceTest 에 서비스 테스트, 도메인 테스트를 퉁치는 테스트들이 있다는 문제 (예를들어 유저 비밀 번호 체크)
-
-컨트롤러 슬라이스 테스트(서비스 mocking)를 제안하는 이유
-- 서비스 레이어와 테스트 중복
-- restdoc + e2e를 하니 너무 느림
-- 인수테스트 구현, 리팩토링에 대한 부담이 너무 큼
-- 서비스 레이어를 mocking 하면 더 빠르고 손쉽게 인수테스트를 작성할 수 있음
- */
-
-
-/*
-TODO:  아래 도메인 예외 테스트 구현(서비스에 구현하자)
-- OVER_MAX_FILE_SIZE
-- INVALID_INPUT_LENGTH
-
-TODO: checkGuestUserPassword가 실패했을 경우는 서비스 테스트에서 수행 해야한다.
-컨트롤러 테스트는 컨트롤러 단에서 api 요청 응답을 잘 테스트 하는지 검증한다.
-
-파일 업로드 부분도 컨트롤러에 작성되어 있음
-
-*/
-
 
 @DisplayName("User 인수테스트")
 class UserAcceptanceTest extends AcceptanceTest {
@@ -119,7 +71,7 @@ class UserAcceptanceTest extends AcceptanceTest {
     }
 
     @BeforeEach
-    void setUp(){
+    void setUp() {
         given(oAuthService.findSocialLoginUserByAccessToken(ACCESS_TOKEN)).willReturn(SOCIAL_LOGIN_USER);
     }
 
@@ -317,7 +269,7 @@ class UserAcceptanceTest extends AcceptanceTest {
         given(oAuthService.findSocialLoginUserByAccessToken(ACCESS_TOKEN)).willReturn(SOCIAL_LOGIN_USER);
 
         //when
-        ResultActions resultActions =  this.mockMvc.perform(get("/api/v1/users" + "/check-password")
+        ResultActions resultActions = this.mockMvc.perform(get("/api/v1/users" + "/check-password")
             .contentType(MediaType.APPLICATION_JSON)
             .param("guestUserId", "1")
             .param("guestUserPassword", "password")

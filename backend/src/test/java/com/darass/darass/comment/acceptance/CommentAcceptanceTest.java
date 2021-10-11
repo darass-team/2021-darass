@@ -656,15 +656,11 @@ class CommentAcceptanceTest extends AcceptanceTest {
                     fieldWithPath("comments.[].url").type(JsonFieldType.STRING).description("댓글이 있는 url"),
                     fieldWithPath("comments.[].likingUsers[*]").type(JsonFieldType.ARRAY).description("좋아요 누른 유저 정보"),
                     fieldWithPath("comments.[].likingUsers[*].id").type(JsonFieldType.NUMBER).description("좋아요 누른 유저 ID"),
-                    fieldWithPath("comments.[].likingUsers[*].nickName").type(JsonFieldType.STRING)
-                        .description("좋아요 누른 유저 닉네임"),
+                    fieldWithPath("comments.[].likingUsers[*].nickName").type(JsonFieldType.STRING).description("좋아요 누른 유저 닉네임"),
                     fieldWithPath("comments.[].likingUsers[*].type").type(JsonFieldType.STRING).description("좋아요 누른 유저 타입"),
-                    fieldWithPath("comments.[].likingUsers[*].profileImageUrl").type(JsonFieldType.STRING)
-                        .description("좋아요 누른 유저 이미지 링크"),
-                    fieldWithPath("comments.[].likingUsers[*].createdDate").type(JsonFieldType.STRING)
-                        .description("좋아요 누른 시간"),
-                    fieldWithPath("comments.[].likingUsers[*].modifiedDate").type(JsonFieldType.STRING)
-                        .description("좋아요 수정한 시간"),
+                    fieldWithPath("comments.[].likingUsers[*].profileImageUrl").type(JsonFieldType.STRING.description("좋아요 누른 유저 이미지 링크"),
+                    fieldWithPath("comments.[].likingUsers[*].createdDate").type(JsonFieldType.STRING).description("좋아요 누른 시간"),
+                    fieldWithPath("comments.[].likingUsers[*].modifiedDate").type(JsonFieldType.STRING).description("좋아요 수정한 시간"),
                     fieldWithPath("comments.[].user").type(JsonFieldType.OBJECT).description("댓글 작성 유저 정보"),
                     fieldWithPath("comments.[].user.createdDate").type(JsonFieldType.STRING).description("유저 생성 시점"),
                     fieldWithPath("comments.[].user.modifiedDate").type(JsonFieldType.STRING).description("유저 수정 시점"),
