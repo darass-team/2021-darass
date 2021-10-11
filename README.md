@@ -75,7 +75,7 @@
 
 # 🔨 Back-End Architecture
 
-![아키텍처](https://user-images.githubusercontent.com/41244373/131594159-34598568-d2d7-43b8-86a3-ab521bf62e87.png)
+![아키텍처](https://user-images.githubusercontent.com/41244373/136726125-6f443301-3f40-408a-bc2b-11cc2b7c130d.png)
 
 # ⚒ CI/CD (추후에 그림 추가하기) 
 
