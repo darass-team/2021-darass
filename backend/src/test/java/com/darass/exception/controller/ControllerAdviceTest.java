@@ -37,9 +37,6 @@ class ControllerAdviceTest extends SpringContainerTest {
     private MockMvc mockMvc;
 
     @Autowired
-    private WebApplicationContext ctx;
-
-    @Autowired
     private OAuthController oAuthController;
 
     @Autowired
