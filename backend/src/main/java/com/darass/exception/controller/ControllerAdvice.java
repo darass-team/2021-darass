@@ -1,5 +1,6 @@
 package com.darass.exception.controller;
 
+import com.darass.exception.ExceptionWithMessageAndCode;
 import com.darass.exception.dto.ExceptionResponse;
 import com.darass.exception.httpbasicexception.BadRequestException;
 import com.darass.exception.httpbasicexception.ConflictException;
@@ -50,6 +51,6 @@ public class ControllerAdvice {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ExceptionResponse handleException(Exception e) {
         log.error(e.getMessage(), e);
-        return new ExceptionResponse(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR.value());
+        return new ExceptionResponse(ExceptionWithMessageAndCode.INTERNAL_SERVER.findMessage(), ExceptionWithMessageAndCode.INTERNAL_SERVER.findCode());
     }
 }
