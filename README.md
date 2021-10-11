@@ -1,3 +1,5 @@
+# 본 브랜치는 readme.md 파일 편집용으로 만들어둔 임시 브랜치입니다.
+
 <p align="middle" >
   <img width="200px;" src="https://github.com/woowacourse-teams/2021-darass/blob/main/frontend/reply-module/src/assets/svg/darass-logo.svg" alt="darass-logo"/>
 </p>
