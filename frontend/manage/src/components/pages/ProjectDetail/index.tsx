@@ -13,7 +13,7 @@ import LoadingPage from "../LoadingPage";
 import { useUserContext } from "@/hooks/context/useUserContext";
 
 const ProjectDetail = () => {
-  const match = useRouteMatch<{ id?: string }>();
+  const match = useRouteMatch<{ id: string }>();
   const projectId = Number(match.params.id);
   const history = useHistory();
   const { user } = useUserContext();
