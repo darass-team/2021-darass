@@ -22,8 +22,9 @@ export const LogoButton = styled.a`
 `;
 
 export const Logo = styled.img`
-  width: 1.5rem;
-  height: 1.5rem;
+  margin-top: 0.5rem;
+  width: 2.5rem;
+  height: 2.5rem;
   border-radius: 0.2rem;
   margin-right: 0.3rem;
 `;

@@ -1,6 +1,3 @@
-import { useEditComment, useMessageChannelFromReplyModuleContext } from "@/hooks";
-import { useDeleteComment } from "@/hooks/api/comment/__mocks__/useDeleteComment";
-import { useLikeComment } from "@/hooks/api/comment/__mocks__/useLikeComment";
 import { comments } from "@/__test__/fixture/comments";
 import { socialLoginUser } from "@/__test__/fixture/user";
 import "@testing-library/jest-dom/extend-expect";
