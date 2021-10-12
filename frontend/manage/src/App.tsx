@@ -15,7 +15,6 @@ import {
   LoadableStatistics,
   LoadableUserProfile
 } from "./components/pages/Loadable";
-import LoadingPage from "./components/pages/LoadingPage";
 import Login from "./components/pages/Login";
 import OAuth from "./components/pages/OAuth";
 import { ROUTE } from "./constants";
@@ -74,7 +73,7 @@ const App = () => {
               nonAuthorizedRoute.map(({ path, component }) => {
                 return <Route exact key={path} path={path} component={component} />;
               })}
-            <Redirect to={ROUTE.COMMON.HOME} />
+            <Redirect to={isActiveAccessToken ? ROUTE.AUTHORIZED.MY_PROJECT : ROUTE.COMMON.HOME} />
           </Switch>
         </Sentry.ErrorBoundary>
       </RecentlyAlarmContentContext.Provider>
