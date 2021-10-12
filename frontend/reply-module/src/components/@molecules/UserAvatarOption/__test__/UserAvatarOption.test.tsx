@@ -1,4 +1,5 @@
 import { useEditUser, useGetAlarmContents, useMessageChannelFromReplyModuleContext, useUser } from "@/hooks";
+import { useUserContext } from "@/hooks/contexts/useUserContext";
 import { AlertError } from "@/utils/alertError";
 import { socialLoginUser } from "@/__test__/fixture/user";
 import "@testing-library/jest-dom/extend-expect";
@@ -9,19 +10,25 @@ jest.mock("@/hooks/contexts/useMessageFromReplyModule");
 jest.mock("@/hooks/api/user/useUser");
 jest.mock("@/hooks/api/user/useEditUser");
 jest.mock("@/hooks/api/comment/useGetAlarmContents");
+jest.mock("@/hooks/contexts/useUserContext");
 
 describe("UserAvatarOption test", () => {
   const openAlarmModal = jest.fn();
+  const refetchUser = jest.fn();
   const openAlert = jest.fn();
-  (useMessageChannelFromReplyModuleContext as jest.Mock).mockImplementation(() => {
-    return { openAlarmModal, openAlert };
+
+  (useUserContext as jest.Mock).mockImplementation(() => {
+    return {
+      user: undefined,
+      logout: undefined,
+      refetchUser,
+      isLoadingUserRequest: false,
+      isSuccessUserRequest: false
+    };
   });
 
-  const refetchUser = jest.fn();
-  (useUser as jest.Mock).mockImplementation(() => {
-    return {
-      refetch: refetchUser
-    };
+  (useMessageChannelFromReplyModuleContext as jest.Mock).mockImplementation(() => {
+    return { openAlarmModal, openAlert };
   });
 
   const editUser = jest.fn();
@@ -41,11 +48,7 @@ describe("UserAvatarOption test", () => {
   });
 
   beforeEach(() => {
-    openAlarmModal.mockClear();
-    openAlert.mockClear();
-    refetchUser.mockClear();
-    editUser.mockClear();
-    setHasNewAlarmOnRealTime.mockClear();
+    jest.clearAllMocks();
   });
 
   describe("logic test", () => {

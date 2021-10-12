@@ -2,6 +2,7 @@ import Alarm from "@/components/@atoms/Alarm";
 import Avatar from "@/components/@atoms/Avatar";
 import Modal from "@/components/@molecules/Modal";
 import { useEditUser, useGetAlarmContents, useMessageChannelFromReplyModuleContext, useUser } from "@/hooks";
+import { useUserContext } from "@/hooks/contexts/useUserContext";
 import { User } from "@/types/user";
 import { AlertError } from "@/utils/alertError";
 import { MouseEventHandler, ReactNode, useEffect, useState } from "react";
@@ -16,7 +17,7 @@ const UserAvatarOption = ({ user, children, ...props }: Props) => {
   const [isShowOptionBox, setShowOptionBox] = useState(false);
   const { openAlarmModal, openAlert } = useMessageChannelFromReplyModuleContext();
   const { data: alarmContents, hasNewAlarmOnRealTime, setHasNewAlarmOnRealTime } = useGetAlarmContents();
-  const { refetch: refetchUser } = useUser();
+  const { refetchUser } = useUserContext();
   const { editUser } = useEditUser();
   const avatarImageURL = user ? user.profileImageUrl : undefined;
 
@@ -42,7 +43,7 @@ const UserAvatarOption = ({ user, children, ...props }: Props) => {
       formData.append("hasRecentAlarm", "false");
 
       await editUser(formData);
-      await refetchUser();
+      if (refetchUser) await refetchUser();
       setHasNewAlarmOnRealTime?.(false);
     } catch (error) {
       if (error instanceof AlertError) {

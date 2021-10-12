@@ -1,5 +1,5 @@
 import { REACT_QUERY_KEY } from "@/constants/reactQueryKey";
-import { useUser } from "@/hooks";
+import { useUserContext } from "@/hooks/contexts/useUserContext";
 import { GetCommentsRequestParams, GetCommentsResponse } from "@/types/comment";
 import { getAllComments } from "@/utils/api";
 import { useEffect } from "react";
@@ -7,7 +7,7 @@ import { useQuery, useQueryClient } from "react-query";
 
 export const useGetAllComments = ({ url, projectSecretKey, sortOption = "oldest" }: GetCommentsRequestParams) => {
   const queryClient = useQueryClient();
-  const { user } = useUser();
+  const { user } = useUserContext();
 
   const { data, isLoading, error, refetch } = useQuery<GetCommentsResponse, Error>([REACT_QUERY_KEY.COMMENT], () =>
     getAllComments({ url, projectSecretKey, sortOption })

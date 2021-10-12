@@ -1,14 +1,12 @@
 import { useGetAllComments, useMessageChannelFromReplyModuleContext } from "@/hooks";
+import { useUserContext } from "@/hooks/contexts/useUserContext";
+import React from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 
-jest.mock("react", () => {
-  return {
-    ...jest.requireActual("react"),
-    useEffect: jest.fn()
-  };
-});
+jest.mock("react");
 jest.mock("react-query");
 jest.mock("@/hooks/contexts/useMessageFromReplyModule");
+jest.mock("@/hooks/contexts/useUserContext");
 
 let mutate = jest.fn();
 
@@ -34,6 +32,8 @@ beforeEach(() => {
     error: null,
     mutate
   });
+
+  jest.spyOn(React, "useEffect");
 
   jest.clearAllMocks();
 });
