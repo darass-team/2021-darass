@@ -3,7 +3,8 @@ import HamburgerButton from "@/components/atoms/Buttons/HamburgerButton";
 import Modal from "@/components/atoms/Modal";
 import { ROUTE } from "@/constants";
 import { PALETTE } from "@/constants/styles/palette";
-import { useGetAlarmContents, useUser } from "@/hooks";
+import { useGetAlarmContents } from "@/hooks";
+import { useUserContext } from "@/hooks/context/useUserContext";
 import { MenuType } from "@/types/menu";
 import { useEffect, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
@@ -15,9 +16,9 @@ export interface Props {
 
 const MobileNav = ({ menuList }: Props) => {
   const history = useHistory();
-  const { user, logout } = useUser();
+  const { user, logout } = useUserContext();
   const [isOpen, setOpen] = useState(false);
-  const { hasNewAlarmOnRealTime, setHasNewAlarmOnRealTime } = useGetAlarmContents();
+  const { hasNewAlarmOnRealTime, setHasNewAlarmOnRealTime } = useGetAlarmContents(!!user);
 
   const onToggleNav = () => {
     setOpen(state => !state);
@@ -30,8 +31,16 @@ const MobileNav = ({ menuList }: Props) => {
   };
 
   useEffect(() => {
-    document.body.style.overflow = isOpen ? "hidden" : "revert";
+    const toggleBlockScroll = () => {
+      document.body.style.overflow = isOpen ? "hidden" : "revert";
+    };
+
+    toggleBlockScroll();
   }, [isOpen]);
+
+  if (!(user && logout)) {
+    return null;
+  }
 
   return (
     <Container>

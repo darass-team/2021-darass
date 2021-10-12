@@ -12,6 +12,7 @@ import prism from "react-syntax-highlighter/dist/cjs/styles/prism/darcula";
 import { REPLY_MODULE_DOMAIN } from "@/constants/domain";
 import { BlogLogoWrapper, CodeBlockWrapper, Container, CopyButton, Ol, Title } from "./styles";
 import LoadingPage from "../LoadingPage";
+import { useUserContext } from "@/hooks/context/useUserContext";
 
 SyntaxHighlighter.registerLanguage("javascript", js);
 
@@ -44,8 +45,12 @@ const ScriptPublishing = () => {
   const [selectedBlogInfo, setSelectedBlogInfo] = useState<ObjectValueType<typeof GUIDE_FILE>>();
   const match = useRouteMatch<{ id: string }>();
 
+  const { user } = useUserContext();
   const projectId = Number(match.params.id);
-  const { project, isSuccess: isSuccessGetProject } = useGetProject(projectId);
+  const { project, isSuccess: isSuccessGetProject } = useGetProject({
+    id: projectId,
+    enabled: !!user && !Number.isNaN(projectId)
+  });
   const projectSecretKey = project?.secretKey || "스크립트 정보를 불러오는 중입니다...";
   const { isCopyButtonClicked, onCopy } = useCopyButton();
   const script =
@@ -84,7 +89,12 @@ const ScriptPublishing = () => {
                 title="다라쓰 코드 설치"
                 description="다라쓰를 설치하고자 하는 웹 페이지에 발급 받은 설치코드를 삽입해주세요."
               >
-                <iframe src={selectedBlogInfo.iframeSrc} style={{ width: "100%", height: "650px" }} frameBorder="0" />
+                <iframe
+                  title="install-guide"
+                  src={selectedBlogInfo.iframeSrc}
+                  style={{ width: "100%", height: "650px" }}
+                  frameBorder="0"
+                />
               </GuideStep>
 
               <GuideStep title="주의 사항" description="스크립트 내부의 코드는 변경해서는 안됩니다." />

@@ -10,13 +10,17 @@ import DeleteSection from "@/components/molecules/DeleteSection";
 import ContainerWithSideBar from "@/components/organisms/ContainerWithSideBar";
 import { Container, Form, InfoWrapper, Input, Label, InputLengthCounter, SubmitButton, Title } from "./styles";
 import LoadingPage from "../LoadingPage";
+import { useUserContext } from "@/hooks/context/useUserContext";
 
 const ProjectDetail = () => {
   const match = useRouteMatch<{ id?: string }>();
   const projectId = Number(match.params.id);
-
   const history = useHistory();
-  const { project, isSuccess: isSuccessGetProject } = useGetProject(projectId);
+  const { user } = useUserContext();
+  const { project, isSuccess: isSuccessGetProject } = useGetProject({
+    id: projectId,
+    enabled: !!user && !Number.isNaN(projectId)
+  });
   const { editProject } = useEditProject();
   const { deleteProject } = useDeleteProject();
   const { value: projectName, setValue: setProjectName, onChange: onChangeProjectName } = useInput("");

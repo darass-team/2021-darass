@@ -24,6 +24,7 @@ import {
   Calendar
 } from "./styles";
 import LoadingPage from "../LoadingPage";
+import { useUserContext } from "@/hooks/context/useUserContext";
 
 const Statistics = () => {
   const match = useRouteMatch<{ id: string }>();
@@ -32,8 +33,11 @@ const Statistics = () => {
   const [selectedPeriodicity, setSelectedPeriodicity] = useState<ObjectValueType<typeof PERIODICITY>>(
     PERIODICITY.DAILY
   );
-
-  const { project, isSuccess: isSuccessGetProject } = useGetProject(projectId);
+  const { user } = useUserContext();
+  const { project, isSuccess: isSuccessGetProject } = useGetProject({
+    id: projectId,
+    enabled: !!user && !Number.isNaN(projectId)
+  });
   const projectSecretKey = project?.secretKey;
 
   const { showCalendar, setShowCalendar, currentDate, setCurrentDate, startDate, setStartDate, endDate, setEndDate } =

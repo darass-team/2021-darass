@@ -6,10 +6,11 @@ import AlarmDropDown from "@/components/molecules/AlarmDropDown";
 import UserAvatarOption from "@/components/molecules/UserAvatarOption";
 import { ROUTE } from "@/constants";
 import { OAUTH_URL } from "@/constants/oauth";
-import { useEditUser, useGetAlarmContents, useUser } from "@/hooks";
 import { PALETTE } from "@/constants/styles/palette";
+import { useEditUser, useGetAlarmContents } from "@/hooks";
+import { useUserContext } from "@/hooks/context/useUserContext";
 import { MenuType } from "@/types/menu";
-import { alarmContents } from "@/__test__/fixture/alarmContent";
+import { AlertError } from "@/utils/alertError";
 import { Link } from "react-router-dom";
 import {
   Container,
@@ -20,20 +21,22 @@ import {
   MenuLink,
   Title,
   UserAvatarOptionWrapper,
-  Wrapper,
-  UserInfoWrapper
+  UserInfoWrapper,
+  Wrapper
 } from "./styles";
-import { GetAlarmResponse } from "@/types/comment";
-import { AlertError } from "@/utils/alertError";
 
 export interface Props {
   menuList: MenuType[];
 }
 
 const DesktopNav = ({ menuList }: Props) => {
-  const { user, logout, refetch: refetchUser } = useUser();
-  const { data: alarmContents, hasNewAlarmOnRealTime, setHasNewAlarmOnRealTime } = useGetAlarmContents();
+  const { user, logout, refetchUser } = useUserContext();
+  const { data: alarmContents, hasNewAlarmOnRealTime, setHasNewAlarmOnRealTime } = useGetAlarmContents(!!user);
   const { editUser } = useEditUser();
+
+  if (!refetchUser) {
+    return null;
+  }
 
   const onLogin = (provider: keyof typeof OAUTH_URL) => {
     window.location.replace(OAUTH_URL[provider]);

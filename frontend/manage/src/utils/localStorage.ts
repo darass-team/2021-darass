@@ -25,20 +25,22 @@ export const setLocalStorage = (key: string, value: any) => {
   try {
     const decycled = JSON.stringify(value, getCircularReplacer());
 
-    if (decycled) {
-      localStorage.setItem(key, decycled);
-    } else {
+    if (!decycled) {
       console.error("JSON stringify error.");
+
+      return;
     }
+
+    return localStorage.setItem(key, decycled);
   } catch (error) {
-    return null;
+    return;
   }
 };
 
 export const removeLocalStorage = (key: string) => {
   try {
-    localStorage.removeItem(key);
+    return localStorage.removeItem(key);
   } catch (error) {
-    return null;
+    return;
   }
 };

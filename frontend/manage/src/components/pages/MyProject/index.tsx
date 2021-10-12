@@ -14,10 +14,12 @@ import {
 } from "../Loadable";
 import LoadingPage from "../LoadingPage";
 import { AddProjectButton, ButtonWrapper, Container, Message } from "./styles";
+import { useUserContext } from "@/hooks/context/useUserContext";
 
 const MyProject = () => {
   const history = useHistory();
-  const { projects, isSuccess: isSuccessGetAllProjects } = useGetAllProjects();
+  const { user } = useUserContext();
+  const { projects, isSuccess: isSuccessGetAllProjects } = useGetAllProjects(!!user);
 
   const moveScriptPublishingPage = (id: number) => {
     history.push(`/projects/${id}/guide`);

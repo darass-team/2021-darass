@@ -6,7 +6,6 @@ import { AlertError } from "@/utils/alertError";
 import { request } from "@/utils/request";
 import axios from "axios";
 import { useQuery } from "react-query";
-import { useToken } from "@/hooks";
 
 const getAllProjects = async () => {
   try {
@@ -29,14 +28,13 @@ const getAllProjects = async () => {
   }
 };
 
-export const useGetAllProjects = () => {
-  const { accessToken } = useToken();
+export const useGetAllProjects = (enabled = false) => {
   const {
     data: projects,
     error,
     isSuccess
   } = useQuery<Project[], Error>([REACT_QUERY_KEY.PROJECTS], getAllProjects, {
-    enabled: !!accessToken
+    enabled
   });
 
   return { projects, error, isSuccess };

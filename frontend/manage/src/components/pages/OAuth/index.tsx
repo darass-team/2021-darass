@@ -1,12 +1,13 @@
-import { QUERY } from "@/constants";
+import { QUERY, ROUTE } from "@/constants";
 import { useToken } from "@/hooks";
 import { request } from "@/utils/request";
 import { useEffect } from "react";
-import { useLocation, useParams } from "react-router";
+import { useHistory, useLocation, useParams } from "react-router";
 import LoadingPage from "../LoadingPage";
 
 const OAuth = () => {
   const location = useLocation();
+  const history = useHistory();
   const { provider } = useParams<{ provider: string }>();
   const urlSearchParams = new URLSearchParams(location.search);
   const code = urlSearchParams.get("code");

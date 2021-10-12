@@ -1,15 +1,33 @@
 import ScreenContainer from "@/components/@style/ScreenContainer";
 import AlarmContent from "@/components/molecules/AlarmContent";
 import { useEditUser, useGetAlarmContents, useUser } from "@/hooks";
+import { useUserContext } from "@/hooks/context/useUserContext";
 import { AlertError } from "@/utils/alertError";
 import { useEffect } from "react";
 import LoadingPage from "../LoadingPage";
 import { AlarmContainer, Container, Title } from "./styles";
 
 const Notification = () => {
-  const { refetch: refetchUser } = useUser();
-  const { data: alarmContents, setHasNewAlarmOnRealTime, isSuccess: isSuccessAlarmContents } = useGetAlarmContents();
+  const { user, refetchUser } = useUserContext();
+  const {
+    data: alarmContents,
+    setHasNewAlarmOnRealTime,
+    isSuccess: isSuccessAlarmContents
+  } = useGetAlarmContents(!!user);
   const { editUser } = useEditUser();
+
+  useEffect(() => {
+    if (alarmContents) {
+      readAlarm();
+    }
+  }, [alarmContents]);
+
+  if (!refetchUser) {
+    return null;
+  }
+  if (!isSuccessAlarmContents) {
+    return <LoadingPage />;
+  }
 
   const readAlarm = async () => {
     try {
@@ -25,16 +43,6 @@ const Notification = () => {
       }
     }
   };
-
-  useEffect(() => {
-    if (alarmContents) {
-      readAlarm();
-    }
-  }, [alarmContents]);
-
-  if (!isSuccessAlarmContents) {
-    return <LoadingPage />;
-  }
 
   return (
     <ScreenContainer>

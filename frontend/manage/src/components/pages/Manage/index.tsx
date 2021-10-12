@@ -1,3 +1,4 @@
+import ScreenContainer from "@/components/@style/ScreenContainer";
 import CheckBox from "@/components/atoms/CheckBox";
 import PaginationBar from "@/components/atoms/PaginationBar";
 import Comment from "@/components/molecules/Comment";
@@ -14,15 +15,14 @@ import {
   useDeleteComment,
   useGetCommentsOfProjectPerPage,
   useGetProject,
-  useInput,
-  useUser
+  useInput
 } from "@/hooks";
-import ScreenContainer from "@/components/@style/ScreenContainer";
+import { useUserContext } from "@/hooks/context/useUserContext";
 import { AlertError } from "@/utils/alertError";
 import { getPagesOfLength5 } from "@/utils/pagination";
 import moment from "moment";
 import { FormEvent, useEffect } from "react";
-import { useLocation, useRouteMatch, Redirect } from "react-router-dom";
+import { Redirect, useLocation, useRouteMatch } from "react-router-dom";
 import LoadingPage from "../LoadingPage";
 import { CommentList, CommentsViewer, Container, DeleteButton, Header, Row, Title, TotalComment } from "./styles";
 
@@ -30,11 +30,13 @@ const Manage = () => {
   const match = useRouteMatch<{ id: string }>();
   const location = useLocation();
 
-  const { user: me, isSuccess: isSuccessGetUser } = useUser();
+  const { user: me, isSuccessUserRequest } = useUserContext();
 
   const projectId = Number(match.params.id);
   const urlSearchParams = new URLSearchParams(location.search);
   const pageIndex = urlSearchParams.get("pageIndex") || 1;
+
+  const { user } = useUserContext();
 
   const { value: keyword, onChangeWithMaxLength: onChangeKeyword } = useInput("", MAX_COMMENT_SEARCH_TERM_LENGTH);
 
@@ -47,7 +49,10 @@ const Manage = () => {
   const startDateAsString = startDate?.format("YYYY-MM-DD") || moment().format("YYYY-MM-DD");
   const endDateAsString = endDate?.format("YYYY-MM-DD") || moment().format("YYYY-MM-DD");
 
-  const { project, isSuccess: isSuccessGetProject } = useGetProject(projectId);
+  const { project, isSuccess: isSuccessGetProject } = useGetProject({
+    id: projectId,
+    enabled: !!user && !Number.isNaN(projectId)
+  });
   const projectSecretKey = project?.secretKey;
 
   const { deleteComment } = useDeleteComment({ projectKey: projectSecretKey, page: Number(pageIndex) });
@@ -135,7 +140,7 @@ const Manage = () => {
     return <Redirect to={ROUTE.COMMON.HOME} />;
   }
 
-  if (!isSuccessGetUser || !isSuccessGetProject || !isSuccessGetCommentsOfProjectPerPage) {
+  if (!isSuccessUserRequest || !isSuccessGetProject || !isSuccessGetCommentsOfProjectPerPage) {
     return <LoadingPage />;
   }
 

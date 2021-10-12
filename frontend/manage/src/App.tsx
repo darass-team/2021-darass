@@ -1,7 +1,6 @@
 import * as Sentry from "@sentry/react";
 import { useEffect } from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
-import { ConditionalRoute } from "./components/@HOC/ConditionalRoute";
 import Nav from "./components/organisms/Nav";
 import About from "./components/pages/About";
 import ErrorPage from "./components/pages/ErrorPage";
@@ -16,15 +15,17 @@ import {
   LoadableStatistics,
   LoadableUserProfile
 } from "./components/pages/Loadable";
+import LoadingPage from "./components/pages/LoadingPage";
 import Login from "./components/pages/Login";
 import OAuth from "./components/pages/OAuth";
 import { ROUTE } from "./constants";
 import { RecentlyAlarmContentContext } from "./context/recentlyAlarmContentContext";
-import { useRecentlyAlarmWebSocket, useUser } from "./hooks";
+import { UserContext } from "./context/userContext";
+import { useRecentlyAlarmWebSocket, useToken, useUser } from "./hooks";
 
 const nonAuthorizedRoute = [
-  { path: ROUTE.NON_AUTHORIZED.OAUTH, component: OAuth, redirectPath: ROUTE.AUTHORIZED.MY_PROJECT },
-  { path: ROUTE.NON_AUTHORIZED.LOGIN, component: Login, redirectPath: ROUTE.AUTHORIZED.MY_PROJECT }
+  { path: ROUTE.NON_AUTHORIZED.OAUTH, component: OAuth },
+  { path: ROUTE.NON_AUTHORIZED.LOGIN, component: Login }
 ];
 
 const authorizedRoute = [
@@ -39,41 +40,45 @@ const authorizedRoute = [
 ];
 
 const App = () => {
-  const { user, isLoading } = useUser();
-  const { recentlyAlarmContent, hasNewAlarmOnRealTime, setHasNewAlarmOnRealTime } = useRecentlyAlarmWebSocket();
+  const { accessToken, removeAccessToken, isActiveAccessToken } = useToken();
+  const { user, logout, refetch: refetchUser, isLoading, isSuccess } = useUser({ accessToken, removeAccessToken });
+  const { recentlyAlarmContent, hasNewAlarmOnRealTime, setHasNewAlarmOnRealTime } = useRecentlyAlarmWebSocket({ user });
 
   useEffect(() => {
     LoadableHome.preload();
   }, []);
 
   return (
-    <RecentlyAlarmContentContext.Provider
-      value={{ recentlyAlarmContent, hasNewAlarmOnRealTime, setHasNewAlarmOnRealTime }}
+    <UserContext.Provider
+      value={{
+        user,
+        logout,
+        refetchUser,
+        isLoadingUserRequest: isLoading,
+        isSuccessUserRequest: isSuccess
+      }}
     >
-      <Nav />
-      <Sentry.ErrorBoundary fallback={<ErrorPage notice="에러가 발생했습니다." />}>
-        <Switch>
-          <Route exact path={ROUTE.COMMON.HOME} component={LoadableHome} />,
-          <Route exact path={ROUTE.COMMON.ABOUT} component={About} />,
-          <Route exact path={ROUTE.COMMON.NOTICE} render={() => <ErrorPage notice="개발중인 페이지 입니다." />} />
-          {nonAuthorizedRoute.map(({ path, component, redirectPath }) => {
-            return (
-              <ConditionalRoute
-                key={path}
-                path={path}
-                component={component}
-                condition={!user}
-                redirectPath={redirectPath}
-              />
-            );
-          })}
-          {authorizedRoute.map(({ path, component }) => {
-            return <ConditionalRoute key={path} path={path} component={component} condition={!!user || isLoading} />;
-          })}
-          <Redirect to={ROUTE.COMMON.HOME} />
-        </Switch>
-      </Sentry.ErrorBoundary>
-    </RecentlyAlarmContentContext.Provider>
+      <RecentlyAlarmContentContext.Provider
+        value={{ recentlyAlarmContent, hasNewAlarmOnRealTime, setHasNewAlarmOnRealTime }}
+      >
+        <Nav />
+        <Sentry.ErrorBoundary fallback={<ErrorPage notice="에러가 발생했습니다." />}>
+          <Switch>
+            <Route exact path={ROUTE.COMMON.HOME} component={LoadableHome} />
+            <Route exact path={ROUTE.COMMON.ABOUT} component={About} />
+            {isActiveAccessToken &&
+              authorizedRoute.map(({ path, component }) => {
+                return <Route exact key={path} path={path} component={component} />;
+              })}
+            {!isActiveAccessToken &&
+              nonAuthorizedRoute.map(({ path, component }) => {
+                return <Route exact key={path} path={path} component={component} />;
+              })}
+            <Redirect to={ROUTE.COMMON.HOME} />
+          </Switch>
+        </Sentry.ErrorBoundary>
+      </RecentlyAlarmContentContext.Provider>
+    </UserContext.Provider>
   );
 };
 export default App;

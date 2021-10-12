@@ -6,7 +6,6 @@ import { AlertError } from "@/utils/alertError";
 import { request } from "@/utils/request";
 import axios from "axios";
 import { useQuery } from "react-query";
-import { useToken } from "../..";
 
 const getProject = async (id: Project["id"]) => {
   try {
@@ -33,16 +32,19 @@ const getProject = async (id: Project["id"]) => {
   }
 };
 
-export const useGetProject = (id: Project["id"]) => {
-  const { accessToken } = useToken();
+interface Props {
+  id: Project["id"];
+  enabled: boolean;
+}
 
+export const useGetProject = ({ id, enabled }: Props) => {
   const {
     data: project,
     isLoading,
     error,
     isSuccess
   } = useQuery<Project, Error>([REACT_QUERY_KEY.PROJECT, id], () => getProject(id), {
-    enabled: !!accessToken && !Number.isNaN(id)
+    enabled
   });
 
   return { project, isLoading, error, isSuccess };
