@@ -1,8 +1,10 @@
 import { QUERY, REACT_QUERY_KEY } from "@/constants";
 import { TOKEN_REFETCH_TIMER } from "@/constants/timer";
 import { AlertError } from "@/utils/alertError";
+import { getLocalStorage, removeLocalStorage, setLocalStorage } from "@/utils/localStorage";
 import { customAxios, request } from "@/utils/request";
 import axios from "axios";
+import { useEffect } from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 
 const axiosBearerOption = {
@@ -67,7 +69,7 @@ export const useToken = (enabled = false) => {
 
   const {
     data: accessToken,
-    refetch: refetchAccessToken,
+    refetch,
     error
   } = useQuery<string, Error>([REACT_QUERY_KEY.ACCESS_TOKEN], getAccessTokenByRefreshToken, {
     retry: 2,
@@ -76,5 +78,30 @@ export const useToken = (enabled = false) => {
     enabled
   });
 
-  return { accessToken, refetchAccessToken, deleteMutation, error };
+  const removeAccessToken = () => {
+    deleteMutation.mutate();
+    removeLocalStorage("active");
+  };
+
+  const refetchAccessToken = () => refetch();
+
+  const isActiveAccessToken = getLocalStorage("active");
+
+  useEffect(() => {
+    if (isActiveAccessToken) {
+      refetchAccessToken();
+    }
+  }, []);
+
+  useEffect(() => {
+    if (error) removeAccessToken();
+  }, [error]);
+
+  useEffect(() => {
+    if (accessToken) {
+      setLocalStorage("active", true);
+    }
+  }, [accessToken]);
+
+  return { accessToken, refetchAccessToken, removeAccessToken, error, isActiveAccessToken };
 };

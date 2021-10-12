@@ -1,11 +1,12 @@
 import cameraIcon from "@/assets/svg/camera.svg";
+import ScreenContainer from "@/components/@style/ScreenContainer";
 import DeleteSection from "@/components/molecules/DeleteSection";
 import { ROUTE } from "@/constants";
 import { MAX_PROFILE_IMAGE_SIZE, MAX_USER_NAME_LENGTH } from "@/constants/validation";
-import { useUser, useDeleteUser, useEditUser, useInput } from "@/hooks";
-import ScreenContainer from "@/components/@style/ScreenContainer";
+import { useDeleteUser, useEditUser, useInput } from "@/hooks";
+import { useUserContext } from "@/hooks/context/useUserContext";
 import { AlertError } from "@/utils/alertError";
-import { ChangeEvent, FormEventHandler, useContext, useEffect, useState } from "react";
+import { ChangeEvent, FormEventHandler, useEffect, useState } from "react";
 import { useHistory } from "react-router";
 import LoadingPage from "../LoadingPage";
 import {
@@ -24,7 +25,7 @@ import {
 
 const UserProfile = () => {
   const history = useHistory();
-  const { user, logout, isSuccess: isSuccessGetUser } = useUser();
+  const { user, logout, isSuccessUserRequest } = useUserContext();
   const { editUser, isLoading: isEditLoading } = useEditUser();
   const { deleteUser } = useDeleteUser();
   const {
@@ -34,6 +35,17 @@ const UserProfile = () => {
   } = useInput("", MAX_USER_NAME_LENGTH);
   const [profileImageAsUrl, setProfileImageAsUrl] = useState<string>();
   const [profileImageAsFile, setProfileImageAsFile] = useState<Blob | string>("");
+
+  useEffect(() => {
+    if (user) {
+      setUserName(user.nickName);
+      setProfileImageAsUrl(user.profileImageUrl);
+    }
+  }, [user]);
+
+  if (!isSuccessUserRequest || !logout) {
+    return <LoadingPage />;
+  }
 
   const onChangeFile = (event: ChangeEvent<HTMLInputElement>) => {
     const target = event.target;
@@ -95,21 +107,6 @@ const UserProfile = () => {
       }
     }
   };
-
-  useEffect(() => {
-    if (user) {
-      setUserName(user.nickName);
-      setProfileImageAsUrl(user.profileImageUrl);
-    }
-
-    if (!user) {
-      history.replace(ROUTE.COMMON.HOME);
-    }
-  }, [user]);
-
-  if (!isSuccessGetUser) {
-    return <LoadingPage />;
-  }
 
   return (
     <ScreenContainer>

@@ -22,9 +22,11 @@ import {
   Text,
   TextContentContainer
 } from "./styles";
+import { useUserContext } from "@/hooks/context/useUserContext";
 
 const Home = () => {
   const history = useHistory();
+  const { user } = useUserContext();
 
   const animation = {
     section1: {
@@ -76,7 +78,7 @@ const Home = () => {
   ];
 
   const moveLoginPage = () => {
-    history.push(ROUTE.NON_AUTHORIZED.LOGIN);
+    history.push(user ? ROUTE.AUTHORIZED.MY_PROJECT : ROUTE.NON_AUTHORIZED.LOGIN);
   };
 
   return (

@@ -33,8 +33,7 @@ const getAlarms = async () => {
   }
 };
 
-export const useGetAlarmContents = () => {
-  const { accessToken } = useToken();
+export const useGetAlarmContents = (enabled = false) => {
   const { recentlyAlarmContent, hasNewAlarmOnRealTime, setHasNewAlarmOnRealTime } =
     useContext(RecentlyAlarmContentContext);
   const { data, refetch, isLoading, isError, isSuccess } = useQuery<GetAlarmResponse[], Error>(
@@ -42,7 +41,7 @@ export const useGetAlarmContents = () => {
     getAlarms,
     {
       retry: false,
-      enabled: !!accessToken
+      enabled
     }
   );
 

@@ -86,29 +86,32 @@ const About = () => {
     });
   });
 
+  const EmployeesInfos = () => (
+    <>
+      {employees.map(({ name, imageURL, githubUrl, email, role, description }, index) => (
+        <EmployeeInfo key={email} {...animations[index]}>
+          <Avatar size="LG" imageURL={imageURL} alt={`${name} 프로필 이미지`} />
+
+          <Detail>
+            <Name>{name}</Name>
+            <Description>{description}</Description>
+            <Role>{role}</Role>
+            <Email>Email: {email}</Email>
+            <GithubLink href={githubUrl} target="_blank" rel="noreferrer noopener">
+              Github
+            </GithubLink>
+          </Detail>
+        </EmployeeInfo>
+      ))}
+    </>
+  );
+
   return (
     <ScreenContainer>
       <Container>
         <Title>About Us</Title>
-
         <EmployeeInfoContainer>
-          {employees.map(({ name, imageURL, githubUrl, email, role, description }, index) => {
-            return (
-              <EmployeeInfo key={email} {...animations[index]}>
-                <Avatar size="LG" imageURL={imageURL} alt={`${name} 프로필 이미지`} />
-
-                <Detail>
-                  <Name>{name}</Name>
-                  <Description>{description}</Description>
-                  <Role>{role}</Role>
-                  <Email>Email: {email}</Email>
-                  <GithubLink href={githubUrl} target="_blank" rel="noreferrer noopener">
-                    Github
-                  </GithubLink>
-                </Detail>
-              </EmployeeInfo>
-            );
-          })}
+          <EmployeesInfos />
         </EmployeeInfoContainer>
       </Container>
     </ScreenContainer>
