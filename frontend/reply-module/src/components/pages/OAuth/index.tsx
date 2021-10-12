@@ -3,17 +3,20 @@ import { QUERY } from "@/constants/api";
 import { useToken } from "@/hooks/api/token/useToken";
 import { request } from "@/utils/request";
 import { useEffect } from "react";
-import { useLocation, useParams } from "react-router";
+import { useHistory, useLocation, useParams } from "react-router";
 
 const OAuth = () => {
   const location = useLocation();
+  const history = useHistory();
   const { provider } = useParams<{ provider: string }>();
   const urlSearchParams = new URLSearchParams(location.search);
   const code = urlSearchParams.get("code");
   const { refetchAccessToken, accessToken } = useToken();
 
   useEffect(() => {
-    if (!code) return;
+    if (!code) {
+      window.close();
+    }
 
     const setAccessTokenAsync = async () => {
       try {

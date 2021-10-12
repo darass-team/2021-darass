@@ -14,7 +14,9 @@ const OAuth = () => {
   const { refetchAccessToken } = useToken();
 
   useEffect(() => {
-    if (!code) return;
+    if (!code) {
+      history.replace(ROUTE.NON_AUTHORIZED.LOGIN);
+    }
 
     const setAccessTokenAsync = async () => {
       try {

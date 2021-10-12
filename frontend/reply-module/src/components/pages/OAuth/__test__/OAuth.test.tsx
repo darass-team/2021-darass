@@ -1,8 +1,5 @@
 import { BASE_URL } from "@/constants/api";
-import { useToken } from "@/hooks/api/token/useToken";
-import { request } from "@/utils/request";
 import { render } from "@testing-library/react";
-import { useLocation, useParams } from "react-router";
 import OAuth from "..";
 
 jest.mock("@/utils/request");
@@ -11,6 +8,7 @@ jest.mock("react-router", () => ({
   useLocation: jest.fn().mockReturnValue({
     pathname: BASE_URL
   }),
+  useHistory: jest.fn(),
   useParams: jest.fn().mockReturnValue({
     provider: "KAKAO"
   })
