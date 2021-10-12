@@ -7,8 +7,14 @@ import { MessageChannelFromReplyModuleContext } from "@/hooks/contexts/useMessag
 import { RecentlyAlarmContentContext } from "@/hooks/contexts/useRecentlyAlarmContentContext";
 import { useReplyModuleApp } from "./useReplyModuleApp";
 import { messageFromReplyModule } from "@/utils/postMessage";
+import { useToken } from "@/hooks/api/token/useToken";
+import { useUser } from "@/hooks";
+import { UserContext } from "@/hooks/contexts/useUserContext";
 
 const App = () => {
+  const { accessToken, removeAccessToken } = useToken();
+  const { user, logout, refetch: refetchUser, isLoading, isSuccess } = useUser({ accessToken, removeAccessToken });
+
   const { port, recentlyAlarmContent, hasNewAlarmOnRealTime, setHasNewAlarmOnRealTime, receivedMessageFromReplyModal } =
     useReplyModuleApp();
 
@@ -23,17 +29,27 @@ const App = () => {
         receivedMessageFromReplyModal
       }}
     >
-      <RecentlyAlarmContentContext.Provider
-        value={{ recentlyAlarmContent, hasNewAlarmOnRealTime, setHasNewAlarmOnRealTime }}
+      <UserContext.Provider
+        value={{
+          user,
+          logout,
+          refetchUser,
+          isLoadingUserRequest: isLoading,
+          isSuccessUserRequest: isSuccess
+        }}
       >
-        <BrowserRouter>
-          <Switch>
-            <Route exact path={ROUTE.HOME} component={port ? CommentArea : LoadingPage} />
-            <Route exact path={ROUTE.OAUTH} component={OAuth} />
-            <Redirect to={ROUTE.HOME} />
-          </Switch>
-        </BrowserRouter>
-      </RecentlyAlarmContentContext.Provider>
+        <RecentlyAlarmContentContext.Provider
+          value={{ recentlyAlarmContent, hasNewAlarmOnRealTime, setHasNewAlarmOnRealTime }}
+        >
+          <BrowserRouter>
+            <Switch>
+              <Route exact path={ROUTE.HOME} component={port ? CommentArea : LoadingPage} />
+              <Route exact path={ROUTE.OAUTH} component={OAuth} />
+              <Redirect to={ROUTE.HOME} />
+            </Switch>
+          </BrowserRouter>
+        </RecentlyAlarmContentContext.Provider>
+      </UserContext.Provider>
     </MessageChannelFromReplyModuleContext.Provider>
   );
 };

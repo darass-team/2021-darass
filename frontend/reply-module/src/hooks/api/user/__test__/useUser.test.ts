@@ -41,10 +41,11 @@ beforeEach(() => {
 
 describe("useUser test", () => {
   test("logout를 호출하면, mutate가 호출된다.", () => {
-    const { user, isLoading, error, refetch, logout } = useUser();
+    const { user, isLoading, error, refetch, logout } = useUser({
+      accessToken: "atk",
+      removeAccessToken: () => {}
+    });
 
-    expect(useMutation).toHaveBeenCalled();
-    logout();
-    expect(mutate).toHaveBeenCalled();
+    expect(useQuery).toHaveBeenCalled();
   });
 });

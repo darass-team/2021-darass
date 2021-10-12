@@ -1,9 +1,10 @@
-import { useLikeComment, useMessageChannelFromReplyModuleContext } from "@/hooks";
-import { comments } from "@/__test__/fixture/comments";
+import { useMessageChannelFromReplyModuleContext } from "@/hooks";
+import React from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useToken } from "../useToken";
 
 jest.mock("react-query");
+jest.mock("react");
 jest.mock("@/hooks/contexts/useMessageFromReplyModule");
 
 let mutateAsync = jest.fn();
@@ -30,12 +31,14 @@ beforeEach(() => {
     mutateAsync
   });
 
+  jest.spyOn(React, "useEffect");
+
   jest.clearAllMocks();
 });
 
 describe("useToken test", () => {
   test("useToken를 호출하면, useQuery가 호출된다.", () => {
-    const { accessToken, refetchAccessToken, deleteMutation, error } = useToken();
+    const { accessToken, refetchAccessToken, removeAccessToken, error } = useToken();
 
     expect(useMutation).toHaveBeenCalled();
     expect(useQuery).toHaveBeenCalled();

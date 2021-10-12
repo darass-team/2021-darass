@@ -3,15 +3,16 @@ import naverIcon from "@/assets/png/naver.png";
 import Avatar from "@/components/@atoms/Avatar";
 import CommentInput from "@/components/@molecules/CommentInput";
 import Footer from "@/components/@molecules/Footer";
+import LoadingPage from "@/components/@molecules/LoadingPage";
 import { MANAGE_PAGE_DOMAIN } from "@/constants/domain";
 import { OAUTH_URL } from "@/constants/oauth";
 import { ORDER_BUTTON } from "@/constants/orderButton";
-import { useGetAllComments, useGetProjectOwnerId, useMessageChannelFromReplyModuleContext, useUser } from "@/hooks";
+import { useGetAllComments, useGetProjectOwnerId, useMessageChannelFromReplyModuleContext } from "@/hooks";
 import { useToken } from "@/hooks/api/token/useToken";
+import { useUserContext } from "@/hooks/contexts/useUserContext";
 import { AlertError } from "@/utils/alertError";
 import { popUpCenter } from "@/utils/popUpCenter";
 import { useEffect, useState } from "react";
-import LoadingPage from "@/components/@molecules/LoadingPage";
 import {
   CommentList,
   Container,
@@ -31,7 +32,7 @@ const CommentArea = () => {
   const [notice, setNotice] = useState("");
 
   const { refetchAccessToken } = useToken();
-  const { user, logout } = useUser();
+  const { user, logout } = useUserContext();
 
   const {
     totalCommentsCount,
