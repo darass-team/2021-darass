@@ -1,5 +1,5 @@
 import { Container, CopyRight, Logo, LogoButton, ServiceName } from "./styles";
-import darassLogoSVG from "@/assets/svg/darass-logo.svg";
+import darassLogo from "@/assets/png/logo.png";
 import { MANAGE_PAGE_DOMAIN } from "@/constants/domain";
 
 const Footer = () => {
@@ -7,7 +7,7 @@ const Footer = () => {
     <Container>
       <CopyRight>&copy; Emergency Escape</CopyRight>
       <LogoButton href={MANAGE_PAGE_DOMAIN} target="_blank" rel="noopener noreferrer" role="link">
-        <Logo src={darassLogoSVG} alt="darass-logo" />
+        <Logo src={darassLogo} alt="darass-logo" />
         <ServiceName>Darass</ServiceName>
       </LogoButton>
     </Container>
