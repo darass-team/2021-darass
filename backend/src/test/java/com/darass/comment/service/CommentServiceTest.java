@@ -15,7 +15,9 @@ import com.darass.comment.dto.CommentReadRequest;
 import com.darass.comment.dto.CommentReadRequestByPagination;
 import com.darass.comment.dto.CommentReadRequestBySearch;
 import com.darass.comment.dto.CommentReadRequestInProject;
+import com.darass.comment.dto.CommentReadSecretCommentRequest;
 import com.darass.comment.dto.CommentResponse;
+import com.darass.comment.dto.CommentResponses;
 import com.darass.comment.dto.CommentStatRequest;
 import com.darass.comment.dto.CommentStatResponse;
 import com.darass.comment.dto.CommentUpdateRequest;
@@ -76,6 +78,8 @@ class CommentServiceTest extends SpringContainerTest {
 
     private GuestUser guestUser;
 
+    private User admin;
+
     private Project project;
 
     private List<Comment> comments;
@@ -100,8 +104,18 @@ class CommentServiceTest extends SpringContainerTest {
             .build();
         userRepository.save(guestUser);
 
+        admin = SocialLoginUser.builder()
+            .nickName("진영")
+            .profileImageUrl("http://프로필이미지-url")
+            .userType("socialLoginUser")
+            .email("pjy1368@naver.com")
+            .oauthProvider(KaKaoOAuthProvider.NAME)
+            .oauthId("1234")
+            .build();
+        userRepository.save(admin);
+
         project = Project.builder()
-            .user(socialLoginUser)
+            .user(admin)
             .name("깃헙 블로그 프로젝트")
             .description("프로젝트 설명")
             .build();
@@ -112,6 +126,7 @@ class CommentServiceTest extends SpringContainerTest {
             .project(project)
             .url("url")
             .content("content1")
+            .secret(true)
             .build();
         commentRepository.save(comment1);
 
@@ -133,6 +148,7 @@ class CommentServiceTest extends SpringContainerTest {
             .project(project)
             .url("url")
             .content("content3")
+            .secret(true)
             .build();
         commentRepository.save(comment3);
 
@@ -206,7 +222,7 @@ class CommentServiceTest extends SpringContainerTest {
     @Test
     void findAllCommentsByUrlAndProjectKey_latest() {
         CommentReadRequest request = new CommentReadRequest(SortOption.LATEST.name(), "url", project.getSecretKey());
-        List<CommentResponse> responses = commentService.findAllCommentsByUrlAndProjectKey(request).getComments();
+        List<CommentResponse> responses = commentService.findAllCommentsByUrlAndProjectKey(admin, request).getComments();
         assertThat(responses).extracting("content").isEqualTo(Arrays.asList("content3", "content2", "content1"));
     }
 
@@ -214,7 +230,7 @@ class CommentServiceTest extends SpringContainerTest {
     @Test
     void findAllCommentsByUrlAndProjectKey_like() {
         CommentReadRequest request = new CommentReadRequest(SortOption.LIKE.name(), "url", project.getSecretKey());
-        List<CommentResponse> responses = commentService.findAllCommentsByUrlAndProjectKey(request).getComments();
+        List<CommentResponse> responses = commentService.findAllCommentsByUrlAndProjectKey(admin, request).getComments();
         assertThat(responses).extracting("content").isEqualTo(Arrays.asList("content2", "content1", "content3"));
     }
 
@@ -222,7 +238,7 @@ class CommentServiceTest extends SpringContainerTest {
     @Test
     void findAllCommentsByUrlAndProjectKey_oldest() {
         CommentReadRequest request = new CommentReadRequest(SortOption.OTHER.name(), "url", project.getSecretKey());
-        List<CommentResponse> responses = commentService.findAllCommentsByUrlAndProjectKey(request).getComments();
+        List<CommentResponse> responses = commentService.findAllCommentsByUrlAndProjectKey(admin, request).getComments();
         assertThat(responses).extracting("content").isEqualTo(Arrays.asList("content1", "content2", "content3"));
     }
 
@@ -397,15 +413,15 @@ class CommentServiceTest extends SpringContainerTest {
     @Test
     void updateContent_social_login_user() {
         CommentUpdateRequest request = new CommentUpdateRequest("jayon");
-        commentService.updateContent(comments.get(0).getId(), socialLoginUser, request);
+        commentService.updateComment(comments.get(0).getId(), socialLoginUser, request);
         assertThat(commentRepository.findById(comments.get(0).getId()).get().getContent()).isEqualTo("jayon");
     }
 
     @DisplayName("비로그인 유저가 댓글을 수정한다.")
     @Test
     void updateContent_guest_user() {
-        CommentUpdateRequest request = new CommentUpdateRequest(guestUser.getId(), guestUser.getPassword(), "jayon");
-        commentService.updateContent(comments.get(3).getId(), guestUser, request);
+        CommentUpdateRequest request = new CommentUpdateRequest(guestUser.getId(), guestUser.getPassword(), "jayon", false);
+        commentService.updateComment(comments.get(3).getId(), guestUser, request);
         assertThat(commentRepository.findById(comments.get(3).getId()).get().getContent()).isEqualTo("jayon");
     }
 
@@ -413,7 +429,7 @@ class CommentServiceTest extends SpringContainerTest {
     @Test
     void updateContent_social_login_user_exception() {
         CommentUpdateRequest request = new CommentUpdateRequest("jayon");
-        assertThatThrownBy(() -> commentService.updateContent(comments.get(3).getId(), socialLoginUser, request))
+        assertThatThrownBy(() -> commentService.updateComment(comments.get(3).getId(), socialLoginUser, request))
             .isInstanceOf(UnauthorizedException.class)
             .hasMessage("해당 댓글을 관리할 권한이 없습니다.");
     }
@@ -421,10 +437,37 @@ class CommentServiceTest extends SpringContainerTest {
     @DisplayName("비로그인 유저가 비밀번호를 틀리면 댓글을 수정할 수 없다.")
     @Test
     void updateContent_guest_user_exception() {
-        CommentUpdateRequest request = new CommentUpdateRequest(guestUser.getId(), "invalid", "jayon");
-        assertThatThrownBy(() -> commentService.updateContent(comments.get(3).getId(), guestUser, request))
+        CommentUpdateRequest request = new CommentUpdateRequest(guestUser.getId(), "invalid", "jayon", false);
+        assertThatThrownBy(() -> commentService.updateComment(comments.get(3).getId(), guestUser, request))
             .isInstanceOf(UnauthorizedException.class)
             .hasMessage("Guest 사용자의 비밀번호가 일치하지 않습니다.");
+    }
+
+    @DisplayName("비로그인 유저가 비밀 댓글을 조회한다.")
+    @Test
+    void readSecretComment_guest_user() {
+        CommentReadSecretCommentRequest request = new CommentReadSecretCommentRequest(guestUser.getId(), guestUser.getPassword());
+        commentService.readSecretComment(comments.get(3).getId(), guestUser, request);
+        assertThat(commentRepository.findById(comments.get(2).getId()).get().getContent())
+            .isNotEqualTo(Comment.SECRET_COMMENT_CONTENT);
+    }
+
+    @DisplayName("비로그인 유저가 비밀번호를 틀리면 비밀 댓글을 조회할 수 없다.")
+    @Test
+    void readSecretComment_guest_user_exception() {
+        CommentReadSecretCommentRequest request = new CommentReadSecretCommentRequest(guestUser.getId(), "invalid");
+        assertThatThrownBy(() -> commentService.readSecretComment(comments.get(3).getId(), guestUser, request))
+            .isInstanceOf(UnauthorizedException.class)
+            .hasMessage("Guest 사용자의 비밀번호가 일치하지 않습니다.");
+    }
+
+    @DisplayName("소셜 로그인 유저가 남의 비밀 댓글을 조회하려고 하면 에러를 던진다.")
+    @Test
+    void readSecretComment_login_user_exception() {
+        CommentReadSecretCommentRequest request = new CommentReadSecretCommentRequest(null, null);
+        assertThatThrownBy(() -> commentService.readSecretComment(comments.get(3).getId(), socialLoginUser, request))
+            .isInstanceOf(UnauthorizedException.class)
+            .hasMessage("해당 댓글을 관리할 권한이 없습니다.");
     }
 
     @DisplayName("소셜 로그인 유저가 댓글을 삭제한다.")
@@ -456,7 +499,7 @@ class CommentServiceTest extends SpringContainerTest {
     @Test
     void delete_administrator() {
         CommentDeleteRequest request = new CommentDeleteRequest(null, null);
-        commentService.delete(comments.get(3).getId(), socialLoginUser, request);
+        commentService.delete(comments.get(3).getId(), admin, request);
         assertThat(commentRepository.existsById(comments.get(3).getId())).isFalse();
     }
 
@@ -498,5 +541,49 @@ class CommentServiceTest extends SpringContainerTest {
 
         //then
         assertThat(comment.getCommentLikes()).hasSize(0);
+    }
+
+    @DisplayName("비로그인 사용자가 볼 때, 비밀 댓글의 본문 내용은 확인이 불가능하다.")
+    @Test
+    void findAllCommentsByUrlAndProjectKeyConsiderSecretComment_guest_user() {
+        CommentReadRequest request = new CommentReadRequest("latest", "url", project.getSecretKey());
+        CommentResponses responses = commentService
+            .findAllCommentsByUrlAndProjectKey(guestUser, request);
+
+        for (CommentResponse commentResponse : responses.getComments()) {
+            if (commentResponse.isSecret()) {
+                assertThat(commentResponse.getContent()).isEqualTo(Comment.SECRET_COMMENT_CONTENT);
+            }
+        }
+    }
+
+    @DisplayName("로그인 사용자가 댓글을 볼 때, 자신이 쓴 댓글을 제외한 모든 비밀 댓글의 본문 내용은 확인이 불가능하다.")
+    @Test
+    void findAllCommentsByUrlAndProjectKeyConsiderSecretComment_login_user() {
+        CommentReadRequest request = new CommentReadRequest("latest", "url", project.getSecretKey());
+        CommentResponses responses = commentService
+            .findAllCommentsByUrlAndProjectKey(socialLoginUser, request);
+
+        for (CommentResponse commentResponse : responses.getComments()) {
+            if (commentResponse.isSecret()) {
+                if (socialLoginUser.isSameUser(commentResponse.getUser().getId())) {
+                    assertThat(commentResponse.getContent()).isNotEqualTo(Comment.SECRET_COMMENT_CONTENT);
+                    continue;
+                }
+                assertThat(commentResponse.getContent()).isEqualTo(Comment.SECRET_COMMENT_CONTENT);
+            }
+        }
+    }
+
+    @DisplayName("관리자는 모든 댓글을 열람할 수 있다.")
+    @Test
+    void findAllCommentsByUrlAndProjectKeyConsiderSecretComment_admin() {
+        CommentReadRequest request = new CommentReadRequest("latest", "url", project.getSecretKey());
+        CommentResponses responses = commentService
+            .findAllCommentsByUrlAndProjectKey(socialLoginUser, request);
+
+        for (CommentResponse commentResponse : responses.getComments()) {
+            assertThat(commentResponse.getContent()).isNotEqualTo(Comment.SECRET_COMMENT_CONTENT);
+        }
     }
 }

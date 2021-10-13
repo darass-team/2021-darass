@@ -2,7 +2,6 @@ package com.darass.auth.infrastructure;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.darass.darass.SpringContainerTest;
 import com.darass.exception.ExceptionWithMessageAndCode;
@@ -14,9 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 @DisplayName("JwtTokenProvider 클래스")
 class JwtTokenProviderTest extends SpringContainerTest {
-
-    @Autowired
-    private JwtTokenProvider jwtTokenProvider;
 
     private static final SocialLoginUser SOCIAL_LOGIN_USER;
 
@@ -32,6 +28,9 @@ class JwtTokenProviderTest extends SpringContainerTest {
             .build();
     }
 
+    @Autowired
+    private JwtTokenProvider jwtTokenProvider;
+
     @DisplayName("createAccessToken 메서드는 socialLoginUser가 주어지면, accessToken을 리턴한다.")
     @Test
     void createAccessToken() {
@@ -39,7 +38,7 @@ class JwtTokenProviderTest extends SpringContainerTest {
 
         assertThat(jwtTokenProvider.createAccessToken(SOCIAL_LOGIN_USER)).isNotEmpty();
 
-        assertThatCode(() ->  jwtTokenProvider.validateAccessToken(accessToken)).doesNotThrowAnyException();
+        assertThatCode(() -> jwtTokenProvider.validateAccessToken(accessToken)).doesNotThrowAnyException();
     }
 
     @DisplayName("createRefreshToken 메서드는 socialLoginUser가 주어지면, refreshToken을 리턴한다.")
@@ -48,7 +47,7 @@ class JwtTokenProviderTest extends SpringContainerTest {
         String refreshToken = jwtTokenProvider.createRefreshToken(SOCIAL_LOGIN_USER);
 
         assertThat(jwtTokenProvider.createRefreshToken(SOCIAL_LOGIN_USER)).isNotEmpty();
-        assertThatCode(() ->  jwtTokenProvider.validateRefreshToken(refreshToken)).doesNotThrowAnyException();
+        assertThatCode(() -> jwtTokenProvider.validateRefreshToken(refreshToken)).doesNotThrowAnyException();
     }
 
     @DisplayName("validateAccessToken 메서드는 유효한 accessToken이 주어지면, 아무것도 반환하지 않는다.")

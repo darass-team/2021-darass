@@ -46,10 +46,9 @@ public abstract class OAuthProvider {
                 apiServerUrl, HttpMethod.GET, makeUserInformationRequest(accessToken), String.class
             );
             return parseSocialLoginUser(tokenResponse);
-        } catch (JSONException e){
+        } catch (JSONException e) {
             throw ExceptionWithMessageAndCode.JSON_PROCESSING_EXCEPTION.getException();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             throw ExceptionWithMessageAndCode.INVALID_OAUTH_ACCESS_TOKEN.getException();
         }
     }

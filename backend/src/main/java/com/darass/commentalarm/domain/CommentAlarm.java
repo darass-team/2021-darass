@@ -1,11 +1,8 @@
 package com.darass.commentalarm.domain;
 
 import com.darass.comment.domain.Comment;
-import com.darass.comment.dto.CommentResponse;
-import com.darass.commentalarm.dto.CommentAlarmResponse;
 import com.darass.common.domain.BaseTimeEntity;
 import com.darass.user.domain.User;
-import com.darass.user.dto.UserResponse;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;

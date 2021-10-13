@@ -21,18 +21,6 @@ import org.springframework.test.web.client.MockRestServiceServer;
 @RestClientTest(KaKaoOAuthProvider.class)
 class KaKaoOAuthProviderTest {
 
-    @Autowired
-    private KaKaoOAuthProvider kaKaoOAuthProvider;
-
-    @Autowired
-    private MockRestServiceServer mockServer;
-
-    @Value("${oauth.kakao.authorization-server-url}")
-    private String authorizationServerUrl;
-
-    @Value("${oauth.kakao.api-server-url}")
-    private String apiServerUrl;
-
     String successUserInfoResponse =
         "{\"id\":1791380911,\"connected_at\":\"2021-07-02T10:42:36Z\",\"properties\":{\"nickname\":\"병욱\"},"
             + "\"kakao_account\":{\"profile_nickname_needs_agreement\":false,\"profile_image_needs_agreement\":false,\""
@@ -41,6 +29,14 @@ class KaKaoOAuthProviderTest {
             + "\"email_needs_agreement\":false,\"is_email_valid\":true,\"is_email_verified\":true,\"email\":\"jujubebat@kakao.com\",\"has_age_range\":true,"
             + "\"age_range_needs_agreement\":false,\"age_range\":\"20~29\",\"has_birthday\":true,\"birthday_needs_agreement\":false,\"birthday\":\"1114\",\"birthday_type\":\"SOLAR\","
             + "\"has_gender\":true,\"gender_needs_agreement\":false,\"gender\":\"male\"}}";
+    @Autowired
+    private KaKaoOAuthProvider kaKaoOAuthProvider;
+    @Autowired
+    private MockRestServiceServer mockServer;
+    @Value("${oauth.kakao.authorization-server-url}")
+    private String authorizationServerUrl;
+    @Value("${oauth.kakao.api-server-url}")
+    private String apiServerUrl;
 
     @DisplayName("findSocialLoginUser 메서드는 카카오 인증서버에 인가 코드를 전송해서 엑세스 토큰을 얻어와 카카오 api 서버에 보낸후 SocialLoginUser 객체를 받아온다.")
     @Test
@@ -93,7 +89,6 @@ class KaKaoOAuthProviderTest {
                 + "\"email_needs_agreement\":false,\"is_email_valid\":true,\"is_email_verified\":true,\"has_age_range\":true,"
                 + "\"age_range_needs_agreement\":false,\"age_range\":\"20~29\",\"has_birthday\":true,\"birthday_needs_agreement\":false,\"birthday\":\"1114\",\"birthday_type\":\"SOLAR\","
                 + "\"has_gender\":true,\"gender_needs_agreement\":false,\"gender\":\"male\"}}";
-
 
         mockServer.expect(requestTo(authorizationServerUrl))
             .andRespond(withSuccess("{\"access_token\":\"kakaoAccessToken\"}", MediaType.APPLICATION_JSON));

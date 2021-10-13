@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Transactional
 @Service
 public class UserService {
+
     private static final int MAX_FILE_SIZE = 5000000; // 5MB
     private final UserRepository userRepository;
     private final S3Uploader s3Uploader;

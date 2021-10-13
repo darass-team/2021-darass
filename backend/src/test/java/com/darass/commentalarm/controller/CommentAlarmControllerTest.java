@@ -36,16 +36,10 @@ import org.springframework.test.web.servlet.ResultActions;
 @DisplayName("CommentAlarm 인수 테스트")
 class CommentAlarmControllerTest extends AcceptanceTest {
 
-    private static final SocialLoginUser SENDER;
-    private static final SocialLoginUser RECEIVER;
     public static final String ACCESS_TOKEN = "accessToken";
     public static final String REFRESH_TOKEN = "refreshToken";
-
-    @MockBean
-    private CommentAlarmService commentAlarmService;
-
-    @MockBean
-    private OAuthService oAuthService;
+    private static final SocialLoginUser SENDER;
+    private static final SocialLoginUser RECEIVER;
 
     static {
         SENDER = SocialLoginUser
@@ -72,6 +66,11 @@ class CommentAlarmControllerTest extends AcceptanceTest {
             .userType("SocialLoginUser")
             .build();
     }
+
+    @MockBean
+    private CommentAlarmService commentAlarmService;
+    @MockBean
+    private OAuthService oAuthService;
 
     @BeforeEach
     void setUp() {
@@ -158,7 +157,8 @@ class CommentAlarmControllerTest extends AcceptanceTest {
                     fieldWithPath("[].comment.user.hasRecentAlarm").type(JsonFieldType.BOOLEAN).description("알람에 해당하는 댓글 작성한 유저 최근 알람 수신 여부"),
                     fieldWithPath("[].comment.user.createdDate").optional().type(JsonFieldType.STRING).description("알람에 해당하는 댓글 작성한 유저 생성 시점"),
                     fieldWithPath("[].comment.user.modifiedDate").optional().type(JsonFieldType.STRING).description("알람에 해당하는 댓글 작성한 유저 수정 시점"),
-                    fieldWithPath("[].comment.subComments").optional().type(JsonFieldType.ARRAY).description("알람에 해당하는 댓글 대댓글 정보")
+                    fieldWithPath("[].comment.subComments").optional().type(JsonFieldType.ARRAY).description("알람에 해당하는 댓글 대댓글 정보"),
+                    fieldWithPath("[].comment.secret").type(JsonFieldType.BOOLEAN).description("댓글 공개/비공개 여부")
                 ))
             );
     }

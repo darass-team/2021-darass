@@ -3,8 +3,8 @@ package com.darass.comment.domain;
 import static javax.persistence.CascadeType.ALL;
 import static javax.persistence.FetchType.LAZY;
 
-import com.darass.commentalarm.domain.CommentAlarmType;
 import com.darass.commentalarm.domain.CommentAlarm;
+import com.darass.commentalarm.domain.CommentAlarmType;
 import com.darass.common.domain.BaseTimeEntity;
 import com.darass.exception.ExceptionWithMessageAndCode;
 import com.darass.project.domain.Project;
@@ -34,7 +34,11 @@ import org.hibernate.annotations.OnDeleteAction;
 @Entity
 public class Comment extends BaseTimeEntity {
 
+    public static final String SECRET_COMMENT_CONTENT = "[비밀 댓글입니다.]";
     private static final int CONTENT_LENGTH_LIMIT = 3000;
+
+    @OneToMany(mappedBy = "comment", fetch = LAZY, cascade = ALL, orphanRemoval = true)
+    private final List<CommentLike> commentLikes = new ArrayList<>();
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -49,9 +53,6 @@ public class Comment extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(foreignKey = @ForeignKey(name = "comment_fk_project"))
     private Project project;
-
-    @OneToMany(mappedBy = "comment", fetch = LAZY, cascade = ALL, orphanRemoval = true)
-    private final List<CommentLike> commentLikes = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "parent_id", referencedColumnName = "id",
@@ -70,11 +71,13 @@ public class Comment extends BaseTimeEntity {
     @Lob
     private String content;
 
+    private boolean secret;
+
     @Formula("(select count(*) from comment_like where comment_like.comment_id=id)")
     private int likeCount;
 
     @Builder
-    public Comment(Long id, User user, Project project, String url, String content, Comment parent) {
+    public Comment(Long id, User user, Project project, String url, String content, Comment parent, boolean secret) {
         validateContentLength(content);
         this.id = id;
         this.user = user;
@@ -82,10 +85,15 @@ public class Comment extends BaseTimeEntity {
         this.url = url;
         this.content = content;
         this.parent = parent;
+        this.secret = secret;
     }
 
     public void changeContent(String content) {
         this.content = content;
+    }
+
+    public void changeUserNickname(String nickname) {
+        user.changeNickName(nickname);
     }
 
     public boolean isCommentWriter(User user) {
@@ -98,6 +106,10 @@ public class Comment extends BaseTimeEntity {
 
     public Long getUserId() {
         return user.getId();
+    }
+
+    public String getUserNickName() {
+        return user.getNickName();
     }
 
     public boolean isLikedByUser(User user) {
@@ -151,4 +163,22 @@ public class Comment extends BaseTimeEntity {
             .build();
     }
 
+    public void handleSecretComment() {
+        if (this.secret) {
+            replaceCommentInfoToSecret();
+        }
+        for (Comment subComment : this.subComments) {
+            if (subComment.secret) {
+                subComment.replaceCommentInfoToSecret();
+            }
+        }
+    }
+
+    public void replaceCommentInfoToSecret() {
+        this.changeContent(SECRET_COMMENT_CONTENT);
+    }
+
+    public void changeSecretStatus(boolean secret) {
+        this.secret = secret;
+    }
 }

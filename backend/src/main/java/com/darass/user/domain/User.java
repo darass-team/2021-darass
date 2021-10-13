@@ -60,8 +60,14 @@ public abstract class User extends BaseTimeEntity {
 
     public abstract boolean isValidGuestPassword(String guestUserPassword);
 
+    public abstract boolean isAdminUser(Long id);
+
     public boolean isSameUser(User user) {
         return this.id.equals(user.id);
+    }
+
+    public boolean isSameUser(Long id) {
+        return this.id.equals(id);
     }
 
     public void changeNickName(String nickName) {

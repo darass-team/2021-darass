@@ -3,7 +3,6 @@ package com.darass.commentalarm.domain;
 import com.darass.commentalarm.dto.CommentAlarmResponse;
 import com.darass.user.domain.User;
 import lombok.AllArgsConstructor;
-import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
 

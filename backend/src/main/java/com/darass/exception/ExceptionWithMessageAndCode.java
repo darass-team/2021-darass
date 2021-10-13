@@ -12,7 +12,7 @@ import lombok.Getter;
 public enum ExceptionWithMessageAndCode {
     // 서버 관련 : 5xx
     INTERNAL_SERVER(new InternalServerException("서버 에러입니다. 서버 관리자에게 문의주세요.", 500)),
-    JSON_PROCESSING_EXCEPTION(new InternalServerException("json 파싱 오류",501)),
+    JSON_PROCESSING_EXCEPTION(new InternalServerException("json 파싱 오류", 501)),
 
     // 유저 관련 : 6xx
     NOT_FOUND_USER(new NotFoundException("해당하는 유저가 없습니다.", 600)),

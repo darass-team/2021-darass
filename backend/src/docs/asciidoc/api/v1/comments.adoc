@@ -42,35 +42,62 @@ include::{snippets}/api/v1/comments/post/fail-invalid-content-length/response-fi
 ==== (성공) 대댓글 작성
 
 ==== Request
+
 include::{snippets}/api/v1/comments/post/sub-comments/success-login-user/http-request.adoc[]
 include::{snippets}/api/v1/comments/post/sub-comments/success-login-user/request-headers.adoc[]
 include::{snippets}/api/v1/comments/post/sub-comments/success-login-user/request-fields.adoc[]
 
 ==== Response
+
 include::{snippets}/api/v1/comments/post/sub-comments/success-login-user/http-response.adoc[]
 include::{snippets}/api/v1/comments/post/sub-comments/success-login-user/response-fields.adoc[]
 
 ==== (실패) 대댓글에 대댓글 작성하는 경우
 
 ==== Response
+
 include::{snippets}/api/v1/comments/post/sub-comments/fail-login-user/http-response.adoc[]
 include::{snippets}/api/v1/comments/post/sub-comments/fail-login-user/response-fields.adoc[]
 
-
-
 === 댓글 조회 (GET /api/v1/comments)
 
-==== URL에 해당하는 전체 댓글 최신순으로 조회
+==== URL에 해당하는 전체 댓글 최신순으로 조회 [비로그인 유저]
 
 ==== Request
 
-include::{snippets}/api/v1/comments/get/latest/success/http-request.adoc[]
-include::{snippets}/api/v1/comments/get/latest/success/request-parameters.adoc[]
+include::{snippets}/api/v1/comments/get/latest/guest-user/success/http-request.adoc[]
+include::{snippets}/api/v1/comments/get/latest/guest-user/success/request-parameters.adoc[]
 
 ==== Response
 
-include::{snippets}/api/v1/comments/get/latest/success/http-response.adoc[]
-include::{snippets}/api/v1/comments/get/latest/success/response-fields.adoc[]
+include::{snippets}/api/v1/comments/get/latest/guest-user/success/http-response.adoc[]
+include::{snippets}/api/v1/comments/get/latest/guest-user/success/response-fields.adoc[]
+
+==== URL에 해당하는 전체 댓글 최신순으로 조회 [로그인 유저]
+
+==== Request
+
+include::{snippets}/api/v1/comments/get/latest/login-user/success/http-request.adoc[]
+include::{snippets}/api/v1/comments/get/latest/login-user/success/request-parameters.adoc[]
+
+==== Response
+
+include::{snippets}/api/v1/comments/get/latest/login-user/success/http-response.adoc[]
+include::{snippets}/api/v1/comments/get/latest/login-user/success/response-fields.adoc[]
+
+==== URL에 해당하는 전체 댓글 최신순으로 조회 [관리자]
+
+==== Request
+
+include::{snippets}/api/v1/comments/get/latest/admin/success/http-request.adoc[]
+include::{snippets}/api/v1/comments/get/latest/admin/success/request-parameters.adoc[]
+
+==== Response
+
+include::{snippets}/api/v1/comments/get/latest/admin/success/http-response.adoc[]
+include::{snippets}/api/v1/comments/get/latest/admin/success/response-fields.adoc[]
+
+==== [비밀 댓글 요청과 응답 형태는 위의 최신순 로직과 동일함.]
 
 ==== URL에 해당하는 전체 댓글 좋아요순으로 조회
 
@@ -84,6 +111,8 @@ include::{snippets}/api/v1/comments/get/like/success/request-parameters.adoc[]
 include::{snippets}/api/v1/comments/get/like/success/http-response.adoc[]
 include::{snippets}/api/v1/comments/get/like/success/response-fields.adoc[]
 
+==== [비밀 댓글 요청과 응답 형태는 위의 최신순 로직과 동일함.]
+
 ==== URL에 해당하는 전체 댓글 과거순으로 조회 (sortOption은 null이거나 임의의 값이어도 됨)
 
 ==== Request
@@ -95,6 +124,30 @@ include::{snippets}/api/v1/comments/get/oldest/success/request-parameters.adoc[]
 
 include::{snippets}/api/v1/comments/get/oldest/success/http-response.adoc[]
 include::{snippets}/api/v1/comments/get/oldest/success/response-fields.adoc[]
+
+==== URL에 해당하는 댓글, 대댓글 등록되어있는 경우 조회 [비로그인 유저]
+
+==== Request
+
+include::{snippets}/api/v1/comments/get/sub-comment/guest-user/success/http-request.adoc[]
+include::{snippets}/api/v1/comments/get/sub-comment/guest-user/success/request-parameters.adoc[]
+
+==== Response
+
+include::{snippets}/api/v1/comments/get/sub-comment/guest-user/success/http-response.adoc[]
+include::{snippets}/api/v1/comments/get/sub-comment/guest-user/success/response-fields.adoc[]
+
+==== URL에 해당하는 댓글, 대댓글 등록되어있는 경우 조회 [로그인 유저]
+
+==== Request
+
+include::{snippets}/api/v1/comments/get/sub-comment/login-user/success/http-request.adoc[]
+include::{snippets}/api/v1/comments/get/sub-comment/login-user/success/request-parameters.adoc[]
+
+==== Response
+
+include::{snippets}/api/v1/comments/get/sub-comment/login-user/success/http-response.adoc[]
+include::{snippets}/api/v1/comments/get/sub-comment/login-user/success/response-fields.adoc[]
 
 === 특정 페이지의 댓글 조회 (GET /api/v1/comments/paging)
 
@@ -109,16 +162,6 @@ include::{snippets}/api/v1/comments/paging/get/latest/success/request-parameters
 
 include::{snippets}/api/v1/comments/paging/get/latest/success/http-response.adoc[]
 include::{snippets}/api/v1/comments/paging/get/latest/success/response-fields.adoc[]
-
-==== URL에 해당하는 댓글, 대댓글 등록되어있는 경우 조회
-
-==== Request
-include::{snippets}/api/v1/comments/get/sub-comment/success/http-request.adoc[]
-include::{snippets}/api/v1/comments/get/sub-comment/success/request-parameters.adoc[]
-
-==== Response
-include::{snippets}/api/v1/comments/get/sub-comment/success/http-response.adoc[]
-include::{snippets}/api/v1/comments/get/sub-comment/success/response-fields.adoc[]
 
 ==== URL에 해당하는 특정 페이지의 댓글 좋아요순으로 조회
 
@@ -218,7 +261,6 @@ include::{snippets}/api/v1/projects/comments/search/paging/get/oldest/success/re
 include::{snippets}/api/v1/projects/comments/search/paging/get/oldest/success/http-response.adoc[]
 include::{snippets}/api/v1/projects/comments/search/paging/get/oldest/success/response-fields.adoc[]
 
-
 === 특정 프로젝트 내의 댓글에 관한 통계 (GET /api/v1/comments/stat)
 
 ==== 특정 프로젝트 내의 댓글 시간별 통계
@@ -257,6 +299,42 @@ include::{snippets}/api/v1/comments/stat/get/monthly/success/request-parameters.
 include::{snippets}/api/v1/comments/stat/get/monthly/success/http-response.adoc[]
 include::{snippets}/api/v1/comments/stat/get/monthly/success/response-fields.adoc[]
 
+=== 비밀 댓글 조회 (GET /api/v1/comments/{id}/secret-comment)
+
+==== (성공) 비로그인 유저가 비밀 댓글 조회
+==== Request
+
+include::{snippets}/api/v1/comments/secret-comment/guest-user/get/success/http-request.adoc[]
+include::{snippets}/api/v1/comments/secret-comment/guest-user/get/success/request-parameters.adoc[]
+
+==== Response
+
+include::{snippets}/api/v1/comments/secret-comment/guest-user/get/success/http-response.adoc[]
+include::{snippets}/api/v1/comments/secret-comment/guest-user/get/success/response-fields.adoc[]
+
+
+==== (실패) 비로그인 유저가 비밀 댓글 조회
+
+==== Request
+
+include::{snippets}/api/v1/comments/secret-comment/guest-user/get/fail-not-mine/http-request.adoc[]
+
+==== Response
+
+include::{snippets}/api/v1/comments/secret-comment/guest-user/get/fail-not-mine/http-response.adoc[]
+include::{snippets}/api/v1/comments/secret-comment/guest-user/get/fail-not-mine/response-fields.adoc[]
+
+
+==== (실패) 소셜 로그인 유저가 남의 비밀 댓글 조회
+
+==== Request
+
+include::{snippets}/api/v1/comments/secret-comment/login-user/get/fail-not-mine/http-request.adoc[]
+
+==== Response
+
+include::{snippets}/api/v1/comments/secret-comment/login-user/get/fail-not-mine/http-response.adoc[]
+include::{snippets}/api/v1/comments/secret-comment/login-user/get/fail-not-mine/response-fields.adoc[]
 
 === 댓글 수정 (PATCH /api/v1/comments)
 

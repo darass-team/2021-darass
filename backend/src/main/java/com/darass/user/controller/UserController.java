@@ -1,14 +1,12 @@
 package com.darass.user.controller;
 
 import com.darass.auth.domain.RequiredLogin;
-import com.darass.commentalarm.service.CommentAlarmService;
 import com.darass.user.domain.SocialLoginUser;
 import com.darass.user.dto.PasswordCheckRequest;
 import com.darass.user.dto.PasswordCheckResponse;
 import com.darass.user.dto.UserResponse;
 import com.darass.user.dto.UserUpdateRequest;
 import com.darass.user.service.UserService;
-import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
