@@ -1,6 +1,6 @@
 import ProjectButton from "@/components/atoms/Buttons/ProjectButton";
 import { ROUTE } from "@/constants";
-import { useGetAllProjects } from "@/hooks";
+import { useDocumentTitle, useGetAllProjects } from "@/hooks";
 import ScreenContainer from "@/components/@style/ScreenContainer";
 import { useEffect } from "react";
 import { useHistory } from "react-router-dom";
@@ -20,6 +20,7 @@ const MyProject = () => {
   const history = useHistory();
   const { user } = useUserContext();
   const { projects, isSuccess: isSuccessGetAllProjects } = useGetAllProjects(!!user);
+  useDocumentTitle("내 프로젝트");
 
   const moveScriptPublishingPage = (id: number) => {
     history.push(`/projects/${id}/guide`);

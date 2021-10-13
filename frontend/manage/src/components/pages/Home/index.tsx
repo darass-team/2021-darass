@@ -5,7 +5,7 @@ import wooteco from "@/assets/png/wooteco.png";
 import scrollDownButton from "@/assets/svg/scroll-down.svg";
 import TypingText from "@/components/atoms/TypingText";
 import { ROUTE } from "@/constants";
-import { useScrollFadeInOut } from "@/hooks";
+import { useDocumentTitle, useScrollFadeInOut } from "@/hooks";
 import { PALETTE } from "@/constants/styles/palette";
 import { useHistory } from "react-router-dom";
 import {
@@ -27,6 +27,7 @@ import { useUserContext } from "@/hooks/context/useUserContext";
 const Home = () => {
   const history = useHistory();
   const { user } = useUserContext();
+  useDocumentTitle("홈");
 
   const animation = {
     section1: {

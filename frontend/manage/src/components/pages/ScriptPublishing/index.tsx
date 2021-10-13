@@ -2,7 +2,7 @@ import BlogLogoButton from "@/components/atoms/Buttons/BlogLogoButton";
 import GuideStep from "@/components/molecules/GuideStep";
 import ContainerWithSideBar from "@/components/organisms/ContainerWithSideBar";
 import { GUIDE_FILE, PROJECT_MENU, ROUTE } from "@/constants";
-import { useCopyButton, useGetProject } from "@/hooks";
+import { useCopyButton, useDocumentTitle, useGetProject } from "@/hooks";
 import ScreenContainer from "@/components/@style/ScreenContainer";
 import { useState } from "react";
 import { useRouteMatch, Redirect } from "react-router-dom";
@@ -53,6 +53,8 @@ const ScriptPublishing = () => {
   });
   const projectSecretKey = project?.secretKey || "스크립트 정보를 불러오는 중입니다...";
   const { isCopyButtonClicked, onCopy } = useCopyButton();
+  useDocumentTitle("스크립트 발급");
+
   const script =
     selectedBlogInfo?.scriptType === "HTML" ? htmlScriptCode(projectSecretKey) : JsxScriptCode(projectSecretKey);
 

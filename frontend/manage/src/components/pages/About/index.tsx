@@ -1,18 +1,17 @@
-import { useScrollFadeInOut } from "@/hooks";
 import ScreenContainer from "@/components/@style/ScreenContainer";
-
+import { useDocumentTitle, useScrollFadeInOut } from "@/hooks";
 import {
+  Avatar,
   Container,
+  Description,
   Detail,
+  Email,
   EmployeeInfo,
   EmployeeInfoContainer,
-  Title,
-  Name,
-  Description,
-  Email,
-  Role,
   GithubLink,
-  Avatar
+  Name,
+  Role,
+  Title
 } from "./styles";
 
 interface Employee {
@@ -24,6 +23,7 @@ interface Employee {
   description: string;
 }
 
+// TODO: 상수 추출
 const employees: Employee[] = [
   {
     name: "Jerry",
@@ -85,6 +85,7 @@ const About = () => {
       fadeType: "in"
     });
   });
+  useDocumentTitle("팀 소개");
 
   return (
     <ScreenContainer>

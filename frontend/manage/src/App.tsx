@@ -47,10 +47,6 @@ const App = () => {
     LoadableHome.preload();
   }, []);
 
-  useEffect(() => {
-    console.log(window.location.pathname);
-  }, [window.location.pathname]);
-
   return (
     <UserContext.Provider
       value={{

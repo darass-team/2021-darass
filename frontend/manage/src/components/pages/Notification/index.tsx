@@ -1,6 +1,6 @@
 import ScreenContainer from "@/components/@style/ScreenContainer";
 import AlarmContent from "@/components/molecules/AlarmContent";
-import { useEditUser, useGetAlarmContents, useUser } from "@/hooks";
+import { useDocumentTitle, useEditUser, useGetAlarmContents, useUser } from "@/hooks";
 import { useUserContext } from "@/hooks/context/useUserContext";
 import { AlertError } from "@/utils/alertError";
 import { useEffect } from "react";
@@ -15,6 +15,7 @@ const Notification = () => {
     isSuccess: isSuccessAlarmContents
   } = useGetAlarmContents(!!user);
   const { editUser } = useEditUser();
+  useDocumentTitle("알림");
 
   useEffect(() => {
     if (alarmContents) {

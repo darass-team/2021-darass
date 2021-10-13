@@ -2,11 +2,11 @@ import loginPageBackground from "@/assets/png/loginpage_background.png";
 import naverLogo from "@/assets/png/naver.png";
 import kakaoLogo from "@/assets/svg/kakao.svg";
 import { OAUTH_URL } from "@/constants/oauth";
-import { useScrollFadeInOut } from "@/hooks";
-import ScreenContainer from "@/components/@style/ScreenContainer";
-import { Container, SectionContainer, KakaoLoginButton, MainText, NaverLoginButton } from "./styles";
+import { useDocumentTitle, useScrollFadeInOut } from "@/hooks";
+import { Container, KakaoLoginButton, MainText, NaverLoginButton, SectionContainer } from "./styles";
 
 const Login = () => {
+  useDocumentTitle("로그인");
   const animationRefs = {
     introductionText: useScrollFadeInOut({
       direction: "up",

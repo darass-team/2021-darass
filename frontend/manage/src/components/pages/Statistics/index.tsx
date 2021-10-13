@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useRouteMatch, Redirect } from "react-router-dom";
 import { PROJECT_MENU, ROUTE } from "@/constants";
 import { PERIODICITY } from "@/constants/statistics";
-import { useCalendar, useCommentStatisticsData, useGetProject } from "@/hooks";
+import { useCalendar, useCommentStatisticsData, useDocumentTitle, useGetProject } from "@/hooks";
 import ScreenContainer from "@/components/@style/ScreenContainer";
 import Modal from "@/components/atoms/Modal";
 import CommentStatisticsChart from "@/components/organisms/CommentStatisticsChart";
@@ -38,6 +38,8 @@ const Statistics = () => {
     id: projectId,
     enabled: !!user && !Number.isNaN(projectId)
   });
+  useDocumentTitle("댓글 통계");
+
   const projectSecretKey = project?.secretKey;
 
   const { showCalendar, setShowCalendar, currentDate, setCurrentDate, startDate, setStartDate, endDate, setEndDate } =
