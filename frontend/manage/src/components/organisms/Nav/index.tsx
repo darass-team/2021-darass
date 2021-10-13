@@ -1,5 +1,6 @@
 import { ROUTE } from "@/constants";
 import { MenuType } from "@/types/menu";
+import { useEffect } from "react";
 import DesktopNav from "./DesktopNav";
 import MobileNav from "./MobileNav";
 

@@ -72,7 +72,7 @@ const MobileNav = ({ menuList }: Props) => {
           </MenuHeader>
 
           <Link to={ROUTE.AUTHORIZED.USER_PROFILE} onClick={onToggleNav}>
-            <MenuAvatar imageURL={user?.profileImageUrl} size="LG" />
+            <MenuAvatar imageURL={user?.profileImageUrl} size="LG" alt="유저 프로필 이미지" />
           </Link>
 
           <Name>{user ? user.nickName : "로그인이 필요합니다."}</Name>

@@ -2,7 +2,7 @@ import { FormEvent, useEffect } from "react";
 import { useHistory, useRouteMatch, Redirect } from "react-router-dom";
 import { PROJECT_MENU, ROUTE } from "@/constants";
 import { MAX_PROJECT_DESCRIPTION_LENGTH, MAX_PROJECT_NAME_LENGTH } from "@/constants/validation";
-import { useDeleteProject, useEditProject, useGetProject, useInput } from "@/hooks";
+import { useDeleteProject, useDocumentTitle, useEditProject, useGetProject, useInput } from "@/hooks";
 import ScreenContainer from "@/components/@style/ScreenContainer";
 import { AlertError } from "@/utils/alertError";
 import { isEmptyString } from "@/utils/validation";
@@ -25,6 +25,7 @@ const ProjectDetail = () => {
   const { deleteProject } = useDeleteProject();
   const { value: projectName, setValue: setProjectName, onChange: onChangeProjectName } = useInput("");
   const { value: projectDesc, setValue: setProjectDesc, onChange: onChangeProjectDesc } = useInput("");
+  useDocumentTitle("프로젝트 상세");
 
   const onEditProject = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();

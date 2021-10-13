@@ -13,6 +13,7 @@ import {
   useCommentList,
   useCommentPageIndex,
   useDeleteComment,
+  useDocumentTitle,
   useGetCommentsOfProjectPerPage,
   useGetProject,
   useInput
@@ -29,6 +30,7 @@ import { CommentList, CommentsViewer, Container, DeleteButton, Header, Row, Titl
 const Manage = () => {
   const match = useRouteMatch<{ id: string }>();
   const location = useLocation();
+  useDocumentTitle("댓글 관리");
 
   const { user: me, isSuccessUserRequest } = useUserContext();
 

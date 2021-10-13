@@ -3,7 +3,7 @@ import ScreenContainer from "@/components/@style/ScreenContainer";
 import DeleteSection from "@/components/molecules/DeleteSection";
 import { ROUTE } from "@/constants";
 import { MAX_PROFILE_IMAGE_SIZE, MAX_USER_NAME_LENGTH } from "@/constants/validation";
-import { useDeleteUser, useEditUser, useInput } from "@/hooks";
+import { useDeleteUser, useDocumentTitle, useEditUser, useInput } from "@/hooks";
 import { useUserContext } from "@/hooks/context/useUserContext";
 import { AlertError } from "@/utils/alertError";
 import { ChangeEvent, FormEventHandler, useEffect, useState } from "react";
@@ -24,7 +24,6 @@ import {
 } from "./styles";
 
 const UserProfile = () => {
-  const history = useHistory();
   const { user, logout, isSuccessUserRequest } = useUserContext();
   const { editUser, isLoading: isEditLoading } = useEditUser();
   const { deleteUser } = useDeleteUser();
@@ -35,6 +34,7 @@ const UserProfile = () => {
   } = useInput("", MAX_USER_NAME_LENGTH);
   const [profileImageAsUrl, setProfileImageAsUrl] = useState<string>();
   const [profileImageAsFile, setProfileImageAsFile] = useState<Blob | string>("");
+  useDocumentTitle("유저 정보");
 
   useEffect(() => {
     if (user) {

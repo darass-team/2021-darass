@@ -1,6 +1,6 @@
 import ProjectButton from "@/components/atoms/Buttons/ProjectButton";
 import { ROUTE } from "@/constants";
-import { useGetAllProjects } from "@/hooks";
+import { useDocumentTitle, useGetAllProjects } from "@/hooks";
 import ScreenContainer from "@/components/@style/ScreenContainer";
 import { useEffect } from "react";
 import { useHistory } from "react-router-dom";
@@ -13,13 +13,14 @@ import {
   LoadableStatistics
 } from "../Loadable";
 import LoadingPage from "../LoadingPage";
-import { AddProjectButton, ButtonWrapper, Container, Message } from "./styles";
+import { AddProjectButton, ButtonWrapper, Container, Message, Title, HeaderWrapper } from "./styles";
 import { useUserContext } from "@/hooks/context/useUserContext";
 
 const MyProject = () => {
   const history = useHistory();
   const { user } = useUserContext();
   const { projects, isSuccess: isSuccessGetAllProjects } = useGetAllProjects(!!user);
+  useDocumentTitle("내 프로젝트");
 
   const moveScriptPublishingPage = (id: number) => {
     history.push(`/projects/${id}/guide`);
@@ -45,7 +46,10 @@ const MyProject = () => {
   return (
     <ScreenContainer>
       <Container>
-        <AddProjectButton onClick={moveNewProjectPage}>Add new</AddProjectButton>
+        <HeaderWrapper>
+          <Title>내 프로젝트</Title>
+          <AddProjectButton onClick={moveNewProjectPage}>Add new</AddProjectButton>
+        </HeaderWrapper>
         <ButtonWrapper>
           {projects?.map(({ id, name, description }) => (
             <ProjectButton

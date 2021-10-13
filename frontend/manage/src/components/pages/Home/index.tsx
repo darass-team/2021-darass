@@ -5,7 +5,7 @@ import wooteco from "@/assets/png/wooteco.png";
 import scrollDownButton from "@/assets/svg/scroll-down.svg";
 import TypingText from "@/components/atoms/TypingText";
 import { ROUTE } from "@/constants";
-import { useScrollFadeInOut } from "@/hooks";
+import { useDocumentTitle, useScrollFadeInOut } from "@/hooks";
 import { PALETTE } from "@/constants/styles/palette";
 import { useHistory } from "react-router-dom";
 import {
@@ -27,6 +27,7 @@ import { useUserContext } from "@/hooks/context/useUserContext";
 const Home = () => {
   const history = useHistory();
   const { user } = useUserContext();
+  useDocumentTitle("홈");
 
   const animation = {
     section1: {
@@ -110,20 +111,20 @@ const Home = () => {
 
       <SectionContainer id="section2" bgColor={PALETTE.WHITE}>
         <Container {...animation.section2.questionText}>
-          <Text color={PALETTE.BLACK_700} fontSize={2}>
+          <Text as="h2" color={PALETTE.BLACK_700} fontSize={2}>
             내 모든 댓글 내역을 한눈에 조회하고 한 곳에서 관리하세요.
             <br />
             이제껏 경험 못 했던 쉽고 편리한 댓글 서비스,
             <br />
             <HighlightText color={PALETTE.SECONDARY}>다라쓰</HighlightText>와 함께라면 당신의 블로그가 새로워질 거예요.
           </Text>
-          <PhoneImage src={phoneSmall} {...animation.section2.phoneSmall} />
+          <PhoneImage src={phoneSmall} alt="phone view" {...animation.section2.phoneSmall} />
         </Container>
       </SectionContainer>
 
       <SectionContainer id="section3" subtractMinHeight="50vh" bgImage={homeBackgroundImage2}>
         <Container>
-          <Text color={PALETTE.WHITE} fontSize={4}>
+          <Text as="h2" color={PALETTE.WHITE} fontSize={4}>
             내 홈페이지 댓글 관리,
             <br />
             <HighlightText color={PALETTE.PRIMARY}>
@@ -156,7 +157,7 @@ const Home = () => {
 
       <SectionContainer id="section4" subtractMinHeight="50vh" bgColor={PALETTE.WHITE}>
         <Container>
-          <Text color={PALETTE.BLACK_700} fontSize={3} textAlign="center" {...animation.section3.text}>
+          <Text as="h2" color={PALETTE.BLACK_700} fontSize={3} textAlign="center" {...animation.section3.text}>
             현재 사용중인 기업들
           </Text>
 
