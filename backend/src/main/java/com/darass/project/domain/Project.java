@@ -39,6 +39,9 @@ public class Project extends BaseTimeEntity {
     private static final int NAME_LENGTH_LIMIT = 20;
     private static final int DESCRIPTION_LENGTH_LIMIT = 100;
 
+    @OneToMany(mappedBy = "project", fetch = LAZY)
+    private final List<Comment> comments = new ArrayList<>();
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -47,9 +50,6 @@ public class Project extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(foreignKey = @ForeignKey(name = "project_fk_user"))
     private User user;
-
-    @OneToMany(mappedBy = "project", fetch = LAZY)
-    private final List<Comment> comments = new ArrayList<>();
 
     private String name;
 
@@ -82,7 +82,8 @@ public class Project extends BaseTimeEntity {
     }
 
     private void validateNameAndDescription(String name, String description) {
-        if (name.isBlank() || name.length() > NAME_LENGTH_LIMIT || (!Objects.isNull(description) && description.length() > DESCRIPTION_LENGTH_LIMIT)) {
+        if (name.isBlank() || name.length() > NAME_LENGTH_LIMIT || (!Objects.isNull(description)
+            && description.length() > DESCRIPTION_LENGTH_LIMIT)) {
             throw ExceptionWithMessageAndCode.INVALID_INPUT_LENGTH.getException();
         }
     }

@@ -43,7 +43,7 @@ class GuestUserTest {
     }
 
     @DisplayName("닉네임이 제한 길이를 초과가거나 비어있는 경우, 예외가 발생한다.")
-    @ValueSource(strings = { " ", "123456789012345678901"})
+    @ValueSource(strings = {" ", "123456789012345678901"})
     @ParameterizedTest
     void invalidNickName(String input) {
         assertThatThrownBy(() -> createGuestUser(input, password))

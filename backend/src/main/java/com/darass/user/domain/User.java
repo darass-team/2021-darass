@@ -10,11 +10,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
+@EqualsAndHashCode
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "user_type")
 @Entity
@@ -60,8 +62,14 @@ public abstract class User extends BaseTimeEntity {
 
     public abstract boolean isValidGuestPassword(String guestUserPassword);
 
+    public abstract boolean isAdminUser(Long id);
+
     public boolean isSameUser(User user) {
         return this.id.equals(user.id);
+    }
+
+    public boolean isSameUser(Long id) {
+        return this.id.equals(id);
     }
 
     public void changeNickName(String nickName) {

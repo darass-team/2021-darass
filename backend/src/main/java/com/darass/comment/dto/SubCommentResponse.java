@@ -23,6 +23,8 @@ public class SubCommentResponse {
 
     private String url;
 
+    private boolean secret;
+
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime createdDate;
 
@@ -34,7 +36,7 @@ public class SubCommentResponse {
     private UserResponse user;
 
     public static SubCommentResponse of(Comment comment, UserResponse userResponse) {
-        return new SubCommentResponse(comment.getId(), comment.getContent(), comment.getUrl(), comment.getCreatedDate(),
+        return new SubCommentResponse(comment.getId(), comment.getContent(), comment.getUrl(), comment.isSecret(), comment.getCreatedDate(),
             comment.getModifiedDate(), parseLikingUser(comment.getCommentLikes()), userResponse);
     }
 

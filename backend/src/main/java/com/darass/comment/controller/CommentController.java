@@ -8,6 +8,7 @@ import com.darass.comment.dto.CommentReadRequest;
 import com.darass.comment.dto.CommentReadRequestByPagination;
 import com.darass.comment.dto.CommentReadRequestBySearch;
 import com.darass.comment.dto.CommentReadRequestInProject;
+import com.darass.comment.dto.CommentReadSecretCommentRequest;
 import com.darass.comment.dto.CommentResponse;
 import com.darass.comment.dto.CommentResponses;
 import com.darass.comment.dto.CommentStatRequest;
@@ -27,6 +28,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
@@ -37,8 +39,9 @@ public class CommentController {
     private final CommentService commentService;
 
     @GetMapping("/comments")
-    public ResponseEntity<CommentResponses> read(@ModelAttribute CommentReadRequest commentReadRequest) {
-        CommentResponses commentResponses = commentService.findAllCommentsByUrlAndProjectKey(commentReadRequest);
+    public ResponseEntity<CommentResponses> read(@AuthenticationPrincipal User user, @ModelAttribute CommentReadRequest commentReadRequest) {
+        CommentResponses commentResponses = commentService
+            .findAllCommentsByUrlAndProjectKey(user, commentReadRequest);
         return ResponseEntity.status(HttpStatus.OK).body(commentResponses);
     }
 
@@ -78,10 +81,16 @@ public class CommentController {
         return ResponseEntity.status(HttpStatus.CREATED).body(commentResponse);
     }
 
+    @GetMapping("/comments/{id}/secret-comment")
+    public ResponseEntity<CommentResponse> readSecretComment(@PathVariable("id") Long id, @AuthenticationPrincipal User user,
+        @ModelAttribute CommentReadSecretCommentRequest commentReadSecretCommentRequest) {
+        return ResponseEntity.ok(commentService.readSecretComment(id, user, commentReadSecretCommentRequest));
+    }
+
     @PatchMapping("/comments/{id}")
     public ResponseEntity<Void> update(@PathVariable("id") Long id, @AuthenticationPrincipal User user,
         @RequestBody CommentUpdateRequest request) {
-        commentService.updateContent(id, user, request);
+        commentService.updateComment(id, user, request);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 

@@ -38,6 +38,11 @@ public class SocialLoginUser extends User {
     }
 
     @Override
+    public boolean isAdminUser(Long id) {
+        return getId().equals(id);
+    }
+
+    @Override
     public boolean isValidGuestPassword(String guestUserPassword) {
         throw ExceptionWithMessageAndCode.NOT_GUEST_USER.getException();
     }

@@ -42,6 +42,11 @@ public class GuestUser extends User {
     }
 
     @Override
+    public boolean isAdminUser(Long id) {
+        return false;
+    }
+
+    @Override
     public boolean isValidGuestPassword(String guestUserPassword) {
         return this.password.equals(guestUserPassword);
     }

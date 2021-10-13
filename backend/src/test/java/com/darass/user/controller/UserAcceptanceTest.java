@@ -21,11 +21,11 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.darass.commentalarm.domain.CommentAlarmMachine;
-import com.darass.darass.AcceptanceTest;
 import com.darass.auth.infrastructure.JwtTokenProvider;
 import com.darass.comment.dto.CommentCreateRequest;
 import com.darass.comment.dto.CommentResponse;
+import com.darass.commentalarm.domain.CommentAlarmMachine;
+import com.darass.darass.AcceptanceTest;
 import com.darass.exception.ExceptionWithMessageAndCode;
 import com.darass.exception.dto.ExceptionResponse;
 import com.darass.project.domain.Project;
@@ -131,7 +131,7 @@ class UserAcceptanceTest extends AcceptanceTest { //TODO: 로그이웃 기능 �
         String accessToken = tokenProvider.createAccessToken(socialLoginUser);
 
         //when
-        ResultActions resultActions = 유저_조회_요청(accessToken,"invalidRefreshToken");
+        ResultActions resultActions = 유저_조회_요청(accessToken, "invalidRefreshToken");
 
         //then
         유효하지_않은_리프레쉬_토큰으로_인해_유저_토큰_인증_실패됨(resultActions);

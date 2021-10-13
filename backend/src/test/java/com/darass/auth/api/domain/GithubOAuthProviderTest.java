@@ -22,24 +22,18 @@ import org.springframework.test.web.client.MockRestServiceServer;
 @RestClientTest(GithubOAuthProvider.class)
 public class GithubOAuthProviderTest {
 
+    String successAccessTokenResponse = "access_token=gho_qyZHlZbp4l1SBgZke9Hq00ZUJW8&scope=&token_type=bearer";
+    String successUserInfoResponse = "{\"login\" : \"우기\",\"id\" : \"1231\",\"email\" : \"bbwwpark@naver.com\",\"avatar_url\" : \"https://github.com/avatoar_url_image\" }";
     @Autowired
     private GithubOAuthProvider githubOAuthProvider;
-
     @Autowired
     private MockRestServiceServer mockServer;
-
     @Autowired
     private ObjectMapper objectMapper;
-
     @Value("${oauth.github.authorization-server-url}")
     private String authorizationServerUrl;
-
     @Value("${oauth.github.api-server-url}")
     private String apiServerUrl;
-
-    String successAccessTokenResponse = "access_token=gho_qyZHlZbp4l1SBgZke9Hq00ZUJW8&scope=&token_type=bearer";
-
-    String successUserInfoResponse = "{\"login\" : \"우기\",\"id\" : \"1231\",\"email\" : \"bbwwpark@naver.com\",\"avatar_url\" : \"https://github.com/avatoar_url_image\" }";
 
     @DisplayName("findSocialLoginUser 메서드는 깃헙 인증서버에 인가 코드를 전송해서 엑세스 토큰을 얻어와 카카오 api 서버에 보낸후 SocialLoginUser 객체를 받아온다.")
     @Test
@@ -59,7 +53,7 @@ public class GithubOAuthProviderTest {
 
     @DisplayName("findSocialLoginUser 메서드는 유효하지 않는 인가 코드로 요청을 보낼 경우 예외를 던진다.")
     @Test
-    void findSocialLoginResponse_fail(){
+    void findSocialLoginResponse_fail() {
         mockServer.expect(requestTo(authorizationServerUrl)).andRespond(withUnauthorizedRequest());
         mockServer.expect(requestTo(apiServerUrl)).andRespond(withSuccess(successUserInfoResponse, MediaType.APPLICATION_JSON));
 

@@ -29,4 +29,16 @@ public class CommentCreateRequest {
 
     @NotBlank
     private String url;
+
+    private boolean secret;
+
+    public CommentCreateRequest(String guestNickName, String guestPassword, Long parentId,
+        @NotBlank String projectSecretKey, @NotNull String content, @NotBlank String url) {
+        this.guestNickName = guestNickName;
+        this.guestPassword = guestPassword;
+        this.parentId = parentId;
+        this.projectSecretKey = projectSecretKey;
+        this.content = content;
+        this.url = url;
+    }
 }

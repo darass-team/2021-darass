@@ -19,4 +19,5 @@ public class CommentUpdateRequest {
     @NonNull
     private String content;
 
+    private boolean secret;
 }

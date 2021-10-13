@@ -49,21 +49,16 @@ import org.springframework.web.socket.sockjs.client.WebSocketTransport;
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 class CommentAlarmReceiveTest {
 
+    private final BlockingQueue<CommentAlarmResponse> commentAlarmResponses = new LinkedBlockingDeque<>();
     @LocalServerPort
     protected int port;
-
     @Autowired
     private CommentService commentService;
-
     @Autowired
     private UserRepository userRepository;
-
     @Autowired
     private ProjectRepository projectRepository;
-
     private Project project;
-
-    private final BlockingQueue<CommentAlarmResponse> commentAlarmResponses = new LinkedBlockingDeque<>();
 
     @BeforeEach
     void setup() {

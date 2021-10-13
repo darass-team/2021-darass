@@ -10,12 +10,12 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.requestF
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.darass.darass.AcceptanceTest;
 import com.darass.auth.domain.KaKaoOAuthProvider;
 import com.darass.auth.domain.OAuthProviderFactory;
 import com.darass.auth.dto.AccessTokenResponse;
 import com.darass.auth.dto.TokenRequest;
 import com.darass.auth.infrastructure.JwtTokenProvider;
+import com.darass.darass.AcceptanceTest;
 import com.darass.exception.ExceptionWithMessageAndCode;
 import com.darass.exception.dto.ExceptionResponse;
 import com.darass.user.domain.SocialLoginUser;
