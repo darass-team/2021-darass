@@ -37,6 +37,8 @@ describe("CommentInput test", () => {
       setScrollHeight.mockClear();
       createComment.mockClear();
     });
+
+    test("비밀글을 체크하고 Submit을 하면, 비밀댓글요청이 날아간다.", () => {});
     test("TextBox의 최대길이는 3000자이다.", () => {
       const props: Props = {
         user: socialLoginUser,

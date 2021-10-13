@@ -7,6 +7,7 @@ export const comments: Comment[] = [
     content: "댓글1",
     user: socialLoginUser,
     likingUsers: [],
+    secret: false,
     subComments: [
       {
         id: 11,
@@ -16,7 +17,8 @@ export const comments: Comment[] = [
         subComments: [],
         createdDate: "",
         modifiedDate: "",
-        url: "댓글2 url"
+        url: "댓글2 url",
+        secret: false
       }
     ],
     createdDate: "",
@@ -31,7 +33,8 @@ export const comments: Comment[] = [
     subComments: [],
     createdDate: "",
     modifiedDate: "",
-    url: "댓글2 url"
+    url: "댓글2 url",
+    secret: false
   },
   {
     id: 3,
@@ -41,6 +44,7 @@ export const comments: Comment[] = [
     subComments: [],
     createdDate: "",
     modifiedDate: "",
-    url: "댓글3 url"
+    url: "댓글3 url",
+    secret: false
   }
 ];

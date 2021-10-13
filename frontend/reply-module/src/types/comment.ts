@@ -8,6 +8,7 @@ export interface Comment {
   subComments: Comment[];
   createdDate: string;
   modifiedDate: string;
+  secret: boolean;
   url: string;
 }
 

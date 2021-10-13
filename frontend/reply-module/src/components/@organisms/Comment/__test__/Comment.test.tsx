@@ -12,6 +12,8 @@ jest.mock("@/hooks/api/comment/useCreateComment");
 
 describe("Comment test", () => {
   describe("logic test", () => {
+    test("비밀댓글이면, profileImageUrl이 guestProfileImageUrl이다.", () => {});
+
     test("isVisibleCommentOption이 false이면 CommentOption이 보이지 않는다.", () => {
       const props: Props = {
         user: undefined,
