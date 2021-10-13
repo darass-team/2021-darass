@@ -118,7 +118,7 @@ const Home = () => {
             <br />
             <HighlightText color={PALETTE.SECONDARY}>다라쓰</HighlightText>와 함께라면 당신의 블로그가 새로워질 거예요.
           </Text>
-          <PhoneImage src={phoneSmall} {...animation.section2.phoneSmall} />
+          <PhoneImage src={phoneSmall} alt="phone view" {...animation.section2.phoneSmall} />
         </Container>
       </SectionContainer>
 
