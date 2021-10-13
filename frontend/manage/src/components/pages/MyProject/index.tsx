@@ -13,7 +13,7 @@ import {
   LoadableStatistics
 } from "../Loadable";
 import LoadingPage from "../LoadingPage";
-import { AddProjectButton, ButtonWrapper, Container, Message } from "./styles";
+import { AddProjectButton, ButtonWrapper, Container, Message, Title, HeaderWrapper } from "./styles";
 import { useUserContext } from "@/hooks/context/useUserContext";
 
 const MyProject = () => {
@@ -45,7 +45,10 @@ const MyProject = () => {
   return (
     <ScreenContainer>
       <Container>
-        <AddProjectButton onClick={moveNewProjectPage}>Add new</AddProjectButton>
+        <HeaderWrapper>
+          <Title>내 프로젝트</Title>
+          <AddProjectButton onClick={moveNewProjectPage}>Add new</AddProjectButton>
+        </HeaderWrapper>
         <ButtonWrapper>
           {projects?.map(({ id, name, description }) => (
             <ProjectButton

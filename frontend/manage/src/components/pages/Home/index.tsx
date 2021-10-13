@@ -110,7 +110,7 @@ const Home = () => {
 
       <SectionContainer id="section2" bgColor={PALETTE.WHITE}>
         <Container {...animation.section2.questionText}>
-          <Text color={PALETTE.BLACK_700} fontSize={2}>
+          <Text as="h2" color={PALETTE.BLACK_700} fontSize={2}>
             내 모든 댓글 내역을 한눈에 조회하고 한 곳에서 관리하세요.
             <br />
             이제껏 경험 못 했던 쉽고 편리한 댓글 서비스,
@@ -123,7 +123,7 @@ const Home = () => {
 
       <SectionContainer id="section3" subtractMinHeight="50vh" bgImage={homeBackgroundImage2}>
         <Container>
-          <Text color={PALETTE.WHITE} fontSize={4}>
+          <Text as="h2" color={PALETTE.WHITE} fontSize={4}>
             내 홈페이지 댓글 관리,
             <br />
             <HighlightText color={PALETTE.PRIMARY}>
@@ -156,7 +156,7 @@ const Home = () => {
 
       <SectionContainer id="section4" subtractMinHeight="50vh" bgColor={PALETTE.WHITE}>
         <Container>
-          <Text color={PALETTE.BLACK_700} fontSize={3} textAlign="center" {...animation.section3.text}>
+          <Text as="h2" color={PALETTE.BLACK_700} fontSize={3} textAlign="center" {...animation.section3.text}>
             현재 사용중인 기업들
           </Text>
 

@@ -1,12 +1,26 @@
 import { PALETTE } from "@/constants/styles/palette";
 import styled from "styled-components";
 import { LINE_HEIGHT_SCALE } from "@/constants/styles/constants";
+import { titleCSS } from "@/constants/styles/css";
 
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   width: fit-content;
+`;
+
+export const HeaderWrapper = styled.div`
+  margin: 1rem 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+`;
+
+export const Title = styled.h2`
+  ${titleCSS};
+  margin-right: auto;
 `;
 
 export const AddProjectButton = styled.button`
