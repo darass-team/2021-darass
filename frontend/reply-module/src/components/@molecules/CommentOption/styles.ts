@@ -40,3 +40,7 @@ export const DeleteButton = styled.button`
   color: ${PALETTE.RED_600};
   background: transparent;
 `;
+export const ViewButton = styled.button`
+  color: ${PALETTE.BLACK_700};
+  background: transparent;
+`;

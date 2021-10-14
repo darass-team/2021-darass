@@ -5,10 +5,10 @@ import CommentOption, { Props } from "..";
 describe("CommentOption test", () => {
   const onClickEditButton = jest.fn();
   const onClickDeleteButton = jest.fn();
+  const onClickViewButton = jest.fn();
 
   beforeEach(() => {
-    onClickEditButton.mockClear();
-    onClickDeleteButton.mockClear();
+    jest.clearAllMocks();
   });
 
   describe("logic test", () => {
@@ -16,8 +16,10 @@ describe("CommentOption test", () => {
       const props: Props = {
         isVisibleEditButton: true,
         isVisibleDeleteButton: false,
+        isVisibleViewButton: false,
         onClickEditButton,
-        onClickDeleteButton
+        onClickDeleteButton,
+        onClickViewButton
       };
 
       const { getByTestId, getByAltText } = render(<CommentOption {...props} />);
@@ -31,8 +33,10 @@ describe("CommentOption test", () => {
       const props: Props = {
         isVisibleEditButton: false,
         isVisibleDeleteButton: true,
+        isVisibleViewButton: false,
         onClickEditButton,
-        onClickDeleteButton
+        onClickDeleteButton,
+        onClickViewButton
       };
 
       const { getByTestId, getByAltText } = render(<CommentOption {...props} />);
@@ -49,8 +53,10 @@ describe("CommentOption test", () => {
       const props: Props = {
         isVisibleEditButton: false,
         isVisibleDeleteButton: false,
+        isVisibleViewButton: false,
         onClickEditButton,
-        onClickDeleteButton
+        onClickDeleteButton,
+        onClickViewButton
       };
 
       const { queryByTestId, getByAltText } = render(<CommentOption {...props} />);
@@ -63,8 +69,10 @@ describe("CommentOption test", () => {
       const props: Props = {
         isVisibleEditButton: false,
         isVisibleDeleteButton: false,
+        isVisibleViewButton: false,
         onClickEditButton,
-        onClickDeleteButton
+        onClickDeleteButton,
+        onClickViewButton
       };
 
       const { queryByTestId, getByAltText } = render(<CommentOption {...props} />);
@@ -77,8 +85,10 @@ describe("CommentOption test", () => {
       const props: Props = {
         isVisibleEditButton: true,
         isVisibleDeleteButton: false,
+        isVisibleViewButton: false,
         onClickEditButton,
-        onClickDeleteButton
+        onClickDeleteButton,
+        onClickViewButton
       };
 
       const { queryByTestId, getByAltText } = render(<CommentOption {...props} />);
@@ -91,8 +101,10 @@ describe("CommentOption test", () => {
       const props: Props = {
         isVisibleEditButton: false,
         isVisibleDeleteButton: true,
+        isVisibleViewButton: false,
         onClickEditButton,
-        onClickDeleteButton
+        onClickDeleteButton,
+        onClickViewButton
       };
 
       const { queryByTestId, getByAltText } = render(<CommentOption {...props} />);

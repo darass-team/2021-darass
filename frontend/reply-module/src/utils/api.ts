@@ -15,6 +15,7 @@ import { AlertError } from "./alertError";
 import convertDateFormat from "./convertDateFormat";
 import { axiosBearerOption } from "./customAxios";
 import { request } from "./request";
+import { User } from "@/types/user";
 
 export const getAccessTokenByRefreshToken = async () => {
   try {
@@ -269,5 +270,27 @@ export const likeComment = async (id: Comment["id"]) => {
     }
 
     throw new AlertError("잠시 후 다시 시도해주세요.");
+  }
+};
+
+export const getSecretComment = async ({
+  commentId,
+  guestUserId,
+  guestUserPassword
+}: {
+  commentId: Comment["id"];
+  guestUserId: User["id"];
+  guestUserPassword: string;
+}) => {
+  try {
+    const response = await request.get(QUERY.GET_SECRET_COMMENT({ commentId, guestUserId, guestUserPassword }));
+
+    return response.data;
+  } catch (error) {
+    if (!axios.isAxiosError(error)) {
+      throw new AlertError("알 수 없는 에러입니다.");
+    }
+
+    throw new AlertError(error.message);
   }
 };

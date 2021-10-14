@@ -26,6 +26,7 @@ import {
   LikingUsersButton,
   SubCommentWrapper
 } from "./styles";
+import { useGetSecretComment } from "@/hooks/api/comment/useGetSecretComment";
 
 export interface Props {
   user?: User;
@@ -65,7 +66,7 @@ const Comment = ({
   const [isSubCommentInputOpen, setSubCommentInputOpen] = useState(false);
   const [isOpenPassWordForm, setIsOpenPassWordForm] = useState(false);
 
-  const [clickedOptionType, setClickedOptionType] = useState<"Edit" | "Delete">();
+  const [clickedOptionType, setClickedOptionType] = useState<"View" | "Edit" | "Delete">();
   const [isEditMode, setEditMode] = useState(false);
   const { value: password, setValue: _setPassword, onChange: onChangePassword } = useInput("");
 
@@ -76,6 +77,11 @@ const Comment = ({
   const { openConfirmModal, openAlert, openLikingUserModal, setScrollHeight } =
     useMessageChannelFromReplyModuleContext();
 
+  const { refetch: getSecretComment } = useGetSecretComment({
+    commentId: comment.id,
+    guestUserId: comment.user.id,
+    guestUserPassword: password
+  });
   const { editComment } = useEditComment();
   const { deleteComment } = useDeleteComment();
   const { likeComment } = useLikeComment();
@@ -87,6 +93,16 @@ const Comment = ({
     setClickedOptionType(undefined);
     setSubCommentInputOpen(false);
     setPassword("");
+  };
+
+  const onCliCkViewOptionButton = () => {
+    resetState();
+    setClickedOptionType("View");
+    if (user) {
+      getSecretComment();
+    } else {
+      setIsOpenPassWordForm(true);
+    }
   };
 
   const onClickEditOptionButton = () => {
@@ -162,6 +178,8 @@ const Comment = ({
       setEditMode(true);
     } else if (clickedOptionType === "Delete") {
       confirmDelete();
+    } else if (clickedOptionType === "View") {
+      getSecretComment();
     }
 
     setIsOpenPassWordForm(false);
@@ -203,7 +221,7 @@ const Comment = ({
     setClickedOptionType(undefined);
     setSubCommentInputOpen(false);
   }, [user]);
-  // todo: 비로그인 회원이 작성한 비밀댓글 조회기능 추가
+
   return (
     <>
       <Container>
@@ -225,8 +243,10 @@ const Comment = ({
 
             {isVisibleCommentOption && (
               <CommentOption
+                isVisibleViewButton={true}
                 isVisibleEditButton={canIEdit}
                 isVisibleDeleteButton={!!onClickDeleteOptionButton}
+                onClickViewButton={onCliCkViewOptionButton}
                 onClickEditButton={onClickEditOptionButton}
                 onClickDeleteButton={onClickDeleteOptionButton}
                 data-testid="comment-option"
