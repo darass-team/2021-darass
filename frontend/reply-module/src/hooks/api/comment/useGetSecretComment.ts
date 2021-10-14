@@ -33,6 +33,7 @@ export const useGetSecretComment = ({ commentId, guestUserId, guestUserPassword 
       const newComments: Comment[] = commentData.comments.reduce((acc: Comment[], curr: Comment) => {
         if (curr.id === data.id) {
           curr.content = data.content;
+          curr.readable = data.readable;
         }
 
         acc.push(curr);

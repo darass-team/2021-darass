@@ -237,12 +237,12 @@ const Comment = ({
               resetState={resetState}
               onSubmitEditedComment={onSubmitEditedComment}
             >
-              {comment.content}
+              {comment.readable ? comment.content : "비밀글입니다."}
             </CommentTextBox>
 
             {isVisibleCommentOption && (
               <CommentOption
-                isVisibleViewButton={!user && comment.secret}
+                isVisibleViewButton={!comment.readable}
                 isVisibleEditButton={canIEdit}
                 isVisibleDeleteButton={!!onClickDeleteOptionButton}
                 onClickViewButton={onCliCkViewOptionButton}

@@ -9,6 +9,7 @@ export interface Comment {
   createdDate: string;
   modifiedDate: string;
   secret: boolean;
+  readable: boolean;
   url: string;
 }
 
