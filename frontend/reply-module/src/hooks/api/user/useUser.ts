@@ -1,6 +1,7 @@
 import { REACT_QUERY_KEY } from "@/constants/reactQueryKey";
 import { User } from "@/types/user";
 import { getUser } from "@/utils/api";
+import { useEffect } from "react";
 import { useQuery, useQueryClient } from "react-query";
 
 interface Props {
@@ -26,10 +27,13 @@ export const useUser = ({ accessToken, removeAccessToken }: Props) => {
     if (!removeAccessToken) return;
 
     removeAccessToken();
+  };
+
+  useEffect(() => {
     queryClient.setQueryData<User | undefined>(REACT_QUERY_KEY.USER, () => {
       return undefined;
     });
-  };
+  }, [accessToken]);
 
   return { user, isLoading, error, refetch, logout, isSuccess };
 };

@@ -1,4 +1,3 @@
-import { socialLoginUser } from "@/__test__/fixture/user";
 import { render } from "@testing-library/react";
 import LikingUsersModal from "..";
 

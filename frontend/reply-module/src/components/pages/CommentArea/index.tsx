@@ -57,6 +57,10 @@ const CommentArea = () => {
   }, [sortOption]);
 
   useEffect(() => {
+    refetchAllComments();
+  }, [user]);
+
+  useEffect(() => {
     if (getProjectOwnerIdLoading || commentsLoading) return;
 
     if (!url) {

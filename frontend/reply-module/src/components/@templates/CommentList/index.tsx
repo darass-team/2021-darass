@@ -80,7 +80,7 @@ const CommentList = ({
           const canIDelete = canIEdit || iAmAdmin;
           return (
             <Comment
-              key={comment.id}
+              key={comment.id + comment.content}
               user={user}
               projectOwnerId={projectOwnerId}
               comment={comment}
