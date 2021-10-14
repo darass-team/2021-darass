@@ -4,6 +4,7 @@ import { useContentEditable } from "@/hooks";
 import { Comment } from "@/types";
 import { User } from "@/types/user";
 import { focusContentEditableTextToEnd } from "@/utils/focusContentEditableTextToEnd";
+import { comments } from "@/__test__/fixture/comments";
 import { useEffect, useState } from "react";
 import { ButtonWrapper, CancelButton, Container, Name, Text } from "./styles";
 
@@ -14,6 +15,7 @@ export interface Props {
   thisCommentIsWrittenByAdmin: boolean;
   isSubComment: boolean;
   isSecretComment: boolean;
+  isReadable: boolean;
   resetState: () => void;
   onSubmitEditedComment: ({ content, secret }: { content: Comment["content"]; secret: boolean }) => void;
 }
@@ -25,6 +27,7 @@ const CommentTextBox = ({
   thisCommentIsWrittenByAdmin,
   isSubComment,
   isSecretComment,
+  isReadable,
   resetState,
   onSubmitEditedComment
 }: Props) => {
@@ -50,7 +53,11 @@ const CommentTextBox = ({
 
   return (
     <Container isSubComment={isSubComment}>
-      <Name thisCommentIsWrittenByAdmin={thisCommentIsWrittenByAdmin} isSecretComment={isSecretComment}>
+      <Name
+        thisCommentIsWrittenByAdmin={thisCommentIsWrittenByAdmin}
+        isSecretComment={isSecretComment}
+        isReadable={isReadable}
+      >
         {name}
       </Name>
       <Text

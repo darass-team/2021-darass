@@ -16,28 +16,36 @@ export const Container = styled.div<{ isSubComment: boolean }>`
 
 const createMetaUserInfo = ({
   thisCommentIsWrittenByAdmin,
-  isSecretComment
+  isSecretComment,
+  isReadable
 }: {
   thisCommentIsWrittenByAdmin: boolean;
   isSecretComment: boolean;
+  isReadable: boolean;
 }) => {
   let content = "";
 
   if (thisCommentIsWrittenByAdmin) content += "운영자";
-  if (isSecretComment) content += " 🔒";
+  if (isSecretComment) {
+    content += ` ${isReadable ? "🔓" : "🔒"}`;
+  }
 
   return content;
 };
 
-export const Name = styled.span<{ thisCommentIsWrittenByAdmin: boolean; isSecretComment: boolean }>`
+export const Name = styled.span<{
+  thisCommentIsWrittenByAdmin: boolean;
+  isSecretComment: boolean;
+  isReadable: boolean;
+}>`
   font-weight: 700;
   font-size: 1.1rem;
   line-height: 1.65rem;
   margin-bottom: 0.2rem;
   margin-right: 2rem;
 
-  ${({ thisCommentIsWrittenByAdmin, isSecretComment }) => {
-    const text = createMetaUserInfo({ thisCommentIsWrittenByAdmin, isSecretComment });
+  ${({ thisCommentIsWrittenByAdmin, isSecretComment, isReadable }) => {
+    const text = createMetaUserInfo({ thisCommentIsWrittenByAdmin, isSecretComment, isReadable });
 
     return css`
       &:after {

@@ -233,6 +233,7 @@ const Comment = ({
               thisCommentIsWrittenByAdmin={thisCommentIsWrittenByAdmin}
               isSubComment={isSubComment}
               isSecretComment={comment.secret}
+              isReadable={comment.readable}
               contentEditable={isEditMode}
               resetState={resetState}
               onSubmitEditedComment={onSubmitEditedComment}
