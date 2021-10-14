@@ -448,8 +448,8 @@ class CommentServiceTest extends SpringContainerTest {
     void readSecretComment_guest_user() {
         CommentReadSecretCommentRequest request = new CommentReadSecretCommentRequest(guestUser.getId(), guestUser.getPassword());
         commentService.readSecretComment(comments.get(3).getId(), guestUser, request);
-        assertThat(commentRepository.findById(comments.get(2).getId()).get().getContent())
-            .isNotEqualTo(Comment.SECRET_COMMENT_CONTENT);
+        assertThat(commentRepository.findById(comments.get(2).getId()).get().isReadable())
+            .isTrue();
     }
 
     @DisplayName("비로그인 유저가 비밀번호를 틀리면 비밀 댓글을 조회할 수 없다.")
@@ -552,7 +552,7 @@ class CommentServiceTest extends SpringContainerTest {
 
         for (CommentResponse commentResponse : responses.getComments()) {
             if (commentResponse.isSecret()) {
-                assertThat(commentResponse.getContent()).isEqualTo(Comment.SECRET_COMMENT_CONTENT);
+                assertThat(commentResponse.isReadable()).isFalse();
             }
         }
     }
@@ -567,10 +567,10 @@ class CommentServiceTest extends SpringContainerTest {
         for (CommentResponse commentResponse : responses.getComments()) {
             if (commentResponse.isSecret()) {
                 if (socialLoginUser.isSameUser(commentResponse.getUser().getId())) {
-                    assertThat(commentResponse.getContent()).isNotEqualTo(Comment.SECRET_COMMENT_CONTENT);
+                    assertThat(commentResponse.isReadable()).isTrue();
                     continue;
                 }
-                assertThat(commentResponse.getContent()).isEqualTo(Comment.SECRET_COMMENT_CONTENT);
+                assertThat(commentResponse.isReadable()).isFalse();
             }
         }
     }
@@ -583,7 +583,7 @@ class CommentServiceTest extends SpringContainerTest {
             .findAllCommentsByUrlAndProjectKey(socialLoginUser, request);
 
         for (CommentResponse commentResponse : responses.getComments()) {
-            assertThat(commentResponse.getContent()).isNotEqualTo(Comment.SECRET_COMMENT_CONTENT);
+            assertThat(commentResponse.isReadable()).isTrue();
         }
     }
 }
