@@ -40,7 +40,8 @@ describe("useCreateComment test", () => {
       guestNickName: "123",
       guestUserPassword: "parse",
       url: "0xb",
-      projectSecretKey: "aliquam"
+      projectSecretKey: "aliquam",
+      secret: false
     });
     expect(mutateAsync).toHaveBeenCalled();
   });

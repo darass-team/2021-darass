@@ -3,7 +3,6 @@ import styled from "styled-components";
 import { LINE_HEIGHT_SCALE } from "@/constants/styles/constants";
 
 export const Label = styled.label`
-  font-size: 1.2rem;
   line-height: 0;
   display: flex;
   align-items: center;
@@ -11,14 +10,14 @@ export const Label = styled.label`
 
 export const Input = styled.input<{ hasLabelText: boolean }>`
   appearance: none;
-  height: 2rem;
-  width: 2rem;
+  height: 1.5rem;
+  width: 1.5rem;
   background: ${PALETTE.GRAY_500};
   border: none;
   color: ${PALETTE.WHITE};
   cursor: pointer;
   outline: none;
-  margin-right: ${({ hasLabelText }) => (hasLabelText ? 1 : 0)}rem;
+  margin-right: ${({ hasLabelText }) => (hasLabelText ? 0.5 : 0)}rem;
   border-radius: 0.5rem;
 
   @media (hover: hover) and (pointer: fine) {
@@ -34,10 +33,9 @@ export const Input = styled.input<{ hasLabelText: boolean }>`
   &:checked::before {
     display: flex;
     justify-content: center;
-    font-size: 1.3rem;
+    font-size: 1.1rem;
     color: ${PALETTE.WHITE};
     content: "✔";
     text-align: center;
-    line-height: ${1.3 * LINE_HEIGHT_SCALE}rem;
   }
 `;

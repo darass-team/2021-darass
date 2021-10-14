@@ -28,6 +28,7 @@ export interface ScriptInfo {
 export interface CreateCommentRequestData extends Omit<GuestUserInfo, "guestUserId">, ScriptInfo {
   content: string;
   parentId?: Comment["id"];
+  secret: boolean;
 }
 
 export interface GetCommentsRequestParams extends ScriptInfo {

@@ -156,7 +156,8 @@ describe("api test", () => {
         url: "darass.co.kr",
         projectSecretKey: "secretKey",
         guestNickName: "nickname",
-        guestUserPassword: "123"
+        guestUserPassword: "123",
+        secret: true
       };
       const res = await postCreateComment(data);
 
