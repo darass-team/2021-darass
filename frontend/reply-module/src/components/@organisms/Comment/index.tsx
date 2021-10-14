@@ -143,7 +143,7 @@ const Comment = ({
     }
   };
 
-  const onSubmitEditedComment = async (content: CommentType["content"]) => {
+  const onSubmitEditedComment = async ({ content, secret }: { content: CommentType["content"]; secret: boolean }) => {
     try {
       const isValidContent = !isEmptyString(content) && content.length <= MAX_COMMENT_INPUT_LENGTH;
 
@@ -159,7 +159,7 @@ const Comment = ({
         content,
         guestUserId: comment.user.id,
         guestUserPassword: password,
-        secret: comment.secret
+        secret
       });
 
       setEditMode(false);
@@ -242,7 +242,7 @@ const Comment = ({
 
             {isVisibleCommentOption && (
               <CommentOption
-                isVisibleViewButton={!user}
+                isVisibleViewButton={!user && comment.secret}
                 isVisibleEditButton={canIEdit}
                 isVisibleDeleteButton={!!onClickDeleteOptionButton}
                 onClickViewButton={onCliCkViewOptionButton}

@@ -1,9 +1,10 @@
+import CheckBox from "@/components/@atoms/CheckBox";
 import SubmitButton from "@/components/@atoms/SubmitButton";
 import { useContentEditable } from "@/hooks";
 import { Comment } from "@/types";
 import { User } from "@/types/user";
 import { focusContentEditableTextToEnd } from "@/utils/focusContentEditableTextToEnd";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { ButtonWrapper, CancelButton, Container, Name, Text } from "./styles";
 
 export interface Props {
@@ -14,7 +15,7 @@ export interface Props {
   isSubComment: boolean;
   isSecretComment: boolean;
   resetState: () => void;
-  onSubmitEditedComment: (content: Comment["content"]) => void;
+  onSubmitEditedComment: ({ content, secret }: { content: Comment["content"]; secret: boolean }) => void;
 }
 
 const CommentTextBox = ({
@@ -29,8 +30,15 @@ const CommentTextBox = ({
 }: Props) => {
   const { content, setContent, onInput, $contentEditable } = useContentEditable(children);
 
+  const [secretMode, setSecretMode] = useState(isSecretComment);
+
+  const onClickSecretModeCheckbox = () => {
+    setSecretMode(state => !state);
+  };
+
   const onClickCancelButton = () => {
     setContent(children);
+    setSecretMode(isSecretComment);
     resetState();
   };
 
@@ -56,13 +64,16 @@ const CommentTextBox = ({
       />
       {contentEditable && (
         <ButtonWrapper>
+          <CheckBox isChecked={secretMode} onChange={onClickSecretModeCheckbox} labelText="비밀글" />
+
           <CancelButton onClick={onClickCancelButton} data-testid="comment-text-box-cancel-button">
             취소
           </CancelButton>
+
           <SubmitButton
             type="button"
             disabled={content.length === 0}
-            onClick={() => onSubmitEditedComment(content)}
+            onClick={() => onSubmitEditedComment({ content, secret: secretMode })}
             data-testid="comment-text-box-submit-button"
           >
             등록

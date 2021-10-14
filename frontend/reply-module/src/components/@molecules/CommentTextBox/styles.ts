@@ -82,9 +82,12 @@ export const Text = styled.div<{ isSubComment: boolean; contentEditable: boolean
 `;
 
 export const ButtonWrapper = styled.div`
+  margin-top: 1rem;
+  width: 100%;
   display: flex;
   margin-bottom: 0.5rem;
-  margin-left: auto;
+  align-items: center;
+  justify-content: flex-start;
 
   & > button {
     padding: 0;
@@ -93,10 +96,10 @@ export const ButtonWrapper = styled.div`
     font-size: 1rem;
     line-height: 1.5rem;
     border-radius: 10px;
-    margin-top: 1rem;
   }
 `;
 
 export const CancelButton = styled(CancelButtonComponent)`
-  margin-right: 0.3rem;
+  margin-left: auto;
+  margin-right: 0.5rem;
 `;

@@ -1,13 +1,15 @@
 import { Comment } from "@/types";
 import { GetAlarmResponse } from "@/types/comment";
-import { POST_MESSAGE_TYPE } from "../constants/postMessageType";
+import { POST_MESSAGE_TYPE } from "@/constants/postMessageType";
 
 export const messageFromReplyModule = (port?: MessagePort) => {
   return {
     setScrollHeight: () => {
+      const height = Number(document.querySelector("#root")?.scrollHeight);
+
       port?.postMessage({
         type: POST_MESSAGE_TYPE.SCROLL_HEIGHT,
-        data: document.querySelector("#root")?.scrollHeight
+        data: height
       });
     },
     openAlert: (message: string) => {
