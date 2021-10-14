@@ -199,7 +199,8 @@ describe("api test", () => {
         id: 1,
         content: "",
         guestUserId: 2,
-        guestUserPassword: "123"
+        guestUserPassword: "123",
+        secret: false
       };
 
       const res = await editComment(data);

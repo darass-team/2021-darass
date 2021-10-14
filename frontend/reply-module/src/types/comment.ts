@@ -52,9 +52,9 @@ export interface GetAlarmResponse {
 
 export type GetProjectRequestParams = Pick<ScriptInfo, "projectSecretKey">;
 
-export type EditCommentRequestData = Pick<Comment, "content"> & Omit<GuestUserInfo, "guestNickName">;
+export type EditCommentRequestData = Pick<Comment, "content" | "secret"> & Omit<GuestUserInfo, "guestNickName">;
 
-export type EditCommentParameter = Pick<Comment, "id" | "content"> & Omit<GuestUserInfo, "guestNickName">;
+export type EditCommentParameter = Pick<Comment, "id" | "content" | "secret"> & Omit<GuestUserInfo, "guestNickName">;
 
 export type DeleteCommentRequestParameter = Pick<Comment, "id"> & Omit<GuestUserInfo, "guestNickName">;
 

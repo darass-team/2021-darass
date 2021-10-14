@@ -51,7 +51,7 @@ const CommentOption = ({
       <OptionIcon src={threeDots} alt="댓글 옵션" onClick={onToggleOptionBox} />
       <Modal isOpen={isShowOptionBox} closeModal={onCloseModal} dimmedOpacity={0} data-testid="comment-option-modal">
         <OptionContainer>
-          {isVisibleDeleteButton && (
+          {isVisibleViewButton && (
             <ViewButton type="button" onClick={onView} data-testid="comment-option-view-button">
               조회
             </ViewButton>

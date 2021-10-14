@@ -98,9 +98,7 @@ const Comment = ({
   const onCliCkViewOptionButton = () => {
     resetState();
     setClickedOptionType("View");
-    if (user) {
-      getSecretComment();
-    } else {
+    if (!user) {
       setIsOpenPassWordForm(true);
     }
   };
@@ -160,7 +158,8 @@ const Comment = ({
         id: comment.id,
         content,
         guestUserId: comment.user.id,
-        guestUserPassword: password
+        guestUserPassword: password,
+        secret: comment.secret
       });
 
       setEditMode(false);
@@ -243,7 +242,7 @@ const Comment = ({
 
             {isVisibleCommentOption && (
               <CommentOption
-                isVisibleViewButton={true}
+                isVisibleViewButton={!user}
                 isVisibleEditButton={canIEdit}
                 isVisibleDeleteButton={!!onClickDeleteOptionButton}
                 onClickViewButton={onCliCkViewOptionButton}

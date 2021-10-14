@@ -191,7 +191,8 @@ export const editComment = async (editedComment: EditCommentParameter) => {
     const response = await request.patch<EditCommentRequestData>(`${QUERY.COMMENT}/${editedComment.id}`, {
       content: editedComment.content,
       guestUserId: editedComment.guestUserId,
-      guestUserPassword: editedComment.guestUserPassword
+      guestUserPassword: editedComment.guestUserPassword,
+      secret: editedComment.secret
     });
 
     return response.data;

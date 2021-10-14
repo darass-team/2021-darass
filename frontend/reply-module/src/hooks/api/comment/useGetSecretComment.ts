@@ -30,16 +30,15 @@ export const useGetSecretComment = ({ commentId, guestUserId, guestUserPassword 
     queryClient.setQueryData<GetCommentsResponse | undefined>([REACT_QUERY_KEY.COMMENT], commentData => {
       if (!commentData) return;
 
-      const newComments: Comment[] =
-        commentData?.comments.reduce((acc: Comment[], curr: Comment) => {
-          if (curr.id === data.id) {
-            curr.content = data.content;
-          }
+      const newComments: Comment[] = commentData.comments.reduce((acc: Comment[], curr: Comment) => {
+        if (curr.id === data.id) {
+          curr.content = data.content;
+        }
 
-          acc.push(curr);
+        acc.push(curr);
 
-          return acc;
-        }, []) || [];
+        return acc;
+      }, []);
 
       return {
         totalComment: commentData.totalComment,
