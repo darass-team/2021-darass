@@ -118,7 +118,7 @@ class CommentsTest {
 
         for (Comment comment : comments.getComments()) {
             if (comment.isSecret()) {
-                assertThat(comment.getContent()).isEqualTo(Comment.SECRET_COMMENT_CONTENT);
+                assertThat(comment.isReadable()).isFalse();
             }
         }
     }
@@ -145,10 +145,10 @@ class CommentsTest {
         for (Comment comment : comments.getComments()) {
             if (comment.isSecret()) {
                 if (socialLoginUser.isSameUser(comment.getUser())) {
-                    assertThat(comment.getContent()).isNotEqualTo(Comment.SECRET_COMMENT_CONTENT);
+                    assertThat(comment.isReadable()).isTrue();
                     continue;
                 }
-                assertThat(comment.getContent()).isEqualTo(Comment.SECRET_COMMENT_CONTENT);
+                assertThat(comment.isReadable()).isFalse();
             }
         }
     }
@@ -173,7 +173,7 @@ class CommentsTest {
         comments.handleSecretComments(socialLoginUser, jekyllProject.getAdminUserId());
 
         for (Comment comment : comments.getComments()) {
-            assertThat(comment.getContent()).isNotEqualTo(Comment.SECRET_COMMENT_CONTENT);
+            assertThat(comment.isReadable()).isTrue();
         }
     }
 

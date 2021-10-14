@@ -22,6 +22,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -34,7 +35,6 @@ import org.hibernate.annotations.OnDeleteAction;
 @Entity
 public class Comment extends BaseTimeEntity {
 
-    public static final String SECRET_COMMENT_CONTENT = "[비밀 댓글입니다.]";
     private static final int CONTENT_LENGTH_LIMIT = 3000;
 
     @OneToMany(mappedBy = "comment", fetch = LAZY, cascade = ALL, orphanRemoval = true)
@@ -72,6 +72,9 @@ public class Comment extends BaseTimeEntity {
     private String content;
 
     private boolean secret;
+
+    @Transient
+    private boolean readable = true;
 
     @Formula("(select count(*) from comment_like where comment_like.comment_id=id)")
     private int likeCount;
@@ -165,17 +168,17 @@ public class Comment extends BaseTimeEntity {
 
     public void handleSecretComment() {
         if (this.secret) {
-            replaceCommentInfoToSecret();
+            changeUnreadableComment();
         }
         for (Comment subComment : this.subComments) {
             if (subComment.secret) {
-                subComment.replaceCommentInfoToSecret();
+                subComment.changeUnreadableComment();
             }
         }
     }
 
-    public void replaceCommentInfoToSecret() {
-        this.changeContent(SECRET_COMMENT_CONTENT);
+    public void changeUnreadableComment() {
+        this.readable = false;
     }
 
     public void changeSecretStatus(boolean secret) {

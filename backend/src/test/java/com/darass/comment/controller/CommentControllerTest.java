@@ -67,7 +67,7 @@ public class CommentControllerTest {
         GuestUser user = new GuestUser();
 
         given(commentService.readSecretComment(eq(commentId), eq(user), any()))
-                .willReturn(new CommentResponse(1L, "content", "url", true, LocalDateTime.now(), LocalDateTime.now(),
+                .willReturn(new CommentResponse(1L, "content", "url", true, true, LocalDateTime.now(), LocalDateTime.now(),
                         null, UserResponse.of(socialLoginUser), null));
 
         mockMvc.perform(get("/api/v1/comments/" + commentId + "/secret-comment")

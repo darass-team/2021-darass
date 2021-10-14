@@ -158,7 +158,8 @@ class CommentAlarmControllerTest extends AcceptanceTest {
                     fieldWithPath("[].comment.user.createdDate").optional().type(JsonFieldType.STRING).description("알람에 해당하는 댓글 작성한 유저 생성 시점"),
                     fieldWithPath("[].comment.user.modifiedDate").optional().type(JsonFieldType.STRING).description("알람에 해당하는 댓글 작성한 유저 수정 시점"),
                     fieldWithPath("[].comment.subComments").optional().type(JsonFieldType.ARRAY).description("알람에 해당하는 댓글 대댓글 정보"),
-                    fieldWithPath("[].comment.secret").type(JsonFieldType.BOOLEAN).description("댓글 공개/비공개 여부")
+                    fieldWithPath("[].comment.secret").type(JsonFieldType.BOOLEAN).description("댓글 공개/비공개 여부"),
+                    fieldWithPath("[].comment.readable").type(JsonFieldType.BOOLEAN).description("댓글 조회 가능 여부")
                 ))
             );
     }
