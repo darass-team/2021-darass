@@ -65,7 +65,8 @@ const config = {
     new HtmlWebpackPlugin({
       filename: "modal.html",
       chunks: ["replyModal"],
-      template: "./public/modal.html"
+      template: "./public/modal.html",
+      inject: false
     }),
     new DefinePlugin({
       "process.env.BUILD_MODE": JSON.stringify(process.env.BUILD_MODE)
