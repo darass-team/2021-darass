@@ -14,27 +14,44 @@ export const Container = styled.div<{ isSubComment: boolean }>`
   transition: all 0.3s linear;
 `;
 
-export const Name = styled.span<{ thisCommentIsWrittenByAdmin: boolean }>`
+const createMetaUserInfo = ({
+  thisCommentIsWrittenByAdmin,
+  isSecretComment
+}: {
+  thisCommentIsWrittenByAdmin: boolean;
+  isSecretComment: boolean;
+}) => {
+  let content = "";
+
+  if (thisCommentIsWrittenByAdmin) content += "운영자";
+  if (isSecretComment) content += " 🔒";
+
+  return content;
+};
+
+export const Name = styled.span<{ thisCommentIsWrittenByAdmin: boolean; isSecretComment: boolean }>`
   font-weight: 700;
   font-size: 1.1rem;
   line-height: 1.65rem;
   margin-bottom: 0.2rem;
   margin-right: 2rem;
 
-  ${props =>
-    props.thisCommentIsWrittenByAdmin &&
-    css`
+  ${({ thisCommentIsWrittenByAdmin, isSecretComment }) => {
+    const text = createMetaUserInfo({ thisCommentIsWrittenByAdmin, isSecretComment });
+
+    return css`
       &:after {
-        content: "운영자";
+        content: "${text}";
         font-size: 0.9rem;
         line-height: 1.35rem;
         margin-left: 0.3rem;
         color: ${PALETTE.INDIGO_600};
       }
-    `}
+    `;
+  }};
 `;
 
-export const Text = styled.div<{ isSubComment: boolean; contentEditable: boolean }>`
+export const Text = styled.div<{ isSubComment: boolean; contentEditable: boolean; isSecretComment: boolean }>`
   outline-color: ${PALETTE.BLACK_700};
   background-color: ${props => {
     if (props.contentEditable) {
@@ -46,6 +63,15 @@ export const Text = styled.div<{ isSubComment: boolean; contentEditable: boolean
 
     return PALETTE.GRAY_100;
   }};
+
+  color: ${props => {
+    if (props.isSecretComment) {
+      return PALETTE.GRAY_600;
+    }
+
+    return PALETTE.BLACK_900;
+  }};
+
   padding: 0.2rem 0.3rem 0.2rem 0.1rem;
   min-width: 14rem;
   border-radius: 0.3rem;

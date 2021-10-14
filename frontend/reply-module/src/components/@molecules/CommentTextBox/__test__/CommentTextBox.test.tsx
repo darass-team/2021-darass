@@ -35,6 +35,7 @@ describe("CommentTextBox test", () => {
         contentEditable: true,
         thisCommentIsWrittenByAdmin: false,
         isSubComment: false,
+        isSecretComment: false,
         resetState,
         onSubmitEditedComment
       };
@@ -54,6 +55,7 @@ describe("CommentTextBox test", () => {
         children: comments[0].content,
         thisCommentIsWrittenByAdmin: true,
         isSubComment: true,
+        isSecretComment: false,
         resetState,
         onSubmitEditedComment
       };
@@ -74,6 +76,7 @@ describe("CommentTextBox test", () => {
         contentEditable: true,
         thisCommentIsWrittenByAdmin: false,
         isSubComment: false,
+        isSecretComment: false,
         resetState,
         onSubmitEditedComment
       };
@@ -94,6 +97,7 @@ describe("CommentTextBox test", () => {
         contentEditable: true,
         thisCommentIsWrittenByAdmin: false,
         isSubComment: false,
+        isSecretComment: false,
         resetState,
         onSubmitEditedComment
       };

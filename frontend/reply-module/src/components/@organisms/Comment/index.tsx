@@ -203,8 +203,7 @@ const Comment = ({
     setClickedOptionType(undefined);
     setSubCommentInputOpen(false);
   }, [user]);
-  // TODO: 비밀댓글입니다 글자색 회색으로 바꾸기
-  // todo: 볼 수 없는 비밀댓글에 답글을 달 수 있는가?
+  // todo: 비로그인 회원이 작성한 비밀댓글 조회기능 추가
   return (
     <>
       <Container>
@@ -216,6 +215,7 @@ const Comment = ({
               name={comment.user.nickName}
               thisCommentIsWrittenByAdmin={thisCommentIsWrittenByAdmin}
               isSubComment={isSubComment}
+              isSecretComment={comment.secret}
               contentEditable={isEditMode}
               resetState={resetState}
               onSubmitEditedComment={onSubmitEditedComment}
