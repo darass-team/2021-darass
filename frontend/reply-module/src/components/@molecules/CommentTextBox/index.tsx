@@ -4,7 +4,6 @@ import { useContentEditable } from "@/hooks";
 import { Comment } from "@/types";
 import { User } from "@/types/user";
 import { focusContentEditableTextToEnd } from "@/utils/focusContentEditableTextToEnd";
-import { comments } from "@/__test__/fixture/comments";
 import { useEffect, useState } from "react";
 import { ButtonWrapper, CancelButton, Container, Name, Text } from "./styles";
 
@@ -65,6 +64,7 @@ const CommentTextBox = ({
         contentEditable={contentEditable}
         isSecretComment={isSecretComment}
         isSubComment={isSubComment}
+        isReadable={isReadable}
         suppressContentEditableWarning={true}
         onInput={onInput}
         data-testid="comment-text-box-contenteditable-input"

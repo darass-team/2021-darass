@@ -33,7 +33,7 @@ const createMetaUserInfo = ({
   return content;
 };
 
-export const Name = styled.span<{
+export const Name = styled.div<{
   thisCommentIsWrittenByAdmin: boolean;
   isSecretComment: boolean;
   isReadable: boolean;
@@ -59,7 +59,12 @@ export const Name = styled.span<{
   }};
 `;
 
-export const Text = styled.div<{ isSubComment: boolean; contentEditable: boolean; isSecretComment: boolean }>`
+export const Text = styled.div<{
+  isSubComment: boolean;
+  contentEditable: boolean;
+  isSecretComment: boolean;
+  isReadable: boolean;
+}>`
   outline-color: ${PALETTE.BLACK_700};
   background-color: ${props => {
     if (props.contentEditable) {
@@ -73,7 +78,7 @@ export const Text = styled.div<{ isSubComment: boolean; contentEditable: boolean
   }};
 
   color: ${props => {
-    if (props.isSecretComment) {
+    if (props.isSecretComment && !props.isReadable) {
       return PALETTE.GRAY_600;
     }
 
