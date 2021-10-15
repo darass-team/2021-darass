@@ -57,7 +57,7 @@ const CommentTextBox = ({
         isSecretComment={isSecretComment}
         isReadable={isReadable}
       >
-        {name}
+        {isReadable ? name : "익명"}
       </Name>
       <Text
         ref={$contentEditable}

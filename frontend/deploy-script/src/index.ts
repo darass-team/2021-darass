@@ -39,7 +39,7 @@ const init = () => {
         [messageChannel.replyModule.port2]
       );
     } catch (error) {
-      alert("댓글 모듈을 로드하는데에 실패하셨습니다. ");
+      console.error("댓글 모듈을 로드하는데에 실패하셨습니다. ");
     }
   };
 
@@ -51,7 +51,7 @@ const init = () => {
         [messageChannel.replyModal.port2]
       );
     } catch (error) {
-      alert("댓글 모달을 로드하는데에 실패하셨습니다.");
+      console.error("댓글 모달을 로드하는데에 실패하셨습니다.");
     }
   };
 

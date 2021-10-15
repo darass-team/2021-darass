@@ -25,7 +25,7 @@ const createMetaUserInfo = ({
 }) => {
   let content = "";
 
-  if (thisCommentIsWrittenByAdmin) content += "운영자";
+  if (thisCommentIsWrittenByAdmin && isReadable) content += "운영자";
   if (isSecretComment) {
     content += ` ${isReadable ? "🔓" : "🔒"}`;
   }

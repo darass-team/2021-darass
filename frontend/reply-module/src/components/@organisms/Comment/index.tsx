@@ -208,7 +208,7 @@ const Comment = ({
     <>
       <Container>
         <CommentWrapper>
-          <Avatar imageURL={avatarImageURL} />
+          <Avatar imageURL={isReadable ? avatarImageURL : undefined} />
 
           <ContentWrapper>
             <CommentTextBox
@@ -244,7 +244,7 @@ const Comment = ({
               commentCreatedDate={comment.createdDate}
             />
 
-            {hasLikingUser && (
+            {hasLikingUser && isReadable && (
               <LikingUsersButton
                 numOfLikes={comment.likingUsers.length}
                 alreadyLiked={alreadyLiked}
