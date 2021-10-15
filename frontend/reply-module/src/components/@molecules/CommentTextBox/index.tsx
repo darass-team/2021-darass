@@ -15,6 +15,7 @@ export interface Props {
   isSubComment: boolean;
   isSecretComment: boolean;
   isReadable: boolean;
+  thisCommentIsWrittenByGuest: boolean;
   resetState: () => void;
   onSubmitEditedComment: ({ content, secret }: { content: Comment["content"]; secret: boolean }) => void;
 }
@@ -27,6 +28,7 @@ const CommentTextBox = ({
   isSubComment,
   isSecretComment,
   isReadable,
+  thisCommentIsWrittenByGuest,
   resetState,
   onSubmitEditedComment
 }: Props) => {
@@ -57,7 +59,7 @@ const CommentTextBox = ({
         isSecretComment={isSecretComment}
         isReadable={isReadable}
       >
-        {isReadable ? name : "익명"}
+        {thisCommentIsWrittenByGuest || isReadable ? name : "익명"}
       </Name>
       <Text
         ref={$contentEditable}
