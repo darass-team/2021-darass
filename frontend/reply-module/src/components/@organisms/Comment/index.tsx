@@ -40,6 +40,7 @@ export interface Props {
   thisCommentIsWrittenByGuest: boolean;
   thisCommentIsMine: boolean;
   isSubComment: boolean;
+  isReadable: boolean;
   alreadyLiked: boolean;
   canIEdit: boolean;
   canIDelete: boolean;
@@ -56,6 +57,7 @@ const Comment = ({
   thisCommentIsWrittenByGuest,
   thisCommentIsMine,
   isSubComment,
+  isReadable,
   alreadyLiked,
   hasSubComments,
   hasLikingUser,
@@ -214,17 +216,17 @@ const Comment = ({
               thisCommentIsWrittenByAdmin={thisCommentIsWrittenByAdmin}
               isSubComment={isSubComment}
               isSecretComment={comment.secret}
-              isReadable={comment.readable}
+              isReadable={isReadable}
               contentEditable={isEditMode}
               resetState={resetState}
               onSubmitEditedComment={onSubmitEditedComment}
             >
-              {comment.readable ? comment.content : "비밀글입니다."}
+              {isReadable ? comment.content : "비밀글입니다."}
             </CommentTextBox>
 
             {isVisibleCommentOption && (
               <CommentOption
-                isVisibleViewButton={!comment.readable}
+                isVisibleViewButton={!isReadable}
                 isVisibleEditButton={canIEdit}
                 isVisibleDeleteButton={!!onClickDeleteOptionButton}
                 onClickViewButton={onCliCkViewOptionButton}
@@ -283,12 +285,16 @@ const Comment = ({
             const hasLikingUser = subComment.likingUsers.length > 0;
             const hasSubComments = subComment?.subComments ? subComment.subComments.length > 0 : false;
             const alreadyLiked = subComment.likingUsers.some(likingUser => likingUser.id === user?.id);
-            const canIEdit = thisCommentIsMine || (iAmGuestUser && thisCommentIsWrittenByGuest);
+            const thisParentCommentIsMine = comment.user.id === user?.id;
+
+            const isReadable = thisParentCommentIsMine || thisCommentIsMine || iAmAdmin || !subComment.secret;
+
+            const canIEdit = thisCommentIsMine || (iAmGuestUser && thisCommentIsWrittenByGuest && isReadable);
             const canIDelete = canIEdit || iAmAdmin;
 
             return (
               <SubComment
-                key={subComment.id}
+                key={subComment.id + `${isReadable}` + subComment.content}
                 user={user}
                 projectOwnerId={projectOwnerId}
                 comment={subComment}
@@ -299,6 +305,7 @@ const Comment = ({
                 thisCommentIsWrittenByGuest={thisCommentIsWrittenByGuest}
                 thisCommentIsMine={thisCommentIsMine}
                 isSubComment={true}
+                isReadable={isReadable}
                 alreadyLiked={alreadyLiked}
                 hasSubComments={hasSubComments}
                 hasLikingUser={hasLikingUser}

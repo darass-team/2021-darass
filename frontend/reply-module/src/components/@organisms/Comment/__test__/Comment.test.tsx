@@ -28,6 +28,7 @@ describe("Comment test", () => {
         thisCommentIsWrittenByGuest: false,
         thisCommentIsMine: false,
         isSubComment: false,
+        isReadable: true,
         alreadyLiked: false,
         canIEdit: false,
         canIDelete: false
@@ -52,6 +53,7 @@ describe("Comment test", () => {
         thisCommentIsWrittenByGuest: false,
         thisCommentIsMine: false,
         isSubComment: false,
+        isReadable: true,
         alreadyLiked: false,
         canIEdit: false,
         canIDelete: false
@@ -76,6 +78,7 @@ describe("Comment test", () => {
         thisCommentIsWrittenByGuest: false,
         thisCommentIsMine: false,
         isSubComment: false,
+        isReadable: true,
         alreadyLiked: false,
         canIEdit: false,
         canIDelete: false
@@ -100,6 +103,7 @@ describe("Comment test", () => {
         thisCommentIsWrittenByGuest: false,
         thisCommentIsMine: false,
         isSubComment: false,
+        isReadable: true,
         alreadyLiked: false,
         canIEdit: false,
         canIDelete: false
@@ -124,6 +128,7 @@ describe("Comment test", () => {
         thisCommentIsWrittenByGuest: false,
         thisCommentIsMine: false,
         isSubComment: false,
+        isReadable: true,
         alreadyLiked: false,
         canIEdit: true,
         canIDelete: false
@@ -151,6 +156,7 @@ describe("Comment test", () => {
         thisCommentIsWrittenByGuest: false,
         thisCommentIsMine: false,
         isSubComment: false,
+        isReadable: true,
         alreadyLiked: false,
         canIEdit: true,
         canIDelete: false
@@ -175,6 +181,7 @@ describe("Comment test", () => {
         thisCommentIsWrittenByGuest: false,
         thisCommentIsMine: false,
         isSubComment: false,
+        isReadable: true,
         alreadyLiked: false,
         canIEdit: true,
         canIDelete: false
