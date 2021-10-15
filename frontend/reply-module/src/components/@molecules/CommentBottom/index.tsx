@@ -4,6 +4,7 @@ import { Container, LikeButton, AddSubCommentButton, Time } from "./styles";
 export interface Props {
   alreadyLiked: boolean;
   isSubComment: boolean;
+  isReadable: boolean;
   onClickLikeButton: () => void;
   onClickAddSubCommentButton: () => void;
   commentCreatedDate: string;
@@ -12,20 +13,23 @@ export interface Props {
 const CommentBottom = ({
   alreadyLiked,
   isSubComment,
+  isReadable,
   onClickLikeButton,
   onClickAddSubCommentButton,
   commentCreatedDate
 }: Props) => {
   return (
     <Container>
-      <LikeButton
-        isLiked={alreadyLiked}
-        onClick={onClickLikeButton}
-        type="button"
-        data-testid="comment-bottom-like-button"
-      >
-        좋아요
-      </LikeButton>
+      {isReadable && (
+        <LikeButton
+          isLiked={alreadyLiked}
+          onClick={onClickLikeButton}
+          type="button"
+          data-testid="comment-bottom-like-button"
+        >
+          좋아요
+        </LikeButton>
+      )}
       {!isSubComment && (
         <AddSubCommentButton
           onClick={onClickAddSubCommentButton}

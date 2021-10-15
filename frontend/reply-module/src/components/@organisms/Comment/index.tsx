@@ -239,6 +239,7 @@ const Comment = ({
             <CommentBottom
               alreadyLiked={alreadyLiked}
               isSubComment={isSubComment}
+              isReadable={isReadable}
               onClickLikeButton={onClickLikeButton}
               onClickAddSubCommentButton={onOpenSubCommentInput}
               commentCreatedDate={comment.createdDate}
