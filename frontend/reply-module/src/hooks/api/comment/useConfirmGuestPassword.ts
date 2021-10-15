@@ -16,6 +16,12 @@ export const useConfirmGuestPassword = ({ guestUserId, guestUserPassword }: Gues
     if (data === false) openAlert("비밀번호가 일치하지 않습니다.");
   }, [data]);
 
+  useEffect(() => {
+    if (error) {
+      openAlert(error.message);
+    }
+  }, [error]);
+
   const reset = () => {
     refetch();
   };

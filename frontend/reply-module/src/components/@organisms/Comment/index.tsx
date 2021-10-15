@@ -124,52 +124,40 @@ const Comment = ({
   };
 
   const confirmDelete = async () => {
-    try {
-      const confirmResult = await openConfirmModal("정말 지우시겠습니까?");
+    const confirmResult = await openConfirmModal("정말 지우시겠습니까?");
 
-      if (confirmResult === "no") return;
+    if (confirmResult === "no") return;
 
-      await deleteComment({
-        id: comment.id,
-        guestUserId: comment.user.id,
-        guestUserPassword: password
-      });
-    } catch (error) {
-      if (error instanceof AlertError) {
-        openAlert(error.message);
-      }
-    } finally {
-      resetState();
-    }
+    await deleteComment({
+      id: comment.id,
+      guestUserId: comment.user.id,
+      guestUserPassword: password
+    });
+
+    resetState();
   };
 
   const onSubmitEditedComment = async ({ content, secret }: { content: CommentType["content"]; secret: boolean }) => {
-    try {
-      const isValidContent = !isEmptyString(content) && content.length <= MAX_COMMENT_INPUT_LENGTH;
+    const isValidContent = !isEmptyString(content) && content.length <= MAX_COMMENT_INPUT_LENGTH;
 
-      if (!isValidContent) {
-        openAlert(getErrorMessage.commentInput(content));
+    if (!isValidContent) {
+      openAlert(getErrorMessage.commentInput(content));
 
-        resetState();
-        return;
-      }
-
-      await editComment({
-        id: comment.id,
-        content,
-        guestUserId: comment.user.id,
-        guestUserPassword: password,
-        secret
-      });
-
-      setEditMode(false);
-    } catch (error) {
-      if (error instanceof AlertError) {
-        openAlert(error.message);
-      }
-    } finally {
       resetState();
+      return;
     }
+
+    await editComment({
+      id: comment.id,
+      content,
+      guestUserId: comment.user.id,
+      guestUserPassword: password,
+      secret
+    });
+
+    setEditMode(false);
+
+    resetState();
   };
 
   const onSuccessPasswordForm = () => {
@@ -186,13 +174,7 @@ const Comment = ({
   };
 
   const onClickLikeButton = async () => {
-    try {
-      await likeComment({ commentId: comment.id });
-    } catch (error) {
-      if (error instanceof AlertError) {
-        openAlert(error.message);
-      }
-    }
+    await likeComment({ commentId: comment.id });
   };
 
   const onLikingUsersModalOpen = () => {

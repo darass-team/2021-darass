@@ -83,20 +83,14 @@ const CommentArea = () => {
   }, [getProjectOwnerIdLoading, commentsLoading, getProjectOwnerError, commentsError, totalCommentsCount]);
 
   const onLogin = async (provider: keyof typeof OAUTH_URL) => {
-    try {
-      const popUp = popUpCenter(OAUTH_URL[provider], "Authentication", 600, 900, "modal=yes,alwaysRaised=yes");
+    const popUp = popUpCenter(OAUTH_URL[provider], "Authentication", 600, 900, "modal=yes,alwaysRaised=yes");
 
-      const timerId = setInterval(() => {
-        if (!popUp || !popUp.closed) return;
+    const timerId = setInterval(() => {
+      if (!popUp || !popUp.closed) return;
 
-        clearInterval(timerId);
-        refetchAccessToken?.();
-      }, 1000);
-    } catch (error) {
-      if (error instanceof AlertError) {
-        alert(error.message);
-      }
-    }
+      clearInterval(timerId);
+      refetchAccessToken?.();
+    }, 1000);
   };
 
   const onSelectSortOption = async (sortOption: keyof typeof ORDER_BUTTON) => {

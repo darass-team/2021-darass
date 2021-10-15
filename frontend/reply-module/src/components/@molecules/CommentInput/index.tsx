@@ -76,34 +76,27 @@ const CommentInput = ({ user, parentCommentId, isSubComment, onClose, ...props }
       return;
     }
 
-    try {
-      const guestInfo = {
-        guestNickName: guestNickName || undefined,
-        guestPassword: guestPassword || undefined
-      };
+    const guestInfo = {
+      guestNickName: guestNickName || undefined,
+      guestPassword: guestPassword || undefined
+    };
 
-      await createComment({
-        content,
-        url,
-        projectSecretKey,
-        ...guestInfo,
-        parentId: parentCommentId,
-        secret: isSecretComment
-      });
+    await createComment({
+      content,
+      url,
+      projectSecretKey,
+      ...guestInfo,
+      parentId: parentCommentId,
+      secret: isSecretComment
+    });
 
-      setContent("");
-      setGuestNickName("");
-      setGuestPassword("");
-      setIsSecretComment(false);
+    setContent("");
+    setGuestNickName("");
+    setGuestPassword("");
+    setIsSecretComment(false);
 
-      if (onClose) onClose();
-    } catch (error) {
-      if (error instanceof AlertError) {
-        openAlert(error.message);
-      }
-    } finally {
-      setFormSubmitted(false);
-    }
+    onClose?.();
+    setFormSubmitted(false);
   };
 
   const onInput = (event: ChangeEvent<HTMLDivElement>) => {
