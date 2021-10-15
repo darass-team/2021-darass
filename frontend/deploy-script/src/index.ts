@@ -32,19 +32,27 @@ const init = () => {
   document.body.append($modalIframe);
 
   const postReplyModulePort = () => {
-    $replyModuleIframe.contentWindow?.postMessage(
-      { type: POST_MESSAGE_TYPE.INIT_MESSAGE_CHANNEL.REPLY_MODULE.RESPONSE_PORT },
-      "*",
-      [messageChannel.replyModule.port2]
-    );
+    try {
+      $replyModuleIframe.contentWindow?.postMessage(
+        { type: POST_MESSAGE_TYPE.INIT_MESSAGE_CHANNEL.REPLY_MODULE.RESPONSE_PORT },
+        "*",
+        [messageChannel.replyModule.port2]
+      );
+    } catch (error) {
+      alert("댓글 모듈을 로드하는데에 실패하셨습니다. ");
+    }
   };
 
   const postReplyModalPort = () => {
-    $modalIframe.contentWindow?.postMessage(
-      { type: POST_MESSAGE_TYPE.INIT_MESSAGE_CHANNEL.REPLY_MODAL.RESPONSE_PORT },
-      "*",
-      [messageChannel.replyModal.port2]
-    );
+    try {
+      $modalIframe.contentWindow?.postMessage(
+        { type: POST_MESSAGE_TYPE.INIT_MESSAGE_CHANNEL.REPLY_MODAL.RESPONSE_PORT },
+        "*",
+        [messageChannel.replyModal.port2]
+      );
+    } catch (error) {
+      alert("댓글 모달을 로드하는데에 실패하셨습니다.");
+    }
   };
 
   const onMessageFromReplyModuleIFrame = ({ data: { type, data } }: MessageEvent) => {
