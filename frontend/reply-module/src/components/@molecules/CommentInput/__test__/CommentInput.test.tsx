@@ -33,9 +33,7 @@ describe("CommentInput test", () => {
 
   describe("logic test", () => {
     beforeEach(() => {
-      openAlert.mockClear(); // call count 초기화
-      setScrollHeight.mockClear();
-      createComment.mockClear();
+      jest.clearAllMocks();
     });
 
     test("비밀글을 체크하고 Submit을 하면, 비밀댓글요청이 날아간다.", () => {});

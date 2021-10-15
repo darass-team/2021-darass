@@ -1,4 +1,3 @@
-import { REACT_QUERY_KEY } from "@/constants/reactQueryKey";
 import { useConfirmGuestPassword, useMessageChannelFromReplyModuleContext } from "@/hooks";
 
 jest.mock("react-query");

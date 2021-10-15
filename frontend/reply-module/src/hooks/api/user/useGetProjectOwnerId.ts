@@ -1,6 +1,4 @@
-import { REACT_QUERY_KEY } from "@/constants/reactQueryKey";
 import { Project } from "@/types/project";
-import { User } from "@/types/user";
 import { getProjectOwnerId } from "@/utils/api";
 import { useQuery } from "../useQuery";
 
