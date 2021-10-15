@@ -45,7 +45,9 @@ const OAuth = () => {
       window.close();
     }, 5000);
 
-    return () => clearTimeout(timeId);
+    return () => {
+      clearTimeout(timeId);
+    };
   }, []);
 
   return <LoadingPage />;

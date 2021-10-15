@@ -116,9 +116,7 @@ const CommentInput = ({ user, parentCommentId, isSubComment, onClose, ...props }
   };
 
   useEffect(() => {
-    if (isSubComment) {
-      $contentEditable.current?.focus();
-    }
+    if (isSubComment) $contentEditable.current?.focus();
   }, []);
 
   return (

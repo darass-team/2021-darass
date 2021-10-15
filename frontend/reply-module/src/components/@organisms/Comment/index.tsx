@@ -287,7 +287,8 @@ const Comment = ({
             const alreadyLiked = subComment.likingUsers.some(likingUser => likingUser.id === user?.id);
             const thisParentCommentIsMine = comment.user.id === user?.id;
 
-            const isReadable = thisParentCommentIsMine || thisCommentIsMine || iAmAdmin || !subComment.secret;
+            const isReadable =
+              thisParentCommentIsMine || thisCommentIsMine || iAmAdmin || !subComment.secret || subComment.readable;
 
             const canIEdit = thisCommentIsMine || (iAmGuestUser && thisCommentIsWrittenByGuest && isReadable);
             const canIDelete = canIEdit || iAmAdmin;

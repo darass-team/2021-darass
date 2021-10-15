@@ -22,13 +22,20 @@ export const useGetSecretComment = ({ commentId, guestUserId, guestUserPassword 
   useEffect(() => {
     if (!data) return;
 
-    const newComments: Comment[] = comments.reduce((acc: Comment[], curr) => {
-      if (curr.id === data.id) {
-        curr.content = data.content;
-        curr.readable = data.readable;
+    const newComments: Comment[] = comments.reduce((acc: Comment[], comment) => {
+      comment.subComments.forEach(subComment => {
+        if (subComment.id === data.id) {
+          subComment.content = data.content;
+          subComment.readable = data.readable;
+        }
+      });
+
+      if (comment.id === data.id) {
+        comment.content = data.content;
+        comment.readable = data.readable;
       }
 
-      acc.push(curr);
+      acc.push(comment);
 
       return acc;
     }, []);
