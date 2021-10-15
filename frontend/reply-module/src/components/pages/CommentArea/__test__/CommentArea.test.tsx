@@ -5,7 +5,6 @@ import { fireEvent, render } from "@testing-library/react";
 import CommentArea from "..";
 
 jest.mock("@/utils/popUpCenter");
-jest.mock("@/hooks/api/token/useToken");
 jest.mock("@/hooks/api/user/useUser");
 jest.mock("@/hooks/api/user/useEditUser");
 jest.mock("@/hooks/api/comment/useGetAllComments");
