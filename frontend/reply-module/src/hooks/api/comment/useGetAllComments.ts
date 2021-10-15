@@ -1,16 +1,25 @@
-import { REACT_QUERY_KEY } from "@/constants/reactQueryKey";
-import { GetCommentsRequestParams, GetCommentsResponse } from "@/types/comment";
+import { useUserContext } from "@/hooks/contexts/useUserContext";
+import { GetCommentsRequestParams, GetCommentsResponse, Comment } from "@/types/comment";
 import { getAllComments } from "@/utils/api";
-import { useQuery } from "react-query";
-
+import { useEffect } from "react";
+import { useQuery } from "../useQuery";
 export const useGetAllComments = ({ url, projectSecretKey, sortOption = "oldest" }: GetCommentsRequestParams) => {
-  const { data, isLoading, error, refetch } = useQuery<GetCommentsResponse, Error>([REACT_QUERY_KEY.COMMENT], () =>
-    getAllComments({ url, projectSecretKey, sortOption })
-  );
+  const { user } = useUserContext();
+
+  const { data, isLoading, isError, refetch, error, setData } = useQuery<GetCommentsResponse>({
+    enabled: true,
+    query: () => getAllComments({ url, projectSecretKey, sortOption })
+  });
+
+  useEffect(() => {
+    refetch();
+  }, [user]);
 
   const totalCommentsCount = data?.totalComment || 0;
-  const totalPage = data?.totalPage;
+  const totalPage = data?.totalPage || 0;
   const comments = data?.comments || [];
 
-  return { totalCommentsCount, totalPage, comments, isLoading, error, refetch };
+  const setComments = (comments: Comment[]) => setData({ totalComment: totalCommentsCount, totalPage, comments });
+
+  return { totalCommentsCount, totalPage, comments, isLoading, error, refetch, setComments };
 };

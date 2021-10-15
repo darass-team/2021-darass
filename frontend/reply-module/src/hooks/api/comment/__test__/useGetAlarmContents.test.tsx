@@ -46,8 +46,7 @@ beforeEach(() => {
 
 describe("useGetAlarmContents test", () => {
   test("useGetAlarmContents를 호출하면, useQuery가 호출된다.", () => {
-    const { data, refetch, isLoading, isError, isSuccess, hasNewAlarmOnRealTime, setHasNewAlarmOnRealTime } =
-      useGetAlarmContents();
+    const { data, refetch, isLoading, isError, setHasNewAlarmOnRealTime } = useGetAlarmContents();
 
     expect(useQuery).toHaveBeenCalled();
   });

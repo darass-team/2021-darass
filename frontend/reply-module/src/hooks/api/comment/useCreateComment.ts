@@ -1,25 +1,17 @@
-import { REACT_QUERY_KEY } from "@/constants/reactQueryKey";
+import { useCommentContext } from "@/hooks/contexts/useCommentContext";
 import { Comment, CreateCommentRequestData } from "@/types/comment";
 import { postCreateComment } from "@/utils/api";
-import { useMutation, useQueryClient } from "react-query";
+import { useMutation } from "../useMutation";
 
 export const useCreateComment = () => {
-  const queryClient = useQueryClient();
+  const { refetchAllComment } = useCommentContext();
 
-  const createMutation = useMutation<Comment, Error, CreateCommentRequestData>(_data => postCreateComment(_data), {
+  const { isLoading, isError, error, data, mutation } = useMutation<CreateCommentRequestData, Comment>({
+    query: (_data: CreateCommentRequestData) => postCreateComment(_data),
     onSuccess: () => {
-      queryClient.invalidateQueries(REACT_QUERY_KEY.COMMENT);
+      refetchAllComment?.();
     }
   });
 
-  const isLoading = createMutation.isLoading;
-  const error = createMutation.error;
-
-  const createComment = async (data: CreateCommentRequestData) => {
-    const comment = await createMutation.mutateAsync(data);
-
-    return comment;
-  };
-
-  return { createComment, isLoading, error };
+  return { createComment: mutation, isLoading, error };
 };

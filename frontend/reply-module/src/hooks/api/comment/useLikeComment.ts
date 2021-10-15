@@ -1,14 +1,15 @@
-import { REACT_QUERY_KEY } from "@/constants/reactQueryKey";
+import { useCommentContext } from "@/hooks/contexts/useCommentContext";
 import { LikeCommentParameter } from "@/types/comment";
 import { likeComment as makeLikeComment } from "@/utils/api";
 import { useMutation, useQueryClient } from "react-query";
 
 export const useLikeComment = () => {
   const queryClient = useQueryClient();
+  const { refetchAllComment } = useCommentContext();
 
   const likeMutation = useMutation<void, Error, LikeCommentParameter>(({ commentId }) => makeLikeComment(commentId), {
     onSuccess: () => {
-      queryClient.invalidateQueries(REACT_QUERY_KEY.COMMENT);
+      refetchAllComment?.();
     }
   });
 
