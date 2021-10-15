@@ -6,7 +6,7 @@ import { useQuery } from "../useQuery";
 export const useGetAllComments = ({ url, projectSecretKey, sortOption = "oldest" }: GetCommentsRequestParams) => {
   const { user } = useUserContext();
 
-  const { data, isLoading, isError, refetch, error, setData } = useQuery<GetCommentsResponse>({
+  const { data, isLoading, refetch, error, setData } = useQuery<GetCommentsResponse>({
     enabled: true,
     query: () => getAllComments({ url, projectSecretKey, sortOption })
   });

@@ -10,7 +10,6 @@ import { ORDER_BUTTON } from "@/constants/orderButton";
 import { useGetAllComments, useGetProjectOwnerId, useMessageChannelFromReplyModuleContext } from "@/hooks";
 import { CommentContext } from "@/hooks/contexts/useCommentContext";
 import { useUserContext } from "@/hooks/contexts/useUserContext";
-import { AlertError } from "@/utils/alertError";
 import { popUpCenter } from "@/utils/popUpCenter";
 import { useEffect, useState } from "react";
 import {
@@ -95,8 +94,11 @@ const CommentArea = () => {
 
   const onSelectSortOption = async (sortOption: keyof typeof ORDER_BUTTON) => {
     setSortOption(sortOption);
-    await refetchAllComments();
   };
+
+  useEffect(() => {
+    refetchAllComments();
+  }, [sortOption]);
 
   return (
     <CommentContext.Provider
@@ -107,7 +109,7 @@ const CommentArea = () => {
       }}
     >
       <Container>
-        {projectOwnerId && !getProjectOwnerIdLoading && !commentsLoading ? (
+        {projectOwnerId && !getProjectOwnerIdLoading ? (
           <CommentList
             user={user}
             totalCommentsCount={totalCommentsCount}
@@ -121,6 +123,17 @@ const CommentArea = () => {
         ) : (
           <LoadingPage />
         )}
+
+        {/* <CommentList
+          user={user}
+          totalCommentsCount={totalCommentsCount}
+          comments={comments}
+          projectOwnerId={projectOwnerId}
+          sortOption={sortOption}
+          onSelectSortOption={onSelectSortOption}
+          notice={notice}
+          data-testid="comment-list"
+        /> */}
 
         <UserAvatarOption user={user}>
           {user ? (

@@ -68,18 +68,11 @@ export const useUser = () => {
   }, [accessTokenError]);
 
   useEffect(() => {
-    if (accessToken) {
-      setLocalStorage("active", true);
-    }
-  }, [accessToken]);
-
-  useEffect(() => {
-    refetchUser();
-  }, [accessToken]);
-
-  useEffect(() => {
     if (!accessToken) setUser(undefined);
-    else refetchUser();
+    else {
+      setLocalStorage("active", true);
+      refetchUser();
+    }
   }, [accessToken]);
 
   return { user, accessToken, refetchAccessToken, isLoading, error, refetchUser, logout, isSuccess, setUser };

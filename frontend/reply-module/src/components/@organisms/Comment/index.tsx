@@ -1,3 +1,6 @@
+import CommentBottom from "@/components/@molecules/CommentBottom";
+import CommentTextBox from "@/components/@molecules/CommentTextBox";
+import PasswordForm from "@/components/@molecules/PasswordForm";
 import { GUEST_IMAGE_URL, MAX_COMMENT_INPUT_LENGTH } from "@/constants/comment";
 import {
   useDeleteComment,
@@ -6,15 +9,12 @@ import {
   useLikeComment,
   useMessageChannelFromReplyModuleContext
 } from "@/hooks";
+import { useGetSecretComment } from "@/hooks/api/comment/useGetSecretComment";
 import { Comment as CommentType } from "@/types";
 import { User } from "@/types/user";
-import { AlertError } from "@/utils/alertError";
 import { getErrorMessage } from "@/utils/errorMessage";
 import { isEmptyString } from "@/utils/isEmptyString";
 import { useEffect, useState } from "react";
-import CommentBottom from "@/components/@molecules/CommentBottom";
-import CommentTextBox from "@/components/@molecules/CommentTextBox";
-import PasswordForm from "@/components/@molecules/PasswordForm";
 import SubComment from "../SubComment";
 import {
   Avatar,
@@ -26,7 +26,6 @@ import {
   LikingUsersButton,
   SubCommentWrapper
 } from "./styles";
-import { useGetSecretComment } from "@/hooks/api/comment/useGetSecretComment";
 
 export interface Props {
   user?: User;
