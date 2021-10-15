@@ -89,8 +89,6 @@ const config = {
   devServer: {
     host: "localhost",
     port: 3000,
-    open: true,
-    hot: true,
     historyApiFallback: true,
     https: {
       key: "./localhost-key.pem",

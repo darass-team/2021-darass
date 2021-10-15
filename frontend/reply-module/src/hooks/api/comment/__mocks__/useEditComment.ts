@@ -1,7 +1,5 @@
-export const useEditComment = jest.fn().mockImplementation(() => {
-  return {
-    editComment: jest.fn(),
-    isLoading: false,
-    error: null
-  };
+export const useEditComment = jest.fn().mockReturnValue({
+  editComment: jest.fn(),
+  isLoading: false,
+  error: null
 });

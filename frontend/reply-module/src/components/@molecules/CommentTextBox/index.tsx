@@ -1,9 +1,10 @@
+import CheckBox from "@/components/@atoms/CheckBox";
 import SubmitButton from "@/components/@atoms/SubmitButton";
 import { useContentEditable } from "@/hooks";
 import { Comment } from "@/types";
 import { User } from "@/types/user";
 import { focusContentEditableTextToEnd } from "@/utils/focusContentEditableTextToEnd";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { ButtonWrapper, CancelButton, Container, Name, Text } from "./styles";
 
 export interface Props {
@@ -12,8 +13,10 @@ export interface Props {
   contentEditable?: boolean;
   thisCommentIsWrittenByAdmin: boolean;
   isSubComment: boolean;
+  isSecretComment: boolean;
+  isReadable: boolean;
   resetState: () => void;
-  onSubmitEditedComment: (content: Comment["content"]) => void;
+  onSubmitEditedComment: ({ content, secret }: { content: Comment["content"]; secret: boolean }) => void;
 }
 
 const CommentTextBox = ({
@@ -22,13 +25,22 @@ const CommentTextBox = ({
   contentEditable = false,
   thisCommentIsWrittenByAdmin,
   isSubComment,
+  isSecretComment,
+  isReadable,
   resetState,
   onSubmitEditedComment
 }: Props) => {
   const { content, setContent, onInput, $contentEditable } = useContentEditable(children);
 
+  const [secretMode, setSecretMode] = useState(isSecretComment);
+
+  const onClickSecretModeCheckbox = () => {
+    setSecretMode(state => !state);
+  };
+
   const onClickCancelButton = () => {
     setContent(children);
+    setSecretMode(isSecretComment);
     resetState();
   };
 
@@ -40,24 +52,35 @@ const CommentTextBox = ({
 
   return (
     <Container isSubComment={isSubComment}>
-      <Name thisCommentIsWrittenByAdmin={thisCommentIsWrittenByAdmin}>{name}</Name>
+      <Name
+        thisCommentIsWrittenByAdmin={thisCommentIsWrittenByAdmin}
+        isSecretComment={isSecretComment}
+        isReadable={isReadable}
+      >
+        {isReadable ? name : "익명"}
+      </Name>
       <Text
         ref={$contentEditable}
         contentEditable={contentEditable}
+        isSecretComment={isSecretComment}
         isSubComment={isSubComment}
+        isReadable={isReadable}
         suppressContentEditableWarning={true}
         onInput={onInput}
         data-testid="comment-text-box-contenteditable-input"
       />
       {contentEditable && (
         <ButtonWrapper>
+          <CheckBox isChecked={secretMode} onChange={onClickSecretModeCheckbox} labelText="비밀글" />
+
           <CancelButton onClick={onClickCancelButton} data-testid="comment-text-box-cancel-button">
             취소
           </CancelButton>
+
           <SubmitButton
             type="button"
             disabled={content.length === 0}
-            onClick={() => onSubmitEditedComment(content)}
+            onClick={() => onSubmitEditedComment({ content, secret: secretMode })}
             data-testid="comment-text-box-submit-button"
           >
             등록

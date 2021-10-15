@@ -76,11 +76,14 @@ const CommentList = ({
           const hasLikingUser = comment.likingUsers.length > 0;
           const hasSubComments = comment?.subComments ? comment.subComments.length > 0 : false;
           const alreadyLiked = comment.likingUsers.some(likingUser => likingUser.id === user?.id);
-          const canIEdit = thisCommentIsMine || (iAmGuestUser && thisCommentIsWrittenByGuest);
+
+          const isReadable = comment.readable || thisCommentIsMine;
+          const canIEdit = thisCommentIsMine || (iAmGuestUser && thisCommentIsWrittenByGuest && isReadable);
           const canIDelete = canIEdit || iAmAdmin;
+
           return (
             <Comment
-              key={comment.id}
+              key={comment.id + `${isReadable}` + comment.content}
               user={user}
               projectOwnerId={projectOwnerId}
               comment={comment}
@@ -91,6 +94,7 @@ const CommentList = ({
               thisCommentIsWrittenByGuest={thisCommentIsWrittenByGuest}
               thisCommentIsMine={thisCommentIsMine}
               isSubComment={false}
+              isReadable={isReadable}
               alreadyLiked={alreadyLiked}
               hasSubComments={hasSubComments}
               hasLikingUser={hasLikingUser}

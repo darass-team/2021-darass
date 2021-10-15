@@ -45,6 +45,15 @@ export const TextBox = styled.div<{ isValidInput: boolean }>`
   }
 `;
 
+export const TextInfoWrapper = styled.div`
+  margin-top: 0.5rem;
+  width: 100%;
+  display: flex;
+  padding: 0 0.6rem;
+  align-items: center;
+  justify-content: center;
+`;
+
 export const TextCount = styled.span`
   font-size: 1.1rem;
   line-height: 1.65rem;

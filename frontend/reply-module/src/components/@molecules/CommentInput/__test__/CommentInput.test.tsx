@@ -2,7 +2,6 @@ import { PALETTE } from "@/constants/styles/palette";
 import { useCreateComment, useMessageChannelFromReplyModuleContext } from "@/hooks";
 import { AlertError } from "@/utils/alertError";
 import { getErrorMessage } from "@/utils/errorMessage";
-import { focusContentEditableTextToEnd } from "@/utils/focusContentEditableTextToEnd";
 import { comments } from "@/__test__/fixture/comments";
 import { socialLoginUser } from "@/__test__/fixture/user";
 import "@testing-library/jest-dom/extend-expect";
@@ -33,10 +32,10 @@ describe("CommentInput test", () => {
 
   describe("logic test", () => {
     beforeEach(() => {
-      openAlert.mockClear(); // call count 초기화
-      setScrollHeight.mockClear();
-      createComment.mockClear();
+      jest.clearAllMocks();
     });
+
+    test("비밀글을 체크하고 Submit을 하면, 비밀댓글요청이 날아간다.", () => {});
     test("TextBox의 최대길이는 3000자이다.", () => {
       const props: Props = {
         user: socialLoginUser,
@@ -186,28 +185,6 @@ describe("CommentInput test", () => {
 
       await waitFor(() => {
         expect(createComment).toHaveBeenCalled();
-      });
-    });
-
-    test("등록버튼을 눌렀을때 AlertError가 나면, openAlert가 호출된다.", async () => {
-      const props: Props = {
-        user: socialLoginUser,
-        parentCommentId: comments[0].id,
-        isSubComment: false,
-        onClose: undefined
-      };
-
-      createComment.mockImplementation(() => {
-        throw new AlertError("createComment error");
-      });
-
-      const { getByTestId } = render(<CommentInput {...props} />);
-
-      fireEvent.input(getByTestId("comment-input-text-box"), { target: { innerHTML: "댓글내용" } });
-      fireEvent.click(getByTestId("comment-input-submit-button"));
-
-      await waitFor(() => {
-        expect(openAlert).toHaveBeenCalledWith("createComment error");
       });
     });
   });

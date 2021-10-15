@@ -1,19 +1,17 @@
-import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
 import LoadingPage from "@/components/@molecules/LoadingPage";
 import CommentArea from "@/components/pages/CommentArea";
 import OAuth from "@/components/pages/OAuth";
 import { ROUTE } from "@/constants/route";
+import { useUser } from "@/hooks";
 import { MessageChannelFromReplyModuleContext } from "@/hooks/contexts/useMessageFromReplyModule";
 import { RecentlyAlarmContentContext } from "@/hooks/contexts/useRecentlyAlarmContentContext";
-import { useReplyModuleApp } from "./useReplyModuleApp";
-import { messageFromReplyModule } from "@/utils/postMessage";
-import { useToken } from "@/hooks/api/token/useToken";
-import { useUser } from "@/hooks";
 import { UserContext } from "@/hooks/contexts/useUserContext";
+import { messageFromReplyModule } from "@/utils/postMessage";
+import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
+import { useReplyModuleApp } from "./useReplyModuleApp";
 
 const App = () => {
-  const { accessToken, removeAccessToken } = useToken();
-  const { user, logout, refetch: refetchUser, isLoading, isSuccess } = useUser({ accessToken, removeAccessToken });
+  const { user, logout, refetchUser, isLoading, isSuccess, accessToken, refetchAccessToken } = useUser();
 
   const { port, recentlyAlarmContent, hasNewAlarmOnRealTime, setHasNewAlarmOnRealTime, receivedMessageFromReplyModal } =
     useReplyModuleApp();
@@ -34,6 +32,8 @@ const App = () => {
           user,
           logout,
           refetchUser,
+          refetchAccessToken,
+          accessToken,
           isLoadingUserRequest: isLoading,
           isSuccessUserRequest: isSuccess
         }}

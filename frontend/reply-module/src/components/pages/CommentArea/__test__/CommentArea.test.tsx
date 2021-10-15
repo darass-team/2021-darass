@@ -1,30 +1,15 @@
 import { OAUTH_URL } from "@/constants/oauth";
-import {
-  useCreateComment,
-  useGetAllComments,
-  useGetProjectOwnerId,
-  useMessageChannelFromReplyModuleContext,
-  useUser
-} from "@/hooks";
-import { useToken } from "@/hooks/api/token/useToken";
+import { useGetAllComments, useGetProjectOwnerId, useUser } from "@/hooks";
 import { popUpCenter } from "@/utils/popUpCenter";
-import { comments } from "@/__test__/fixture/comments";
-import { socialLoginUser } from "@/__test__/fixture/user";
 import { fireEvent, render } from "@testing-library/react";
 import CommentArea from "..";
 
 jest.mock("@/utils/popUpCenter");
-jest.mock("@/hooks/api/token/useToken");
-jest.mock("@/hooks/api/user/useUser");
-jest.mock("@/hooks/api/user/useEditUser");
-jest.mock("@/hooks/api/comment/useGetAllComments");
 jest.mock("@/hooks/api/user/useGetProjectOwnerId");
+jest.mock("@/hooks/api/comment/useGetAllComments");
+jest.mock("@/hooks/api/user/useUser");
 jest.mock("@/hooks/contexts/useMessageFromReplyModule");
 jest.mock("@/hooks/contexts/useMessageFromReplyModule");
-jest.mock("@/hooks/api/comment/useEditComment");
-jest.mock("@/hooks/api/comment/useDeleteComment");
-jest.mock("@/hooks/api/comment/useLikeComment");
-jest.mock("@/hooks/api/comment/useCreateComment");
 
 beforeEach(() => {
   jest.clearAllMocks();
@@ -49,17 +34,17 @@ describe("CommentArea test", () => {
 
     expect(queryByTestId("comment-list")).toBeTruthy();
   });
-  test("projectOwnerId && !getProjectOwnerIdLoading && !commentsLoading 가 false이면 LoadingPage가 렌더링된다.", () => {
+  test("projectOwnerId && !getProjectOwnerIdLoading 가 false이면 LoadingPage가 렌더링된다.", () => {
     (useGetProjectOwnerId as jest.Mock).mockReturnValueOnce({
       projectOwnerId: 1,
-      isLoading: false,
+      isLoading: true,
       error: null
     });
     (useGetAllComments as jest.Mock).mockReturnValueOnce({
       totalCommentsCount: 10,
       comments: [],
       refetch: jest.fn(),
-      isLoading: true,
+      isLoading: false,
       error: null
     });
 

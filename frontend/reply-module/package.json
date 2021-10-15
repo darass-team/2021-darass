@@ -1,6 +1,6 @@
 {
   "name": "reply-module",
-  "version": "^2.0.0",
+  "version": "^2.1.0",
   "description": "댓글 모듈",
   "main": "index.js",
   "author": "도비, 곤이",
@@ -55,7 +55,6 @@
     "axios": "^0.21.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "react-query": "^3.18.1",
     "react-router-dom": "^5.3.0",
     "sockjs-client": "^1.5.2",
     "styled-components": "^5.3.0",

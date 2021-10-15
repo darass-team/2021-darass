@@ -156,7 +156,8 @@ describe("api test", () => {
         url: "darass.co.kr",
         projectSecretKey: "secretKey",
         guestNickName: "nickname",
-        guestUserPassword: "123"
+        guestUserPassword: "123",
+        secret: true
       };
       const res = await postCreateComment(data);
 
@@ -198,7 +199,8 @@ describe("api test", () => {
         id: 1,
         content: "",
         guestUserId: 2,
-        guestUserPassword: "123"
+        guestUserPassword: "123",
+        secret: false
       };
 
       const res = await editComment(data);
@@ -207,7 +209,8 @@ describe("api test", () => {
       expect(request.patch).toHaveBeenCalledWith(`${QUERY.COMMENT}/${data.id}`, {
         content: data.content,
         guestUserId: data.guestUserId,
-        guestUserPassword: data.guestUserPassword
+        guestUserPassword: data.guestUserPassword,
+        secret: false
       });
       expect(res).toEqual(comments[0]);
     });

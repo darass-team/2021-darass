@@ -1,7 +1,5 @@
-export const useDeleteComment = jest.fn().mockImplementation(() => {
-  return {
-    deleteComment: jest.fn(),
-    isLoading: false,
-    error: null
-  };
+export const useDeleteComment = jest.fn().mockReturnValue({
+  deleteComment: jest.fn(),
+  isLoading: false,
+  error: null
 });

@@ -8,6 +8,8 @@ export interface Comment {
   subComments: Comment[];
   createdDate: string;
   modifiedDate: string;
+  secret: boolean;
+  readable: boolean;
   url: string;
 }
 
@@ -27,6 +29,7 @@ export interface ScriptInfo {
 export interface CreateCommentRequestData extends Omit<GuestUserInfo, "guestUserId">, ScriptInfo {
   content: string;
   parentId?: Comment["id"];
+  secret: boolean;
 }
 
 export interface GetCommentsRequestParams extends ScriptInfo {
@@ -50,9 +53,9 @@ export interface GetAlarmResponse {
 
 export type GetProjectRequestParams = Pick<ScriptInfo, "projectSecretKey">;
 
-export type EditCommentRequestData = Pick<Comment, "content"> & Omit<GuestUserInfo, "guestNickName">;
+export type EditCommentRequestData = Pick<Comment, "content" | "secret"> & Omit<GuestUserInfo, "guestNickName">;
 
-export type EditCommentParameter = Pick<Comment, "id" | "content"> & Omit<GuestUserInfo, "guestNickName">;
+export type EditCommentParameter = Pick<Comment, "id" | "content" | "secret"> & Omit<GuestUserInfo, "guestNickName">;
 
 export type DeleteCommentRequestParameter = Pick<Comment, "id"> & Omit<GuestUserInfo, "guestNickName">;
 

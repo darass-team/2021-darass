@@ -1,23 +1,30 @@
-import { REACT_QUERY_KEY } from "@/constants/reactQueryKey";
+import { useMessageChannelFromReplyModuleContext } from "@/hooks";
+import { useCommentContext } from "@/hooks/contexts/useCommentContext";
 import { LikeCommentParameter } from "@/types/comment";
 import { likeComment as makeLikeComment } from "@/utils/api";
-import { useMutation, useQueryClient } from "react-query";
+import { useEffect } from "react";
+import { useMutation } from "../useMutation";
 
 export const useLikeComment = () => {
-  const queryClient = useQueryClient();
+  const { refetchAllComment } = useCommentContext();
+  const { openAlert } = useMessageChannelFromReplyModuleContext();
 
-  const likeMutation = useMutation<void, Error, LikeCommentParameter>(({ commentId }) => makeLikeComment(commentId), {
+  const {
+    isLoading,
+    error,
+    mutation: likeComment
+  } = useMutation<LikeCommentParameter, void>({
+    query: ({ commentId }: LikeCommentParameter) => makeLikeComment(commentId),
     onSuccess: () => {
-      queryClient.invalidateQueries(REACT_QUERY_KEY.COMMENT);
+      refetchAllComment?.();
     }
   });
 
-  const isLoading = likeMutation.isLoading;
-  const error = likeMutation.error;
-
-  const likeComment = async (params: LikeCommentParameter) => {
-    return await likeMutation.mutateAsync(params);
-  };
+  useEffect(() => {
+    if (error) {
+      openAlert(error.message);
+    }
+  }, [error]);
 
   return { likeComment, isLoading, error };
 };

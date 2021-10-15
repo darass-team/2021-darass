@@ -24,6 +24,7 @@ describe("SubComment test", () => {
         thisCommentIsWrittenByAdmin: false,
         thisCommentIsWrittenByGuest: false,
         thisCommentIsMine: false,
+        isReadable: true,
         isSubComment: false,
         alreadyLiked: false,
         canIEdit: false,

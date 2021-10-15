@@ -1,3 +1,6 @@
+import CommentBottom from "@/components/@molecules/CommentBottom";
+import CommentTextBox from "@/components/@molecules/CommentTextBox";
+import PasswordForm from "@/components/@molecules/PasswordForm";
 import { GUEST_IMAGE_URL, MAX_COMMENT_INPUT_LENGTH } from "@/constants/comment";
 import {
   useDeleteComment,
@@ -6,15 +9,12 @@ import {
   useLikeComment,
   useMessageChannelFromReplyModuleContext
 } from "@/hooks";
+import { useGetSecretComment } from "@/hooks/api/comment/useGetSecretComment";
 import { Comment as CommentType } from "@/types";
 import { User } from "@/types/user";
-import { AlertError } from "@/utils/alertError";
 import { getErrorMessage } from "@/utils/errorMessage";
 import { isEmptyString } from "@/utils/isEmptyString";
 import { useEffect, useState } from "react";
-import CommentBottom from "@/components/@molecules/CommentBottom";
-import CommentTextBox from "@/components/@molecules/CommentTextBox";
-import PasswordForm from "@/components/@molecules/PasswordForm";
 import SubComment from "../SubComment";
 import {
   Avatar,
@@ -40,6 +40,7 @@ export interface Props {
   thisCommentIsWrittenByGuest: boolean;
   thisCommentIsMine: boolean;
   isSubComment: boolean;
+  isReadable: boolean;
   alreadyLiked: boolean;
   canIEdit: boolean;
   canIDelete: boolean;
@@ -56,6 +57,7 @@ const Comment = ({
   thisCommentIsWrittenByGuest,
   thisCommentIsMine,
   isSubComment,
+  isReadable,
   alreadyLiked,
   hasSubComments,
   hasLikingUser,
@@ -65,7 +67,7 @@ const Comment = ({
   const [isSubCommentInputOpen, setSubCommentInputOpen] = useState(false);
   const [isOpenPassWordForm, setIsOpenPassWordForm] = useState(false);
 
-  const [clickedOptionType, setClickedOptionType] = useState<"Edit" | "Delete">();
+  const [clickedOptionType, setClickedOptionType] = useState<"View" | "Edit" | "Delete">();
   const [isEditMode, setEditMode] = useState(false);
   const { value: password, setValue: _setPassword, onChange: onChangePassword } = useInput("");
 
@@ -76,6 +78,11 @@ const Comment = ({
   const { openConfirmModal, openAlert, openLikingUserModal, setScrollHeight } =
     useMessageChannelFromReplyModuleContext();
 
+  const { refetch: getSecretComment } = useGetSecretComment({
+    commentId: comment.id,
+    guestUserId: comment.user.id,
+    guestUserPassword: password
+  });
   const { editComment } = useEditComment();
   const { deleteComment } = useDeleteComment();
   const { likeComment } = useLikeComment();
@@ -87,6 +94,14 @@ const Comment = ({
     setClickedOptionType(undefined);
     setSubCommentInputOpen(false);
     setPassword("");
+  };
+
+  const onCliCkViewOptionButton = () => {
+    resetState();
+    setClickedOptionType("View");
+    if (!user) {
+      setIsOpenPassWordForm(true);
+    }
   };
 
   const onClickEditOptionButton = () => {
@@ -110,51 +125,40 @@ const Comment = ({
   };
 
   const confirmDelete = async () => {
-    try {
-      const confirmResult = await openConfirmModal("정말 지우시겠습니까?");
+    const confirmResult = await openConfirmModal("정말 지우시겠습니까?");
 
-      if (confirmResult === "no") return;
+    if (confirmResult === "no") return;
 
-      await deleteComment({
-        id: comment.id,
-        guestUserId: comment.user.id,
-        guestUserPassword: password
-      });
-    } catch (error) {
-      if (error instanceof AlertError) {
-        openAlert(error.message);
-      }
-    } finally {
-      resetState();
-    }
+    await deleteComment({
+      id: comment.id,
+      guestUserId: comment.user.id,
+      guestUserPassword: password
+    });
+
+    resetState();
   };
 
-  const onSubmitEditedComment = async (content: CommentType["content"]) => {
-    try {
-      const isValidContent = !isEmptyString(content) && content.length <= MAX_COMMENT_INPUT_LENGTH;
+  const onSubmitEditedComment = async ({ content, secret }: { content: CommentType["content"]; secret: boolean }) => {
+    const isValidContent = !isEmptyString(content) && content.length <= MAX_COMMENT_INPUT_LENGTH;
 
-      if (!isValidContent) {
-        openAlert(getErrorMessage.commentInput(content));
+    if (!isValidContent) {
+      openAlert(getErrorMessage.commentInput(content));
 
-        resetState();
-        return;
-      }
-
-      await editComment({
-        id: comment.id,
-        content,
-        guestUserId: comment.user.id,
-        guestUserPassword: password
-      });
-
-      setEditMode(false);
-    } catch (error) {
-      if (error instanceof AlertError) {
-        openAlert(error.message);
-      }
-    } finally {
       resetState();
+      return;
     }
+
+    await editComment({
+      id: comment.id,
+      content,
+      guestUserId: comment.user.id,
+      guestUserPassword: password,
+      secret
+    });
+
+    setEditMode(false);
+
+    resetState();
   };
 
   const onSuccessPasswordForm = () => {
@@ -162,6 +166,8 @@ const Comment = ({
       setEditMode(true);
     } else if (clickedOptionType === "Delete") {
       confirmDelete();
+    } else if (clickedOptionType === "View") {
+      getSecretComment();
     }
 
     setIsOpenPassWordForm(false);
@@ -169,13 +175,7 @@ const Comment = ({
   };
 
   const onClickLikeButton = async () => {
-    try {
-      await likeComment({ commentId: comment.id });
-    } catch (error) {
-      if (error instanceof AlertError) {
-        openAlert(error.message);
-      }
-    }
+    await likeComment({ commentId: comment.id });
   };
 
   const onLikingUsersModalOpen = () => {
@@ -208,24 +208,28 @@ const Comment = ({
     <>
       <Container>
         <CommentWrapper>
-          <Avatar imageURL={avatarImageURL} />
+          <Avatar imageURL={isReadable ? avatarImageURL : undefined} />
 
           <ContentWrapper>
             <CommentTextBox
               name={comment.user.nickName}
               thisCommentIsWrittenByAdmin={thisCommentIsWrittenByAdmin}
               isSubComment={isSubComment}
+              isSecretComment={comment.secret}
+              isReadable={isReadable}
               contentEditable={isEditMode}
               resetState={resetState}
               onSubmitEditedComment={onSubmitEditedComment}
             >
-              {comment.content}
+              {isReadable ? comment.content : "비밀글입니다."}
             </CommentTextBox>
 
             {isVisibleCommentOption && (
               <CommentOption
+                isVisibleViewButton={!isReadable}
                 isVisibleEditButton={canIEdit}
                 isVisibleDeleteButton={!!onClickDeleteOptionButton}
+                onClickViewButton={onCliCkViewOptionButton}
                 onClickEditButton={onClickEditOptionButton}
                 onClickDeleteButton={onClickDeleteOptionButton}
                 data-testid="comment-option"
@@ -235,12 +239,13 @@ const Comment = ({
             <CommentBottom
               alreadyLiked={alreadyLiked}
               isSubComment={isSubComment}
+              isReadable={isReadable}
               onClickLikeButton={onClickLikeButton}
               onClickAddSubCommentButton={onOpenSubCommentInput}
               commentCreatedDate={comment.createdDate}
             />
 
-            {hasLikingUser && (
+            {hasLikingUser && isReadable && (
               <LikingUsersButton
                 numOfLikes={comment.likingUsers.length}
                 alreadyLiked={alreadyLiked}
@@ -281,12 +286,17 @@ const Comment = ({
             const hasLikingUser = subComment.likingUsers.length > 0;
             const hasSubComments = subComment?.subComments ? subComment.subComments.length > 0 : false;
             const alreadyLiked = subComment.likingUsers.some(likingUser => likingUser.id === user?.id);
-            const canIEdit = thisCommentIsMine || (iAmGuestUser && thisCommentIsWrittenByGuest);
+            const thisParentCommentIsMine = comment.user.id === user?.id;
+
+            const isReadable =
+              thisParentCommentIsMine || thisCommentIsMine || iAmAdmin || !subComment.secret || subComment.readable;
+
+            const canIEdit = thisCommentIsMine || (iAmGuestUser && thisCommentIsWrittenByGuest && isReadable);
             const canIDelete = canIEdit || iAmAdmin;
 
             return (
               <SubComment
-                key={subComment.id}
+                key={subComment.id + `${isReadable}` + subComment.content}
                 user={user}
                 projectOwnerId={projectOwnerId}
                 comment={subComment}
@@ -297,6 +307,7 @@ const Comment = ({
                 thisCommentIsWrittenByGuest={thisCommentIsWrittenByGuest}
                 thisCommentIsMine={thisCommentIsMine}
                 isSubComment={true}
+                isReadable={isReadable}
                 alreadyLiked={alreadyLiked}
                 hasSubComments={hasSubComments}
                 hasLikingUser={hasLikingUser}

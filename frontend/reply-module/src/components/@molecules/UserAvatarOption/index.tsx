@@ -38,20 +38,12 @@ const UserAvatarOption = ({ user, children, ...props }: Props) => {
   };
 
   const onClickAlarmIcon = async () => {
-    try {
-      const formData = new FormData();
-      formData.append("hasRecentAlarm", "false");
+    const formData = new FormData();
+    formData.append("hasRecentAlarm", "false");
 
-      await editUser(formData);
-      if (refetchUser) await refetchUser();
-      setHasNewAlarmOnRealTime?.(false);
-    } catch (error) {
-      if (error instanceof AlertError) {
-        openAlert(error.message);
-
-        return;
-      }
-    }
+    await editUser(formData);
+    await refetchUser?.();
+    setHasNewAlarmOnRealTime?.(false);
 
     openAlarmModal(alarmContents || []);
   };

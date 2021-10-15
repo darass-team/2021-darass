@@ -1,22 +1,22 @@
-import { REACT_QUERY_KEY } from "@/constants/reactQueryKey";
 import { useRecentlyAlarmContentContext } from "@/hooks";
+import { useUserContext } from "@/hooks/contexts/useUserContext";
 import { GetAlarmResponse } from "@/types/comment";
 import { getAlarms } from "@/utils/api";
 import { useEffect } from "react";
-import { useQuery } from "react-query";
-import { useToken } from "../token/useToken";
+import { useQuery } from "../useQuery";
 
 export const useGetAlarmContents = () => {
-  const { accessToken } = useToken();
+  const { accessToken } = useUserContext();
   const { recentlyAlarmContent, hasNewAlarmOnRealTime, setHasNewAlarmOnRealTime } = useRecentlyAlarmContentContext();
-  const { data, refetch, isLoading, isError, isSuccess } = useQuery<GetAlarmResponse[], Error>(
-    [REACT_QUERY_KEY.COMMENT_ALARM],
-    getAlarms,
-    {
-      retry: false,
-      enabled: !!accessToken
-    }
-  );
+
+  const { data, refetch, isLoading, isError } = useQuery<GetAlarmResponse[]>({
+    enabled: false,
+    query: getAlarms
+  });
+
+  useEffect(() => {
+    if (accessToken) refetch();
+  }, [accessToken]);
 
   useEffect(() => {
     if (recentlyAlarmContent && data) {
@@ -28,5 +28,5 @@ export const useGetAlarmContents = () => {
     }
   }, [recentlyAlarmContent]);
 
-  return { data, refetch, isLoading, isError, isSuccess, hasNewAlarmOnRealTime, setHasNewAlarmOnRealTime };
+  return { data, refetch, isLoading, isError, hasNewAlarmOnRealTime, setHasNewAlarmOnRealTime };
 };

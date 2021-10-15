@@ -1,13 +1,11 @@
-import { alarmContents } from "@/__test__/fixture/alarmContent";
 import { comments } from "@/__test__/fixture/comments";
 
-export const useGetAllComments = jest.fn().mockImplementation(() => {
-  return {
-    totalCommentsCount: alarmContents.length,
-    totalPage: 1,
-    comments,
-    isLoading: false,
-    error: false,
-    refetch: jest.fn()
-  };
+export const useGetAllComments = jest.fn().mockReturnValue({
+  totalCommentsCount: comments.length,
+  totalPage: comments.length / 10,
+  comments,
+  isLoading: false,
+  error: null,
+  refetch: jest.fn(),
+  setComments: jest.fn()
 });

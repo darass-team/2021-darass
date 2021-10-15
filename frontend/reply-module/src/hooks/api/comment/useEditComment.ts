@@ -1,23 +1,26 @@
-import { editComment as _editComment } from "@/utils/api";
-import { useMutation, useQueryClient } from "react-query";
-import { REACT_QUERY_KEY } from "@/constants/reactQueryKey";
+import { useMessageChannelFromReplyModuleContext } from "@/hooks";
+import { useCommentContext } from "@/hooks/contexts/useCommentContext";
 import { EditCommentParameter } from "@/types/comment";
+import { editComment as _editComment } from "@/utils/api";
+import { useEffect } from "react";
+import { useMutation } from "../useMutation";
 
 export const useEditComment = () => {
-  const queryClient = useQueryClient();
+  const { refetchAllComment } = useCommentContext();
+  const { openAlert } = useMessageChannelFromReplyModuleContext();
 
-  const editMutation = useMutation<void, Error, EditCommentParameter>(comment => _editComment(comment), {
+  const { isLoading, isError, error, data, mutation } = useMutation<EditCommentParameter, void>({
+    query: (_data: EditCommentParameter) => _editComment(_data),
     onSuccess: () => {
-      queryClient.invalidateQueries(REACT_QUERY_KEY.COMMENT);
+      refetchAllComment?.();
     }
   });
 
-  const isLoading = editMutation.isLoading;
-  const error = editMutation.error;
+  useEffect(() => {
+    if (error) {
+      openAlert(error.message);
+    }
+  }, [error]);
 
-  const editComment = async (_comment: EditCommentParameter) => {
-    return await editMutation.mutateAsync(_comment);
-  };
-
-  return { editComment, isLoading, error };
+  return { editComment: mutation, isLoading, error };
 };

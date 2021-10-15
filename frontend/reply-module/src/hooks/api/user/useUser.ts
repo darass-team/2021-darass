@@ -1,35 +1,83 @@
-import { REACT_QUERY_KEY } from "@/constants/reactQueryKey";
+import { TOKEN_REFETCH_TIMER } from "@/constants/timer";
 import { User } from "@/types/user";
-import { getUser } from "@/utils/api";
-import { useQuery, useQueryClient } from "react-query";
+import { deleteRefreshToken, getAccessTokenByRefreshToken, getUser } from "@/utils/api";
+import { axiosBearerOption } from "@/utils/customAxios";
+import { getLocalStorage, removeLocalStorage, setLocalStorage } from "@/utils/localStorage";
+import { useEffect } from "react";
+import { useMutation } from "../useMutation";
+import { useQuery } from "../useQuery";
 
-interface Props {
-  accessToken?: string;
-  removeAccessToken?: () => void;
-}
-
-export const useUser = ({ accessToken, removeAccessToken }: Props) => {
-  const queryClient = useQueryClient();
+export const useUser = () => {
+  const {
+    data: accessToken,
+    refetch: _refetchAccessToken,
+    error: accessTokenError,
+    setData: setAccessToken,
+    clearRefetchInterval
+  } = useQuery<string>({
+    query: getAccessTokenByRefreshToken,
+    enabled: false,
+    refetchInterval: TOKEN_REFETCH_TIMER
+  });
 
   const {
     data: user,
     isLoading,
     error,
-    refetch,
-    isSuccess
-  } = useQuery<User, Error>([REACT_QUERY_KEY.USER], getUser, {
-    retry: false,
-    enabled: !!accessToken
+    refetch: refetchUser,
+    isSuccess,
+    setData: setUser
+  } = useQuery<User>({
+    query: getUser,
+    enabled: false
   });
+
+  const { mutation: deleteMutation } = useMutation<void, void>({
+    query: deleteRefreshToken,
+    onSuccess: () => {
+      setAccessToken(undefined);
+      axiosBearerOption.clear();
+    }
+  });
+
+  const refetchAccessToken = async () => {
+    await _refetchAccessToken();
+    await refetchUser();
+  };
+
+  const removeAccessToken = () => {
+    deleteMutation();
+    removeLocalStorage("active");
+    clearRefetchInterval();
+  };
 
   const logout = () => {
     if (!removeAccessToken) return;
 
     removeAccessToken();
-    queryClient.setQueryData<User | undefined>(REACT_QUERY_KEY.USER, () => {
-      return undefined;
-    });
   };
 
-  return { user, isLoading, error, refetch, logout, isSuccess };
+  const isActiveAccessToken = getLocalStorage("active");
+
+  useEffect(() => {
+    if (isActiveAccessToken) {
+      refetchAccessToken();
+    } else {
+      clearRefetchInterval();
+    }
+  }, []);
+
+  useEffect(() => {
+    if (accessTokenError) removeAccessToken();
+  }, [accessTokenError]);
+
+  useEffect(() => {
+    if (!accessToken) setUser(undefined);
+    else {
+      setLocalStorage("active", true);
+      refetchUser();
+    }
+  }, [accessToken]);
+
+  return { user, accessToken, refetchAccessToken, isLoading, error, refetchUser, logout, isSuccess, setUser };
 };

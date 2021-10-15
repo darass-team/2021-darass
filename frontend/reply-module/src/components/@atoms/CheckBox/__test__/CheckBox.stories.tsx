@@ -1,13 +1,13 @@
 import { Story } from "@storybook/react";
-import Comment, { Props } from "..";
+import CheckBox, { Props } from "..";
 
 export default {
-  title: "organism/Comment",
-  component: Comment,
+  title: "atoms/CheckBox",
+  component: CheckBox,
   argTypes: { children: { control: "text" } }
 };
 
-const Template: Story<Props> = args => <Comment {...args} />;
+const Template: Story<Props> = args => <CheckBox {...args} />;
 
 export const Default = Template.bind({});
 

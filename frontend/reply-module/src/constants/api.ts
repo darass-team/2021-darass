@@ -1,5 +1,6 @@
-import { GetCommentsRequestParams, GuestUserConfirmInfo } from "../types/comment";
-import { BUILD_MODE_TABLE } from "../types/buildMode";
+import { GetCommentsRequestParams, GuestUserConfirmInfo, Comment } from "@/types/comment";
+import { BUILD_MODE_TABLE } from "@/types/buildMode";
+import { User } from "@/types/user";
 
 const BASE_URL_TABLE = {
   localhost: "https://api.darass.co.kr",
@@ -19,6 +20,16 @@ export const QUERY = {
   CHECK_GUEST_PASSWORD: ({ guestUserId, guestUserPassword }: GuestUserConfirmInfo) =>
     `/api/v1/users/check-password?guestUserId=${guestUserId}&guestUserPassword=${guestUserPassword}`,
   LIKE_COMMENT: (commentId: number) => `/api/v1/comments/${commentId}/like`,
+  GET_SECRET_COMMENT: ({
+    commentId,
+    guestUserId,
+    guestUserPassword
+  }: {
+    commentId: Comment["id"];
+    guestUserId: User["id"];
+    guestUserPassword: string;
+  }) =>
+    `/api/v1/comments/${commentId}/secret-comment?guestUserId=${guestUserId}&guestUserPassword=${guestUserPassword}`,
   USER: "/api/v1/users",
   ALARM: "/api/v1/comment-alarms",
   PROJECT: "/api/v1/projects"

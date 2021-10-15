@@ -1,23 +1,26 @@
-import { deleteComment as _deleteComment } from "@/utils/api";
-import { useMutation, useQueryClient } from "react-query";
-import { REACT_QUERY_KEY } from "@/constants/reactQueryKey";
+import { useMessageChannelFromReplyModuleContext } from "@/hooks";
+import { useCommentContext } from "@/hooks/contexts/useCommentContext";
 import { DeleteCommentRequestParameter } from "@/types/comment";
+import { deleteComment as _deleteComment } from "@/utils/api";
+import { useEffect } from "react";
+import { useMutation } from "../useMutation";
 
 export const useDeleteComment = () => {
-  const queryClient = useQueryClient();
+  const { refetchAllComment } = useCommentContext();
+  const { openAlert } = useMessageChannelFromReplyModuleContext();
 
-  const deleteMutation = useMutation<void, Error, DeleteCommentRequestParameter>(data => _deleteComment(data), {
+  const { isLoading, isError, error, data, mutation } = useMutation<DeleteCommentRequestParameter, void>({
+    query: (_data: DeleteCommentRequestParameter) => _deleteComment(_data),
     onSuccess: () => {
-      queryClient.invalidateQueries(REACT_QUERY_KEY.COMMENT);
+      refetchAllComment?.();
     }
   });
 
-  const isLoading = deleteMutation.isLoading;
-  const error = deleteMutation.error;
+  useEffect(() => {
+    if (error) {
+      openAlert(error.message);
+    }
+  }, [error]);
 
-  const deleteComment = async (data: DeleteCommentRequestParameter) => {
-    return await deleteMutation.mutateAsync(data);
-  };
-
-  return { deleteComment, isLoading, error };
+  return { deleteComment: mutation, isLoading, error };
 };

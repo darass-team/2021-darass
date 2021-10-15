@@ -1,4 +1,5 @@
 import CancelButton from "@/components/@atoms/CancelButton";
+import CheckBox from "@/components/@atoms/CheckBox";
 import SubmitButton from "@/components/@atoms/SubmitButton";
 import {
   GUEST_NICKNAME_MAX_LENGTH,
@@ -15,7 +16,7 @@ import { getErrorMessage } from "@/utils/errorMessage";
 import { focusContentEditableTextToEnd } from "@/utils/focusContentEditableTextToEnd";
 import { isEmptyString } from "@/utils/isEmptyString";
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
-import { ButtonWrapper, Form, GuestInfo, TextBox, TextBoxWrapper, TextCount, Wrapper } from "./styles";
+import { ButtonWrapper, Form, GuestInfo, TextBox, TextBoxWrapper, TextCount, TextInfoWrapper, Wrapper } from "./styles";
 
 export interface Props {
   user?: User;
@@ -37,6 +38,7 @@ const CommentInput = ({ user, parentCommentId, isSubComment, onClose, ...props }
   const { content, setContent, onInput: onInputContentEditable, $contentEditable } = useContentEditable("");
   const { value: guestNickName, onChange: onChangeGuestNickName, setValue: setGuestNickName } = useInput("");
   const { value: guestPassword, onChange: onChangeGuestPassword, setValue: setGuestPassword } = useInput("");
+  const [isSecretComment, setIsSecretComment] = useState(false);
   const [isFormSubmitted, setFormSubmitted] = useState(false);
 
   const isValidCommentInput = !isEmptyString(content) && content.length <= MAX_COMMENT_INPUT_LENGTH;
@@ -46,6 +48,10 @@ const CommentInput = ({ user, parentCommentId, isSubComment, onClose, ...props }
   const isValidGuestPassword = !user
     ? GUEST_PASSWORD_MIN_LENGTH <= guestPassword.length && guestPassword.length <= GUEST_PASSWORD_MAX_LENGTH
     : true;
+
+  const onClickSecretCommentCheckBox = () => {
+    setIsSecretComment(state => !state);
+  };
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -70,26 +76,27 @@ const CommentInput = ({ user, parentCommentId, isSubComment, onClose, ...props }
       return;
     }
 
-    try {
-      const guestInfo = {
-        guestNickName: guestNickName || undefined,
-        guestPassword: guestPassword || undefined
-      };
+    const guestInfo = {
+      guestNickName: guestNickName || undefined,
+      guestPassword: guestPassword || undefined
+    };
 
-      await createComment({ content, url, projectSecretKey, ...guestInfo, parentId: parentCommentId });
+    await createComment({
+      content,
+      url,
+      projectSecretKey,
+      ...guestInfo,
+      parentId: parentCommentId,
+      secret: isSecretComment
+    });
 
-      setContent("");
-      setGuestNickName("");
-      setGuestPassword("");
+    setContent("");
+    setGuestNickName("");
+    setGuestPassword("");
+    setIsSecretComment(false);
 
-      if (onClose) onClose();
-    } catch (error) {
-      if (error instanceof AlertError) {
-        openAlert(error.message);
-      }
-    } finally {
-      setFormSubmitted(false);
-    }
+    onClose?.();
+    setFormSubmitted(false);
   };
 
   const onInput = (event: ChangeEvent<HTMLDivElement>) => {
@@ -109,9 +116,7 @@ const CommentInput = ({ user, parentCommentId, isSubComment, onClose, ...props }
   };
 
   useEffect(() => {
-    if (isSubComment) {
-      $contentEditable.current?.focus();
-    }
+    if (isSubComment) $contentEditable.current?.focus();
   }, []);
 
   return (
@@ -124,7 +129,10 @@ const CommentInput = ({ user, parentCommentId, isSubComment, onClose, ...props }
           isValidInput={!isFormSubmitted || isValidCommentInput}
           data-testid="comment-input-text-box"
         />
-        <TextCount data-testid="comment-input-text-length">{`${content.length} / ${MAX_COMMENT_INPUT_LENGTH}`}</TextCount>
+        <TextInfoWrapper>
+          <CheckBox isChecked={isSecretComment} onChange={onClickSecretCommentCheckBox} labelText="비밀글" />
+          <TextCount data-testid="comment-input-text-length">{`${content.length} / ${MAX_COMMENT_INPUT_LENGTH}`}</TextCount>
+        </TextInfoWrapper>
       </TextBoxWrapper>
 
       <Wrapper>

@@ -1,7 +1,5 @@
-export const useCreateComment = jest.fn().mockImplementation(() => {
-  return {
-    createComment: jest.fn(),
-    isLoading: false,
-    error: null
-  };
+export const useCreateComment = jest.fn().mockReturnValue({
+  createComment: jest.fn(),
+  isLoading: false,
+  error: null
 });

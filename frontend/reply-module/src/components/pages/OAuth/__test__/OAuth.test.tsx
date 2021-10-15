@@ -13,7 +13,6 @@ jest.mock("react-router", () => ({
     provider: "KAKAO"
   })
 }));
-jest.mock("@/hooks/api/token/useToken");
 
 window.close = jest.fn();
 

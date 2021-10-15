@@ -9,6 +9,7 @@ describe("CommentButton test", () => {
       const props: Props = {
         alreadyLiked: true,
         isSubComment: false,
+        isReadable: true,
         onClickLikeButton: () => {},
         onClickAddSubCommentButton: () => {},
         commentCreatedDate: "2021-10-02"
@@ -22,6 +23,7 @@ describe("CommentButton test", () => {
       const props: Props = {
         alreadyLiked: false,
         isSubComment: false,
+        isReadable: true,
         onClickLikeButton: () => {},
         onClickAddSubCommentButton: () => {},
         commentCreatedDate: "2021-10-02"

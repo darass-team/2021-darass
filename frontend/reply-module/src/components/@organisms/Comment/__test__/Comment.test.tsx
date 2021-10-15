@@ -12,6 +12,8 @@ jest.mock("@/hooks/api/comment/useCreateComment");
 
 describe("Comment test", () => {
   describe("logic test", () => {
+    test("비밀댓글이면, profileImageUrl이 guestProfileImageUrl이다.", () => {});
+
     test("isVisibleCommentOption이 false이면 CommentOption이 보이지 않는다.", () => {
       const props: Props = {
         user: undefined,
@@ -26,6 +28,7 @@ describe("Comment test", () => {
         thisCommentIsWrittenByGuest: false,
         thisCommentIsMine: false,
         isSubComment: false,
+        isReadable: true,
         alreadyLiked: false,
         canIEdit: false,
         canIDelete: false
@@ -50,6 +53,7 @@ describe("Comment test", () => {
         thisCommentIsWrittenByGuest: false,
         thisCommentIsMine: false,
         isSubComment: false,
+        isReadable: true,
         alreadyLiked: false,
         canIEdit: false,
         canIDelete: false
@@ -74,6 +78,7 @@ describe("Comment test", () => {
         thisCommentIsWrittenByGuest: false,
         thisCommentIsMine: false,
         isSubComment: false,
+        isReadable: true,
         alreadyLiked: false,
         canIEdit: false,
         canIDelete: false
@@ -98,6 +103,7 @@ describe("Comment test", () => {
         thisCommentIsWrittenByGuest: false,
         thisCommentIsMine: false,
         isSubComment: false,
+        isReadable: true,
         alreadyLiked: false,
         canIEdit: false,
         canIDelete: false
@@ -122,6 +128,7 @@ describe("Comment test", () => {
         thisCommentIsWrittenByGuest: false,
         thisCommentIsMine: false,
         isSubComment: false,
+        isReadable: true,
         alreadyLiked: false,
         canIEdit: true,
         canIDelete: false
@@ -149,6 +156,7 @@ describe("Comment test", () => {
         thisCommentIsWrittenByGuest: false,
         thisCommentIsMine: false,
         isSubComment: false,
+        isReadable: true,
         alreadyLiked: false,
         canIEdit: true,
         canIDelete: false
@@ -173,6 +181,7 @@ describe("Comment test", () => {
         thisCommentIsWrittenByGuest: false,
         thisCommentIsMine: false,
         isSubComment: false,
+        isReadable: true,
         alreadyLiked: false,
         canIEdit: true,
         canIDelete: false
