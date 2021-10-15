@@ -19,7 +19,7 @@ describe("postMessage test", () => {
 
       expect(port.postMessage).toHaveBeenCalledWith({
         type: POST_MESSAGE_TYPE.SCROLL_HEIGHT,
-        data: document.querySelector("#root")?.scrollHeight
+        data: Number(document.querySelector("#root")?.scrollHeight)
       });
     });
     test("openAlert를 호출하면, postMessage가 호출된다.", () => {

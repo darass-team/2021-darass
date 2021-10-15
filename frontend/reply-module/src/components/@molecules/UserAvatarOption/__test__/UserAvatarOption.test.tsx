@@ -91,25 +91,6 @@ describe("UserAvatarOption test", () => {
         expect(openAlarmModal).toHaveBeenCalledTimes(1);
       });
     });
-
-    test("user가 있을때, 알람버튼을 눌렀을때 editUser에서 Error가 나면 openAlert가 호출된다.", async () => {
-      const props: Props = {
-        user: socialLoginUser,
-        children: <></>
-      };
-
-      editUser.mockImplementation(() => {
-        throw new AlertError("editUser error");
-      });
-
-      const { getByTestId } = render(<UserAvatarOption {...props} />);
-
-      fireEvent.click(getByTestId("user-avatar-option-alarm"));
-
-      await waitFor(() => {
-        expect(openAlert).toHaveBeenLastCalledWith("editUser error");
-      });
-    });
   });
 
   describe("style test", () => {

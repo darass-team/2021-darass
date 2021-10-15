@@ -209,7 +209,8 @@ describe("api test", () => {
       expect(request.patch).toHaveBeenCalledWith(`${QUERY.COMMENT}/${data.id}`, {
         content: data.content,
         guestUserId: data.guestUserId,
-        guestUserPassword: data.guestUserPassword
+        guestUserPassword: data.guestUserPassword,
+        secret: false
       });
       expect(res).toEqual(comments[0]);
     });
