@@ -215,6 +215,7 @@ const Comment = ({
               name={comment.user.nickName}
               thisCommentIsWrittenByAdmin={thisCommentIsWrittenByAdmin}
               isSubComment={isSubComment}
+              thisCommentIsWrittenByGuest={thisCommentIsWrittenByGuest}
               isSecretComment={comment.secret}
               isReadable={isReadable}
               contentEditable={isEditMode}
