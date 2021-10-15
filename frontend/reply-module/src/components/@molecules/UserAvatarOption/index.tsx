@@ -43,7 +43,7 @@ const UserAvatarOption = ({ user, children, ...props }: Props) => {
       formData.append("hasRecentAlarm", "false");
 
       await editUser(formData);
-      if (refetchUser) await refetchUser();
+      await refetchUser?.();
       setHasNewAlarmOnRealTime?.(false);
     } catch (error) {
       if (error instanceof AlertError) {

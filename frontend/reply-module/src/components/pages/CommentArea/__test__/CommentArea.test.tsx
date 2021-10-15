@@ -1,15 +1,6 @@
 import { OAUTH_URL } from "@/constants/oauth";
-import {
-  useCreateComment,
-  useGetAllComments,
-  useGetProjectOwnerId,
-  useMessageChannelFromReplyModuleContext,
-  useUser
-} from "@/hooks";
-import { useToken } from "@/hooks/api/token/useToken";
+import { useGetAllComments, useGetProjectOwnerId, useUser } from "@/hooks";
 import { popUpCenter } from "@/utils/popUpCenter";
-import { comments } from "@/__test__/fixture/comments";
-import { socialLoginUser } from "@/__test__/fixture/user";
 import { fireEvent, render } from "@testing-library/react";
 import CommentArea from "..";
 

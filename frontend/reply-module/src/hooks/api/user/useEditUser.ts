@@ -1,25 +1,17 @@
-import { REACT_QUERY_KEY } from "@/constants/reactQueryKey";
+import { useUserContext } from "@/hooks/contexts/useUserContext";
 import { User } from "@/types/user";
 import { patchEditUser } from "@/utils/api";
-import { useMutation, useQueryClient } from "react-query";
+import { useMutation } from "../useMutation";
 
 export const useEditUser = () => {
-  const queryClient = useQueryClient();
+  const { refetchUser } = useUserContext();
 
-  const editMutation = useMutation<User, Error, FormData>(data => patchEditUser(data), {
+  const { isLoading, error, mutation } = useMutation<FormData, User>({
+    query: (data: FormData) => patchEditUser(data),
     onSuccess: () => {
-      queryClient.invalidateQueries(REACT_QUERY_KEY.USER);
+      refetchUser?.();
     }
   });
 
-  const isLoading = editMutation.isLoading;
-  const error = editMutation.error;
-
-  const editUser = async (data: FormData) => {
-    const user = await editMutation.mutateAsync(data);
-
-    return user;
-  };
-
-  return { editUser, isLoading, error };
+  return { editUser: mutation, isLoading, error };
 };

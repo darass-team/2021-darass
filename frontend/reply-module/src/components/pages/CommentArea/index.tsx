@@ -8,7 +8,6 @@ import { MANAGE_PAGE_DOMAIN } from "@/constants/domain";
 import { OAUTH_URL } from "@/constants/oauth";
 import { ORDER_BUTTON } from "@/constants/orderButton";
 import { useGetAllComments, useGetProjectOwnerId, useMessageChannelFromReplyModuleContext } from "@/hooks";
-import { useToken } from "@/hooks/api/token/useToken";
 import { CommentContext } from "@/hooks/contexts/useCommentContext";
 import { useUserContext } from "@/hooks/contexts/useUserContext";
 import { AlertError } from "@/utils/alertError";
@@ -32,8 +31,7 @@ const CommentArea = () => {
   const [sortOption, setSortOption] = useState<keyof typeof ORDER_BUTTON>("oldest");
   const [notice, setNotice] = useState("");
 
-  const { refetchAccessToken } = useToken();
-  const { user, logout } = useUserContext();
+  const { user, logout, refetchAccessToken } = useUserContext();
 
   const {
     totalCommentsCount,
@@ -92,8 +90,8 @@ const CommentArea = () => {
         if (!popUp || !popUp.closed) return;
 
         clearInterval(timerId);
-        refetchAccessToken();
-      }, 300);
+        refetchAccessToken?.();
+      }, 1000);
     } catch (error) {
       if (error instanceof AlertError) {
         alert(error.message);

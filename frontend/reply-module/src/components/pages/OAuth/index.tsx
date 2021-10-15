@@ -1,17 +1,16 @@
 import LoadingPage from "@/components/@molecules/LoadingPage";
 import { QUERY } from "@/constants/api";
-import { useToken } from "@/hooks/api/token/useToken";
+import { useUserContext } from "@/hooks/contexts/useUserContext";
 import { request } from "@/utils/request";
 import { useEffect } from "react";
-import { useHistory, useLocation, useParams } from "react-router";
+import { useLocation, useParams } from "react-router";
 
 const OAuth = () => {
   const location = useLocation();
-  const history = useHistory();
   const { provider } = useParams<{ provider: string }>();
   const urlSearchParams = new URLSearchParams(location.search);
   const code = urlSearchParams.get("code");
-  const { refetchAccessToken, accessToken } = useToken();
+  const { refetchAccessToken, accessToken } = useUserContext();
 
   useEffect(() => {
     if (!code) {
@@ -25,7 +24,7 @@ const OAuth = () => {
           authorizationCode: code
         });
 
-        refetchAccessToken();
+        refetchAccessToken?.();
       } catch (error) {
         console.error(error);
       }
