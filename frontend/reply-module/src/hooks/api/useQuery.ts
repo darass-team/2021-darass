@@ -33,6 +33,10 @@ export const useQuery = <T>({ enabled, query, onSuccess, refetchInterval }: Prop
     }
   };
 
+  const clearRefetchInterval = () => {
+    if (timeIdRef.current) clearInterval(timeIdRef.current);
+  };
+
   useEffect(() => {
     if (enabled) refetch();
   }, []);
@@ -44,12 +48,16 @@ export const useQuery = <T>({ enabled, query, onSuccess, refetchInterval }: Prop
       return;
     }
 
-    timeIdRef.current = setInterval(refetch, refetchInterval);
+    if (timeIdRef.current) clearInterval(timeIdRef.current);
+
+    timeIdRef.current = setInterval(() => {
+      refetch();
+    }, refetchInterval);
 
     return () => {
       if (timeIdRef.current) clearInterval(timeIdRef.current);
     };
   }, []);
 
-  return { refetch, isLoading, isError, data, error, setData, isSuccess: !isError };
+  return { refetch, isLoading, isError, data, error, setData, isSuccess: !isError, clearRefetchInterval };
 };

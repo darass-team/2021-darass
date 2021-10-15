@@ -12,10 +12,11 @@ export const useUser = () => {
     data: accessToken,
     refetch: _refetchAccessToken,
     error: accessTokenError,
-    setData: setAccessToken
+    setData: setAccessToken,
+    clearRefetchInterval
   } = useQuery<string>({
     query: getAccessTokenByRefreshToken,
-    enabled: true,
+    enabled: false,
     refetchInterval: TOKEN_REFETCH_TIMER
   });
 
@@ -47,6 +48,7 @@ export const useUser = () => {
   const removeAccessToken = () => {
     deleteMutation();
     removeLocalStorage("active");
+    clearRefetchInterval();
   };
 
   const logout = () => {
@@ -60,6 +62,8 @@ export const useUser = () => {
   useEffect(() => {
     if (isActiveAccessToken) {
       refetchAccessToken();
+    } else {
+      clearRefetchInterval();
     }
   }, []);
 

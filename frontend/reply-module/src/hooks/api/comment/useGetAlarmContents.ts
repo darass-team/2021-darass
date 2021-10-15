@@ -15,7 +15,7 @@ export const useGetAlarmContents = () => {
   });
 
   useEffect(() => {
-    refetch();
+    if (accessToken) refetch();
   }, [accessToken]);
 
   useEffect(() => {
