@@ -185,7 +185,7 @@ const Manage = () => {
                   <ErrorNotice>{"조건에 맞는 댓글을 찾을 수 없습니다"}</ErrorNotice>
                 </Row>
               ) : (
-                comments.map(({ id, content, user, createdDate, url }) => (
+                comments.map(({ id, content, user, createdDate, url, secret }) => (
                   <Row key={id}>
                     <Comment
                       isMyComment={me?.id === user.id}
@@ -196,6 +196,7 @@ const Manage = () => {
                       createdDate={createdDate}
                       content={content}
                       url={url}
+                      secret={secret}
                     />
                   </Row>
                 ))
