@@ -38,3 +38,7 @@ export const Content = styled.span`
 export const Url = styled.a`
   color: ${PALETTE.GRAY_500};
 `;
+
+export const SecretIcon = styled.span`
+  margin-left: 0.5rem;
+`;

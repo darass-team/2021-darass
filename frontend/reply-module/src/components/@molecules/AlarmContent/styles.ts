@@ -66,3 +66,7 @@ export const Text = styled.span`
 export const Url = styled.span`
   color: ${PALETTE.GRAY_500};
 `;
+
+export const LockIcon = styled.span`
+  margin-left: 0.5rem;
+`;
