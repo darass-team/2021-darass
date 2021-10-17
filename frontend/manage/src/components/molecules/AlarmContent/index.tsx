@@ -4,6 +4,7 @@ import {
   AlarmHeader,
   Content,
   ContentWrapper,
+  LockIcon,
   Name,
   NoContent,
   Notification,
@@ -38,6 +39,7 @@ const AlarmContent = ({ alarmContents }: Props) => {
                   <span>
                     <Name>{sender.nickName}</Name>
                     <span>{ALARM_MESSAGE_TABLE[commentAlarmType]}</span>
+                    {comment.secret && <LockIcon>{"🔒"}</LockIcon>}
                   </span>
 
                   <time>{getTimeDifference(createdDate)}</time>
