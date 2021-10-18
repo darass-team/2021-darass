@@ -15,6 +15,9 @@ import { useReplyModuleApp } from "./useReplyModuleApp";
 const App = () => {
   const { user, logout, refetchUser, isLoading, isSuccess, accessToken, refetchAccessToken } = useUser();
   const [isDarkModePage, setIsDarkModePage] = useState(true);
+  const onToggleDarkMode = () => {
+    setIsDarkModePage(state => !state);
+  };
 
   const { port, recentlyAlarmContent, hasNewAlarmOnRealTime, setHasNewAlarmOnRealTime, receivedMessageFromReplyModal } =
     useReplyModuleApp();
@@ -22,7 +25,8 @@ const App = () => {
   return (
     <ThemeProvider
       theme={{
-        isDarkModePage
+        isDarkModePage,
+        onToggleDarkMode
       }}
     >
       <MessageChannelFromReplyModuleContext.Provider
