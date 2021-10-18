@@ -7,50 +7,59 @@ import { MessageChannelFromReplyModuleContext } from "@/hooks/contexts/useMessag
 import { RecentlyAlarmContentContext } from "@/hooks/contexts/useRecentlyAlarmContentContext";
 import { UserContext } from "@/hooks/contexts/useUserContext";
 import { messageFromReplyModule } from "@/utils/postMessage";
+import { useState } from "react";
 import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
+import { ThemeProvider } from "styled-components";
 import { useReplyModuleApp } from "./useReplyModuleApp";
 
 const App = () => {
   const { user, logout, refetchUser, isLoading, isSuccess, accessToken, refetchAccessToken } = useUser();
+  const [isDarkModePage, setIsDarkModePage] = useState(true);
 
   const { port, recentlyAlarmContent, hasNewAlarmOnRealTime, setHasNewAlarmOnRealTime, receivedMessageFromReplyModal } =
     useReplyModuleApp();
 
   return (
-    <MessageChannelFromReplyModuleContext.Provider
-      value={{
-        setScrollHeight: messageFromReplyModule(port).setScrollHeight,
-        openAlert: messageFromReplyModule(port).openAlert,
-        openConfirmModal: messageFromReplyModule(port).openConfirmModal,
-        openAlarmModal: messageFromReplyModule(port).openAlarmModal,
-        openLikingUserModal: messageFromReplyModule(port).openLikingUserModal,
-        receivedMessageFromReplyModal
+    <ThemeProvider
+      theme={{
+        isDarkModePage
       }}
     >
-      <UserContext.Provider
+      <MessageChannelFromReplyModuleContext.Provider
         value={{
-          user,
-          logout,
-          refetchUser,
-          refetchAccessToken,
-          accessToken,
-          isLoadingUserRequest: isLoading,
-          isSuccessUserRequest: isSuccess
+          setScrollHeight: messageFromReplyModule(port).setScrollHeight,
+          openAlert: messageFromReplyModule(port).openAlert,
+          openConfirmModal: messageFromReplyModule(port).openConfirmModal,
+          openAlarmModal: messageFromReplyModule(port).openAlarmModal,
+          openLikingUserModal: messageFromReplyModule(port).openLikingUserModal,
+          receivedMessageFromReplyModal
         }}
       >
-        <RecentlyAlarmContentContext.Provider
-          value={{ recentlyAlarmContent, hasNewAlarmOnRealTime, setHasNewAlarmOnRealTime }}
+        <UserContext.Provider
+          value={{
+            user,
+            logout,
+            refetchUser,
+            refetchAccessToken,
+            accessToken,
+            isLoadingUserRequest: isLoading,
+            isSuccessUserRequest: isSuccess
+          }}
         >
-          <BrowserRouter>
-            <Switch>
-              <Route exact path={ROUTE.HOME} component={port ? CommentArea : LoadingPage} />
-              <Route exact path={ROUTE.OAUTH} component={OAuth} />
-              <Redirect to={ROUTE.HOME} />
-            </Switch>
-          </BrowserRouter>
-        </RecentlyAlarmContentContext.Provider>
-      </UserContext.Provider>
-    </MessageChannelFromReplyModuleContext.Provider>
+          <RecentlyAlarmContentContext.Provider
+            value={{ recentlyAlarmContent, hasNewAlarmOnRealTime, setHasNewAlarmOnRealTime }}
+          >
+            <BrowserRouter>
+              <Switch>
+                <Route exact path={ROUTE.HOME} component={port ? CommentArea : LoadingPage} />
+                <Route exact path={ROUTE.OAUTH} component={OAuth} />
+                <Redirect to={ROUTE.HOME} />
+              </Switch>
+            </BrowserRouter>
+          </RecentlyAlarmContentContext.Provider>
+        </UserContext.Provider>
+      </MessageChannelFromReplyModuleContext.Provider>
+    </ThemeProvider>
   );
 };
 

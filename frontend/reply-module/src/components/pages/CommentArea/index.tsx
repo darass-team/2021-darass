@@ -124,17 +124,6 @@ const CommentArea = () => {
           <LoadingPage />
         )}
 
-        {/* <CommentList
-          user={user}
-          totalCommentsCount={totalCommentsCount}
-          comments={comments}
-          projectOwnerId={projectOwnerId}
-          sortOption={sortOption}
-          onSelectSortOption={onSelectSortOption}
-          notice={notice}
-          data-testid="comment-list"
-        /> */}
-
         <UserAvatarOption user={user}>
           {user ? (
             <>

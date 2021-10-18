@@ -17,6 +17,7 @@ export enum PALETTE {
   "RED_600" = "#E41E1E",
   "RED_800" = "#CB2431",
   "INDIGO_600" = "#4c6ef5",
+  "BLUE_500" = "#005EFF",
   "BLUE_700" = "#065FD4",
   "TEAL_700" = "#0ca678",
   "BAR" = GRAY_500,

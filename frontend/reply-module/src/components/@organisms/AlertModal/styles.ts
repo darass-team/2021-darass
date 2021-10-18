@@ -48,6 +48,6 @@ const Button = styled.button`
 `;
 
 export const OkButton = styled(Button)`
-  color: ${PALETTE.BLUE_700};
+  color: ${({ theme: { isDarkModePage } }) => (isDarkModePage ? PALETTE.BLUE_500 : PALETTE.BLUE_700)};
   border-radius: 0 0 0 10px;
 `;

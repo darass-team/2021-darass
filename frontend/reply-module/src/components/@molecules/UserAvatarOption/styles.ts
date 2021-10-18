@@ -18,7 +18,7 @@ export const UserNickName = styled.button`
   line-height: 2.1rem;
   font-weight: 700;
   margin-right: 10px;
-  color: ${PALETTE.GRAY_800};
+  color: ${({ theme: { isDarkModePage } }) => (isDarkModePage ? PALETTE.WHITE : PALETTE.GRAY_800)};
   padding: 0;
   background-color: transparent;
 `;

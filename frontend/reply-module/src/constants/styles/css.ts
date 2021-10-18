@@ -16,17 +16,17 @@ export const InputCSS = css`
   box-sizing: border-box;
   border: 1px solid ${PALETTE.GRAY_500};
   border-radius: 10px;
-  color: ${PALETTE.BLACK_700};
+  color: ${({ theme: { isDarkModePage } }) => (isDarkModePage ? PALETTE.GRAY_700 : PALETTE.BLACK_700)};
   font-size: 1.2rem;
   line-height: 1.8rem;
   outline: none;
 
   &:focus {
-    box-shadow: 0 0 0 1px ${PALETTE.BLACK_700};
+    box-shadow: 0 0 0 1px ${({ theme: { isDarkModePage } }) => (isDarkModePage ? PALETTE.WHITE : PALETTE.BLACK_700)};
   }
 
   &::placeholder {
-    color: ${PALETTE.GRAY_600};
+    color: ${({ theme: { isDarkModePage } }) => (isDarkModePage ? PALETTE.GRAY_700 : PALETTE.GRAY_600)};
   }
 `;
 

@@ -28,6 +28,7 @@ export const Button = styled.button<{ isLiked: boolean }>`
   }
 
   & > svg > path {
-    fill: ${props => props.isLiked && `${PALETTE.BLUE_700}`};
+    fill: ${({ isLiked, theme: { isDarkModePage } }) =>
+      isLiked && isDarkModePage ? PALETTE.BLUE_500 : PALETTE.BLUE_700};
   }
 `;
