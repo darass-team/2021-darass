@@ -1,5 +1,5 @@
 <p align="middle" >
-  <img width="200px;" src="https://github.com/woowacourse-teams/2021-darass/blob/main/frontend/reply-module/src/assets/svg/darass-logo.svg" alt="darass-logo"/>
+  <img width="200px;" src="https://user-images.githubusercontent.com/41244373/137938733-acdb3852-6514-4c60-9b80-2d9380c05adc.png" alt="darass-logo"/>
 </p>
 <h1 align="middle">다라쓰</h1>
 <h3 align="middle">어디든지 쉽고 간편하게 다는 댓글 모듈 서비스</h3>
