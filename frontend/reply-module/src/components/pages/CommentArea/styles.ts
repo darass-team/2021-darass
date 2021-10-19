@@ -1,6 +1,5 @@
-import styled from "styled-components";
-import UserAvatarOptionComponent from "@/components/@molecules/UserAvatarOption";
 import CommentListComponent from "@/components/@templates/CommentList";
+import styled from "styled-components";
 
 export const Container = styled.section`
   width: 100%;
@@ -18,8 +17,11 @@ export const LoginMethodWrapper = styled.div`
   align-items: center;
 `;
 
-export const UserAvatarOption = styled(UserAvatarOptionComponent)`
-  margin-left: auto;
+export const CommentInputHeader = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
   margin-bottom: 1.5rem;
 `;
 

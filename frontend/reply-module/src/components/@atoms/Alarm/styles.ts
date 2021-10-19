@@ -30,6 +30,7 @@ export const Container = styled.div<{ size: Size }>`
 export const Img = styled.img<{ hasUnReadNotification: boolean }>`
   object-fit: contain;
   ${({ hasUnReadNotification }) => hasUnReadNotification && ShakeCSS};
+  ${({ theme: { isDarkModePage } }) => isDarkModePage && `filter: invert(100%);`}
 `;
 
 export const Dot = styled.span`

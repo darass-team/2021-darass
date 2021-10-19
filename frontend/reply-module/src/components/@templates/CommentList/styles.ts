@@ -20,6 +20,8 @@ export const CommentCountWrapper = styled.div`
   font-size: 1.4rem;
   line-height: 2.1rem;
   word-break: keep-all;
+  font-weight: 700;
+  color: ${({ theme: { isDarkModePage } }) => isDarkModePage && PALETTE.WHITE};
 `;
 
 export const CommentCount = styled.span`
@@ -43,7 +45,8 @@ export const OrderButtonWrapper = styled.div`
 `;
 
 export const OrderButton = styled.button<{ isSelected: boolean }>`
-  color: ${props => (props.isSelected ? PALETTE.BLACK_700 : PALETTE.GRAY_500)};
+  color: ${({ isSelected, theme: { isDarkModePage } }) =>
+    isSelected ? (isDarkModePage ? PALETTE.WHITE : PALETTE.BLACK_700) : PALETTE.GRAY_500};
   font-size: 1.2rem;
   line-height: 1.8rem;
   font-weight: 700;
@@ -52,7 +55,7 @@ export const OrderButton = styled.button<{ isSelected: boolean }>`
 
   @media (hover: hover) and (pointer: fine) {
     &:hover {
-      color: ${props => !props.isSelected && PALETTE.BLACK_700};
+      color: ${({ theme: { isDarkModePage } }) => (isDarkModePage ? PALETTE.WHITE : PALETTE.GRAY_500)};
     }
   }
 `;
@@ -78,6 +81,6 @@ export const Notice = styled.span`
   min-height: 7rem;
   font-size: 1.4rem;
   line-height: 2.1rem;
-  color: ${PALETTE.GRAY_600};
+  color: ${({ theme: { isDarkModePage } }) => (isDarkModePage ? PALETTE.WHITE : PALETTE.GRAY_600)};
   white-space: break-spaces;
 `;

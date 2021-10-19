@@ -1,11 +1,11 @@
 import { PALETTE } from "@/constants/styles/palette";
 import styled from "styled-components";
-import { LINE_HEIGHT_SCALE } from "@/constants/styles/constants";
 
 export const Label = styled.label`
   line-height: 0;
   display: flex;
   align-items: center;
+  color: ${({ theme: { isDarkModePage } }) => (isDarkModePage ? PALETTE.GRAY_500 : PALETTE.BLACK_700)};
 `;
 
 export const Input = styled.input<{ hasLabelText: boolean }>`

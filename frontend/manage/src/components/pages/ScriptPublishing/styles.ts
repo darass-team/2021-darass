@@ -16,6 +16,7 @@ export const CodeBlockWrapper = styled.div`
   padding: 0;
   position: relative;
   box-sizing: border-box;
+  margin-top: 1rem;
 `;
 
 export const CopyButton = styled.button`

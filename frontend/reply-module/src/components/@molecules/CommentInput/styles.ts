@@ -59,6 +59,7 @@ export const TextCount = styled.span`
   line-height: 1.65rem;
   margin-left: auto;
   margin-right: 0.6rem;
+  color: ${({ theme: { isDarkModePage } }) => isDarkModePage && PALETTE.WHITE};
 `;
 
 export const Wrapper = styled.div`
