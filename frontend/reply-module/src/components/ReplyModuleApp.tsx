@@ -12,15 +12,17 @@ import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
 import { useReplyModuleApp } from "./useReplyModuleApp";
 
-const App = () => {
+const getIsDarkModePageParam = () => {
   const urlParams = new URLSearchParams(window.location.search);
+  const isDarkModePageString = urlParams.get("darkMode");
 
+  return isDarkModePageString === "true" ? true : false;
+};
+
+const App = () => {
   const { user, logout, refetchUser, isLoading, isSuccess, accessToken, refetchAccessToken } = useUser();
-  const [isDarkModePage, setIsDarkModePage] = useState(() => {
-    const isDarkModePageString = urlParams.get("darkMode");
 
-    return isDarkModePageString === "true" ? true : false;
-  });
+  const isDarkModePage = getIsDarkModePageParam();
 
   const { port, recentlyAlarmContent, hasNewAlarmOnRealTime, setHasNewAlarmOnRealTime, receivedMessageFromReplyModal } =
     useReplyModuleApp();
