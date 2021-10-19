@@ -13,11 +13,14 @@ import { ThemeProvider } from "styled-components";
 import { useReplyModuleApp } from "./useReplyModuleApp";
 
 const App = () => {
+  const urlParams = new URLSearchParams(window.location.search);
+
   const { user, logout, refetchUser, isLoading, isSuccess, accessToken, refetchAccessToken } = useUser();
-  const [isDarkModePage, setIsDarkModePage] = useState(true);
-  const onToggleDarkMode = () => {
-    setIsDarkModePage(state => !state);
-  };
+  const [isDarkModePage, setIsDarkModePage] = useState(() => {
+    const isDarkModePageString = urlParams.get("darkMode");
+
+    return isDarkModePageString === "true" ? true : false;
+  });
 
   const { port, recentlyAlarmContent, hasNewAlarmOnRealTime, setHasNewAlarmOnRealTime, receivedMessageFromReplyModal } =
     useReplyModuleApp();
@@ -25,8 +28,7 @@ const App = () => {
   return (
     <ThemeProvider
       theme={{
-        isDarkModePage,
-        onToggleDarkMode
+        isDarkModePage
       }}
     >
       <MessageChannelFromReplyModuleContext.Provider

@@ -13,12 +13,15 @@ import { REPLY_MODULE_DOMAIN } from "@/constants/domain";
 import { BlogLogoWrapper, CodeBlockWrapper, Container, CopyButton, Ol, Title } from "./styles";
 import LoadingPage from "../LoadingPage";
 import { useUserContext } from "@/hooks/context/useUserContext";
+import DarkModeToggleButton from "@/components/atoms/DarkModeToggleButton";
 
 SyntaxHighlighter.registerLanguage("javascript", js);
 
-const htmlScriptCode = (projectSecretKey: string) => `
+const htmlScriptCode = (projectSecretKey: string, isDarkModePage = false) => `
 <!-- 다라쓰 설치 코드 -->
-<div id="darass" data-project-key="${projectSecretKey}">
+<div id="darass" 
+    data-project-key="${projectSecretKey}" 
+    data-dark-mode="${isDarkModePage}">
     <script type="text/javascript" defer>
         (function () {
         var $document = document;
@@ -35,14 +38,15 @@ const htmlScriptCode = (projectSecretKey: string) => `
 <!-- 다라쓰 설치 코드 끝 -->
 `;
 
-const JsxScriptCode = (projectSecretKey: string) => `
+const JsxScriptCode = (projectSecretKey: string, isDarkModePage = false) => `
 import Darass from "darass-react";
 
-<Darass projectKey="${projectSecretKey}" />;
+<Darass projectKey="${projectSecretKey}" isDarkMode="${isDarkModePage}"/>;
 `;
 
 const ScriptPublishing = () => {
   const [selectedBlogInfo, setSelectedBlogInfo] = useState<ObjectValueType<typeof GUIDE_FILE>>();
+  const [isDarkModePage, setIsDarkModePage] = useState(false);
   const match = useRouteMatch<{ id: string }>();
 
   const { user } = useUserContext();
@@ -56,7 +60,9 @@ const ScriptPublishing = () => {
   useDocumentTitle("스크립트 발급");
 
   const script =
-    selectedBlogInfo?.scriptType === "HTML" ? htmlScriptCode(projectSecretKey) : JsxScriptCode(projectSecretKey);
+    selectedBlogInfo?.scriptType === "HTML"
+      ? htmlScriptCode(projectSecretKey, isDarkModePage)
+      : JsxScriptCode(projectSecretKey, isDarkModePage);
 
   if (Number.isNaN(projectId)) {
     return <Redirect to={ROUTE.COMMON.HOME} />;
@@ -102,18 +108,27 @@ const ScriptPublishing = () => {
               <GuideStep title="주의 사항" description="스크립트 내부의 코드는 변경해서는 안됩니다." />
 
               <GuideStep
+                title="다크 모드"
+                description="다크 모드를 사용하는 웹 사이트의 경우, 스크립트 태그의 data-dark-mode를 'true'로 바꿔주세요."
+              />
+
+              <GuideStep
                 title="브라우저 지원 현황"
                 description="다라쓰는 아래의 최신 브라우저 사용을 권장합니다. 구형 브라우저에서는 일부 기능이 동작하지 않을 수
                   있습니다."
               >
                 <Ol>
                   <li>Chrome</li>
-                  <li>Safari</li>
+                  <li>FireFox</li>
                   <li>Samsung browser</li>
                 </Ol>
               </GuideStep>
 
               <GuideStep title="스크립트">
+                <DarkModeToggleButton
+                  isDarkModePage={isDarkModePage}
+                  onToggleDarkMode={() => setIsDarkModePage(state => !state)}
+                />
                 <CodeBlockWrapper>
                   <CopyButton type="button" onClick={() => onCopy(script)}>
                     {isCopyButtonClicked ? "Copied !" : "Copy"}

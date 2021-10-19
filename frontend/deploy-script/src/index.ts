@@ -24,9 +24,9 @@ const init = () => {
     return;
   }
 
-  const isDarkModePage = $darass.dataset.darkMode || "false";
+  const isDarkModePage = $darass.dataset.darkMode === "true" ? true : false;
 
-  const $replyModuleIframe = createIframe(getReplyModuleURL(projectKey), IFRAME_STYLE.REPLY_MODULE);
+  const $replyModuleIframe = createIframe(getReplyModuleURL(projectKey, isDarkModePage), IFRAME_STYLE.REPLY_MODULE);
   const $modalIframe = createIframe(getModalUrl(), IFRAME_STYLE.MODAL);
   $replyModuleIframe.setAttribute("scrolling", "no");
 
