@@ -1,7 +1,6 @@
 import kakaoTalkIcon from "@/assets/png/kakaotalk.png";
 import naverIcon from "@/assets/png/naver.png";
 import Avatar from "@/components/@atoms/Avatar";
-import DarkModeToggleButton from "@/components/@atoms/DarkModeToggleButton";
 import CommentInput from "@/components/@molecules/CommentInput";
 import Footer from "@/components/@molecules/Footer";
 import LoadingPage from "@/components/@molecules/LoadingPage";
@@ -127,7 +126,6 @@ const CommentArea = () => {
         )}
 
         <CommentInputHeader>
-          <DarkModeToggleButton />
           <UserAvatarOption user={user}>
             {user ? (
               <>
