@@ -41,7 +41,7 @@ const htmlScriptCode = (projectSecretKey: string, isDarkModePage = false) => `
 const JsxScriptCode = (projectSecretKey: string, isDarkModePage = false) => `
 import Darass from "darass-react";
 
-<Darass projectKey="${projectSecretKey}" isDarkMode="${isDarkModePage}"/>;
+<Darass projectKey="${projectSecretKey}" darkMode="${isDarkModePage}"/>;
 `;
 
 const ScriptPublishing = () => {
@@ -109,7 +109,7 @@ const ScriptPublishing = () => {
 
               <GuideStep
                 title="다크 모드"
-                description="다크 모드를 사용하는 웹 사이트의 경우, 스크립트 태그의 data-dark-mode를 'true'로 바꿔주세요."
+                description="다크 모드를 사용하는 웹 사이트의 경우, 스크립트 태그의 다크 모드 속성을 'true'로 바꿔주세요."
               />
 
               <GuideStep
