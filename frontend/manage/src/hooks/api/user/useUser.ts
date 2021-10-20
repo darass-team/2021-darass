@@ -127,9 +127,7 @@ export const useUser = () => {
   };
 
   const logout = () => {
-    if (!removeAccessToken) return;
-
-    removeAccessToken();
+    removeAccessToken?.();
   };
 
   const isActiveAccessToken = getLocalStorage("active");
