@@ -45,7 +45,7 @@ export const getAccessTokenByRefreshToken = async () => {
 
 const getUser = async () => {
   try {
-    const response = await request.get(QUERY.USER, { withCredentials: true });
+    const response = await request.get(QUERY.USER);
 
     return response.data;
   } catch (error) {
