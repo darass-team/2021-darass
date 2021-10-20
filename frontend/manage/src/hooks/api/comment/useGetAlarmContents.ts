@@ -1,14 +1,13 @@
 import { QUERY } from "@/constants/api";
-import { REACT_QUERY_KEY } from "@/constants/reactQueryKey";
 import { RecentlyAlarmContentContext } from "@/context/recentlyAlarmContentContext";
+import { useUserContext } from "@/hooks/context/useUserContext";
 import { GetAlarmResponse } from "@/types/comment";
 import { AlertError } from "@/utils/alertError";
 import convertDateFormat from "@/utils/convertDateFormat";
 import { request } from "@/utils/request";
 import axios from "axios";
-import { useContext, useEffect, useState } from "react";
-import { useQuery } from "react-query";
-import { useToken } from "../token/useToken";
+import { useContext, useEffect } from "react";
+import { useQuery } from "../useQuery";
 
 const RANGE_TO_RECENTLY_ALARM = 30;
 
@@ -33,17 +32,20 @@ const getAlarms = async () => {
   }
 };
 
-export const useGetAlarmContents = (enabled = false) => {
+export const useGetAlarmContents = () => {
   const { recentlyAlarmContent, hasNewAlarmOnRealTime, setHasNewAlarmOnRealTime } =
     useContext(RecentlyAlarmContentContext);
-  const { data, refetch, isLoading, isError, isSuccess } = useQuery<GetAlarmResponse[], Error>(
-    [REACT_QUERY_KEY.COMMENT_ALARM],
-    getAlarms,
-    {
-      retry: false,
-      enabled
-    }
-  );
+
+  const { user } = useUserContext();
+
+  const { data, refetch, isLoading, isError, isSuccess } = useQuery<GetAlarmResponse[]>({
+    query: getAlarms,
+    enabled: false
+  });
+
+  useEffect(() => {
+    if (!!user) refetch();
+  }, [user]);
 
   useEffect(() => {
     if (recentlyAlarmContent && data) {

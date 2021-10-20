@@ -9,11 +9,7 @@ import { AlarmContainer, Container, Title } from "./styles";
 
 const Notification = () => {
   const { user, refetchUser } = useUserContext();
-  const {
-    data: alarmContents,
-    setHasNewAlarmOnRealTime,
-    isSuccess: isSuccessAlarmContents
-  } = useGetAlarmContents(!!user);
+  const { data: alarmContents, setHasNewAlarmOnRealTime, isSuccess: isSuccessAlarmContents } = useGetAlarmContents();
   const { editUser } = useEditUser();
   useDocumentTitle("알림");
 

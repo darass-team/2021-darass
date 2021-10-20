@@ -127,15 +127,8 @@ const Manage = () => {
 
   useEffect(() => {
     if (!currentPageIndex || !projectSecretKey) return;
-    (async () => {
-      await getCommentsOfProjectPerPage();
 
-      Promise.allSettled(paginationNumbers.map(num => preGetCommentsOfProjectPerPage(num))).catch(error => {
-        if (error instanceof AlertError) {
-          alert(error.message);
-        }
-      });
-    })();
+    getCommentsOfProjectPerPage();
   }, [currentPageIndex, projectSecretKey, totalPage]);
 
   if (Number.isNaN(projectId)) {

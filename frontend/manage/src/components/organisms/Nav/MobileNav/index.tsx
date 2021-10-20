@@ -18,7 +18,7 @@ const MobileNav = ({ menuList }: Props) => {
   const history = useHistory();
   const { user, logout } = useUserContext();
   const [isOpen, setOpen] = useState(false);
-  const { hasNewAlarmOnRealTime, setHasNewAlarmOnRealTime } = useGetAlarmContents(!!user);
+  const { hasNewAlarmOnRealTime, setHasNewAlarmOnRealTime } = useGetAlarmContents();
 
   const onToggleNav = () => {
     setOpen(state => !state);

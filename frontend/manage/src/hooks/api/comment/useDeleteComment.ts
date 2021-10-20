@@ -6,7 +6,7 @@ import { Project } from "@/types/project";
 import { AlertError } from "@/utils/alertError";
 import { request } from "@/utils/request";
 import axios from "axios";
-import { useMutation, useQueryClient } from "react-query";
+import { useMutation } from "../useMutation";
 
 const _deleteComment = async ({ id }: DeleteCommentRequestParameter) => {
   try {
@@ -44,17 +44,12 @@ interface Props {
 }
 
 export const useDeleteComment = ({ projectKey, page }: Props) => {
-  const queryClient = useQueryClient();
-
-  const deleteMutation = useMutation<void, Error, DeleteCommentRequestParameter>(({ id }) => _deleteComment({ id }), {
+  const { isLoading, isError, error, data, mutation } = useMutation<DeleteCommentRequestParameter, void>({
+    query: _deleteComment,
     onSuccess: () => {
-      queryClient.invalidateQueries([REACT_QUERY_KEY.COMMENT_OF_PROJECT_PER_PAGE, projectKey, page]);
+      //queryClient.invalidateQueries([REACT_QUERY_KEY.COMMENT_OF_PROJECT_PER_PAGE, projectKey, page]);
     }
   });
 
-  const deleteComment = async ({ id }: DeleteCommentRequestParameter) => {
-    return await deleteMutation.mutateAsync({ id });
-  };
-
-  return { deleteComment };
+  return { deleteComment: mutation };
 };

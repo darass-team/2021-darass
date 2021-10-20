@@ -1,11 +1,11 @@
 import { AlertError } from "@/utils/alertError";
 import { COMMENT_STATISTICS, GetCommentStatisticsRequest } from "@/types/statistics";
-import { useQuery } from "react-query";
 import { PERIODICITY } from "@/constants/statistics";
 import { QUERY, REACT_QUERY_KEY } from "@/constants";
 import axios from "axios";
 import { request } from "@/utils/request";
 import { useMemo } from "react";
+import { useQuery } from "../useQuery";
 
 const getCommentStatistics = async ({ periodicity, projectKey, startDate, endDate }: GetCommentStatisticsRequest) => {
   try {
@@ -31,7 +31,7 @@ const getCommentStatistics = async ({ periodicity, projectKey, startDate, endDat
   }
 };
 
-const preprocessing = (_stats: COMMENT_STATISTICS[], periodicityKey: ObjectValueType<typeof PERIODICITY>["key"]) => {
+const refineStatData = (_stats: COMMENT_STATISTICS[], periodicityKey: ObjectValueType<typeof PERIODICITY>["key"]) => {
   if (periodicityKey === "hourly") {
     return _stats.map(({ date, count }) => ({
       date: `${date}시`,
@@ -48,21 +48,19 @@ export const useCommentStatisticsData = ({
   startDate,
   endDate
 }: GetCommentStatisticsRequest) => {
-  const { data, isLoading, error, refetch, isSuccess } = useQuery<{ commentStats: COMMENT_STATISTICS[] }, Error>(
-    [REACT_QUERY_KEY.STATISTICS],
-    () =>
-      getCommentStatistics({
+  const { data, isLoading, error, refetch, isSuccess } = useQuery<{ commentStats: COMMENT_STATISTICS[] }>({
+    query: () => {
+      return getCommentStatistics({
         periodicity,
         projectKey,
         startDate,
         endDate
-      }),
-    {
-      retry: false
-    }
-  );
+      });
+    },
+    enabled: false
+  });
 
-  const stats = useMemo(() => (data ? preprocessing(data.commentStats, periodicity.key) : []), [data]);
+  const stats = useMemo(() => (data ? refineStatData(data.commentStats, periodicity.key) : []), [data]);
 
   return { stats, isLoading, error, refetch, isSuccess };
 };
