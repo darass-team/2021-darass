@@ -37,7 +37,7 @@ export const TextBox = styled.div<{ isValidInput: boolean }>`
 
   &:empty:before {
     content: "댓글을 입력해주세요.";
-    color: ${PALETTE.GRAY_600};
+    color: ${({ theme: { isDarkModePage } }) => (isDarkModePage ? PALETTE.WHITE : PALETTE.GRAY_600)};
   }
 
   &:empty:focus:before {
