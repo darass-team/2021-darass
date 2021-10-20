@@ -35,10 +35,7 @@ const _editUser = async (data: FormData) => {
 
 export const useEditUser = () => {
   const { isLoading, isError, error, data, mutation } = useMutation<FormData, User>({
-    query: (_data: FormData) => _editUser(_data),
-    onSuccess: () => {
-      alert("회원정보 수정에 성공하셨습니다.");
-    }
+    query: (_data: FormData) => _editUser(_data)
   });
 
   return { editUser: mutation, isLoading, error };

@@ -1,13 +1,11 @@
 import cameraIcon from "@/assets/svg/camera.svg";
 import ScreenContainer from "@/components/@style/ScreenContainer";
 import DeleteSection from "@/components/molecules/DeleteSection";
-import { ROUTE } from "@/constants";
 import { MAX_PROFILE_IMAGE_SIZE, MAX_USER_NAME_LENGTH } from "@/constants/validation";
 import { useDeleteUser, useDocumentTitle, useEditUser, useInput } from "@/hooks";
 import { useUserContext } from "@/hooks/context/useUserContext";
 import { AlertError } from "@/utils/alertError";
 import { ChangeEvent, FormEventHandler, useEffect, useState } from "react";
-import { useHistory } from "react-router";
 import LoadingPage from "../LoadingPage";
 import {
   CameraIcon,
@@ -97,6 +95,8 @@ const UserProfile = () => {
       profileImageAsFile && formData.append("profileImageFile", profileImageAsFile);
 
       await editUser(formData);
+
+      alert("회원정보 수정에 성공하셨습니다.");
     } catch (error) {
       if (error instanceof AlertError) {
         alert(error.message);
