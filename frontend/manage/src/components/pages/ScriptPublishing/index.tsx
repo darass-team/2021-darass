@@ -1,19 +1,18 @@
+import ScreenContainer from "@/components/@style/ScreenContainer";
 import BlogLogoButton from "@/components/atoms/Buttons/BlogLogoButton";
+import DarkModeToggleButton from "@/components/atoms/DarkModeToggleButton";
 import GuideStep from "@/components/molecules/GuideStep";
 import ContainerWithSideBar from "@/components/organisms/ContainerWithSideBar";
 import { GUIDE_FILE, PROJECT_MENU, ROUTE } from "@/constants";
+import { REPLY_MODULE_DOMAIN } from "@/constants/domain";
 import { useCopyButton, useDocumentTitle, useGetProject } from "@/hooks";
-import ScreenContainer from "@/components/@style/ScreenContainer";
 import { useState } from "react";
-import { useRouteMatch, Redirect } from "react-router-dom";
+import { Redirect, useRouteMatch } from "react-router-dom";
 import { PrismLight as SyntaxHighlighter } from "react-syntax-highlighter";
 import js from "react-syntax-highlighter/dist/cjs/languages/prism/javascript";
 import prism from "react-syntax-highlighter/dist/cjs/styles/prism/darcula";
-import { REPLY_MODULE_DOMAIN } from "@/constants/domain";
-import { BlogLogoWrapper, CodeBlockWrapper, Container, CopyButton, Ol, Title } from "./styles";
 import LoadingPage from "../LoadingPage";
-import { useUserContext } from "@/hooks/context/useUserContext";
-import DarkModeToggleButton from "@/components/atoms/DarkModeToggleButton";
+import { BlogLogoWrapper, CodeBlockWrapper, Container, CopyButton, Ol, Title } from "./styles";
 
 SyntaxHighlighter.registerLanguage("javascript", js);
 
@@ -49,9 +48,8 @@ const ScriptPublishing = () => {
   const [isDarkModePage, setIsDarkModePage] = useState(false);
   const match = useRouteMatch<{ id: string }>();
 
-  const { user } = useUserContext();
   const projectId = Number(match.params.id);
-  const { project, isSuccess: isSuccessGetProject } = useGetProject({
+  const { project } = useGetProject({
     id: projectId
   });
 
@@ -68,7 +66,7 @@ const ScriptPublishing = () => {
     return <Redirect to={ROUTE.COMMON.HOME} />;
   }
 
-  if (!isSuccessGetProject) {
+  if (!project) {
     return <LoadingPage />;
   }
 
