@@ -1,14 +1,16 @@
-import moment from "moment";
-import { useEffect, useState } from "react";
-import { useRouteMatch, Redirect } from "react-router-dom";
-import { PROJECT_MENU, ROUTE } from "@/constants";
-import { PERIODICITY } from "@/constants/statistics";
-import { useCalendar, useCommentStatisticsData, useDocumentTitle, useGetProject } from "@/hooks";
 import ScreenContainer from "@/components/@style/ScreenContainer";
 import Modal from "@/components/atoms/Modal";
 import CommentStatisticsChart from "@/components/organisms/CommentStatisticsChart";
 import ContainerWithSideBar from "@/components/organisms/ContainerWithSideBar";
+import { PROJECT_MENU, ROUTE } from "@/constants";
+import { PERIODICITY } from "@/constants/statistics";
+import { useCalendar, useCommentStatisticsData, useDocumentTitle, useGetProject } from "@/hooks";
+import moment from "moment";
+import { useEffect, useState } from "react";
+import { Redirect, useRouteMatch } from "react-router-dom";
+import LoadingPage from "../LoadingPage";
 import {
+  Calendar,
   ChartArea,
   Container,
   DataInputWrapper,
@@ -20,11 +22,8 @@ import {
   SortButtonsWrapper,
   Title,
   Tooltip,
-  Wrapper,
-  Calendar
+  Wrapper
 } from "./styles";
-import LoadingPage from "../LoadingPage";
-import { useUserContext } from "@/hooks/context/useUserContext";
 
 const Statistics = () => {
   const match = useRouteMatch<{ id: string }>();
@@ -33,10 +32,13 @@ const Statistics = () => {
   const [selectedPeriodicity, setSelectedPeriodicity] = useState<ObjectValueType<typeof PERIODICITY>>(
     PERIODICITY.DAILY
   );
-  const { user } = useUserContext();
-  const { project, isSuccess: isSuccessGetProject } = useGetProject({
-    id: projectId,
-    enabled: !!user && !Number.isNaN(projectId)
+
+  const {
+    project,
+    isSuccess: isSuccessGetProject,
+    refetch: refetchGetProject
+  } = useGetProject({
+    id: projectId
   });
   useDocumentTitle("댓글 통계");
 

@@ -37,13 +37,8 @@ const _deleteComment = async ({ id }: DeleteCommentRequestParameter) => {
   }
 };
 
-interface Props {
-  projectKey?: Project["secretKey"];
-  page?: number;
-}
-
-export const useDeleteComment = ({ projectKey, page }: Props) => {
-  const { isLoading, isError, error, data, mutation } = useMutation<DeleteCommentRequestParameter, void>({
+export const useDeleteComment = () => {
+  const { mutation } = useMutation<DeleteCommentRequestParameter, void>({
     query: _deleteComment
   });
 

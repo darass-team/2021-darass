@@ -18,8 +18,7 @@ const ProjectDetail = () => {
   const history = useHistory();
   const { user } = useUserContext();
   const { project, isSuccess: isSuccessGetProject } = useGetProject({
-    id: projectId,
-    enabled: !!user && !Number.isNaN(projectId)
+    id: projectId
   });
   const { editProject } = useEditProject();
   const { deleteProject } = useDeleteProject();

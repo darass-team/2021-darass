@@ -19,9 +19,9 @@ export const useQuery = <T>({ enabled, query, onSuccess, refetchInterval }: Prop
       setIsLoading(true);
       setIsError(false);
 
-      const data = await query();
+      const newData = await query();
 
-      setData(data);
+      setData(newData);
       await onSuccess?.();
     } catch (error) {
       if (!(error instanceof Error)) return;

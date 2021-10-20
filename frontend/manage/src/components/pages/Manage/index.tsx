@@ -32,13 +32,11 @@ const Manage = () => {
   const location = useLocation();
   useDocumentTitle("댓글 관리");
 
-  const { user: me, isSuccessUserRequest } = useUserContext();
+  const { user: me } = useUserContext();
 
   const projectId = Number(match.params.id);
   const urlSearchParams = new URLSearchParams(location.search);
   const pageIndex = urlSearchParams.get("pageIndex") || 1;
-
-  const { user } = useUserContext();
 
   const { value: keyword, onChangeWithMaxLength: onChangeKeyword } = useInput("", MAX_COMMENT_SEARCH_TERM_LENGTH);
 
@@ -51,13 +49,12 @@ const Manage = () => {
   const startDateAsString = startDate?.format("YYYY-MM-DD") || moment().format("YYYY-MM-DD");
   const endDateAsString = endDate?.format("YYYY-MM-DD") || moment().format("YYYY-MM-DD");
 
-  const { project, isSuccess: isSuccessGetProject } = useGetProject({
-    id: projectId,
-    enabled: !!user && !Number.isNaN(projectId)
+  const { project } = useGetProject({
+    id: projectId
   });
   const projectSecretKey = project?.secretKey;
 
-  const { deleteComment } = useDeleteComment({ projectKey: projectSecretKey, page: Number(pageIndex) });
+  const { deleteComment } = useDeleteComment();
 
   const { currentPageIndex, setCurrentPageIndex } = useCommentPageIndex({
     initialPageIndex: Number(pageIndex),
@@ -69,7 +66,7 @@ const Manage = () => {
     totalComment,
     totalPage,
     refetch: getCommentsOfProjectPerPage,
-    isSuccess: isSuccessGetCommentsOfProjectPerPage
+    isFetched: isFetchedGetCommentsOfProjectPerPage
   } = useGetCommentsOfProjectPerPage({
     projectKey: projectSecretKey,
     startDate: startDateAsString,
@@ -134,7 +131,7 @@ const Manage = () => {
     return <Redirect to={ROUTE.COMMON.HOME} />;
   }
 
-  if (!isSuccessUserRequest || !isSuccessGetProject || !isSuccessGetCommentsOfProjectPerPage) {
+  if (!isFetchedGetCommentsOfProjectPerPage) {
     return <LoadingPage />;
   }
 

@@ -52,9 +52,9 @@ const ScriptPublishing = () => {
   const { user } = useUserContext();
   const projectId = Number(match.params.id);
   const { project, isSuccess: isSuccessGetProject } = useGetProject({
-    id: projectId,
-    enabled: !!user && !Number.isNaN(projectId)
+    id: projectId
   });
+
   const projectSecretKey = project?.secretKey || "스크립트 정보를 불러오는 중입니다...";
   const { isCopyButtonClicked, onCopy } = useCopyButton();
   useDocumentTitle("스크립트 발급");
