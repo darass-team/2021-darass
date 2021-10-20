@@ -16,7 +16,7 @@ export const InputCSS = css`
   box-sizing: border-box;
   border: 1px solid ${PALETTE.GRAY_500};
   border-radius: 10px;
-  color: ${({ theme: { isDarkModePage } }) => (isDarkModePage ? PALETTE.GRAY_700 : PALETTE.BLACK_700)};
+  color: ${({ theme: { isDarkModePage } }) => (isDarkModePage ? PALETTE.WHITE : PALETTE.BLACK_700)};
   font-size: 1.2rem;
   line-height: 1.8rem;
   outline: none;
