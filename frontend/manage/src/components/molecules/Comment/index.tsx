@@ -38,7 +38,7 @@ const Comment = ({
           <time>{moment(createdDate).format("YYYY-MM-DD")}</time>
           {secret && <SecretIcon>{"🔒"}</SecretIcon>}
         </ContentMeta>
-        <Content>{content}</Content>
+        <Content dangerouslySetInnerHTML={{ __html: content }}></Content>
         <Url href={url} target="_blank" rel="noopener noreferrer nofollow">
           {url}
         </Url>

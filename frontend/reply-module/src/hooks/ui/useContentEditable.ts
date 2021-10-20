@@ -7,13 +7,13 @@ export const useContentEditable = (initialContent: string) => {
   const { setScrollHeight } = useMessageChannelFromReplyModuleContext();
 
   const onInput = (event: ChangeEvent<HTMLDivElement>) => {
-    _setContent(event.target.textContent || "");
+    _setContent(event.target.innerHTML || "");
     setScrollHeight();
   };
 
   const setContent = (newContent: string) => {
     if ($contentEditable.current) {
-      $contentEditable.current.textContent = newContent;
+      $contentEditable.current.innerHTML = newContent;
       _setContent(newContent);
     }
   };

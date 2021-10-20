@@ -51,7 +51,7 @@ export const TextInfoWrapper = styled.div`
   display: flex;
   padding: 0 0.6rem;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
 `;
 
 export const TextCount = styled.span`
