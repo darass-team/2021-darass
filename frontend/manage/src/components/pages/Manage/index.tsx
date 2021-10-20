@@ -69,7 +69,6 @@ const Manage = () => {
     totalComment,
     totalPage,
     refetch: getCommentsOfProjectPerPage,
-    prefetch: preGetCommentsOfProjectPerPage,
     isSuccess: isSuccessGetCommentsOfProjectPerPage
   } = useGetCommentsOfProjectPerPage({
     projectKey: projectSecretKey,

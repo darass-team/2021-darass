@@ -62,21 +62,9 @@ export const useGetCommentsOfProjectPerPage = ({
     query: () => _getAllCommentsOfProject({ sortOption, projectKey, startDate, endDate, page, size, keyword })
   });
 
-  const prefetch = async (pageIndex: number) => {
-    return _getAllCommentsOfProject({
-      sortOption,
-      projectKey,
-      startDate,
-      endDate,
-      page: pageIndex,
-      size,
-      keyword
-    });
-  };
-
   const comments = !data || data?.comments.length === 0 ? [] : data.comments;
   const totalComment = data?.totalComment ? data?.totalComment : 0;
   const totalPage = data?.totalPage ? data?.totalPage : 0;
 
-  return { comments, totalComment, totalPage, refetch, isLoading, error, prefetch, isSuccess };
+  return { comments, totalComment, totalPage, refetch, isLoading, error, isSuccess };
 };
