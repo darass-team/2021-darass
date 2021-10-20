@@ -100,17 +100,11 @@ const CommentInput = ({ user, parentCommentId, isSubComment, onClose, ...props }
   };
 
   const onInput = (event: ChangeEvent<HTMLDivElement>) => {
-    const currentText = event.target.textContent || "";
+    const currentText = (event.target.innerHTML || "").trim();
+    console.log(currentText);
 
-    if (currentText.length > MAX_COMMENT_INPUT_LENGTH) {
-      openAlert(getErrorMessage.commentInput(currentText));
-      setContent(currentText.substr(0, MAX_COMMENT_INPUT_LENGTH));
-
-      if (!$contentEditable.current) return;
-      focusContentEditableTextToEnd($contentEditable.current);
-
-      return;
-    }
+    if (!$contentEditable.current) return;
+    focusContentEditableTextToEnd($contentEditable.current);
 
     onInputContentEditable(event);
   };
@@ -131,7 +125,6 @@ const CommentInput = ({ user, parentCommentId, isSubComment, onClose, ...props }
         />
         <TextInfoWrapper>
           <CheckBox isChecked={isSecretComment} onChange={onClickSecretCommentCheckBox} labelText="비밀글" />
-          <TextCount data-testid="comment-input-text-length">{`${content.length} / ${MAX_COMMENT_INPUT_LENGTH}`}</TextCount>
         </TextInfoWrapper>
       </TextBoxWrapper>
 
