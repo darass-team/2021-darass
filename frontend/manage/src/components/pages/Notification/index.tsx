@@ -6,7 +6,7 @@ import { useEffect } from "react";
 import { AlarmContainer, Container, Title } from "./styles";
 
 const Notification = () => {
-  const { data: alarmContents, setHasNewAlarmOnRealTime, isFetched: isFetchedGetAlarmContents } = useGetAlarmContents();
+  const { data: alarmContents, setHasNewAlarmOnRealTime } = useGetAlarmContents();
   const { editUser } = useEditUser();
   useDocumentTitle("알림");
 
@@ -26,7 +26,7 @@ const Notification = () => {
   };
 
   useEffect(() => {
-    if (isFetchedGetAlarmContents) {
+    if (alarmContents) {
       readAlarm();
     }
   }, [alarmContents]);
@@ -35,9 +35,7 @@ const Notification = () => {
     <ScreenContainer>
       <Container>
         <Title>알림</Title>
-        <AlarmContainer>
-          {isFetchedGetAlarmContents && <AlarmContent alarmContents={alarmContents || []} />}
-        </AlarmContainer>
+        <AlarmContainer>{alarmContents && <AlarmContent alarmContents={alarmContents || []} />}</AlarmContainer>
       </Container>
     </ScreenContainer>
   );
