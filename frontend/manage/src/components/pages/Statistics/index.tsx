@@ -91,78 +91,78 @@ const Statistics = () => {
     return <Redirect to={ROUTE.COMMON.HOME} />;
   }
 
-  if (!stats) {
-    return <LoadingPage />;
-  }
-
   return (
     <ScreenContainer>
       <ContainerWithSideBar menus={PROJECT_MENU.getByProjectId(projectId)}>
         <Container>
           <Title>통계</Title>
 
-          <ChartArea>
-            <Wrapper>
-              <DataInputWrapper>
-                <Meta>기간 선택</Meta>
-                <DateRange>
-                  <DateInputText onClick={onClickDateInput}>{startDate?.format("YY-MM-DD")}</DateInputText>
-                  <span>{" ~ "}</span>
-                  <DateInputText onClick={onClickDateInput}>{endDate?.format("YY-MM-DD")}</DateInputText>
-                </DateRange>
+          {stats && (
+            <>
+              <ChartArea>
+                <Wrapper>
+                  <DataInputWrapper>
+                    <Meta>기간 선택</Meta>
+                    <DateRange>
+                      <DateInputText onClick={onClickDateInput}>{startDate?.format("YY-MM-DD")}</DateInputText>
+                      <span>{" ~ "}</span>
+                      <DateInputText onClick={onClickDateInput}>{endDate?.format("YY-MM-DD")}</DateInputText>
+                    </DateRange>
 
-                <Modal
-                  isOpen={showCalendar}
-                  blockScroll={false}
-                  closeModal={() => setShowCalendar(false)}
-                  dimmedOpacity={0}
-                >
-                  <Calendar
-                    date={currentDate}
-                    setDate={setCurrentDate}
-                    startDate={startDate}
-                    setStartDate={setStartDate}
-                    endDate={endDate}
-                    setEndDate={setEndDate}
-                  />
-                </Modal>
-              </DataInputWrapper>
+                    <Modal
+                      isOpen={showCalendar}
+                      blockScroll={false}
+                      closeModal={() => setShowCalendar(false)}
+                      dimmedOpacity={0}
+                    >
+                      <Calendar
+                        date={currentDate}
+                        setDate={setCurrentDate}
+                        startDate={startDate}
+                        setStartDate={setStartDate}
+                        endDate={endDate}
+                        setEndDate={setEndDate}
+                      />
+                    </Modal>
+                  </DataInputWrapper>
 
-              <SortButtonsWrapper>
-                {Object.values(PERIODICITY).map(option => (
-                  <SortButton
-                    key={option.key}
-                    onClick={() => onClickViewOption(option)}
-                    isSelected={selectedPeriodicity === option}
-                  >
-                    {option.display}
-                  </SortButton>
-                ))}
-                <Tooltip
-                  text={`'시간별': 설정된 기간 내 시간별 댓글 개수\n'일별': 설정된 기간 내 일별 댓글 개수\n'월별': 설정된 기간 내 월별 댓글 개수`}
-                />
-              </SortButtonsWrapper>
-            </Wrapper>
+                  <SortButtonsWrapper>
+                    {Object.values(PERIODICITY).map(option => (
+                      <SortButton
+                        key={option.key}
+                        onClick={() => onClickViewOption(option)}
+                        isSelected={selectedPeriodicity === option}
+                      >
+                        {option.display}
+                      </SortButton>
+                    ))}
+                    <Tooltip
+                      text={`'시간별': 설정된 기간 내 시간별 댓글 개수\n'일별': 설정된 기간 내 일별 댓글 개수\n'월별': 설정된 기간 내 월별 댓글 개수`}
+                    />
+                  </SortButtonsWrapper>
+                </Wrapper>
 
-            <CommentStatisticsChart data={stats} />
-          </ChartArea>
+                <CommentStatisticsChart data={stats} />
+              </ChartArea>
 
-          <DataTable>
-            <thead>
-              <tr>
-                <th>{selectedPeriodicity.display}</th>
-                <th>댓글 개수</th>
-              </tr>
-            </thead>
-            <tbody>
-              {stats.map(_data => (
-                <tr key={_data.date}>
-                  <th>{_data.date}</th>
-                  <th>{_data.count}</th>
-                </tr>
-              ))}
-            </tbody>
-          </DataTable>
+              <DataTable>
+                <thead>
+                  <tr>
+                    <th>{selectedPeriodicity.display}</th>
+                    <th>댓글 개수</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {stats.map(_data => (
+                    <tr key={_data.date}>
+                      <th>{_data.date}</th>
+                      <th>{_data.count}</th>
+                    </tr>
+                  ))}
+                </tbody>
+              </DataTable>
+            </>
+          )}
         </Container>
       </ContainerWithSideBar>
     </ScreenContainer>

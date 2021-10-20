@@ -90,46 +90,44 @@ const ProjectDetail = () => {
     return <Redirect to={ROUTE.COMMON.HOME} />;
   }
 
-  if (!project) {
-    return <LoadingPage />;
-  }
-
   return (
     <ScreenContainer>
       <ContainerWithSideBar menus={PROJECT_MENU.getByProjectId(projectId)}>
         <Container>
           <Title>프로젝트 정보</Title>
-          <Form onSubmit={onEditProject}>
-            <InfoWrapper>
-              <Label htmlFor="project-name">이름</Label>
+          {project && (
+            <Form onSubmit={onEditProject}>
+              <InfoWrapper>
+                <Label htmlFor="project-name">이름</Label>
 
-              <Input
-                id="project-name"
-                placeholder="프로젝트 이름"
-                value={projectName}
-                onChange={onChangeProjectName}
-                maxLength={MAX_PROJECT_NAME_LENGTH}
-              />
+                <Input
+                  id="project-name"
+                  placeholder="프로젝트 이름"
+                  value={projectName}
+                  onChange={onChangeProjectName}
+                  maxLength={MAX_PROJECT_NAME_LENGTH}
+                />
 
-              <InputLengthCounter>
-                {projectName.length} / {MAX_PROJECT_NAME_LENGTH}
-              </InputLengthCounter>
-            </InfoWrapper>
-            <InfoWrapper>
-              <Label htmlFor="project-description">설명</Label>
-              <Input
-                id="project-description"
-                placeholder="프로젝트 설명"
-                value={projectDesc}
-                onChange={onChangeProjectDesc}
-                maxLength={MAX_PROJECT_DESCRIPTION_LENGTH}
-              />
-              <InputLengthCounter>
-                {projectDesc.length} / {MAX_PROJECT_DESCRIPTION_LENGTH}
-              </InputLengthCounter>
-            </InfoWrapper>
-            <SubmitButton>수정</SubmitButton>
-          </Form>
+                <InputLengthCounter>
+                  {projectName.length} / {MAX_PROJECT_NAME_LENGTH}
+                </InputLengthCounter>
+              </InfoWrapper>
+              <InfoWrapper>
+                <Label htmlFor="project-description">설명</Label>
+                <Input
+                  id="project-description"
+                  placeholder="프로젝트 설명"
+                  value={projectDesc}
+                  onChange={onChangeProjectDesc}
+                  maxLength={MAX_PROJECT_DESCRIPTION_LENGTH}
+                />
+                <InputLengthCounter>
+                  {projectDesc.length} / {MAX_PROJECT_DESCRIPTION_LENGTH}
+                </InputLengthCounter>
+              </InfoWrapper>
+              <SubmitButton>수정</SubmitButton>
+            </Form>
+          )}
 
           <DeleteSection
             onDelete={confirmDeleteProject}

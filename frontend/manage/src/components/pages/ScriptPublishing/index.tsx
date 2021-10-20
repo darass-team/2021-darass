@@ -11,7 +11,6 @@ import { Redirect, useRouteMatch } from "react-router-dom";
 import { PrismLight as SyntaxHighlighter } from "react-syntax-highlighter";
 import js from "react-syntax-highlighter/dist/cjs/languages/prism/javascript";
 import prism from "react-syntax-highlighter/dist/cjs/styles/prism/darcula";
-import LoadingPage from "../LoadingPage";
 import { BlogLogoWrapper, CodeBlockWrapper, Container, CopyButton, Ol, Title } from "./styles";
 
 SyntaxHighlighter.registerLanguage("javascript", js);
@@ -64,10 +63,6 @@ const ScriptPublishing = () => {
 
   if (Number.isNaN(projectId)) {
     return <Redirect to={ROUTE.COMMON.HOME} />;
-  }
-
-  if (!project) {
-    return <LoadingPage />;
   }
 
   return (
@@ -127,27 +122,29 @@ const ScriptPublishing = () => {
                   isDarkModePage={isDarkModePage}
                   onToggleDarkMode={() => setIsDarkModePage(state => !state)}
                 />
-                <CodeBlockWrapper>
-                  <CopyButton type="button" onClick={() => onCopy(script)}>
-                    {isCopyButtonClicked ? "Copied !" : "Copy"}
-                  </CopyButton>
-                  <SyntaxHighlighter
-                    customStyle={{
-                      margin: "0",
-                      borderRadius: "10px",
-                      padding: "1rem 2rem"
-                    }}
-                    codeTagProps={{
-                      style: {
-                        fontFamily: "Hack, monospace"
-                      }
-                    }}
-                    language="javascript"
-                    style={prism}
-                  >
-                    {script}
-                  </SyntaxHighlighter>
-                </CodeBlockWrapper>
+                {project && (
+                  <CodeBlockWrapper>
+                    <CopyButton type="button" onClick={() => onCopy(script)}>
+                      {isCopyButtonClicked ? "Copied !" : "Copy"}
+                    </CopyButton>
+                    <SyntaxHighlighter
+                      customStyle={{
+                        margin: "0",
+                        borderRadius: "10px",
+                        padding: "1rem 2rem"
+                      }}
+                      codeTagProps={{
+                        style: {
+                          fontFamily: "Hack, monospace"
+                        }
+                      }}
+                      language="javascript"
+                      style={prism}
+                    >
+                      {script}
+                    </SyntaxHighlighter>
+                  </CodeBlockWrapper>
+                )}
               </GuideStep>
             </>
           )}

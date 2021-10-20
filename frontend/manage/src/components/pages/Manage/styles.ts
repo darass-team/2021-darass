@@ -5,7 +5,7 @@ import DeleteButtonComponent from "@/components/atoms/Buttons/DeleteButton";
 import { PALETTE } from "@/constants/styles/palette";
 
 export const Container = styled.div`
-  ${contentBoxCSS}
+  ${contentBoxCSS};
 `;
 
 export const Title = styled.h2`
