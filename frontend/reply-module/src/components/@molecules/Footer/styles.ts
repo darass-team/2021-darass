@@ -6,11 +6,11 @@ export const Container = styled.footer`
   align-items: center;
   padding: 1rem 0;
   margin-top: 1rem;
-  border-top: 1px solid ${PALETTE.GRAY_400};
+  border-top: 1px solid ${({ theme: { isDarkModePage } }) => (isDarkModePage ? PALETTE.WHITE : PALETTE.GRAY_400)};
 `;
 
 export const CopyRight = styled.span`
-  color: ${PALETTE.GRAY_600};
+  color: ${({ theme: { isDarkModePage } }) => (isDarkModePage ? PALETTE.WHITE : PALETTE.GRAY_600)};
   font-weight: 700;
 `;
 
@@ -33,5 +33,5 @@ export const ServiceName = styled.span`
   font-size: 1.5rem;
   line-height: 2.25rem;
   font-weight: 700;
-  color: ${PALETTE.GRAY_600};
+  color: ${({ theme: { isDarkModePage } }) => (isDarkModePage ? PALETTE.WHITE : PALETTE.GRAY_600)};
 `;
