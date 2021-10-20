@@ -1,12 +1,11 @@
 import { QUERY } from "@/constants/api";
 import { NO_ACCESS_TOKEN } from "@/constants/errorName";
-import { REACT_QUERY_KEY } from "@/constants/reactQueryKey";
 import { DeleteCommentRequestParameter } from "@/types/comment";
 import { Project } from "@/types/project";
 import { AlertError } from "@/utils/alertError";
 import { request } from "@/utils/request";
 import axios from "axios";
-import { useMutation, useQueryClient } from "react-query";
+import { useMutation } from "../useMutation";
 
 const _deleteComment = async ({ id }: DeleteCommentRequestParameter) => {
   try {
@@ -38,23 +37,10 @@ const _deleteComment = async ({ id }: DeleteCommentRequestParameter) => {
   }
 };
 
-interface Props {
-  projectKey?: Project["secretKey"];
-  page?: number;
-}
-
-export const useDeleteComment = ({ projectKey, page }: Props) => {
-  const queryClient = useQueryClient();
-
-  const deleteMutation = useMutation<void, Error, DeleteCommentRequestParameter>(({ id }) => _deleteComment({ id }), {
-    onSuccess: () => {
-      queryClient.invalidateQueries([REACT_QUERY_KEY.COMMENT_OF_PROJECT_PER_PAGE, projectKey, page]);
-    }
+export const useDeleteComment = () => {
+  const { mutation } = useMutation<DeleteCommentRequestParameter, void>({
+    query: _deleteComment
   });
 
-  const deleteComment = async ({ id }: DeleteCommentRequestParameter) => {
-    return await deleteMutation.mutateAsync({ id });
-  };
-
-  return { deleteComment };
+  return { deleteComment: mutation };
 };

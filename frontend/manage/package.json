@@ -61,7 +61,6 @@
     "react": "^17.0.2",
     "react-chartjs-2": "^2.9.4",
     "react-dom": "^17.0.2",
-    "react-query": "^3.18.1",
     "react-router-dom": "^5.2.0",
     "react-syntax-highlighter": "^15.4.3",
     "sockjs-client": "^1.5.2",

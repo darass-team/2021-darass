@@ -1,10 +1,11 @@
-import { QUERY, REACT_QUERY_KEY } from "@/constants";
+import { QUERY } from "@/constants";
 import { NO_ACCESS_TOKEN } from "@/constants/errorName";
+import { useUserContext } from "@/context/userContext";
 import { User } from "@/types/user";
 import { AlertError } from "@/utils/alertError";
 import { request } from "@/utils/request";
 import axios from "axios";
-import { useMutation, useQueryClient } from "react-query";
+import { useMutation } from "../useMutation";
 
 const _deleteUser = async () => {
   try {
@@ -30,22 +31,13 @@ const _deleteUser = async () => {
 };
 
 export const useDeleteUser = () => {
-  const queryClient = useQueryClient();
-
-  const deleteMutation = useMutation<User, Error>(() => _deleteUser(), {
+  const { setUser } = useUserContext();
+  const { isLoading, isError, error, data, mutation } = useMutation<void, User>({
+    query: _deleteUser,
     onSuccess: () => {
-      queryClient.setQueryData<User | undefined>(REACT_QUERY_KEY.USER, user => {
-        return undefined;
-      });
+      setUser?.(undefined);
     }
   });
 
-  const isLoading = deleteMutation.isLoading;
-  const error = deleteMutation.error;
-
-  const deleteUser = async () => {
-    return await deleteMutation.mutateAsync();
-  };
-
-  return { deleteUser, isLoading, error };
+  return { deleteUser: mutation, isLoading, error };
 };

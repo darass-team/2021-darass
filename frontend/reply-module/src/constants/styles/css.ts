@@ -26,7 +26,7 @@ export const InputCSS = css`
   }
 
   &::placeholder {
-    color: ${({ theme: { isDarkModePage } }) => (isDarkModePage ? PALETTE.GRAY_700 : PALETTE.GRAY_600)};
+    color: ${({ theme: { isDarkModePage } }) => (isDarkModePage ? PALETTE.WHITE : PALETTE.GRAY_600)};
   }
 `;
 

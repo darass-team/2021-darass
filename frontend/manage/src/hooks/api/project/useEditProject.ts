@@ -1,11 +1,10 @@
 import { QUERY } from "@/constants";
 import { NO_ACCESS_TOKEN } from "@/constants/errorName";
-import { REACT_QUERY_KEY } from "@/constants/reactQueryKey";
-import { EditProjectRequest, Project } from "@/types/project";
+import { EditProjectRequest } from "@/types/project";
 import { AlertError } from "@/utils/alertError";
 import { request } from "@/utils/request";
 import axios from "axios";
-import { useMutation, useQueryClient } from "react-query";
+import { useMutation } from "../useMutation";
 
 const _editProject = async ({ id, name, description }: EditProjectRequest) => {
   try {
@@ -38,28 +37,9 @@ const _editProject = async ({ id, name, description }: EditProjectRequest) => {
 };
 
 export const useEditProject = () => {
-  const queryClient = useQueryClient();
-
-  const editMutation = useMutation<void, Error, EditProjectRequest>(data => _editProject(data), {
-    onSuccess: (_, editedProject) => {
-      queryClient.setQueryData<Project[] | undefined>(REACT_QUERY_KEY.PROJECTS, projects => {
-        return projects?.map(project => {
-          if (project.id === editedProject.id) {
-            return { ...project, name: editedProject.name, description: editedProject.description };
-          }
-
-          return project;
-        });
-      });
-    }
+  const { isLoading, isError, error, data, mutation } = useMutation<EditProjectRequest, void>({
+    query: (data: EditProjectRequest) => _editProject(data)
   });
 
-  const isLoading = editMutation.isLoading;
-  const error = editMutation.error;
-
-  const editProject = async (data: EditProjectRequest) => {
-    return await editMutation.mutateAsync(data);
-  };
-
-  return { editProject, isLoading, error };
+  return { editProject: mutation, isLoading, error };
 };

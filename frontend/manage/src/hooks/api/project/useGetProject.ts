@@ -1,11 +1,12 @@
-import { REACT_QUERY_KEY } from "@/constants";
 import { QUERY } from "@/constants/api";
 import { NO_ACCESS_TOKEN } from "@/constants/errorName";
+import { useUserContext } from "@/context/userContext";
 import { Project } from "@/types/project";
 import { AlertError } from "@/utils/alertError";
 import { request } from "@/utils/request";
 import axios from "axios";
-import { useQuery } from "react-query";
+import { useEffect } from "react";
+import { useQuery } from "../useQuery";
 
 const getProject = async (id: Project["id"]) => {
   try {
@@ -34,18 +35,26 @@ const getProject = async (id: Project["id"]) => {
 
 interface Props {
   id: Project["id"];
-  enabled: boolean;
 }
 
-export const useGetProject = ({ id, enabled }: Props) => {
+export const useGetProject = ({ id }: Props) => {
+  const { user } = useUserContext();
+
   const {
     data: project,
     isLoading,
     error,
-    isSuccess
-  } = useQuery<Project, Error>([REACT_QUERY_KEY.PROJECT, id], () => getProject(id), {
-    enabled
+    isSuccess,
+    refetch,
+    isFetched
+  } = useQuery<Project>({
+    query: () => getProject(id),
+    enabled: false
   });
 
-  return { project, isLoading, error, isSuccess };
+  useEffect(() => {
+    if (user && !Number.isNaN(id)) refetch();
+  }, [user, id]);
+
+  return { project, isLoading, error, isSuccess, refetch, isFetched };
 };

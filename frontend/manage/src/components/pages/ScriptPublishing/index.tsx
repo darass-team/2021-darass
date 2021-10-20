@@ -1,19 +1,17 @@
+import ScreenContainer from "@/components/@style/ScreenContainer";
 import BlogLogoButton from "@/components/atoms/Buttons/BlogLogoButton";
+import DarkModeToggleButton from "@/components/atoms/DarkModeToggleButton";
 import GuideStep from "@/components/molecules/GuideStep";
 import ContainerWithSideBar from "@/components/organisms/ContainerWithSideBar";
 import { GUIDE_FILE, PROJECT_MENU, ROUTE } from "@/constants";
+import { REPLY_MODULE_DOMAIN } from "@/constants/domain";
 import { useCopyButton, useDocumentTitle, useGetProject } from "@/hooks";
-import ScreenContainer from "@/components/@style/ScreenContainer";
 import { useState } from "react";
-import { useRouteMatch, Redirect } from "react-router-dom";
+import { Redirect, useRouteMatch } from "react-router-dom";
 import { PrismLight as SyntaxHighlighter } from "react-syntax-highlighter";
 import js from "react-syntax-highlighter/dist/cjs/languages/prism/javascript";
 import prism from "react-syntax-highlighter/dist/cjs/styles/prism/darcula";
-import { REPLY_MODULE_DOMAIN } from "@/constants/domain";
 import { BlogLogoWrapper, CodeBlockWrapper, Container, CopyButton, Ol, Title } from "./styles";
-import LoadingPage from "../LoadingPage";
-import { useUserContext } from "@/hooks/context/useUserContext";
-import DarkModeToggleButton from "@/components/atoms/DarkModeToggleButton";
 
 SyntaxHighlighter.registerLanguage("javascript", js);
 
@@ -49,12 +47,11 @@ const ScriptPublishing = () => {
   const [isDarkModePage, setIsDarkModePage] = useState(false);
   const match = useRouteMatch<{ id: string }>();
 
-  const { user } = useUserContext();
   const projectId = Number(match.params.id);
-  const { project, isSuccess: isSuccessGetProject } = useGetProject({
-    id: projectId,
-    enabled: !!user && !Number.isNaN(projectId)
+  const { project } = useGetProject({
+    id: projectId
   });
+
   const projectSecretKey = project?.secretKey || "스크립트 정보를 불러오는 중입니다...";
   const { isCopyButtonClicked, onCopy } = useCopyButton();
   useDocumentTitle("스크립트 발급");
@@ -66,10 +63,6 @@ const ScriptPublishing = () => {
 
   if (Number.isNaN(projectId)) {
     return <Redirect to={ROUTE.COMMON.HOME} />;
-  }
-
-  if (!isSuccessGetProject) {
-    return <LoadingPage />;
   }
 
   return (
@@ -129,27 +122,29 @@ const ScriptPublishing = () => {
                   isDarkModePage={isDarkModePage}
                   onToggleDarkMode={() => setIsDarkModePage(state => !state)}
                 />
-                <CodeBlockWrapper>
-                  <CopyButton type="button" onClick={() => onCopy(script)}>
-                    {isCopyButtonClicked ? "Copied !" : "Copy"}
-                  </CopyButton>
-                  <SyntaxHighlighter
-                    customStyle={{
-                      margin: "0",
-                      borderRadius: "10px",
-                      padding: "1rem 2rem"
-                    }}
-                    codeTagProps={{
-                      style: {
-                        fontFamily: "Hack, monospace"
-                      }
-                    }}
-                    language="javascript"
-                    style={prism}
-                  >
-                    {script}
-                  </SyntaxHighlighter>
-                </CodeBlockWrapper>
+                {project && (
+                  <CodeBlockWrapper>
+                    <CopyButton type="button" onClick={() => onCopy(script)}>
+                      {isCopyButtonClicked ? "Copied !" : "Copy"}
+                    </CopyButton>
+                    <SyntaxHighlighter
+                      customStyle={{
+                        margin: "0",
+                        borderRadius: "10px",
+                        padding: "1rem 2rem"
+                      }}
+                      codeTagProps={{
+                        style: {
+                          fontFamily: "Hack, monospace"
+                        }
+                      }}
+                      language="javascript"
+                      style={prism}
+                    >
+                      {script}
+                    </SyntaxHighlighter>
+                  </CodeBlockWrapper>
+                )}
               </GuideStep>
             </>
           )}

@@ -1,5 +1,5 @@
 import { QUERY, ROUTE } from "@/constants";
-import { useToken } from "@/hooks";
+import { useUserContext } from "@/hooks/context/useUserContext";
 import { request } from "@/utils/request";
 import { useEffect } from "react";
 import { useHistory, useLocation, useParams } from "react-router";
@@ -11,7 +11,7 @@ const OAuth = () => {
   const { provider } = useParams<{ provider: string }>();
   const urlSearchParams = new URLSearchParams(location.search);
   const code = urlSearchParams.get("code");
-  const { refetchAccessToken } = useToken();
+  const { refetchAccessToken, accessToken } = useUserContext();
 
   useEffect(() => {
     if (!code) {
@@ -25,7 +25,7 @@ const OAuth = () => {
           authorizationCode: code
         });
 
-        refetchAccessToken();
+        refetchAccessToken?.();
       } catch (error) {
         console.error(error);
       }

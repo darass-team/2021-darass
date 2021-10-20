@@ -16,6 +16,5 @@ export { useDeleteComment } from "./api/comment/useDeleteComment";
 export { useCommentStatisticsData } from "./api/comment/useGetCommentStatisticsData";
 export { useDeleteProject } from "./api/project/useDeleteProject";
 export { useScrollFadeInOut } from "./ui/useScrollFadeInOut";
-export { useToken } from "./api/token/useToken";
 export { useRecentlyAlarmWebSocket } from "./ui/useRecentlyAlarmWebSocket";
 export { useDocumentTitle } from "./ui/useDocumentTitle";

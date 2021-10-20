@@ -1,9 +1,9 @@
-import { QUERY, REACT_QUERY_KEY } from "@/constants";
+import { QUERY } from "@/constants";
 import { Comment, GetCommentsOfProjectPerPageRequest } from "@/types/comment";
 import { AlertError } from "@/utils/alertError";
 import { request } from "@/utils/request";
 import axios from "axios";
-import { useQuery, useQueryClient } from "react-query";
+import { useQuery } from "../useQuery";
 
 const _getAllCommentsOfProject = async ({
   sortOption,
@@ -53,43 +53,18 @@ export const useGetCommentsOfProjectPerPage = ({
   size,
   keyword
 }: Props) => {
-  const queryClient = useQueryClient();
-
-  const { data, refetch, isLoading, error, isSuccess } = useQuery<
-    {
-      comments: Comment[];
-      totalComment: number;
-      totalPage: number;
-    },
-    Error
-  >(
-    [REACT_QUERY_KEY.COMMENT_OF_PROJECT_PER_PAGE, projectKey, page],
-    () => _getAllCommentsOfProject({ sortOption, projectKey, startDate, endDate, page, size, keyword }),
-    {
-      retry: false,
-      enabled: false
-    }
-  );
-
-  const prefetch = (pageIndex: number) => {
-    queryClient.prefetchQuery([REACT_QUERY_KEY.COMMENT_OF_PROJECT_PER_PAGE, projectKey, pageIndex], async () => {
-      const response = await _getAllCommentsOfProject({
-        sortOption,
-        projectKey,
-        startDate,
-        endDate,
-        page: pageIndex,
-        size,
-        keyword
-      });
-
-      return response;
-    });
-  };
+  const { refetch, isLoading, isError, data, error, setData, isSuccess, isFetched } = useQuery<{
+    comments: Comment[];
+    totalComment: number;
+    totalPage: number;
+  }>({
+    enabled: false,
+    query: () => _getAllCommentsOfProject({ sortOption, projectKey, startDate, endDate, page, size, keyword })
+  });
 
   const comments = !data || data?.comments.length === 0 ? [] : data.comments;
   const totalComment = data?.totalComment ? data?.totalComment : 0;
   const totalPage = data?.totalPage ? data?.totalPage : 0;
 
-  return { comments, totalComment, totalPage, refetch, isLoading, error, prefetch, isSuccess };
+  return { comments, totalComment, totalPage, refetch, isLoading, error, isSuccess, isFetched };
 };

@@ -32,13 +32,11 @@ const Manage = () => {
   const location = useLocation();
   useDocumentTitle("댓글 관리");
 
-  const { user: me, isSuccessUserRequest } = useUserContext();
+  const { user: me } = useUserContext();
 
   const projectId = Number(match.params.id);
   const urlSearchParams = new URLSearchParams(location.search);
   const pageIndex = urlSearchParams.get("pageIndex") || 1;
-
-  const { user } = useUserContext();
 
   const { value: keyword, onChangeWithMaxLength: onChangeKeyword } = useInput("", MAX_COMMENT_SEARCH_TERM_LENGTH);
 
@@ -51,13 +49,12 @@ const Manage = () => {
   const startDateAsString = startDate?.format("YYYY-MM-DD") || moment().format("YYYY-MM-DD");
   const endDateAsString = endDate?.format("YYYY-MM-DD") || moment().format("YYYY-MM-DD");
 
-  const { project, isSuccess: isSuccessGetProject } = useGetProject({
-    id: projectId,
-    enabled: !!user && !Number.isNaN(projectId)
+  const { project } = useGetProject({
+    id: projectId
   });
   const projectSecretKey = project?.secretKey;
 
-  const { deleteComment } = useDeleteComment({ projectKey: projectSecretKey, page: Number(pageIndex) });
+  const { deleteComment } = useDeleteComment();
 
   const { currentPageIndex, setCurrentPageIndex } = useCommentPageIndex({
     initialPageIndex: Number(pageIndex),
@@ -69,8 +66,7 @@ const Manage = () => {
     totalComment,
     totalPage,
     refetch: getCommentsOfProjectPerPage,
-    prefetch: preGetCommentsOfProjectPerPage,
-    isSuccess: isSuccessGetCommentsOfProjectPerPage
+    isFetched: isFetchedGetCommentsOfProjectPerPage
   } = useGetCommentsOfProjectPerPage({
     projectKey: projectSecretKey,
     startDate: startDateAsString,
@@ -127,23 +123,12 @@ const Manage = () => {
 
   useEffect(() => {
     if (!currentPageIndex || !projectSecretKey) return;
-    (async () => {
-      await getCommentsOfProjectPerPage();
 
-      Promise.allSettled(paginationNumbers.map(num => preGetCommentsOfProjectPerPage(num))).catch(error => {
-        if (error instanceof AlertError) {
-          alert(error.message);
-        }
-      });
-    })();
+    getCommentsOfProjectPerPage();
   }, [currentPageIndex, projectSecretKey, totalPage]);
 
   if (Number.isNaN(projectId)) {
     return <Redirect to={ROUTE.COMMON.HOME} />;
-  }
-
-  if (!isSuccessUserRequest || !isSuccessGetProject || !isSuccessGetCommentsOfProjectPerPage) {
-    return <LoadingPage />;
   }
 
   return (
@@ -165,53 +150,55 @@ const Manage = () => {
             keyword={keyword}
           />
 
-          <CommentsViewer>
-            <TotalComment>
-              <span>{totalComment}</span>
-              개의 댓글 (<span>총 {totalPage} 페이지</span>)
-            </TotalComment>
-            <Header>
-              <CheckBox
-                isChecked={isCheckingAllCommentsInCurrentPage}
-                onChange={onToggleIsCheckingAllComments}
-                labelText="모두 선택"
-              />
+          {isFetchedGetCommentsOfProjectPerPage && (
+            <CommentsViewer>
+              <TotalComment>
+                <span>{totalComment}</span>
+                개의 댓글 (<span>총 {totalPage} 페이지</span>)
+              </TotalComment>
+              <Header>
+                <CheckBox
+                  isChecked={isCheckingAllCommentsInCurrentPage}
+                  onChange={onToggleIsCheckingAllComments}
+                  labelText="모두 선택"
+                />
 
-              <DeleteButton onClick={onClickDeleteButton}>삭제</DeleteButton>
-            </Header>
-            <CommentList>
-              {comments.length === 0 ? (
-                <Row>
-                  <ErrorNotice>{"조건에 맞는 댓글을 찾을 수 없습니다"}</ErrorNotice>
-                </Row>
-              ) : (
-                comments.map(({ id, content, user, createdDate, url, secret }) => (
-                  <Row key={id}>
-                    <Comment
-                      isMyComment={me?.id === user.id}
-                      isChecked={checkedCommentIds.some(_id => _id === id)}
-                      onChangeCheckBox={() => updateCheckedCommentId(id)}
-                      authorProfileImageUrl={user.profileImageUrl}
-                      authorNickName={user.nickName}
-                      createdDate={createdDate}
-                      content={content}
-                      url={url}
-                      secret={secret}
-                    />
+                <DeleteButton onClick={onClickDeleteButton}>삭제</DeleteButton>
+              </Header>
+              <CommentList>
+                {comments.length === 0 ? (
+                  <Row>
+                    <ErrorNotice>{"조건에 맞는 댓글을 찾을 수 없습니다"}</ErrorNotice>
                   </Row>
-                ))
-              )}
-            </CommentList>
+                ) : (
+                  comments.map(({ id, content, user, createdDate, url, secret }) => (
+                    <Row key={id}>
+                      <Comment
+                        isMyComment={me?.id === user.id}
+                        isChecked={checkedCommentIds.some(_id => _id === id)}
+                        onChangeCheckBox={() => updateCheckedCommentId(id)}
+                        authorProfileImageUrl={user.profileImageUrl}
+                        authorNickName={user.nickName}
+                        createdDate={createdDate}
+                        content={content}
+                        url={url}
+                        secret={secret}
+                      />
+                    </Row>
+                  ))
+                )}
+              </CommentList>
 
-            {comments.length > 0 && (
-              <PaginationBar
-                currentPageIndex={currentPageIndex}
-                setCurrentPageIndex={setCurrentPageIndex}
-                paginationNumbers={paginationNumbers}
-                totalPageLength={totalPage}
-              />
-            )}
-          </CommentsViewer>
+              {comments.length > 0 && (
+                <PaginationBar
+                  currentPageIndex={currentPageIndex}
+                  setCurrentPageIndex={setCurrentPageIndex}
+                  paginationNumbers={paginationNumbers}
+                  totalPageLength={totalPage}
+                />
+              )}
+            </CommentsViewer>
+          )}
         </Container>
       </ContainerWithSideBar>
     </ScreenContainer>

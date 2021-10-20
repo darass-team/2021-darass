@@ -71,6 +71,7 @@ export const Wrapper = styled.div`
 export const GuestInfo = styled.input<{ isValidInput: boolean; isSubCommentInput: boolean }>`
   ${InputCSS};
   padding: 1rem 0.8rem;
+  background: transparent;
   width: 8rem;
   &:first-child {
     margin-right: 1.2rem;

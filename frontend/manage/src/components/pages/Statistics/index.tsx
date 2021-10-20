@@ -1,14 +1,16 @@
-import moment from "moment";
-import { useEffect, useState } from "react";
-import { useRouteMatch, Redirect } from "react-router-dom";
-import { PROJECT_MENU, ROUTE } from "@/constants";
-import { PERIODICITY } from "@/constants/statistics";
-import { useCalendar, useCommentStatisticsData, useDocumentTitle, useGetProject } from "@/hooks";
 import ScreenContainer from "@/components/@style/ScreenContainer";
 import Modal from "@/components/atoms/Modal";
 import CommentStatisticsChart from "@/components/organisms/CommentStatisticsChart";
 import ContainerWithSideBar from "@/components/organisms/ContainerWithSideBar";
+import { PROJECT_MENU, ROUTE } from "@/constants";
+import { PERIODICITY } from "@/constants/statistics";
+import { useCalendar, useCommentStatisticsData, useDocumentTitle, useGetProject } from "@/hooks";
+import moment from "moment";
+import { useEffect, useState } from "react";
+import { Redirect, useRouteMatch } from "react-router-dom";
+import LoadingPage from "../LoadingPage";
 import {
+  Calendar,
   ChartArea,
   Container,
   DataInputWrapper,
@@ -20,11 +22,8 @@ import {
   SortButtonsWrapper,
   Title,
   Tooltip,
-  Wrapper,
-  Calendar
+  Wrapper
 } from "./styles";
-import LoadingPage from "../LoadingPage";
-import { useUserContext } from "@/hooks/context/useUserContext";
 
 const Statistics = () => {
   const match = useRouteMatch<{ id: string }>();
@@ -33,10 +32,9 @@ const Statistics = () => {
   const [selectedPeriodicity, setSelectedPeriodicity] = useState<ObjectValueType<typeof PERIODICITY>>(
     PERIODICITY.DAILY
   );
-  const { user } = useUserContext();
-  const { project, isSuccess: isSuccessGetProject } = useGetProject({
-    id: projectId,
-    enabled: !!user && !Number.isNaN(projectId)
+
+  const { project } = useGetProject({
+    id: projectId
   });
   useDocumentTitle("댓글 통계");
 
@@ -53,11 +51,7 @@ const Statistics = () => {
   const startDateAsString = startDate?.format("YYYY-MM-DD") || moment().format("YYYY-MM-DD");
   const endDateAsString = endDate?.format("YYYY-MM-DD") || moment().format("YYYY-MM-DD");
 
-  const {
-    stats,
-    refetch: getCommentStatisticsData,
-    isSuccess: isSuccessGetCommentStatisticsData
-  } = useCommentStatisticsData({
+  const { stats, refetch: getCommentStatisticsData } = useCommentStatisticsData({
     periodicity: selectedPeriodicity,
     projectKey: projectSecretKey,
     startDate: startDateAsString,
@@ -95,10 +89,6 @@ const Statistics = () => {
 
   if (Number.isNaN(projectId)) {
     return <Redirect to={ROUTE.COMMON.HOME} />;
-  }
-
-  if (!isSuccessGetProject || !isSuccessGetCommentStatisticsData) {
-    return <LoadingPage />;
   }
 
   return (
@@ -150,7 +140,7 @@ const Statistics = () => {
               </SortButtonsWrapper>
             </Wrapper>
 
-            <CommentStatisticsChart data={stats} />
+            <CommentStatisticsChart data={stats || []} />
           </ChartArea>
 
           <DataTable>
@@ -161,7 +151,7 @@ const Statistics = () => {
               </tr>
             </thead>
             <tbody>
-              {stats.map(_data => (
+              {stats?.map(_data => (
                 <tr key={_data.date}>
                   <th>{_data.date}</th>
                   <th>{_data.count}</th>

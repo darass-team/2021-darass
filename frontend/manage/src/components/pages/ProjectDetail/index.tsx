@@ -1,25 +1,22 @@
-import { FormEvent, useEffect } from "react";
-import { useHistory, useRouteMatch, Redirect } from "react-router-dom";
+import ScreenContainer from "@/components/@style/ScreenContainer";
+import DeleteSection from "@/components/molecules/DeleteSection";
+import ContainerWithSideBar from "@/components/organisms/ContainerWithSideBar";
 import { PROJECT_MENU, ROUTE } from "@/constants";
 import { MAX_PROJECT_DESCRIPTION_LENGTH, MAX_PROJECT_NAME_LENGTH } from "@/constants/validation";
 import { useDeleteProject, useDocumentTitle, useEditProject, useGetProject, useInput } from "@/hooks";
-import ScreenContainer from "@/components/@style/ScreenContainer";
 import { AlertError } from "@/utils/alertError";
 import { isEmptyString } from "@/utils/validation";
-import DeleteSection from "@/components/molecules/DeleteSection";
-import ContainerWithSideBar from "@/components/organisms/ContainerWithSideBar";
-import { Container, Form, InfoWrapper, Input, Label, InputLengthCounter, SubmitButton, Title } from "./styles";
+import { FormEvent, useEffect } from "react";
+import { Redirect, useHistory, useRouteMatch } from "react-router-dom";
 import LoadingPage from "../LoadingPage";
-import { useUserContext } from "@/hooks/context/useUserContext";
+import { Container, Form, InfoWrapper, Input, InputLengthCounter, Label, SubmitButton, Title } from "./styles";
 
 const ProjectDetail = () => {
   const match = useRouteMatch<{ id: string }>();
   const projectId = Number(match.params.id);
   const history = useHistory();
-  const { user } = useUserContext();
-  const { project, isSuccess: isSuccessGetProject } = useGetProject({
-    id: projectId,
-    enabled: !!user && !Number.isNaN(projectId)
+  const { project } = useGetProject({
+    id: projectId
   });
   const { editProject } = useEditProject();
   const { deleteProject } = useDeleteProject();
@@ -93,15 +90,12 @@ const ProjectDetail = () => {
     return <Redirect to={ROUTE.COMMON.HOME} />;
   }
 
-  if (!isSuccessGetProject) {
-    return <LoadingPage />;
-  }
-
   return (
     <ScreenContainer>
       <ContainerWithSideBar menus={PROJECT_MENU.getByProjectId(projectId)}>
         <Container>
           <Title>프로젝트 정보</Title>
+
           <Form onSubmit={onEditProject}>
             <InfoWrapper>
               <Label htmlFor="project-name">이름</Label>

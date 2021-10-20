@@ -1,7 +1,7 @@
+import ScreenContainer from "@/components/@style/ScreenContainer";
 import ProjectButton from "@/components/atoms/Buttons/ProjectButton";
 import { ROUTE } from "@/constants";
 import { useDocumentTitle, useGetAllProjects } from "@/hooks";
-import ScreenContainer from "@/components/@style/ScreenContainer";
 import { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import {
@@ -12,14 +12,12 @@ import {
   LoadableScriptPublishing,
   LoadableStatistics
 } from "../Loadable";
-import LoadingPage from "../LoadingPage";
-import { AddProjectButton, ButtonWrapper, Container, Message, Title, HeaderWrapper } from "./styles";
-import { useUserContext } from "@/hooks/context/useUserContext";
+import { AddProjectButton, ButtonWrapper, Container, HeaderWrapper, Message, Title } from "./styles";
 
 const MyProject = () => {
   const history = useHistory();
-  const { user } = useUserContext();
-  const { projects, isSuccess: isSuccessGetAllProjects } = useGetAllProjects(!!user);
+  const { projects, isFetched: isFetchedGetAllProjects } = useGetAllProjects();
+
   useDocumentTitle("내 프로젝트");
 
   const moveScriptPublishingPage = (id: number) => {
@@ -38,10 +36,6 @@ const MyProject = () => {
     LoadableProjectDetail.preload();
     LoadableNotification.preload();
   }, []);
-
-  if (!isSuccessGetAllProjects) {
-    return <LoadingPage />;
-  }
 
   return (
     <ScreenContainer>
