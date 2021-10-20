@@ -1,5 +1,6 @@
 import { QUERY } from "@/constants";
 import { NO_ACCESS_TOKEN } from "@/constants/errorName";
+import { useUserContext } from "@/context/userContext";
 import { User } from "@/types/user";
 import { AlertError } from "@/utils/alertError";
 import { request } from "@/utils/request";
@@ -30,10 +31,11 @@ const _deleteUser = async () => {
 };
 
 export const useDeleteUser = () => {
+  const { setUser } = useUserContext();
   const { isLoading, isError, error, data, mutation } = useMutation<void, User>({
     query: _deleteUser,
     onSuccess: () => {
-      // setUser (undefined)
+      setUser?.(undefined);
     }
   });
 

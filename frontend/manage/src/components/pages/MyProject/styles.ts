@@ -53,8 +53,8 @@ export const ButtonWrapper = styled.div`
 
 export const Message = styled.span`
   margin-top: 2rem;
-  font-size: 1.4rem;
-  line-height: ${1.4 * LINE_HEIGHT_SCALE}rem;
+  font-size: 1.3rem;
+  line-height: ${1.3 * LINE_HEIGHT_SCALE}rem;
   font-weight: 700;
   text-align: center;
 `;

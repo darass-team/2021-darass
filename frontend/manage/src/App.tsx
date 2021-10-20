@@ -39,8 +39,17 @@ const authorizedRoute = [
 ];
 
 const App = () => {
-  const { user, logout, refetchUser, isLoading, isSuccess, isActiveAccessToken, refetchAccessToken, accessToken } =
-    useUser();
+  const {
+    user,
+    logout,
+    refetchUser,
+    isLoading,
+    isSuccess,
+    isActiveAccessToken,
+    refetchAccessToken,
+    accessToken,
+    setUser
+  } = useUser();
   const { recentlyAlarmContent, hasNewAlarmOnRealTime, setHasNewAlarmOnRealTime } = useRecentlyAlarmWebSocket({ user });
 
   useEffect(() => {
@@ -56,7 +65,8 @@ const App = () => {
         refetchAccessToken,
         accessToken,
         isLoadingUserRequest: isLoading,
-        isSuccessUserRequest: isSuccess
+        isSuccessUserRequest: isSuccess,
+        setUser
       }}
     >
       <RecentlyAlarmContentContext.Provider
