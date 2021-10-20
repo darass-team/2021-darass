@@ -1,4 +1,4 @@
-import { QUERY, REACT_QUERY_KEY } from "@/constants";
+import { QUERY } from "@/constants";
 import { Comment, GetCommentsOfProjectPerPageRequest } from "@/types/comment";
 import { AlertError } from "@/utils/alertError";
 import { request } from "@/utils/request";

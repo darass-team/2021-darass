@@ -18,6 +18,7 @@ import { AddProjectButton, ButtonWrapper, Container, HeaderWrapper, Message, Tit
 const MyProject = () => {
   const history = useHistory();
   const { projects, isSuccess: isSuccessGetAllProjects } = useGetAllProjects();
+
   useDocumentTitle("내 프로젝트");
 
   const moveScriptPublishingPage = (id: number) => {

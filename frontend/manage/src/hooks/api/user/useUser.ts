@@ -1,10 +1,47 @@
-import { QUERY, REACT_QUERY_KEY } from "@/constants";
+import { QUERY } from "@/constants";
 import { NO_ACCESS_TOKEN } from "@/constants/errorName";
+import { TOKEN_REFETCH_TIMER } from "@/constants/timer";
 import { User } from "@/types/user";
 import { AlertError } from "@/utils/alertError";
+import { axiosBearerOption } from "@/utils/customAxios";
+import { getLocalStorage, removeLocalStorage, setLocalStorage } from "@/utils/localStorage";
 import { request } from "@/utils/request";
 import axios from "axios";
-import { useQuery, useQueryClient } from "react-query";
+import { useEffect } from "react";
+import { useMutation } from "../useMutation";
+import { useQuery } from "../useQuery";
+
+export const deleteRefreshToken = async () => {
+  try {
+    const response = await request.delete(QUERY.LOGOUT);
+
+    return response.data;
+  } catch (error) {
+    if (!axios.isAxiosError(error)) {
+      throw new AlertError("알 수 없는 에러입니다.");
+    }
+
+    throw new AlertError("로그아웃에 실패하였습니다.");
+  }
+};
+
+export const getAccessTokenByRefreshToken = async () => {
+  try {
+    const response = await request.post(QUERY.LOGIN_REFRESH, {});
+    const { accessToken } = response.data;
+    axiosBearerOption.clear();
+    axiosBearerOption.setAccessToken(accessToken);
+
+    return accessToken;
+  } catch (error) {
+    axiosBearerOption.clear();
+    if (!axios.isAxiosError(error)) {
+      throw new AlertError("알 수 없는 에러입니다.");
+    }
+
+    throw new Error("액세스 토큰 재발급에 실패하셨습니다.");
+  }
+};
 
 const getUser = async () => {
   try {
@@ -27,33 +64,114 @@ const getUser = async () => {
   }
 };
 
-interface Props {
-  accessToken?: string;
-  removeAccessToken?: () => void;
-}
+const useGetAccessTokenApi = () => {
+  const {
+    data: accessToken,
+    refetch: refetchAccessToken,
+    error: accessTokenError,
+    setData: setAccessToken,
+    clearRefetchInterval
+  } = useQuery<string>({
+    query: getAccessTokenByRefreshToken,
+    enabled: false,
+    refetchInterval: TOKEN_REFETCH_TIMER
+  });
 
-export const useUser = ({ accessToken, removeAccessToken }: Props) => {
-  const queryClient = useQueryClient();
+  return {
+    accessToken,
+    refetchAccessToken,
+    accessTokenError,
+    setAccessToken,
+    clearRefetchInterval
+  };
+};
+
+export const useUser = () => {
+  const {
+    accessToken,
+    refetchAccessToken: _refetchAccessToken,
+    accessTokenError,
+    setAccessToken,
+    clearRefetchInterval
+  } = useGetAccessTokenApi();
 
   const {
     data: user,
     isLoading,
     error,
-    refetch,
-    isSuccess
-  } = useQuery<User, Error>([REACT_QUERY_KEY.USER], getUser, {
-    retry: false,
-    enabled: !!accessToken
+    refetch: refetchUser,
+    isSuccess,
+    setData: setUser
+  } = useQuery<User>({
+    query: getUser,
+    enabled: false
   });
+
+  const { mutation: deleteMutation } = useMutation<void, void>({
+    query: deleteRefreshToken,
+    onSuccess: () => {
+      setAccessToken(undefined);
+      axiosBearerOption.clear();
+    }
+  });
+
+  const refetchAccessToken = async () => {
+    await _refetchAccessToken();
+    await refetchUser();
+  };
+
+  const removeAccessToken = () => {
+    deleteMutation();
+    removeLocalStorage("active");
+    clearRefetchInterval();
+  };
 
   const logout = () => {
     if (!removeAccessToken) return;
 
     removeAccessToken();
-    queryClient.setQueryData<User | undefined>(REACT_QUERY_KEY.USER, () => {
-      return undefined;
-    });
   };
 
-  return { user, isLoading, error, refetch, logout, isSuccess };
+  const isActiveAccessToken = getLocalStorage("active");
+
+  const actionWhenAccessTokenChange = () => {
+    if (!accessToken) setUser(undefined);
+    else {
+      setLocalStorage("active", true);
+      refetchUser();
+    }
+  };
+
+  const actionInitAccessToken = () => {
+    if (isActiveAccessToken) {
+      refetchAccessToken();
+    } else {
+      clearRefetchInterval();
+    }
+  };
+
+  useEffect(() => {
+    actionInitAccessToken();
+  }, []);
+
+  useEffect(() => {
+    if (accessTokenError) removeAccessToken();
+  }, [accessTokenError]);
+
+  useEffect(() => {
+    actionWhenAccessTokenChange();
+  }, [accessToken]);
+
+  return {
+    user,
+    accessToken,
+    refetchAccessToken,
+    isLoading,
+    error,
+    refetchUser,
+    logout,
+    isSuccess,
+    setUser,
+    isActiveAccessToken
+  };
 };

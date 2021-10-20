@@ -1,10 +1,10 @@
-import { QUERY, REACT_QUERY_KEY } from "@/constants";
+import { QUERY } from "@/constants";
 import { NO_ACCESS_TOKEN } from "@/constants/errorName";
 import { User } from "@/types/user";
 import { AlertError } from "@/utils/alertError";
 import { request } from "@/utils/request";
 import axios from "axios";
-import { useMutation, useQueryClient } from "react-query";
+import { useMutation } from "../useMutation";
 
 const _editUser = async (data: FormData) => {
   const headers = {
@@ -34,22 +34,12 @@ const _editUser = async (data: FormData) => {
 };
 
 export const useEditUser = () => {
-  const queryClient = useQueryClient();
-
-  const editMutation = useMutation<User, Error, FormData>(data => _editUser(data), {
+  const { isLoading, isError, error, data, mutation } = useMutation<FormData, User>({
+    query: (_data: FormData) => _editUser(_data),
     onSuccess: () => {
-      queryClient.invalidateQueries(REACT_QUERY_KEY.USER);
+      alert("회원정보 수정에 성공하셨습니다.");
     }
   });
 
-  const isLoading = editMutation.isLoading;
-  const error = editMutation.error;
-
-  const editUser = async (data: FormData) => {
-    const user = await editMutation.mutateAsync(data);
-
-    return user;
-  };
-
-  return { editUser, isLoading, error };
+  return { editUser: mutation, isLoading, error };
 };

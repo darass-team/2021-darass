@@ -96,11 +96,7 @@ const UserProfile = () => {
       userName && formData.append("nickName", userName);
       profileImageAsFile && formData.append("profileImageFile", profileImageAsFile);
 
-      const user = await editUser(formData);
-
-      if (user) {
-        alert("회원정보 수정에 성공하셨습니다.");
-      }
+      await editUser(formData);
     } catch (error) {
       if (error instanceof AlertError) {
         alert(error.message);

@@ -20,7 +20,7 @@ import OAuth from "./components/pages/OAuth";
 import { ROUTE } from "./constants";
 import { RecentlyAlarmContentContext } from "./context/recentlyAlarmContentContext";
 import { UserContext } from "./context/userContext";
-import { useRecentlyAlarmWebSocket, useToken, useUser } from "./hooks";
+import { useRecentlyAlarmWebSocket, useUser } from "./hooks";
 
 const nonAuthorizedRoute = [
   { path: ROUTE.NON_AUTHORIZED.OAUTH, component: OAuth },
@@ -39,8 +39,8 @@ const authorizedRoute = [
 ];
 
 const App = () => {
-  const { accessToken, removeAccessToken, isActiveAccessToken } = useToken();
-  const { user, logout, refetch: refetchUser, isLoading, isSuccess } = useUser({ accessToken, removeAccessToken });
+  const { user, logout, refetchUser, isLoading, isSuccess, isActiveAccessToken, refetchAccessToken, accessToken } =
+    useUser();
   const { recentlyAlarmContent, hasNewAlarmOnRealTime, setHasNewAlarmOnRealTime } = useRecentlyAlarmWebSocket({ user });
 
   useEffect(() => {
@@ -53,6 +53,8 @@ const App = () => {
         user,
         logout,
         refetchUser,
+        refetchAccessToken,
+        accessToken,
         isLoadingUserRequest: isLoading,
         isSuccessUserRequest: isSuccess
       }}
