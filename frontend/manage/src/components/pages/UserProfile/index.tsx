@@ -41,10 +41,6 @@ const UserProfile = () => {
     }
   }, [user]);
 
-  if (!isSuccessUserRequest || !logout) {
-    return <LoadingPage />;
-  }
-
   const onChangeFile = (event: ChangeEvent<HTMLInputElement>) => {
     const target = event.target;
     const files = target?.files || [];
@@ -72,7 +68,7 @@ const UserProfile = () => {
       await deleteUser();
 
       alert("회원탈퇴에 성공하셨습니다.");
-      logout();
+      logout?.();
     } catch (error) {
       if (error instanceof AlertError) {
         alert(error.message);

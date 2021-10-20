@@ -48,7 +48,7 @@ const DesktopNav = ({ menuList }: Props) => {
       formData.append("hasRecentAlarm", "false");
 
       await editUser(formData);
-      await refetchUser();
+
       setHasNewAlarmOnRealTime?.(false);
     } catch (error) {
       if (error instanceof AlertError) {

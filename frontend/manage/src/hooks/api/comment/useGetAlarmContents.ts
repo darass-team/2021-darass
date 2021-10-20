@@ -38,7 +38,7 @@ export const useGetAlarmContents = () => {
 
   const { user } = useUserContext();
 
-  const { data, refetch, isLoading, isError, isSuccess } = useQuery<GetAlarmResponse[]>({
+  const { data, refetch, isLoading, isError, isSuccess, isFetched } = useQuery<GetAlarmResponse[]>({
     query: getAlarms,
     enabled: false
   });
@@ -57,5 +57,5 @@ export const useGetAlarmContents = () => {
     }
   }, [recentlyAlarmContent]);
 
-  return { data, refetch, isLoading, isError, isSuccess, hasNewAlarmOnRealTime, setHasNewAlarmOnRealTime };
+  return { data, refetch, isLoading, isError, isSuccess, hasNewAlarmOnRealTime, setHasNewAlarmOnRealTime, isFetched };
 };
