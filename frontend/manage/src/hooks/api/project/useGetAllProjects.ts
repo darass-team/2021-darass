@@ -1,11 +1,12 @@
-import { REACT_QUERY_KEY } from "@/constants";
 import { QUERY } from "@/constants/api";
 import { NO_ACCESS_TOKEN } from "@/constants/errorName";
+import { useUserContext } from "@/hooks/context/useUserContext";
 import { Project } from "@/types/project";
 import { AlertError } from "@/utils/alertError";
 import { request } from "@/utils/request";
 import axios from "axios";
-import { useQuery } from "react-query";
+import { useEffect } from "react";
+import { useQuery } from "../useQuery";
 
 const getAllProjects = async () => {
   try {
@@ -29,13 +30,21 @@ const getAllProjects = async () => {
 };
 
 export const useGetAllProjects = (enabled = false) => {
+  const { user } = useUserContext();
   const {
     data: projects,
     error,
-    isSuccess
-  } = useQuery<Project[], Error>([REACT_QUERY_KEY.PROJECTS], getAllProjects, {
+    isSuccess,
+    refetch,
+    isLoading
+  } = useQuery<Project[]>({
+    query: getAllProjects,
     enabled
   });
 
-  return { projects, error, isSuccess };
+  useEffect(() => {
+    if (user) refetch();
+  }, [user]);
+
+  return { projects, error, isSuccess, isLoading };
 };

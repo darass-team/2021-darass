@@ -4,11 +4,9 @@ import { useCreateProject, useDocumentTitle, useInput } from "@/hooks";
 import { AlertError } from "@/utils/alertError";
 import { isEmptyString } from "@/utils/validation";
 import { FormEvent } from "react";
-import { useHistory } from "react-router-dom";
 import { Container, Form, Input, InputWrapper, Label, ProjectInputCounter, SubmitButton, Title } from "./styles";
 
 const NewProject = () => {
-  const history = useHistory();
   const { createProject } = useCreateProject();
   const { value: projectName, onChangeWithMaxLength: onChangeProjectName } = useInput("", MAX_PROJECT_NAME_LENGTH);
   const { value: projectDescription, onChangeWithMaxLength: onChangeProjectDescription } = useInput(
@@ -23,13 +21,10 @@ const NewProject = () => {
     try {
       if (isEmptyString(projectName)) throw new AlertError("프로젝트 이름을 입력해주세요.");
 
-      const project = await createProject({
+      await createProject({
         name: projectName.trim(),
         description: projectDescription.trim()
       });
-
-      alert("프로젝트 생성에 성공하셨습니다.");
-      history.push(`/projects/${project.id}/guide`);
     } catch (error) {
       if (error instanceof AlertError) {
         alert(error.message);

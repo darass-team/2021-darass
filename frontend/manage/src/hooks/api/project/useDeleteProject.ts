@@ -1,11 +1,10 @@
 import { QUERY } from "@/constants";
 import { NO_ACCESS_TOKEN } from "@/constants/errorName";
-import { REACT_QUERY_KEY } from "@/constants/reactQueryKey";
 import { Project } from "@/types/project";
 import { AlertError } from "@/utils/alertError";
 import { request } from "@/utils/request";
 import axios from "axios";
-import { useMutation, useQueryClient } from "react-query";
+import { useMutation } from "../useMutation";
 
 const _deleteProject = async (id: Project["id"]) => {
   try {
@@ -33,24 +32,12 @@ const _deleteProject = async (id: Project["id"]) => {
 };
 
 export const useDeleteProject = () => {
-  const queryClient = useQueryClient();
-
-  const deleteMutation = useMutation<void, Error, Project["id"]>(id => _deleteProject(id), {
-    onSuccess: (_, id) => {
-      queryClient.setQueryData<Project[] | undefined>(REACT_QUERY_KEY.PROJECTS, projects => {
-        return projects?.filter(project => project.id !== id);
-      });
+  const { isLoading, isError, error, data, mutation } = useMutation<Project["id"], void>({
+    query: (id: Project["id"]) => _deleteProject(id),
+    onSuccess: () => {
+      // refetchProjects();
     }
   });
 
-  const isLoading = deleteMutation.isLoading;
-  const error = deleteMutation.error;
-
-  const deleteProject = (id: Project["id"]) => {
-    if (Number.isNaN(id)) return;
-
-    return deleteMutation.mutateAsync(id);
-  };
-
-  return { deleteProject, isLoading, error };
+  return { deleteProject: mutation, isLoading, error };
 };

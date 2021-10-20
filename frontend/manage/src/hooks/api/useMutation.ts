@@ -2,7 +2,7 @@ import { useState } from "react";
 
 interface Props {
   query: (props?: any) => Promise<any>;
-  onSuccess?: () => void;
+  onSuccess?: (data?: any) => void;
 }
 
 export const useMutation = <PARAM, RESPONSE>({ query, onSuccess }: Props) => {
@@ -13,10 +13,10 @@ export const useMutation = <PARAM, RESPONSE>({ query, onSuccess }: Props) => {
 
   const mutation = async (_data: PARAM) => {
     try {
-      const data = await query(_data);
+      const data: RESPONSE = await query(_data);
 
       setData(data);
-      await onSuccess?.();
+      await onSuccess?.(data);
     } catch (error) {
       if (!(error instanceof Error)) return;
 

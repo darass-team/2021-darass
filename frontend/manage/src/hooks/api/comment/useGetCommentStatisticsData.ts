@@ -1,9 +1,9 @@
-import { AlertError } from "@/utils/alertError";
-import { COMMENT_STATISTICS, GetCommentStatisticsRequest } from "@/types/statistics";
+import { QUERY } from "@/constants";
 import { PERIODICITY } from "@/constants/statistics";
-import { QUERY, REACT_QUERY_KEY } from "@/constants";
-import axios from "axios";
+import { COMMENT_STATISTICS, GetCommentStatisticsRequest } from "@/types/statistics";
+import { AlertError } from "@/utils/alertError";
 import { request } from "@/utils/request";
+import axios from "axios";
 import { useMemo } from "react";
 import { useQuery } from "../useQuery";
 

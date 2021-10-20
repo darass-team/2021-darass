@@ -1,6 +1,5 @@
 import { QUERY } from "@/constants/api";
 import { NO_ACCESS_TOKEN } from "@/constants/errorName";
-import { REACT_QUERY_KEY } from "@/constants/reactQueryKey";
 import { DeleteCommentRequestParameter } from "@/types/comment";
 import { Project } from "@/types/project";
 import { AlertError } from "@/utils/alertError";

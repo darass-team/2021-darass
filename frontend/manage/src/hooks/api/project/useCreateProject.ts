@@ -1,17 +1,17 @@
-import { REACT_QUERY_KEY } from "@/constants";
 import { QUERY } from "@/constants/api";
 import { NO_ACCESS_TOKEN } from "@/constants/errorName";
 import { CreateProjectRequest, Project } from "@/types/project";
 import { AlertError } from "@/utils/alertError";
 import { request } from "@/utils/request";
 import axios from "axios";
-import { useMutation, useQueryClient } from "react-query";
+import { useHistory } from "react-router";
+import { useMutation } from "../useMutation";
 
 const _createProject = async ({ name, description }: CreateProjectRequest) => {
   try {
     const response = await request.post(QUERY.PROJECT, { name, description });
 
-    return response.data;
+    return response.data as Project["id"];
   } catch (error) {
     console.error(error);
 
@@ -35,24 +35,16 @@ const _createProject = async ({ name, description }: CreateProjectRequest) => {
 };
 
 export const useCreateProject = () => {
-  const queryClient = useQueryClient();
+  const history = useHistory();
+  const { isLoading, isError, error, data, mutation } = useMutation<CreateProjectRequest, Project>({
+    query: (_data: CreateProjectRequest) => _createProject(_data),
+    onSuccess: (projectResult: Project) => {
+      if (!projectResult) return;
 
-  const createMutation = useMutation<Project, Error, CreateProjectRequest>(data => _createProject(data), {
-    onSuccess: data => {
-      queryClient.setQueryData<Project[] | undefined>(REACT_QUERY_KEY.PROJECT, projects => {
-        return projects?.concat(data);
-      });
+      alert("프로젝트 생성에 성공하셨습니다.");
+      history.push(`/projects/${projectResult.id}/guide`);
     }
   });
 
-  const isLoading = createMutation.isLoading;
-  const error = createMutation.error;
-
-  const createProject = async (data: CreateProjectRequest) => {
-    const project = await createMutation.mutateAsync(data);
-
-    return project;
-  };
-
-  return { createProject, isLoading, error };
+  return { createProject: mutation, isLoading, error, data };
 };
