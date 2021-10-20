@@ -22,7 +22,7 @@ export const employees: Employee[] = [
     githubUrl: "https://github.com/jujubebat",
     email: "bbwwpark@naver.com",
     role: "Back-end Engineer",
-    description: "안녕하세요. 백엔드 개발자 박병욱입니다."
+    description: "누구보다 다라쓰 서비스에 애착을 가지고 있는 박병욱입니다."
   },
   {
     name: "Aron",
@@ -30,7 +30,7 @@ export const employees: Employee[] = [
     githubUrl: "https://github.com/Sehwan-Jang",
     email: "whilter08@gmail.com",
     role: "Back-end Engineer",
-    description: "안녕하세요. 백엔드 개발자 장세환입니다."
+    description: "다라쓰 백엔드 개발자 장세환입니다. 서버에 문제가 있거든 저에게 문의해주세요."
   },
   {
     name: "JayOn",
@@ -38,7 +38,7 @@ export const employees: Employee[] = [
     githubUrl: "https://github.com/pjy1368",
     email: "basejin0810@naver.com",
     role: "Back-end Engineer",
-    description: "무사히 돌아오겠습니다."
+    description: "국방의 의무와 다라쓰를 겸업하고 있습니다."
   },
   {
     name: "Goni",
@@ -46,7 +46,7 @@ export const employees: Employee[] = [
     githubUrl: "https://github.com/yungo1846",
     email: "yungo1468@naver.com",
     role: "Front-end Engineer",
-    description: "강해져서 돌아오겠습니다."
+    description: "금융은 토스, 댓글은 다라쓰를 사용해주세요."
   },
   {
     name: "Doby",
@@ -54,6 +54,6 @@ export const employees: Employee[] = [
     githubUrl: "https://github.com/zereight",
     email: "fullstackmachinelearning@gmail.com",
     role: "Front-end Engineer",
-    description: "코드를 통해 기술적인 문제를 해결하는것에 관심이 많습니다."
+    description: "개발에 몰입하는 것을 너무너무 좋아하는 개발자, 김정혁입니다."
   }
 ];
