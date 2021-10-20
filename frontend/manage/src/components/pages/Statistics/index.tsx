@@ -33,11 +33,7 @@ const Statistics = () => {
     PERIODICITY.DAILY
   );
 
-  const {
-    project,
-    isSuccess: isSuccessGetProject,
-    refetch: refetchGetProject
-  } = useGetProject({
+  const { project } = useGetProject({
     id: projectId
   });
   useDocumentTitle("댓글 통계");
@@ -55,11 +51,7 @@ const Statistics = () => {
   const startDateAsString = startDate?.format("YYYY-MM-DD") || moment().format("YYYY-MM-DD");
   const endDateAsString = endDate?.format("YYYY-MM-DD") || moment().format("YYYY-MM-DD");
 
-  const {
-    stats,
-    refetch: getCommentStatisticsData,
-    isSuccess: isSuccessGetCommentStatisticsData
-  } = useCommentStatisticsData({
+  const { stats, refetch: getCommentStatisticsData } = useCommentStatisticsData({
     periodicity: selectedPeriodicity,
     projectKey: projectSecretKey,
     startDate: startDateAsString,
@@ -99,7 +91,7 @@ const Statistics = () => {
     return <Redirect to={ROUTE.COMMON.HOME} />;
   }
 
-  if (!isSuccessGetProject || !isSuccessGetCommentStatisticsData) {
+  if (!stats) {
     return <LoadingPage />;
   }
 

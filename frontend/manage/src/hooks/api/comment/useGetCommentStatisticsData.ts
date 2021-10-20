@@ -48,7 +48,7 @@ export const useCommentStatisticsData = ({
   startDate,
   endDate
 }: GetCommentStatisticsRequest) => {
-  const { data, isLoading, error, refetch, isSuccess } = useQuery<{ commentStats: COMMENT_STATISTICS[] }>({
+  const { data, isLoading, error, refetch, isSuccess, isFetched } = useQuery<{ commentStats: COMMENT_STATISTICS[] }>({
     query: () => {
       return getCommentStatistics({
         periodicity,
@@ -60,7 +60,7 @@ export const useCommentStatisticsData = ({
     enabled: false
   });
 
-  const stats = useMemo(() => (data ? refineStatData(data.commentStats, periodicity.key) : []), [data]);
+  const stats = useMemo(() => (data ? refineStatData(data.commentStats, periodicity.key) : undefined), [data]);
 
-  return { stats, isLoading, error, refetch, isSuccess };
+  return { stats, isLoading, error, refetch, isSuccess, isFetched };
 };
