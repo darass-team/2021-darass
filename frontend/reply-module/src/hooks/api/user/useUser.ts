@@ -7,10 +7,10 @@ import { useEffect } from "react";
 import { useMutation } from "../useMutation";
 import { useQuery } from "../useQuery";
 
-export const useUser = () => {
+const useGetAccessTokenApi = () => {
   const {
     data: accessToken,
-    refetch: _refetchAccessToken,
+    refetch: refetchAccessToken,
     error: accessTokenError,
     setData: setAccessToken,
     clearRefetchInterval
@@ -19,6 +19,24 @@ export const useUser = () => {
     enabled: false,
     refetchInterval: TOKEN_REFETCH_TIMER
   });
+
+  return {
+    accessToken,
+    refetchAccessToken,
+    accessTokenError,
+    setAccessToken,
+    clearRefetchInterval
+  };
+};
+
+export const useUser = () => {
+  const {
+    accessToken,
+    refetchAccessToken: _refetchAccessToken,
+    accessTokenError,
+    setAccessToken,
+    clearRefetchInterval
+  } = useGetAccessTokenApi();
 
   const {
     data: user,
@@ -59,12 +77,24 @@ export const useUser = () => {
 
   const isActiveAccessToken = getLocalStorage("active");
 
-  useEffect(() => {
+  const actionWhenAccessTokenChange = () => {
+    if (!accessToken) setUser(undefined);
+    else {
+      setLocalStorage("active", true);
+      refetchUser();
+    }
+  };
+
+  const actionInitAccessToken = () => {
     if (isActiveAccessToken) {
       refetchAccessToken();
     } else {
       clearRefetchInterval();
     }
+  };
+
+  useEffect(() => {
+    actionInitAccessToken();
   }, []);
 
   useEffect(() => {
@@ -72,11 +102,7 @@ export const useUser = () => {
   }, [accessTokenError]);
 
   useEffect(() => {
-    if (!accessToken) setUser(undefined);
-    else {
-      setLocalStorage("active", true);
-      refetchUser();
-    }
+    actionWhenAccessTokenChange();
   }, [accessToken]);
 
   return { user, accessToken, refetchAccessToken, isLoading, error, refetchUser, logout, isSuccess, setUser };

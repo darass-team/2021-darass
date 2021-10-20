@@ -7,7 +7,6 @@ import { MessageChannelFromReplyModuleContext } from "@/hooks/contexts/useMessag
 import { RecentlyAlarmContentContext } from "@/hooks/contexts/useRecentlyAlarmContentContext";
 import { UserContext } from "@/hooks/contexts/useUserContext";
 import { messageFromReplyModule } from "@/utils/postMessage";
-import { useState } from "react";
 import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
 import { useReplyModuleApp } from "./useReplyModuleApp";
