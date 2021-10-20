@@ -12,12 +12,11 @@ import {
   LoadableScriptPublishing,
   LoadableStatistics
 } from "../Loadable";
-import LoadingPage from "../LoadingPage";
 import { AddProjectButton, ButtonWrapper, Container, HeaderWrapper, Message, Title } from "./styles";
 
 const MyProject = () => {
   const history = useHistory();
-  const { projects, isSuccess: isSuccessGetAllProjects } = useGetAllProjects();
+  const { projects, isFetched: isFetchedGetAllProjects } = useGetAllProjects();
 
   useDocumentTitle("내 프로젝트");
 
@@ -37,10 +36,6 @@ const MyProject = () => {
     LoadableProjectDetail.preload();
     LoadableNotification.preload();
   }, []);
-
-  if (!isSuccessGetAllProjects) {
-    return <LoadingPage />;
-  }
 
   return (
     <ScreenContainer>

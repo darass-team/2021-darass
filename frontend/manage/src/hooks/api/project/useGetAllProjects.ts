@@ -36,7 +36,8 @@ export const useGetAllProjects = (enabled = false) => {
     error,
     isSuccess,
     refetch,
-    isLoading
+    isLoading,
+    isFetched
   } = useQuery<Project[]>({
     query: getAllProjects,
     enabled
@@ -46,5 +47,5 @@ export const useGetAllProjects = (enabled = false) => {
     if (user) refetch();
   }, [user]);
 
-  return { projects, error, isSuccess, isLoading };
+  return { projects, error, isSuccess, isLoading, isFetched };
 };
