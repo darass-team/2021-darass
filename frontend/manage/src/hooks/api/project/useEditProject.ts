@@ -38,10 +38,7 @@ const _editProject = async ({ id, name, description }: EditProjectRequest) => {
 
 export const useEditProject = () => {
   const { isLoading, isError, error, data, mutation } = useMutation<EditProjectRequest, void>({
-    query: (data: EditProjectRequest) => _editProject(data),
-    onSuccess: () => {
-      //refetchSomeProject
-    }
+    query: (data: EditProjectRequest) => _editProject(data)
   });
 
   return { editProject: mutation, isLoading, error };

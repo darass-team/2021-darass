@@ -44,10 +44,7 @@ interface Props {
 
 export const useDeleteComment = ({ projectKey, page }: Props) => {
   const { isLoading, isError, error, data, mutation } = useMutation<DeleteCommentRequestParameter, void>({
-    query: _deleteComment,
-    onSuccess: () => {
-      //queryClient.invalidateQueries([REACT_QUERY_KEY.COMMENT_OF_PROJECT_PER_PAGE, projectKey, page]);
-    }
+    query: _deleteComment
   });
 
   return { deleteComment: mutation };

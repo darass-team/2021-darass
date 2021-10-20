@@ -33,10 +33,7 @@ const _deleteProject = async (id: Project["id"]) => {
 
 export const useDeleteProject = () => {
   const { isLoading, isError, error, data, mutation } = useMutation<Project["id"], void>({
-    query: (id: Project["id"]) => _deleteProject(id),
-    onSuccess: () => {
-      // refetchProjects();
-    }
+    query: (id: Project["id"]) => _deleteProject(id)
   });
 
   return { deleteProject: mutation, isLoading, error };
