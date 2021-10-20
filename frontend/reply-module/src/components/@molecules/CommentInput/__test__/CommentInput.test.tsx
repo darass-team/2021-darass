@@ -35,39 +35,6 @@ describe("CommentInput test", () => {
       jest.clearAllMocks();
     });
 
-    test("비밀글을 체크하고 Submit을 하면, 비밀댓글요청이 날아간다.", () => {});
-    test("TextBox의 최대길이는 3000자이다.", () => {
-      const props: Props = {
-        user: socialLoginUser,
-        parentCommentId: comments[0].id,
-        isSubComment: false,
-        onClose: () => {}
-      };
-
-      const { getByTestId } = render(<CommentInput {...props} />);
-
-      fireEvent.input(getByTestId("comment-input-text-box"), { target: { innerHTML: "a".repeat(6001) } });
-
-      expect(getByTestId("comment-input-text-box")).toHaveTextContent("a".repeat(3000));
-      expect(getByTestId("comment-input-text-length")).toHaveTextContent("3000 / 3000");
-    });
-
-    test("TextBox에 3000자 이내의 댓글을 입력할 수 있다.", async () => {
-      const props: Props = {
-        user: socialLoginUser,
-        parentCommentId: comments[0].id,
-        isSubComment: false,
-        onClose: () => {}
-      };
-
-      const { getByTestId } = render(<CommentInput {...props} />);
-
-      fireEvent.input(getByTestId("comment-input-text-box"), { target: { innerHTML: "a".repeat(11) } });
-
-      expect(getByTestId("comment-input-text-box")).toHaveTextContent("a".repeat(11));
-      expect(getByTestId("comment-input-text-length")).toHaveTextContent("11 / 3000");
-    });
-
     test("User가 없으면, 유저 이름, 유저 비밀번호 창이 나타난다.", () => {
       const props: Props = {
         user: undefined,
