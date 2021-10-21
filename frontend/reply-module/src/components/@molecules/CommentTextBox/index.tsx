@@ -1,9 +1,9 @@
 import CheckBox from "@/components/@atoms/CheckBox";
 import SubmitButton from "@/components/@atoms/SubmitButton";
-import { useContentEditable } from "@/hooks";
+import { useTextArea } from "@/hooks";
 import { Comment } from "@/types";
 import { User } from "@/types/user";
-import { focusContentEditableTextToEnd } from "@/utils/focusContentEditableTextToEnd";
+import { resizeTextArea } from "@/utils/dom";
 import { useEffect, useState } from "react";
 import { ButtonWrapper, CancelButton, Container, Name, Text } from "./styles";
 
@@ -32,7 +32,7 @@ const CommentTextBox = ({
   resetState,
   onSubmitEditedComment
 }: Props) => {
-  const { content, setContent, onInput, $contentEditable } = useContentEditable(children);
+  const { content, setContent, onChangeTextArea, textAreaRef } = useTextArea(children);
 
   const [secretMode, setSecretMode] = useState(isSecretComment);
 
@@ -47,8 +47,7 @@ const CommentTextBox = ({
   };
 
   useEffect(() => {
-    if (!$contentEditable.current) return;
-    $contentEditable.current.style.height = `${$contentEditable.current.scrollHeight}px`;
+    if (textAreaRef.current) resizeTextArea(textAreaRef.current);
   }, []);
 
   return (
@@ -61,14 +60,15 @@ const CommentTextBox = ({
         {thisCommentIsWrittenByGuest || isReadable ? name : "익명"}
       </Name>
       <Text
-        ref={$contentEditable}
+        ref={textAreaRef}
         value={content}
         readOnly={!contentEditable}
-        contentEditable={contentEditable}
+        disabled={!contentEditable}
+        editable={contentEditable}
         isSecretComment={isSecretComment}
         isSubComment={isSubComment}
         isReadable={isReadable}
-        onChange={onInput}
+        onChange={onChangeTextArea}
         data-testid="comment-text-box-contenteditable-input"
       />
       {contentEditable && (

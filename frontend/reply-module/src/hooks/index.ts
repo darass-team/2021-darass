@@ -8,7 +8,7 @@ export { useEditComment } from "./api/comment/useEditComment";
 export { useDeleteComment } from "./api/comment/useDeleteComment";
 export { useInput } from "./ui/useInput";
 export { useLikeComment } from "./api/comment/useLikeComment";
-export { useContentEditable } from "./ui/useContentEditable";
+export { useTextArea } from "./ui/useTextArea";
 export { useGetAllComments } from "./api/comment/useGetAllComments";
 export { useGetAlarmContents } from "./api/comment/useGetAlarmContents";
 export { useGetProjectOwnerId } from "./api/user/useGetProjectOwnerId";

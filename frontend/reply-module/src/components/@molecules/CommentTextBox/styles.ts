@@ -61,14 +61,14 @@ export const Name = styled.div<{
 
 export const Text = styled.textarea<{
   isSubComment: boolean;
-  contentEditable: boolean;
+  editable: boolean;
   isSecretComment: boolean;
   isReadable: boolean;
 }>`
   outline-color: ${PALETTE.BLACK_700};
-  border: ${({ contentEditable }) => !contentEditable && "none"};
+  border: ${({ editable }) => !editable && "none"};
   background-color: ${props => {
-    if (props.contentEditable) {
+    if (props.editable) {
       return PALETTE.WHITE;
     }
     if (props.isSubComment) {
@@ -80,12 +80,11 @@ export const Text = styled.textarea<{
 
   color: ${props => {
     if (props.isSecretComment && !props.isReadable) {
-      return PALETTE.GRAY_600;
+      return PALETTE.GRAY_700;
     }
 
     return PALETTE.BLACK_900;
   }};
-  pointer-events: ${({ contentEditable }) => (contentEditable ? "visible" : "none")};
 
   padding: 0.2rem 0.3rem 0.2rem 0.1rem;
   min-width: 14rem;

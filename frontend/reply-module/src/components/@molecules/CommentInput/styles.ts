@@ -36,7 +36,7 @@ export const TextBox = styled.textarea<{ isValidInput: boolean }>`
   white-space: break-spaces;
   overflow-y: auto;
 
-  color: ${({ theme: { isDarkModePage } }) => (isDarkModePage ? PALETTE.BLACK_700 : PALETTE.WHITE)};
+  color: ${PALETTE.BLACK_700};
   resize: vertical;
 `;
 
@@ -46,13 +46,12 @@ export const TextInfoWrapper = styled.div`
   display: flex;
   padding: 0 0.6rem;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: space-between;
 `;
 
 export const TextCount = styled.span`
   font-size: 1.1rem;
   line-height: 1.65rem;
-  margin-left: auto;
   margin-right: 0.6rem;
   color: ${({ theme: { isDarkModePage } }) => isDarkModePage && PALETTE.WHITE};
 `;
