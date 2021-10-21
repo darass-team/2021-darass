@@ -47,10 +47,9 @@ const CommentTextBox = ({
   };
 
   useEffect(() => {
-    if (contentEditable && $contentEditable.current) {
-      focusContentEditableTextToEnd($contentEditable.current);
-    }
-  }, [contentEditable]);
+    if (!$contentEditable.current) return;
+    $contentEditable.current.style.height = `${$contentEditable.current.scrollHeight}px`;
+  }, []);
 
   return (
     <Container isSubComment={isSubComment}>
@@ -63,12 +62,13 @@ const CommentTextBox = ({
       </Name>
       <Text
         ref={$contentEditable}
+        value={content}
+        readOnly={!contentEditable}
         contentEditable={contentEditable}
         isSecretComment={isSecretComment}
         isSubComment={isSubComment}
         isReadable={isReadable}
-        suppressContentEditableWarning={true}
-        onInput={onInput}
+        onChange={onInput}
         data-testid="comment-text-box-contenteditable-input"
       />
       {contentEditable && (

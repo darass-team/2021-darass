@@ -90,23 +90,13 @@ const CommentInput = ({ user, parentCommentId, isSubComment, onClose, ...props }
       secret: isSecretComment
     });
 
-    setContent("");
+    setContent(""); // TODO: 생성에 성공하면 height 초기값으로 수정하기
     setGuestNickName("");
     setGuestPassword("");
     setIsSecretComment(false);
 
     onClose?.();
     setFormSubmitted(false);
-  };
-
-  const onInput = (event: ChangeEvent<HTMLDivElement>) => {
-    const currentText = (event.target.innerHTML || "").trim();
-    console.log(currentText);
-
-    if (!$contentEditable.current) return;
-    focusContentEditableTextToEnd($contentEditable.current);
-
-    onInputContentEditable(event);
   };
 
   useEffect(() => {
@@ -117,9 +107,8 @@ const CommentInput = ({ user, parentCommentId, isSubComment, onClose, ...props }
     <Form onSubmit={onSubmit} isSubCommentInput={isSubCommentInput} {...props}>
       <TextBoxWrapper>
         <TextBox
-          ref={$contentEditable}
-          contentEditable={true}
-          onInput={onInput}
+          value={content}
+          onChange={onInputContentEditable}
           isValidInput={!isFormSubmitted || isValidCommentInput}
           data-testid="comment-input-text-box"
         />
