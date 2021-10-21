@@ -153,10 +153,7 @@ export const useUser = () => {
   }, []);
 
   useEffect(() => {
-    if (accessTokenError) {
-      alert(accessTokenError.message);
-      removeAccessToken();
-    }
+    if (accessTokenError) removeAccessToken();
   }, [accessTokenError]);
 
   useEffect(() => {

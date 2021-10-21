@@ -8,14 +8,13 @@ import {
   GUEST_PASSWORD_MIN_LENGTH,
   MAX_COMMENT_INPUT_LENGTH
 } from "@/constants/comment";
-import { useContentEditable, useCreateComment, useInput, useMessageChannelFromReplyModuleContext } from "@/hooks";
+import { useTextArea, useCreateComment, useInput, useMessageChannelFromReplyModuleContext } from "@/hooks";
 import { Comment } from "@/types";
 import { User } from "@/types/user";
-import { AlertError } from "@/utils/alertError";
+import { resizeTextArea } from "@/utils/dom";
 import { getErrorMessage } from "@/utils/errorMessage";
-import { focusContentEditableTextToEnd } from "@/utils/focusContentEditableTextToEnd";
 import { isEmptyString } from "@/utils/isEmptyString";
-import { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { ButtonWrapper, Form, GuestInfo, TextBox, TextBoxWrapper, TextCount, TextInfoWrapper, Wrapper } from "./styles";
 
 export interface Props {
@@ -35,7 +34,7 @@ const CommentInput = ({ user, parentCommentId, isSubComment, onClose, ...props }
 
   const isSubCommentInput = parentCommentId ? true : false;
 
-  const { content, setContent, onInput: onInputContentEditable, $contentEditable } = useContentEditable("");
+  const { content, setContent, onChangeTextArea, textAreaRef } = useTextArea("");
   const { value: guestNickName, onChange: onChangeGuestNickName, setValue: setGuestNickName } = useInput("");
   const { value: guestPassword, onChange: onChangeGuestPassword, setValue: setGuestPassword } = useInput("");
   const [isSecretComment, setIsSecretComment] = useState(false);
@@ -90,17 +89,17 @@ const CommentInput = ({ user, parentCommentId, isSubComment, onClose, ...props }
       secret: isSecretComment
     });
 
-    setContent(""); // TODO: 생성에 성공하면 height 초기값으로 수정하기
+    setContent("");
     setGuestNickName("");
     setGuestPassword("");
     setIsSecretComment(false);
-
     onClose?.();
     setFormSubmitted(false);
+    if (textAreaRef.current) resizeTextArea(textAreaRef.current);
   };
 
   useEffect(() => {
-    if (isSubComment) $contentEditable.current?.focus();
+    if (isSubComment) textAreaRef.current?.focus();
   }, []);
 
   return (
@@ -108,7 +107,8 @@ const CommentInput = ({ user, parentCommentId, isSubComment, onClose, ...props }
       <TextBoxWrapper>
         <TextBox
           value={content}
-          onChange={onInputContentEditable}
+          ref={textAreaRef}
+          onChange={onChangeTextArea}
           isValidInput={!isFormSubmitted || isValidCommentInput}
           data-testid="comment-input-text-box"
         />
