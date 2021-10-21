@@ -114,6 +114,9 @@ const CommentInput = ({ user, parentCommentId, isSubComment, onClose, ...props }
         />
         <TextInfoWrapper>
           <CheckBox isChecked={isSecretComment} onChange={onClickSecretCommentCheckBox} labelText="비밀글" />
+          <TextCount>
+            {content.length} / {MAX_COMMENT_INPUT_LENGTH}
+          </TextCount>
         </TextInfoWrapper>
       </TextBoxWrapper>
 
