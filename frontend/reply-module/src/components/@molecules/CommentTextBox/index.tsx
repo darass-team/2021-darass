@@ -46,9 +46,21 @@ const CommentTextBox = ({
     resetState();
   };
 
+  function autoLink() {
+    var doc = content;
+    console.log(doc);
+
+    var regURL = new RegExp("(http|https|ftp|telnet|news|irc)://([-/.a-zA-Z0-9_~#%$?&=:200-377()]+)", "gi");
+    var regEmail = new RegExp("([xA1-xFEa-z0-9_-]+@[xA1-xFEa-z0-9-]+.[a-z0-9-]+)", "gi");
+
+    return doc
+      .replace(regURL, "<a href='$1://$2' target='_blank'>$1://$2</a>")
+      .replace(regEmail, "<a href='mailto:$1'>$1</a>");
+  }
+
   useEffect(() => {
     if (textAreaRef.current) resizeTextArea(textAreaRef.current);
-  }, []);
+  }, [contentEditable]);
 
   return (
     <Container isSubComment={isSubComment}>
@@ -59,18 +71,30 @@ const CommentTextBox = ({
       >
         {thisCommentIsWrittenByGuest || isReadable ? name : "익명"}
       </Name>
-      <Text
-        ref={textAreaRef}
-        value={content}
-        readOnly={!contentEditable}
-        disabled={!contentEditable}
-        editable={contentEditable}
-        isSecretComment={isSecretComment}
-        isSubComment={isSubComment}
-        isReadable={isReadable}
-        onChange={onChangeTextArea}
-        data-testid="comment-text-box-contenteditable-input"
-      />
+      {contentEditable ? (
+        <Text
+          ref={textAreaRef}
+          value={content}
+          readOnly={!contentEditable}
+          disabled={!contentEditable}
+          editable={contentEditable}
+          isSecretComment={isSecretComment}
+          isSubComment={isSubComment}
+          isReadable={isReadable}
+          onChange={onChangeTextArea}
+          data-testid="comment-text-box-contenteditable-input"
+        />
+      ) : (
+        <Text
+          as="span"
+          isSubComment={isSubComment}
+          editable={contentEditable}
+          isSecretComment={isSecretComment}
+          isReadable={isReadable}
+          dangerouslySetInnerHTML={{ __html: autoLink() }}
+        />
+      )}
+
       {contentEditable && (
         <ButtonWrapper>
           <CheckBox isChecked={secretMode} onChange={onClickSecretModeCheckbox} labelText="비밀글" />

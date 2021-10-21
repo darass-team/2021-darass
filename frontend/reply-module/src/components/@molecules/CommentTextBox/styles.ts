@@ -94,6 +94,10 @@ export const Text = styled.textarea<{
   font-size: 1.2rem;
   line-height: 1.8rem;
   resize: none;
+
+  & > a {
+    color: ${PALETTE.BLUE_700};
+  }
 `;
 
 export const ButtonWrapper = styled.div`
