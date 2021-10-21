@@ -80,7 +80,7 @@ export const Text = styled.textarea<{
 
   color: ${props => {
     if (props.isSecretComment && !props.isReadable) {
-      return PALETTE.GRAY_600;
+      return PALETTE.GRAY_700;
     }
 
     return PALETTE.BLACK_900;
