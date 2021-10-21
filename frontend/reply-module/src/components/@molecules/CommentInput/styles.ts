@@ -15,7 +15,7 @@ export const TextBoxWrapper = styled.div`
   margin-bottom: 1rem;
 `;
 
-export const TextBox = styled.div<{ isValidInput: boolean }>`
+export const TextBox = styled.textarea<{ isValidInput: boolean }>`
   ${InputCSS};
   width: 100%;
   ${props =>
@@ -29,20 +29,15 @@ export const TextBox = styled.div<{ isValidInput: boolean }>`
     `}
   padding: 1rem 0.8rem;
   min-height: 6rem;
+  height: fit-content;
   max-height: 12rem;
   margin-bottom: 0.2rem;
   word-break: break-all;
   white-space: break-spaces;
   overflow-y: auto;
 
-  &:empty:before {
-    content: "댓글을 입력해주세요.";
-    color: ${({ theme: { isDarkModePage } }) => (isDarkModePage ? PALETTE.WHITE : PALETTE.GRAY_600)};
-  }
-
-  &:empty:focus:before {
-    content: "";
-  }
+  color: ${({ theme: { isDarkModePage } }) => (isDarkModePage ? PALETTE.BLACK_700 : PALETTE.WHITE)};
+  resize: vertical;
 `;
 
 export const TextInfoWrapper = styled.div`

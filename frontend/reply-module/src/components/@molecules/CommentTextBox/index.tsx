@@ -62,13 +62,12 @@ const CommentTextBox = ({
         {thisCommentIsWrittenByGuest || isReadable ? name : "익명"}
       </Name>
       <Text
-        ref={$contentEditable}
+        value={content}
         contentEditable={contentEditable}
         isSecretComment={isSecretComment}
         isSubComment={isSubComment}
         isReadable={isReadable}
-        suppressContentEditableWarning={true}
-        onInput={onInput}
+        onChange={onInput}
         data-testid="comment-text-box-contenteditable-input"
       />
       {contentEditable && (

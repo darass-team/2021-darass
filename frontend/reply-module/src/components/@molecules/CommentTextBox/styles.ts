@@ -59,13 +59,14 @@ export const Name = styled.div<{
   }};
 `;
 
-export const Text = styled.div<{
+export const Text = styled.textarea<{
   isSubComment: boolean;
   contentEditable: boolean;
   isSecretComment: boolean;
   isReadable: boolean;
 }>`
   outline-color: ${PALETTE.BLACK_700};
+  border: ${({ contentEditable }) => !contentEditable && "none"};
   background-color: ${props => {
     if (props.contentEditable) {
       return PALETTE.WHITE;
@@ -92,6 +93,8 @@ export const Text = styled.div<{
   white-space: break-spaces;
   font-size: 1.2rem;
   line-height: 1.8rem;
+  min-height: fit-content;
+  resize: none;
 `;
 
 export const ButtonWrapper = styled.div`
