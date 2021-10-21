@@ -3,7 +3,7 @@ import SubmitButton from "@/components/@atoms/SubmitButton";
 import { useTextArea } from "@/hooks";
 import { Comment } from "@/types";
 import { User } from "@/types/user";
-import { resizeTextArea } from "@/utils/dom";
+import { parseLinkTextToHTML, resizeTextArea } from "@/utils/dom";
 import { useEffect, useState } from "react";
 import { ButtonWrapper, CancelButton, Container, Name, Text } from "./styles";
 
@@ -46,18 +46,6 @@ const CommentTextBox = ({
     resetState();
   };
 
-  function autoLink() {
-    var doc = content;
-    console.log(doc);
-
-    var regURL = new RegExp("(http|https|ftp|telnet|news|irc)://([-/.a-zA-Z0-9_~#%$?&=:200-377()]+)", "gi");
-    var regEmail = new RegExp("([xA1-xFEa-z0-9_-]+@[xA1-xFEa-z0-9-]+.[a-z0-9-]+)", "gi");
-
-    return doc
-      .replace(regURL, "<a href='$1://$2' target='_blank'>$1://$2</a>")
-      .replace(regEmail, "<a href='mailto:$1'>$1</a>");
-  }
-
   useEffect(() => {
     if (textAreaRef.current) resizeTextArea(textAreaRef.current);
   }, [contentEditable]);
@@ -91,7 +79,7 @@ const CommentTextBox = ({
           editable={contentEditable}
           isSecretComment={isSecretComment}
           isReadable={isReadable}
-          dangerouslySetInnerHTML={{ __html: autoLink() }}
+          dangerouslySetInnerHTML={{ __html: parseLinkTextToHTML(content) }}
         />
       )}
 
