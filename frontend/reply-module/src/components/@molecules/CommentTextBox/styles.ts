@@ -85,7 +85,6 @@ export const Text = styled.textarea<{
 
     return PALETTE.BLACK_900;
   }};
-  pointer-events: ${({ editable }) => (editable ? "visible" : "none")};
 
   padding: 0.2rem 0.3rem 0.2rem 0.1rem;
   min-width: 14rem;

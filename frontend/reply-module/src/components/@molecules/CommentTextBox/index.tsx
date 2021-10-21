@@ -63,6 +63,7 @@ const CommentTextBox = ({
         ref={textAreaRef}
         value={content}
         readOnly={!contentEditable}
+        disabled={!contentEditable}
         editable={contentEditable}
         isSecretComment={isSecretComment}
         isSubComment={isSubComment}
