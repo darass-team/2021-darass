@@ -3,7 +3,7 @@ import SubmitButton from "@/components/@atoms/SubmitButton";
 import { useTextArea } from "@/hooks";
 import { Comment } from "@/types";
 import { User } from "@/types/user";
-import { resizeTextArea } from "@/utils/dom";
+import { parseLinkTextToHTML, resizeTextArea } from "@/utils/dom";
 import { useEffect, useState } from "react";
 import { ButtonWrapper, CancelButton, Container, Name, Text } from "./styles";
 
@@ -48,7 +48,7 @@ const CommentTextBox = ({
 
   useEffect(() => {
     if (textAreaRef.current) resizeTextArea(textAreaRef.current);
-  }, []);
+  }, [contentEditable]);
 
   return (
     <Container isSubComment={isSubComment}>
@@ -59,18 +59,30 @@ const CommentTextBox = ({
       >
         {thisCommentIsWrittenByGuest || isReadable ? name : "익명"}
       </Name>
-      <Text
-        ref={textAreaRef}
-        value={content}
-        readOnly={!contentEditable}
-        disabled={!contentEditable}
-        editable={contentEditable}
-        isSecretComment={isSecretComment}
-        isSubComment={isSubComment}
-        isReadable={isReadable}
-        onChange={onChangeTextArea}
-        data-testid="comment-text-box-contenteditable-input"
-      />
+      {contentEditable ? (
+        <Text
+          ref={textAreaRef}
+          value={content}
+          readOnly={!contentEditable}
+          disabled={!contentEditable}
+          editable={contentEditable}
+          isSecretComment={isSecretComment}
+          isSubComment={isSubComment}
+          isReadable={isReadable}
+          onChange={onChangeTextArea}
+          data-testid="comment-text-box-contenteditable-input"
+        />
+      ) : (
+        <Text
+          as="span"
+          isSubComment={isSubComment}
+          editable={contentEditable}
+          isSecretComment={isSecretComment}
+          isReadable={isReadable}
+          dangerouslySetInnerHTML={{ __html: parseLinkTextToHTML(content) }}
+        />
+      )}
+
       {contentEditable && (
         <ButtonWrapper>
           <CheckBox isChecked={secretMode} onChange={onClickSecretModeCheckbox} labelText="비밀글" />

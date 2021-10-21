@@ -7,14 +7,16 @@ import { useQuery } from "../useQuery";
 export const useConfirmGuestPassword = ({ guestUserId, guestUserPassword }: GuestUserConfirmInfo) => {
   const { openAlert } = useMessageChannelFromReplyModuleContext();
 
-  const { data, isLoading, error, refetch } = useQuery({
+  const { data, isLoading, error, refetch, isFetched } = useQuery({
     enabled: false,
     query: () => getConfirmGuestPassword({ guestUserId, guestUserPassword })
   });
 
   useEffect(() => {
-    if (data === false) openAlert("비밀번호가 일치하지 않습니다.");
-  }, [data]);
+    if (!isLoading) {
+      if (data === false) openAlert("비밀번호가 일치하지 않습니다.");
+    }
+  }, [isLoading]);
 
   useEffect(() => {
     if (error) {
