@@ -85,6 +85,7 @@ export const Text = styled.textarea<{
 
     return PALETTE.BLACK_900;
   }};
+  pointer-events: ${({ contentEditable }) => (contentEditable ? "visible" : "none")};
 
   padding: 0.2rem 0.3rem 0.2rem 0.1rem;
   min-width: 14rem;
@@ -93,7 +94,6 @@ export const Text = styled.textarea<{
   white-space: break-spaces;
   font-size: 1.2rem;
   line-height: 1.8rem;
-  min-height: fit-content;
   resize: none;
 `;
 
