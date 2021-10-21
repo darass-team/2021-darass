@@ -36,7 +36,7 @@ export const TextBox = styled.textarea<{ isValidInput: boolean }>`
   white-space: break-spaces;
   overflow-y: auto;
 
-  color: ${({ theme: { isDarkModePage } }) => (isDarkModePage ? PALETTE.BLACK_700 : PALETTE.WHITE)};
+  color: ${PALETTE.BLACK_700};
   resize: vertical;
 `;
 
