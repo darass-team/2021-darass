@@ -10,6 +10,7 @@ interface Props {
 export const useQuery = <T>({ enabled, query, onSuccess, refetchInterval }: Props) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
+  const [isFetched, setIsFetched] = useState(false);
   const [error, setError] = useState<Error | null>(null);
   const [data, setData] = useState<T>();
   const timeIdRef = useRef<NodeJS.Timer | null>(null);
@@ -23,6 +24,7 @@ export const useQuery = <T>({ enabled, query, onSuccess, refetchInterval }: Prop
 
       setData(newData);
       await onSuccess?.();
+      setIsFetched(true);
     } catch (error) {
       if (!(error instanceof Error)) return;
 
@@ -54,5 +56,5 @@ export const useQuery = <T>({ enabled, query, onSuccess, refetchInterval }: Prop
     };
   }, []);
 
-  return { refetch, isLoading, isError, data, error, setData, isSuccess: !isError, clearRefetchInterval };
+  return { refetch, isLoading, isError, data, error, setData, isSuccess: !isError, clearRefetchInterval, isFetched };
 };
