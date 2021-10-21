@@ -38,6 +38,10 @@ export const useUser = () => {
     clearRefetchInterval
   } = useGetAccessTokenApi();
 
+  const compareUser = (prevUser?: User, currUser?: User) => {
+    return prevUser?.id === currUser?.id;
+  };
+
   const {
     data: user,
     isLoading,
@@ -47,7 +51,8 @@ export const useUser = () => {
     setData: setUser
   } = useQuery<User>({
     query: getUser,
-    enabled: false
+    enabled: false,
+    isEqualToPrevDataFunc: compareUser
   });
 
   const { mutation: deleteMutation } = useMutation<void, void>({

@@ -5,9 +5,10 @@ interface Props {
   query: (props?: any) => Promise<any>;
   onSuccess?: () => void;
   refetchInterval?: number;
+  isEqualToPrevDataFunc?: (prev: any, curr: any) => boolean;
 }
 
-export const useQuery = <T>({ enabled, query, onSuccess, refetchInterval }: Props) => {
+export const useQuery = <T>({ enabled, query, onSuccess, refetchInterval, isEqualToPrevDataFunc }: Props) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const [isFetched, setIsFetched] = useState(false);
@@ -22,7 +23,14 @@ export const useQuery = <T>({ enabled, query, onSuccess, refetchInterval }: Prop
 
       const newData = await query();
 
-      setData(newData);
+      if (isEqualToPrevDataFunc) {
+        if (!isEqualToPrevDataFunc(data, newData)) {
+          setData(newData);
+        }
+      } else {
+        setData(newData);
+      }
+
       await onSuccess?.();
       setIsFetched(true);
     } catch (error) {
