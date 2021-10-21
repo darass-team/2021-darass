@@ -5,7 +5,7 @@ import { AlertError } from "@/utils/alertError";
 import { request } from "@/utils/request";
 import axios from "axios";
 import { useHistory } from "react-router";
-import { useMutation } from "../useMutation";
+import { useMutation } from "simple-react-query";
 
 const _createProject = async ({ name, description }: CreateProjectRequest) => {
   try {

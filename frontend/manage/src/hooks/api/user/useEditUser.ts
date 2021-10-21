@@ -4,7 +4,7 @@ import { User } from "@/types/user";
 import { AlertError } from "@/utils/alertError";
 import { request } from "@/utils/request";
 import axios from "axios";
-import { useMutation } from "../useMutation";
+import { useMutation } from "simple-react-query";
 
 const _editUser = async (data: FormData) => {
   const headers = {

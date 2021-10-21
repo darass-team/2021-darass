@@ -4,7 +4,7 @@ import { EditProjectRequest } from "@/types/project";
 import { AlertError } from "@/utils/alertError";
 import { request } from "@/utils/request";
 import axios from "axios";
-import { useMutation } from "../useMutation";
+import { useMutation } from "simple-react-query";
 
 const _editProject = async ({ id, name, description }: EditProjectRequest) => {
   try {

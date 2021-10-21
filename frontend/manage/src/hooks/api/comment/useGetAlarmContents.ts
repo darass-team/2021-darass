@@ -7,7 +7,7 @@ import convertDateFormat from "@/utils/convertDateFormat";
 import { request } from "@/utils/request";
 import axios from "axios";
 import { useContext, useEffect } from "react";
-import { useQuery } from "../useQuery";
+import { useQuery } from "simple-react-query";
 
 const RANGE_TO_RECENTLY_ALARM = 30;
 
