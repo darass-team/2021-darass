@@ -8,8 +8,8 @@ import { getLocalStorage, removeLocalStorage, setLocalStorage } from "@/utils/lo
 import { request } from "@/utils/request";
 import axios from "axios";
 import { useEffect } from "react";
-import { useMutation } from "../useMutation";
-import { useQuery } from "../useQuery";
+import { useMutation } from "simple-react-query";
+import { useQuery } from "simple-react-query";
 
 export const deleteRefreshToken = async () => {
   try {

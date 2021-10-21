@@ -3,7 +3,7 @@ import { useCommentContext } from "@/hooks/contexts/useCommentContext";
 import { DeleteCommentRequestParameter } from "@/types/comment";
 import { deleteComment as _deleteComment } from "@/utils/api";
 import { useEffect } from "react";
-import { useMutation } from "../useMutation";
+import { useMutation } from "simple-react-query";
 
 export const useDeleteComment = () => {
   const { refetchAllComment } = useCommentContext();

@@ -6,7 +6,7 @@ import { AlertError } from "@/utils/alertError";
 import { request } from "@/utils/request";
 import axios from "axios";
 import { useEffect } from "react";
-import { useQuery } from "../useQuery";
+import { useQuery } from "simple-react-query";
 
 const getAllProjects = async () => {
   try {

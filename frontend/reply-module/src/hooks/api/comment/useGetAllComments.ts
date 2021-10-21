@@ -2,7 +2,7 @@ import { useUserContext } from "@/hooks/contexts/useUserContext";
 import { GetCommentsRequestParams, GetCommentsResponse, Comment } from "@/types/comment";
 import { getAllComments } from "@/utils/api";
 import { useEffect } from "react";
-import { useQuery } from "../useQuery";
+import { useQuery } from "simple-react-query";
 export const useGetAllComments = ({ url, projectSecretKey, sortOption = "oldest" }: GetCommentsRequestParams) => {
   const { user } = useUserContext();
 

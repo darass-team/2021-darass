@@ -4,8 +4,8 @@ import { deleteRefreshToken, getAccessTokenByRefreshToken, getUser } from "@/uti
 import { axiosBearerOption } from "@/utils/customAxios";
 import { getLocalStorage, removeLocalStorage, setLocalStorage } from "@/utils/localStorage";
 import { useEffect } from "react";
-import { useMutation } from "../useMutation";
-import { useQuery } from "../useQuery";
+import { useMutation } from "simple-react-query";
+import { useQuery } from "simple-react-query";
 
 const useGetAccessTokenApi = () => {
   const {

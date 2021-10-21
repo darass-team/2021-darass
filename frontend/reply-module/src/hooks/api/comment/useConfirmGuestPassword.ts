@@ -2,7 +2,7 @@ import { useMessageChannelFromReplyModuleContext } from "@/hooks";
 import { GuestUserConfirmInfo } from "@/types/comment";
 import { getConfirmGuestPassword } from "@/utils/api";
 import { useEffect } from "react";
-import { useQuery } from "../useQuery";
+import { useQuery } from "simple-react-query";
 
 export const useConfirmGuestPassword = ({ guestUserId, guestUserPassword }: GuestUserConfirmInfo) => {
   const { openAlert } = useMessageChannelFromReplyModuleContext();

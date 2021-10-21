@@ -3,7 +3,7 @@ import { useUserContext } from "@/hooks/contexts/useUserContext";
 import { GetAlarmResponse } from "@/types/comment";
 import { getAlarms } from "@/utils/api";
 import { useEffect } from "react";
-import { useQuery } from "../useQuery";
+import { useQuery } from "simple-react-query";
 
 export const useGetAlarmContents = () => {
   const { accessToken } = useUserContext();
