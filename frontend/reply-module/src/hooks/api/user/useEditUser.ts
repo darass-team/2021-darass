@@ -3,7 +3,7 @@ import { useUserContext } from "@/hooks/contexts/useUserContext";
 import { User } from "@/types/user";
 import { patchEditUser } from "@/utils/api";
 import { useEffect } from "react";
-import { useMutation } from "../useMutation";
+import { useMutation } from "simple-react-query";
 
 export const useEditUser = () => {
   const { refetchUser } = useUserContext();

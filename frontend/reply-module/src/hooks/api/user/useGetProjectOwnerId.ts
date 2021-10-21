@@ -1,6 +1,6 @@
 import { Project } from "@/types/project";
 import { getProjectOwnerId } from "@/utils/api";
-import { useQuery } from "../useQuery";
+import { useQuery } from "simple-react-query";
 
 export const useGetProjectOwnerId = (projectSecretKey: Project["secretKey"]) => {
   const {

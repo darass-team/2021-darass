@@ -1,7 +1,7 @@
-import { BUILD_MODE_TABLE } from "../types/buildMode";
+import { BUILD_MODE_TABLE } from "@/types/buildMode";
 
 const TOKEN_REFETCH_TIMER_TABLE = {
-  localhost: 60 * 50 * 1000,
+  localhost: 5 * 1000,
   development: 60 * 50 * 1000,
   production: 60 * 50 * 1000
 } as const;

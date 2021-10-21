@@ -3,7 +3,7 @@ import { useCommentContext } from "@/hooks/contexts/useCommentContext";
 import { Comment, CreateCommentRequestData } from "@/types/comment";
 import { postCreateComment } from "@/utils/api";
 import { useEffect } from "react";
-import { useMutation } from "../useMutation";
+import { useMutation } from "simple-react-query";
 
 export const useCreateComment = () => {
   const { refetchAllComment } = useCommentContext();

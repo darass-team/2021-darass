@@ -3,7 +3,7 @@ import { Comment } from "@/types";
 import { User } from "@/types/user";
 import { getSecretComment } from "@/utils/api";
 import { useEffect } from "react";
-import { useQuery } from "../useQuery";
+import { useQuery } from "simple-react-query";
 
 interface Props {
   commentId: Comment["id"];
@@ -22,7 +22,7 @@ export const useGetSecretComment = ({ commentId, guestUserId, guestUserPassword 
   useEffect(() => {
     if (!data) return;
 
-    const newComments: Comment[] = comments.reduce((acc: Comment[], comment) => {
+    const newComments: Comment[] = comments?.reduce((acc: Comment[], comment) => {
       comment.subComments.forEach(subComment => {
         if (subComment.id === data.id) {
           subComment.content = data.content;
