@@ -1,6 +1,7 @@
 import { PALETTE } from "@/constants/styles/palette";
 import "@testing-library/jest-dom/extend-expect";
 import { fireEvent, render, waitFor } from "@testing-library/react";
+import { ThemeProvider } from "styled-components";
 import CommentBottom, { Props } from "..";
 
 describe("CommentButton test", () => {
@@ -15,7 +16,11 @@ describe("CommentButton test", () => {
         commentCreatedDate: "2021-10-02"
       };
 
-      const commentBottom = render(<CommentBottom {...props} />);
+      const commentBottom = render(
+        <ThemeProvider theme={{ uiInfo: { isShowSortOption: true, isAllowSocialLogin: true, isShowLogo: true } }}>
+          <CommentBottom {...props} />
+        </ThemeProvider>
+      );
 
       expect(commentBottom.getByTestId("comment-bottom-like-button")).toHaveStyle(`color: ${PALETTE.BLUE_700}`);
     });
@@ -29,7 +34,11 @@ describe("CommentButton test", () => {
         commentCreatedDate: "2021-10-02"
       };
 
-      const commentBottom = render(<CommentBottom {...props} />);
+      const commentBottom = render(
+        <ThemeProvider theme={{ uiInfo: { isShowSortOption: true, isAllowSocialLogin: true, isShowLogo: true } }}>
+          <CommentBottom {...props} />
+        </ThemeProvider>
+      );
 
       expect(commentBottom.getByTestId("comment-bottom-like-button")).toHaveStyle(`color: ${PALETTE.BLACK_700}`);
     });

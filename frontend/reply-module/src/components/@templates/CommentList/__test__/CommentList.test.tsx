@@ -1,7 +1,7 @@
-import { useDeleteComment, useEditComment, useLikeComment, useMessageChannelFromReplyModuleContext } from "@/hooks";
 import { comments } from "@/__test__/fixture/comments";
 import { socialLoginUser } from "@/__test__/fixture/user";
-import { render, fireEvent, waitFor } from "@testing-library/react";
+import { fireEvent, render } from "@testing-library/react";
+import { ThemeProvider } from "styled-components";
 import CommentList, { Props } from "..";
 
 jest.mock("@/hooks/contexts/useMessageFromReplyModule");
@@ -21,7 +21,11 @@ describe("CommentList test", () => {
       onSelectSortOption: jest.fn()
     };
 
-    const { queryByText } = render(<CommentList {...props} />);
+    const { queryByText } = render(
+      <ThemeProvider theme={{ uiInfo: { isShowSortOption: true, isAllowSocialLogin: true, isShowLogo: true } }}>
+        <CommentList {...props} />
+      </ThemeProvider>
+    );
 
     expect(queryByText("작성된 댓글이 없습니다")).toBeTruthy();
   });
@@ -39,7 +43,11 @@ describe("CommentList test", () => {
       onSelectSortOption
     };
 
-    const { getByText } = render(<CommentList {...props} />);
+    const { getByText } = render(
+      <ThemeProvider theme={{ uiInfo: { isShowSortOption: true, isAllowSocialLogin: true, isShowLogo: true } }}>
+        <CommentList {...props} />
+      </ThemeProvider>
+    );
     fireEvent.click(getByText("최신순"));
 
     expect(onSelectSortOption).toHaveBeenLastCalledWith("latest");
