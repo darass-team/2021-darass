@@ -81,7 +81,13 @@ const JsxScriptCode = ({
 }: ScriptProps) => `
 import Darass from "darass-react";
 
-<Darass projectKey="${projectSecretKey}" darkMode={${isDarkModePage}} primaryColor="${primaryColor}" isShowSortOption={${isShowSortOption}} isAllowSocialLogin={${isAllowSocialLogin}} isShowLogo={${isShowLogo}}/>;
+<Darass 
+  projectKey="${projectSecretKey}" 
+  darkMode={${isDarkModePage}} 
+  primaryColor="${primaryColor}" 
+  isShowSortOption={${isShowSortOption}} isAllowSocialLogin={${isAllowSocialLogin}} 
+  isShowLogo={${isShowLogo}}
+/>;
 `;
 
 const ScriptPublishing = () => {
@@ -177,7 +183,7 @@ const ScriptPublishing = () => {
               <GuideStep title="UI 커스텀">
                 <PreviewForm>
                   <FormRow>
-                    <FormLabel>삽입할 페이지가 어둡나요?</FormLabel>
+                    <FormLabel>삽입할 페이지가 어둡나요? </FormLabel>
                     <DarkModeToggleButton
                       isDarkModePage={isDarkModePage}
                       onToggleDarkMode={() => setIsDarkModePage(state => !state)}

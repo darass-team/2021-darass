@@ -6,7 +6,6 @@ import { useQuery } from "simple-react-query";
 
 const compareComments = (prevComments: GetCommentsResponse, currComments: GetCommentsResponse) => {
   if (!prevComments) return false;
-  console.log(prevComments, currComments);
 
   return prevComments.totalComment === currComments.totalComment;
 };
