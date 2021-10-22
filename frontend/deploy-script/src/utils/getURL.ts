@@ -21,11 +21,17 @@ const refineCurrentURL = () => {
 export const getReplyModuleURL = ({
   projectKey,
   isDarkModePage,
-  primaryColor
+  primaryColor,
+  isShowSortOption,
+  isAllowSocialLogin,
+  isShowLogo
 }: {
   projectKey: string;
   isDarkModePage: boolean;
   primaryColor: string;
+  isShowSortOption: boolean;
+  isAllowSocialLogin: boolean;
+  isShowLogo: boolean;
 }) => {
   const currentURL = refineCurrentURL();
 
@@ -34,6 +40,9 @@ export const getReplyModuleURL = ({
   urlParams.set("projectKey", projectKey);
   urlParams.set("darkMode", `${isDarkModePage}`);
   urlParams.set("primaryColor", escape(primaryColor));
+  urlParams.set("isShowSortOption", `${isShowSortOption}`);
+  urlParams.set("isAllowSocialLogin", `${isAllowSocialLogin}`);
+  urlParams.set("isShowLogo", `${isShowLogo}`);
 
   const replyModuleUrlWithQuery = decodeURIComponent(urlParams.toString());
 

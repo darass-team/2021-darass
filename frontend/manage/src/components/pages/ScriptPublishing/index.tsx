@@ -7,9 +7,10 @@ import GuideStep from "@/components/molecules/GuideStep";
 import ContainerWithSideBar from "@/components/organisms/ContainerWithSideBar";
 import { GUIDE_FILE, PROJECT_MENU, ROUTE } from "@/constants";
 import { REPLY_MODULE_DOMAIN } from "@/constants/domain";
+import { PALETTE } from "@/constants/styles/palette";
 import { useCopyButton, useDocumentTitle, useGetProject } from "@/hooks";
 import Darass from "darass-react";
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import { Redirect, useRouteMatch } from "react-router-dom";
 import { PrismLight as SyntaxHighlighter } from "react-syntax-highlighter";
 import js from "react-syntax-highlighter/dist/cjs/languages/prism/javascript";
@@ -29,12 +30,31 @@ import {
 
 SyntaxHighlighter.registerLanguage("javascript", js);
 
-const htmlScriptCode = (projectSecretKey: string, isDarkModePage = false, primaryColor = "#10DF99") => `
+interface ScriptProps {
+  projectSecretKey: string;
+  isDarkModePage?: boolean;
+  primaryColor: string;
+  isShowSortOption: boolean;
+  isAllowSocialLogin: boolean;
+  isShowLogo: boolean;
+}
+
+const htmlScriptCode = ({
+  projectSecretKey,
+  isDarkModePage,
+  primaryColor,
+  isShowSortOption,
+  isAllowSocialLogin,
+  isShowLogo
+}: ScriptProps) => `
 <!-- 다라쓰 설치 코드 -->
 <div id="darass" 
     data-project-key="${projectSecretKey}" 
     data-dark-mode="${isDarkModePage}"
     data-primary-color="${primaryColor}"
+    data-show-sort-option="${isShowSortOption}"
+    data-allow-social-login="${isAllowSocialLogin}"
+    data-show-logo="${isShowLogo}"
     >
     <script type="text/javascript" defer>
         (function () {
@@ -52,30 +72,57 @@ const htmlScriptCode = (projectSecretKey: string, isDarkModePage = false, primar
 <!-- 다라쓰 설치 코드 끝 -->
 `;
 
-const JsxScriptCode = (projectSecretKey: string, isDarkModePage = false, primaryColor = "#10DF99") => `
+const JsxScriptCode = ({
+  projectSecretKey,
+  isDarkModePage,
+  primaryColor = "#0BC586",
+  isShowSortOption,
+  isAllowSocialLogin,
+  isShowLogo
+}: ScriptProps) => `
 import Darass from "darass-react";
 
-<Darass projectKey="${projectSecretKey}" darkMode={${isDarkModePage}} primaryColor="${primaryColor}"/>;
+<Darass projectKey="${projectSecretKey}" darkMode={${isDarkModePage}} primaryColor="${primaryColor}" isShowSortOption={${isShowSortOption}} isAllowSocialLogin={${isAllowSocialLogin}} isShowLogo={${isShowLogo}}/>;
 `;
 
 const ScriptPublishing = () => {
-  const [selectedBlogInfo, setSelectedBlogInfo] = useState<ObjectValueType<typeof GUIDE_FILE>>();
-  const [isDarkModePage, setIsDarkModePage] = useState(false);
   const match = useRouteMatch<{ id: string }>();
+
+  const [selectedBlogInfo, setSelectedBlogInfo] = useState<ObjectValueType<typeof GUIDE_FILE>>();
+
+  const [isDarkModePage, setIsDarkModePage] = useState(false);
+  const [primaryColor, setPrimaryColor] = useState<string>(PALETTE.PRIMARY);
+  const [isShowSortOption, setIsShowSortOption] = useState(true);
+  const [isAllowSocialLogin, setIsAllowSocialLogin] = useState(true);
+  const [isShowLogo, setIsShowLogo] = useState(true);
 
   const projectId = Number(match.params.id);
   const { project } = useGetProject({
     id: projectId
   });
-
   const projectSecretKey = project?.secretKey || "스크립트 정보를 불러오는 중입니다...";
-  const { isCopyButtonClicked, onCopy } = useCopyButton();
-  useDocumentTitle("스크립트 발급");
 
   const script =
     selectedBlogInfo?.scriptType === "HTML"
-      ? htmlScriptCode(projectSecretKey, isDarkModePage)
-      : JsxScriptCode(projectSecretKey, isDarkModePage);
+      ? htmlScriptCode({
+          projectSecretKey,
+          isDarkModePage,
+          primaryColor,
+          isShowSortOption,
+          isAllowSocialLogin,
+          isShowLogo
+        })
+      : JsxScriptCode({
+          projectSecretKey,
+          isDarkModePage,
+          primaryColor,
+          isShowSortOption,
+          isAllowSocialLogin,
+          isShowLogo
+        });
+
+  const { isCopyButtonClicked, onCopy } = useCopyButton();
+  useDocumentTitle("스크립트 발급");
 
   if (Number.isNaN(projectId)) {
     return <Redirect to={ROUTE.COMMON.HOME} />;
@@ -139,37 +186,43 @@ const ScriptPublishing = () => {
                   </FormRow>
                   <FormRow>
                     <FormLabel>어떤 색상이 페이지와 가장 잘어울리나요?</FormLabel>
-                    <input type="color" />
+                    <input
+                      type="color"
+                      value={primaryColor}
+                      onChange={event => {
+                        setPrimaryColor(event.target.value);
+                      }}
+                    />
                   </FormRow>
                   <FormRow>
                     <FormLabel>댓글 정렬기능이 필요한가요?</FormLabel>
-                    <CheckBox isChecked={false} onChange={() => {}} />
+                    <CheckBox isChecked={isShowSortOption} onChange={() => setIsShowSortOption(state => !state)} />
                   </FormRow>
                   <FormRow>
                     <FormLabel>소셜 로그인을 허용할까요?</FormLabel>
-                    <CheckBox isChecked={false} onChange={() => {}} />
+                    <CheckBox isChecked={isAllowSocialLogin} onChange={() => setIsAllowSocialLogin(state => !state)} />
                   </FormRow>
                   <FormRow>
                     <FormLabel>다라쓰의 로고를 보일까요?</FormLabel>
-                    <CheckBox isChecked={false} onChange={() => {}} />
+                    <CheckBox isChecked={isShowLogo} onChange={() => setIsShowLogo(state => !state)} />
                   </FormRow>
-
-                  <SubmitButton>적용</SubmitButton>
                 </PreviewForm>
               </GuideStep>
 
               <GuideStep title="미리보기">
-                <ScriptContainer isDarkModePage={isDarkModePage}>
+                <ScriptContainer key={`${isDarkModePage}`} isDarkModePage={isDarkModePage}>
                   <Darass
-                    key={`${isDarkModePage}`}
                     projectKey="Veo0nVY3H4aiNUt1"
                     darkMode={isDarkModePage}
-                    primaryColor="#FF0000"
+                    primaryColor={primaryColor}
+                    isShowSortOption={isShowSortOption}
+                    isAllowSocialLogin={isAllowSocialLogin}
+                    isShowLogo={isShowLogo}
                   />
                 </ScriptContainer>
               </GuideStep>
 
-              <GuideStep title="스크립트">
+              <GuideStep title="아래 스크립트를 삽입하세요">
                 {project && (
                   <CodeBlockWrapper>
                     <CopyButton type="button" onClick={() => onCopy(script)}>

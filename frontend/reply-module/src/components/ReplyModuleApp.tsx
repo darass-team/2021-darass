@@ -26,9 +26,23 @@ const getPrimaryColor = () => {
   return primaryColor;
 };
 
+const getUiInfo = () => {
+  const urlParams = new URLSearchParams(window.location.search);
+  const isShowSortOption = urlParams.get("isShowSortOption");
+  const isAllowSocialLogin = urlParams.get("isAllowSocialLogin");
+  const isShowLogo = urlParams.get("isShowLogo");
+
+  return {
+    isShowSortOption,
+    isAllowSocialLogin,
+    isShowLogo
+  };
+};
+
 const App = () => {
   const isDarkModePage = getIsDarkModePageParam();
   const primaryColor = getPrimaryColor();
+  const { isShowSortOption, isAllowSocialLogin, isShowLogo } = getUiInfo();
 
   const { user, logout, refetchUser, isLoading, isSuccess, accessToken, refetchAccessToken } = useUser();
 
@@ -40,7 +54,12 @@ const App = () => {
     <ThemeProvider
       theme={{
         isDarkModePage,
-        primaryColor
+        primaryColor,
+        uiInfo: {
+          isShowSortOption,
+          isAllowSocialLogin,
+          isShowLogo
+        }
       }}
     >
       <MessageChannelFromReplyModuleContext.Provider
