@@ -11,7 +11,8 @@ import { Redirect, useRouteMatch } from "react-router-dom";
 import { PrismLight as SyntaxHighlighter } from "react-syntax-highlighter";
 import js from "react-syntax-highlighter/dist/cjs/languages/prism/javascript";
 import prism from "react-syntax-highlighter/dist/cjs/styles/prism/darcula";
-import { BlogLogoWrapper, CodeBlockWrapper, Container, CopyButton, Ol, Title } from "./styles";
+import { BlogLogoWrapper, CodeBlockWrapper, Container, CopyButton, Ol, ScriptContainer, Title } from "./styles";
+import Darass from "darass-react";
 
 SyntaxHighlighter.registerLanguage("javascript", js);
 
@@ -39,7 +40,7 @@ const htmlScriptCode = (projectSecretKey: string, isDarkModePage = false) => `
 const JsxScriptCode = (projectSecretKey: string, isDarkModePage = false) => `
 import Darass from "darass-react";
 
-<Darass projectKey="${projectSecretKey}" darkMode="${isDarkModePage}"/>;
+<Darass projectKey="${projectSecretKey}" darkMode={${isDarkModePage}}/>;
 `;
 
 const ScriptPublishing = () => {
@@ -145,6 +146,12 @@ const ScriptPublishing = () => {
                     </SyntaxHighlighter>
                   </CodeBlockWrapper>
                 )}
+              </GuideStep>
+
+              <GuideStep title="미리보기">
+                <ScriptContainer isDarkModePage={isDarkModePage}>
+                  <Darass key={`${isDarkModePage}`} projectKey="Veo0nVY3H4aiNUt1" darkMode={isDarkModePage} />
+                </ScriptContainer>
               </GuideStep>
             </>
           )}

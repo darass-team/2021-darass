@@ -4992,6 +4992,13 @@ cyclist@^1.0.1:
   resolved "https://registry.yarnpkg.com/cyclist/-/cyclist-1.0.1.tgz#596e9698fd0c80e12038c2b82d6eb1b35b6224d9"
   integrity sha1-WW6WmP0MgOEgOMK4LW6xs1tiJNk=
 
+darass-react@^1.2.2:
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/darass-react/-/darass-react-1.2.2.tgz#609c3839febfa5ac158abdc73fd31ef9abb58dac"
+  integrity sha512-Re6QeHxovXBlr6wIJCy/B6Ncs9CVG2AAh66+fJ3WQzssG9FGDLn7bI53Ow0zSz9izgirNacvSm2UKIJmU3ONJQ==
+  dependencies:
+    react "^17.0.2"
+
 data-urls@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/data-urls/-/data-urls-2.0.0.tgz#156485a72963a970f5d5821aaf642bef2bf2db9b"
@@ -10884,10 +10891,10 @@ signal-exit@^3.0.0, signal-exit@^3.0.2, signal-exit@^3.0.3:
   resolved "https://registry.yarnpkg.com/signal-exit/-/signal-exit-3.0.5.tgz#9e3e8cc0c75a99472b44321033a7702e7738252f"
   integrity sha512-KWcOiKeQj6ZyXx7zq4YxSMgHRlod4czeBQZrPb8OKcohcqAXShm7E20kEMle9WBt26hFcAf0qLOcp5zmY7kOqQ==
 
-simple-react-query@^0.0.10:
-  version "0.0.10"
-  resolved "https://registry.yarnpkg.com/simple-react-query/-/simple-react-query-0.0.10.tgz#abec54a74c3ba874df8c38d5dcc3759346abc822"
-  integrity sha512-IriIu0ai4o+oJRyqXmbTnTqf7lMJoBhxeob+xRNwlOt9KzxZK2/bg4n+QINEnl7UxyTM6DQK5LlHpfZqoojA1Q==
+simple-react-query@^0.0.13:
+  version "0.0.13"
+  resolved "https://registry.yarnpkg.com/simple-react-query/-/simple-react-query-0.0.13.tgz#860f5c3ccb20dc99998dcb02cf446f2738420115"
+  integrity sha512-kI7dSoJwsZoTER+OOL5vVnKBZ+D6UNcxX3nrF9Ts5pPPvQK/FKiZJL/93rQ8oJNTrrSB7Xxrxue65Wjok7KR7Q==
   dependencies:
     react "^17.0.2"
     react-dom "^17.0.2"

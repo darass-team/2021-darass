@@ -56,3 +56,10 @@ export const BlogLogoWrapper = styled.div`
 export const Ol = styled.ol`
   ${orderedListCSS};
 `;
+
+export const ScriptContainer = styled.div<{
+  isDarkModePage: boolean;
+}>`
+  width: 100%;
+  background-color: ${({ isDarkModePage }) => (isDarkModePage ? "black" : "white")};
+`;

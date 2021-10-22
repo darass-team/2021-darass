@@ -71,7 +71,7 @@ const useGetAccessTokenApi = () => {
     error: accessTokenError,
     setData: setAccessToken,
     clearRefetchInterval
-  } = useQuery<string>({
+  } = useQuery<string | undefined>({
     query: getAccessTokenByRefreshToken,
     enabled: false,
     refetchInterval: TOKEN_REFETCH_TIMER
@@ -102,7 +102,7 @@ export const useUser = () => {
     refetch: refetchUser,
     isSuccess,
     setData: setUser
-  } = useQuery<User>({
+  } = useQuery<User | undefined>({
     query: getUser,
     enabled: false
   });
