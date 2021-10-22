@@ -9,7 +9,7 @@ describe("SubmitButton test", () => {
       const text = "submit button";
       const submitButton = render(<SubmitButton onClick={() => {}}>{text}</SubmitButton>);
 
-      expect(submitButton.getByRole("button")).toHaveStyle(`background-color: ${PALETTE.SECONDARY}`);
+      expect(submitButton.getByRole("button")).toHaveStyle(`background-color: ${PALETTE.PRIMARY}`);
     });
   });
 });

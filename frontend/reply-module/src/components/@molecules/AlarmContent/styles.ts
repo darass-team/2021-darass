@@ -11,7 +11,7 @@ export const AlarmHeader = styled.div`
 `;
 
 export const NotificationCount = styled.span`
-  color: ${PALETTE.SECONDARY};
+  color: ${({ theme }) => theme.primaryColor};
   font-weight: 700;
 `;
 
@@ -51,7 +51,7 @@ export const Notification = styled.span`
 export const Name = styled.span`
   line-height: ${1.2 * LINE_HEIGHT_SCALE}rem;
   font-weight: 600;
-  color: ${PALETTE.SECONDARY};
+  color: ${({ theme }) => theme.primaryColor};
 `;
 
 export const Text = styled.span`

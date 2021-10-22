@@ -27,7 +27,7 @@ export const Input = styled.input<{ hasLabelText: boolean }>`
   }
 
   &:checked {
-    background-color: ${PALETTE.PRIMARY};
+    background-color: ${({ theme }) => theme.primaryColor};
   }
 
   &:checked::before {

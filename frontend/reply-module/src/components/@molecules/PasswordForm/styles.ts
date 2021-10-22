@@ -49,7 +49,7 @@ export const SubmitButton = styled(SubmitButtonComponent)`
   width: 4rem;
   height: 2.4rem;
   padding: 0.2rem 0.3rem;
-  background-color: ${PALETTE.SECONDARY};
+  background-color: ${({ theme }) => theme.primaryColor};
   font-size: 1rem;
   line-height: 1.5rem;
 `;

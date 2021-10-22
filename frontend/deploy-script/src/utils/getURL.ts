@@ -18,13 +18,22 @@ const refineCurrentURL = () => {
   return currentURL;
 };
 
-export const getReplyModuleURL = (projectKey: string, isDarkModePage: boolean) => {
+export const getReplyModuleURL = ({
+  projectKey,
+  isDarkModePage,
+  primaryColor
+}: {
+  projectKey: string;
+  isDarkModePage: boolean;
+  primaryColor: string;
+}) => {
   const currentURL = refineCurrentURL();
 
   const urlParams = new URLSearchParams(END_POINT + "?");
   urlParams.set("url", currentURL);
   urlParams.set("projectKey", projectKey);
   urlParams.set("darkMode", `${isDarkModePage}`);
+  urlParams.set("primaryColor", escape(primaryColor));
 
   const replyModuleUrlWithQuery = decodeURIComponent(urlParams.toString());
 

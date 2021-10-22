@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 export const Button = styled.button`
   width: fit-content;
-  background-color: ${PALETTE.SECONDARY};
+  background-color: ${({ theme }) => theme.primaryColor};
   color: ${PALETTE.WHITE};
   font-size: 1.4rem;
   line-height: 2.1rem;
@@ -14,7 +14,7 @@ export const Button = styled.button`
 
   @media (hover: hover) and (pointer: fine) {
     &:hover {
-      background-color: ${PALETTE.SECONDARY_HOVER};
+      filter: brightness(90%);
     }
   }
 

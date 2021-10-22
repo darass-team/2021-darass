@@ -2,6 +2,7 @@ import LoadingPage from "@/components/@molecules/LoadingPage";
 import CommentArea from "@/components/pages/CommentArea";
 import OAuth from "@/components/pages/OAuth";
 import { ROUTE } from "@/constants/route";
+import { PALETTE } from "@/constants/styles/palette";
 import { useRecentlyAlarmWebSocket, useUser } from "@/hooks";
 import { MessageChannelFromReplyModuleContext } from "@/hooks/contexts/useMessageFromReplyModule";
 import { RecentlyAlarmContentContext } from "@/hooks/contexts/useRecentlyAlarmContentContext";
@@ -18,8 +19,16 @@ const getIsDarkModePageParam = () => {
   return isDarkModePageString === "true" ? true : false;
 };
 
+const getPrimaryColor = () => {
+  const urlParams = new URLSearchParams(window.location.search);
+  const primaryColor = decodeURIComponent(urlParams.get("primaryColor") || PALETTE.PRIMARY);
+
+  return primaryColor;
+};
+
 const App = () => {
   const isDarkModePage = getIsDarkModePageParam();
+  const primaryColor = getPrimaryColor();
 
   const { user, logout, refetchUser, isLoading, isSuccess, accessToken, refetchAccessToken } = useUser();
 
@@ -30,7 +39,8 @@ const App = () => {
   return (
     <ThemeProvider
       theme={{
-        isDarkModePage
+        isDarkModePage,
+        primaryColor
       }}
     >
       <MessageChannelFromReplyModuleContext.Provider
