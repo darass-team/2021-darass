@@ -1,7 +1,9 @@
+import { PALETTE } from "@/constants/styles/palette";
 import { comments } from "@/__test__/fixture/comments";
 import { socialLoginUser } from "@/__test__/fixture/user";
 import "@testing-library/jest-dom/extend-expect";
 import { fireEvent, render } from "@testing-library/react";
+import { ThemeProvider } from "styled-components";
 import Comment, { Props } from "..";
 
 jest.mock("@/hooks/contexts/useMessageFromReplyModule");
@@ -34,7 +36,17 @@ describe("Comment test", () => {
         canIDelete: false
       };
 
-      const { queryByTestId } = render(<Comment {...props} />);
+      const { queryByTestId } = render(
+        <ThemeProvider
+          theme={{
+            isDarkModePage: false,
+            primaryColor: PALETTE.PRIMARY,
+            uiInfo: { isShowSortOption: true, isAllowSocialLogin: true, isShowLogo: true }
+          }}
+        >
+          <Comment {...props} />
+        </ThemeProvider>
+      );
 
       expect(queryByTestId("comment-option")).toBeFalsy();
     });
@@ -59,7 +71,17 @@ describe("Comment test", () => {
         canIDelete: false
       };
 
-      const { queryByTestId } = render(<Comment {...props} />);
+      const { queryByTestId } = render(
+        <ThemeProvider
+          theme={{
+            isDarkModePage: false,
+            primaryColor: PALETTE.PRIMARY,
+            uiInfo: { isShowSortOption: true, isAllowSocialLogin: true, isShowLogo: true }
+          }}
+        >
+          <Comment {...props} />
+        </ThemeProvider>
+      );
 
       expect(queryByTestId("comment-option")).toBeTruthy();
     });
@@ -84,7 +106,17 @@ describe("Comment test", () => {
         canIDelete: false
       };
 
-      const { queryByTestId } = render(<Comment {...props} />);
+      const { queryByTestId } = render(
+        <ThemeProvider
+          theme={{
+            isDarkModePage: false,
+            primaryColor: PALETTE.PRIMARY,
+            uiInfo: { isShowSortOption: true, isAllowSocialLogin: true, isShowLogo: true }
+          }}
+        >
+          <Comment {...props} />
+        </ThemeProvider>
+      );
 
       expect(queryByTestId("comment-liking-user-button")).toBeTruthy();
     });
@@ -109,7 +141,17 @@ describe("Comment test", () => {
         canIDelete: false
       };
 
-      const { queryByTestId } = render(<Comment {...props} />);
+      const { queryByTestId } = render(
+        <ThemeProvider
+          theme={{
+            isDarkModePage: false,
+            primaryColor: PALETTE.PRIMARY,
+            uiInfo: { isShowSortOption: true, isAllowSocialLogin: true, isShowLogo: true }
+          }}
+        >
+          <Comment {...props} />
+        </ThemeProvider>
+      );
 
       expect(queryByTestId("comment-liking-user-button")).toBeFalsy();
     });
@@ -134,7 +176,17 @@ describe("Comment test", () => {
         canIDelete: false
       };
 
-      const { getByTestId, queryByTestId } = render(<Comment {...props} />);
+      const { getByTestId, queryByTestId } = render(
+        <ThemeProvider
+          theme={{
+            isDarkModePage: false,
+            primaryColor: PALETTE.PRIMARY,
+            uiInfo: { isShowSortOption: true, isAllowSocialLogin: true, isShowLogo: true }
+          }}
+        >
+          <Comment {...props} />
+        </ThemeProvider>
+      );
 
       fireEvent.click(getByTestId("comment-option"));
       fireEvent.click(getByTestId("comment-option-edit-button"));
@@ -162,7 +214,17 @@ describe("Comment test", () => {
         canIDelete: false
       };
 
-      const { queryByTestId } = render(<Comment {...props} />);
+      const { queryByTestId } = render(
+        <ThemeProvider
+          theme={{
+            isDarkModePage: false,
+            primaryColor: PALETTE.PRIMARY,
+            uiInfo: { isShowSortOption: true, isAllowSocialLogin: true, isShowLogo: true }
+          }}
+        >
+          <Comment {...props} />
+        </ThemeProvider>
+      );
 
       expect(queryByTestId("comment-subcomment-wrapper")).toBeTruthy();
     });
@@ -187,7 +249,17 @@ describe("Comment test", () => {
         canIDelete: false
       };
 
-      const { getByTestId, queryByTestId } = render(<Comment {...props} />);
+      const { getByTestId, queryByTestId } = render(
+        <ThemeProvider
+          theme={{
+            isDarkModePage: false,
+            primaryColor: PALETTE.PRIMARY,
+            uiInfo: { isShowSortOption: true, isAllowSocialLogin: true, isShowLogo: true }
+          }}
+        >
+          <Comment {...props} />
+        </ThemeProvider>
+      );
 
       fireEvent.click(getByTestId("comment-bottom-add-subcomment-button"));
 

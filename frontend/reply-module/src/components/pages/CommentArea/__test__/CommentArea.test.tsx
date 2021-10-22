@@ -1,7 +1,9 @@
 import { OAUTH_URL } from "@/constants/oauth";
+import { PALETTE } from "@/constants/styles/palette";
 import { useGetAllComments, useGetProjectOwnerId, useUser } from "@/hooks";
 import { popUpCenter } from "@/utils/popUpCenter";
 import { fireEvent, render } from "@testing-library/react";
+import { ThemeProvider } from "styled-components";
 import CommentArea from "..";
 
 jest.mock("@/utils/popUpCenter");
@@ -30,7 +32,17 @@ describe("CommentArea test", () => {
       error: null
     });
 
-    const { queryByTestId } = render(<CommentArea />);
+    const { queryByTestId } = render(
+      <ThemeProvider
+        theme={{
+          isDarkModePage: false,
+          primaryColor: PALETTE.PRIMARY,
+          uiInfo: { isShowSortOption: true, isAllowSocialLogin: true, isShowLogo: true }
+        }}
+      >
+        <CommentArea />
+      </ThemeProvider>
+    );
 
     expect(queryByTestId("comment-list")).toBeTruthy();
   });
@@ -48,7 +60,17 @@ describe("CommentArea test", () => {
       error: null
     });
 
-    const { queryByAltText } = render(<CommentArea />);
+    const { queryByAltText } = render(
+      <ThemeProvider
+        theme={{
+          isDarkModePage: false,
+          primaryColor: PALETTE.PRIMARY,
+          uiInfo: { isShowSortOption: true, isAllowSocialLogin: true, isShowLogo: true }
+        }}
+      >
+        <CommentArea />
+      </ThemeProvider>
+    );
 
     expect(queryByAltText("로딩중")).toBeTruthy();
   });
@@ -58,7 +80,17 @@ describe("CommentArea test", () => {
       logout: jest.fn()
     });
 
-    const { getByAltText } = render(<CommentArea />);
+    const { getByAltText } = render(
+      <ThemeProvider
+        theme={{
+          isDarkModePage: false,
+          primaryColor: PALETTE.PRIMARY,
+          uiInfo: { isShowSortOption: true, isAllowSocialLogin: true, isShowLogo: true }
+        }}
+      >
+        <CommentArea />
+      </ThemeProvider>
+    );
     fireEvent.click(getByAltText("카카오톡 로그인 이미지"));
     expect(popUpCenter).toHaveBeenCalledWith(OAUTH_URL.KAKAO, "Authentication", 600, 900, "modal=yes,alwaysRaised=yes");
   });
@@ -68,7 +100,17 @@ describe("CommentArea test", () => {
       logout: jest.fn()
     });
 
-    const { getByAltText } = render(<CommentArea />);
+    const { getByAltText } = render(
+      <ThemeProvider
+        theme={{
+          isDarkModePage: false,
+          primaryColor: PALETTE.PRIMARY,
+          uiInfo: { isShowSortOption: true, isAllowSocialLogin: true, isShowLogo: true }
+        }}
+      >
+        <CommentArea />
+      </ThemeProvider>
+    );
 
     fireEvent.click(getByAltText("네아버 로그인 이미지"));
 

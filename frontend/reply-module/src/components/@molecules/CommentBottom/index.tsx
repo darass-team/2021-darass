@@ -1,4 +1,6 @@
 import { getTimeDifference } from "@/utils/time";
+import { useContext } from "react";
+import { ThemeContext } from "styled-components";
 import { Container, LikeButton, AddSubCommentButton, Time } from "./styles";
 
 export interface Props {
@@ -18,9 +20,13 @@ const CommentBottom = ({
   onClickAddSubCommentButton,
   commentCreatedDate
 }: Props) => {
+  const {
+    uiInfo: { isAllowSocialLogin }
+  } = useContext(ThemeContext);
+
   return (
     <Container>
-      {isReadable && (
+      {isReadable && isAllowSocialLogin && (
         <LikeButton
           isLiked={alreadyLiked}
           onClick={onClickLikeButton}

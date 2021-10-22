@@ -25,7 +25,7 @@ export const CommentCountWrapper = styled.div`
 `;
 
 export const CommentCount = styled.span`
-  color: ${PALETTE.SECONDARY};
+  color: ${({ theme }) => theme.primaryColor};
   font-weight: 700;
   margin-left: 0.5rem;
 `;

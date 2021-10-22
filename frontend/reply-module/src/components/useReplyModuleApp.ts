@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { POST_MESSAGE_TYPE } from "@/constants/postMessageType";
-import { useRecentlyAlarmWebSocket } from "@/hooks";
 import { messageFromReplyModule } from "@/utils/postMessage";
 import throttling from "@/utils/throttle";
 

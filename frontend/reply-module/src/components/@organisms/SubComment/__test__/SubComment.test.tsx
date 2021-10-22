@@ -2,6 +2,7 @@ import { comments } from "@/__test__/fixture/comments";
 import { socialLoginUser } from "@/__test__/fixture/user";
 import "@testing-library/jest-dom/extend-expect";
 import { render } from "@testing-library/react";
+import { ThemeProvider } from "styled-components";
 import SubComment, { Props } from "..";
 
 jest.mock("@/hooks/api/comment/useEditComment");
@@ -31,7 +32,11 @@ describe("SubComment test", () => {
         canIDelete: false
       };
 
-      const { queryByTestId } = render(<SubComment {...props} />);
+      const { queryByTestId } = render(
+        <ThemeProvider theme={{ uiInfo: { isShowSortOption: true, isAllowSocialLogin: true, isShowLogo: true } }}>
+          <SubComment {...props} />
+        </ThemeProvider>
+      );
 
       expect(queryByTestId("subcomment-indent-icon")).toBeTruthy();
     });

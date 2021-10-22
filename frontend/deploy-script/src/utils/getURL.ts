@@ -18,13 +18,31 @@ const refineCurrentURL = () => {
   return currentURL;
 };
 
-export const getReplyModuleURL = (projectKey: string, isDarkModePage: boolean) => {
+export const getReplyModuleURL = ({
+  projectKey,
+  isDarkModePage,
+  primaryColor,
+  isShowSortOption,
+  isAllowSocialLogin,
+  isShowLogo
+}: {
+  projectKey: string;
+  isDarkModePage: boolean;
+  primaryColor: string;
+  isShowSortOption: boolean;
+  isAllowSocialLogin: boolean;
+  isShowLogo: boolean;
+}) => {
   const currentURL = refineCurrentURL();
 
   const urlParams = new URLSearchParams(END_POINT + "?");
   urlParams.set("url", currentURL);
   urlParams.set("projectKey", projectKey);
   urlParams.set("darkMode", `${isDarkModePage}`);
+  urlParams.set("primaryColor", escape(primaryColor));
+  urlParams.set("isShowSortOption", `${isShowSortOption}`);
+  urlParams.set("isAllowSocialLogin", `${isAllowSocialLogin}`);
+  urlParams.set("isShowLogo", `${isShowLogo}`);
 
   const replyModuleUrlWithQuery = decodeURIComponent(urlParams.toString());
 

@@ -2,6 +2,8 @@ import Comment from "@/components/@organisms/Comment";
 import { ORDER_BUTTON } from "@/constants/orderButton";
 import { Comment as CommentType } from "@/types/comment";
 import { User } from "@/types/user";
+import { useContext } from "react";
+import { ThemeContext } from "styled-components";
 import {
   CommentContainer,
   CommentCount,
@@ -34,6 +36,10 @@ const CommentList = ({
   onSelectSortOption,
   ...props
 }: Props) => {
+  const {
+    uiInfo: { isShowSortOption }
+  } = useContext(ThemeContext);
+
   return (
     <Container {...props}>
       <Header>
@@ -42,21 +48,23 @@ const CommentList = ({
           <CommentCount>{totalCommentsCount || 0}</CommentCount>
         </CommentCountWrapper>
         <OrderButtonContainer>
-          <OrderButtonWrapper>
-            {Object.entries(ORDER_BUTTON).map(([key, value]) => (
-              <OrderButton
-                type="button"
-                key={key}
-                isSelected={sortOption === key}
-                onClick={() => {
-                  onSelectSortOption(key as keyof typeof ORDER_BUTTON);
-                }}
-                data-testid={`comment-list-order-button-${key}`}
-              >
-                {value}
-              </OrderButton>
-            ))}
-          </OrderButtonWrapper>
+          {isShowSortOption && (
+            <OrderButtonWrapper>
+              {Object.entries(ORDER_BUTTON).map(([key, value]) => (
+                <OrderButton
+                  type="button"
+                  key={key}
+                  isSelected={sortOption === key}
+                  onClick={() => {
+                    onSelectSortOption(key as keyof typeof ORDER_BUTTON);
+                  }}
+                  data-testid={`comment-list-order-button-${key}`}
+                >
+                  {value}
+                </OrderButton>
+              ))}
+            </OrderButtonWrapper>
+          )}
         </OrderButtonContainer>
       </Header>
       <CommentContainer>

@@ -26,7 +26,18 @@ const init = () => {
 
   const isDarkModePage = $darass.dataset.darkMode === "true" ? true : false;
 
-  const $replyModuleIframe = createIframe(getReplyModuleURL(projectKey, isDarkModePage), IFRAME_STYLE.REPLY_MODULE);
+  const primaryColor = $darass.dataset.primaryColor || "#0BC586";
+
+  const isShowSortOption = $darass.dataset.showSortOption === "true" ? true : false;
+
+  const isAllowSocialLogin = $darass.dataset.allowSocialLogin === "true" ? true : false;
+
+  const isShowLogo = $darass.dataset.showLogo === "true" ? true : false;
+
+  const $replyModuleIframe = createIframe(
+    getReplyModuleURL({ projectKey, isDarkModePage, primaryColor, isShowSortOption, isAllowSocialLogin, isShowLogo }),
+    IFRAME_STYLE.REPLY_MODULE
+  );
   const $modalIframe = createIframe(getModalUrl(), IFRAME_STYLE.MODAL);
   $replyModuleIframe.setAttribute("scrolling", "no");
 

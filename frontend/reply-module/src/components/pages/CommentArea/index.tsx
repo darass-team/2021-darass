@@ -12,7 +12,8 @@ import { useGetAllComments, useGetProjectOwnerId, useMessageChannelFromReplyModu
 import { CommentContext } from "@/hooks/contexts/useCommentContext";
 import { useUserContext } from "@/hooks/contexts/useUserContext";
 import { popUpCenter } from "@/utils/popUpCenter";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { ThemeContext } from "styled-components";
 import {
   CommentInputHeader,
   CommentList,
@@ -32,6 +33,10 @@ const CommentArea = () => {
   const [notice, setNotice] = useState("");
 
   const { user, logout, refetchAccessToken } = useUserContext();
+
+  const {
+    uiInfo: { isAllowSocialLogin }
+  } = useContext(ThemeContext);
 
   const {
     totalCommentsCount,
@@ -125,31 +130,33 @@ const CommentArea = () => {
           <LoadingPage />
         )}
 
-        <CommentInputHeader>
-          <UserAvatarOption user={user}>
-            {user ? (
-              <>
-                <UserAvatarOptionLink href={`${MANAGE_PAGE_DOMAIN}/user`} target="_blank" rel="noopener noreferrer">
-                  내 정보
-                </UserAvatarOptionLink>
-                <UserAvatarOptionButton type="button" onClick={logout}>
-                  로그아웃
-                </UserAvatarOptionButton>
-              </>
-            ) : (
-              <>
-                <LoginMethodWrapper onClick={() => onLogin("KAKAO")}>
-                  <Avatar size="SM" imageURL={kakaoTalkIcon} alt="카카오톡 로그인 이미지" />
-                  <LoginMethod>카카오</LoginMethod>
-                </LoginMethodWrapper>
-                <LoginMethodWrapper onClick={() => onLogin("NAVER")}>
-                  <Avatar size="SM" imageURL={naverIcon} alt="네아버 로그인 이미지" />
-                  <LoginMethod>네이버</LoginMethod>
-                </LoginMethodWrapper>
-              </>
-            )}
-          </UserAvatarOption>
-        </CommentInputHeader>
+        {isAllowSocialLogin && (
+          <CommentInputHeader>
+            <UserAvatarOption user={user}>
+              {user ? (
+                <>
+                  <UserAvatarOptionLink href={`${MANAGE_PAGE_DOMAIN}/user`} target="_blank" rel="noopener noreferrer">
+                    내 정보
+                  </UserAvatarOptionLink>
+                  <UserAvatarOptionButton type="button" onClick={logout}>
+                    로그아웃
+                  </UserAvatarOptionButton>
+                </>
+              ) : (
+                <>
+                  <LoginMethodWrapper onClick={() => onLogin("KAKAO")}>
+                    <Avatar size="SM" imageURL={kakaoTalkIcon} alt="카카오톡 로그인 이미지" />
+                    <LoginMethod>카카오</LoginMethod>
+                  </LoginMethodWrapper>
+                  <LoginMethodWrapper onClick={() => onLogin("NAVER")}>
+                    <Avatar size="SM" imageURL={naverIcon} alt="네아버 로그인 이미지" />
+                    <LoginMethod>네이버</LoginMethod>
+                  </LoginMethodWrapper>
+                </>
+              )}
+            </UserAvatarOption>
+          </CommentInputHeader>
+        )}
 
         <CommentInput isSubComment={false} user={user} />
         <Footer />

@@ -2,6 +2,7 @@ import LoadingPage from "@/components/@molecules/LoadingPage";
 import CommentArea from "@/components/pages/CommentArea";
 import OAuth from "@/components/pages/OAuth";
 import { ROUTE } from "@/constants/route";
+import { PALETTE } from "@/constants/styles/palette";
 import { useRecentlyAlarmWebSocket, useUser } from "@/hooks";
 import { MessageChannelFromReplyModuleContext } from "@/hooks/contexts/useMessageFromReplyModule";
 import { RecentlyAlarmContentContext } from "@/hooks/contexts/useRecentlyAlarmContentContext";
@@ -18,8 +19,30 @@ const getIsDarkModePageParam = () => {
   return isDarkModePageString === "true" ? true : false;
 };
 
+const getPrimaryColor = () => {
+  const urlParams = new URLSearchParams(window.location.search);
+  const primaryColor = decodeURIComponent(urlParams.get("primaryColor") || PALETTE.PRIMARY);
+
+  return primaryColor;
+};
+
+const getUiInfo = () => {
+  const urlParams = new URLSearchParams(window.location.search);
+  const isShowSortOption = urlParams.get("isShowSortOption") === "true" ? true : false;
+  const isAllowSocialLogin = urlParams.get("isAllowSocialLogin") === "true" ? true : false;
+  const isShowLogo = urlParams.get("isShowLogo") === "true" ? true : false;
+
+  return {
+    isShowSortOption,
+    isAllowSocialLogin,
+    isShowLogo
+  };
+};
+
 const App = () => {
   const isDarkModePage = getIsDarkModePageParam();
+  const primaryColor = getPrimaryColor();
+  const { isShowSortOption, isAllowSocialLogin, isShowLogo } = getUiInfo();
 
   const { user, logout, refetchUser, isLoading, isSuccess, accessToken, refetchAccessToken } = useUser();
 
@@ -30,7 +53,13 @@ const App = () => {
   return (
     <ThemeProvider
       theme={{
-        isDarkModePage
+        isDarkModePage,
+        primaryColor,
+        uiInfo: {
+          isShowSortOption,
+          isAllowSocialLogin,
+          isShowLogo
+        }
       }}
     >
       <MessageChannelFromReplyModuleContext.Provider
