@@ -1,14 +1,15 @@
 import { BASE_URL } from "@/constants/api";
 import { GetAlarmResponse } from "@/types/comment";
+import { User } from "@/types/user";
 import { Stomp } from "@stomp/stompjs";
 import { useEffect, useRef, useState } from "react";
 import SockJS from "sockjs-client";
-import { useUserContext } from "../contexts/useUserContext";
 
-export const useRecentlyAlarmWebSocket = () => {
+export const useRecentlyAlarmWebSocket = (user?: User) => {
   const socketRef = useRef<WebSocket>();
+
   const [recentlyAlarmContent, setRecentlyAlarmContent] = useState<GetAlarmResponse>();
-  const { user } = useUserContext();
+
   const [hasNewAlarmOnRealTime, setHasNewAlarmOnRealTime] = useState(!!user?.hasRecentAlarm);
 
   useEffect(() => {

@@ -29,6 +29,10 @@ const useGetAccessTokenApi = () => {
   };
 };
 
+const compareUser = (prevUser?: User, currUser?: User) => {
+  return prevUser?.id === currUser?.id;
+};
+
 export const useUser = () => {
   const {
     accessToken,
@@ -37,10 +41,6 @@ export const useUser = () => {
     setAccessToken,
     clearRefetchInterval
   } = useGetAccessTokenApi();
-
-  const compareUser = (prevUser?: User, currUser?: User) => {
-    return prevUser?.id === currUser?.id;
-  };
 
   const {
     data: user,

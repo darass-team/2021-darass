@@ -2,7 +2,7 @@ import LoadingPage from "@/components/@molecules/LoadingPage";
 import CommentArea from "@/components/pages/CommentArea";
 import OAuth from "@/components/pages/OAuth";
 import { ROUTE } from "@/constants/route";
-import { useUser } from "@/hooks";
+import { useRecentlyAlarmWebSocket, useUser } from "@/hooks";
 import { MessageChannelFromReplyModuleContext } from "@/hooks/contexts/useMessageFromReplyModule";
 import { RecentlyAlarmContentContext } from "@/hooks/contexts/useRecentlyAlarmContentContext";
 import { UserContext } from "@/hooks/contexts/useUserContext";
@@ -19,12 +19,13 @@ const getIsDarkModePageParam = () => {
 };
 
 const App = () => {
-  const { user, logout, refetchUser, isLoading, isSuccess, accessToken, refetchAccessToken } = useUser();
-
   const isDarkModePage = getIsDarkModePageParam();
 
-  const { port, recentlyAlarmContent, hasNewAlarmOnRealTime, setHasNewAlarmOnRealTime, receivedMessageFromReplyModal } =
-    useReplyModuleApp();
+  const { user, logout, refetchUser, isLoading, isSuccess, accessToken, refetchAccessToken } = useUser();
+
+  const { recentlyAlarmContent, hasNewAlarmOnRealTime, setHasNewAlarmOnRealTime } = useRecentlyAlarmWebSocket(user);
+
+  const { port, receivedMessageFromReplyModal } = useReplyModuleApp();
 
   return (
     <ThemeProvider
