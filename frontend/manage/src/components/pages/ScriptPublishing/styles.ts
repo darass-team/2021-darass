@@ -62,4 +62,35 @@ export const ScriptContainer = styled.div<{
 }>`
   width: 100%;
   background-color: ${({ isDarkModePage }) => (isDarkModePage ? "black" : "white")};
+  border: 1px solid ${PALETTE.GRAY_400};
+  border-radius: 10px;
+  padding: 1rem 2rem;
+`;
+
+export const PreviewForm = styled.form`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid ${PALETTE.GRAY_600};
+  padding: 1rem 2rem;
+  border-radius: 10px;
+
+  & > button:last-of-type {
+    margin-left: auto;
+  }
+`;
+
+export const FormRow = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+`;
+
+export const FormLabel = styled.span`
+  font-size: 1.2rem;
+  margin-right: 1.5rem;
+  font-weight: 700;
+  line-height: ${1.3 * LINE_HEIGHT_SCALE}rem;
 `;

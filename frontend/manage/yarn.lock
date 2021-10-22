@@ -4992,10 +4992,10 @@ cyclist@^1.0.1:
   resolved "https://registry.yarnpkg.com/cyclist/-/cyclist-1.0.1.tgz#596e9698fd0c80e12038c2b82d6eb1b35b6224d9"
   integrity sha1-WW6WmP0MgOEgOMK4LW6xs1tiJNk=
 
-darass-react@^1.2.2:
-  version "1.2.2"
-  resolved "https://registry.yarnpkg.com/darass-react/-/darass-react-1.2.2.tgz#609c3839febfa5ac158abdc73fd31ef9abb58dac"
-  integrity sha512-Re6QeHxovXBlr6wIJCy/B6Ncs9CVG2AAh66+fJ3WQzssG9FGDLn7bI53Ow0zSz9izgirNacvSm2UKIJmU3ONJQ==
+darass-react@^1.2.3:
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/darass-react/-/darass-react-1.2.3.tgz#e31a9caf061b5683253a35ee085d1a7ae648d781"
+  integrity sha512-7DdJo1vLkSDYaSJfy0gDZ+0foa0YWH0EA2eDvYtvFvuYRTlsCGOh1x4HOxkzt/Mij7MnZaJ8WyFduiavl2yDKQ==
   dependencies:
     react "^17.0.2"
 
