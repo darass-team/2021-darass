@@ -3,12 +3,20 @@ import { GetCommentsRequestParams, GetCommentsResponse, Comment } from "@/types/
 import { getAllComments } from "@/utils/api";
 import { useEffect } from "react";
 import { useQuery } from "simple-react-query";
+
+const compareComments = (prevComments: Comment[], currComments: Comment[]) => {
+  if (!prevComments) return false;
+
+  return prevComments.length === currComments.length;
+};
+
 export const useGetAllComments = ({ url, projectSecretKey, sortOption = "oldest" }: GetCommentsRequestParams) => {
   const { user } = useUserContext();
 
   const { data, isLoading, refetch, error, setData } = useQuery<GetCommentsResponse>({
     enabled: true,
-    query: () => getAllComments({ url, projectSecretKey, sortOption })
+    query: () => getAllComments({ url, projectSecretKey, sortOption }),
+    isEqualToPrevDataFunc: compareComments
   });
 
   useEffect(() => {

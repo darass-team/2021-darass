@@ -7,7 +7,6 @@ import throttling from "@/utils/throttle";
 export const useReplyModuleApp = () => {
   const [port, setPort] = useState<MessagePort>();
   const [receivedMessageFromReplyModal, setReceivedMessageFromReplyModal] = useState<MessageEvent["data"]>();
-  const { recentlyAlarmContent, hasNewAlarmOnRealTime, setHasNewAlarmOnRealTime } = useRecentlyAlarmWebSocket();
 
   const onMessageInitMessageChannel = ({ data, ports }: MessageEvent) => {
     if (data.type !== POST_MESSAGE_TYPE.INIT_MESSAGE_CHANNEL.REPLY_MODULE.RESPONSE_PORT) return;
@@ -44,5 +43,5 @@ export const useReplyModuleApp = () => {
     return () => window.removeEventListener("message", onMessageInitMessageChannel);
   }, []);
 
-  return { port, recentlyAlarmContent, hasNewAlarmOnRealTime, setHasNewAlarmOnRealTime, receivedMessageFromReplyModal };
+  return { port, receivedMessageFromReplyModal };
 };
