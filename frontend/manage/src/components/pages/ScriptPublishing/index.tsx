@@ -209,7 +209,16 @@ const ScriptPublishing = () => {
               </GuideStep>
 
               <GuideStep title="미리보기">
-                <ScriptContainer key={`${isDarkModePage}`} isDarkModePage={isDarkModePage}>
+                <ScriptContainer
+                  key={
+                    `${primaryColor}` +
+                    `${isShowSortOption}` +
+                    `${isAllowSocialLogin}` +
+                    `${isShowLogo}` +
+                    `${isDarkModePage}`
+                  }
+                  isDarkModePage={isDarkModePage}
+                >
                   <Darass
                     projectKey="Veo0nVY3H4aiNUt1"
                     darkMode={isDarkModePage}
