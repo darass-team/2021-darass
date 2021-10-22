@@ -12,27 +12,19 @@ import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
 import { useReplyModuleApp } from "./useReplyModuleApp";
 
-const getIsDarkModePageParam = () => {
+const getReplyModuleParams = () => {
   const urlParams = new URLSearchParams(window.location.search);
-  const isDarkModePageString = urlParams.get("darkMode");
 
-  return isDarkModePageString === "true" ? true : false;
-};
-
-const getPrimaryColor = () => {
-  const urlParams = new URLSearchParams(window.location.search);
+  const isDarkModePage = urlParams.get("darkMode") === "true" ? true : false;
   const primaryColor = decodeURIComponent(urlParams.get("primaryColor") || PALETTE.PRIMARY);
 
-  return primaryColor;
-};
-
-const getUiInfo = () => {
-  const urlParams = new URLSearchParams(window.location.search);
   const isShowSortOption = urlParams.get("isShowSortOption") === "true" ? true : false;
   const isAllowSocialLogin = urlParams.get("isAllowSocialLogin") === "true" ? true : false;
   const isShowLogo = urlParams.get("isShowLogo") === "true" ? true : false;
 
   return {
+    isDarkModePage,
+    primaryColor,
     isShowSortOption,
     isAllowSocialLogin,
     isShowLogo
@@ -40,9 +32,7 @@ const getUiInfo = () => {
 };
 
 const App = () => {
-  const isDarkModePage = getIsDarkModePageParam();
-  const primaryColor = getPrimaryColor();
-  const { isShowSortOption, isAllowSocialLogin, isShowLogo } = getUiInfo();
+  const { isDarkModePage, primaryColor, isShowSortOption, isAllowSocialLogin, isShowLogo } = getReplyModuleParams();
 
   const { user, logout, refetchUser, isLoading, isSuccess, accessToken, refetchAccessToken } = useUser();
 
