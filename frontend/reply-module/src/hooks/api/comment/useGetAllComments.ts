@@ -4,10 +4,11 @@ import { getAllComments } from "@/utils/api";
 import { useEffect } from "react";
 import { useQuery } from "simple-react-query";
 
-const compareComments = (prevComments: Comment[], currComments: Comment[]) => {
+const compareComments = (prevComments: GetCommentsResponse, currComments: GetCommentsResponse) => {
   if (!prevComments) return false;
+  console.log(prevComments, currComments);
 
-  return prevComments.length === currComments.length;
+  return prevComments.totalComment === currComments.totalComment;
 };
 
 export const useGetAllComments = ({ url, projectSecretKey, sortOption = "oldest" }: GetCommentsRequestParams) => {

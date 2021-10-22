@@ -24,15 +24,15 @@ const init = () => {
     return;
   }
 
-  const isDarkModePage = $darass.dataset.darkMode === "true" ? true : false;
+  const isDarkModePage = $darass.dataset.darkMode === "false" ? false : true;
 
   const primaryColor = $darass.dataset.primaryColor || "#0BC586";
 
-  const isShowSortOption = $darass.dataset.showSortOption === "true" ? true : false;
+  const isShowSortOption = $darass.dataset.showSortOption === "false" ? false : true;
 
-  const isAllowSocialLogin = $darass.dataset.allowSocialLogin === "true" ? true : false;
+  const isAllowSocialLogin = $darass.dataset.allowSocialLogin === "false" ? false : true;
 
-  const isShowLogo = $darass.dataset.showLogo === "true" ? true : false;
+  const isShowLogo = $darass.dataset.showLogo === "false" ? false : true;
 
   const $replyModuleIframe = createIframe(
     getReplyModuleURL({ projectKey, isDarkModePage, primaryColor, isShowSortOption, isAllowSocialLogin, isShowLogo }),
