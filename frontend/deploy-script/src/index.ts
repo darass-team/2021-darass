@@ -28,11 +28,11 @@ const init = () => {
 
   const primaryColor = $darass.dataset.primaryColor || "#0BC586";
 
-  const isShowSortOption = $darass.dataset.isShowSortOption === "true" ? true : false;
+  const isShowSortOption = $darass.dataset.showSortOption === "true" ? true : false;
 
-  const isAllowSocialLogin = $darass.dataset.isAllowSocialLogin === "true" ? true : false;
+  const isAllowSocialLogin = $darass.dataset.allowSocialLogin === "true" ? true : false;
 
-  const isShowLogo = $darass.dataset.isShowLogo === "true" ? true : false;
+  const isShowLogo = $darass.dataset.showLogo === "true" ? true : false;
 
   const $replyModuleIframe = createIframe(
     getReplyModuleURL({ projectKey, isDarkModePage, primaryColor, isShowSortOption, isAllowSocialLogin, isShowLogo }),

@@ -28,9 +28,9 @@ const getPrimaryColor = () => {
 
 const getUiInfo = () => {
   const urlParams = new URLSearchParams(window.location.search);
-  const isShowSortOption = urlParams.get("isShowSortOption");
-  const isAllowSocialLogin = urlParams.get("isAllowSocialLogin");
-  const isShowLogo = urlParams.get("isShowLogo");
+  const isShowSortOption = urlParams.get("isShowSortOption") === "true" ? true : false;
+  const isAllowSocialLogin = urlParams.get("isAllowSocialLogin") === "true" ? true : false;
+  const isShowLogo = urlParams.get("isShowLogo") === "true" ? true : false;
 
   return {
     isShowSortOption,

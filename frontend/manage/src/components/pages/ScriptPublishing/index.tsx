@@ -1,6 +1,5 @@
 import ScreenContainer from "@/components/@style/ScreenContainer";
 import BlogLogoButton from "@/components/atoms/Buttons/BlogLogoButton";
-import SubmitButton from "@/components/atoms/Buttons/SubmitButton";
 import CheckBox from "@/components/atoms/CheckBox";
 import DarkModeToggleButton from "@/components/molecules/DarkModeToggleButton";
 import GuideStep from "@/components/molecules/GuideStep";
@@ -10,7 +9,7 @@ import { REPLY_MODULE_DOMAIN } from "@/constants/domain";
 import { PALETTE } from "@/constants/styles/palette";
 import { useCopyButton, useDocumentTitle, useGetProject } from "@/hooks";
 import Darass from "darass-react";
-import { FormEvent, useState } from "react";
+import { useState } from "react";
 import { Redirect, useRouteMatch } from "react-router-dom";
 import { PrismLight as SyntaxHighlighter } from "react-syntax-highlighter";
 import js from "react-syntax-highlighter/dist/cjs/languages/prism/javascript";
