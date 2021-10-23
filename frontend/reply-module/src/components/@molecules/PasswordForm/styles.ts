@@ -24,7 +24,7 @@ export const PasswordInput = styled.input<{ isValidInput: Boolean }>`
   font-size: 1rem;
   line-height: 1.5rem;
 
-  color: ${({ theme: { isDarkModePage } }) => (isDarkModePage ? PALETTE.BLACK_700 : PALETTE.WHITE)};
+  color: ${PALETTE.BLACK_700};
 
   @media all and (min-width: 780px) {
     width: 17rem;
