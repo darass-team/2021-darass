@@ -15,20 +15,20 @@ import { useReplyModuleApp } from "./useReplyModuleApp";
 const getReplyModuleParams = () => {
   const urlParams = new URLSearchParams(window.location.search);
 
-  const isDarkModePage = urlParams.get("darkMode") === undefined ? false : urlParams.get("darkMode");
+  const isDarkModePage = urlParams.get("darkMode") === undefined ? "false" : urlParams.get("darkMode");
   const primaryColor = decodeURIComponent(urlParams.get("primaryColor") || PALETTE.PRIMARY);
 
-  const isShowSortOption = urlParams.get("isShowSortOption") === undefined ? true : urlParams.get("isShowSortOption");
+  const isShowSortOption = urlParams.get("isShowSortOption") === undefined ? "true" : urlParams.get("isShowSortOption");
   const isAllowSocialLogin =
-    urlParams.get("isAllowSocialLogin") === undefined ? true : urlParams.get("isAllowSocialLogin");
-  const isShowLogo = urlParams.get("isShowLogo") === undefined ? true : urlParams.get("isShowLogo");
+    urlParams.get("isAllowSocialLogin") === undefined ? "true" : urlParams.get("isAllowSocialLogin");
+  const isShowLogo = urlParams.get("isShowLogo") === undefined ? "true" : urlParams.get("isShowLogo");
 
   return {
-    isDarkModePage,
+    isDarkModePage: isDarkModePage === "true" ? true : false,
     primaryColor,
-    isShowSortOption,
-    isAllowSocialLogin,
-    isShowLogo
+    isShowSortOption: isShowSortOption === "true" ? true : false,
+    isAllowSocialLogin: isAllowSocialLogin === "true" ? true : false,
+    isShowLogo: isShowLogo === "true" ? true : false
   };
 };
 
