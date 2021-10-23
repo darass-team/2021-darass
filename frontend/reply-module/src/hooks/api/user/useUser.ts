@@ -30,7 +30,7 @@ const useGetAccessTokenApi = () => {
 };
 
 const compareUser = (prevUser?: User, currUser?: User) => {
-  return prevUser?.id === currUser?.id;
+  return prevUser?.id === currUser?.id && prevUser?.hasRecentAlarm === currUser?.hasRecentAlarm;
 };
 
 export const useUser = () => {
