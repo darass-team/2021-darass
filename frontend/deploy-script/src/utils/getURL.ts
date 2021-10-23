@@ -49,6 +49,11 @@ export const getReplyModuleURL = ({
   return replyModuleUrlWithQuery;
 };
 
-export const getModalUrl = () => {
-  return `${END_POINT}/modal.html`;
+export const getModalUrl = ({ primaryColor }: { primaryColor: string }) => {
+  const urlParams = new URLSearchParams(`${END_POINT}/modal.html` + "?");
+  urlParams.set("primaryColor", primaryColor);
+
+  const replyModalUrlWithQuery = decodeURIComponent(urlParams.toString());
+
+  return replyModalUrlWithQuery;
 };

@@ -38,7 +38,7 @@ const init = () => {
     getReplyModuleURL({ projectKey, isDarkModePage, primaryColor, isShowSortOption, isAllowSocialLogin, isShowLogo }),
     IFRAME_STYLE.REPLY_MODULE
   );
-  const $modalIframe = createIframe(getModalUrl(), IFRAME_STYLE.MODAL);
+  const $modalIframe = createIframe(getModalUrl({ primaryColor }), IFRAME_STYLE.MODAL);
   $replyModuleIframe.setAttribute("scrolling", "no");
 
   $darass.append($replyModuleIframe);
