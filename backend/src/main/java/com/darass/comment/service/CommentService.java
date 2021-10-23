@@ -161,6 +161,10 @@ public class CommentService {
         validateCommentDeletableByUser(user, adminUser, comment);
 
         commentRepository.deleteById(id);
+        if (comment.isSubComment()) {
+            Comment parent = comment.getParent();
+            parent.deleteSubComment(id);
+        }
     }
 
     public void toggleLike(Long id, User user) {

@@ -130,12 +130,20 @@ public class Comment extends BaseTimeEntity {
         this.commentLikes.remove(commentLike);
     }
 
+    public void deleteSubComment(Long id) {
+        subComments.removeIf(subComment -> subComment.isSameId(id));
+    }
+
     public void addCommentLike(CommentLike commentLike) {
         this.commentLikes.add(commentLike);
     }
 
     public boolean isSubComment() {
         return !Objects.isNull(this.parent);
+    }
+
+    public boolean isSameId(Long id) {
+        return this.id.equals(id);
     }
 
     public int getSubCommentSize() {
