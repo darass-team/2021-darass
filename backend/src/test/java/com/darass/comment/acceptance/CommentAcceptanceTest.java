@@ -297,6 +297,12 @@ class CommentAcceptanceTest extends AcceptanceTest {
         return subCommentPostResult;
     }
 
+    private CommentResponse 소셜_로그인_대댓글_등록됨_Response_반환(String content, String url, Long parentId) throws Exception {
+        String responseJson = 소셜_로그인_대댓글_등록됨(content, url, parentId, false).andReturn().getResponse()
+            .getContentAsString();
+        return new ObjectMapper().readValue(responseJson, CommentResponse.class);
+    }
+
     @DisplayName("소셜 로그인 유저가 댓글을 대댓글로 등록한다.")
     @Test
     void saveSubCommentLoginUser() throws Exception {
@@ -1706,6 +1712,35 @@ class CommentAcceptanceTest extends AcceptanceTest {
                     headerWithName("Authorization").description("관리자의 JWT - Bearer 토큰")
                 )
             ));
+    }
+
+    @DisplayName("관리자가 다른 유저의 대댓글을 삭제한다.")
+    @Test
+    void deleteAdminUser_subComment() throws Exception {
+        CommentResponse commentResponse = 소셜_로그인_댓글_등록됨_Response_반환("content1", "url");
+        Long commentId = commentResponse.getId();
+
+        CommentResponse subCommentResponse = 소셜_로그인_대댓글_등록됨_Response_반환("sub1", "url", commentId);
+        CommentResponse subCommentResponse2 = 소셜_로그인_대댓글_등록됨_Response_반환("sub2", "url", commentId);
+
+        mockMvc.perform(delete("/api/v1/comments/{id}", subCommentResponse2.getId())
+            .contentType(MediaType.APPLICATION_JSON)
+            .header("Authorization", "Bearer " + adminToken)
+            .header("Cookie", "refreshToken=refreshToken"))
+            .andExpect(status().isNoContent())
+            .andDo(document("api/v1/comments/delete/success-admin-user",
+                requestHeaders(
+                    headerWithName("Authorization").description("관리자의 JWT - Bearer 토큰")
+                )
+            ));
+
+        mockMvc.perform(get("/api/v1/comments")
+            .header("Cookie", "refreshToken=refreshToken")
+            .contentType(MediaType.APPLICATION_JSON)
+            .param("sortOption", "LATEST")
+            .param("url", "url")
+            .param("projectKey", secretKey))
+            .andExpect(status().isOk());
     }
 
     @DisplayName("비로그인 유저는 남의 댓글을 삭제할 수 없다.")
