@@ -14,7 +14,7 @@
 사용자에게 필요한 댓글 기능과 함께 운영에 필요한 댓글 통계 및 관리 기능도 제공합니다.
 
 ## 🐤 Demo
-- [다라쓰 체험해보기](https://darass-test.tistory.com/1)
+- [다라쓰 체험해보기](https://woowacourse-darass.tistory.com/1)
 
 - [다라쓰 시작하기](https://darass.co.kr)
 
