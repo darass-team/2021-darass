@@ -1,13 +1,14 @@
 import { useUserContext } from "@/hooks/contexts/useUserContext";
 import { GetCommentsRequestParams, GetCommentsResponse, Comment } from "@/types/comment";
 import { getAllComments } from "@/utils/api";
+import { deepObjectEqual } from "@/utils/deepEqual";
 import { useEffect } from "react";
 import { useQuery } from "simple-react-query";
 
 const compareComments = (prevComments: GetCommentsResponse, currComments: GetCommentsResponse) => {
   if (!prevComments) return false;
 
-  return prevComments.totalComment === currComments.totalComment;
+  return deepObjectEqual(prevComments, currComments);
 };
 
 export const useGetAllComments = ({ url, projectSecretKey, sortOption = "oldest" }: GetCommentsRequestParams) => {
