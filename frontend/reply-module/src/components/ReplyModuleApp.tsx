@@ -15,12 +15,13 @@ import { useReplyModuleApp } from "./useReplyModuleApp";
 const getReplyModuleParams = () => {
   const urlParams = new URLSearchParams(window.location.search);
 
-  const isDarkModePage = urlParams.get("darkMode") === undefined ? false : true;
+  const isDarkModePage = urlParams.get("darkMode") === undefined ? false : urlParams.get("darkMode");
   const primaryColor = decodeURIComponent(urlParams.get("primaryColor") || PALETTE.PRIMARY);
 
-  const isShowSortOption = urlParams.get("isShowSortOption") === undefined ? true : false;
-  const isAllowSocialLogin = urlParams.get("isAllowSocialLogin") === undefined ? true : false;
-  const isShowLogo = urlParams.get("isShowLogo") === undefined ? true : false;
+  const isShowSortOption = urlParams.get("isShowSortOption") === undefined ? true : urlParams.get("isShowSortOption");
+  const isAllowSocialLogin =
+    urlParams.get("isAllowSocialLogin") === undefined ? true : urlParams.get("isAllowSocialLogin");
+  const isShowLogo = urlParams.get("isShowLogo") === undefined ? true : urlParams.get("isShowLogo");
 
   return {
     isDarkModePage,
