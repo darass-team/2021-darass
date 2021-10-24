@@ -4,7 +4,6 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -103,17 +102,5 @@ class ControllerAdviceTest extends SpringContainerTest {
             .param("guestUserId", "100")
             .param("guestUserPassword", "password"))
             .andExpect(status().isNotFound());
-    }
-
-    @DisplayName("handleException 메서드는 Exception 예외가 발생하면 http 응답코드 500을 반환한다.")
-    @Test
-    void handleException() throws Exception {
-        mockMvc = MockMvcBuilders
-            .standaloneSetup(oAuthController)
-            .setControllerAdvice(new ControllerAdvice())
-            .build();
-
-        mockMvc.perform(get("/api/v1/login/oauth"))
-            .andExpect(status().isInternalServerError());
     }
 }

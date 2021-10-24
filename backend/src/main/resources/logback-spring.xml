@@ -27,29 +27,6 @@
     </root>
   </springProfile>
 
-  <springProfile name="develop">
-    <springProperty name="SLACK_WEBHOOK_URI" source="logging.slack.webhook-uri"/>
-    <appender class="com.github.maricn.logback.SlackAppender" name="SLACK">
-      <colorCoding>true</colorCoding>
-      <iconEmoji>:stuck_out_tongue_winking_eye:</iconEmoji>
-      <layout class="ch.qos.logback.classic.PatternLayout">
-        <pattern>%msg %n</pattern>
-      </layout>
-      <username>Cake-Server-log</username>
-      <webhookUri>${SLACK_WEBHOOK_URI}</webhookUri>
-    </appender>
-    <appender class="ch.qos.logback.classic.AsyncAppender" name="ASYNC_SLACK">
-      <appender-ref ref="SLACK"/>
-      <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-        <level>ERROR</level>
-      </filter>
-    </appender>
-
-    <root level="info">
-      <appender-ref ref="ASYNC_SLACK"/>
-    </root>
-  </springProfile>
-
   <springProfile name="prod, develop">
     <appender class="ch.qos.logback.core.rolling.RollingFileAppender" name="File">
       <encoder>
@@ -92,29 +69,10 @@
 <!--      <encoder class="net.logstash.logback.encoder.LogstashEncoder"/>-->
 <!--    </appender>-->
 
-<!--    <appender class="com.github.maricn.logback.SlackAppender" name="SLACK">-->
-<!--      <colorCoding>true</colorCoding>-->
-<!--      <iconEmoji>:stuck_out_tongue_winking_eye:</iconEmoji>-->
-<!--      <layout class="ch.qos.logback.classic.PatternLayout">-->
-<!--        <pattern>%msg %n</pattern>-->
-<!--      </layout>-->
-<!--      <username>Cake-Server-log</username>-->
-<!--      <webhookUri>${SLACK_WEBHOOK_URI}</webhookUri>-->
-<!--    </appender>-->
-<!--    <appender class="ch.qos.logback.classic.AsyncAppender" name="ASYNC_SLACK">-->
-<!--      <appender-ref ref="SLACK"/>-->
-<!--      <filter class="ch.qos.logback.classic.filter.ThresholdFilter">-->
-<!--        <level>ERROR</level>-->
-<!--      </filter>-->
-<!--    </appender>-->
-
     <root level="info">
       <appender-ref ref="File"/>
       <appender-ref ref="ErrorFile"/>
 <!--      <appender-ref ref="stash"/>-->
-<!--      <appender-ref ref="ASYNC_SLACK"/>-->
     </root>
-
-    <springProperty name="SLACK_WEBHOOK_URI" source="logging.slack.webhook-uri"/>
   </springProfile>
 </configuration>
