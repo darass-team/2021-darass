@@ -21,11 +21,11 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.darass.SpringContainerTest;
 import com.darass.auth.infrastructure.JwtTokenProvider;
 import com.darass.comment.dto.CommentCreateRequest;
 import com.darass.comment.dto.CommentResponse;
 import com.darass.commentalarm.domain.CommentAlarmMachine;
-import com.darass.AcceptanceTest;
 import com.darass.exception.ExceptionWithMessageAndCode;
 import com.darass.exception.dto.ExceptionResponse;
 import com.darass.project.domain.Project;
@@ -55,7 +55,7 @@ import org.springframework.web.multipart.MultipartFile;
 //TODO: user 필드에 추가된 빨간점 알람. flyway 반영
 
 @DisplayName("User 인수테스트")
-class UserAcceptanceTest extends AcceptanceTest { //TODO: 로그이웃 기능 체크
+class UserAcceptanceTest extends SpringContainerTest { //TODO: 로그이웃 기능 체크
 
     private static final String API_URL = "/api/v1/users";
 

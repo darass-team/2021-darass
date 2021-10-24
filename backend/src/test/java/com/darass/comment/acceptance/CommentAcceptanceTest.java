@@ -21,6 +21,8 @@ import static org.springframework.restdocs.request.RequestDocumentation.requestP
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.darass.MockSpringContainerTest;
+import com.darass.SpringContainerTest;
 import com.darass.auth.infrastructure.JwtTokenProvider;
 import com.darass.comment.dto.CommentCreateRequest;
 import com.darass.comment.dto.CommentReadSecretCommentRequest;
@@ -28,7 +30,6 @@ import com.darass.comment.dto.CommentResponse;
 import com.darass.comment.dto.CommentResponses;
 import com.darass.comment.dto.CommentUpdateRequest;
 import com.darass.commentalarm.domain.CommentAlarmMachine;
-import com.darass.AcceptanceTest;
 import com.darass.exception.ExceptionWithMessageAndCode;
 import com.darass.project.domain.Project;
 import com.darass.project.repository.ProjectRepository;
@@ -48,7 +49,7 @@ import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.ResultActions;
 
 @DisplayName("Comment 인수 테스트")
-class CommentAcceptanceTest extends AcceptanceTest {
+class CommentAcceptanceTest extends MockSpringContainerTest {
 
     @Autowired
     JwtTokenProvider jwtTokenProvider;
@@ -58,9 +59,6 @@ class CommentAcceptanceTest extends AcceptanceTest {
 
     @Autowired
     private ProjectRepository projects;
-
-    @MockBean
-    private CommentAlarmMachine commentAlarmMachine;
 
     private SocialLoginUser admin;
 

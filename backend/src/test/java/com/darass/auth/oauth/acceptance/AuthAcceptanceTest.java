@@ -10,12 +10,13 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.requestF
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.darass.MockSpringContainerTest;
+import com.darass.SpringContainerTest;
 import com.darass.auth.domain.KaKaoOAuthProvider;
 import com.darass.auth.domain.OAuthProviderFactory;
 import com.darass.auth.dto.AccessTokenResponse;
 import com.darass.auth.dto.TokenRequest;
 import com.darass.auth.infrastructure.JwtTokenProvider;
-import com.darass.AcceptanceTest;
 import com.darass.exception.ExceptionWithMessageAndCode;
 import com.darass.exception.dto.ExceptionResponse;
 import com.darass.user.domain.SocialLoginUser;
@@ -36,16 +37,7 @@ import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.ResultActions;
 
 @DisplayName("Auth 인수 테스트")
-class AuthAcceptanceTest extends AcceptanceTest {
-
-    @SpyBean(name = "jwtTokenProvider")
-    private JwtTokenProvider jwtTokenProvider;
-
-    @MockBean
-    private OAuthProviderFactory oAuthProviderFactory;
-
-    @MockBean
-    private KaKaoOAuthProvider kaKaoOAuthProvider;
+class AuthAcceptanceTest extends MockSpringContainerTest {
 
     private String authorizationCode;
 

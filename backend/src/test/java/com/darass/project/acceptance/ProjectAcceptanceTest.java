@@ -15,8 +15,8 @@ import static org.springframework.restdocs.request.RequestDocumentation.paramete
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.darass.SpringContainerTest;
 import com.darass.auth.infrastructure.JwtTokenProvider;
-import com.darass.AcceptanceTest;
 import com.darass.project.domain.Project;
 import com.darass.project.dto.ProjectCreateRequest;
 import com.darass.project.dto.ProjectResponse;
@@ -36,7 +36,7 @@ import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.ResultActions;
 
 @DisplayName("Project 인수 테스트")
-class ProjectAcceptanceTest extends AcceptanceTest {
+class ProjectAcceptanceTest extends SpringContainerTest {
 
     private final static String JEKYLL_PROJECT_NAME = "지킬 블로그 프로젝트";
 
