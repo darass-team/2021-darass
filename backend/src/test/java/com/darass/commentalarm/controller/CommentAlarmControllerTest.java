@@ -12,13 +12,14 @@ import static org.springframework.restdocs.request.RequestDocumentation.paramete
 import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.darass.MockSpringContainerTest;
+import com.darass.SpringContainerTest;
 import com.darass.auth.service.OAuthService;
 import com.darass.comment.domain.Comment;
 import com.darass.commentalarm.domain.CommentAlarm;
 import com.darass.commentalarm.domain.CommentAlarmType;
 import com.darass.commentalarm.dto.CommentAlarmResponse;
 import com.darass.commentalarm.service.CommentAlarmService;
-import com.darass.AcceptanceTest;
 import com.darass.user.domain.SocialLoginUser;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -34,12 +35,18 @@ import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.ResultActions;
 
 @DisplayName("CommentAlarm 인수 테스트")
-class CommentAlarmControllerTest extends AcceptanceTest {
+class CommentAlarmControllerTest extends MockSpringContainerTest {
 
     public static final String ACCESS_TOKEN = "accessToken";
     public static final String REFRESH_TOKEN = "refreshToken";
     private static final SocialLoginUser SENDER;
     private static final SocialLoginUser RECEIVER;
+
+    @MockBean
+    CommentAlarmService mockCommentAlarmService;
+
+    @MockBean
+    OAuthService mockOAuthService;
 
     static {
         SENDER = SocialLoginUser
@@ -67,14 +74,9 @@ class CommentAlarmControllerTest extends AcceptanceTest {
             .build();
     }
 
-    @MockBean
-    private CommentAlarmService commentAlarmService;
-    @MockBean
-    private OAuthService oAuthService;
-
     @BeforeEach
     void setUp() {
-        given(oAuthService.findSocialLoginUserByAccessToken(ACCESS_TOKEN)).willReturn(SENDER);
+        given(mockOAuthService.findSocialLoginUserByAccessToken(ACCESS_TOKEN)).willReturn(SENDER);
     }
 
     @DisplayName("유저의 알람 내역을 조회한다.")
@@ -101,8 +103,7 @@ class CommentAlarmControllerTest extends AcceptanceTest {
         CommentAlarmResponse commentAlarmResponse = CommentAlarmResponse.of(commentAlarm);
         commentAlarmResponses.add(commentAlarmResponse);
 
-        given(commentAlarmService.findAllCreatedDateBetween(any(), any(), any()))
-            .willReturn(commentAlarmResponses);
+        given(mockCommentAlarmService.findAllCreatedDateBetween(any(), any(), any())).willReturn(commentAlarmResponses);
 
         //when
         ResultActions resultActions = this.mockMvc.perform(

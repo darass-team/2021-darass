@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
+import com.darass.MockSpringContainerTest;
 import com.darass.auth.domain.KaKaoOAuthProvider;
 import com.darass.auth.domain.OAuthProviderFactory;
 import com.darass.auth.dto.TokenRequest;
@@ -23,7 +24,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 
 @DisplayName("OAuthService 클래스")
-class OAuthServiceTest extends SpringContainerTest {
+class OAuthServiceTest extends MockSpringContainerTest {
 
     private static final String AUTHORIZATION_CODE = "LiCNQrImAFxi3LJAdt9ipGMSeOhmR4hw33Ao9cx6jkvW5w";
 
@@ -32,15 +33,6 @@ class OAuthServiceTest extends SpringContainerTest {
 
     @Autowired
     private OAuthService oAuthService;
-
-    @SpyBean
-    private SocialLoginUserRepository socialLoginUserRepository;
-
-    @MockBean
-    private OAuthProviderFactory oAuthProviderFactory;
-
-    @MockBean
-    private KaKaoOAuthProvider kaKaoOAuthProvider;
 
     private SocialLoginUser socialLoginUser;
 
