@@ -3,7 +3,7 @@ package com.darass.project.service;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
-import com.darass.darass.SpringContainerTest;
+import com.darass.SpringContainerTest;
 import com.darass.exception.ExceptionWithMessageAndCode;
 import com.darass.project.domain.Project;
 import com.darass.project.dto.ProjectCreateRequest;

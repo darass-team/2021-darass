@@ -7,7 +7,7 @@ import com.darass.auth.domain.GithubOAuthProvider;
 import com.darass.auth.domain.KaKaoOAuthProvider;
 import com.darass.auth.domain.NaverOAuthProvider;
 import com.darass.auth.domain.OAuthProviderFactory;
-import com.darass.darass.SpringContainerTest;
+import com.darass.SpringContainerTest;
 import com.darass.exception.ExceptionWithMessageAndCode;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

@@ -25,7 +25,7 @@ import com.darass.auth.infrastructure.JwtTokenProvider;
 import com.darass.comment.dto.CommentCreateRequest;
 import com.darass.comment.dto.CommentResponse;
 import com.darass.commentalarm.domain.CommentAlarmMachine;
-import com.darass.darass.AcceptanceTest;
+import com.darass.AcceptanceTest;
 import com.darass.exception.ExceptionWithMessageAndCode;
 import com.darass.exception.dto.ExceptionResponse;
 import com.darass.project.domain.Project;

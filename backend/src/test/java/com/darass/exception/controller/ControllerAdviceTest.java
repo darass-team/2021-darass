@@ -14,7 +14,7 @@ import com.darass.auth.dto.TokenRequest;
 import com.darass.auth.service.OAuthService;
 import com.darass.comment.controller.CommentController;
 import com.darass.comment.dto.CommentCreateRequest;
-import com.darass.darass.SpringContainerTest;
+import com.darass.SpringContainerTest;
 import com.darass.exception.ExceptionWithMessageAndCode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;

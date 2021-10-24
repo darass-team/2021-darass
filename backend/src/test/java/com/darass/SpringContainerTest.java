@@ -1,6 +1,5 @@
-package com.darass.darass;
+package com.darass;
 
-import com.darass.WebSocketTestConfig;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.parallel.Isolated;
 import org.springframework.beans.factory.annotation.Autowired;

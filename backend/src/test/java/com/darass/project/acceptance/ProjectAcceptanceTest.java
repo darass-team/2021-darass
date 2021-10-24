@@ -16,7 +16,7 @@ import static org.springframework.restdocs.request.RequestDocumentation.pathPara
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.darass.auth.infrastructure.JwtTokenProvider;
-import com.darass.darass.AcceptanceTest;
+import com.darass.AcceptanceTest;
 import com.darass.project.domain.Project;
 import com.darass.project.dto.ProjectCreateRequest;
 import com.darass.project.dto.ProjectResponse;

@@ -7,7 +7,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import com.darass.darass.SpringContainerTest;
+import com.darass.SpringContainerTest;
 import com.darass.exception.httpbasicexception.BadRequestException;
 import java.io.IOException;
 import org.junit.jupiter.api.DisplayName;

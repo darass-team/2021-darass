@@ -1,4 +1,4 @@
-package com.darass.darass;
+package com.darass;
 
 import com.google.common.base.CaseFormat;
 import java.util.List;
@@ -39,7 +39,4 @@ public class DatabaseCleaner implements InitializingBean {
         entityManager.createNativeQuery("SET REFERENTIAL_INTEGRITY TRUE").executeUpdate();
     }
 
-    public boolean isInit() {
-        return tableNames.isEmpty();
-    }
 }

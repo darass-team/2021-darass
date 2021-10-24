@@ -18,7 +18,7 @@ import com.darass.commentalarm.domain.CommentAlarm;
 import com.darass.commentalarm.domain.CommentAlarmType;
 import com.darass.commentalarm.dto.CommentAlarmResponse;
 import com.darass.commentalarm.service.CommentAlarmService;
-import com.darass.darass.AcceptanceTest;
+import com.darass.AcceptanceTest;
 import com.darass.user.domain.SocialLoginUser;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
