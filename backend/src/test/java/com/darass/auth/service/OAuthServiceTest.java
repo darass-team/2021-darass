@@ -10,7 +10,7 @@ import com.darass.auth.domain.OAuthProviderFactory;
 import com.darass.auth.dto.TokenRequest;
 import com.darass.auth.dto.TokenResponse;
 import com.darass.auth.infrastructure.JwtTokenProvider;
-import com.darass.darass.SpringContainerTest;
+import com.darass.SpringContainerTest;
 import com.darass.exception.ExceptionWithMessageAndCode;
 import com.darass.user.domain.SocialLoginUser;
 import com.darass.user.repository.SocialLoginUserRepository;

@@ -3,7 +3,7 @@ package com.darass.auth.infrastructure;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 
-import com.darass.darass.SpringContainerTest;
+import com.darass.SpringContainerTest;
 import com.darass.exception.ExceptionWithMessageAndCode;
 import com.darass.user.domain.SocialLoginUser;
 import org.junit.jupiter.api.Assertions;

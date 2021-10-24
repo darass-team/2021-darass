@@ -6,7 +6,7 @@ import com.darass.comment.domain.Comment;
 import com.darass.comment.repository.CommentRepository;
 import com.darass.commentalarm.domain.CommentAlarm;
 import com.darass.commentalarm.domain.CommentAlarmType;
-import com.darass.darass.SpringContainerTest;
+import com.darass.SpringContainerTest;
 import com.darass.user.domain.SocialLoginUser;
 import java.time.LocalDateTime;
 import java.util.List;

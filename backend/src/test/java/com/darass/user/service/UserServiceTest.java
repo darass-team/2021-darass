@@ -6,7 +6,7 @@ import com.darass.comment.domain.Comment;
 import com.darass.comment.domain.CommentLike;
 import com.darass.comment.repository.CommentLikeRepository;
 import com.darass.comment.repository.CommentRepository;
-import com.darass.darass.SpringContainerTest;
+import com.darass.SpringContainerTest;
 import com.darass.exception.ExceptionWithMessageAndCode;
 import com.darass.project.domain.Project;
 import com.darass.project.repository.ProjectRepository;

@@ -27,7 +27,7 @@ import com.darass.commentalarm.domain.CommentAlarm;
 import com.darass.commentalarm.domain.CommentAlarmMachine;
 import com.darass.commentalarm.domain.CommentAlarmType;
 import com.darass.commentalarm.repository.CommentAlarmRepository;
-import com.darass.darass.SpringContainerTest;
+import com.darass.SpringContainerTest;
 import com.darass.exception.httpbasicexception.BadRequestException;
 import com.darass.exception.httpbasicexception.NotFoundException;
 import com.darass.exception.httpbasicexception.UnauthorizedException;

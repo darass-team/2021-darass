@@ -28,7 +28,7 @@ import com.darass.comment.dto.CommentResponse;
 import com.darass.comment.dto.CommentResponses;
 import com.darass.comment.dto.CommentUpdateRequest;
 import com.darass.commentalarm.domain.CommentAlarmMachine;
-import com.darass.darass.AcceptanceTest;
+import com.darass.AcceptanceTest;
 import com.darass.exception.ExceptionWithMessageAndCode;
 import com.darass.project.domain.Project;
 import com.darass.project.repository.ProjectRepository;

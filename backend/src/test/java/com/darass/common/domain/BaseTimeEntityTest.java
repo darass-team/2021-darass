@@ -2,7 +2,7 @@ package com.darass.common.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.darass.darass.SpringContainerTest;
+import com.darass.SpringContainerTest;
 import com.darass.user.domain.SocialLoginUser;
 import com.darass.user.repository.SocialLoginUserRepository;
 import java.time.LocalDateTime;

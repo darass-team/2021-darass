@@ -7,7 +7,7 @@ import com.darass.commentalarm.domain.CommentAlarm;
 import com.darass.commentalarm.domain.CommentAlarmType;
 import com.darass.commentalarm.dto.CommentAlarmResponse;
 import com.darass.commentalarm.repository.CommentAlarmRepository;
-import com.darass.darass.SpringContainerTest;
+import com.darass.SpringContainerTest;
 import com.darass.user.domain.SocialLoginUser;
 import java.time.LocalDate;
 import java.time.LocalTime;

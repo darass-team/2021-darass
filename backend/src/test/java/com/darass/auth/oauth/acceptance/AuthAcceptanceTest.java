@@ -15,7 +15,7 @@ import com.darass.auth.domain.OAuthProviderFactory;
 import com.darass.auth.dto.AccessTokenResponse;
 import com.darass.auth.dto.TokenRequest;
 import com.darass.auth.infrastructure.JwtTokenProvider;
-import com.darass.darass.AcceptanceTest;
+import com.darass.AcceptanceTest;
 import com.darass.exception.ExceptionWithMessageAndCode;
 import com.darass.exception.dto.ExceptionResponse;
 import com.darass.user.domain.SocialLoginUser;

@@ -2,7 +2,7 @@ package com.darass.auth.infrastructure;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.darass.darass.SpringContainerTest;
+import com.darass.SpringContainerTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
