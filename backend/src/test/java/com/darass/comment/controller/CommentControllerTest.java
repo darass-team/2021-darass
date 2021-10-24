@@ -3,15 +3,15 @@ package com.darass.comment.controller;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.darass.auth.service.OAuthService;
-import com.darass.comment.dto.CommentReadSecretCommentRequest;
 import com.darass.comment.dto.CommentResponse;
 import com.darass.comment.service.CommentService;
 import com.darass.exception.httpbasicexception.UnauthorizedException;
+import com.darass.slack.SlackMessageSender;
 import com.darass.user.domain.GuestUser;
 import com.darass.user.domain.SocialLoginUser;
 import com.darass.user.dto.UserResponse;
@@ -60,12 +60,14 @@ public class CommentControllerTest {
     @MockBean
     private OAuthService oAuthService;
 
+    @MockBean
+    private SlackMessageSender slackMessageSender;
+
     @DisplayName("비로그인 유저가 비밀 댓글을 조회한다.")
     @Test
     void readSecretComment_guest_user() throws Exception {
         Long commentId = 1L;
         GuestUser user = new GuestUser();
-
         given(commentService.readSecretComment(eq(commentId), eq(user), any()))
                 .willReturn(new CommentResponse(1L, "content", "url", true, true, LocalDateTime.now(), LocalDateTime.now(),
                         null, UserResponse.of(socialLoginUser), null));

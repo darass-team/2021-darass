@@ -5,7 +5,9 @@ import com.darass.exception.httpbasicexception.BadRequestException;
 import com.darass.exception.httpbasicexception.ConflictException;
 import com.darass.exception.httpbasicexception.NotFoundException;
 import com.darass.exception.httpbasicexception.UnauthorizedException;
+import com.darass.slack.SlackMessageSender;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -15,6 +17,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @Slf4j
 @RestControllerAdvice
 public class ControllerAdvice {
+    @Autowired
+    private SlackMessageSender slackMessageSender;
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -50,6 +54,7 @@ public class ControllerAdvice {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ExceptionResponse handleException(Exception e) {
         log.error(e.getMessage(), e);
+        slackMessageSender.send(e);
         return new ExceptionResponse(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR.value());
     }
 }
