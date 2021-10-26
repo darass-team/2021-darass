@@ -23,16 +23,18 @@ export const useGetSecretComment = ({ commentId, guestUserId, guestUserPassword 
     if (!data) return;
 
     const newComments: Comment[] = comments?.reduce((acc: Comment[], comment) => {
-      comment.subComments.forEach(subComment => {
-        if (subComment.id === data.id) {
-          subComment.content = data.content;
-          subComment.readable = data.readable;
-        }
-      });
-
-      if (comment.id === data.id) {
-        comment.content = data.content;
-        comment.readable = data.readable;
+      const isRootComment = comment.id === data.id;
+      if (isRootComment) {
+        comment.readable = true;
+        comment.subComments.forEach(subComment => {
+          subComment.readable = true;
+        });
+      } else {
+        comment.subComments.forEach(subComment => {
+          if (subComment.id === data.id) {
+            subComment.readable = true;
+          }
+        });
       }
 
       acc.push(comment);
