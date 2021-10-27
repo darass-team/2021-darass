@@ -1,4 +1,4 @@
-import alarm from "@/assets/png/alarm.png";
+import { PNG } from "@/constants/clientAssets";
 import { Container, Dot, Img } from "./styles";
 
 export type Size = "SM" | "MD" | "LG";
@@ -12,7 +12,7 @@ export interface Props {
 const Alarm = ({ hasUnReadNotification = false, size = "SM", onClick, ...props }: Props) => {
   return (
     <Container size={size} onClick={onClick} {...props}>
-      <Img src={alarm} alt="notification" hasUnReadNotification={hasUnReadNotification} />
+      <Img src={PNG.ALARM} alt="notification" hasUnReadNotification={hasUnReadNotification} />
       {hasUnReadNotification && <Dot />}
     </Container>
   );

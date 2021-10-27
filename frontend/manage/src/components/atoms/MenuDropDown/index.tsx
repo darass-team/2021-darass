@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
-import arrowDown from "@/assets/svg/arrow-down.svg";
 import { ROUTE } from "@/constants";
 import { MenuType } from "@/types/menu";
 import { Container, MainTitle } from "./styles";
+import { SVG } from "@/constants/clientAssets";
 
 export interface Props extends MenuType {
   subMenus?: Props[];
@@ -24,7 +24,7 @@ const MenuDropDown = ({ name, route, subMenus = [], depth = 0 }: Props) => {
     <Container isDropDown={isDropDown}>
       <MainTitle onClick={onClickMenu} isDropDown={isDropDown} depth={depth}>
         {name}
-        {hasSubMenus && <img src={arrowDown} alt={`${name} 메뉴 열기 버튼`} />}
+        {hasSubMenus && <img src={SVG.ARROW_DOWN} alt={`${name} 메뉴 열기 버튼`} />}
       </MainTitle>
 
       {isDropDown !== null &&

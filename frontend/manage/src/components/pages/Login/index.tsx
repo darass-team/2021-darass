@@ -1,6 +1,4 @@
-import loginPageBackground from "@/assets/png/loginpage_background.png";
-import naverLogo from "@/assets/png/naver.png";
-import kakaoLogo from "@/assets/svg/kakao.svg";
+import { PNG, SVG } from "@/constants/clientAssets";
 import { OAUTH_URL } from "@/constants/oauth";
 import { useDocumentTitle, useScrollFadeInOut } from "@/hooks";
 import { Container, KakaoLoginButton, MainText, NaverLoginButton, SectionContainer } from "./styles";
@@ -30,7 +28,7 @@ const Login = () => {
   };
 
   return (
-    <SectionContainer bgImage={loginPageBackground}>
+    <SectionContainer bgImage={PNG.LOGIN_PAGE_BACKGROUND}>
       <Container>
         <MainText {...animationRefs.introductionText}>
           반갑습니다
@@ -39,11 +37,11 @@ const Login = () => {
         </MainText>
 
         <KakaoLoginButton onClick={() => onLogin("KAKAO")} {...animationRefs.kakaoLoginButton}>
-          <img src={kakaoLogo} alt="kakao login icon" />
+          <img src={SVG.KAKAO} alt="kakao login icon" />
           <span>카카오로 로그인</span>
         </KakaoLoginButton>
         <NaverLoginButton onClick={() => onLogin("NAVER")} {...animationRefs.naverLoginButton}>
-          <img src={naverLogo} alt="naver login icon" />
+          <img src={PNG.NAVER_LOGO} alt="naver login icon" />
           <span>네이버로 로그인</span>
         </NaverLoginButton>
       </Container>

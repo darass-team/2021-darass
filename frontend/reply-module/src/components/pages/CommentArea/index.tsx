@@ -1,5 +1,4 @@
-import kakaoTalkIcon from "@/assets/png/kakaotalk.png";
-import naverIcon from "@/assets/png/naver.png";
+import { PNG } from "@/constants/clientAssets";
 import Avatar from "@/components/@atoms/Avatar";
 import CommentInput from "@/components/@molecules/CommentInput";
 import Footer from "@/components/@molecules/Footer";
@@ -145,11 +144,11 @@ const CommentArea = () => {
               ) : (
                 <>
                   <LoginMethodWrapper onClick={() => onLogin("KAKAO")}>
-                    <Avatar size="SM" imageURL={kakaoTalkIcon} alt="카카오톡 로그인 이미지" />
+                    <Avatar size="SM" imageURL={PNG.KAKAO_LOGO} alt="카카오톡 로그인 이미지" />
                     <LoginMethod>카카오</LoginMethod>
                   </LoginMethodWrapper>
                   <LoginMethodWrapper onClick={() => onLogin("NAVER")}>
-                    <Avatar size="SM" imageURL={naverIcon} alt="네아버 로그인 이미지" />
+                    <Avatar size="SM" imageURL={PNG.NAVER_LOGO} alt="네아버 로그인 이미지" />
                     <LoginMethod>네이버</LoginMethod>
                   </LoginMethodWrapper>
                 </>

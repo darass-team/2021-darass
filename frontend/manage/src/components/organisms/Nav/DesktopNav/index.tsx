@@ -1,10 +1,9 @@
-import kakaoTalkIcon from "@/assets/png/kakaotalk.png";
-import naverIcon from "@/assets/png/naver.png";
 import Avatar from "@/components/atoms/Avatar";
 import Logo from "@/components/atoms/Logo";
 import AlarmDropDown from "@/components/molecules/AlarmDropDown";
 import UserAvatarOption from "@/components/molecules/UserAvatarOption";
 import { ROUTE } from "@/constants";
+import { PNG } from "@/constants/clientAssets";
 import { OAUTH_URL } from "@/constants/oauth";
 import { PALETTE } from "@/constants/styles/palette";
 import { useEditUser, useGetAlarmContents } from "@/hooks";
@@ -98,11 +97,11 @@ const DesktopNav = ({ menuList }: Props) => {
               ) : (
                 <>
                   <LoginMethodWrapper onClick={() => onLogin("KAKAO")}>
-                    <Avatar size="SM" imageURL={kakaoTalkIcon} alt="카카오톡 로그인 이미지" />
+                    <Avatar size="SM" imageURL={PNG.KAKAO_LOGO} alt="카카오톡 로그인 이미지" />
                     <LoginMethod>카카오</LoginMethod>
                   </LoginMethodWrapper>
                   <LoginMethodWrapper onClick={() => onLogin("NAVER")}>
-                    <Avatar size="SM" imageURL={naverIcon} alt="네이버 로그인 이미지" />
+                    <Avatar size="SM" imageURL={PNG.NAVER_LOGO} alt="네이버 로그인 이미지" />
                     <LoginMethod>네이버</LoginMethod>
                   </LoginMethodWrapper>
                 </>

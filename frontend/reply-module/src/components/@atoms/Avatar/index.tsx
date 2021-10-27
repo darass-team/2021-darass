@@ -1,6 +1,6 @@
-import defaultUserImage from "@/assets/svg/default-user-image.svg";
 import { MouseEventHandler } from "react";
 import { Container } from "./styles";
+import { SVG } from "@/constants/clientAssets";
 
 export type Size = "SM" | "MD" | "LG";
 
@@ -14,7 +14,7 @@ export interface Props {
 const Avatar = ({ imageURL, size = "MD", onClick, alt = "avatar", ...props }: Props) => {
   return (
     <Container
-      src={imageURL ? imageURL : defaultUserImage}
+      src={imageURL ? imageURL : SVG.DEFAULT_USER_IMAGE}
       size={size}
       onClick={onClick}
       alt={alt}

@@ -1,8 +1,3 @@
-import homeBackgroundImage from "@/assets/png/home_background_image.png";
-import homeBackgroundImage2 from "@/assets/png/home_background_image2.png";
-import phoneSmall from "@/assets/png/phone_small.png";
-import wooteco from "@/assets/png/wooteco.png";
-import scrollDownButton from "@/assets/svg/scroll-down.svg";
 import TypingText from "@/components/atoms/TypingText";
 import { ROUTE } from "@/constants";
 import { useDocumentTitle, useScrollFadeInOut } from "@/hooks";
@@ -23,6 +18,7 @@ import {
   TextContentContainer
 } from "./styles";
 import { useUserContext } from "@/hooks/context/useUserContext";
+import { PNG, SVG } from "@/constants/clientAssets";
 
 const Home = () => {
   const history = useHistory();
@@ -73,7 +69,7 @@ const Home = () => {
 
   const companies = [
     {
-      src: wooteco,
+      src: PNG.WOOTECO,
       alt: "우아한 테크코스"
     }
   ];
@@ -84,7 +80,7 @@ const Home = () => {
 
   return (
     <>
-      <SectionContainer bgImage={homeBackgroundImage}>
+      <SectionContainer bgImage={PNG.HOME_BACKGROUND_IMAGE_1}>
         <Container>
           <MainText {...animation.section1.introductionText}>
             댓글의 모든것,
@@ -105,7 +101,7 @@ const Home = () => {
         </Container>
 
         <ScrollDownTrigger href="#section2">
-          <img src={scrollDownButton} width="100px" height="100px" alt="아래로 이동" />
+          <img src={SVG.SCROLL_DOWN} width="100px" height="100px" alt="아래로 이동" />
         </ScrollDownTrigger>
       </SectionContainer>
 
@@ -118,11 +114,11 @@ const Home = () => {
             <br />
             <HighlightText color={PALETTE.SECONDARY}>다라쓰</HighlightText>와 함께라면 당신의 블로그가 새로워질 거예요.
           </Text>
-          <PhoneImage src={phoneSmall} alt="phone view" {...animation.section2.phoneSmall} />
+          <PhoneImage src={PNG.PHONE_SMALL} alt="phone view" {...animation.section2.phoneSmall} />
         </Container>
       </SectionContainer>
 
-      <SectionContainer id="section3" subtractMinHeight="50vh" bgImage={homeBackgroundImage2}>
+      <SectionContainer id="section3" subtractMinHeight="50vh" bgImage={PNG.HOME_BACKGROUND_IMAGE_2}>
         <Container>
           <Text as="h2" color={PALETTE.WHITE} fontSize={4}>
             내 홈페이지 댓글 관리,

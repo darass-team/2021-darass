@@ -1,8 +1,9 @@
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const path = require("path");
 const DotEnv = require("dotenv-webpack");
-const { DefinePlugin } = require("webpack");
+const { DefinePlugin, IgnorePlugin } = require("webpack");
 const Package = require("./package.json");
+const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 
 const config = {
   entry: "./src/index.tsx",
@@ -53,6 +54,10 @@ const config = {
     ]
   },
   plugins: [
+    new IgnorePlugin({
+      resourceRegExp: /^\.\/locale$/,
+      contextRegExp: /moment$/
+    }),
     new HtmlWebpackPlugin({
       template: "./public/index.html"
     }),
@@ -87,5 +92,9 @@ const config = {
     }
   }
 };
+
+if (process.env.BUILD_MODE === "localhost") {
+  config.plugins.push(new BundleAnalyzerPlugin());
+}
 
 module.exports = config;

@@ -21,11 +21,10 @@ import {
 import { useUserContext } from "@/hooks/context/useUserContext";
 import { AlertError } from "@/utils/alertError";
 import { getPagesOfLength5 } from "@/utils/pagination";
-import moment from "moment";
 import { FormEvent, useEffect } from "react";
 import { Redirect, useLocation, useRouteMatch } from "react-router-dom";
-import LoadingPage from "../LoadingPage";
 import { CommentList, CommentsViewer, Container, DeleteButton, Header, Row, Title, TotalComment } from "./styles";
+import dayjs from "dayjs";
 
 const Manage = () => {
   const match = useRouteMatch<{ id: string }>();
@@ -42,12 +41,12 @@ const Manage = () => {
 
   const { showCalendar, setShowCalendar, currentDate, setCurrentDate, startDate, setStartDate, endDate, setEndDate } =
     useCalendar({
-      initialStartDate: moment().subtract(1, "year"),
-      initialEndDate: moment()
+      initialStartDate: dayjs().subtract(1, "year"),
+      initialEndDate: dayjs()
     });
 
-  const startDateAsString = startDate?.format("YYYY-MM-DD") || moment().format("YYYY-MM-DD");
-  const endDateAsString = endDate?.format("YYYY-MM-DD") || moment().format("YYYY-MM-DD");
+  const startDateAsString = startDate?.format("YYYY-MM-DD") || dayjs().format("YYYY-MM-DD");
+  const endDateAsString = endDate?.format("YYYY-MM-DD") || dayjs().format("YYYY-MM-DD");
 
   const { project } = useGetProject({
     id: projectId

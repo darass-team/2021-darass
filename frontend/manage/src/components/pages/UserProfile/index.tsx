@@ -1,6 +1,6 @@
-import cameraIcon from "@/assets/svg/camera.svg";
 import ScreenContainer from "@/components/@style/ScreenContainer";
 import DeleteSection from "@/components/molecules/DeleteSection";
+import { SVG } from "@/constants/clientAssets";
 import { MAX_PROFILE_IMAGE_SIZE, MAX_USER_NAME_LENGTH } from "@/constants/validation";
 import { useDeleteUser, useDocumentTitle, useEditUser, useInput } from "@/hooks";
 import { useUserContext } from "@/hooks/context/useUserContext";
@@ -109,7 +109,7 @@ const UserProfile = () => {
           <InfoWrapper>
             <FileLabel>
               <UserProfileImage imageURL={profileImageAsUrl} size="LG" alt="유저 프로필 이미지" />
-              <CameraIcon src={cameraIcon} alt="이미지 업로드 버튼" />
+              <CameraIcon src={SVG.CAMERA} alt="이미지 업로드 버튼" />
               <Input type="file" accept="image/*" onChange={onChangeFile} data-testid="user-profile-image-input" />
             </FileLabel>
           </InfoWrapper>

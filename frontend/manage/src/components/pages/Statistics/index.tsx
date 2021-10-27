@@ -5,10 +5,9 @@ import ContainerWithSideBar from "@/components/organisms/ContainerWithSideBar";
 import { PROJECT_MENU, ROUTE } from "@/constants";
 import { PERIODICITY } from "@/constants/statistics";
 import { useCalendar, useCommentStatisticsData, useDocumentTitle, useGetProject } from "@/hooks";
-import moment from "moment";
+import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 import { Redirect, useRouteMatch } from "react-router-dom";
-import LoadingPage from "../LoadingPage";
 import {
   Calendar,
   ChartArea,
@@ -42,14 +41,14 @@ const Statistics = () => {
 
   const { showCalendar, setShowCalendar, currentDate, setCurrentDate, startDate, setStartDate, endDate, setEndDate } =
     useCalendar({
-      initialStartDate: moment().subtract(1, "week"),
-      initialEndDate: moment()
+      initialStartDate: dayjs().subtract(1, "week"),
+      initialEndDate: dayjs()
     });
 
   const [isDateEdited, setIsDateEdited] = useState(false);
 
-  const startDateAsString = startDate?.format("YYYY-MM-DD") || moment().format("YYYY-MM-DD");
-  const endDateAsString = endDate?.format("YYYY-MM-DD") || moment().format("YYYY-MM-DD");
+  const startDateAsString = startDate?.format("YYYY-MM-DD") || dayjs().format("YYYY-MM-DD");
+  const endDateAsString = endDate?.format("YYYY-MM-DD") || dayjs().format("YYYY-MM-DD");
 
   const { stats, refetch: getCommentStatisticsData } = useCommentStatisticsData({
     periodicity: selectedPeriodicity,
@@ -77,11 +76,11 @@ const Statistics = () => {
 
   useEffect(() => {
     if (!isDateEdited) {
-      if (selectedPeriodicity.key === "hourly") setStartDate(moment());
-      if (selectedPeriodicity.key === "daily") setStartDate(moment().subtract(1, "week"));
-      if (selectedPeriodicity.key === "monthly") setStartDate(moment().subtract(6, "month"));
+      if (selectedPeriodicity.key === "hourly") setStartDate(dayjs());
+      if (selectedPeriodicity.key === "daily") setStartDate(dayjs().subtract(1, "week"));
+      if (selectedPeriodicity.key === "monthly") setStartDate(dayjs().subtract(6, "month"));
 
-      setEndDate(moment());
+      setEndDate(dayjs());
     } else {
       getCommentStatisticsData();
     }
