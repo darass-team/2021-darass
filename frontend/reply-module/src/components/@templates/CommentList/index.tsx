@@ -80,6 +80,7 @@ const CommentList = ({
           const thisCommentIsWrittenByAdmin = comment.user.id === projectOwnerId;
           const thisCommentIsWrittenByGuest = comment.user.type === "GuestUser";
           const isVisibleCommentOption = true;
+          const isAllowToControl = iAmAdmin || thisCommentIsMine || (iAmGuestUser && thisCommentIsWrittenByGuest);
 
           const hasLikingUser = comment.likingUsers.length > 0;
           const hasSubComments = comment?.subComments ? comment.subComments.length > 0 : false;
@@ -96,6 +97,7 @@ const CommentList = ({
               projectOwnerId={projectOwnerId}
               comment={comment}
               isVisibleCommentOption={isVisibleCommentOption}
+              isAllowToControl={isAllowToControl}
               iAmAdmin={iAmAdmin}
               iAmGuestUser={iAmGuestUser}
               thisCommentIsWrittenByAdmin={thisCommentIsWrittenByAdmin}
