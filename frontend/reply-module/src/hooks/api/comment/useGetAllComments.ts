@@ -14,7 +14,7 @@ const compareComments = (prevComments: GetCommentsResponse, currComments: GetCom
 export const useGetAllComments = ({ url, projectSecretKey, sortOption = "oldest" }: GetCommentsRequestParams) => {
   const { user } = useUserContext();
 
-  const { data, isLoading, refetch, error, setData } = useQuery<GetCommentsResponse>({
+  const { data, isLoading, refetch, error, setData, isFetched } = useQuery<GetCommentsResponse>({
     enabled: true,
     query: () => getAllComments({ url, projectSecretKey, sortOption }),
     isEqualToPrevDataFunc: compareComments
@@ -30,5 +30,5 @@ export const useGetAllComments = ({ url, projectSecretKey, sortOption = "oldest"
 
   const setComments = (comments: Comment[]) => setData({ totalComment: totalCommentsCount, totalPage, comments });
 
-  return { totalCommentsCount, totalPage, comments, isLoading, error, refetch, setComments };
+  return { totalCommentsCount, totalPage, comments, isLoading, error, refetch, setComments, isFetched };
 };

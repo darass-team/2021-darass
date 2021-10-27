@@ -23,7 +23,11 @@ import {
   UserAvatarOptionLink
 } from "./styles";
 
-const CommentArea = () => {
+interface Props {
+  isVisible: boolean;
+}
+
+const CommentArea = ({ isVisible }: Props) => {
   const urlParams = new URLSearchParams(window.location.search);
   const url = urlParams.get("url");
   const projectSecretKey = urlParams.get("projectKey");
@@ -43,7 +47,8 @@ const CommentArea = () => {
     refetch: refetchAllComments,
     isLoading: commentsLoading,
     error: commentsError,
-    setComments
+    setComments,
+    isFetched
   } = useGetAllComments({ url, projectSecretKey, sortOption });
   const {
     projectOwnerId,
@@ -113,21 +118,18 @@ const CommentArea = () => {
         comments
       }}
     >
-      <Container>
-        {projectOwnerId && !getProjectOwnerIdLoading ? (
-          <CommentList
-            user={user}
-            totalCommentsCount={totalCommentsCount}
-            comments={comments}
-            projectOwnerId={projectOwnerId}
-            sortOption={sortOption}
-            onSelectSortOption={onSelectSortOption}
-            notice={notice}
-            data-testid="comment-list"
-          />
-        ) : (
-          <LoadingPage />
-        )}
+      <Container isVisible={isVisible}>
+        <CommentList
+          user={user}
+          totalCommentsCount={totalCommentsCount}
+          comments={comments}
+          projectOwnerId={projectOwnerId}
+          sortOption={sortOption}
+          onSelectSortOption={onSelectSortOption}
+          notice={notice}
+          isVisible={!!projectOwnerId && !getProjectOwnerIdLoading && isFetched}
+          data-testid="comment-list"
+        />
 
         {isAllowSocialLogin && (
           <CommentInputHeader>

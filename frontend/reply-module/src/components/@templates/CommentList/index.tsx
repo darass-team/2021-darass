@@ -18,11 +18,12 @@ import {
 
 export interface Props {
   user?: User;
-  projectOwnerId: User["id"];
+  projectOwnerId?: User["id"];
   totalCommentsCount: number;
   comments: CommentType[];
   sortOption: keyof typeof ORDER_BUTTON;
   notice: string;
+  isVisible: boolean;
   onSelectSortOption: (value: keyof typeof ORDER_BUTTON) => void;
 }
 
@@ -33,6 +34,7 @@ const CommentList = ({
   comments,
   sortOption,
   notice,
+  isVisible,
   onSelectSortOption,
   ...props
 }: Props) => {
@@ -41,7 +43,7 @@ const CommentList = ({
   } = useContext(ThemeContext);
 
   return (
-    <Container {...props}>
+    <Container isVisible={isVisible} {...props}>
       <Header>
         <CommentCountWrapper>
           <span>댓글</span>
