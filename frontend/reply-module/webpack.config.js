@@ -3,6 +3,7 @@ const path = require("path");
 const DotEnv = require("dotenv-webpack");
 const { DefinePlugin } = require("webpack");
 const Package = require("./package.json");
+const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 
 const config = {
   entry: { replyModule: "@/ReplyModule.tsx", replyModal: "@/ReplyModal.tsx" },
@@ -96,5 +97,9 @@ const config = {
     }
   }
 };
+
+if (process.env.BUILD_MODE === "localhost") {
+  config.plugins.push(new BundleAnalyzerPlugin());
+}
 
 module.exports = config;
