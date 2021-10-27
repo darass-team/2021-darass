@@ -79,7 +79,7 @@ const CommentList = ({
           const thisCommentIsMine = authorId !== undefined && authorId === user?.id;
           const thisCommentIsWrittenByAdmin = comment.user.id === projectOwnerId;
           const thisCommentIsWrittenByGuest = comment.user.type === "GuestUser";
-          const isVisibleCommentOption = iAmAdmin || thisCommentIsMine || (iAmGuestUser && thisCommentIsWrittenByGuest);
+          const isVisibleCommentOption = true;
 
           const hasLikingUser = comment.likingUsers.length > 0;
           const hasSubComments = comment?.subComments ? comment.subComments.length > 0 : false;

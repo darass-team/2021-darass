@@ -282,8 +282,8 @@ const Comment = ({
             const thisCommentIsMine = authorId !== undefined && authorId === user?.id;
             const thisCommentIsWrittenByAdmin = subComment.user.id === projectOwnerId;
             const thisCommentIsWrittenByGuest = subComment.user.type === "GuestUser";
-            const isVisibleCommentOption =
-              iAmAdmin || thisCommentIsMine || (iAmGuestUser && thisCommentIsWrittenByGuest);
+            const isVisibleCommentOption = true;
+
             const hasLikingUser = subComment.likingUsers.length > 0;
             const hasSubComments = subComment?.subComments ? subComment.subComments.length > 0 : false;
             const alreadyLiked = subComment.likingUsers.some(likingUser => likingUser.id === user?.id);
