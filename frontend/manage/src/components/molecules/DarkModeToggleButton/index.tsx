@@ -1,5 +1,4 @@
-import moonSVG from "@/assets/svg/moon.svg";
-import sunSVG from "@/assets/svg/sun.svg";
+import { SVG } from "@/constants/clientAssets";
 import { Ball, Container, Img } from "./styles";
 
 export interface Props {
@@ -10,8 +9,8 @@ export interface Props {
 const DarkModeToggleButton = ({ isDarkModePage, onToggleDarkMode }: Props) => {
   return (
     <Container isDarkModePage={isDarkModePage} onClick={onToggleDarkMode}>
-      <Img src={sunSVG} alt="light mode" width={15} />
-      <Img src={moonSVG} alt="dark mode" width={15} />
+      <Img src={SVG.SUN_ICON} alt="light mode" width={15} />
+      <Img src={SVG.MOON_ICON} alt="dark mode" width={15} />
       <Ball isDarkModePage={isDarkModePage} />
     </Container>
   );

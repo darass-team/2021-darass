@@ -1,4 +1,4 @@
-import { CLIENT_ASSET_DOMAIN } from "./domain";
+import { PNG, SCRIPT_GUIDE } from "./clientAssets";
 
 interface BlogGuideInfo {
   name: string;
@@ -14,32 +14,32 @@ interface GuideFile {
 export const GUIDE_FILE: GuideFile = {
   TISTORY: {
     name: "티스토리",
-    logoURL: `${CLIENT_ASSET_DOMAIN}/png/tistory.png`,
-    iframeSrc: `${CLIENT_ASSET_DOMAIN}/script-guide/tistory.pdf`,
+    logoURL: PNG.TISTORY,
+    iframeSrc: SCRIPT_GUIDE.TISTORY,
     scriptType: "HTML"
   },
   GATSBY: {
     name: "Gatsby",
-    logoURL: `${CLIENT_ASSET_DOMAIN}/png/gatsby.png`,
-    iframeSrc: `${CLIENT_ASSET_DOMAIN}/script-guide/gatsby.pdf`,
+    logoURL: PNG.GATSBY,
+    iframeSrc: SCRIPT_GUIDE.GATSBY,
     scriptType: "JSX"
   },
   JEKYLL: {
     name: "Jekyll",
-    logoURL: `${CLIENT_ASSET_DOMAIN}/png/jekyll.png`,
-    iframeSrc: `${CLIENT_ASSET_DOMAIN}/script-guide/jekyll.pdf`,
+    logoURL: PNG.JEKYLL,
+    iframeSrc: SCRIPT_GUIDE.JEKYLL,
     scriptType: "HTML"
   },
   HEXO: {
     name: "Hexo",
-    logoURL: `${CLIENT_ASSET_DOMAIN}/png/hexo.png`,
-    iframeSrc: `${CLIENT_ASSET_DOMAIN}/script-guide/hexo.pdf`,
+    logoURL: PNG.HEXO,
+    iframeSrc: SCRIPT_GUIDE.HEXO,
     scriptType: "HTML"
   },
   UNIVERSAL: {
     name: "기타",
-    logoURL: `${CLIENT_ASSET_DOMAIN}/png/universal.png`,
-    iframeSrc: `${CLIENT_ASSET_DOMAIN}/script-guide/universal.pdf`,
+    logoURL: PNG.UNIVERSAL,
+    iframeSrc: SCRIPT_GUIDE.UNIVERSAL,
     scriptType: "HTML"
   }
 } as const;

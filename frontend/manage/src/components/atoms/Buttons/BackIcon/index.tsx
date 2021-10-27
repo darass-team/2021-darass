@@ -1,4 +1,4 @@
-import backButton from "@/assets/svg/back-button.svg";
+import { SVG } from "@/constants/clientAssets";
 import { Img } from "./styles";
 
 export interface Props {
@@ -8,7 +8,7 @@ export interface Props {
 
 const BackIcon = ({ onClick, className }: Props) => {
   return (
-    <Img className={className} src={backButton} onClick={onClick} width="20px" height="20px" alt="뒤로가기 버튼" />
+    <Img className={className} src={SVG.BACK_BUTTON} onClick={onClick} width="20px" height="20px" alt="뒤로가기 버튼" />
   );
 };
 

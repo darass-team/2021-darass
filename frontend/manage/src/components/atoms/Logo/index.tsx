@@ -1,4 +1,4 @@
-import logo from "@/assets/png/logo.png";
+import { PNG } from "@/constants/clientAssets";
 import { Container } from "./styles";
 
 export type Size = "SM" | "MD" | "LG";
@@ -8,7 +8,7 @@ export interface Props {
 }
 
 const Logo = ({ size = "MD" }: Props) => {
-  return <Container src={logo} size={size} alt="다라쓰 로고" />;
+  return <Container src={PNG.LOGO} size={size} alt="다라쓰 로고" />;
 };
 
 export default Logo;

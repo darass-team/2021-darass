@@ -1,5 +1,5 @@
+import { PNG } from "@/constants/clientAssets";
 import { Container, TextArea, Img } from "./styles";
-import logo from "@/assets/png/logo.png";
 
 export interface Props {
   children: string;
@@ -9,7 +9,7 @@ export interface Props {
 const ErrorNotice = ({ className, children }: Props) => {
   return (
     <Container className={className}>
-      <Img src={logo} alt="다라쓰 로고" />
+      <Img src={PNG.LOGO} alt="다라쓰 로고" />
       <TextArea>
         <h2>Oops...</h2>
         <p>{children}</p>
