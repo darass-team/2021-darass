@@ -71,6 +71,10 @@ const Home = () => {
     {
       src: PNG.WOOTECO,
       alt: "우아한 테크코스"
+    },
+    {
+      src: PNG.BABBLE,
+      alt: "Babble"
     }
   ];
 
