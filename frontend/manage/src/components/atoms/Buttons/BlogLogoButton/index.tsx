@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Logo, Button, Name } from "./styles";
 
 export interface Props {
@@ -8,9 +9,19 @@ export interface Props {
 }
 
 const BlogLogoButton = ({ name, src, isSelected, onClick }: Props) => {
+  const [isImageLoaded, setIsImageLoaded] = useState(false);
+
   return (
     <Button onClick={onClick}>
-      <Logo src={src} alt={name} isSelected={isSelected} />
+      <Logo
+        isImageLoaded={isImageLoaded}
+        src={src}
+        alt={name}
+        isSelected={isSelected}
+        onLoad={() => {
+          setIsImageLoaded(true);
+        }}
+      />
       <Name>{name}</Name>
     </Button>
   );

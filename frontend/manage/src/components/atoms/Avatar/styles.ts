@@ -8,8 +8,9 @@ const avatarSizeBySize = {
   LG: 90
 };
 
-export const Container = styled.img<{ size: Size }>`
+export const Container = styled.img<{ size: Size; isImageLoaded: boolean }>`
   border-radius: 50%;
   width: ${props => `${avatarSizeBySize[props.size]}px`};
   height: ${props => `${avatarSizeBySize[props.size]}px`};
+  opacity: ${({ isImageLoaded }) => (isImageLoaded ? 1 : 0)};
 `;

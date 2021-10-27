@@ -101,7 +101,8 @@ export const useUser = () => {
     error,
     refetch: refetchUser,
     isSuccess,
-    setData: setUser
+    setData: setUser,
+    isFetched
   } = useQuery<User | undefined>({
     query: getUser,
     enabled: false
@@ -170,6 +171,7 @@ export const useUser = () => {
     logout,
     isSuccess,
     setUser,
-    isActiveAccessToken
+    isActiveAccessToken,
+    isFetched
   };
 };

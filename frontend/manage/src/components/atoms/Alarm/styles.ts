@@ -26,7 +26,8 @@ export const Container = styled.div<{ size: Size }>`
   }
 `;
 
-export const Img = styled.img<{ hasUnReadNotification: boolean }>`
+export const Img = styled.img<{ hasUnReadNotification: boolean; isImageLoaded: boolean }>`
+  opacity: ${({ isImageLoaded }) => (isImageLoaded ? 1 : 0)};
   object-fit: contain;
   ${({ hasUnReadNotification }) => hasUnReadNotification && ShakeCSS};
 `;
