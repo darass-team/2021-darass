@@ -1,5 +1,5 @@
-import threeDots from "@/assets/svg/three-dots.svg";
 import Modal from "@/components/@molecules/Modal";
+import { SVG } from "@/constants/clientAssets";
 import { useState } from "react";
 import { Container, DeleteButton, EditButton, OptionContainer, OptionIcon, ViewButton } from "./styles";
 
@@ -48,7 +48,7 @@ const CommentOption = ({
 
   return (
     <Container {...props}>
-      <OptionIcon src={threeDots} alt="댓글 옵션" onClick={onToggleOptionBox} />
+      <OptionIcon src={SVG.THREE_DOTS} alt="댓글 옵션" onClick={onToggleOptionBox} />
       <Modal isOpen={isShowOptionBox} closeModal={onCloseModal} dimmedOpacity={0} data-testid="comment-option-modal">
         <OptionContainer>
           {isVisibleViewButton && (

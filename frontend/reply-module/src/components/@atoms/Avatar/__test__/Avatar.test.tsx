@@ -1,7 +1,7 @@
 import "@testing-library/jest-dom/extend-expect";
 import { fireEvent, render, waitFor } from "@testing-library/react";
 import Avatar, { Props } from "..";
-import defaultUserImage from "@/assets/svg/default-user-image.svg";
+import { SVG } from "@/constants/clientAssets";
 import { avatarSizeBySize } from "../styles";
 
 describe("Avatar Component test", () => {
@@ -56,7 +56,7 @@ describe("Avatar Component test", () => {
 
       const avatar = render(<Avatar {...props} />);
 
-      expect(avatar.getByAltText(alt).getAttribute("src")).toEqual(defaultUserImage);
+      expect(avatar.getByAltText(alt).getAttribute("src")).toEqual(SVG.DEFAULT_USER_IMAGE);
     });
   });
   describe("style test", () => {
