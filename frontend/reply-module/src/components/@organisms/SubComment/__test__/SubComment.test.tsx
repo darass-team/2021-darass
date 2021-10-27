@@ -18,6 +18,7 @@ describe("SubComment test", () => {
         projectOwnerId: socialLoginUser.id,
         comment: comments[0],
         isVisibleCommentOption: false,
+        isAllowToControl: false,
         iAmAdmin: false,
         iAmGuestUser: false,
         hasLikingUser: false,

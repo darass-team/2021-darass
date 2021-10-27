@@ -32,6 +32,7 @@ export interface Props {
   projectOwnerId: User["id"];
   comment: CommentType;
   isVisibleCommentOption: boolean;
+  isAllowToControl: boolean;
   iAmAdmin: boolean;
   iAmGuestUser: boolean;
   hasLikingUser: boolean;
@@ -51,6 +52,7 @@ const Comment = ({
   projectOwnerId,
   comment,
   isVisibleCommentOption,
+  isAllowToControl,
   iAmAdmin,
   iAmGuestUser,
   thisCommentIsWrittenByAdmin,
@@ -97,6 +99,11 @@ const Comment = ({
   };
 
   const onCliCkViewOptionButton = () => {
+    if (!isAllowToControl) {
+      openAlert("권한이 없습니다.");
+
+      return;
+    }
     resetState();
     setClickedOptionType("View");
     if (!user) {
@@ -105,6 +112,11 @@ const Comment = ({
   };
 
   const onClickEditOptionButton = () => {
+    if (!isAllowToControl) {
+      openAlert("권한이 없습니다.");
+
+      return;
+    }
     resetState();
     setClickedOptionType("Edit");
     if (user) {
@@ -115,6 +127,11 @@ const Comment = ({
   };
 
   const onClickDeleteOptionButton = () => {
+    if (!isAllowToControl) {
+      openAlert("권한이 없습니다.");
+
+      return;
+    }
     resetState();
     setClickedOptionType("Delete");
     if (user) {
@@ -282,8 +299,9 @@ const Comment = ({
             const thisCommentIsMine = authorId !== undefined && authorId === user?.id;
             const thisCommentIsWrittenByAdmin = subComment.user.id === projectOwnerId;
             const thisCommentIsWrittenByGuest = subComment.user.type === "GuestUser";
-            const isVisibleCommentOption =
-              iAmAdmin || thisCommentIsMine || (iAmGuestUser && thisCommentIsWrittenByGuest);
+            const isVisibleCommentOption = true;
+            const isAllowToControl = iAmAdmin || thisCommentIsMine || (iAmGuestUser && thisCommentIsWrittenByGuest);
+
             const hasLikingUser = subComment.likingUsers.length > 0;
             const hasSubComments = subComment?.subComments ? subComment.subComments.length > 0 : false;
             const alreadyLiked = subComment.likingUsers.some(likingUser => likingUser.id === user?.id);
@@ -302,6 +320,7 @@ const Comment = ({
                 projectOwnerId={projectOwnerId}
                 comment={subComment}
                 isVisibleCommentOption={isVisibleCommentOption}
+                isAllowToControl={isAllowToControl}
                 iAmAdmin={iAmAdmin}
                 iAmGuestUser={iAmGuestUser}
                 thisCommentIsWrittenByAdmin={thisCommentIsWrittenByAdmin}
