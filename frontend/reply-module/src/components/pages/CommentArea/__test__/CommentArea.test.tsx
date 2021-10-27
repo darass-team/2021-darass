@@ -40,40 +40,13 @@ describe("CommentArea test", () => {
           uiInfo: { isShowSortOption: true, isAllowSocialLogin: true, isShowLogo: true }
         }}
       >
-        <CommentArea />
+        <CommentArea isVisible={true} />
       </ThemeProvider>
     );
 
     expect(queryByTestId("comment-list")).toBeTruthy();
   });
-  test("projectOwnerId && !getProjectOwnerIdLoading 가 false이면 LoadingPage가 렌더링된다.", () => {
-    (useGetProjectOwnerId as jest.Mock).mockReturnValueOnce({
-      projectOwnerId: 1,
-      isLoading: true,
-      error: null
-    });
-    (useGetAllComments as jest.Mock).mockReturnValueOnce({
-      totalCommentsCount: 10,
-      comments: [],
-      refetch: jest.fn(),
-      isLoading: false,
-      error: null
-    });
 
-    const { queryByAltText } = render(
-      <ThemeProvider
-        theme={{
-          isDarkModePage: false,
-          primaryColor: PALETTE.PRIMARY,
-          uiInfo: { isShowSortOption: true, isAllowSocialLogin: true, isShowLogo: true }
-        }}
-      >
-        <CommentArea />
-      </ThemeProvider>
-    );
-
-    expect(queryByAltText("로딩중")).toBeTruthy();
-  });
   test("user가 없을때, '카카오톡 로그인 이미지'를 클릭하면 onLogin의 popUpCenter('KAKAO','Authentication', 600, 900, 'modal=yes,alwaysRaised=yes')가 실행된다.", () => {
     (useUser as jest.Mock).mockReturnValue({
       user: undefined,
@@ -88,7 +61,7 @@ describe("CommentArea test", () => {
           uiInfo: { isShowSortOption: true, isAllowSocialLogin: true, isShowLogo: true }
         }}
       >
-        <CommentArea />
+        <CommentArea isVisible={true} />
       </ThemeProvider>
     );
     fireEvent.click(getByAltText("카카오톡 로그인 이미지"));
@@ -108,7 +81,7 @@ describe("CommentArea test", () => {
           uiInfo: { isShowSortOption: true, isAllowSocialLogin: true, isShowLogo: true }
         }}
       >
-        <CommentArea />
+        <CommentArea isVisible={true} />
       </ThemeProvider>
     );
 

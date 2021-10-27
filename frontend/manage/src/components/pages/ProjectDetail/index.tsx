@@ -8,7 +8,6 @@ import { AlertError } from "@/utils/alertError";
 import { isEmptyString } from "@/utils/validation";
 import { FormEvent, useEffect } from "react";
 import { Redirect, useHistory, useRouteMatch } from "react-router-dom";
-import LoadingPage from "../LoadingPage";
 import { Container, Form, InfoWrapper, Input, InputLengthCounter, Label, SubmitButton, Title } from "./styles";
 
 const ProjectDetail = () => {
@@ -96,7 +95,7 @@ const ProjectDetail = () => {
         <Container>
           <Title>프로젝트 정보</Title>
 
-          <Form onSubmit={onEditProject}>
+          <Form onSubmit={onEditProject} isDataLoaded={!!project}>
             <InfoWrapper>
               <Label htmlFor="project-name">이름</Label>
 

@@ -48,7 +48,8 @@ const App = () => {
     isActiveAccessToken,
     refetchAccessToken,
     accessToken,
-    setUser
+    setUser,
+    isFetched
   } = useUser();
   const { recentlyAlarmContent, hasNewAlarmOnRealTime, setHasNewAlarmOnRealTime } = useRecentlyAlarmWebSocket({ user });
 
@@ -66,7 +67,9 @@ const App = () => {
         accessToken,
         isLoadingUserRequest: isLoading,
         isSuccessUserRequest: isSuccess,
-        setUser
+        setUser,
+        isActiveAccessToken,
+        isUserFetched: isFetched
       }}
     >
       <RecentlyAlarmContentContext.Provider

@@ -79,7 +79,7 @@ const App = () => {
           >
             <BrowserRouter>
               <Switch>
-                <Route exact path={ROUTE.HOME} component={port ? CommentArea : LoadingPage} />
+                <Route exact path={ROUTE.HOME} render={() => <CommentArea isVisible={!!port} />} />
                 <Route exact path={ROUTE.OAUTH} component={OAuth} />
                 <Redirect to={ROUTE.HOME} />
               </Switch>

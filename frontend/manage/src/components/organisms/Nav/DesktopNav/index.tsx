@@ -86,7 +86,7 @@ const DesktopNav = ({ menuList }: Props) => {
           )}
 
           <UserAvatarOptionWrapper>
-            <UserAvatarOption user={user}>
+            <UserAvatarOption>
               {user ? (
                 <>
                   <Link to={ROUTE.AUTHORIZED.USER_PROFILE}>내 정보</Link>

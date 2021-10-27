@@ -17,6 +17,7 @@ describe("CommentList test", () => {
       totalCommentsCount: 1,
       comments: [comments[2]],
       notice: "작성된 댓글이 없습니다",
+      isVisible: true,
       sortOption: "latest",
       onSelectSortOption: jest.fn()
     };
@@ -40,6 +41,7 @@ describe("CommentList test", () => {
       comments: [comments[1]],
       notice: "작성된 댓글이 없습니다",
       sortOption: "latest",
+      isVisible: true,
       onSelectSortOption
     };
 

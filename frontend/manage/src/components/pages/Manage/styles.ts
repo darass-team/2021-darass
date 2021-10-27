@@ -12,7 +12,9 @@ export const Title = styled.h2`
   ${titleCSS};
 `;
 
-export const CommentsViewer = styled.div`
+export const CommentsViewer = styled.div<{ isFetchedGetCommentsOfProjectPerPage: boolean }>`
+  transition: all 0.3s;
+  opacity: ${({ isFetchedGetCommentsOfProjectPerPage }) => (isFetchedGetCommentsOfProjectPerPage ? 1 : 0)};
   width: 100%;
   min-height: 50vh;
   padding: 1rem 0;

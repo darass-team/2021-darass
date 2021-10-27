@@ -7,7 +7,8 @@ const logoSizeBySize = {
   LG: 150
 };
 
-export const Container = styled.img<{ size: Size }>`
+export const Container = styled.img<{ size: Size; isImageLoaded: boolean }>`
+  opacity: ${({ isImageLoaded }) => (isImageLoaded ? 1 : 0)};
   margin-top: 0.5rem;
   width: ${props => `${logoSizeBySize[props.size]}px`};
   height: ${props => `${logoSizeBySize[props.size]}px`};

@@ -44,7 +44,8 @@ const _PNG = {
   PHONE_SMALL: "/phone_small",
   TISTORY: "/tistory",
   UNIVERSAL: "/universal",
-  WOOTECO: "/wooteco"
+  WOOTECO: "/wooteco",
+  BABBLE: "/babble"
 };
 
 export const PNG = new Proxy(_PNG, {

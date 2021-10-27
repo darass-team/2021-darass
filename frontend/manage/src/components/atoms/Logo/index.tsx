@@ -1,4 +1,5 @@
 import { PNG } from "@/constants/clientAssets";
+import { useState } from "react";
 import { Container } from "./styles";
 
 export type Size = "SM" | "MD" | "LG";
@@ -8,7 +9,17 @@ export interface Props {
 }
 
 const Logo = ({ size = "MD" }: Props) => {
-  return <Container src={PNG.LOGO} size={size} alt="다라쓰 로고" />;
+  const [isImageLoaded, setIsImageLoaded] = useState(false);
+
+  return (
+    <Container
+      isImageLoaded={isImageLoaded}
+      src={PNG.LOGO}
+      size={size}
+      alt="다라쓰 로고"
+      onLoad={() => setIsImageLoaded(true)}
+    />
+  );
 };
 
 export default Logo;

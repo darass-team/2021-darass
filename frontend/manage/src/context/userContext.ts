@@ -10,6 +10,8 @@ export const UserContext = createContext<{
   refetchAccessToken?: () => void;
   accessToken?: string;
   setUser?: (user?: User) => void;
+  isActiveAccessToken?: boolean;
+  isUserFetched?: boolean;
 }>({
   user: undefined,
   logout: undefined,
@@ -18,7 +20,9 @@ export const UserContext = createContext<{
   isSuccessUserRequest: false,
   refetchAccessToken: undefined,
   accessToken: undefined,
-  setUser: undefined
+  setUser: undefined,
+  isActiveAccessToken: undefined,
+  isUserFetched: undefined
 });
 
 export const useUserContext = () => useContext(UserContext);

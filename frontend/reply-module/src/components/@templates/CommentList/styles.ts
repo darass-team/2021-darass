@@ -1,10 +1,12 @@
 import { PALETTE } from "@/constants/styles/palette";
 import styled from "styled-components";
 
-export const Container = styled.section`
+export const Container = styled.section<{ isVisible: boolean }>`
   width: 100%;
   display: flex;
   flex-direction: column;
+  opacity: ${({ isVisible }) => (isVisible ? 1 : 0)};
+  transition: all 0.5s;
 `;
 
 export const Header = styled.div`

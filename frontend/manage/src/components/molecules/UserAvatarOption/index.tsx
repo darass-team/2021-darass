@@ -1,17 +1,19 @@
-import { MouseEvent, ReactNode, useEffect, useRef, useState } from "react";
-import { User } from "@/types/user";
 import Avatar from "@/components/atoms/Avatar";
-import { Container, UserNickName, UserOption, DownArrow } from "./styles";
 import Modal from "@/components/atoms/Modal";
 import { SVG } from "@/constants/clientAssets";
+import { useUserContext } from "@/hooks/context/useUserContext";
+
+import { MouseEvent, ReactNode, useEffect, useState } from "react";
+import { Container, DownArrow, UserNickName, UserOption } from "./styles";
 
 export interface Props {
-  user: User | undefined;
   children: ReactNode;
 }
 
-const UserAvatarOption = ({ user, children }: Props) => {
+const UserAvatarOption = ({ children }: Props) => {
+  const { user, isActiveAccessToken, isUserFetched } = useUserContext();
   const [isShowOptionBox, setShowOptionBox] = useState(false);
+  const [isDownArrowLoaded, setIsDownArrowLoaded] = useState(false);
 
   const onShowOptionBox = (event: MouseEvent) => {
     event.stopPropagation();
@@ -22,8 +24,10 @@ const UserAvatarOption = ({ user, children }: Props) => {
     setShowOptionBox(false);
   }, [user]);
 
+  const isUserInfoReady = isActiveAccessToken && !isUserFetched;
+
   return (
-    <Container>
+    <Container isUserInfoReady={isUserInfoReady}>
       <Avatar imageURL={user?.profileImageUrl} onClick={onShowOptionBox} alt="유저 프로필 이미지" />
       <UserNickName onClick={onShowOptionBox}>{user?.nickName ?? "로그인"}</UserNickName>
       <DownArrow
@@ -31,6 +35,10 @@ const UserAvatarOption = ({ user, children }: Props) => {
         alt={`유저 옵션 드롭다운 버튼`}
         onClick={onShowOptionBox}
         isShowOptionBox={isShowOptionBox}
+        isImageLoaded={isDownArrowLoaded}
+        onLoad={() => {
+          setIsDownArrowLoaded(true);
+        }}
       />
       <Modal isOpen={isShowOptionBox} closeModal={() => setShowOptionBox(false)} dimmedOpacity={0} blockScroll={false}>
         <UserOption>{children}</UserOption>

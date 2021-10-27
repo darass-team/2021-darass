@@ -62,5 +62,5 @@ export const useCommentStatisticsData = ({
 
   const stats = useMemo(() => (data ? refineStatData(data.commentStats, periodicity.key) : undefined), [data]);
 
-  return { stats, isLoading, error, refetch, isSuccess, isFetched };
+  return { stats, isLoading, error, refetch, isSuccess, isFetched, isExistData: !!data };
 };

@@ -1,5 +1,5 @@
 import { SVG } from "@/constants/clientAssets";
-import { MouseEvent } from "react";
+import { MouseEvent, useState } from "react";
 import { Container } from "./styles";
 
 export type Size = "SM" | "MD" | "LG";
@@ -13,6 +13,8 @@ export interface Props {
 }
 
 const Avatar = ({ imageURL, size = "MD", onClick, className, alt, ...props }: Props) => {
+  const [isImageLoaded, setIsImageLoaded] = useState(false);
+
   return (
     <Container
       src={
@@ -22,6 +24,8 @@ const Avatar = ({ imageURL, size = "MD", onClick, className, alt, ...props }: Pr
       alt={alt}
       onClick={onClick}
       className={className}
+      isImageLoaded={isImageLoaded}
+      onLoad={() => setIsImageLoaded(true)}
       {...props}
     />
   );

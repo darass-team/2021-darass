@@ -21,6 +21,7 @@ import {
   CopyButton,
   FormLabel,
   FormRow,
+  GuidePDF,
   Ol,
   PreviewForm,
   ScriptContainer,
@@ -100,6 +101,7 @@ const ScriptPublishing = () => {
   const [isShowSortOption, setIsShowSortOption] = useState(true);
   const [isAllowSocialLogin, setIsAllowSocialLogin] = useState(true);
   const [isShowLogo, setIsShowLogo] = useState(true);
+  const [isGuidePdfVisible, setIsGuidePdfVisible] = useState(false);
 
   const projectId = Number(match.params.id);
   const { project } = useGetProject({
@@ -158,11 +160,13 @@ const ScriptPublishing = () => {
                 title="다라쓰 코드 설치"
                 description="다라쓰를 설치하고자 하는 웹 페이지에 발급 받은 설치코드를 삽입해주세요."
               >
-                <iframe
+                <GuidePDF
                   title="install-guide"
                   src={selectedBlogInfo.iframeSrc}
                   style={{ width: "100%", height: "650px" }}
                   frameBorder="0"
+                  isGuidePdfVisible={isGuidePdfVisible}
+                  onLoad={() => setIsGuidePdfVisible(true)}
                 />
               </GuideStep>
 

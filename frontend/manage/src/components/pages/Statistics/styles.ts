@@ -89,11 +89,12 @@ export const Tooltip = styled(TooltipComponent)`
   }
 `;
 
-export const DataTable = styled.table`
+export const DataTable = styled.table<{ isDataLoaded: boolean }>`
   margin-top: 2rem;
   width: 100%;
   border: 1px solid ${PALETTE.GRAY_400};
-  border-hidden: hidden;
+  opacity: ${({ isDataLoaded }) => (isDataLoaded ? 1 : 0)};
+  transition: all 0.3s;
 
   thead {
     background-color: ${PALETTE.PRIMARY};

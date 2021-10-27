@@ -29,7 +29,7 @@ import {
 
 export interface Props {
   user?: User;
-  projectOwnerId: User["id"];
+  projectOwnerId?: User["id"];
   comment: CommentType;
   isVisibleCommentOption: boolean;
   isAllowToControl: boolean;
