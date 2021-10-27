@@ -52,6 +52,13 @@
 
 ![아키텍처](https://user-images.githubusercontent.com/41244373/131594159-34598568-d2d7-43b8-86a3-ab521bf62e87.png)
 
+## 🔨 Front-End Code Structure
+![코드구조](https://user-images.githubusercontent.com/42544600/138998640-23d32296-e300-49c9-8c8e-226f845c9b80.png)
+
+## 🔨 Back-End Code Structure
+![코드구조](https://user-images.githubusercontent.com/42544600/138998574-292babf2-f899-4b8c-80ca-eae8248bb0bf.png)
+
+
 ## ⚒ CI/CD (추후에 그림 추가하기) 
 
 - `Github Actions`를 활용해서 지속적 통합 및 배포
