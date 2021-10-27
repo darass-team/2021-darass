@@ -10,13 +10,18 @@ export const Title = styled.h2`
   ${titleCSS};
 `;
 
-export const Form = styled.form`
+export const Form = styled.form<{
+  isDataLoaded: boolean;
+}>`
   display: flex;
   width: 100%;
   flex-direction: column;
   align-items: flex-end;
   margin-top: 2rem;
   padding-bottom: 5rem;
+
+  opacity: ${({ isDataLoaded }) => (isDataLoaded ? 1 : 0)};
+  transition: all 0.1s;
 `;
 
 export const InfoWrapper = styled.div`

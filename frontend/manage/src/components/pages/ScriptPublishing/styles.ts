@@ -67,6 +67,11 @@ export const ScriptContainer = styled.div<{
   padding: 1rem 2rem;
 `;
 
+export const GuidePDF = styled.iframe<{ isGuidePdfVisible: boolean }>`
+  opacity: ${({ isGuidePdfVisible }) => (isGuidePdfVisible ? 1 : 0)};
+  transition: all 0.2s;
+`;
+
 export const PreviewForm = styled.form`
   width: 100%;
   display: flex;

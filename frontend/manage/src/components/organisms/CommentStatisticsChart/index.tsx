@@ -5,14 +5,15 @@ import { Container } from "./styles";
 
 export interface Props {
   data: COMMENT_STATISTICS[];
+  isDataLoaded: boolean;
 }
 
-const CommentStatisticsChart = ({ data }: Props) => {
+const CommentStatisticsChart = ({ data, isDataLoaded }: Props) => {
   const xValue = data.map(_data => _data.date);
   const yValue = data.map(_data => _data.count);
 
   return (
-    <Container>
+    <Container isDataLoaded={isDataLoaded}>
       <Line
         type="line"
         data={{
@@ -27,6 +28,10 @@ const CommentStatisticsChart = ({ data }: Props) => {
           ]
         }}
         options={{
+          animation: {
+            duration: 500,
+            easing: "easeOutQuad"
+          },
           scales: {
             yAxes: [
               {

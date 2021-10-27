@@ -149,55 +149,53 @@ const Manage = () => {
             keyword={keyword}
           />
 
-          {isFetchedGetCommentsOfProjectPerPage && (
-            <CommentsViewer>
-              <TotalComment>
-                <span>{totalComment}</span>
-                개의 댓글 (<span>총 {totalPage} 페이지</span>)
-              </TotalComment>
-              <Header>
-                <CheckBox
-                  isChecked={isCheckingAllCommentsInCurrentPage}
-                  onChange={onToggleIsCheckingAllComments}
-                  labelText="모두 선택"
-                />
+          <CommentsViewer isFetchedGetCommentsOfProjectPerPage={isFetchedGetCommentsOfProjectPerPage}>
+            <TotalComment>
+              <span>{totalComment}</span>
+              개의 댓글 (<span>총 {totalPage} 페이지</span>)
+            </TotalComment>
+            <Header>
+              <CheckBox
+                isChecked={isCheckingAllCommentsInCurrentPage}
+                onChange={onToggleIsCheckingAllComments}
+                labelText="모두 선택"
+              />
 
-                <DeleteButton onClick={onClickDeleteButton}>삭제</DeleteButton>
-              </Header>
-              <CommentList>
-                {comments.length === 0 ? (
-                  <Row>
-                    <ErrorNotice>{"조건에 맞는 댓글을 찾을 수 없습니다"}</ErrorNotice>
+              <DeleteButton onClick={onClickDeleteButton}>삭제</DeleteButton>
+            </Header>
+            <CommentList>
+              {comments.length === 0 ? (
+                <Row>
+                  <ErrorNotice>{"조건에 맞는 댓글을 찾을 수 없습니다"}</ErrorNotice>
+                </Row>
+              ) : (
+                comments.map(({ id, content, user, createdDate, url, secret }) => (
+                  <Row key={id}>
+                    <Comment
+                      isMyComment={me?.id === user.id}
+                      isChecked={checkedCommentIds.some(_id => _id === id)}
+                      onChangeCheckBox={() => updateCheckedCommentId(id)}
+                      authorProfileImageUrl={user.profileImageUrl}
+                      authorNickName={user.nickName}
+                      createdDate={createdDate}
+                      content={content}
+                      url={url}
+                      secret={secret}
+                    />
                   </Row>
-                ) : (
-                  comments.map(({ id, content, user, createdDate, url, secret }) => (
-                    <Row key={id}>
-                      <Comment
-                        isMyComment={me?.id === user.id}
-                        isChecked={checkedCommentIds.some(_id => _id === id)}
-                        onChangeCheckBox={() => updateCheckedCommentId(id)}
-                        authorProfileImageUrl={user.profileImageUrl}
-                        authorNickName={user.nickName}
-                        createdDate={createdDate}
-                        content={content}
-                        url={url}
-                        secret={secret}
-                      />
-                    </Row>
-                  ))
-                )}
-              </CommentList>
-
-              {comments.length > 0 && (
-                <PaginationBar
-                  currentPageIndex={currentPageIndex}
-                  setCurrentPageIndex={setCurrentPageIndex}
-                  paginationNumbers={paginationNumbers}
-                  totalPageLength={totalPage}
-                />
+                ))
               )}
-            </CommentsViewer>
-          )}
+            </CommentList>
+
+            {comments.length > 0 && (
+              <PaginationBar
+                currentPageIndex={currentPageIndex}
+                setCurrentPageIndex={setCurrentPageIndex}
+                paginationNumbers={paginationNumbers}
+                totalPageLength={totalPage}
+              />
+            )}
+          </CommentsViewer>
         </Container>
       </ContainerWithSideBar>
     </ScreenContainer>

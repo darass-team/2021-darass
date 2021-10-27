@@ -50,7 +50,12 @@ const Statistics = () => {
   const startDateAsString = startDate?.format("YYYY-MM-DD") || dayjs().format("YYYY-MM-DD");
   const endDateAsString = endDate?.format("YYYY-MM-DD") || dayjs().format("YYYY-MM-DD");
 
-  const { stats, refetch: getCommentStatisticsData } = useCommentStatisticsData({
+  const {
+    stats,
+    refetch: getCommentStatisticsData,
+    isFetched: isStatDataFetched,
+    isExistData
+  } = useCommentStatisticsData({
     periodicity: selectedPeriodicity,
     projectKey: projectSecretKey,
     startDate: startDateAsString,
@@ -139,10 +144,10 @@ const Statistics = () => {
               </SortButtonsWrapper>
             </Wrapper>
 
-            <CommentStatisticsChart data={stats || []} />
+            <CommentStatisticsChart data={stats || []} isDataLoaded={isExistData} />
           </ChartArea>
 
-          <DataTable>
+          <DataTable isDataLoaded={isExistData}>
             <thead>
               <tr>
                 <th>{selectedPeriodicity.display}</th>
