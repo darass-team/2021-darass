@@ -31,7 +31,7 @@
 
 **Frontend(Web)**
 - **Language** : TypeScript
-- **Library & Framework** : React, React Query, Styled-Components, Webpack, Babel
+- **Library & Framework** : React, Styled-Components, Webpack, Babel
 - **Test** : Jest, RTL, Storybook
 - **Deploy**: AWS(S3, Cloudfront)
 - **CI/CD** : Github Actions
@@ -51,12 +51,6 @@
 ## 🔨 Back-End Architecture
 
 ![아키텍처](https://user-images.githubusercontent.com/41244373/131594159-34598568-d2d7-43b8-86a3-ab521bf62e87.png)
-
-## ⚒ CI/CD (추후에 그림 추가하기) 
-
-- `Github Actions`를 활용해서 지속적 통합 및 배포
-- `master` 브랜치로 `push`를 하면, test(`$ npm run test`)를 진행하고 테스트를 성공한 경우에만 운영 리소스(`AWS EC2`)에 자동 배포된다.
-
 
 
 ## 🙋‍♂️ Developer
