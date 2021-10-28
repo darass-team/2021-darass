@@ -129,6 +129,7 @@ export const useUser = () => {
 
   const logout = () => {
     removeAccessToken?.();
+    setUser(undefined);
   };
 
   const isActiveAccessToken = getLocalStorage("active");
@@ -145,6 +146,7 @@ export const useUser = () => {
     if (isActiveAccessToken) {
       refetchAccessToken();
     } else {
+      logout();
       clearRefetchInterval();
     }
   };
@@ -154,12 +156,20 @@ export const useUser = () => {
   }, []);
 
   useEffect(() => {
-    if (accessTokenError) removeAccessToken();
+    if (accessTokenError) {
+      logout();
+    }
   }, [accessTokenError]);
 
   useEffect(() => {
     actionWhenAccessTokenChange();
   }, [accessToken]);
+
+  useEffect(() => {
+    if (error) {
+      logout();
+    }
+  }, [error]);
 
   return {
     user,
