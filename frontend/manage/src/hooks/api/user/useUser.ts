@@ -157,8 +157,7 @@ export const useUser = () => {
 
   useEffect(() => {
     if (accessTokenError) {
-      removeAccessToken();
-      setUser(undefined);
+      logout();
     }
   }, [accessTokenError]);
 
