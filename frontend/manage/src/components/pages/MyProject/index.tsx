@@ -16,7 +16,7 @@ import { AddProjectButton, ButtonWrapper, Container, HeaderWrapper, Message, Tit
 
 const MyProject = () => {
   const history = useHistory();
-  const { projects, isFetched: isFetchedGetAllProjects } = useGetAllProjects();
+  const { projects } = useGetAllProjects();
 
   useDocumentTitle("내 프로젝트");
 

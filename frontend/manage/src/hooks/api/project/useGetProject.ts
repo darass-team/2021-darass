@@ -38,7 +38,7 @@ interface Props {
 }
 
 export const useGetProject = ({ id }: Props) => {
-  const { user } = useUserContext();
+  const { user, logout } = useUserContext();
 
   const {
     data: project,
@@ -55,6 +55,10 @@ export const useGetProject = ({ id }: Props) => {
   useEffect(() => {
     if (user && !Number.isNaN(id)) refetch();
   }, [user, id]);
+
+  useEffect(() => {
+    if (error) logout?.();
+  }, [error]);
 
   return { project, isLoading, error, isSuccess, refetch, isFetched };
 };

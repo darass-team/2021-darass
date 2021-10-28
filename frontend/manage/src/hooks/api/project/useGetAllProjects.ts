@@ -30,7 +30,7 @@ const getAllProjects = async () => {
 };
 
 export const useGetAllProjects = (enabled = false) => {
-  const { user } = useUserContext();
+  const { user, logout } = useUserContext();
   const {
     data: projects,
     error,
@@ -46,6 +46,12 @@ export const useGetAllProjects = (enabled = false) => {
   useEffect(() => {
     if (user) refetch();
   }, [user]);
+
+  useEffect(() => {
+    if (error) {
+      logout?.();
+    }
+  }, [error]);
 
   return { projects, error, isSuccess, isLoading, isFetched };
 };
