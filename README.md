@@ -50,7 +50,7 @@
 
 ## 🔨 Back-End Architecture
 
-![아키텍처](https://user-images.githubusercontent.com/41244373/131594159-34598568-d2d7-43b8-86a3-ab521bf62e87.png)
+![아키텍처](https://user-images.githubusercontent.com/41244373/140056147-de5a4152-d70d-4b97-867a-758e40241fa7.png)
 
 
 ## 🙋‍♂️ Developer
