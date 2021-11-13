@@ -21,7 +21,7 @@ export interface Props {
   user?: User;
   parentCommentId?: Comment["id"];
   isSubComment: boolean;
-  onClose: () => void;
+  onClose?: () => void;
 }
 
 const CommentInput = ({ user, parentCommentId, isSubComment, onClose, ...props }: Props) => {
@@ -93,7 +93,7 @@ const CommentInput = ({ user, parentCommentId, isSubComment, onClose, ...props }
     setGuestNickName("");
     setGuestPassword("");
     setIsSecretComment(false);
-    onClose();
+    onClose?.();
     setFormSubmitted(false);
     if (textAreaRef.current) resizeTextArea(textAreaRef.current);
   };

@@ -159,7 +159,7 @@ const CommentArea = ({ isVisible }: Props) => {
           </CommentInputHeader>
         )}
 
-        <CommentInput isSubComment={false} user={user} onClose={() => {}} />
+        <CommentInput isSubComment={false} user={user} />
         <Footer />
       </Container>
     </CommentContext.Provider>
