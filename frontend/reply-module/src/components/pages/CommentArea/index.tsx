@@ -98,7 +98,7 @@ const CommentArea = ({ isVisible }: Props) => {
       if (!popUp || !popUp.closed) return;
 
       clearInterval(timerId);
-      refetchAccessToken?.();
+      refetchAccessToken();
     }, 1000);
   };
 
@@ -159,7 +159,7 @@ const CommentArea = ({ isVisible }: Props) => {
           </CommentInputHeader>
         )}
 
-        <CommentInput isSubComment={false} user={user} />
+        <CommentInput isSubComment={false} user={user} onClose={() => {}} />
         <Footer />
       </Container>
     </CommentContext.Provider>

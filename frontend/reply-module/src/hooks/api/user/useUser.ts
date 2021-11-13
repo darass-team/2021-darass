@@ -75,7 +75,7 @@ export const useUser = () => {
   };
 
   const logout = () => {
-    removeAccessToken?.();
+    removeAccessToken();
     setUser(undefined);
   };
 

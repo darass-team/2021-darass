@@ -12,7 +12,7 @@ export const useCreateComment = () => {
   const { isLoading, isError, error, data, mutation } = useMutation<CreateCommentRequestData, Comment>({
     query: (_data: CreateCommentRequestData) => postCreateComment(_data),
     onSuccess: () => {
-      refetchAllComment?.();
+      refetchAllComment();
     }
   });
 

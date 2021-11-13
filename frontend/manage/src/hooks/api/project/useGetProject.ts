@@ -57,7 +57,7 @@ export const useGetProject = ({ id }: Props) => {
   }, [user, id]);
 
   useEffect(() => {
-    if (error) logout?.();
+    if (error) logout();
   }, [error]);
 
   return { project, isLoading, error, isSuccess, refetch, isFetched };

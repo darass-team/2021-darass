@@ -12,7 +12,7 @@ export const useDeleteComment = () => {
   const { isLoading, isError, error, data, mutation } = useMutation<DeleteCommentRequestParameter, void>({
     query: (_data: DeleteCommentRequestParameter) => _deleteComment(_data),
     onSuccess: () => {
-      refetchAllComment?.();
+      refetchAllComment();
     }
   });
 

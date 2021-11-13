@@ -49,7 +49,7 @@ export const useGetAllProjects = (enabled = false) => {
 
   useEffect(() => {
     if (error) {
-      logout?.();
+      logout();
     }
   }, [error]);
 

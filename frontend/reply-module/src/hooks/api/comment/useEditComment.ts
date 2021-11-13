@@ -12,7 +12,7 @@ export const useEditComment = () => {
   const { isLoading, isError, error, data, mutation } = useMutation<EditCommentParameter, void>({
     query: (_data: EditCommentParameter) => _editComment(_data),
     onSuccess: () => {
-      refetchAllComment?.();
+      refetchAllComment();
     }
   });
 

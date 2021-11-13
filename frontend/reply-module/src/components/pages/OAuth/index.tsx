@@ -24,7 +24,7 @@ const OAuth = () => {
           authorizationCode: code
         });
 
-        refetchAccessToken?.();
+        refetchAccessToken();
       } catch (error) {
         console.error(error);
       }

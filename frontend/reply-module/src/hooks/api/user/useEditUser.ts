@@ -12,7 +12,7 @@ export const useEditUser = () => {
   const { isLoading, error, mutation } = useMutation<FormData, User>({
     query: (data: FormData) => patchEditUser(data),
     onSuccess: () => {
-      refetchUser?.();
+      refetchUser();
     }
   });
 

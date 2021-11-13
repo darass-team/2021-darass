@@ -66,7 +66,7 @@ describe("CommentInput test", () => {
         user: undefined,
         parentCommentId: comments[0].id,
         isSubComment: false,
-        onClose: undefined
+        onClose: () => {}
       };
 
       const { queryByTestId } = render(<CommentInput {...props} />);
@@ -79,7 +79,7 @@ describe("CommentInput test", () => {
         user: undefined,
         parentCommentId: comments[0].id,
         isSubComment: false,
-        onClose: undefined
+        onClose: () => {}
       };
 
       const { getByTestId } = render(<CommentInput {...props} />);
@@ -97,7 +97,7 @@ describe("CommentInput test", () => {
         user: undefined,
         parentCommentId: comments[0].id,
         isSubComment: false,
-        onClose: undefined
+        onClose: () => {}
       };
 
       const { getByTestId } = render(<CommentInput {...props} />);
@@ -118,7 +118,7 @@ describe("CommentInput test", () => {
         user: undefined,
         parentCommentId: comments[0].id,
         isSubComment: false,
-        onClose: undefined
+        onClose: () => {}
       };
 
       const { getByTestId } = render(<CommentInput {...props} />);
@@ -140,7 +140,7 @@ describe("CommentInput test", () => {
         user: socialLoginUser,
         parentCommentId: comments[0].id,
         isSubComment: false,
-        onClose: undefined
+        onClose: () => {}
       };
 
       const { getByTestId } = render(<CommentInput {...props} />);
@@ -162,7 +162,7 @@ describe("CommentInput test", () => {
         user: undefined,
         parentCommentId: comments[0].id,
         isSubComment: false,
-        onClose: undefined
+        onClose: () => {}
       };
 
       const { getByTestId } = render(<CommentInput {...props} />);
@@ -183,7 +183,7 @@ describe("CommentInput test", () => {
         user: socialLoginUser,
         parentCommentId: undefined,
         isSubComment: true,
-        onClose: undefined
+        onClose: () => {}
       };
 
       const { getByTestId } = render(<CommentInput {...props} />);

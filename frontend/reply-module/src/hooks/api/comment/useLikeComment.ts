@@ -16,7 +16,7 @@ export const useLikeComment = () => {
   } = useMutation<LikeCommentParameter, void>({
     query: ({ commentId }: LikeCommentParameter) => makeLikeComment(commentId),
     onSuccess: () => {
-      refetchAllComment?.();
+      refetchAllComment();
     }
   });
 
