@@ -98,7 +98,7 @@ const CommentArea = ({ isVisible }: Props) => {
       if (!popUp || !popUp.closed) return;
 
       clearInterval(timerId);
-      refetchAccessToken?.();
+      refetchAccessToken();
     }, 1000);
   };
 

@@ -42,7 +42,7 @@ const UserAvatarOption = ({ user, children, ...props }: Props) => {
     formData.append("hasRecentAlarm", "false");
 
     await editUser(formData);
-    await refetchUser?.();
+    await refetchUser();
     setHasNewAlarmOnRealTime?.(false);
 
     openAlarmModal(alarmContents || []);
