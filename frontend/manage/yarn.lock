@@ -1357,6 +1357,11 @@
   version "27.3.1"
   resolved "https://registry.yarnpkg.com/@jest/environment/-/environment-27.3.1.tgz#2182defbce8d385fd51c5e7c7050f510bd4c86b1"
   integrity sha512-BCKCj4mOVLme6Tanoyc9k0ultp3pnmuyHw73UHRPeeZxirsU/7E3HC4le/VDb/SMzE1JcPnto+XBKFOcoiJzVw==
+  dependencies:
+    "@jest/fake-timers" "^27.3.1"
+    "@jest/types" "^27.2.5"
+    "@types/node" "*"
+    jest-mock "^27.3.0"
 
 "@jest/fake-timers@^27.3.1":
   version "27.3.1"
@@ -5002,10 +5007,10 @@ cyclist@^1.0.1:
   resolved "https://registry.yarnpkg.com/cyclist/-/cyclist-1.0.1.tgz#596e9698fd0c80e12038c2b82d6eb1b35b6224d9"
   integrity sha1-WW6WmP0MgOEgOMK4LW6xs1tiJNk=
 
-darass-react@^1.2.6:
-  version "1.2.6"
-  resolved "https://registry.yarnpkg.com/darass-react/-/darass-react-1.2.6.tgz#b0cf7c0ea7014e3847d1a7753b3982f98ac90ba0"
-  integrity sha512-/41t9XVMijlayQ0Y2bHD+r+fLn9khrNFdN1ELxMKh69gLS5IiQTnElpHYte1sjZ9NYYLHy90uSLbmC3WKLAmhQ==
+darass-react@^1.2.14:
+  version "1.2.14"
+  resolved "https://registry.yarnpkg.com/darass-react/-/darass-react-1.2.14.tgz#002f80b57af91a384a9742e2499029b548d61ac6"
+  integrity sha512-RWtfr/wU29tqdGmkkuw5I9igb+4aq0CND864p6Ix44rsuznXMOzaMtyXgP+Fsew4O6q70JCN8w4ynhEL5BAeuQ==
   dependencies:
     react "^17.0.2"
 
