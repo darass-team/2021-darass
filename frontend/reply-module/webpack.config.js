@@ -95,6 +95,11 @@ const config = {
       key: "./localhost-key.pem",
       cert: "./localhost.pem"
     }
+  },
+  optimization: {
+    splitChunks: {
+      chunks: "all"
+    }
   }
 };
 
