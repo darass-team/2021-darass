@@ -10,6 +10,9 @@ const END_POINT_TABLE = {
 
 export const END_POINT = END_POINT_TABLE[process.env.BUILD_MODE as keyof typeof END_POINT_TABLE];
 
-export const URL_REPLACE_TABLE = [{ from: "://m.", to: "://" }] as const;
+export const URL_REPLACE_TABLE = [
+  { from: "://m.", to: "://" },
+  { from: "/m/", to: "/" }
+] as const;
 
 export const CLOSE_MODAL_ANIMATION_FINISH_TIME = 200;
