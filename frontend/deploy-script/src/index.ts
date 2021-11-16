@@ -8,7 +8,16 @@ const messageChannel = {
   replyModal: new MessageChannel()
 };
 
+const blockTistoryMobilePath = () => {
+  if (window.location.host.includes("tistory")) {
+    if (window.location.href.includes("/m/")) {
+      window.location.href = window.location.href.replace("/m/", "/");
+    }
+  }
+};
+
 const init = () => {
+  blockTistoryMobilePath();
   const $darass: HTMLElement | null = document.querySelector("#darass");
 
   if (!$darass) {
