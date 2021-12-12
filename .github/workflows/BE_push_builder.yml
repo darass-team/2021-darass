@@ -40,6 +40,10 @@ jobs:
       run: ./gradlew clean build
       working-directory: ./backend
       
+    - name: Print pwd
+      run: echo $PWD
+      working-directory: ./backend
+      
     - name: Copy built project
       if: success()
       uses: appleboy/scp-action@master
@@ -51,7 +55,7 @@ jobs:
         username: ${{ secrets.EC2_USERNAME }}
         key: ${{ secrets.EC2_PRIVATE_KEY }}
         envs: GIT_USERNAME, GIT_PASSWORD
-        source: '/home/ubuntu/actions-runner/darass_jayon_build_work/2021-darass/2021-darass'
+        source: './2021-darass/2021-darass'
         target: '/home/ubuntu'
         strip_components: 1
 
