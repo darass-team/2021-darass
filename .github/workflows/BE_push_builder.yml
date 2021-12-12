@@ -52,7 +52,7 @@ jobs:
         key: ${{ secrets.EC2_PRIVATE_KEY }}
         envs: GIT_USERNAME, GIT_PASSWORD
         source: '.'
-        target: '/home/ubuntu'
+        target: '/home/ubuntu/application/2021-darass'
         strip_components: 1
 
     - name: AWS EC2에 ssh로 접속해서 scripts 실행시키기
@@ -67,7 +67,7 @@ jobs:
         key: ${{ secrets.EC2_PRIVATE_KEY }}
         envs: GIT_USERNAME, GIT_PASSWORD
         script: |
-          cd /home/ubuntu/backend
+          cd /home/ubuntu/application/2021-darass/backend
           docker-compose up --build -d
           
     - name: build result to slack
