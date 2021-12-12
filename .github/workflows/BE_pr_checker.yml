@@ -10,7 +10,7 @@ on:
 jobs:
   build:
 
-    runs-on: [ self-hosted, backend ]
+    runs-on: ubuntu-latest
 
     steps:
     - name: Checkout code 
