@@ -67,9 +67,7 @@ jobs:
         key: ${{ secrets.EC2_PRIVATE_KEY }}
         envs: GIT_USERNAME, GIT_PASSWORD
         script: |
-          cd /home/ubuntu
-          sudo rm -rf backend
-          cd backend
+          cd /home/ubuntu/backend
           docker-compose up --build -d
           
     - name: build result to slack
