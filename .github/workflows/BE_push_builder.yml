@@ -39,6 +39,21 @@ jobs:
     - name: Build with Gradle
       run: ./gradlew clean build
       working-directory: ./backend
+      
+    - name: Copy built project
+      if: success()
+      uses: appleboy/scp-action@master
+      env:
+        GIT_USERNAME: ${{ secrets.GIT_USERNAME }}
+        GIT_PASSWORD: ${{ secrets.GIT_PASSWORD }}
+      with:
+        host: ${{ secrets.EC2_HOST }}
+        username: ${{ secrets.EC2_USERNAME }}
+        key: ${{ secrets.EC2_PRIVATE_KEY }}
+        envs: GIT_USERNAME, GIT_PASSWORD
+        source: '/home/ubuntu/actions-runner/darass_jayon_build_work/2021-darass/2021-darass'
+        target: '/home/ubuntu'
+        strip_components: 1
 
     - name: AWS EC2에 ssh로 접속해서 scripts 실행시키기
       if: success()
@@ -52,7 +67,11 @@ jobs:
         key: ${{ secrets.EC2_PRIVATE_KEY }}
         envs: GIT_USERNAME, GIT_PASSWORD
         script: |
-          echo "hello"
+          cd /home/ubuntu
+          sudo rm -rf 2021-darass
+          mv workspace 2021-darass
+          cd 2021-darass/backend
+          docker-compose up --build -d
           
     - name: build result to slack
       uses: 8398a7/action-slack@v3
