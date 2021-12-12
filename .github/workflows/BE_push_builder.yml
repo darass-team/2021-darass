@@ -40,9 +40,6 @@ jobs:
       run: ./gradlew clean build
       working-directory: ./backend
       
-    - name: Print pwd
-      run: echo $PWD
-      
     - name: Copy built project
       if: success()
       uses: appleboy/scp-action@master
@@ -71,9 +68,8 @@ jobs:
         envs: GIT_USERNAME, GIT_PASSWORD
         script: |
           cd /home/ubuntu
-          sudo rm -rf 2021-darass
-          mv workspace 2021-darass
-          cd 2021-darass/backend
+          sudo rm -rf backend
+          cd backend
           docker-compose up --build -d
           
     - name: build result to slack
