@@ -42,7 +42,6 @@ jobs:
       
     - name: Print pwd
       run: echo $PWD
-      working-directory: ./backend
       
     - name: Copy built project
       if: success()
@@ -55,7 +54,7 @@ jobs:
         username: ${{ secrets.EC2_USERNAME }}
         key: ${{ secrets.EC2_PRIVATE_KEY }}
         envs: GIT_USERNAME, GIT_PASSWORD
-        source: './2021-darass/2021-darass'
+        source: '.'
         target: '/home/ubuntu'
         strip_components: 1
 
