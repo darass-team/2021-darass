@@ -1,4 +1,8 @@
 <configuration>
+
+  <springProperty scope="context" name="LOGBACK_HOST" source="logback.destination.host"/>
+  <springProperty scope="context" name="LOGBACK_PORT" source="logback.destination.port"/>
+
   <springProfile name="!prod">
     <appender class="ch.qos.logback.core.ConsoleAppender" name="STDOUT">
       <encoder>
@@ -61,18 +65,17 @@
       </rollingPolicy>
     </appender>
 
+    <appender class="net.logstash.logback.appender.LogstashTcpSocketAppender" name="stash">
+      <destination>${LOGBACK_HOST}:${LOGBACK_PORT}</destination>
 
-<!--    <appender class="net.logstash.logback.appender.LogstashTcpSocketAppender" name="stash">-->
-<!--      <destination>192.168.1.97:8000</destination>-->
+      <!-- encoder is required -->
+      <encoder class="net.logstash.logback.encoder.LogstashEncoder"/>
+    </appender>
 
-<!--      &lt;!&ndash; encoder is required &ndash;&gt;-->
-<!--      <encoder class="net.logstash.logback.encoder.LogstashEncoder"/>-->
-<!--    </appender>-->
-
-    <root level="info">
+    <root level="warn">
       <appender-ref ref="File"/>
       <appender-ref ref="ErrorFile"/>
-<!--      <appender-ref ref="stash"/>-->
+      <appender-ref ref="stash"/>
     </root>
   </springProfile>
 </configuration>
