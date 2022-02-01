@@ -44,14 +44,14 @@
 - **Database** : MariaDB
 - **ORM** : JPA
 - **Deploy**: AWS(EC2, S3, ELB), Docker, Nginx, ELK
-- **CI/CD** : Github Actions, Jenkins
+- **CI/CD** : Github Actions
 
 ## 🔨 Front-End Architecture
 ![아키텍처](https://user-images.githubusercontent.com/42544600/134909775-cd4d3ab7-6181-4356-8392-097cee0467dd.png)
 
 ## 🔨 Back-End Architecture
 
-![아키텍처](https://user-images.githubusercontent.com/56083021/151820356-77c4a5be-ff77-49f0-a9b7-67b1645d9c11.png)
+![아키텍처](https://user-images.githubusercontent.com/56083021/151918929-4dedbee9-35da-43c4-8e29-c7281f398fa1.png)
 
 
 ## 🙋‍♂️ Developer
