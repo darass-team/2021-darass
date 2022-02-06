@@ -54,7 +54,8 @@
 
 
 ## 🔨 CI / CD Flow
-![CI / CD Flow](https://user-images.githubusercontent.com/56083021/152636306-da0554bb-434e-4908-a971-e064597df691.png)
+![CI / CD Flow](https://user-images.githubusercontent.com/56083021/152670518-4c37224b-2a3d-445f-bb54-4cab88fb0e27.png)
+
 
 1. main 브랜치에서 feature 브랜치를 딴 후 기능을 개발한다. 
 (단, feature 브랜치는 하루 안에 사라져야 한다.)
